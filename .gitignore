@@ -1,0 +1,5 @@
+# Local Codex implementation worktrees must never be committed as project files.
+.worktrees/
+
+# Subagent execution artifacts are reproducible from Git history.
+.superpowers/
