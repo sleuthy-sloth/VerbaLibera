@@ -6,6 +6,7 @@
   --coral: #ff765f;
   --lime: #b8f266;
   --cloud: #f8f7ff;
+  --focus-ring: var(--ink);
   --background: var(--cloud);
   --foreground: var(--ink);
   --font-display: var(--font-geist-sans);
@@ -40,8 +41,8 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid var(--coral);
-  outline-offset: 4px;
+  outline: 4px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
 ::selection {

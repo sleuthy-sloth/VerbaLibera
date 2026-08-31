@@ -131,3 +131,94 @@ The default Turbopack `npm run build` was also attempted. It could not bind the 
 - Browser-level pixel and responsive checks remain intentionally deferred to Task 6, as required by the brief. Component tests verify hierarchy and class hooks, not geometry.
 - Task 4 still owns generated imagery. This task uses CSS geometry and text only, so there are no temporary external image assets to replace.
 - The default Turbopack production build is constrained by this sandbox's port policy; the webpack production build is green.
+
+---
+
+## Fix round 1: contrast and asynchronous status semantics
+
+### Review findings addressed
+
+1. Replaced the coral-only focus indicator with a 4-pixel Ink focus ring and a dedicated inherited `focusSurface` hook. Ink has contrast ratios of 3.73:1 against Indigo, 11.63:1 against Lime, 15.34:1 against white, and 14.42:1 against Cloud; these exceed the 3:1 non-text focus-indicator requirement on every dashboard surface.
+2. Moved the small Indigo-panel kicker onto a Lime/Ink contrast tag (11.63:1), moved the small course name onto a Cloud/Ink surface (14.42:1), and removed opacity from course progress. Selected course progress now uses Lime on Ink (11.63:1).
+3. Added component-level styling hooks (`focusSurface`, `contrastTag`, `courseMeta`, and `courseProgress`) and regression assertions that those hooks remain attached to the mixed-color surfaces they protect.
+4. Added a polite `status` region to the initial loading shell while retaining `aria-busy="true"`.
+5. Added an assertive `alert` region for the load failure. A retry now preserves the error surface, marks the main region busy, disables and relabels the action as `Trying again…`, and exposes a polite retry status until the request settles.
+
+### Root-cause analysis
+
+- The coral token was being reused as a universal focus color even though its contrast is only 1.57:1 against Indigo, 1.99:1 against Lime, and 2.62:1 against white. The problem was the single-token focus assumption, not outline thickness.
+- Small launch copy used Lime or translucent white directly on Indigo, and selected course progress inherited reduced opacity. These combinations did not reach 4.5:1 for small text.
+- The boundary rendered visible loading/error copy without live-region roles. During a manual retry, React Query returned to a pending/no-data state, so the original `isPending` branch replaced the error and retry action with the initial skeleton. A local `retryRequested` interaction flag now distinguishes first load from a user-initiated refetch while query state remains the source of fetch activity.
+
+### TDD evidence
+
+Initial regression RED:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx
+Test Files  1 failed (1)
+Tests       3 failed | 4 passed (7)
+Exit 1
+```
+
+The failures were the intended breaks: no `focusSurface` class export, no loading `status`, and no error `alert`.
+
+Contrast hook GREEN:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx -t "exposes high-contrast styling hooks"
+Test Files  1 passed (1)
+Tests       1 passed | 6 skipped (7)
+Exit 0
+```
+
+The first boundary implementation preserved live roles but exposed a second state bug during the controlled unresolved retry:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx -t "DashboardDataBoundary"
+Test Files  1 failed (1)
+Tests       1 failed | 1 passed | 5 skipped (7)
+Exit 1
+```
+
+The DOM had returned to the initial loading shell, so `Trying again…` was absent. After distinguishing initial pending from requested retry, the same boundary tests were GREEN:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx -t "DashboardDataBoundary"
+Test Files  1 passed (1)
+Tests       2 passed | 5 skipped (7)
+Exit 0
+```
+
+### Fix verification
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx tests/app-shell.test.tsx
+Test Files  2 passed (2)
+Tests       8 passed (8)
+Exit 0
+
+npm run test
+Test Files  12 passed (12)
+Tests       52 passed (52)
+Exit 0
+
+npm run lint
+Exit 0, no diagnostics
+
+npm run typecheck
+Exit 0, no diagnostics
+
+git diff --check
+Exit 0
+
+npx next build --webpack
+Compiled successfully; TypeScript passed; 5/5 static pages generated; Exit 0
+```
+
+### Fix-round self-review and concerns
+
+- The retry button is a native disabled button while active, so it cannot issue duplicate refetches from keyboard or touch.
+- Both visible asynchronous states are named through native live-region roles; error remains an `alert`, while initial load and retry progress use `status`.
+- No data mutation, storage, or network boundary changed.
+- The previously documented Turbopack sandbox port restriction remains. The production webpack build is green.

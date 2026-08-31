@@ -29,7 +29,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
 
   if (!selectedCourse) {
     return (
-      <main className={styles.dashboard}>
+      <main className={`${styles.dashboard} ${styles.focusSurface}`}>
         <p className={styles.eyebrow}>VoxLibre preview</p>
         <h1>VoxLibre</h1>
         <p>No preview courses are ready yet.</p>
@@ -40,7 +40,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;
 
   return (
-    <main className={styles.dashboard}>
+    <main className={`${styles.dashboard} ${styles.focusSurface}`}>
       <header className={styles.brandHeader}>
         <Link className={styles.wordmark} href="/" aria-label="VoxLibre home">
           <span aria-hidden="true">V</span>
@@ -65,9 +65,9 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
 
       <section className={styles.sessionLaunch} aria-labelledby="session-title">
         <div>
-          <p className={styles.kicker}>Up next</p>
+          <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
           <h2 id="session-title">{selectedCourse.unitLabel}</h2>
-          <p>{selectedCourse.title}</p>
+          <p className={styles.courseMeta}>{selectedCourse.title}</p>
         </div>
         <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
           Continue 8-minute session
@@ -169,7 +169,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
                 type="button"
               >
                 <span>{isSelected ? `${language} selected` : `Switch to ${language}`}</span>
-                <small>{course.completionPercent}% complete</small>
+                <small className={styles.courseProgress}>{course.completionPercent}% complete</small>
               </button>
             );
           })}

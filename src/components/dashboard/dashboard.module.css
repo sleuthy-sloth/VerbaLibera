@@ -6,6 +6,10 @@
   color: var(--ink);
 }
 
+.focusSurface {
+  --focus-ring: var(--ink);
+}
+
 .srOnly {
   position: absolute;
   width: 1px;
@@ -125,13 +129,23 @@
   letter-spacing: -0.045em;
 }
 
-.sessionLaunch p:not(.kicker) {
+.sessionLaunch .courseMeta {
+  width: fit-content;
   margin: 0.5rem 0 0;
-  color: rgba(255, 255, 255, 0.78);
+  padding: 0.3rem 0.55rem;
+  border-radius: 0.45rem;
+  background: var(--cloud);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 650;
 }
 
-.sessionLaunch .kicker {
-  color: var(--lime);
+.sessionLaunch .contrastTag {
+  width: fit-content;
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.35rem;
+  background: var(--lime);
+  color: var(--ink);
 }
 
 .primaryAction {
@@ -348,9 +362,13 @@
   color: white;
 }
 
-.courseButton small {
+.courseProgress {
+  color: var(--ink);
   font-family: var(--font-utility);
-  opacity: 0.7;
+}
+
+.courseButton[aria-pressed='true'] .courseProgress {
+  color: var(--lime);
 }
 
 .loadingShell,
@@ -403,7 +421,7 @@
   letter-spacing: -0.06em;
 }
 
-.errorShell > p:not(.eyebrow) {
+.errorMessage > p:not(.eyebrow) {
   max-width: 520px;
   line-height: 1.6;
 }
@@ -419,6 +437,11 @@
   font: inherit;
   font-weight: 800;
   cursor: pointer;
+}
+
+.errorShell button:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 @keyframes signal {

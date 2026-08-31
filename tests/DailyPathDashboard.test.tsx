@@ -76,32 +76,53 @@ describe('DailyPathDashboard', () => {
       styles.primaryAction,
     );
   });
+
+  it('exposes high-contrast styling hooks on mixed-color focus and small-text surfaces', () => {
+    // Break caught: focus falls back to the low-contrast coral ring or small indigo copy loses its contrast surface.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
+    expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
+    expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
+    expect(screen.getByText('80% complete')).toHaveClass(styles.courseProgress);
+  });
 });
 
 describe('DashboardDataBoundary', () => {
   it('shows a static practice-path skeleton while progress is loading', () => {
-    // Break caught: an unresolved preview request leaves the page blank.
+    // Break caught: an unresolved preview request leaves the page blank or unannounced.
     vi.stubGlobal('fetch', vi.fn(() => new Promise<Response>(() => undefined)));
 
     render(<DashboardDataBoundary />, { wrapper: QueryTestProvider });
 
-    expect(screen.getByText('Preparing your practice path…')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByRole('status')).toHaveTextContent('Preparing your practice path…');
   });
 
   it('explains a failed preview request and retries it on request', async () => {
-    // Break caught: query failures offer no recovery or the retry button does not refetch.
+    // Break caught: failures are not announced or retry remains actionable without an announced busy state.
     const user = userEvent.setup();
+    let resolveRetry: ((response: Response) => void) | undefined;
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(new Response(null, { status: 500 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify(demoProgress)));
+      .mockImplementationOnce(
+        () => new Promise<Response>((resolve) => {
+          resolveRetry = resolve;
+        }),
+      );
     vi.stubGlobal('fetch', fetchMock);
 
     render(<DashboardDataBoundary />, { wrapper: QueryTestProvider });
 
-    expect(await screen.findByText('Unable to load your practice path.')).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Unable to load your practice path.');
     await user.click(screen.getByRole('button', { name: 'Try again' }));
 
+    expect(screen.getByRole('main')).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByRole('button', { name: 'Trying again…' })).toBeDisabled();
+    expect(screen.getByRole('status')).toHaveTextContent('Trying to load your practice path again…');
+
+    resolveRetry?.(new Response(JSON.stringify(demoProgress)));
     expect(await screen.findByRole('link', { name: /continue 8-minute session/i })).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
