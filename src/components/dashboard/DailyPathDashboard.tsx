@@ -62,9 +62,9 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
         <p className={styles.introCopy}>
           Review what is fading, sharpen it in a drill, then leave with one new pattern.
         </p>
-        <figure className={styles.introArtwork}>
+        <div className={styles.introArtwork}>
           <Image alt="" height={1024} src="/illustrations/daily-practice.png" width={1536} />
-        </figure>
+        </div>
       </section>
 
       <section className={styles.sessionLaunch} aria-labelledby="session-title">

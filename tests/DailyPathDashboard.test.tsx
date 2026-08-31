@@ -100,7 +100,9 @@ describe('DailyPathDashboard', () => {
     // Break caught: the approved original supporting illustration is removed or announced redundantly.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getByAltText('')).toHaveAttribute('src', expect.stringContaining('daily-practice.png'));
+    const illustration = screen.getByAltText('');
+    expect(illustration).toHaveAttribute('src', expect.stringContaining('daily-practice.png'));
+    expect(illustration.parentElement?.tagName).toBe('DIV');
   });
 });
 
