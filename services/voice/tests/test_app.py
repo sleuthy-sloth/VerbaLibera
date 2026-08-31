@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import sys
+from types import SimpleNamespace
+
 import pytest
 from fastapi.testclient import TestClient
 
 from services.voice.app import create_app
+from services.voice.service.engines import KokoroFasterWhisperEngine
 
 
 class FakeVoiceEngine:
@@ -66,6 +70,27 @@ def test_transcribe_rejects_oversized_audio_without_calling_engine(
     assert fake_engine.transcribe_calls == 0
 
 
+def test_transcribe_rejects_an_oversized_request_before_multipart_spooling(
+    client: TestClient, fake_engine: FakeVoiceEngine, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Break caught: framework multipart parsing writes a too-large learner recording to disk.
+    import starlette.formparsers
+
+    def unexpected_spool(*args: object, **kwargs: object) -> object:
+        raise AssertionError("multipart spooling must not occur before the request is bounded")
+
+    monkeypatch.setattr(starlette.formparsers, "SpooledTemporaryFile", unexpected_spool)
+
+    response = client.post(
+        "/transcribe",
+        files={"audio": ("answer.webm", b"x" * 1_000_001, "audio/webm")},
+        data={"language": "fr"},
+    )
+
+    assert response.status_code == 413
+    assert fake_engine.transcribe_calls == 0
+
+
 def test_transcribe_returns_only_transient_final_text(client: TestClient) -> None:
     # Break caught: transient transcription responses gain persisted-recording metadata.
     response = client.post(
@@ -106,6 +131,26 @@ def test_transcribe_rejects_an_unsupported_mime_type(
     assert fake_engine.transcribe_calls == 0
 
 
+def test_transcribe_accepts_a_supported_mime_essence_with_parameters(
+    client: TestClient, fake_engine: FakeVoiceEngine
+) -> None:
+    # Break caught: standard browser WebM codec parameters cause a valid response to be rejected.
+    response = client.post(
+        "/transcribe",
+        files={
+            "audio": (
+                "answer.webm",
+                b"voice",
+                "audio/webm;codecs=opus",
+            )
+        },
+        data={"language": "fr"},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok", "transcript": "Vorrei un caffè."}
+
+
 def test_transcribe_returns_no_speech_without_a_transcript(
     client: TestClient, fake_engine: FakeVoiceEngine
 ) -> None:
@@ -133,3 +178,34 @@ def test_tts_rejects_an_unpermitted_voice_without_calling_engine(
 
     assert response.status_code == 422
     assert fake_engine.synthesize_calls == 0
+
+
+def test_kokoro_adapter_combines_all_audio_chunks_before_wav_encoding(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Break caught: only the first chunk of a long Kokoro utterance reaches the authored clip.
+    encoded_audio: list[list[bytes]] = []
+
+    def write(output: object, audio: list[bytes], samplerate: int, format: str) -> None:
+        assert samplerate == 24_000
+        assert format == "WAV"
+        encoded_audio.append(audio)
+        output.write(b"".join(audio))  # type: ignore[attr-defined]
+
+    monkeypatch.setitem(sys.modules, "soundfile", SimpleNamespace(write=write))
+    engine = object.__new__(KokoroFasterWhisperEngine)
+    monkeypatch.setattr(
+        engine,
+        "_pipeline_for",
+        lambda language: lambda text, voice: iter(
+            [
+                ("first", "", [b"first-"]),
+                ("second", "", [b"second"]),
+            ]
+        ),
+    )
+
+    result = engine.synthesize("Bonjour", "fr", "ff_siwis")
+
+    assert encoded_audio == [[b"first-", b"second"]]
+    assert result == b"first-second"
