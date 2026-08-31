@@ -9,4 +9,12 @@ describe('HomePage', () => {
     expect(screen.getByText(/English to French/i)).toBeInTheDocument();
     expect(screen.getByText(/English to Italian/i)).toBeInTheDocument();
   });
+
+  it('uses a readable foreground for the introductory copy in dark mode', () => {
+    render(<HomePage />);
+
+    expect(
+      screen.getByText(/Learn a language at your own pace/i),
+    ).toHaveClass('dark:text-zinc-300');
+  });
 });

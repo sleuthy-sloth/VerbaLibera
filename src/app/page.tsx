@@ -3,7 +3,7 @@ export default function HomePage() {
     <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-10 px-6 py-20">
       <header>
         <h1 className="text-4xl font-semibold tracking-tight">VoxLibre</h1>
-        <p className="mt-3 text-lg text-zinc-600">
+        <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-300">
           Learn a language at your own pace.
         </p>
       </header>
