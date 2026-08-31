@@ -6,7 +6,7 @@ Status: The user approved the proposed architecture in conversation. This writte
 
 ## 1. Objective and scope
 
-Build a runnable, responsive foundation for VoxLibre, a language-learning application that combines deliberate sentence construction with subsequent high-intensity spoken drills. The initial demonstration teaches Spanish to English-speaking learners. The data model supports other language pairs and CEFR levels A1 through C2.
+Build a runnable, responsive foundation for VoxLibre, a language-learning application that combines deliberate sentence construction with subsequent high-intensity spoken drills. The first release contains two English-source courses: English to French and English to Italian. The data model supports additional language pairs and CEFR levels A1 through C2.
 
 The learner first understands a structural concept, hears a construction prompt, and thinks or speaks without a time limit. After explicitly requesting the instructor's answer, the learner can compare their construction. Merely requesting an answer or finishing audio does not establish mastery. A separate concept assessment is required before related automation drills can be unlocked.
 
@@ -21,6 +21,13 @@ Phase 1 delivers:
 - An installable PWA shell, icons, and a safe offline fallback.
 - Setup instructions, an architecture tree, and a concrete voice-validation integration guide.
 - A public GitHub repository at `sleuthy-sloth/VoxLibre`, subject to the name being available.
+
+The first release seeds two independent A1 course shells:
+
+- `english-to-french`: English source language (`en`) and French target language (`fr`), with an original Thinking Method example built around English `-tion` to French `-tion` cognates and a linked transformation drill.
+- `english-to-italian`: English source language (`en`) and Italian target language (`it`), with an original Thinking Method example built around English `-tion` to Italian `-zione` cognates and a linked transformation drill.
+
+These examples establish the content and audio-segment formats; they are not a claim that either course is complete. Each course has its own ordered concept sequence, mastery state, drill unlocks, and progress totals. A learner's completed French concept cannot unlock an Italian drill, even when the structural pattern resembles it.
 
 Authentication, production account persistence, automated speech grading, recorded-course ingestion, downloadable offline lessons, and offline progress synchronization are later phases. Phase 1 must not represent preview data as persisted account data or claim to certify CEFR proficiency. Public hosting of a running application is not part of this repository-publication step.
 
@@ -82,7 +89,7 @@ The implementation plan may add focused helper and test files without changing t
 | --- | --- |
 | `User` | Stable learner identity, unique account identifier, and timestamps; no plaintext credentials. |
 | `Language` | Unique language tag, display name, and source/target course relations. |
-| `Course` | Language pair, unique slug, title, description, and ordered concepts. |
+| `Course` | Language pair, unique slug, title, description, and ordered concepts. The initial rows are English to French and English to Italian. |
 | `ConceptBlock` | Course membership, CEFR level, order, structural rule or cognate explanation, assessment criteria, and associated drills. |
 | `DrillItem` | Exactly one governing concept, CEFR level, substitution/transformation type, construction prompt, accepted responses, recall target, and audio. |
 | `UserProgress` | One record per learner and drill, containing SM-2 ease, interval, repetition count, due date, lapse count, last review time, accuracy, and recall latency. |
@@ -106,6 +113,7 @@ Use an enum for CEFR levels `A1`, `A2`, `B1`, `B2`, `C1`, and `C2`, and enums fo
 - Accepted responses belong to the target-language construction, not isolated vocabulary flashcards.
 - Content provenance distinguishes original demonstration material from future imported material. No external course recordings are bundled without verified redistribution permission.
 - Deleting an account can remove its dependent learning records. Curriculum deletion must not silently destroy retained learner history; use restrictive relations or explicit archival behavior.
+- A course's source and target language must differ. `en → fr` and `en → it` are distinct courses even though they share `en` as a source language.
 
 PostgreSQL-only constraints must be included in committed migrations and documented; comments in `schema.prisma` alone are not enforcement.
 
