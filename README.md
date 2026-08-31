@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Database verification
+
+Set `DATABASE_URL` to a PostgreSQL database before applying the committed curriculum migration:
+
+```bash
+npm run prisma:migrate
+npm run prisma:seed
+```
+
+The initial migration contains PostgreSQL checks for language-pair inequality, scheduling bounds, audio-parent exclusivity, and a trigger requiring a passing assessment for concept mastery. The local verification workspace did not have `DATABASE_URL` configured, so the migration and seed were deliberately not applied to a database.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

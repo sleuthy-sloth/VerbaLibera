@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CEFRLevel {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+}
+
+enum DrillKind {
+  SUBSTITUTION
+  TRANSFORMATION
+}
+
+enum AudioSegmentType {
+  PROMPT
+  ANSWER
+}
+
+enum AssessmentResult {
+  PASS
+  FAIL
+  INCOMPLETE
+}
+
+enum ContentProvenance {
+  ORIGINAL
+  IMPORTED
+}
+
+model User {
+  id                String              @id @default(cuid())
+  accountIdentifier String              @unique
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  progress          UserProgress[]
+  assessments       ConceptAssessment[]
+  masteries         ConceptMastery[]
+}
+
+model Language {
+  code          String   @id @db.VarChar(16)
+  displayName   String
+  sourceCourses Course[] @relation("SourceLanguage")
+  targetCourses Course[] @relation("TargetLanguage")
+}
+
+model Course {
+  id                 String         @id @default(cuid())
+  slug               String         @unique
+  sourceLanguageCode String         @db.VarChar(16)
+  targetLanguageCode String         @db.VarChar(16)
+  title              String
+  description        String
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  sourceLanguage     Language       @relation("SourceLanguage", fields: [sourceLanguageCode], references: [code], onDelete: Restrict)
+  targetLanguage     Language       @relation("TargetLanguage", fields: [targetLanguageCode], references: [code], onDelete: Restrict)
+  concepts           ConceptBlock[]
+
+  @@index([sourceLanguageCode, targetLanguageCode])
+}
+
+model ConceptBlock {
+  id                 String              @id @default(cuid())
+  courseId           String
+  cefrLevel          CEFRLevel
+  position           Int
+  title              String
+  explanation        String
+  assessmentCriteria String
+  contentProvenance  ContentProvenance
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  course             Course              @relation(fields: [courseId], references: [id], onDelete: Restrict)
+  drills             DrillItem[]
+  audioSegments      AudioSegment[]      @relation("ConceptAudio")
+  assessments        ConceptAssessment[]
+  masteries          ConceptMastery[]
+
+  @@unique([courseId, position])
+  @@index([courseId, cefrLevel])
+}
+
+model DrillItem {
+  id                String            @id @default(cuid())
+  conceptBlockId    String
+  cefrLevel         CEFRLevel
+  kind              DrillKind
+  prompt            String
+  acceptedResponses Json
+  recallTarget      String
+  contentProvenance ContentProvenance
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  conceptBlock      ConceptBlock      @relation(fields: [conceptBlockId], references: [id], onDelete: Restrict)
+  audioSegments     AudioSegment[]    @relation("DrillAudio")
+  progress          UserProgress[]
+
+  @@index([conceptBlockId, cefrLevel])
+}
+
+model UserProgress {
+  id             String    @id @default(cuid())
+  userId         String
+  drillItemId    String
+  easeFactor     Float     @default(2.5)
+  intervalDays   Int       @default(0)
+  repetitions    Int       @default(0)
+  dueAt          DateTime
+  lapseCount     Int       @default(0)
+  lastReviewedAt DateTime?
+  lastQuality    Int?
+  lastLatencyMs  Int?
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  drillItem      DrillItem @relation(fields: [drillItemId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, drillItemId])
+  @@index([userId, dueAt])
+}
+
+model AudioSegment {
+  id                String            @id @default(cuid())
+  conceptBlockId    String?
+  drillItemId       String?
+  type              AudioSegmentType
+  position          Int
+  pauseAfter        Boolean           @default(false)
+  audioUrl          String
+  transcript        String?
+  durationMs        Int?
+  contentProvenance ContentProvenance
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  conceptBlock      ConceptBlock?     @relation("ConceptAudio", fields: [conceptBlockId], references: [id], onDelete: Restrict)
+  drillItem         DrillItem?        @relation("DrillAudio", fields: [drillItemId], references: [id], onDelete: Restrict)
+
+  @@unique([conceptBlockId, position])
+  @@unique([drillItemId, position])
+}
+
+model ConceptAssessment {
+  id               String           @id @default(cuid())
+  userId           String
+  conceptBlockId   String
+  evaluationMethod String
+  result           AssessmentResult
+  completedAt      DateTime         @default(now())
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conceptBlock     ConceptBlock     @relation(fields: [conceptBlockId], references: [id], onDelete: Restrict)
+  masteryProof     ConceptMastery?  @relation("MasteryAssessment")
+
+  @@unique([id, userId, conceptBlockId])
+  @@index([userId, conceptBlockId, result])
+}
+
+model ConceptMastery {
+  id             String            @id @default(cuid())
+  userId         String
+  conceptBlockId String
+  assessmentId   String
+  attainedAt     DateTime          @default(now())
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conceptBlock   ConceptBlock      @relation(fields: [conceptBlockId], references: [id], onDelete: Restrict)
+  assessment     ConceptAssessment @relation("MasteryAssessment", fields: [assessmentId, userId, conceptBlockId], references: [id, userId, conceptBlockId], onDelete: Restrict)
+
+  @@unique([userId, conceptBlockId])
+  @@unique([assessmentId, userId, conceptBlockId])
+}
