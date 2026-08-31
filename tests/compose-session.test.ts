@@ -25,4 +25,18 @@ describe('composeDailySession', () => {
       'REVIEW', 'REVIEW', 'DRILL',
     ]);
   });
+
+  it('returns no steps when capacity is zero or negative', () => {
+    // Break caught: negative capacity allowing reviews through slice's negative-index behavior.
+    expect(composeDailySession({ ...input, maxSteps: 0 })).toEqual([]);
+    expect(composeDailySession({ ...input, maxSteps: -1 })).toEqual([]);
+  });
+
+  it('rounds fractional capacity down before scheduling steps', () => {
+    // Break caught: fractional capacity admitting more steps than the stated bound.
+    expect(composeDailySession({ ...input, maxSteps: 2.5 })).toEqual([
+      { id: 'review-1', kind: 'REVIEW', courseSlug: 'english-to-french' },
+      { id: 'review-2', kind: 'REVIEW', courseSlug: 'english-to-french' },
+    ]);
+  });
 });

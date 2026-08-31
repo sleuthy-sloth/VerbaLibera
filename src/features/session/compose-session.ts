@@ -17,13 +17,14 @@ export type DailySessionInput = Readonly<{
 }>;
 
 export function composeDailySession(input: DailySessionInput): readonly SessionStep[] {
-  const steps: SessionStep[] = input.dueReviews.slice(0, input.maxSteps).map((review) => ({
+  const maxSteps = Number.isFinite(input.maxSteps) ? Math.max(0, Math.floor(input.maxSteps)) : 0;
+  const steps: SessionStep[] = input.dueReviews.slice(0, maxSteps).map((review) => ({
     id: review.id,
     kind: 'REVIEW',
     courseSlug: input.courseSlug,
   }));
 
-  if (steps.length < input.maxSteps && input.drillRound) {
+  if (steps.length < maxSteps && input.drillRound) {
     steps.push({
       id: input.drillRound.id,
       kind: 'DRILL',
@@ -31,7 +32,7 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
     });
   }
 
-  if (steps.length < input.maxSteps && input.newPattern) {
+  if (steps.length < maxSteps && input.newPattern) {
     steps.push({
       id: input.newPattern.id,
       kind: 'NEW_PATTERN',
