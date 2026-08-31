@@ -115,17 +115,17 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
 
         <dl className={styles.metrics}>
           <div>
-            <dt>Total XP</dt>
+            <dt className={styles.metricLabel}>Total XP</dt>
             <dd>{progress.xp} XP</dd>
           </div>
           <div>
-            <dt>Practice flow</dt>
+            <dt className={styles.metricLabel}>Practice flow</dt>
             <dd>
               <p>{progress.practiceFlowDays}-day practice flow</p>
             </dd>
           </div>
           <div>
-            <dt>Review queue</dt>
+            <dt className={styles.metricLabel}>Review queue</dt>
             <dd>
               <p>
                 {progress.dueReviewCount === 0

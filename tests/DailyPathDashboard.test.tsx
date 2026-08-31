@@ -86,6 +86,15 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
     expect(screen.getByText('80% complete')).toHaveClass(styles.courseProgress);
   });
+
+  it('keeps every small metric label on the accessible Ink contrast hook', () => {
+    // Break caught: metric labels fall back to the low-contrast 58%-Ink mixture on Cloud.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByText('Total XP')).toHaveClass(styles.metricLabel);
+    expect(screen.getByText('Practice flow')).toHaveClass(styles.metricLabel);
+    expect(screen.getByText('Review queue')).toHaveClass(styles.metricLabel);
+  });
 });
 
 describe('DashboardDataBoundary', () => {

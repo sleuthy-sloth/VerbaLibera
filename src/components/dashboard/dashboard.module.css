@@ -280,12 +280,15 @@
 }
 
 .metrics dt {
-  color: color-mix(in srgb, var(--ink) 58%, transparent);
   font-family: var(--font-utility);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.metricLabel {
+  color: var(--ink);
 }
 
 .metrics dd {

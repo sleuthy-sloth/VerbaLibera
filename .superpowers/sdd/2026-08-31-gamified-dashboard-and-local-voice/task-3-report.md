@@ -222,3 +222,60 @@ Compiled successfully; TypeScript passed; 5/5 static pages generated; Exit 0
 - Both visible asynchronous states are named through native live-region roles; error remains an `alert`, while initial load and retry progress use `status`.
 - No data mutation, storage, or network boundary changed.
 - The previously documented Turbopack sandbox port restriction remains. The production webpack build is green.
+
+---
+
+## Fix round 2: small metric-label contrast
+
+### Correction
+
+The three `.72rem` metric terms (`Total XP`, `Practice flow`, and `Review queue`) now carry an explicit `metricLabel` hook that uses solid Ink on Cloud. This replaces the 58%-Ink mixture (~3.86:1) with the approved Ink token at 14.42:1 contrast. No other dashboard styles or behaviors changed.
+
+### TDD evidence
+
+Focused RED before the component/CSS change:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx -t "keeps every small metric label"
+Test Files  1 failed (1)
+Tests       1 failed | 7 skipped (8)
+Exit 1
+```
+
+The intended failure reported that `styles.metricLabel` did not exist on the metric terms.
+
+Focused GREEN after applying the Ink contrast hook:
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx -t "keeps every small metric label"
+Test Files  1 passed (1)
+Tests       1 passed | 7 skipped (8)
+Exit 0
+```
+
+### Verification
+
+```text
+npm run test -- tests/DailyPathDashboard.test.tsx tests/app-shell.test.tsx
+Test Files  2 passed (2)
+Tests       9 passed (9)
+Exit 0
+
+npm run test
+Test Files  12 passed (12)
+Tests       53 passed (53)
+Exit 0
+
+npm run lint
+Exit 0, no diagnostics
+
+npm run typecheck
+Exit 0, no diagnostics
+
+git diff --check
+Exit 0
+```
+
+### Concerns
+
+No new concerns. The correction is restricted to the metric-label foreground and its regression hook.
