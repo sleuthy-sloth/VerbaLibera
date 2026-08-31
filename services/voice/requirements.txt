@@ -1,0 +1,11 @@
+# Runtime dependencies for the optional, self-hosted VoxLibre voice sidecar.
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+kokoro==0.9.4
+faster-whisper==1.1.1
+soundfile==0.13.1
+
+# Contract-test dependencies. Keep these in the same lockstep environment as FastAPI.
+httpx==0.28.1
+pytest==8.3.5
