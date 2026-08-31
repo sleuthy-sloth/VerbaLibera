@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
 import styles from './dashboard.module.css';
@@ -61,6 +62,9 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
         <p className={styles.introCopy}>
           Review what is fading, sharpen it in a drill, then leave with one new pattern.
         </p>
+        <figure className={styles.introArtwork}>
+          <Image alt="" height={1024} src="/illustrations/daily-practice.png" width={1536} />
+        </figure>
       </section>
 
       <section className={styles.sessionLaunch} aria-labelledby="session-title">

@@ -95,6 +95,13 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText('Practice flow')).toHaveClass(styles.metricLabel);
     expect(screen.getByText('Review queue')).toHaveClass(styles.metricLabel);
   });
+
+  it('uses the original daily-practice illustration as decorative dashboard support', () => {
+    // Break caught: the approved original supporting illustration is removed or announced redundantly.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByAltText('')).toHaveAttribute('src', expect.stringContaining('daily-practice.png'));
+  });
 });
 
 describe('DashboardDataBoundary', () => {

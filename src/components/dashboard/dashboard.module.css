@@ -79,8 +79,21 @@
 }
 
 .intro {
+  position: relative;
   max-width: 760px;
   margin-bottom: 2rem;
+}
+
+.introArtwork {
+  width: min(14rem, 48vw);
+  margin: 1.5rem 0 0;
+  pointer-events: none;
+}
+
+.introArtwork img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .eyebrow,
@@ -454,6 +467,20 @@
 }
 
 @media (min-width: 760px) {
+  .intro {
+    max-width: none;
+    min-height: 13rem;
+    padding-right: 15rem;
+  }
+
+  .introArtwork {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: clamp(12rem, 22vw, 17rem);
+    margin: 0;
+  }
+
   .dashboard {
     display: grid;
     grid-template-columns: minmax(0, 1.55fr) minmax(17rem, 0.8fr);

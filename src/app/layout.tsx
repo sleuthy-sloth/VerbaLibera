@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
 import { QueryProvider } from "@/lib/query-provider";
 import "./globals.css";
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          {children}
+          <PwaRegistrar />
+        </QueryProvider>
       </body>
     </html>
   );
