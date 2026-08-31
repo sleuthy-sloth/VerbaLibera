@@ -24,9 +24,10 @@ type PlayerPhase =
   | 'empty'
   | 'unavailable';
 
-type EndedListener = {
+type MediaListeners = {
   audio: HTMLAudioElement;
-  listener: () => void;
+  ended: () => void;
+  error: () => void;
 };
 
 function toError(value: unknown): Error {
@@ -63,7 +64,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     const [error, setError] = useState<Error | null>(null);
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const endedListenerRef = useRef<EndedListener | null>(null);
+    const mediaListenersRef = useRef<MediaListeners | null>(null);
     const sessionTokenRef = useRef(0);
     const currentIndexRef = useRef(-1);
     const pendingIndexRef = useRef(-1);
@@ -78,16 +79,17 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       setPhase(nextPhase);
     }, []);
 
-    const removeEndedListener = useCallback(() => {
-      const activeListener = endedListenerRef.current;
-      if (activeListener) {
-        activeListener.audio.removeEventListener('ended', activeListener.listener);
-        endedListenerRef.current = null;
+    const removeMediaListeners = useCallback(() => {
+      const activeListeners = mediaListenersRef.current;
+      if (activeListeners) {
+        activeListeners.audio.removeEventListener('ended', activeListeners.ended);
+        activeListeners.audio.removeEventListener('error', activeListeners.error);
+        mediaListenersRef.current = null;
       }
     }, []);
 
     const clearMedia = useCallback(() => {
-      removeEndedListener();
+      removeMediaListeners();
       const audio = audioRef.current;
       if (!audio) {
         return;
@@ -95,7 +97,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
       audio.pause();
       audio.removeAttribute('src');
-    }, [removeEndedListener]);
+    }, [removeMediaListeners]);
 
     const getAudio = useCallback((): HTMLAudioElement => {
       if (!audioRef.current) {
@@ -127,8 +129,23 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         pendingIndexRef.current = index;
         setPlayerPhase('starting');
         setError(null);
-        removeEndedListener();
+        removeMediaListeners();
         audio.src = segment.url;
+
+        const failPlayback = (cause: unknown) => {
+          if (
+            token !== sessionTokenRef.current ||
+            pendingIndexRef.current !== index
+          ) {
+            return;
+          }
+
+          removeMediaListeners();
+          const playbackError = toError(cause);
+          setError(playbackError);
+          setPlayerPhase('error');
+          callbacksRef.current.onError?.(playbackError);
+        };
 
         const onEnded = () => {
           if (
@@ -139,7 +156,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
             return;
           }
 
-          removeEndedListener();
+          removeMediaListeners();
           if (segment.pauseAfter) {
             setPlayerPhase('thinking');
             return;
@@ -154,25 +171,22 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
           void startSegment(nextIndex, token);
         };
 
-        endedListenerRef.current = { audio, listener: onEnded };
+        const onError = () => {
+          failPlayback(new Error('Audio playback failed.'));
+        };
+
+        mediaListenersRef.current = { audio, ended: onEnded, error: onError };
         audio.addEventListener('ended', onEnded);
+        audio.addEventListener('error', onError);
 
         try {
           await audio.play();
         } catch (cause) {
-          if (token !== sessionTokenRef.current) {
-            return;
-          }
-
-          removeEndedListener();
-          const playbackError = toError(cause);
-          setError(playbackError);
-          setPlayerPhase('error');
-          callbacksRef.current.onError?.(playbackError);
+          failPlayback(cause);
           return;
         }
 
-        if (token !== sessionTokenRef.current) {
+        if (token !== sessionTokenRef.current || phaseRef.current === 'error') {
           return;
         }
 
@@ -180,7 +194,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         setCurrentIndex(index);
         setPlayerPhase('playing');
       },
-      [finishLesson, getAudio, removeEndedListener, segments, setPlayerPhase],
+      [finishLesson, getAudio, removeMediaListeners, segments, setPlayerPhase],
     );
 
     const resetForSegments = useCallback(() => {

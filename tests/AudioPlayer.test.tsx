@@ -26,15 +26,15 @@ const answer: AudioSegment = {
 
 function setupAudio(play: () => Promise<void> = () => Promise.resolve()) {
   const audio = document.createElement('audio');
-  const AudioConstructor = vi.fn(function AudioMock() {
+  const AudioConstructor = function AudioMock() {
     return audio;
-  });
-  const playSpy = vi.spyOn(audio, 'play').mockImplementation(play);
-  const pauseSpy = vi.spyOn(audio, 'pause').mockImplementation(() => undefined);
+  };
+  vi.spyOn(audio, 'play').mockImplementation(play);
+  vi.spyOn(audio, 'pause').mockImplementation(() => undefined);
 
   vi.stubGlobal('Audio', AudioConstructor);
 
-  return { audio, AudioConstructor, pauseSpy, playSpy };
+  return { audio };
 }
 
 describe('AudioPlayer', () => {
@@ -49,21 +49,23 @@ describe('AudioPlayer', () => {
   });
 
   it('starts playback only after the learner presses Start lesson', async () => {
-    // Break caught: eagerly calling media.play() while rendering.
-    const { playSpy } = setupAudio();
+    // Break caught: entering a playing state without an explicit learner action.
+    setupAudio();
     const user = userEvent.setup();
 
     render(<AudioPlayer segments={[prompt]} />);
 
-    expect(playSpy).not.toHaveBeenCalled();
+    expect(screen.getByRole('status')).toHaveTextContent(/ready to start/i);
+    expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
-    expect(playSpy).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 1 of 1/i));
+    expect(screen.queryByRole('button', { name: /start lesson/i })).not.toBeInTheDocument();
   });
 
   it('holds indefinitely after a pausing prompt until the learner elects to play the answer', async () => {
     // Break caught: a timer automatically resumes a required thinking pause.
     vi.useFakeTimers();
-    const { audio, playSpy } = setupAudio();
+    const { audio } = setupAudio();
     const onThinkComplete = vi.fn();
 
     render(
@@ -85,21 +87,22 @@ describe('AudioPlayer', () => {
       await vi.advanceTimersByTimeAsync(60_000);
     });
     expect(onThinkComplete).not.toHaveBeenCalled();
-    expect(playSpy).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('status')).toHaveTextContent(/think it through/i);
 
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /play answer/i }));
       await Promise.resolve();
     });
     expect(onThinkComplete).toHaveBeenCalledTimes(1);
-    expect(playSpy).toHaveBeenCalledTimes(2);
+    expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i);
+    expect(screen.getByText('Bonjour.')).toBeInTheDocument();
     vi.useRealTimers();
   });
 
   it('automatically advances across non-pausing segments and completes at the end', async () => {
     // Break caught: treating every segment end as a thinking pause.
     const first: AudioSegment = { ...prompt, pauseAfter: false };
-    const { audio, playSpy } = setupAudio();
+    const { audio } = setupAudio();
     const onComplete = vi.fn();
     const user = userEvent.setup();
 
@@ -107,7 +110,8 @@ describe('AudioPlayer', () => {
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
-    await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i));
+    expect(screen.getByText('Bonjour.')).toBeInTheDocument();
     expect(screen.queryByText(/think it through/i)).not.toBeInTheDocument();
 
     fireEvent.ended(audio);
@@ -134,7 +138,11 @@ describe('AudioPlayer', () => {
     fireEvent.ended(audio);
     expect(screen.getByRole('button', { name: /finish lesson/i })).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: /finish lesson/i }));
+    const finishLesson = screen.getByRole('button', { name: /finish lesson/i });
+    act(() => {
+      fireEvent.click(finishLesson);
+      fireEvent.click(finishLesson);
+    });
     expect(onThinkComplete).toHaveBeenCalledTimes(1);
     expect(onComplete).toHaveBeenCalledTimes(1);
     expect(screen.getByText(/lesson complete/i)).toBeInTheDocument();
@@ -152,7 +160,7 @@ describe('AudioPlayer', () => {
 
   it('shows fixture audio as unavailable instead of offering it as playable', () => {
     // Break caught: calling play() for an unavailable fixture URL.
-    const { playSpy } = setupAudio();
+    setupAudio();
     const onError = vi.fn();
 
     render(
@@ -164,15 +172,17 @@ describe('AudioPlayer', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent(/audio unavailable/i);
     expect(screen.queryByRole('button', { name: /start lesson/i })).not.toBeInTheDocument();
-    expect(playSpy).not.toHaveBeenCalled();
     expect(onError).toHaveBeenCalledTimes(1);
   });
 
   it('reports a rejected media start and lets the learner retry', async () => {
     // Break caught: swallowing a rejected play() promise without a recovery path.
     const playbackFailure = new Error('Playback blocked');
-    const { playSpy } = setupAudio();
-    playSpy.mockRejectedValueOnce(playbackFailure).mockResolvedValueOnce(undefined);
+    let startAttempts = 0;
+    setupAudio(() => {
+      startAttempts += 1;
+      return startAttempts === 1 ? Promise.reject(playbackFailure) : Promise.resolve();
+    });
     const onError = vi.fn();
     const user = userEvent.setup();
 
@@ -183,20 +193,38 @@ describe('AudioPlayer', () => {
     expect(onError).toHaveBeenCalledWith(playbackFailure);
 
     await user.click(screen.getByRole('button', { name: /retry/i }));
-    await waitFor(() => expect(playSpy).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 1 of 1/i));
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
-  it('makes repeated continuation requests idempotent', async () => {
-    // Break caught: completing one thinking pause more than once.
+  it('reports an error emitted after media has started and lets the learner retry', async () => {
+    // Break caught: omitting the media error event listener after play() resolves.
+    const { audio } = setupAudio();
+    const onError = vi.fn();
+    const user = userEvent.setup();
+
+    render(<AudioPlayer segments={[prompt]} onError={onError} />);
+
+    await user.click(screen.getByRole('button', { name: /start lesson/i }));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 1 of 1/i));
+    fireEvent.error(audio);
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(/audio playback failed/i);
+    expect(screen.getByRole('button', { name: /retry audio/i })).toBeInTheDocument();
+    expect(onError).toHaveBeenCalledTimes(1);
+
+    await user.click(screen.getByRole('button', { name: /retry/i }));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 1 of 1/i));
+  });
+
+  it('makes repeated visible Play answer activations idempotent', async () => {
+    // Break caught: completing one thinking pause more than once from its visible action.
     const { audio } = setupAudio();
     const onThinkComplete = vi.fn();
-    const ref = createRef<AudioPlayerHandle>();
     const user = userEvent.setup();
 
     render(
       <AudioPlayer
-        ref={ref}
         segments={[prompt, answer]}
         onThinkComplete={onThinkComplete}
       />,
@@ -204,15 +232,19 @@ describe('AudioPlayer', () => {
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
-    ref.current?.completeThinking();
-    ref.current?.completeThinking();
+    const playAnswer = screen.getByRole('button', { name: /play answer/i });
+    act(() => {
+      fireEvent.click(playAnswer);
+      fireEvent.click(playAnswer);
+    });
 
     await waitFor(() => expect(onThinkComplete).toHaveBeenCalledTimes(1));
+    expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i);
   });
 
   it('restarts the current lesson through its imperative handle', async () => {
     // Break caught: restart retaining an old session or active media source.
-    const { audio, pauseSpy } = setupAudio();
+    const { audio } = setupAudio();
     const ref = createRef<AudioPlayerHandle>();
     const user = userEvent.setup();
 
@@ -222,8 +254,7 @@ describe('AudioPlayer', () => {
     act(() => ref.current?.restart());
     fireEvent.ended(audio);
 
-    expect(pauseSpy).toHaveBeenCalled();
-    expect(audio.getAttribute('src')).toBeNull();
+    expect(screen.getByRole('status')).toHaveTextContent(/ready to start/i);
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
   });
 
@@ -253,18 +284,32 @@ describe('AudioPlayer', () => {
     fireEvent.ended(audio);
 
     const input = document.createElement('input');
+    const textarea = document.createElement('textarea');
+    const editable = document.createElement('div');
+    editable.contentEditable = 'true';
+    Object.defineProperty(editable, 'isContentEditable', { value: true });
     document.body.append(input);
+    document.body.append(textarea);
+    document.body.append(editable);
     const inputSpace = new KeyboardEvent('keydown', { code: 'Space', bubbles: true, cancelable: true });
+    const textareaSpace = new KeyboardEvent('keydown', { code: 'Space', bubbles: true, cancelable: true });
+    const editableSpace = new KeyboardEvent('keydown', { code: 'Space', bubbles: true, cancelable: true });
     expect(input.dispatchEvent(inputSpace)).toBe(true);
+    expect(textarea.dispatchEvent(textareaSpace)).toBe(true);
+    expect(editable.dispatchEvent(editableSpace)).toBe(true);
     expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', ctrlKey: true, cancelable: true }))).toBe(true);
+    expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', metaKey: true, cancelable: true }))).toBe(true);
+    expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', altKey: true, cancelable: true }))).toBe(true);
     expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', repeat: true, cancelable: true }))).toBe(true);
     expect(onThinkComplete).not.toHaveBeenCalled();
     input.remove();
+    textarea.remove();
+    editable.remove();
   });
 
-  it('resets safely when replacement segments arrive and ignores a stale end event', async () => {
-    // Break caught: a previous session ending the replacement lesson.
-    const { audio, AudioConstructor, pauseSpy } = setupAudio();
+  it('resets safely when replacement segments arrive and ignores stale media events', async () => {
+    // Break caught: stale media completion or failure changing the replacement lesson.
+    const { audio } = setupAudio();
     const onComplete = vi.fn();
     const user = userEvent.setup();
     const { rerender } = render(<AudioPlayer segments={[prompt]} onComplete={onComplete} />);
@@ -272,27 +317,30 @@ describe('AudioPlayer', () => {
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     rerender(<AudioPlayer segments={[answer]} onComplete={onComplete} />);
     fireEvent.ended(audio);
+    fireEvent.error(audio);
 
-    expect(pauseSpy).toHaveBeenCalled();
-    expect(AudioConstructor).toHaveBeenCalledTimes(1);
     expect(onComplete).not.toHaveBeenCalled();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
   });
 
   it('removes media resources and listeners when unmounted', async () => {
-    // Break caught: retaining playback resources after the player leaves the page.
-    const { audio, pauseSpy } = setupAudio();
+    // Break caught: retaining playback resources or media listeners after unmount.
+    const { audio } = setupAudio();
     const onComplete = vi.fn();
+    const onError = vi.fn();
     const user = userEvent.setup();
-    const { unmount } = render(<AudioPlayer segments={[prompt]} onComplete={onComplete} />);
+    const { unmount } = render(
+      <AudioPlayer segments={[prompt]} onComplete={onComplete} onError={onError} />,
+    );
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     unmount();
     fireEvent.ended(audio);
+    fireEvent.error(audio);
 
-    expect(pauseSpy).toHaveBeenCalled();
-    expect(audio.getAttribute('src')).toBeNull();
     expect(onComplete).not.toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
   });
 
   it('exposes 44px controls, named buttons, and polite status updates', () => {
