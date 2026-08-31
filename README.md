@@ -1,47 +1,159 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VoxLibre
 
-## Getting Started
+VoxLibre is a language-learning foundation built around two complementary ideas:
 
-First, run the development server:
+1. **Thinking Method:** understand cognates and sentence structure before trying to recall a form.
+2. **Audio drills:** turn an understood structure into fast substitution and transformation practice.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The first release is scoped to two independent English-source courses:
+
+- English → French (`en → fr`)
+- English → Italian (`en → it`)
+
+Both are currently seeded as original A1 demonstration shells. The curriculum model supports CEFR levels A1–C2 and additional language pairs.
+
+## Current status
+
+This repository contains the work completed so far in Phase 1:
+
+- Next.js App Router, React, TypeScript, Tailwind CSS, and TanStack Query bootstrap.
+- Accessible responsive landing shell with both initial courses.
+- Prisma/PostgreSQL schema for users, languages, courses, concept blocks, drill items, SRS progress, audio segments, assessments, and mastery proofs.
+- PostgreSQL migration constraints for language-pair validity, ordering, nonnegative values, audio parent exclusivity, SM-2 bounds, and passing assessment proofs.
+- Original French and Italian A1 fixture data with explicitly unavailable audio URLs; no third-party course recordings are included.
+- Vitest, Testing Library, Playwright, lint, typecheck, and Prisma scripts.
+- Design specification and implementation plan in `docs/superpowers/`.
+
+Not yet implemented: the active-pause `AudioPlayer`, SM-2 scheduler, concept access service, dashboard query route, PWA shell, Web Speech API adapter, authentication, persisted progress mutations, full course content, and offline lesson synchronization. The next implementation tasks are recorded in the plan and must preserve the no-anonymous-mastery boundary.
+
+## Product principles
+
+- Answer reveal is never mastery. A learner must pass a trusted concept assessment before related drills unlock.
+- French and Italian progress are isolated by concept and course; mastery in one course cannot unlock the other.
+- Thinking pauses are indefinite and do not penalize the learner. Recall latency is measured only during later drills.
+- The screen is intentionally quiet. Large touch targets and keyboard controls support looking away while thinking.
+- Preview values are not account data and do not certify CEFR proficiency.
+- Content is original or must have verified redistribution rights. The current fixture audio uses `unavailable://` markers rather than pretending that silent placeholders are lesson recordings.
+
+## Architecture
+
+```text
+VoxLibre/
+├── prisma/
+│   ├── schema.prisma                 # PostgreSQL curriculum and learning data
+│   ├── migrations/                   # Generated schema + PostgreSQL checks/triggers
+│   └── seed.ts                       # en→fr and en→it original fixtures
+├── src/
+│   ├── app/                          # Next.js App Router pages and layout
+│   ├── features/curriculum/          # Typed course fixture boundary
+│   ├── lib/                          # Prisma client and React Query provider
+│   └── test/                         # Shared Vitest setup
+├── tests/                             # Unit/component tests
+└── docs/superpowers/                  # Approved design and implementation plan
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The approved design is [VoxLibre Phase 1 Design](docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md). The task-by-task execution plan is [VoxLibre Phase 1 Implementation Plan](docs/superpowers/plans/2026-08-30-voxlibre-phase-1.md).
 
-## Database verification
+## Local development
 
-Set `DATABASE_URL` to a PostgreSQL database before applying the committed curriculum migration:
+### Requirements
+
+- Node.js 20 or newer
+- npm
+- PostgreSQL 14 or newer for applying migrations and running the seed
+
+Install dependencies and start the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open <http://localhost:3000>.
+
+### Environment
+
+Copy `.env.example` to `.env` and set `DATABASE_URL` only when working with a local PostgreSQL database. Do not commit `.env` or credentials.
+
+```bash
+cp .env.example .env
+```
+
+Validate and generate the Prisma client:
+
+```bash
+npm run prisma:format
+npm run prisma:validate
+npm run prisma:generate
+```
+
+With a configured database, apply the migration and seed original fixtures:
 
 ```bash
 npm run prisma:migrate
 npm run prisma:seed
 ```
 
-The initial migration contains PostgreSQL checks for language-pair inequality, scheduling bounds, audio-parent exclusivity, and a trigger requiring a passing assessment for concept mastery. The local verification workspace did not have `DATABASE_URL` configured, so the migration and seed were deliberately not applied to a database.
+The committed migration is the source of truth for PostgreSQL-only constraints. The current implementation environment did not have `DATABASE_URL`, so migration application and seeding were not attempted.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verification commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run test                 # Vitest unit/component tests
+npm run lint                 # ESLint
+npm run typecheck            # TypeScript without emitting files
+npm run build                # Next production build
+npm run test:e2e             # Playwright browser tests (as they are added)
+```
 
-## Learn More
+Task 1's default production build, lint, typecheck, and tests passed. A later Turbopack build attempt was blocked by the execution environment's port-binding permissions; this is documented rather than presented as a product failure or a passing build. `npm audit` currently reports transitive dependency findings that should be reviewed before production deployment.
 
-To learn more about Next.js, take a look at the following resources:
+## Database model
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`prisma/schema.prisma` includes the required models:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `User`, `Language`, and `Course` establish account and language-pair ownership.
+- `ConceptBlock` stores structural explanations, cognate rules, CEFR level, and ordered content.
+- `DrillItem` stores substitution/transformation prompts and target-language accepted responses.
+- `UserProgress` stores per-drill SM-2 state: ease, interval, repetitions, due date, lapses, accuracy, and recall latency.
+- `AudioSegment` makes prompt and answer clips independently addressable and marks `pauseAfter`.
+- `ConceptAssessment` and `ConceptMastery` separate assessment evidence from SRS retention and enforce exact-concept drill unlocking.
 
-## Deploy on Vercel
+The migration uses PostgreSQL checks and a trigger to prevent a mastery row from referencing a failed or mismatched assessment. Prisma validation does not replace applying the migration to a real database.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Audio and voice roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The active-pause player is intentionally a separate client component. Its planned contract accepts segments shaped like:
+
+```ts
+type AudioSegment = {
+  url: string;
+  type: 'prompt' | 'answer';
+  pauseAfter: boolean;
+};
+```
+
+After a prompt ends with `pauseAfter: true`, playback must remain paused until a deliberate touch, keyboard, or future speech-validation action calls `onThinkComplete`. The answer is never auto-revealed.
+
+Voice validation will be added behind a capability adapter. It will request microphone access only after an explicit action, stop recognition before instructor audio, normalize harmless punctuation/casing, distinguish recognition errors from incorrect constructions, and store no raw recordings by default. Browser recognition is not treated as a standalone pronunciation grade. See the forthcoming implementation notes in `docs/voice-validation.md` when that task lands.
+
+## Security and privacy
+
+- No authentication or anonymous mutation route is included yet.
+- Future mutation services must accept a trusted authenticated user identity, never a client-selected user ID.
+- Do not cache authenticated requests, progress mutations, or learner data in the future PWA service worker.
+- Do not add copyrighted course recordings or private learner data to this public repository.
+
+## Third-party audio policy
+
+Language Transfer's French and Italian courses are freely playable and downloadable, but availability to listeners is not an explicit redistribution license for VoxLibre. We will not copy, slice, host, bundle, stream, or otherwise redistribute Language Transfer audio or transcripts unless the rightsholder provides written permission or publishes an explicit license that permits VoxLibre's intended use.
+
+Until then, VoxLibre uses only original recordings or third-party audio accompanied by a documented compatible license, source URL, attribution, and any required share-alike or non-commercial compliance. The current fixture URLs intentionally remain unavailable markers. See [Language Transfer’s course page](https://www.languagetransfer.org/courses) and [FAQ](https://www.languagetransfer.org/faq) for the currently published listener/download information.
+
+## License
+
+VoxLibre is released under the [MIT License](LICENSE). The license covers this repository's original source code and original demonstration content. Third-party assets, recordings, or transcripts must be added only with compatible licensing and explicit attribution where required.
+
+## Contributing
+
+Read the design and implementation plan before making changes. New learner-facing behavior should follow test-first development and include keyboard, mobile, accessibility, and error-state coverage. Keep course content provenance explicit and preserve the distinction between answer reveal, concept mastery, and SRS review.
