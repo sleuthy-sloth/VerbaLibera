@@ -34,4 +34,18 @@ describe('initial curriculum fixtures', () => {
       ]);
     }
   });
+
+  it('uses practical ordering patterns instead of cognate lessons', () => {
+    // Break caught: fixtures regressing to abstract cognate-focused wording.
+    expect(initialCourses.find((course) => course.slug === 'english-to-french')?.concepts[0]).toMatchObject({
+      title: 'French: ordering politely with “Je voudrais…”',
+      explanation: expect.stringContaining('Je voudrais'),
+    });
+    expect(initialCourses.find((course) => course.slug === 'english-to-italian')?.concepts[0]).toMatchObject({
+      title: 'Italian: ordering politely with “Vorrei…”',
+      explanation: expect.stringContaining('Vorrei'),
+    });
+    expect(JSON.stringify(initialCourses).toLowerCase()).not.toContain('cognate');
+    expect(JSON.stringify(initialCourses)).not.toContain('Thinking Method');
+  });
 });

@@ -18,7 +18,7 @@ type PlayerPhase =
   | 'ready'
   | 'starting'
   | 'playing'
-  | 'thinking'
+  | 'responseTurn'
   | 'error'
   | 'complete'
   | 'empty'
@@ -58,7 +58,7 @@ function phaseForSegments(segments: readonly AudioSegment[]): PlayerPhase {
 }
 
 export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
-  function AudioPlayer({ segments, onThinkComplete, onComplete, onError }, ref) {
+  function AudioPlayer({ segments, onResponseTurnComplete, onComplete, onError }, ref) {
     const [phase, setPhase] = useState<PlayerPhase>(() => phaseForSegments(segments));
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [error, setError] = useState<Error | null>(null);
@@ -70,9 +70,9 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     const pendingIndexRef = useRef(-1);
     const phaseRef = useRef<PlayerPhase>(phaseForSegments(segments));
     const completedTokenRef = useRef<number | null>(null);
-    const callbacksRef = useRef({ onThinkComplete, onComplete, onError });
+    const callbacksRef = useRef({ onResponseTurnComplete, onComplete, onError });
 
-    callbacksRef.current = { onThinkComplete, onComplete, onError };
+    callbacksRef.current = { onResponseTurnComplete, onComplete, onError };
 
     const setPlayerPhase = useCallback((nextPhase: PlayerPhase) => {
       phaseRef.current = nextPhase;
@@ -158,7 +158,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
           removeMediaListeners();
           if (segment.pauseAfter) {
-            setPlayerPhase('thinking');
+            setPlayerPhase('responseTurn');
             return;
           }
 
@@ -229,15 +229,15 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       void startSegment(pendingIndexRef.current, sessionTokenRef.current);
     }, [startSegment]);
 
-    const completeThinking = useCallback(() => {
-      if (phaseRef.current !== 'thinking') {
+    const completeResponseTurn = useCallback(() => {
+      if (phaseRef.current !== 'responseTurn') {
         return;
       }
 
       const token = sessionTokenRef.current;
       const nextIndex = currentIndexRef.current + 1;
       setPlayerPhase('starting');
-      callbacksRef.current.onThinkComplete?.();
+      callbacksRef.current.onResponseTurnComplete?.();
 
       if (nextIndex >= segments.length) {
         finishLesson();
@@ -251,7 +251,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
       resetForSegments();
     }, [resetForSegments]);
 
-    useImperativeHandle(ref, () => ({ completeThinking, restart }), [completeThinking, restart]);
+    useImperativeHandle(ref, () => ({ completeResponseTurn, restart }), [completeResponseTurn, restart]);
 
     useEffect(() => {
       resetForSegments();
@@ -265,7 +265,7 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
     }, [clearMedia]);
 
     useEffect(() => {
-      if (phase !== 'thinking') {
+      if (phase !== 'responseTurn') {
         return;
       }
 
@@ -275,12 +275,12 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
         }
 
         event.preventDefault();
-        completeThinking();
+        completeResponseTurn();
       };
 
       window.addEventListener('keydown', onKeydown);
       return () => window.removeEventListener('keydown', onKeydown);
-    }, [completeThinking, phase]);
+    }, [completeResponseTurn, phase]);
 
     const currentSegment = currentIndex >= 0 ? segments[currentIndex] : null;
     const status =
@@ -290,8 +290,8 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
           ? 'Starting audio.'
           : phase === 'playing'
             ? `Playing segment ${currentIndex + 1} of ${segments.length}.`
-            : phase === 'thinking'
-              ? 'Think it through. Continue when you are ready.'
+            : phase === 'responseTurn'
+              ? 'Your response turn. Continue when you are ready.'
               : phase === 'error'
                 ? 'Playback needs attention.'
                 : phase === 'complete'
@@ -311,14 +311,14 @@ export const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(
             Start lesson
           </button>
         ) : null}
-        {phase === 'thinking' ? (
+        {phase === 'responseTurn' ? (
           <button
             className={styles.control}
             type="button"
-            aria-label={currentIndex + 1 < segments.length ? 'Play answer' : 'Finish lesson'}
-            onClick={completeThinking}
+            aria-label={currentIndex + 1 < segments.length ? 'Continue' : 'Complete turn'}
+            onClick={completeResponseTurn}
           >
-            {currentIndex + 1 < segments.length ? 'Play answer' : 'Finish lesson'}
+            {currentIndex + 1 < segments.length ? 'Continue' : 'Complete turn'}
           </button>
         ) : null}
         {phase === 'error' ? (

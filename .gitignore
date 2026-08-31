@@ -6,6 +6,7 @@
 
 # dependencies
 /node_modules
+services/voice/.venv/
 /.pnp
 .pnp.*
 .yarn/*

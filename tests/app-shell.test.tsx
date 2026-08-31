@@ -1,20 +1,27 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
+import { afterEach, vi } from 'vitest';
 import HomePage from '@/app/page';
+import { demoProgress } from '@/features/progress/demo-progress';
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('HomePage', () => {
-  it('identifies VoxLibre and its two initial courses', () => {
-    render(<HomePage />);
+  it('loads the Signal Pop practice dashboard with both preview courses', async () => {
+    // Break caught: the public root stops connecting its data boundary to the dashboard.
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
-    expect(screen.getByRole('heading', { name: /VoxLibre/i })).toBeInTheDocument();
-    expect(screen.getByText(/English to French/i)).toBeInTheDocument();
-    expect(screen.getByText(/English to Italian/i)).toBeInTheDocument();
-  });
+    render(
+      <QueryClientProvider client={client}>
+        <HomePage />
+      </QueryClientProvider>,
+    );
 
-  it('uses a readable foreground for the introductory copy in dark mode', () => {
-    render(<HomePage />);
-
-    expect(
-      screen.getByText(/Learn a language at your own pace/i),
-    ).toHaveClass('dark:text-zinc-300');
+    expect(await screen.findByRole('heading', { name: /VoxLibre/i })).toBeInTheDocument();
+    expect(screen.getByText(/English to French: A1 patterns/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /switch to italian/i })).toBeInTheDocument();
   });
 });

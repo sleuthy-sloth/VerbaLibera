@@ -62,16 +62,16 @@ describe('AudioPlayer', () => {
     expect(screen.queryByRole('button', { name: /start lesson/i })).not.toBeInTheDocument();
   });
 
-  it('holds indefinitely after a pausing prompt until the learner elects to play the answer', async () => {
-    // Break caught: a timer automatically resumes a required thinking pause.
+  it('holds indefinitely after a pausing prompt until the learner continues their response turn', async () => {
+    // Break caught: a timer automatically resumes a required response turn.
     vi.useFakeTimers();
     const { audio } = setupAudio();
-    const onThinkComplete = vi.fn();
+    const onResponseTurnComplete = vi.fn();
 
     render(
       <AudioPlayer
         segments={[prompt, answer]}
-        onThinkComplete={onThinkComplete}
+        onResponseTurnComplete={onResponseTurnComplete}
       />,
     );
 
@@ -80,27 +80,27 @@ describe('AudioPlayer', () => {
       await Promise.resolve();
     });
     act(() => fireEvent.ended(audio));
-    expect(screen.getByText(/think it through/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /play answer/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^continue$/i })).toBeInTheDocument();
+    expect(screen.queryByText(/think it through/i)).not.toBeInTheDocument();
 
     await act(async () => {
       await vi.advanceTimersByTimeAsync(60_000);
     });
-    expect(onThinkComplete).not.toHaveBeenCalled();
-    expect(screen.getByRole('status')).toHaveTextContent(/think it through/i);
+    expect(onResponseTurnComplete).not.toHaveBeenCalled();
+    expect(screen.getByRole('status')).toHaveTextContent(/your response turn/i);
 
     await act(async () => {
-      fireEvent.click(screen.getByRole('button', { name: /play answer/i }));
+      fireEvent.click(screen.getByRole('button', { name: /^continue$/i }));
       await Promise.resolve();
     });
-    expect(onThinkComplete).toHaveBeenCalledTimes(1);
+    expect(onResponseTurnComplete).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i);
     expect(screen.getByText('Bonjour.')).toBeInTheDocument();
     vi.useRealTimers();
   });
 
   it('automatically advances across non-pausing segments and completes at the end', async () => {
-    // Break caught: treating every segment end as a thinking pause.
+    // Break caught: treating every segment end as a response turn.
     const first: AudioSegment = { ...prompt, pauseAfter: false };
     const { audio } = setupAudio();
     const onComplete = vi.fn();
@@ -112,7 +112,7 @@ describe('AudioPlayer', () => {
     fireEvent.ended(audio);
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i));
     expect(screen.getByText('Bonjour.')).toBeInTheDocument();
-    expect(screen.queryByText(/think it through/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/your response turn/i)).not.toBeInTheDocument();
 
     fireEvent.ended(audio);
     expect(onComplete).toHaveBeenCalledTimes(1);
@@ -122,28 +122,28 @@ describe('AudioPlayer', () => {
   it('requires an explicit finish action for a final pausing segment', async () => {
     // Break caught: dropping a final pause because no answer segment follows it.
     const { audio } = setupAudio();
-    const onThinkComplete = vi.fn();
+    const onResponseTurnComplete = vi.fn();
     const onComplete = vi.fn();
     const user = userEvent.setup();
 
     render(
       <AudioPlayer
         segments={[prompt]}
-        onThinkComplete={onThinkComplete}
+        onResponseTurnComplete={onResponseTurnComplete}
         onComplete={onComplete}
       />,
     );
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
-    expect(screen.getByRole('button', { name: /finish lesson/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^complete turn$/i })).toBeInTheDocument();
 
-    const finishLesson = screen.getByRole('button', { name: /finish lesson/i });
+    const finishLesson = screen.getByRole('button', { name: /^complete turn$/i });
     act(() => {
       fireEvent.click(finishLesson);
       fireEvent.click(finishLesson);
     });
-    expect(onThinkComplete).toHaveBeenCalledTimes(1);
+    expect(onResponseTurnComplete).toHaveBeenCalledTimes(1);
     expect(onComplete).toHaveBeenCalledTimes(1);
     expect(screen.getByText(/lesson complete/i)).toBeInTheDocument();
   });
@@ -217,28 +217,28 @@ describe('AudioPlayer', () => {
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(/playing segment 1 of 1/i));
   });
 
-  it('makes repeated visible Play answer activations idempotent', async () => {
-    // Break caught: completing one thinking pause more than once from its visible action.
+  it('makes repeated visible Continue activations idempotent', async () => {
+    // Break caught: completing one response turn more than once from its visible action.
     const { audio } = setupAudio();
-    const onThinkComplete = vi.fn();
+    const onResponseTurnComplete = vi.fn();
     const user = userEvent.setup();
 
     render(
       <AudioPlayer
         segments={[prompt, answer]}
-        onThinkComplete={onThinkComplete}
+        onResponseTurnComplete={onResponseTurnComplete}
       />,
     );
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
-    const playAnswer = screen.getByRole('button', { name: /play answer/i });
+    const playAnswer = screen.getByRole('button', { name: /^continue$/i });
     act(() => {
       fireEvent.click(playAnswer);
       fireEvent.click(playAnswer);
     });
 
-    await waitFor(() => expect(onThinkComplete).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(onResponseTurnComplete).toHaveBeenCalledTimes(1));
     expect(screen.getByRole('status')).toHaveTextContent(/playing segment 2 of 2/i);
   });
 
@@ -258,28 +258,28 @@ describe('AudioPlayer', () => {
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
   });
 
-  it('continues thinking with an unmodified, non-repeated Spacebar press', async () => {
-    // Break caught: omitting the keyboard continuation path for a thinking pause.
+  it('continues a response turn with an unmodified, non-repeated Spacebar press', async () => {
+    // Break caught: omitting the keyboard continuation path for a response turn.
     const { audio } = setupAudio();
-    const onThinkComplete = vi.fn();
+    const onResponseTurnComplete = vi.fn();
     const user = userEvent.setup();
 
-    render(<AudioPlayer segments={[prompt, answer]} onThinkComplete={onThinkComplete} />);
+    render(<AudioPlayer segments={[prompt, answer]} onResponseTurnComplete={onResponseTurnComplete} />);
 
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
     const keydown = new KeyboardEvent('keydown', { code: 'Space', cancelable: true });
     expect(window.dispatchEvent(keydown)).toBe(false);
-    await waitFor(() => expect(onThinkComplete).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(onResponseTurnComplete).toHaveBeenCalledTimes(1));
   });
 
   it('does not hijack Spacebar presses in editable controls or with modifiers', async () => {
-    // Break caught: preventing normal typing or browser shortcuts while thinking.
+    // Break caught: preventing normal typing or browser shortcuts during a response turn.
     const { audio } = setupAudio();
-    const onThinkComplete = vi.fn();
+    const onResponseTurnComplete = vi.fn();
     const user = userEvent.setup();
 
-    render(<AudioPlayer segments={[prompt, answer]} onThinkComplete={onThinkComplete} />);
+    render(<AudioPlayer segments={[prompt, answer]} onResponseTurnComplete={onResponseTurnComplete} />);
     await user.click(screen.getByRole('button', { name: /start lesson/i }));
     fireEvent.ended(audio);
 
@@ -301,7 +301,7 @@ describe('AudioPlayer', () => {
     expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', metaKey: true, cancelable: true }))).toBe(true);
     expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', altKey: true, cancelable: true }))).toBe(true);
     expect(window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', repeat: true, cancelable: true }))).toBe(true);
-    expect(onThinkComplete).not.toHaveBeenCalled();
+    expect(onResponseTurnComplete).not.toHaveBeenCalled();
     input.remove();
     textarea.remove();
     editable.remove();

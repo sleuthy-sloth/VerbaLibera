@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
 import { QueryProvider } from "@/lib/query-provider";
 import "./globals.css";
 
@@ -14,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VoxLibre",
-  description: "Language learning at your own pace.",
+  title: "VoxLibre · Daily practice path",
+  description: "A focused daily path for practical language patterns.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -24,8 +25,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+      <body className="min-h-full">
+        <QueryProvider>
+          {children}
+          <PwaRegistrar />
+        </QueryProvider>
       </body>
     </html>
   );
