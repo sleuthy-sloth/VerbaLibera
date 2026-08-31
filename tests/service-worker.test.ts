@@ -19,7 +19,9 @@ function staticAssetsFrom(source: string) {
   return [...declaration[1].matchAll(/'([^']+)'/g)].map(([, asset]) => asset);
 }
 
-async function evaluateWorker(cacheKeys = ['voxlibre-static-v0', 'voxlibre-static-v1', 'another-app-cache']) {
+async function evaluateWorker(
+  cacheKeys = ['voxlibre-static-v0', 'voxlibre-static-v1', 'voxlibre-static-v2', 'another-app-cache'],
+) {
   const handlers = new Map<string, WorkerHandler>();
   const cacheDelete = vi.fn().mockResolvedValue(true);
   const cacheMatch = vi.fn();
@@ -107,8 +109,11 @@ describe('static PWA service worker contract', () => {
     expect(activationEvent.waitUntil).toHaveBeenCalledTimes(1);
     await activationEvent.waitUntil.mock.calls[0][0];
 
-    expect(cacheDelete).toHaveBeenCalledTimes(1);
+    expect(cacheDelete).toHaveBeenCalledTimes(2);
     expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v0');
+    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v2');
+    expect(cacheDelete).not.toHaveBeenCalledWith('voxlibre-static-v1');
+    expect(cacheDelete).not.toHaveBeenCalledWith('another-app-cache');
     expect(clients.claim).toHaveBeenCalledTimes(1);
   });
 });
