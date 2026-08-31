@@ -7,13 +7,13 @@ export type AudioSegment = {
 };
 
 export type AudioPlayerHandle = {
-  completeThinking(): void;
+  completeResponseTurn(): void;
   restart(): void;
 };
 
 export type AudioPlayerProps = {
   segments: readonly AudioSegment[];
-  onThinkComplete?: () => void;
+  onResponseTurnComplete?: () => void;
   onComplete?: () => void;
   onError?: (error: Error) => void;
 };
