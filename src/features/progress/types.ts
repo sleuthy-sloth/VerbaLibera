@@ -1,7 +1,7 @@
 import type { SessionStep } from '@/features/session/compose-session';
 
 export type DemoProgressSnapshot = Readonly<{
-  selectedCourseSlug: 'english-to-french' | 'english-to-italian';
+  selectedCourseSlug: string;
   xp: number;
   practiceFlowDays: number;
   dailyGoal: Readonly<{ completed: number; target: number }>;

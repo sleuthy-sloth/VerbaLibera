@@ -3,7 +3,7 @@
   width: min(100%, 1080px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: 1.25rem clamp(1rem, 4vw, 3rem) 4rem;
+  padding: 1rem clamp(1rem, 4vw, 3rem) 5rem;
   color: var(--ink);
 }
 
@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: clamp(3.5rem, 7vw, 6rem);
+  margin-bottom: clamp(2.6rem, 7vw, 5.4rem);
   font-family: var(--font-utility);
   font-size: 0.75rem;
   font-weight: 750;
@@ -51,7 +51,7 @@
 }
 
 .stepRail {
-  margin: 2.5rem 0 1.5rem;
+  margin: 2.75rem 0 1.5rem;
   overflow-x: auto;
   scrollbar-width: thin;
 }
@@ -156,7 +156,7 @@
   border: 2px solid var(--ink);
   border-radius: 2rem 2rem 0.75rem 2rem;
   background: white;
-  box-shadow: 8px 8px 0 var(--coral);
+  box-shadow: 6px 6px 0 var(--coral);
 }
 
 .stepNumber {
@@ -233,6 +233,42 @@
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
+@media (max-width: 719px) {
+  .sessionHeader span {
+    display: none;
+  }
+
+  .stepRail {
+    margin-right: 0;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .stepRail ol {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
+    padding: 0;
+  }
+
+  .stepRail li {
+    gap: 0.4rem;
+    padding-right: 0;
+    font-size: 0.78rem;
+  }
+
+  .stepRail li:not(:last-child)::after {
+    display: none;
+  }
+
+  .stepBody button,
+  .completion a,
+  .unavailable a {
+    width: 100%;
+  }
+}
+
 .stepBody button:hover,
 .completion a:hover,
 .unavailable a:hover {
@@ -301,5 +337,9 @@
 
   .stepNumber {
     min-height: 100%;
+  }
+
+  .activeStep {
+    box-shadow: 8px 8px 0 var(--coral);
   }
 }

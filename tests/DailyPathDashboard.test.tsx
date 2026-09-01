@@ -36,26 +36,75 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
     expect(screen.getByText(/6 reviews waiting/i)).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /switch to italian/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
       '4 of 5 daily steps',
     );
   });
 
-  it('switches the displayed course and session link without changing progress', async () => {
-    // Break caught: local course selection mutates the fixed preview or leaves a stale CTA.
+  it('switches the displayed course without promising a session that is not in preview data', async () => {
+    // Break caught: local course selection mutates preview data or links to a session the snapshot did not provide.
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
+    await user.click(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i }));
 
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
-      'href',
-      '/learn/english-to-italian',
-    );
+    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
     expect(screen.getByText(/4 of 5 daily steps/i)).toBeInTheDocument();
     expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
+  });
+
+  it('renders every available course instead of assuming a fixed language pair', () => {
+    // Break caught: adding a course leaves it inaccessible behind French/Italian-specific selector copy.
+    render(
+      <DailyPathDashboard
+        progress={{
+          ...demoProgress,
+          selectedCourseSlug: 'english-to-german',
+          courses: [
+            ...demoProgress.courses,
+            {
+              slug: 'english-to-german',
+              title: 'English to German: A1 patterns',
+              unitLabel: 'Unit 1: Meeting someone',
+              completionPercent: 10,
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: /english to german: a1 patterns selected/i })).toBeInTheDocument();
+  });
+
+  it('does not link an available course to a session that has not been supplied yet', () => {
+    // Break caught: selecting a future course sends the learner to an unavailable guided-session route.
+    render(
+      <DailyPathDashboard
+        progress={{
+          ...demoProgress,
+          selectedCourseSlug: 'english-to-german',
+          session: [
+            ...demoProgress.session,
+            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german' },
+          ],
+          courses: [
+            ...demoProgress.courses,
+            {
+              slug: 'english-to-german',
+              title: 'English to German: A1 patterns',
+              unitLabel: 'Unit 1: Meeting someone',
+              completionPercent: 10,
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
   });
 
   it('uses caught-up copy when no reviews are due', () => {
@@ -84,7 +133,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
-    expect(screen.getByText('80% complete')).toHaveClass(styles.courseProgress);
+    expect(screen.getByText('Current course · 80% complete')).toHaveClass(styles.courseProgress);
   });
 
   it('keeps every small metric label on the accessible Ink contrast hook', () => {
