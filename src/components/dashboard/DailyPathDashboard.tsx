@@ -39,9 +39,15 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
     );
   }
 
-  const nextStep = progress.session.find((step) => step.courseSlug === selectedCourse.slug);
   const authoredCourse = initialCourses.find((course) => course.slug === selectedCourse.slug);
-  const nextScenario = authoredCourse?.concepts.find((concept) => concept.id === nextStep?.contentId)?.scenario
+  const nextStep = progress.session.find(
+    (step) =>
+      step.courseSlug === selectedCourse.slug &&
+      authoredCourse?.concepts.some((concept) => concept.id === step.contentId),
+  );
+  const nextConcept = authoredCourse?.concepts.find((concept) => concept.id === nextStep?.contentId)
+    ?? authoredCourse?.concepts[0];
+  const nextScenario = nextConcept?.scenario
     .replace(/^Ordering\b/, 'Order');
 
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;

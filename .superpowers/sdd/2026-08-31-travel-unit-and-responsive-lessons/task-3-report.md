@@ -21,3 +21,15 @@ Complete. The dashboard launch card now surfaces the selected course's next auth
 ## Commit
 
 Commit: `feat: surface travel scenarios on dashboard` (see the final `git rev-parse --short HEAD` for the worktree identifier).
+
+## Review fix round 1
+
+### RED
+
+Added focused coverage for an empty selected-course session and a selected-course step whose `contentId` is not authored. Before the fix, both tests failed because the launch card omitted the scenario when the first matching step could not resolve.
+
+### GREEN
+
+The dashboard now filters for a resolvable selected-course step and falls back safely to the first authored concept when no such step exists. The focused suite passes with 13/13 tests.
+
+Fix commit: `feat: preserve an authored dashboard scenario when preview steps are unavailable`.

@@ -75,6 +75,25 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByRole('button', { name: /switch to italian/i })).toHaveClass(styles.courseButton);
   });
 
+  it('falls back to the first authored scenario when the selected course has no session', () => {
+    render(<DailyPathDashboard progress={{ ...demoProgress, session: [] }} />);
+
+    expect(screen.getByText(/greeting politely/i)).toBeInTheDocument();
+  });
+
+  it('falls back when the selected course session points to missing authored content', () => {
+    render(
+      <DailyPathDashboard
+        progress={{
+          ...demoProgress,
+          session: [{ ...demoProgress.session[0], contentId: 'missing-content' }],
+        }}
+      />,
+    );
+
+    expect(screen.getByText(/greeting politely/i)).toBeInTheDocument();
+  });
+
   it('uses caught-up copy when no reviews are due', () => {
     // Break caught: a zero review count is announced as work waiting anywhere on the path.
     render(<DailyPathDashboard progress={{ ...demoProgress, dueReviewCount: 0 }} />);
