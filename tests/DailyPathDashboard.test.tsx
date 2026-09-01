@@ -36,120 +36,75 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
     expect(screen.getByText(/6 reviews waiting/i)).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /switch to italian/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
       '4 of 5 daily steps',
     );
   });
 
-  it('switches the displayed course and session link without changing progress', async () => {
-    // Break caught: local course selection mutates the fixed preview or leaves a stale CTA.
+  it('switches the displayed course without promising a session that is not in preview data', async () => {
+    // Break caught: local course selection mutates preview data or links to a session the snapshot did not provide.
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
+    await user.click(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i }));
 
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
-      'href',
-      '/learn/english-to-italian',
-    );
+    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
     expect(screen.getByText(/4 of 5 daily steps/i)).toBeInTheDocument();
     expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
   });
 
-  it('shows the selected course’s next scenario in the launch card', async () => {
-    const user = userEvent.setup();
-    render(<DailyPathDashboard progress={demoProgress} />);
-
-    expect(screen.getByText('Ordering coffee or food')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
-    expect(screen.getByText('Ordering coffee or food')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
-  });
-
-  it('sources the launch scenario from the selected Italian fixture', async () => {
-    // Break caught: an Italian selection keeps resolving the French session's authored concept.
-    const user = userEvent.setup();
-    const progressWithDistinctItalianScenario = {
-      ...demoProgress,
-      session: [
-        ...demoProgress.session.filter((step) => step.courseSlug === 'english-to-french'),
-        {
-          id: 'it-pay-review-1',
-          kind: 'REVIEW' as const,
-          courseSlug: 'english-to-italian',
-          contentId: 'it-pay-politely',
-        },
-      ],
-    };
-    render(<DailyPathDashboard progress={progressWithDistinctItalianScenario} />);
-
-    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
-
-    expect(screen.getByText('Paying')).toBeInTheDocument();
-    expect(screen.queryByText('Ordering coffee or food')).not.toBeInTheDocument();
-  });
-
-  it('initializes selection from a valid requested course slug', () => {
-    // Break caught: returning from an Italian lesson resets the dashboard to the French snapshot selection.
-    render(
-      <DailyPathDashboard
-        progress={demoProgress}
-        requestedCourseSlug="english-to-italian"
-      />,
-    );
-
-    expect(screen.getByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
-      'href',
-      '/learn/english-to-italian',
-    );
-  });
-
-  it.each([undefined, 'english-to-german'])(
-    'falls back to snapshot selection for a missing or invalid request (%s)',
-    (requestedCourseSlug) => {
-      // Break caught: malformed URL state overrides the safe progress-snapshot selection.
-      render(
-        <DailyPathDashboard
-          progress={demoProgress}
-          requestedCourseSlug={requestedCourseSlug}
-        />,
-      );
-
-      expect(screen.getByRole('button', { name: /French selected/i })).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
-        'href',
-        '/learn/english-to-french',
-      );
-    },
-  );
-
-  it('keeps the launch action and selected-course controls touch-sized', () => {
-    render(<DailyPathDashboard progress={demoProgress} />);
-
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveClass(styles.primaryAction);
-    expect(screen.getByRole('button', { name: /switch to italian/i })).toHaveClass(styles.courseButton);
-  });
-
-  it('falls back to the first authored scenario when the selected course has no session', () => {
-    render(<DailyPathDashboard progress={{ ...demoProgress, session: [] }} />);
-
-    expect(screen.getByText(/greeting politely/i)).toBeInTheDocument();
-  });
-
-  it('falls back when the selected course session points to missing authored content', () => {
+  it('renders every available course instead of assuming a fixed language pair', () => {
+    // Break caught: adding a course leaves it inaccessible behind French/Italian-specific selector copy.
     render(
       <DailyPathDashboard
         progress={{
           ...demoProgress,
-          session: [{ ...demoProgress.session[0], contentId: 'missing-content' }],
+          selectedCourseSlug: 'english-to-german',
+          courses: [
+            ...demoProgress.courses,
+            {
+              slug: 'english-to-german',
+              title: 'English to German: A1 patterns',
+              unitLabel: 'Unit 1: Meeting someone',
+              completionPercent: 10,
+            },
+          ],
         }}
       />,
     );
 
-    expect(screen.getByText(/greeting politely/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /english to german: a1 patterns selected/i })).toBeInTheDocument();
+  });
+
+  it('does not link an available course to a session that has not been supplied yet', () => {
+    // Break caught: selecting a future course sends the learner to an unavailable guided-session route.
+    render(
+      <DailyPathDashboard
+        progress={{
+          ...demoProgress,
+          selectedCourseSlug: 'english-to-german',
+          session: [
+            ...demoProgress.session,
+            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german' },
+          ],
+          courses: [
+            ...demoProgress.courses,
+            {
+              slug: 'english-to-german',
+              title: 'English to German: A1 patterns',
+              unitLabel: 'Unit 1: Meeting someone',
+              completionPercent: 10,
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
   });
 
   it('uses caught-up copy when no reviews are due', () => {
@@ -178,7 +133,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
-    expect(screen.getByText('80% complete')).toHaveClass(styles.courseProgress);
+    expect(screen.getByText('Current course · 80% complete')).toHaveClass(styles.courseProgress);
   });
 
   it('keeps every small metric label on the accessible Ink contrast hook', () => {

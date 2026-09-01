@@ -22,8 +22,10 @@ describe('HomePage', () => {
     );
 
     expect(await screen.findByRole('heading', { name: /VoxLibre/i })).toBeInTheDocument();
-    expect(screen.getByText(/English to French: A1 patterns/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /switch to italian/i })).toBeInTheDocument();
+    expect(screen.getByText('English to French: A1 patterns')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i }),
+    ).toBeInTheDocument();
   });
 
   it('uses a valid course query to restore the dashboard selection', async () => {

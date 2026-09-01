@@ -46,6 +46,7 @@ describe('local voice routes', () => {
     const response = await POST(request);
 
     expect(response.status).toBe(413);
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
     expect(formData).not.toHaveBeenCalled();
   });
 
@@ -69,6 +70,28 @@ describe('local voice routes', () => {
     const response = await POST(request);
 
     expect(response.status).toBe(413);
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
     expect(formData).not.toHaveBeenCalled();
+  });
+
+  it('treats a failed request stream as malformed rather than oversized', async () => {
+    // Break caught: stream transport failures are misreported as a request size violation.
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.error(new Error('connection interrupted'));
+      },
+    });
+    const request = new Request('http://localhost/api/voice/transcribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'multipart/form-data; boundary=voice-boundary' },
+      body: stream,
+      duplex: 'half',
+    } as RequestInit);
+
+    const response = await POST(request);
+
+    expect(response.status).toBe(400);
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
+    await expect(response.json()).resolves.toEqual({ status: 'invalid_request' });
   });
 });

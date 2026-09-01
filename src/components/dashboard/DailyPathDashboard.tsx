@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { initialCourses } from '@/features/curriculum/fixture';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { initialCourses } from '@/features/curriculum/fixture';
 import styles from './dashboard.module.css';
@@ -18,13 +19,10 @@ const practiceSteps = [
   { label: 'Pattern', detail: 'Add one useful way to say it', tone: 'pattern' },
 ] as const;
 
-function languageName(courseSlug: string) {
-  return courseSlug === 'english-to-italian' ? 'Italian' : 'French';
-}
-
-export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
-  const requestedCourseIndex = progress.courses.findIndex(
-    (course) => course.slug === requestedCourseSlug,
+export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
+  const initialCourseIndex = Math.max(
+    0,
+    progress.courses.findIndex((course) => course.slug === progress.selectedCourseSlug),
   );
   const snapshotCourseIndex = progress.courses.findIndex(
     (course) => course.slug === progress.selectedCourseSlug,
@@ -56,6 +54,9 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const nextScenario = nextConcept?.scenario;
 
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;
+  const hasSelectedSession =
+    initialCourses.some((course) => course.slug === selectedCourse.slug) &&
+    progress.session.some((step) => step.courseSlug === selectedCourse.slug);
 
   return (
     <main className={`${styles.dashboard} ${styles.focusSurface}`}>
@@ -91,10 +92,16 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           <p className={styles.courseMeta}>{selectedCourse.title}</p>
           {nextScenario ? <p className={styles.scenario}>{nextScenario}</p> : null}
         </div>
-        <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
-          Continue 8-minute session
-          <span aria-hidden="true">→</span>
-        </Link>
+        {hasSelectedSession ? (
+          <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
+            Continue 8-minute session
+            <span aria-hidden="true">→</span>
+          </Link>
+        ) : (
+          <p className={styles.pendingAction} role="status">
+            Session preview coming soon
+          </p>
+        )}
       </section>
 
       <section className={styles.pathSection} aria-labelledby="path-title">
@@ -175,11 +182,10 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
       <section className={styles.courseSwitcher} aria-labelledby="course-title">
         <div>
           <p className={styles.kicker}>Course lane</p>
-          <h2 id="course-title">Choose today’s language</h2>
+          <h2 id="course-title">Your course lane</h2>
         </div>
-        <div className={styles.courseButtons}>
+        <div aria-label="Available courses" className={styles.courseButtons} role="group">
           {progress.courses.map((course, index) => {
-            const language = languageName(course.slug);
             const isSelected = index === selectedCourseIndex;
 
             return (
@@ -190,8 +196,11 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
                 onClick={() => setSelectedCourseIndex(index)}
                 type="button"
               >
-                <span>{isSelected ? `${language} selected` : `Switch to ${language}`}</span>
-                <small className={styles.courseProgress}>{course.completionPercent}% complete</small>
+                <span>{isSelected ? `${course.title} selected` : `Switch to ${course.title}`}</span>
+                <small className={styles.courseProgress}>
+                  {isSelected ? 'Current course · ' : ''}
+                  {course.completionPercent}% complete
+                </small>
               </button>
             );
           })}
