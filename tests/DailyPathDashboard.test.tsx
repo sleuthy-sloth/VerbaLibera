@@ -58,6 +58,23 @@ describe('DailyPathDashboard', () => {
     expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
   });
 
+  it('shows the selected course’s next scenario in the launch card', async () => {
+    const user = userEvent.setup();
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByText(/order coffee or food/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
+    expect(screen.getByText(/order coffee or food/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
+  });
+
+  it('keeps the launch action and selected-course controls touch-sized', () => {
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveClass(styles.primaryAction);
+    expect(screen.getByRole('button', { name: /switch to italian/i })).toHaveClass(styles.courseButton);
+  });
+
   it('uses caught-up copy when no reviews are due', () => {
     // Break caught: a zero review count is announced as work waiting anywhere on the path.
     render(<DailyPathDashboard progress={{ ...demoProgress, dueReviewCount: 0 }} />);

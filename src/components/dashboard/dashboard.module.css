@@ -136,6 +136,18 @@
   box-shadow: 0 1.25rem 3rem rgba(66, 59, 156, 0.18);
 }
 
+.sessionLaunch > div {
+  min-width: 0;
+}
+
+.scenario {
+  margin: 0.85rem 0 0;
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 .sessionLaunch h2 {
   margin: 0;
   font-size: clamp(1.5rem, 4vw, 2.4rem);
@@ -163,6 +175,7 @@
 
 .primaryAction {
   display: inline-flex;
+  width: 100%;
   min-height: 56px;
   align-items: center;
   justify-content: space-between;
@@ -372,6 +385,12 @@
   cursor: pointer;
 }
 
+.courseButton:focus-visible,
+.primaryAction:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
 .courseButton[aria-pressed='true'] {
   border-color: var(--ink);
   background: var(--ink);
@@ -497,6 +516,10 @@
   .sessionLaunch {
     grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.65fr);
     align-items: center;
+  }
+
+  .primaryAction {
+    width: auto;
   }
 
   .pathSection {

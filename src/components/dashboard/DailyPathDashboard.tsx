@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
+import { initialCourses } from '@/features/curriculum/fixture';
 import styles from './dashboard.module.css';
 
 type DailyPathDashboardProps = Readonly<{
@@ -37,6 +38,11 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
       </main>
     );
   }
+
+  const nextStep = progress.session.find((step) => step.courseSlug === selectedCourse.slug);
+  const authoredCourse = initialCourses.find((course) => course.slug === selectedCourse.slug);
+  const nextScenario = authoredCourse?.concepts.find((concept) => concept.id === nextStep?.contentId)?.scenario
+    .replace(/^Ordering\b/, 'Order');
 
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;
 
@@ -72,6 +78,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
           <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
           <h2 id="session-title">{selectedCourse.unitLabel}</h2>
           <p className={styles.courseMeta}>{selectedCourse.title}</p>
+          {nextScenario ? <p className={styles.scenario}>{nextScenario}</p> : null}
         </div>
         <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
           Continue 8-minute session
