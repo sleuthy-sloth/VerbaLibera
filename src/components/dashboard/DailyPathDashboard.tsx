@@ -4,10 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
+import { initialCourses } from '@/features/curriculum/fixture';
 import styles from './dashboard.module.css';
 
 type DailyPathDashboardProps = Readonly<{
   progress: DemoProgressSnapshot;
+  requestedCourseSlug?: string;
 }>;
 
 const practiceSteps = [
@@ -20,11 +22,16 @@ function languageName(courseSlug: string) {
   return courseSlug === 'english-to-italian' ? 'Italian' : 'French';
 }
 
-export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
-  const initialCourseIndex = Math.max(
-    0,
-    progress.courses.findIndex((course) => course.slug === progress.selectedCourseSlug),
+export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
+  const requestedCourseIndex = progress.courses.findIndex(
+    (course) => course.slug === requestedCourseSlug,
   );
+  const snapshotCourseIndex = progress.courses.findIndex(
+    (course) => course.slug === progress.selectedCourseSlug,
+  );
+  const initialCourseIndex = requestedCourseIndex >= 0
+    ? requestedCourseIndex
+    : Math.max(0, snapshotCourseIndex);
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(initialCourseIndex);
   const selectedCourse = progress.courses[selectedCourseIndex] ?? progress.courses[0];
 
@@ -37,6 +44,16 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
       </main>
     );
   }
+
+  const authoredCourse = initialCourses.find((course) => course.slug === selectedCourse.slug);
+  const nextStep = progress.session.find(
+    (step) =>
+      step.courseSlug === selectedCourse.slug &&
+      authoredCourse?.concepts.some((concept) => concept.id === step.contentId),
+  );
+  const nextConcept = authoredCourse?.concepts.find((concept) => concept.id === nextStep?.contentId)
+    ?? authoredCourse?.concepts[0];
+  const nextScenario = nextConcept?.scenario;
 
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;
 
@@ -72,6 +89,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
           <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
           <h2 id="session-title">{selectedCourse.unitLabel}</h2>
           <p className={styles.courseMeta}>{selectedCourse.title}</p>
+          {nextScenario ? <p className={styles.scenario}>{nextScenario}</p> : null}
         </div>
         <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
           Continue 8-minute session

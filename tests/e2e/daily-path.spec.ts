@@ -4,7 +4,7 @@ test.use({ viewport: { width: 390, height: 844 } });
 
 async function assertNoHorizontalOverflow(page: import('@playwright/test').Page) {
   const overflow = await page.evaluate(() => ({
-    scrollWidth: document.body.scrollWidth,
+    scrollWidth: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth),
     innerWidth: window.innerWidth,
   }));
   expect(
@@ -16,6 +16,8 @@ async function assertNoHorizontalOverflow(page: import('@playwright/test').Page)
 test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
   await page.goto('/');
 
+  await assertNoHorizontalOverflow(page);
+
   const sessionLink = page.getByRole('link', { name: /continue 8-minute session/i });
   await expect(sessionLink).toBeVisible();
 
@@ -26,15 +28,8 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
   await expect(italianSessionLink).toBeVisible();
   await italianSessionLink.click();
 
-  // Deviation from plan doc:
-  // (i) The plan doc asserted /today's practice path/i, but that copy is stale.
-  //     The Italian preview has no guided session steps by design, so the honest
-  //     fallback heading rendered by GuidedSession is used instead.
-  // (ii) This is read-only snapshot honesty: demoProgress.session only contains
-  //      French steps, so the english-to-italian route intentionally falls back.
-  await expect(
-    page.getByRole('heading', { level: 1, name: /no guided steps are ready for this course preview/i }),
-  ).toBeVisible();
+  await expect(page.getByText(/ordering coffee or food/i)).toBeVisible();
+  await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
 
   await assertNoHorizontalOverflow(page);
 });
