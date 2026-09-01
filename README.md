@@ -22,7 +22,7 @@ Both are currently seeded as original A1 demonstration shells. The curriculum mo
 
 ## Current status
 
-This repository contains the work completed so far in Phase 1:
+This repository contains the work completed in Phase 1 and the subsequent gamified-dashboard iteration:
 
 - Next.js App Router, React, TypeScript, Tailwind CSS, and TanStack Query bootstrap.
 - Accessible responsive landing shell with both initial courses.
@@ -32,10 +32,44 @@ This repository contains the work completed so far in Phase 1:
 - A tested construction SRS service: SM-2 quality mapping preserves response accuracy and recall latency without turning answer reveal into mastery.
 - A tested concept-access policy: a passed assessment for the exact concept unlocks the related drills; progress is course-isolated.
 - An accessible active-pause audio player: prompts pause indefinitely, then a deliberate touch or safe keyboard action reveals the answer. It handles audio failures, retries, cleanup, and rapid repeated input.
+- A mobile-first Signal Pop Daily Path dashboard with a bounded 8-minute guided session route and a read-only preview snapshot.
+- A safe PWA shell with original generated assets, manifest, and a static-only service worker.
+- An optional local FastAPI voice sidecar (Kokoro/faster-whisper) behind a server-only Next.js boundary with request-size bounding.
 - Vitest, Testing Library, Playwright, lint, typecheck, and Prisma scripts.
 - Design specification and implementation plan in `docs/superpowers/`.
 
-Still planned: the responsive dashboard and learning route, read-only demo query, PWA shell, Web Speech API adapter, authentication, persisted progress mutations, full course content, and offline lesson synchronization. The next implementation tasks are recorded in the plan and must preserve the no-anonymous-mastery boundary.
+Still planned: authentication, persisted progress mutations, full course content, real audio fixtures, and offline lesson synchronization. The next implementation tasks are recorded in the plan and must preserve the no-anonymous-mastery boundary.
+
+## Signal Pop Daily Path
+
+The dashboard is built around a mobile-first daily practice path. The primary action starts a bounded 8-minute session that follows a fixed order: due reviews first, one drill round, then at most one new pattern if capacity remains. Session composition is deterministic and preview-only — no mastery or review state is written.
+
+The dashboard renders a read-only preview snapshot (`DemoProgressSnapshot`) fetched from `/api/demo/progress` with `Cache-Control: no-store`. XP, daily goal, practice-flow streak, and completion percentages are labeled as preview progress and are not authenticated learner data. The snapshot uses original French and Italian A1 course fixtures only.
+
+Visual assets are original generated Signal Pop artwork. See [asset provenance](docs/asset-provenance.md) for generation details and safe-use notes.
+
+## What works / What's deferred
+
+### What works
+
+- Two A1 course shells (English → French, English → Italian) with original fixtures.
+- Prisma curriculum schema, PostgreSQL migration constraints, and seed fixtures.
+- Exact-concept access policy: a passed assessment for the exact concept unlocks related drills.
+- SM-2 sentence construction scheduler with recall-latency quality mapping.
+- Active-pause audio player with keyboard, touch, error, and lifecycle handling.
+- Signal Pop Daily Path dashboard and guided session route.
+- Safe PWA shell with original generated assets, manifest, and static-only service worker.
+- Optional local FastAPI voice sidecar (Kokoro/faster-whisper) with server-only Next.js boundary.
+- Request-size bounding on the voice transcribe boundary (both Next.js route and Python service, pre-parse 413).
+
+### What's deferred
+
+- Authentication and trusted user identity.
+- Persistence mutations for mastery, review, and progress writes.
+- Full course content beyond A1 demonstration shells.
+- Real audio fixtures and licensed recordings.
+- Offline sync for mutable learner data.
+- Hosted/cloud voice service (local sidecar only).
 
 ## Delivery map
 
@@ -158,7 +192,9 @@ type AudioSegment = {
 
 After a prompt ends with `pauseAfter: true`, playback remains paused until a deliberate touch, keyboard, or future speech-validation action calls `onThinkComplete`. The answer is never auto-revealed. The component avoids stealing input shortcuts, reports media failures in the UI, and exposes a retry path rather than silently skipping a learner's thinking turn.
 
-Voice validation will be added behind a capability adapter. It will request microphone access only after an explicit action, stop recognition before instructor audio, normalize harmless punctuation/casing, distinguish recognition errors from incorrect constructions, and store no raw recordings by default. Browser recognition is not treated as a standalone pronunciation grade. See the forthcoming implementation notes in `docs/voice-validation.md` when that task lands.
+Voice validation is available as an optional local FastAPI sidecar using Kokoro for TTS and faster-whisper for STT. The sidecar is accessed only through server-only Next.js routes; it requests microphone access only after an explicit action, does not persist raw recordings by default, and returns transcript/status only. See [local voice setup](docs/local-voice.md) for prerequisites, environment variables, and limitations.
+
+Browser-native recognition remains a future capability adapter. When it lands, it will stop recognition before instructor audio, normalize harmless punctuation/casing, distinguish recognition errors from incorrect constructions, and not treat browser recognition as a standalone pronunciation grade. See the forthcoming implementation notes in `docs/voice-validation.md` when that task lands.
 
 ## Security and privacy
 
