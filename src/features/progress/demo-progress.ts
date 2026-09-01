@@ -23,9 +23,12 @@ export const demoProgress: DemoProgressSnapshot = {
   ],
   session: composeDailySession({
     courseSlug: 'english-to-french',
-    dueReviews: [{ id: 'fr-ordering-review-1' }, { id: 'fr-ordering-review-2' }],
-    drillRound: { id: 'fr-ordering-drill-1' },
-    newPattern: { id: 'fr-ordering-pattern-1' },
+    dueReviews: [
+      { id: 'fr-ordering-review-1', contentId: 'fr-ordering-politely' },
+      { id: 'fr-ordering-review-2', contentId: 'fr-ordering-politely' },
+    ],
+    drillRound: { id: 'fr-find-place-drill', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
+    newPattern: { id: 'fr-greet-politely', contentId: 'fr-greet-politely' },
     maxSteps: 4,
   }),
 };

@@ -1,110 +1,34 @@
-import type { CourseFixture } from './types';
+import type { CourseFixture, ConceptFixture, DrillKind } from './types';
 
 const unavailableAudio = (id: string) => `unavailable://original-demo/${id}`;
+type PatternSeed = Readonly<{ id: string; scenario: string; notice: string; title: string; explanation: string; prompt: string; answer: string; drillPrompt: string; drillKind: DrillKind; acceptedResponses: readonly string[] }>;
 
-export const initialCourses = [
-  {
-    slug: 'english-to-french',
-    sourceLanguageCode: 'en',
-    targetLanguageCode: 'fr',
-    title: 'English to French: A1 patterns',
-    description: 'Original A1 demonstrations for using practical French patterns.',
-    concepts: [
-      {
-        id: 'fr-ordering-politely',
-        position: 1,
-        cefrLevel: 'A1',
-        title: 'French: ordering politely with “Je voudrais…”',
-        explanation:
-          'Use “Je voudrais un café, s’il vous plaît.” to order a coffee politely in French.',
-        assessmentCriteria:
-          'Say the full French sentence for ordering a coffee politely without seeing the answer.',
-        contentProvenance: 'ORIGINAL',
-        audioSegments: [
-          {
-            id: 'fr-ordering-politely-prompt',
-            type: 'PROMPT',
-            position: 1,
-            pauseAfter: true,
-            audioUrl: unavailableAudio('fr-ordering-politely-prompt'),
-            transcript: 'You want to order a coffee politely in French. What do you say?',
-            contentProvenance: 'ORIGINAL',
-          },
-          {
-            id: 'fr-ordering-politely-answer',
-            type: 'ANSWER',
-            position: 2,
-            pauseAfter: false,
-            audioUrl: unavailableAudio('fr-ordering-politely-answer'),
-            transcript: 'Je voudrais un café, s’il vous plaît.',
-            contentProvenance: 'ORIGINAL',
-          },
-        ],
-        drills: [
-          {
-            id: 'fr-ordering-politely-drill',
-            conceptId: 'fr-ordering-politely',
-            cefrLevel: 'A1',
-            kind: 'TRANSFORMATION',
-            prompt: 'Order a coffee politely in French.',
-            acceptedResponses: ['Je voudrais un café, s’il vous plaît.'],
-            recallTarget: 'Je voudrais un café, s’il vous plaît.',
-            contentProvenance: 'ORIGINAL',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    slug: 'english-to-italian',
-    sourceLanguageCode: 'en',
-    targetLanguageCode: 'it',
-    title: 'English to Italian: A1 patterns',
-    description: 'Original A1 demonstrations for using practical Italian patterns.',
-    concepts: [
-      {
-        id: 'it-ordering-politely',
-        position: 1,
-        cefrLevel: 'A1',
-        title: 'Italian: ordering politely with “Vorrei…”',
-        explanation:
-          'Use “Vorrei un caffè, per favore.” to order a coffee politely in Italian.',
-        assessmentCriteria:
-          'Say the full Italian sentence for ordering a coffee politely without seeing the answer.',
-        contentProvenance: 'ORIGINAL',
-        audioSegments: [
-          {
-            id: 'it-ordering-politely-prompt',
-            type: 'PROMPT',
-            position: 1,
-            pauseAfter: true,
-            audioUrl: unavailableAudio('it-ordering-politely-prompt'),
-            transcript: 'You want to order a coffee politely in Italian. What do you say?',
-            contentProvenance: 'ORIGINAL',
-          },
-          {
-            id: 'it-ordering-politely-answer',
-            type: 'ANSWER',
-            position: 2,
-            pauseAfter: false,
-            audioUrl: unavailableAudio('it-ordering-politely-answer'),
-            transcript: 'Vorrei un caffè, per favore.',
-            contentProvenance: 'ORIGINAL',
-          },
-        ],
-        drills: [
-          {
-            id: 'it-ordering-politely-drill',
-            conceptId: 'it-ordering-politely',
-            cefrLevel: 'A1',
-            kind: 'TRANSFORMATION',
-            prompt: 'Order a coffee politely in Italian.',
-            acceptedResponses: ['Vorrei un caffè, per favore.'],
-            recallTarget: 'Vorrei un caffè, per favore.',
-            contentProvenance: 'ORIGINAL',
-          },
-        ],
-      },
-    ],
-  },
-] as const satisfies readonly CourseFixture[];
+const frenchPatterns: readonly PatternSeed[] = [
+  { id: 'fr-greet-politely', scenario: 'Greeting politely', notice: 'A friendly greeting can introduce a polite request.', title: 'French: greeting politely with “Bonjour…”', explanation: 'Use “Bonjour, je voudrais…” to greet someone and begin a polite request.', prompt: 'Greet a shopkeeper and say you would like a table.', answer: 'Bonjour, je voudrais une table, s’il vous plaît.', drillPrompt: 'Combine the greeting with a polite request for a table.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Bonjour, je voudrais une table, s’il vous plaît.'] },
+  { id: 'fr-ordering-politely', scenario: 'Ordering coffee or food', notice: '“Je voudrais” makes a request sound courteous; change only the item.', title: 'French: ordering politely with “Je voudrais…”', explanation: 'Use “Je voudrais un café, s’il vous plaît.” to order a coffee politely in French.', prompt: 'You want to order a coffee politely in French. What do you say?', answer: 'Je voudrais un café, s’il vous plaît.', drillPrompt: 'Order a tea instead of a coffee.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Je voudrais un thé, s’il vous plaît.'] },
+  { id: 'fr-find-place', scenario: 'Finding a place', notice: 'Turn a place into a question with “Où est… ?”', title: 'French: asking where something is', explanation: 'Use “Où est la gare ?” to ask where a place is.', prompt: 'Ask where the station is in French.', answer: 'Où est la gare ?', drillPrompt: 'Ask where the museum is instead.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Où est le musée ?'] },
+  { id: 'fr-ask-help', scenario: 'Asking for help', notice: 'A polite question can ask someone directly for help.', title: 'French: asking for help politely', explanation: 'Use “Pouvez-vous m’aider ?” when you need help.', prompt: 'Ask someone politely if they can help you.', answer: 'Pouvez-vous m’aider ?', drillPrompt: 'Ask whether someone can show you the entrance.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Pouvez-vous me montrer l’entrée ?'] },
+  { id: 'fr-pay-politely', scenario: 'Paying', notice: 'A short service request becomes polite with “s’il vous plaît.”', title: 'French: requesting the bill', explanation: 'Use “L’addition, s’il vous plaît.” to request the bill.', prompt: 'Ask for the bill politely in French.', answer: 'L’addition, s’il vous plaît.', drillPrompt: 'Request the bill in a close, polite service interaction.', drillKind: 'TRANSFORMATION', acceptedResponses: ['L’addition, s’il vous plaît.'] },
+];
+const italianPatterns: readonly PatternSeed[] = [
+  { id: 'it-greet-politely', scenario: 'Greeting politely', notice: 'A warm greeting can introduce a courteous request.', title: 'Italian: greeting politely with “Buongiorno…”', explanation: 'Use “Buongiorno, vorrei…” to greet someone and begin a polite request.', prompt: 'Greet a shopkeeper and say you would like a table.', answer: 'Buongiorno, vorrei un tavolo, per favore.', drillPrompt: 'Combine the greeting with a polite request for a table.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Buongiorno, vorrei un tavolo, per favore.'] },
+  { id: 'it-ordering-politely', scenario: 'Ordering coffee or food', notice: '“Vorrei” makes a request courteous; change only the requested item.', title: 'Italian: ordering politely with “Vorrei…”', explanation: 'Use “Vorrei un caffè, per favore.” to order a coffee politely in Italian.', prompt: 'You want to order a coffee politely in Italian. What do you say?', answer: 'Vorrei un caffè, per favore.', drillPrompt: 'Order tea instead of coffee.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Vorrei un tè, per favore.'] },
+  { id: 'it-find-place', scenario: 'Finding a place', notice: 'Use “Dov’è… ?” to turn a place into a location question.', title: 'Italian: asking where something is', explanation: 'Use “Dov’è la stazione?” to ask where a place is.', prompt: 'Ask where the station is in Italian.', answer: 'Dov’è la stazione?', drillPrompt: 'Ask where the museum is instead.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Dov’è il museo?'] },
+  { id: 'it-ask-help', scenario: 'Asking for help', notice: 'A polite question can ask someone directly for assistance.', title: 'Italian: asking for help politely', explanation: 'Use “Può aiutarmi?” when you need help.', prompt: 'Ask someone politely if they can help you.', answer: 'Può aiutarmi?', drillPrompt: 'Ask whether someone can show you the entrance.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Può mostrarmi l’ingresso?'] },
+  { id: 'it-pay-politely', scenario: 'Paying', notice: 'A short service request becomes polite with “per favore.”', title: 'Italian: requesting the bill', explanation: 'Use “Il conto, per favore.” to request the bill.', prompt: 'Ask for the bill politely in Italian.', answer: 'Il conto, per favore.', drillPrompt: 'Request the bill in a close, polite service interaction.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Il conto, per favore.'] },
+];
+
+const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => ({
+  id: seed.id, position, cefrLevel: 'A1', title: seed.title, explanation: seed.explanation, scenario: seed.scenario, notice: seed.notice,
+  modelDialogue: { prompt: seed.prompt, answer: seed.answer }, assessmentCriteria: `Say the full ${language} sentence for this travel situation without seeing the answer.`, contentProvenance: 'ORIGINAL',
+  audioSegments: [
+    { id: `${seed.id}-prompt`, type: 'PROMPT', position: 1, pauseAfter: true, audioUrl: unavailableAudio(`${seed.id}-prompt`), transcript: seed.prompt, contentProvenance: 'ORIGINAL' },
+    { id: `${seed.id}-answer`, type: 'ANSWER', position: 2, pauseAfter: false, audioUrl: unavailableAudio(`${seed.id}-answer`), transcript: seed.answer, contentProvenance: 'ORIGINAL' },
+  ],
+  drills: [{ id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' }],
+});
+const makeCourse = (language: string, code: string, patterns: readonly PatternSeed[]): CourseFixture => ({
+  slug: `english-to-${language}`, sourceLanguageCode: 'en', targetLanguageCode: code, title: `English to ${language[0]?.toUpperCase()}${language.slice(1)}: A1 patterns`, description: `Original A1 demonstrations for using practical ${language} patterns.`, concepts: patterns.map((pattern, index) => makeConcept(language, index + 1, pattern)),
+});
+
+export const initialCourses = [makeCourse('french', 'fr', frenchPatterns), makeCourse('italian', 'it', italianPatterns)] as const satisfies readonly CourseFixture[];

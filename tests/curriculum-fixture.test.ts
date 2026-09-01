@@ -37,15 +37,23 @@ describe('initial curriculum fixtures', () => {
 
   it('uses practical ordering patterns instead of cognate lessons', () => {
     // Break caught: fixtures regressing to abstract cognate-focused wording.
-    expect(initialCourses.find((course) => course.slug === 'english-to-french')?.concepts[0]).toMatchObject({
+    expect(initialCourses.find((course) => course.slug === 'english-to-french')?.concepts.find((concept) => concept.id === 'fr-ordering-politely')).toMatchObject({
       title: 'French: ordering politely with “Je voudrais…”',
       explanation: expect.stringContaining('Je voudrais'),
     });
-    expect(initialCourses.find((course) => course.slug === 'english-to-italian')?.concepts[0]).toMatchObject({
+    expect(initialCourses.find((course) => course.slug === 'english-to-italian')?.concepts.find((concept) => concept.id === 'it-ordering-politely')).toMatchObject({
       title: 'Italian: ordering politely with “Vorrei…”',
       explanation: expect.stringContaining('Vorrei'),
     });
     expect(JSON.stringify(initialCourses).toLowerCase()).not.toContain('cognate');
     expect(JSON.stringify(initialCourses)).not.toContain('Thinking Method');
+  });
+
+  it('authors five original travel patterns for every course', () => {
+    for (const course of initialCourses) {
+      expect(course.concepts).toHaveLength(5);
+      expect(course.concepts.map((concept) => concept.position)).toEqual([1, 2, 3, 4, 5]);
+      expect(course.concepts.every((concept) => concept.scenario && concept.notice && concept.modelDialogue)).toBe(true);
+    }
   });
 });

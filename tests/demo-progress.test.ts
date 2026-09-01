@@ -11,10 +11,10 @@ describe('demo progress snapshot', () => {
       dueReviewCount: 6,
     });
     expect(demoProgress.session).toEqual([
-      { id: 'fr-ordering-review-1', kind: 'REVIEW', courseSlug: 'english-to-french' },
-      { id: 'fr-ordering-review-2', kind: 'REVIEW', courseSlug: 'english-to-french' },
-      { id: 'fr-ordering-drill-1', kind: 'DRILL', courseSlug: 'english-to-french' },
-      { id: 'fr-ordering-pattern-1', kind: 'NEW_PATTERN', courseSlug: 'english-to-french' },
+      { id: 'fr-ordering-review-1', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },
+      { id: 'fr-ordering-review-2', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },
+      { id: 'fr-find-place-drill', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
+      { id: 'fr-greet-politely', kind: 'NEW_PATTERN', courseSlug: 'english-to-french', contentId: 'fr-greet-politely' },
     ]);
   });
 });

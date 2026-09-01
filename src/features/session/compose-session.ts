@@ -1,11 +1,13 @@
 export type SessionStepKind = 'REVIEW' | 'DRILL' | 'NEW_PATTERN';
 
-export type SessionCandidate = Readonly<{ id: string }>;
+export type SessionCandidate = Readonly<{ id: string; contentId: string; drillId?: string }>;
 
 export type SessionStep = Readonly<{
   id: string;
   kind: SessionStepKind;
   courseSlug: string;
+  contentId: string;
+  drillId?: string;
 }>;
 
 export type DailySessionInput = Readonly<{
@@ -22,6 +24,8 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
     id: review.id,
     kind: 'REVIEW',
     courseSlug: input.courseSlug,
+    contentId: review.contentId,
+    ...(review.drillId ? { drillId: review.drillId } : {}),
   }));
 
   if (steps.length < maxSteps && input.drillRound) {
@@ -29,6 +33,8 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       id: input.drillRound.id,
       kind: 'DRILL',
       courseSlug: input.courseSlug,
+      contentId: input.drillRound.contentId,
+      ...(input.drillRound.drillId ? { drillId: input.drillRound.drillId } : {}),
     });
   }
 
@@ -37,6 +43,8 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       id: input.newPattern.id,
       kind: 'NEW_PATTERN',
       courseSlug: input.courseSlug,
+      contentId: input.newPattern.contentId,
+      ...(input.newPattern.drillId ? { drillId: input.newPattern.drillId } : {}),
     });
   }
 

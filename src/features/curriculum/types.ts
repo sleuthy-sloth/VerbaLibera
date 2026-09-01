@@ -30,7 +30,13 @@ export type DrillFixture = Readonly<{
   contentProvenance: ContentProvenance;
 }>;
 
-export type ConceptFixture = Readonly<{
+export type PatternLessonFixture = Readonly<{
+  scenario: string;
+  notice: string;
+  modelDialogue: Readonly<{ prompt: string; answer: string }>;
+}>;
+
+export type ConceptFixture = PatternLessonFixture & Readonly<{
   id: string;
   position: number;
   cefrLevel: CEFRLevel;
