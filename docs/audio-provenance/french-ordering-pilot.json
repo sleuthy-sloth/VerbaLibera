@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "status": "pending-generation",
+  "clips": [
+    {
+      "id": "fr-ordering-politely-prompt",
+      "filename": "fr-ordering-politely-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": null,
+      "audio_sha256": null,
+      "content_type": "audio/wav",
+      "bytes": null
+    },
+    {
+      "id": "fr-ordering-politely-answer",
+      "filename": "fr-ordering-politely-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": null,
+      "audio_sha256": null,
+      "content_type": "audio/wav",
+      "bytes": null
+    }
+  ]
+}
