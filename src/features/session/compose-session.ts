@@ -16,7 +16,7 @@ export type SessionStep =
 export type DailySessionInput = Readonly<{
   courseSlug: string;
   dueReviews: readonly SessionCandidate[];
-  drillRound: DrillSessionCandidate | null;
+  drillRounds: readonly DrillSessionCandidate[];
   newPattern: SessionCandidate | null;
   maxSteps: number;
 }>;
@@ -30,13 +30,14 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
     contentId: review.contentId,
   }));
 
-  if (steps.length < maxSteps && input.drillRound) {
+  for (const drill of input.drillRounds) {
+    if (steps.length >= maxSteps) break;
     steps.push({
-      id: input.drillRound.id,
+      id: drill.id,
       kind: 'DRILL',
       courseSlug: input.courseSlug,
-      contentId: input.drillRound.contentId,
-      drillId: input.drillRound.drillId,
+      contentId: drill.contentId,
+      drillId: drill.drillId,
     });
   }
 

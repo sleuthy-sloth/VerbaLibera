@@ -62,11 +62,69 @@ describe('DailyPathDashboard', () => {
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getByText(/order coffee or food/i)).toBeInTheDocument();
+    expect(screen.getByText('Ordering coffee or food')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /switch to italian/i }));
-    expect(screen.getByText(/order coffee or food/i)).toBeInTheDocument();
+    expect(screen.getByText('Ordering coffee or food')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
   });
+
+  it('sources the launch scenario from the selected Italian fixture', async () => {
+    // Break caught: an Italian selection keeps resolving the French session's authored concept.
+    const user = userEvent.setup();
+    const progressWithDistinctItalianScenario = {
+      ...demoProgress,
+      session: [
+        ...demoProgress.session.filter((step) => step.courseSlug === 'english-to-french'),
+        {
+          id: 'it-pay-review-1',
+          kind: 'REVIEW' as const,
+          courseSlug: 'english-to-italian',
+          contentId: 'it-pay-politely',
+        },
+      ],
+    };
+    render(<DailyPathDashboard progress={progressWithDistinctItalianScenario} />);
+
+    await user.click(screen.getByRole('button', { name: /switch to italian/i }));
+
+    expect(screen.getByText('Paying')).toBeInTheDocument();
+    expect(screen.queryByText('Ordering coffee or food')).not.toBeInTheDocument();
+  });
+
+  it('initializes selection from a valid requested course slug', () => {
+    // Break caught: returning from an Italian lesson resets the dashboard to the French snapshot selection.
+    render(
+      <DailyPathDashboard
+        progress={demoProgress}
+        requestedCourseSlug="english-to-italian"
+      />,
+    );
+
+    expect(screen.getByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+      'href',
+      '/learn/english-to-italian',
+    );
+  });
+
+  it.each([undefined, 'english-to-german'])(
+    'falls back to snapshot selection for a missing or invalid request (%s)',
+    (requestedCourseSlug) => {
+      // Break caught: malformed URL state overrides the safe progress-snapshot selection.
+      render(
+        <DailyPathDashboard
+          progress={demoProgress}
+          requestedCourseSlug={requestedCourseSlug}
+        />,
+      );
+
+      expect(screen.getByRole('button', { name: /French selected/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+        'href',
+        '/learn/english-to-french',
+      );
+    },
+  );
 
   it('keeps the launch action and selected-course controls touch-sized', () => {
     render(<DailyPathDashboard progress={demoProgress} />);

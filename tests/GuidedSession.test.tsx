@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GuidedSession } from '@/components/session/GuidedSession';
 import { demoProgress } from '@/features/progress/demo-progress';
@@ -10,16 +10,18 @@ describe('GuidedSession', () => {
     await user.click(screen.getByRole('button', { name: 'Continue' }));
   }
 
-  it('orders reviews before the drill sprint and new pattern', () => {
+  it('renders the exact review, drill, drill, new-pattern sequence', () => {
     // Break caught: the guided path stops honoring review-first session composition.
     render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    const review = screen.getByText('Review 1');
-    const drill = screen.getByText('Drill sprint');
-    const pattern = screen.getByText('New pattern');
+    const steps = within(screen.getByRole('navigation', { name: /session steps/i }))
+      .getAllByRole('listitem');
 
-    expect(review.compareDocumentPosition(drill) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(drill.compareDocumentPosition(pattern) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(steps).toHaveLength(4);
+    expect(steps[0]).toHaveTextContent('Review');
+    expect(steps[1]).toHaveTextContent('Drill sprint');
+    expect(steps[2]).toHaveTextContent('Drill sprint');
+    expect(steps[3]).toHaveTextContent('New pattern');
     expect(screen.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
       'aria-valuetext',
       'Step 1 of 4',
@@ -74,6 +76,34 @@ describe('GuidedSession', () => {
     expect(screen.getByRole('button', { name: 'Continue' })).toBeInTheDocument();
   });
 
+  it('moves focus to each replacement primary action', async () => {
+    // Break caught: replacing the clicked action drops keyboard focus back to the document body.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
+    expect(screen.getByRole('button', { name: 'I checked my answer' })).toHaveFocus();
+
+    await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
+    expect(screen.getByRole('button', { name: 'Continue' })).toHaveFocus();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByRole('button', { name: 'Reveal model answer' })).toHaveFocus();
+  });
+
+  it('moves focus from the last continue action to the dashboard return link', async () => {
+    // Break caught: finishing the final card leaves focus on a removed Continue button.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await completeIndependentStep(user);
+    await completeIndependentStep(user);
+    await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(screen.getByRole('link', { name: /back to your daily path/i })).toHaveFocus();
+  });
+
   it('renders an honest unavailable state for a step with unresolved content', () => {
     // Break caught: a malformed step silently falls back to a different lesson.
     const progressWithMissingStep = {
@@ -92,5 +122,26 @@ describe('GuidedSession', () => {
 
     expect(screen.getByText(/this lesson step is not available in preview/i)).toBeInTheDocument();
     expect(screen.queryByText(/ordering coffee or food/i)).not.toBeInTheDocument();
+  });
+
+  it('returns lesson exits and completion to the selected course dashboard', async () => {
+    // Break caught: leaving or completing an Italian lesson silently resets dashboard selection.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
+
+    expect(screen.getByRole('link', { name: /daily path/i })).toHaveAttribute(
+      'href',
+      '/?course=english-to-italian',
+    );
+
+    await completeIndependentStep(user);
+    await completeIndependentStep(user);
+    await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(screen.getByRole('link', { name: /back to your daily path/i })).toHaveAttribute(
+      'href',
+      '/?course=english-to-italian',
+    );
   });
 });

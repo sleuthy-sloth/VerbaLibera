@@ -4,7 +4,7 @@ test.use({ viewport: { width: 390, height: 844 } });
 
 async function assertNoHorizontalOverflow(page: import('@playwright/test').Page) {
   const overflow = await page.evaluate(() => ({
-    scrollWidth: document.body.scrollWidth,
+    scrollWidth: Math.max(document.body.scrollWidth, document.documentElement.scrollWidth),
     innerWidth: window.innerWidth,
   }));
   expect(

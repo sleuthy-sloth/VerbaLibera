@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
@@ -19,13 +19,13 @@ const stepNames: Record<SessionStepKind, string> = {
   NEW_PATTERN: 'New pattern',
 };
 
-function UnavailableStep({ courseTitle }: Readonly<{ courseTitle: string }>) {
+function UnavailableStep({ courseTitle, dashboardHref }: Readonly<{ courseTitle: string; dashboardHref: string }>) {
   return (
     <main className={styles.unavailable}>
       <p className={styles.eyebrow}>{courseTitle}</p>
       <h1>This lesson step is not available in preview.</h1>
       <p>Nothing was saved. Return to your daily path to choose another preview session.</p>
-      <Link href="/">Return to your daily path</Link>
+      <Link href={dashboardHref}>Return to your daily path</Link>
     </main>
   );
 }
@@ -36,6 +36,21 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
   const [isSelfChecked, setIsSelfChecked] = useState(false);
+  const shouldMoveActionFocus = useRef(false);
+  const primaryActionRef = useRef<HTMLButtonElement>(null);
+  const completionActionRef = useRef<HTMLAnchorElement>(null);
+  const isComplete = stepIndex >= sessionSteps.length;
+
+  useEffect(() => {
+    if (!shouldMoveActionFocus.current) return;
+
+    if (isComplete) {
+      completionActionRef.current?.focus();
+    } else {
+      primaryActionRef.current?.focus();
+    }
+    shouldMoveActionFocus.current = false;
+  }, [isComplete, isModelRevealed, isSelfChecked, stepIndex]);
 
   if (!course) {
     return (
@@ -47,25 +62,26 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
     );
   }
 
+  const dashboardHref = `/?course=${encodeURIComponent(course.slug)}`;
+
   if (sessionSteps.length === 0) {
     return (
       <main className={styles.unavailable}>
         <p className={styles.eyebrow}>{course.title}</p>
         <h1>No guided steps are ready for this course preview.</h1>
         <p>Your dashboard progress has not changed.</p>
-        <Link href="/">Return to your daily path</Link>
+        <Link href={dashboardHref}>Return to your daily path</Link>
       </main>
     );
   }
 
-  const isComplete = stepIndex >= sessionSteps.length;
   const activeStep = sessionSteps[Math.min(stepIndex, sessionSteps.length - 1)];
   const resolved = isComplete
     ? null
     : resolveSessionContent(courseSlug, activeStep.contentId, activeStep.kind === 'DRILL' ? activeStep.drillId : undefined);
 
   if (!isComplete && !resolved) {
-    return <UnavailableStep courseTitle={course.title} />;
+    return <UnavailableStep courseTitle={course.title} dashboardHref={dashboardHref} />;
   }
 
   const activeContent = resolved!;
@@ -74,15 +90,24 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
     ? `${sessionSteps.length} of ${sessionSteps.length} steps complete`
     : `Step ${stepIndex + 1} of ${sessionSteps.length}`;
   const advanceStep = () => {
+    shouldMoveActionFocus.current = true;
     setIsModelRevealed(false);
     setIsSelfChecked(false);
     setStepIndex((current) => Math.min(current + 1, sessionSteps.length));
+  };
+  const revealModel = () => {
+    shouldMoveActionFocus.current = true;
+    setIsModelRevealed(true);
+  };
+  const confirmSelfCheck = () => {
+    shouldMoveActionFocus.current = true;
+    setIsSelfChecked(true);
   };
 
   return (
     <main className={styles.session}>
       <header className={styles.sessionHeader}>
-        <Link href="/">← Daily path</Link>
+        <Link href={dashboardHref}>← Daily path</Link>
         <span>8-minute preview</span>
       </header>
 
@@ -116,7 +141,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           <p className={styles.eyebrow}>Path complete</p>
           <h2>Session complete</h2>
           <p>Nice work. This preview would add a gentle 20 preview XP—nothing was saved.</p>
-          <Link href="/">Back to your daily path</Link>
+          <Link href={dashboardHref} ref={completionActionRef}>Back to your daily path</Link>
         </section>
       ) : (
         <section className={styles.activeStep} aria-labelledby="active-step-title">
@@ -157,7 +182,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   <strong>{activeContent.concept.modelDialogue.answer}</strong>
                 </div>
                 <div className={styles.actionDock}>
-                  <button onClick={advanceStep} type="button">
+                  <button onClick={advanceStep} ref={primaryActionRef} type="button">
                     Continue
                     <span aria-hidden="true">→</span>
                   </button>
@@ -169,7 +194,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   This is a preview—nothing was saved. Continue whenever you are ready.
                 </p>
                 <div className={styles.actionDock}>
-                  <button onClick={advanceStep} type="button">
+                  <button onClick={advanceStep} ref={primaryActionRef} type="button">
                     Continue
                     <span aria-hidden="true">→</span>
                   </button>
@@ -184,14 +209,14 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                 </div>
                 <p className={styles.status} aria-live="polite">Model answer revealed. Compare it with your own response.</p>
                 <div className={styles.actionDock}>
-                  <button onClick={() => setIsSelfChecked(true)} type="button">I checked my answer</button>
+                  <button onClick={confirmSelfCheck} ref={primaryActionRef} type="button">I checked my answer</button>
                 </div>
               </>
             ) : (
               <>
                 <p className={styles.prompt}>{activeStep.kind === 'DRILL' ? activeContent.drill?.prompt : activeContent.concept.modelDialogue.prompt}</p>
                 <div className={styles.actionDock}>
-                  <button onClick={() => setIsModelRevealed(true)} type="button">Reveal model answer</button>
+                  <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
                 </div>
               </>
             )}

@@ -56,4 +56,52 @@ describe('initial curriculum fixtures', () => {
       expect(course.concepts.every((concept) => concept.scenario && concept.notice && concept.modelDialogue)).toBe(true);
     }
   });
+
+  it('gives every authored pattern a controlled variation instead of repeating its model target', () => {
+    // Break caught: a nominal vary step reproduces the build answer without changing an item or context.
+    for (const course of initialCourses) {
+      for (const concept of course.concepts) {
+        expect(concept.drills).toHaveLength(1);
+        expect(concept.drills[0]).toMatchObject({
+          conceptId: concept.id,
+          contentProvenance: 'ORIGINAL',
+        });
+        expect(concept.drills[0]?.acceptedResponses).toContain(concept.drills[0]?.recallTarget);
+        expect(concept.drills[0]?.recallTarget).not.toBe(concept.modelDialogue.answer);
+      }
+    }
+  });
+
+  it.each([
+    ['english-to-french', 'fr-find-place', 'Turn “Le musée est ici.” into a question asking where the museum is.', 'Où est le musée ?'],
+    ['english-to-italian', 'it-find-place', 'Turn “Il museo è qui.” into a question asking where the museum is.', 'Dov’è il museo?'],
+  ])('uses a statement-to-question transformation for %s finding-place practice', (courseSlug, conceptId, prompt, recallTarget) => {
+    // Break caught: finding-place practice regresses to simple noun substitution.
+    const concept = initialCourses
+      .find((course) => course.slug === courseSlug)
+      ?.concepts.find((candidate) => candidate.id === conceptId);
+
+    expect(concept?.drills[0]).toMatchObject({
+      kind: 'TRANSFORMATION',
+      prompt,
+      recallTarget,
+      acceptedResponses: [recallTarget],
+      contentProvenance: 'ORIGINAL',
+    });
+  });
+
+  it.each([
+    ['english-to-french', 'fr-greet-politely', 'Bonjour, je voudrais un café, s’il vous plaît.'],
+    ['english-to-italian', 'it-greet-politely', 'Buongiorno, vorrei un caffè, per favore.'],
+    ['english-to-french', 'fr-pay-politely', 'Je voudrais payer par carte, s’il vous plaît.'],
+    ['english-to-italian', 'it-pay-politely', 'Vorrei pagare con la carta, per favore.'],
+  ])('varies the requested item or payment context for %s %s', (courseSlug, conceptId, recallTarget) => {
+    // Break caught: greeting or payment vary practice simply echoes the model answer.
+    const concept = initialCourses
+      .find((course) => course.slug === courseSlug)
+      ?.concepts.find((candidate) => candidate.id === conceptId);
+
+    expect(concept?.drills[0]?.recallTarget).toBe(recallTarget);
+    expect(concept?.drills[0]?.recallTarget).not.toBe(concept?.modelDialogue.answer);
+  });
 });

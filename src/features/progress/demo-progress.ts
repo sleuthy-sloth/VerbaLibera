@@ -24,20 +24,20 @@ export const demoProgress: DemoProgressSnapshot = {
   session: [
     ...composeDailySession({
       courseSlug: 'english-to-french',
-      dueReviews: [
-        { id: 'fr-ordering-review-1', contentId: 'fr-ordering-politely' },
-        { id: 'fr-ordering-review-2', contentId: 'fr-ordering-politely' },
+      dueReviews: [{ id: 'fr-ordering-review-1', contentId: 'fr-ordering-politely' }],
+      drillRounds: [
+        { id: 'fr-ordering-drill-1', contentId: 'fr-ordering-politely', drillId: 'fr-ordering-politely-drill' },
+        { id: 'fr-find-place-drill-1', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
       ],
-      drillRound: { id: 'fr-find-place-drill-1', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
       newPattern: { id: 'fr-greet-politely-1', contentId: 'fr-greet-politely' }, maxSteps: 4,
     }),
     ...composeDailySession({
       courseSlug: 'english-to-italian',
-      dueReviews: [
-        { id: 'it-ordering-review-1', contentId: 'it-ordering-politely' },
-        { id: 'it-ordering-review-2', contentId: 'it-ordering-politely' },
+      dueReviews: [{ id: 'it-ordering-review-1', contentId: 'it-ordering-politely' }],
+      drillRounds: [
+        { id: 'it-ordering-drill-1', contentId: 'it-ordering-politely', drillId: 'it-ordering-politely-drill' },
+        { id: 'it-find-place-drill-1', contentId: 'it-find-place', drillId: 'it-find-place-drill' },
       ],
-      drillRound: { id: 'it-find-place-drill-1', contentId: 'it-find-place', drillId: 'it-find-place-drill' },
       newPattern: { id: 'it-greet-politely-1', contentId: 'it-greet-politely' }, maxSteps: 4,
     }),
   ],
