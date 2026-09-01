@@ -2,12 +2,77 @@ import { NextResponse } from 'next/server';
 import { transcribeVoiceResponse } from '@/lib/voice-service';
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' };
+// Allow room for multipart metadata while keeping the learner audio itself capped at 1 MB.
+const MAX_MULTIPART_REQUEST_BYTES = 1_064_000;
+type BoundedMultipartRequest =
+  | Readonly<{ status: 'ready'; request: Request }>
+  | Readonly<{ status: 'too_large' }>
+  | Readonly<{ status: 'invalid_request' }>;
+
+async function boundedMultipartRequest(request: Request): Promise<BoundedMultipartRequest> {
+  const declaredLength = request.headers.get('content-length');
+  if (declaredLength && /^\d+$/.test(declaredLength) && Number(declaredLength) > MAX_MULTIPART_REQUEST_BYTES) {
+    return { status: 'too_large' };
+  }
+
+  const reader = request.body?.getReader();
+  if (!reader) {
+    return {
+      status: 'ready',
+      request: new Request(request.url, { method: request.method, headers: request.headers }),
+    };
+  }
+
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_MULTIPART_REQUEST_BYTES) {
+        try {
+          await reader.cancel();
+        } catch {
+          // The response remains a size violation even if stream cleanup fails.
+        }
+        return { status: 'too_large' };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { status: 'invalid_request' };
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  const headers = new Headers(request.headers);
+  headers.delete('content-length');
+  return { status: 'ready', request: new Request(request.url, { method: request.method, headers, body }) };
+}
 
 /** Forwards a validated short response to an opted-in, same-host local voice service. */
 export async function POST(request: Request) {
+  const boundedRequest = await boundedMultipartRequest(request);
+  if (boundedRequest.status === 'too_large') {
+    return NextResponse.json(
+      { status: 'request_too_large' },
+      { status: 413, headers: NO_STORE_HEADERS },
+    );
+  }
+  if (boundedRequest.status === 'invalid_request') {
+    return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
+  }
+
   let formData: FormData;
   try {
-    formData = await request.formData();
+    formData = await boundedRequest.request.formData();
   } catch {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
