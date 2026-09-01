@@ -5,8 +5,10 @@ test('Italian travel session is available after course selection', async ({ page
   await page.getByRole('button', { name: /switch to italian/i }).click();
   await page.getByRole('link', { name: /continue 8-minute session/i }).click();
 
-  await expect(page.getByText(/ordering coffee or food/i)).toBeVisible();
+  await expect(page).toHaveURL(/\/learn\/english-to-italian$/);
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
+  await page.getByRole('button', { name: /reveal model answer/i }).click();
+  await expect(page.getByText('Vorrei un caffè, per favore.')).toBeVisible();
 });
 
 test('model answer requires deliberate reveal and remains usable on desktop', async ({ page }) => {
