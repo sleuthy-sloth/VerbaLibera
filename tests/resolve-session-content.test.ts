@@ -15,4 +15,8 @@ describe('resolveSessionContent', () => {
   it('returns null for a drill that does not belong to the pattern', () => {
     expect(resolveSessionContent('english-to-french', 'fr-find-place', 'fr-ordering-politely-drill')).toBeNull();
   });
+
+  it('returns null for an invalid course', () => {
+    expect(resolveSessionContent('english-to-spanish', 'fr-find-place')).toBeNull();
+  });
 });

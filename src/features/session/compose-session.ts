@@ -1,19 +1,22 @@
 export type SessionStepKind = 'REVIEW' | 'DRILL' | 'NEW_PATTERN';
 
-export type SessionCandidate = Readonly<{ id: string; contentId: string; drillId?: string }>;
+export type SessionCandidate = Readonly<{ id: string; contentId: string }>;
+export type DrillSessionCandidate = SessionCandidate & Readonly<{ drillId: string }>;
 
-export type SessionStep = Readonly<{
+type SessionStepBase = Readonly<{
   id: string;
-  kind: SessionStepKind;
   courseSlug: string;
   contentId: string;
-  drillId?: string;
 }>;
+
+export type SessionStep =
+  | (SessionStepBase & Readonly<{ kind: 'REVIEW' | 'NEW_PATTERN' }>)
+  | (SessionStepBase & Readonly<{ kind: 'DRILL'; drillId: string }>);
 
 export type DailySessionInput = Readonly<{
   courseSlug: string;
   dueReviews: readonly SessionCandidate[];
-  drillRound: SessionCandidate | null;
+  drillRound: DrillSessionCandidate | null;
   newPattern: SessionCandidate | null;
   maxSteps: number;
 }>;
@@ -25,7 +28,6 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
     kind: 'REVIEW',
     courseSlug: input.courseSlug,
     contentId: review.contentId,
-    ...(review.drillId ? { drillId: review.drillId } : {}),
   }));
 
   if (steps.length < maxSteps && input.drillRound) {
@@ -34,7 +36,7 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       kind: 'DRILL',
       courseSlug: input.courseSlug,
       contentId: input.drillRound.contentId,
-      ...(input.drillRound.drillId ? { drillId: input.drillRound.drillId } : {}),
+      drillId: input.drillRound.drillId,
     });
   }
 
@@ -44,7 +46,6 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       kind: 'NEW_PATTERN',
       courseSlug: input.courseSlug,
       contentId: input.newPattern.contentId,
-      ...(input.newPattern.drillId ? { drillId: input.newPattern.drillId } : {}),
     });
   }
 

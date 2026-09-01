@@ -39,4 +39,17 @@ describe('composeDailySession', () => {
       { id: 'review-2', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'content-2' },
     ]);
   });
+
+  it('never carries a drill ID on review or new-pattern steps', () => {
+    const withInvalidDrillIds = {
+      ...input,
+      dueReviews: [{ id: 'review-1', contentId: 'content-1', drillId: 'wrong-review-drill' }],
+      newPattern: { id: 'pattern-1', contentId: 'content-4', drillId: 'wrong-new-drill' },
+    } as never;
+    expect(composeDailySession(withInvalidDrillIds)).toEqual([
+      { id: 'review-1', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'content-1' },
+      { id: 'drill-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'content-3', drillId: 'drill-content-3' },
+      { id: 'pattern-1', kind: 'NEW_PATTERN', courseSlug: 'english-to-french', contentId: 'content-4' },
+    ]);
+  });
 });

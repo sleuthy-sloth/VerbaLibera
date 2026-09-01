@@ -43,3 +43,31 @@ passed with no output/errors
 ## Concerns
 
 `npm run typecheck` remains blocked by the unrelated pre-existing error `src/app/layout.tsx(22,50): Cannot find name 'LayoutProps'.` No Task 1 file contributes a typecheck error.
+
+## Review fix round
+
+Additional review findings addressed:
+
+- Added an Italian four-step preview session alongside French so course filtering can select either course.
+- Restored distinct opaque step IDs; curriculum `contentId`/`drillId` are now separate fields.
+- Made session composition typed so only `DRILL` steps carry `drillId`; review/new-pattern IDs are discarded at runtime for malformed input.
+- Added invalid-course resolver coverage.
+
+RED:
+
+```text
+npm test -- tests/compose-session.test.ts tests/demo-progress.test.ts tests/resolve-session-content.test.ts
+2 failed: review/new-pattern drill IDs propagated; demo step IDs reused curriculum IDs and lacked Italian steps.
+```
+
+GREEN:
+
+```text
+npm test -- tests/compose-session.test.ts tests/demo-progress.test.ts tests/resolve-session-content.test.ts tests/curriculum-fixture.test.ts
+Test Files 4 passed; Tests 14 passed
+
+npm run lint
+passed
+```
+
+Fix commit: `fix: tighten session content mapping`.

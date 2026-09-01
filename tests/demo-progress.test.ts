@@ -10,11 +10,13 @@ describe('demo progress snapshot', () => {
       dailyGoal: { completed: 4, target: 5 },
       dueReviewCount: 6,
     });
-    expect(demoProgress.session).toEqual([
+    expect(demoProgress.session.filter((step) => step.courseSlug === 'english-to-french')).toEqual([
       { id: 'fr-ordering-review-1', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },
       { id: 'fr-ordering-review-2', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },
-      { id: 'fr-find-place-drill', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
-      { id: 'fr-greet-politely', kind: 'NEW_PATTERN', courseSlug: 'english-to-french', contentId: 'fr-greet-politely' },
+      { id: 'fr-find-place-drill-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
+      { id: 'fr-greet-politely-1', kind: 'NEW_PATTERN', courseSlug: 'english-to-french', contentId: 'fr-greet-politely' },
     ]);
+    expect(demoProgress.session.filter((step) => step.courseSlug === 'english-to-italian')).toHaveLength(4);
+    expect(new Set(demoProgress.session.map((step) => step.id)).size).toBe(demoProgress.session.length);
   });
 });
