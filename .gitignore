@@ -47,3 +47,7 @@ next-env.d.ts
 
 # Swarm plugin runtime state (created when tools run with the repo as cwd)
 .swarm/
+
+# Playwright artifacts
+test-results/
+playwright-report/
