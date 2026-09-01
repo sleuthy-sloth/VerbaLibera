@@ -36,6 +36,31 @@ test('Italian travel session is available after course selection', async ({ page
   await expect(page.getByText('Vorrei un caffè, per favore.')).toBeVisible();
 });
 
+test('French pilot serves both WAVs while reveal and self-check remain reachable', async ({ page }) => {
+  // Break caught: the lesson renders an audio control for asset URLs that were
+  // never generated, or audio playback replaces the independent text path.
+  for (const path of [
+    '/audio/french-ordering/fr-ordering-politely-prompt.wav',
+    '/audio/french-ordering/fr-ordering-politely-answer.wav',
+  ]) {
+    const response = await page.request.get(path);
+    expect(response.ok()).toBe(true);
+    expect(response.headers()['content-type']).toContain('audio/wav');
+    const wav = await response.body();
+    expect(wav.subarray(0, 4).toString('ascii')).toBe('RIFF');
+    expect(wav.subarray(8, 12).toString('ascii')).toBe('WAVE');
+  }
+
+  await page.goto('/learn/english-to-french');
+  await expect(page.getByRole('region', { name: /lesson audio player/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /start lesson/i })).toBeVisible();
+
+  await page.getByRole('button', { name: /reveal model answer/i }).click();
+  await expect(page.getByText('Je voudrais un café, s’il vous plaît.')).toBeVisible();
+  await page.getByRole('button', { name: /i checked my answer/i }).click();
+  await expect(page.getByText(/this is a preview—nothing was saved/i)).toBeVisible();
+});
+
 test('mobile sticky action stays in view through reveal, self-check, and continue', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/learn/english-to-french');
