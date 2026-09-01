@@ -49,6 +49,28 @@ describe('initial curriculum fixtures', () => {
     expect(JSON.stringify(initialCourses)).not.toContain('Thinking Method');
   });
 
+  it('reserves the reviewed public WAV URLs for the French polite-ordering pilot only', () => {
+    // Break caught: the pilot clips are left unavailable, point at the wrong public paths, or leak to other lessons.
+    const frenchOrdering = initialCourses
+      .find((course) => course.slug === 'english-to-french')
+      ?.concepts.find((concept) => concept.id === 'fr-ordering-politely');
+    const italianOrdering = initialCourses
+      .find((course) => course.slug === 'english-to-italian')
+      ?.concepts.find((concept) => concept.id === 'it-ordering-politely');
+
+    expect(frenchOrdering?.audioSegments.map((segment) => segment.audioUrl)).toEqual([
+      '/audio/french-ordering/fr-ordering-politely-prompt.wav',
+      '/audio/french-ordering/fr-ordering-politely-answer.wav',
+    ]);
+    expect(italianOrdering?.audioSegments.every((segment) => segment.audioUrl.startsWith('unavailable://'))).toBe(true);
+    expect(
+      initialCourses
+        .flatMap((course) => course.concepts)
+        .filter((concept) => concept.id !== 'fr-ordering-politely')
+        .every((concept) => concept.audioSegments.every((segment) => segment.audioUrl.startsWith('unavailable://'))),
+    ).toBe(true);
+  });
+
   it('authors five original travel patterns for every course', () => {
     for (const course of initialCourses) {
       expect(course.concepts).toHaveLength(5);

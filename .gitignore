@@ -7,6 +7,8 @@
 # dependencies
 /node_modules
 services/voice/.venv/
+services/voice/.pilot-venv/
+__pycache__/
 /.pnp
 .pnp.*
 .yarn/*

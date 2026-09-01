@@ -1,6 +1,6 @@
 # VoxLibre
 
-Language learning through sentence construction. The app shows you a prompt, plays audio if it's available, and waits for you to think before revealing the answer. No timers rushing you, no auto-advance.
+Language learning through practical sentence construction. VoxLibre introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
 
 ![Dashboard on desktop](docs/screenshots/dashboard-desktop.png)
 
@@ -14,14 +14,14 @@ The screenshots above are the live app running locally. The dashboard is mobile-
 
 ## What this is
 
-VoxLibre is a preview implementation of an active-pause language learning tool. The current release has two original A1 course shells:
+VoxLibre is a preview implementation of a practical, drill-first language-learning tool. The current release has two original A1 travel units:
 
 - English → French
 - English → Italian
 
-Each course is made of concept blocks and sentence-construction drills. The session route walks through a fixed order: due reviews first, then a drill round, then a new pattern if there's room. It is deliberately bounded to about eight minutes.
+Each course currently contains five original travel patterns: greeting politely, ordering, finding a place, asking for help, and paying. Every pattern follows a short `notice → build → vary → use` sequence, with sentence-construction review and controlled drills. Sessions are deliberately bounded to about eight minutes.
 
-The audio player is the part that gets the most attention. After a prompt plays, the screen pauses indefinitely. A tap, click, or safe keyboard action reveals the answer. Nothing auto-plays the next step, and nothing penalizes you for taking time to think.
+The guided session is built around deliberate retrieval. A learner can reveal the model answer, self-check, and continue with keyboard- and touch-friendly controls. Nothing saved in preview mode represents mastery or proficiency.
 
 ## What works and what doesn't
 
@@ -29,9 +29,10 @@ This repo is a working preview, not a finished product.
 
 Working:
 
-- Two A1 course shells with original French and Italian fixture data.
-- Responsive dashboard and guided session route.
-- Active-pause audio player with keyboard, touch, and error handling.
+- Two original A1 travel units with five French and five Italian patterns.
+- Responsive dashboard and step-specific guided sessions, including keyboard focus continuity and mobile/desktop browser coverage.
+- Optional model-audio playback with text/reveal fallback when a clip is unavailable.
+- A real French polite-ordering audio pilot: two original Kokoro 0.9.4 / `ff_siwis` WAV clips, committed with hashes and provenance.
 - Prisma/PostgreSQL schema for users, courses, concepts, drills, progress, and audio segments.
 - SM-2 sentence-construction scheduler (quality mapping keeps answer reveal from counting as mastery).
 - Exact-concept access policy: a passed assessment unlocks the related drills.
@@ -42,7 +43,8 @@ Not working yet:
 
 - Authentication. There are no accounts, so all progress is preview-only.
 - Persistence mutations. SRS writes, mastery records, and progress updates are not saved.
-- Real audio fixtures. Prompt URLs are intentionally marked `unavailable://` until licensed or original recordings are added.
+- Full audio coverage. Only the French polite-ordering pilot has reviewed technical assets; all remaining patterns retain an honest text-only fallback.
+- Native-speaker linguistic review of the French pilot clips. The required listening checklist is intentionally still open.
 - Offline sync for mutable learner data.
 - Hosted voice service. The sidecar is local-only.
 
@@ -83,22 +85,22 @@ npm run typecheck     # TypeScript, no emit
 npm run build         # Next production build
 ```
 
-For the Python voice service:
+For the optional local Python voice service, use Python 3.11 (Kokoro 0.9.4 supports Python 3.10–3.12):
 
 ```bash
 cd services/voice
-python3 -m venv .venv
+python3.11 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/pytest
 ```
 
 ## Voice sidecar
 
-The optional voice companion runs locally and is called only through server-only Next.js routes. It does not download model weights during the default test suite. See [docs/local-voice.md](docs/local-voice.md) for setup, environment variables, and privacy notes.
+The optional voice companion runs locally and is called only through server-only Next.js routes. It does not download model weights during the default test suite. The French pilot clips are generated through its loopback-only authoring endpoint and saved as reviewed public lesson assets; browsers never call the TTS endpoint. On macOS, install `espeak-ng` with Homebrew before generating audio. See [docs/local-voice.md](docs/local-voice.md), [audio provenance](docs/audio-provenance/french-ordering-pilot.json), and the [quality checklist](docs/audio-quality-checklist.md) for setup, privacy, and review details.
 
 ## Status and roadmap
 
-VoxLibre is in active development. The immediate next steps are authentication, persisted progress mutations, full course content, real audio fixtures, and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VoxLibre is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot, typed answer checking, authentication, persisted progress mutations, and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 ## License
 
