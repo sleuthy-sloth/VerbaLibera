@@ -1,6 +1,10 @@
 import type { CourseFixture, ConceptFixture, DrillKind } from './types';
 
 const unavailableAudio = (id: string) => `unavailable://original-demo/${id}`;
+const frenchOrderingPilotAudio = {
+  prompt: '/audio/french-ordering/fr-ordering-politely-prompt.wav',
+  answer: '/audio/french-ordering/fr-ordering-politely-answer.wav',
+} as const;
 type PatternSeed = Readonly<{ id: string; scenario: string; notice: string; title: string; explanation: string; prompt: string; answer: string; drillPrompt: string; drillKind: DrillKind; acceptedResponses: readonly string[] }>;
 
 const frenchPatterns: readonly PatternSeed[] = [
@@ -18,15 +22,19 @@ const italianPatterns: readonly PatternSeed[] = [
   { id: 'it-pay-politely', scenario: 'Paying', notice: 'A short service request becomes polite with “per favore.”', title: 'Italian: requesting the bill', explanation: 'Use “Il conto, per favore.” to request the bill.', prompt: 'Ask for the bill politely in Italian.', answer: 'Il conto, per favore.', drillPrompt: 'You have the bill; say that you would like to pay by card.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Vorrei pagare con la carta, per favore.'] },
 ];
 
-const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => ({
+const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
+  const pilotAudio = seed.id === 'fr-ordering-politely' ? frenchOrderingPilotAudio : null;
+
+  return {
   id: seed.id, position, cefrLevel: 'A1', title: seed.title, explanation: seed.explanation, scenario: seed.scenario, notice: seed.notice,
   modelDialogue: { prompt: seed.prompt, answer: seed.answer }, assessmentCriteria: `Say the full ${language} sentence for this travel situation without seeing the answer.`, contentProvenance: 'ORIGINAL',
   audioSegments: [
-    { id: `${seed.id}-prompt`, type: 'PROMPT', position: 1, pauseAfter: true, audioUrl: unavailableAudio(`${seed.id}-prompt`), transcript: seed.prompt, contentProvenance: 'ORIGINAL' },
-    { id: `${seed.id}-answer`, type: 'ANSWER', position: 2, pauseAfter: false, audioUrl: unavailableAudio(`${seed.id}-answer`), transcript: seed.answer, contentProvenance: 'ORIGINAL' },
+    { id: `${seed.id}-prompt`, type: 'PROMPT', position: 1, pauseAfter: true, audioUrl: pilotAudio?.prompt ?? unavailableAudio(`${seed.id}-prompt`), transcript: seed.prompt, contentProvenance: 'ORIGINAL' },
+    { id: `${seed.id}-answer`, type: 'ANSWER', position: 2, pauseAfter: false, audioUrl: pilotAudio?.answer ?? unavailableAudio(`${seed.id}-answer`), transcript: seed.answer, contentProvenance: 'ORIGINAL' },
   ],
   drills: [{ id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' }],
-});
+  };
+};
 const makeCourse = (language: string, code: string, patterns: readonly PatternSeed[]): CourseFixture => ({
   slug: `english-to-${language}`, sourceLanguageCode: 'en', targetLanguageCode: code, title: `English to ${language[0]?.toUpperCase()}${language.slice(1)}: A1 patterns`, description: `Original A1 demonstrations for using practical ${language} patterns.`, concepts: patterns.map((pattern, index) => makeConcept(language, index + 1, pattern)),
 });

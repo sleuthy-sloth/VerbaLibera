@@ -26,7 +26,33 @@ describe('GuidedSession', () => {
       'aria-valuetext',
       'Step 1 of 4',
     );
+  });
+
+  it('renders the audio player for French polite ordering when every segment is playable', async () => {
+    // Break caught: a fully authored pilot lesson stays on the text-only fallback instead of exposing its player.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    expect(screen.getByRole('region', { name: /lesson audio player/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
+    expect(screen.queryByText(/audio isn’t included in this preview yet/i)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
+    expect(screen.getByText('Je voudrais un café, s’il vous plaît.')).toBeInTheDocument();
+  });
+
+  it('keeps unavailable Italian audio on the text-only reveal and self-check path', async () => {
+    // Break caught: unavailable audio blocks an Italian learner from revealing and self-checking the authored response.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
+
+    expect(screen.queryByRole('region', { name: /lesson audio player/i })).not.toBeInTheDocument();
     expect(screen.getByText(/audio isn’t included in this preview yet/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
+    expect(screen.getByText('Vorrei un caffè, per favore.')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
+    expect(screen.getByText(/this is a preview—nothing was saved/i)).toBeInTheDocument();
   });
 
   it('advances through the bounded preview and celebrates completion', async () => {

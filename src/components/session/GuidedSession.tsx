@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { AudioPlayer, type AudioSegment } from '@/components/audio/AudioPlayer';
+import { hasUnavailableAudio } from '@/components/audio/audio-availability';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
@@ -85,6 +87,14 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   }
 
   const activeContent = resolved!;
+  const activeAudioSegments: readonly AudioSegment[] = resolved?.concept.audioSegments.map((segment) => ({
+    id: segment.id,
+    url: segment.audioUrl,
+    type: segment.type.toLowerCase() as AudioSegment['type'],
+    pauseAfter: segment.pauseAfter,
+    transcript: segment.transcript,
+  })) ?? [];
+  const hasPlayableAudio = activeAudioSegments.length > 0 && !hasUnavailableAudio(activeAudioSegments);
   const stepValue = isComplete ? sessionSteps.length : stepIndex + 1;
   const stepLabel = isComplete
     ? `${sessionSteps.length} of ${sessionSteps.length} steps complete`
@@ -170,10 +180,16 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
             <p className={styles.eyebrow}>{stepNames[activeStep.kind]}</p>
             <h2 id="active-step-title">{activeContent.concept.title}</h2>
             <p className={styles.notice}>{activeContent.concept.notice}</p>
-            <div className={styles.audioNotice} role="note">
-              <strong>Audio unavailable</strong>
-              <p>Audio isn’t included in this preview yet. This step uses authored text only.</p>
-            </div>
+            {hasPlayableAudio ? (
+              <div className={styles.audioPlayer}>
+                <AudioPlayer segments={activeAudioSegments} />
+              </div>
+            ) : (
+              <div className={styles.audioNotice} role="note">
+                <strong>Audio unavailable</strong>
+                <p>Audio isn’t included in this preview yet. This step uses authored text only.</p>
+              </div>
+            )}
             {activeStep.kind === 'NEW_PATTERN' ? (
               <>
                 <p className={styles.prompt}>{activeContent.concept.modelDialogue.prompt}</p>
