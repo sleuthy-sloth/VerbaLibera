@@ -10,6 +10,8 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md`
 
+> **Status note (2026-08-31):** The [Gamified Dashboard and Local Voice Implementation Plan](docs/superpowers/plans/2026-08-31-gamified-dashboard-and-local-voice.md) supersedes this plan's Thinking Method-specific UI work. The dashboard, guided session route, PWA shell, and documentation portions described here were fulfilled by the newer plan. Historical task checkboxes and evidence below are preserved as-is and are not retroactively altered.
+
 ## Global Constraints
 
 - The first release contains exactly two seeded A1 course shells: `en → fr` and `en → it`; no French mastery can unlock Italian drills.

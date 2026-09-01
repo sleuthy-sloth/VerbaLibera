@@ -83,10 +83,13 @@ class KokoroFasterWhisperEngine:
 
         pipeline = self._pipeline_for(language)
         output = io.BytesIO()
+        chunks: list[bytes] = []
         for _, _, audio in pipeline(text, voice=voice):
-            sound_file.write(output, audio, 24_000, format="WAV")
-            return output.getvalue()
-        raise RuntimeError("Kokoro did not return audio for the authored text.")
+            chunks.extend(audio)
+        if not chunks:
+            raise RuntimeError("Kokoro did not return audio for the authored text.")
+        sound_file.write(output, chunks, 24_000, format="WAV")
+        return output.getvalue()
 
     def transcribe(self, audio: bytes, language: str) -> str | None:
         """Transcribe from an in-memory stream; no learner recording is written by this app."""
