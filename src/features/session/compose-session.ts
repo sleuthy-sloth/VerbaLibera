@@ -1,17 +1,22 @@
 export type SessionStepKind = 'REVIEW' | 'DRILL' | 'NEW_PATTERN';
 
-export type SessionCandidate = Readonly<{ id: string }>;
+export type SessionCandidate = Readonly<{ id: string; contentId: string }>;
+export type DrillSessionCandidate = SessionCandidate & Readonly<{ drillId: string }>;
 
-export type SessionStep = Readonly<{
+type SessionStepBase = Readonly<{
   id: string;
-  kind: SessionStepKind;
   courseSlug: string;
+  contentId: string;
 }>;
+
+export type SessionStep =
+  | (SessionStepBase & Readonly<{ kind: 'REVIEW' | 'NEW_PATTERN' }>)
+  | (SessionStepBase & Readonly<{ kind: 'DRILL'; drillId: string }>);
 
 export type DailySessionInput = Readonly<{
   courseSlug: string;
   dueReviews: readonly SessionCandidate[];
-  drillRound: SessionCandidate | null;
+  drillRounds: readonly DrillSessionCandidate[];
   newPattern: SessionCandidate | null;
   maxSteps: number;
 }>;
@@ -22,13 +27,17 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
     id: review.id,
     kind: 'REVIEW',
     courseSlug: input.courseSlug,
+    contentId: review.contentId,
   }));
 
-  if (steps.length < maxSteps && input.drillRound) {
+  for (const drill of input.drillRounds) {
+    if (steps.length >= maxSteps) break;
     steps.push({
-      id: input.drillRound.id,
+      id: drill.id,
       kind: 'DRILL',
       courseSlug: input.courseSlug,
+      contentId: drill.contentId,
+      drillId: drill.drillId,
     });
   }
 
@@ -37,6 +46,7 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       id: input.newPattern.id,
       kind: 'NEW_PATTERN',
       courseSlug: input.courseSlug,
+      contentId: input.newPattern.contentId,
     });
   }
 
