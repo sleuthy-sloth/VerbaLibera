@@ -7,7 +7,10 @@ import pytest
 from fastapi.testclient import TestClient
 
 from services.voice.app import create_app
-from services.voice.service.engines import KokoroFasterWhisperEngine
+from services.voice.service.engines import (
+    KokoroFasterWhisperEngine,
+    LocalModelSettings,
+)
 
 
 class FakeVoiceEngine:
@@ -209,3 +212,50 @@ def test_kokoro_adapter_combines_all_audio_chunks_before_wav_encoding(
 
     assert encoded_audio == [[b"first-", b"second"]]
     assert result == b"first-second"
+
+
+def test_kokoro_adapter_configures_operator_espeak_before_pipeline_construction(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Break caught: the macOS espeakng-loader wheel opens its broken bundled
+    # library before the operator's maintained system eSpeak paths are applied.
+    events: list[tuple[str, str]] = []
+
+    class FakeEspeakWrapper:
+        @classmethod
+        def set_library(cls, value: str) -> None:
+            events.append(("library", value))
+
+        @classmethod
+        def set_data_path(cls, value: str) -> None:
+            events.append(("data", value))
+
+    class FakePipeline:
+        def __init__(self, lang_code: str, **options: str) -> None:
+            assert lang_code == "f"
+            assert options == {}
+            events.append(("pipeline", lang_code))
+
+    monkeypatch.setitem(sys.modules, "kokoro", SimpleNamespace(KPipeline=FakePipeline))
+    monkeypatch.setitem(
+        sys.modules,
+        "phonemizer.backend.espeak.wrapper",
+        SimpleNamespace(EspeakWrapper=FakeEspeakWrapper),
+    )
+    engine = object.__new__(KokoroFasterWhisperEngine)
+    engine._pipelines = {}
+    engine._model_settings = LocalModelSettings.from_environment(
+        {
+            "PHONEMIZER_ESPEAK_LIBRARY": "/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib",
+            "PHONEMIZER_ESPEAK_DATA_PATH": "/opt/homebrew/opt/espeak-ng/share/espeak-ng-data",
+        }
+    )
+
+    result = engine._pipeline_for("fr")
+
+    assert isinstance(result, FakePipeline)
+    assert events == [
+        ("library", "/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib"),
+        ("data", "/opt/homebrew/opt/espeak-ng/share/espeak-ng-data"),
+        ("pipeline", "f"),
+    ]

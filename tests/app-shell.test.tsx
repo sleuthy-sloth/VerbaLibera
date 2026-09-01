@@ -14,9 +14,10 @@ describe('HomePage', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
+    const page = await HomePage({ searchParams: Promise.resolve({}) });
     render(
       <QueryClientProvider client={client}>
-        <HomePage />
+        {page}
       </QueryClientProvider>,
     );
 
@@ -25,5 +26,22 @@ describe('HomePage', () => {
     expect(
       screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i }),
     ).toBeInTheDocument();
+  });
+
+  it('uses a valid course query to restore the dashboard selection', async () => {
+    // Break caught: the server page drops the selected-course query before data reaches the dashboard.
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    const page = await HomePage({
+      searchParams: Promise.resolve({ course: 'english-to-italian' }),
+    });
+
+    render(<QueryClientProvider client={client}>{page}</QueryClientProvider>);
+
+    expect(await screen.findByRole('button', { name: /Italian selected/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+      'href',
+      '/learn/english-to-italian',
+    );
   });
 });

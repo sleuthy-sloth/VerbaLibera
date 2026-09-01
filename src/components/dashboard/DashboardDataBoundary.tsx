@@ -5,7 +5,7 @@ import { useDemoProgress } from '@/features/progress/use-demo-progress';
 import { DailyPathDashboard } from './DailyPathDashboard';
 import styles from './dashboard.module.css';
 
-export function DashboardDataBoundary() {
+export function DashboardDataBoundary({ requestedCourseSlug }: Readonly<{ requestedCourseSlug?: string }>) {
   const progressQuery = useDemoProgress();
   const [retryRequested, setRetryRequested] = useState(false);
   const retryIsActive = retryRequested && progressQuery.isFetching;
@@ -52,5 +52,10 @@ export function DashboardDataBoundary() {
     );
   }
 
-  return <DailyPathDashboard progress={progressQuery.data} />;
+  return (
+    <DailyPathDashboard
+      progress={progressQuery.data}
+      requestedCourseSlug={requestedCourseSlug}
+    />
+  );
 }
