@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 
@@ -24,6 +24,42 @@ def create_app(
     """Create a testable FastAPI app without coupling it to production model loading."""
     service_settings = settings or VoiceServiceSettings.from_environment()
     app = FastAPI(title="VoxLibre local voice service", docs_url=None, redoc_url=None)
+
+    @app.middleware("http")
+    async def bound_transcribe_body(request: Request, call_next):
+        """Enforce the audio byte bound before multipart parsing spools anything.
+
+        The bound is applied to the raw ASGI request body for POST /transcribe only.
+        Multipart framing overhead counts against the learner's byte budget, so any
+        request whose total body exceeds ``max_audio_bytes`` is rejected with 413
+        before Starlette creates a ``SpooledTemporaryFile``. Other routes are not
+        affected.
+        """
+        if request.method != "POST" or request.url.path != "/transcribe":
+            return await call_next(request)
+
+        body = b""
+        max_bytes = service_settings.max_audio_bytes
+        while True:
+            message = await request.receive()
+            if message["type"] != "http.request":
+                break
+            chunk = message.get("body", b"")
+            body += chunk
+            if len(body) > max_bytes:
+                return JSONResponse(
+                    {"detail": "Audio request is too large."},
+                    status_code=413,
+                    headers={"Cache-Control": "no-store"},
+                )
+            if not message.get("more_body", False):
+                break
+
+        async def replay_receive():
+            return {"type": "http.request", "body": body, "more_body": False}
+
+        request._receive = replay_receive
+        return await call_next(request)
 
     @app.get("/health")
     def health() -> dict[str, object]:
@@ -56,7 +92,8 @@ def create_app(
     ) -> JSONResponse:
         if language not in service_settings.permitted_languages:
             raise HTTPException(status_code=422, detail="Unsupported language.")
-        if audio.content_type not in service_settings.accepted_audio_types:
+        mime_essence = (audio.content_type or "").split(";", 1)[0].strip().lower()
+        if mime_essence not in service_settings.accepted_audio_types:
             raise HTTPException(status_code=415, detail="Unsupported audio type.")
 
         try:
