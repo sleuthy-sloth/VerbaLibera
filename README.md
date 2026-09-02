@@ -2,15 +2,15 @@
 
 Language learning through practical sentence construction. VoxLibre introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
 
-![Dashboard on desktop](docs/screenshots/dashboard-desktop.png)
+![Dashboard on desktop](docs/screenshots/quiet-ink-dashboard-desktop.png)
 
-![Session on desktop](docs/screenshots/session-desktop.png)
+![Session on desktop](docs/screenshots/quiet-ink-session-desktop.png)
 
-The screenshots above are the live app running locally. The dashboard is mobile-first, so the narrow layout is the one most learners will see.
+The screenshots show the live app running locally with the Quiet Ink interface — a flat paper canvas, thin rules, and a single teal accent. The dashboard is mobile-first, so the narrow layout is the one most learners will see.
 
-![Dashboard on mobile](docs/screenshots/dashboard-mobile.png)
+![Dashboard on mobile](docs/screenshots/quiet-ink-dashboard-mobile.png)
 
-![Session on mobile](docs/screenshots/session-mobile.png)
+![Session on mobile](docs/screenshots/quiet-ink-session-mobile.png)
 
 ## What this is
 
@@ -101,6 +101,8 @@ The optional voice companion runs locally and is called only through server-only
 ## Status and roadmap
 
 VoxLibre is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot, typed answer checking, authentication, persisted progress mutations, and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+
+A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 
 ## License
 
