@@ -80,7 +80,7 @@ describe('checkDrillAnswer', () => {
         vi.fn(async (_url: unknown, init: RequestInit) => {
           const body = JSON.parse(init.body as string) as { text: string };
           const translation =
-            body.text === 'Je voudrais un café, s’il vous plaît.'
+            body.text === 'je voudrais un café, s’il vous plaît'
               ? 'I would like a coffee, please.'
               : 'I would like a tea, please.';
           return Response.json({ translation });
