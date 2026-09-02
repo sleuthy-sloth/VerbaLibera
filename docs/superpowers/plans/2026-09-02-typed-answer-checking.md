@@ -34,7 +34,7 @@
 
 **Files:** Create src/lib/answer-checking.ts, src/app/api/answer-check/route.ts, tests/answer-checking.test.ts, tests/answer-check-route.test.ts.
 
-**Interfaces:** checkDrillAnswer({courseSlug, contentId, drillId, response}, options) -> {verdict: 'exact'|'close'|'try_again', matchedVariant?: string, limited: boolean}; SIMILARITY_CLOSE_THRESHOLD = 0.75 named constant; route validates JSON body ≤ 2 KB with 400/503 semantics and no-store.
+**Interfaces:** checkDrillAnswer({courseSlug, contentId, drillId, response}, options) -> {verdict: 'exact'|'close'|'try_again', matchedVariant?: string, limited: boolean}; SIMILARITY_CLOSE_THRESHOLD = 0.60 named constant (content-word F1 over sidecar translations with English stop words filtered — SME-adopted recipe); route validates JSON body ≤ 2 KB with 400/503 semantics and no-store.
 
 - [ ] RED: vitest for the normalization table, exact path, similarity via injected fetch, and unavailable fallback.
 - [ ] GREEN: smallest implementation; focused vitest green.
