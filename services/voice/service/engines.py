@@ -10,6 +10,11 @@ from threading import BoundedSemaphore
 
 from .contracts import VoiceServiceSettings
 
+try:
+    from argostranslate.translate import translate as _argos_translate
+except ImportError:
+    _argos_translate = None
+
 
 @dataclass(frozen=True)
 class LocalModelSettings:
@@ -121,3 +126,36 @@ class KokoroFasterWhisperEngine:
                 lang_code=self._KOKORO_LANGUAGE_CODES[language], **options
             )
         return self._pipelines[language]
+
+
+class ArgosTranslateEngine:
+    """Wraps argostranslate for offline, in-process text translation."""
+
+    _SUPPORTED_CODES = {"fr", "it", "en"}
+
+    def __init__(self) -> None:
+        if _argos_translate is None:
+            raise RuntimeError("argostranslate is not installed.")
+        self._translate = _argos_translate
+
+    @classmethod
+    def from_environment(cls) -> "ArgosTranslateEngine | None":
+        """Return an engine only when argostranslate and required language packages exist."""
+        if _argos_translate is None:
+            return None
+        try:
+            engine = cls()
+            # Verify that the required language directions can be resolved.
+            for source, target in (("fr", "en"), ("it", "en")):
+                engine.translate("test", source, target)
+            return engine
+        except Exception:
+            return None
+
+    def translate(self, text: str, source: str, target: str) -> str:
+        if source not in self._SUPPORTED_CODES or target not in self._SUPPORTED_CODES:
+            raise ValueError(f"Unsupported language pair: {source}->{target}")
+        translated = self._translate(text, source, target)
+        if translated is None:
+            raise RuntimeError("argostranslate returned no translation.")
+        return translated

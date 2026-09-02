@@ -6,7 +6,12 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 
-from services.voice.service.contracts import VoiceEngine, VoiceServiceSettings
+from services.voice.service.contracts import (
+    TranslateEngine,
+    TranslationServiceSettings,
+    VoiceEngine,
+    VoiceServiceSettings,
+)
 from services.voice.service.engines import KokoroFasterWhisperEngine
 
 
@@ -18,11 +23,26 @@ class TtsRequest(BaseModel):
     voice: str
 
 
+class TranslateRequest(BaseModel):
+    """In-process translation request. Source and target language codes are bounded by settings."""
+
+    text: str = Field(min_length=1, max_length=2_000)
+    source: str
+    target: str
+
+
 def create_app(
-    engine: VoiceEngine, settings: VoiceServiceSettings | None = None
+    engine: VoiceEngine,
+    settings: VoiceServiceSettings | None = None,
+    *,
+    translate_engine: TranslateEngine | None = None,
+    translation_settings: TranslationServiceSettings | None = None,
 ) -> FastAPI:
     """Create a testable FastAPI app without coupling it to production model loading."""
     service_settings = settings or VoiceServiceSettings.from_environment()
+    translation_service_settings = (
+        translation_settings or TranslationServiceSettings.from_environment()
+    )
     app = FastAPI(title="VoxLibre local voice service", docs_url=None, redoc_url=None)
 
     @app.middleware("http")
@@ -64,9 +84,16 @@ def create_app(
     @app.get("/health")
     def health() -> dict[str, object]:
         try:
-            return engine.health()
+            body = engine.health()
         except Exception:
-            return {"status": "unavailable", "languages": [], "voices": []}
+            body = {"status": "unavailable", "languages": [], "voices": []}
+
+        if translation_settings is not None or translate_engine is not None:
+            body["translation"] = {
+                "available": translate_engine is not None,
+                "pairs": list(translation_service_settings.pairs()),
+            }
+        return body
 
     @app.post("/tts")
     def synthesize(request: TtsRequest) -> Response:
@@ -83,6 +110,29 @@ def create_app(
         return Response(
             content=audio,
             media_type="audio/wav",
+            headers={"Cache-Control": "no-store"},
+        )
+
+    @app.post("/translate")
+    def translate(request: TranslateRequest) -> JSONResponse:
+        if not translation_service_settings.permits_pair(request.source, request.target):
+            raise HTTPException(status_code=422, detail="Unsupported language pair.")
+        if translate_engine is None:
+            raise HTTPException(
+                status_code=503, detail="Local translation is unavailable."
+            )
+
+        try:
+            translation = translate_engine.translate(
+                request.text, request.source, request.target
+            )
+        except Exception as error:
+            raise HTTPException(
+                status_code=503, detail="Local translation is unavailable."
+            ) from error
+
+        return JSONResponse(
+            {"translation": translation},
             headers={"Cache-Control": "no-store"},
         )
 
@@ -127,4 +177,9 @@ def create_app(
 
 def create_production_app() -> FastAPI:
     """Factory used by Uvicorn after the operator has configured local model access."""
-    return create_app(KokoroFasterWhisperEngine.from_environment())
+    from services.voice.service.engines import ArgosTranslateEngine
+
+    return create_app(
+        KokoroFasterWhisperEngine.from_environment(),
+        translate_engine=ArgosTranslateEngine.from_environment(),
+    )
