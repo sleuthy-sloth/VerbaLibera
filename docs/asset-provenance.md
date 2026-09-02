@@ -1,6 +1,18 @@
-# Signal Pop asset provenance
+# Asset provenance
 
 All assets in this document are original VoxLibre project assets. They were generated with the built-in image-generation tool, visually inspected before being placed in `public/`, and have no third-party source material, logos, mascots, or embedded text.
+
+## Quiet Ink interface screenshots
+
+- **Captured:** 2026-09-02
+- **Tool:** Playwright Chromium against the locally running app (`next dev`, port 3100)
+- **Files:** `docs/screenshots/quiet-ink-dashboard-desktop.png`, `docs/screenshots/quiet-ink-dashboard-mobile.png`, `docs/screenshots/quiet-ink-session-desktop.png`, `docs/screenshots/quiet-ink-session-mobile.png`
+- **Intended use:** README gallery and verification evidence for the Quiet Ink redesign.
+- **Status:** live captures of the app itself; no third-party source material. The earlier `dashboard-*.png` / `session-*.png` captures show the previous interface and are retained as historical evidence referenced by the superpowers plans.
+
+## Asset status under Quiet Ink
+
+The two generated assets below were produced for the earlier Signal Pop palette (coral, lime, indigo). The approved Quiet Ink spec defers regenerated teal-paper artwork until new image assets are supplied, so both remain in use as-is: the PWA icon in `src/app/manifest.ts` and the daily-practice illustration on the dashboard.
 
 ## PWA icon source
 
