@@ -93,7 +93,6 @@
 .activeStep {
   position: relative;
   display: grid;
-  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
   background: var(--surface);
 }
