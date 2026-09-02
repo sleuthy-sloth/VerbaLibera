@@ -27,7 +27,7 @@ async function assertActionWithinViewport(
 
 test('Italian travel session is available after course selection', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /switch to italian/i }).click();
+  await page.getByRole('button', { name: 'English to Italian: A1 patterns' }).click();
   await page.getByRole('link', { name: /continue 8-minute session/i }).click();
 
   await expect(page).toHaveURL(/\/learn\/english-to-italian$/);

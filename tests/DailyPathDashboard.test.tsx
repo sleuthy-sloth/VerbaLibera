@@ -100,15 +100,17 @@ describe('DailyPathDashboard', () => {
     );
   });
 
-  it('switches the displayed course without promising a session that is not in preview data', async () => {
+  it('switches the displayed course using only preview data', async () => {
     // Break caught: local course selection mutates preview data or links to a session the snapshot did not provide.
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
     await user.click(screen.getByRole('button', { name: /english to italian: a1 patterns/i }));
 
-    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+      'href',
+      '/learn/english-to-italian',
+    );
     expect(screen.getByText(/4 of 5 daily steps/i)).toBeInTheDocument();
     expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
   });
@@ -177,7 +179,7 @@ describe('DailyPathDashboard', () => {
           selectedCourseSlug: 'english-to-german',
           session: [
             ...demoProgress.session,
-            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german' },
+            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german', contentId: 'de-greeting', drillId: 'de-greeting-drill' },
           ],
           courses: [
             ...demoProgress.courses,

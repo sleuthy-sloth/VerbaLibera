@@ -1,9 +1,15 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GuidedSession } from '@/components/session/GuidedSession';
 import { demoProgress } from '@/features/progress/demo-progress';
 
 describe('GuidedSession', () => {
+  async function completeIndependentStep(user: ReturnType<typeof userEvent.setup>) {
+    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
+    await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+  }
+
   it('uses one stepline instead of a duplicated step rail', () => {
     // Break caught: session progress is duplicated in a separate navigation rail.
     render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
@@ -24,34 +30,25 @@ describe('GuidedSession', () => {
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
   });
 
-  it('keeps unavailable fixture audio honest', () => {
-    // Break caught: the preview offers playback for fixture audio that is not actually available.
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
-
-    expect(screen.getByText(/audio isn't available for this preview/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /play prompt/i })).not.toBeInTheDocument();
-  async function completeIndependentStep(user: ReturnType<typeof userEvent.setup>) {
-    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
-    await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
-  }
-
-  it('renders the exact review, drill, drill, new-pattern sequence', () => {
+  it('renders the exact review, drill, drill, new-pattern sequence', async () => {
     // Break caught: the guided path stops honoring review-first session composition.
+    const user = userEvent.setup();
     render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    const steps = within(screen.getByRole('navigation', { name: /session steps/i }))
-      .getAllByRole('listitem');
-
-    expect(steps).toHaveLength(4);
-    expect(steps[0]).toHaveTextContent('Review');
-    expect(steps[1]).toHaveTextContent('Drill sprint');
-    expect(steps[2]).toHaveTextContent('Drill sprint');
-    expect(steps[3]).toHaveTextContent('New pattern');
     expect(screen.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
       'aria-valuetext',
       'Step 1 of 4',
     );
+    expect(screen.getByText(/step 1 of 4 · review/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByText(/step 2 of 4 · drill sprint/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByText(/step 3 of 4 · drill sprint/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByText(/step 4 of 4 · new pattern/i)).toBeInTheDocument();
   });
 
   it('renders the audio player for French polite ordering when every segment is playable', async () => {
@@ -74,6 +71,7 @@ describe('GuidedSession', () => {
 
     expect(screen.queryByRole('region', { name: /lesson audio player/i })).not.toBeInTheDocument();
     expect(screen.getByText(/audio isn’t included in this preview yet/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /play prompt/i })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByText('Vorrei un caffè, per favore.')).toBeInTheDocument();

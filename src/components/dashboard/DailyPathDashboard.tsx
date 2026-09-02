@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
-import { initialCourses } from '@/features/curriculum/fixture';
 import styles from './dashboard.module.css';
 
 type DailyPathDashboardProps = Readonly<{
@@ -19,11 +18,10 @@ const practiceSteps = [
   { label: 'Pattern', detail: 'Add one useful way to say it', tone: 'pattern' },
 ] as const;
 
-export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
-  const initialCourseIndex = Math.max(
-    0,
-    progress.courses.findIndex((course) => course.slug === progress.selectedCourseSlug),
-  );
+export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
+  const requestedCourseIndex = requestedCourseSlug
+    ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
+    : -1;
   const snapshotCourseIndex = progress.courses.findIndex(
     (course) => course.slug === progress.selectedCourseSlug,
   );
@@ -108,36 +106,13 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
         <section className={styles.todayCard} aria-labelledby="today-title">
           <div className={styles.todayHeading}>
             <div>
-              <p className={styles.kicker} id="today-title">Today's 8-minute path</p>
+              <p className={styles.kicker} id="today-title">{"Today's 8-minute path"}</p>
               <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
               <h2>{selectedCourse.unitLabel}</h2>
               <p className={styles.courseMeta}>{selectedCourse.title}</p>
+              {nextScenario ? <p className={styles.scenario}>{nextScenario}</p> : null}
             </div>
             <p className={styles.pathTime}>About 8 min</p>
-      <section className={styles.sessionLaunch} aria-labelledby="session-title">
-        <div>
-          <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
-          <h2 id="session-title">{selectedCourse.unitLabel}</h2>
-          <p className={styles.courseMeta}>{selectedCourse.title}</p>
-          {nextScenario ? <p className={styles.scenario}>{nextScenario}</p> : null}
-        </div>
-        {hasSelectedSession ? (
-          <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
-            Continue 8-minute session
-            <span aria-hidden="true">→</span>
-          </Link>
-        ) : (
-          <p className={styles.pendingAction} role="status">
-            Session preview coming soon
-          </p>
-        )}
-      </section>
-
-      <section className={styles.pathSection} aria-labelledby="path-title">
-        <div className={styles.sectionHeading}>
-          <div>
-            <p className={styles.kicker}>In this order</p>
-            <h2 id="path-title">Review → drill → pattern</h2>
           </div>
 
           <div className={styles.goal}>

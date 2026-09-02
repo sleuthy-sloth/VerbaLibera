@@ -36,7 +36,6 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const course = initialCourses.find((candidate) => candidate.slug === courseSlug);
   const sessionSteps = progress.session.filter((step) => step.courseSlug === courseSlug);
   const [stepIndex, setStepIndex] = useState(0);
-  const [answerRevealed, setAnswerRevealed] = useState(false);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
   const [isSelfChecked, setIsSelfChecked] = useState(false);
   const shouldMoveActionFocus = useRef(false);
@@ -103,10 +102,6 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const activeStepLabel = isComplete ? 'Complete' : stepNames[activeStep.kind];
 
   const advanceStep = () => {
-    setAnswerRevealed(false);
-    setStepIndex((current) => Math.min(current + 1, sessionSteps.length));
-  };
-  const advanceStep = () => {
     shouldMoveActionFocus.current = true;
     setIsModelRevealed(false);
     setIsSelfChecked(false);
@@ -145,24 +140,6 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           value={stepValue}
         />
       </div>
-      <nav className={styles.stepRail} aria-label="Session steps">
-        <ol>
-          {sessionSteps.map((step, index) => {
-            const duplicateIndex = sessionSteps
-              .slice(0, index + 1)
-              .filter((candidate) => candidate.kind === step.kind).length;
-            const label = step.kind === 'REVIEW' ? `Review ${duplicateIndex}` : stepNames[step.kind];
-            const state = index < stepIndex ? 'complete' : index === stepIndex ? 'current' : 'upcoming';
-
-            return (
-              <li aria-current={state === 'current' ? 'step' : undefined} data-state={state} key={step.id}>
-                <span aria-hidden="true">{index < stepIndex ? '✓' : index + 1}</span>
-                {label}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
 
       {isComplete ? (
         <section className={styles.completion} aria-live="polite">
@@ -170,8 +147,6 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           <p className={styles.eyebrow}>Path complete</p>
           <h2>Session complete</h2>
           <p>Nice work. This preview would add a gentle 20 preview XP. Nothing was saved.</p>
-          <Link href="/">Back to your daily path</Link>
-          <p>Nice work. This preview would add a gentle 20 preview XP—nothing was saved.</p>
           <Link href={dashboardHref} ref={completionActionRef}>Back to your daily path</Link>
         </section>
       ) : (
@@ -184,41 +159,9 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
               <p className={styles.eyebrow}>Scenario</p>
               <p className={styles.scenario}>{activeContent.concept.scenario}</p>
             </div>
-            <div className={styles.sessionProgress}>
-              <div>
-                <span>Session progress</span>
-                <strong>{stepLabel}</strong>
-              </div>
-              <progress
-                aria-label="Session progress"
-                aria-valuetext={stepLabel}
-                max={sessionSteps.length}
-                value={stepValue}
-              />
-            </div>
           </aside>
           <div className={styles.stepBody}>
             <p className={styles.eyebrow}>{stepNames[activeStep.kind]}</p>
-            <h2 id="active-step-title">
-              {activeStep.kind === 'NEW_PATTERN' ? concept.title : concept.assessmentCriteria}
-            </h2>
-            <p className={styles.prompt}>
-              {activeStep.kind === 'DRILL' ? concept.drills[0].prompt : concept.explanation}
-            </p>
-            <p className={styles.audioNotice} role="note">Audio isn&apos;t available for this preview yet.</p>
-            <button className={styles.revealAction} onClick={() => setAnswerRevealed(true)} type="button">
-              Reveal model answer
-            </button>
-            {answerRevealed ? (
-              <section aria-label="Model answer" className={styles.modelAnswer}>
-                <p className={styles.eyebrow}>Model answer</p>
-                <p>{concept.audioSegments[1].transcript}</p>
-              </section>
-            ) : null}
-            <button className={styles.primaryAction} onClick={advanceStep} type="button">
-              Continue
-              <span aria-hidden="true">→</span>
-            </button>
             <h2 id="active-step-title">{activeContent.concept.title}</h2>
             <p className={styles.notice}>{activeContent.concept.notice}</p>
             {hasPlayableAudio ? (
@@ -239,7 +182,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   <strong>{activeContent.concept.modelDialogue.answer}</strong>
                 </div>
                 <div className={styles.actionDock}>
-                  <button onClick={advanceStep} ref={primaryActionRef} type="button">
+                  <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">
                     Continue
                     <span aria-hidden="true">→</span>
                   </button>
@@ -251,7 +194,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   This is a preview—nothing was saved. Continue whenever you are ready.
                 </p>
                 <div className={styles.actionDock}>
-                  <button onClick={advanceStep} ref={primaryActionRef} type="button">
+                  <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">
                     Continue
                     <span aria-hidden="true">→</span>
                   </button>
@@ -267,6 +210,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                 <p className={styles.status} aria-live="polite">Model answer revealed. Compare it with your own response.</p>
                 <div className={styles.actionDock}>
                   <button onClick={confirmSelfCheck} ref={primaryActionRef} type="button">I checked my answer</button>
+                  <button className={styles.primaryAction} onClick={advanceStep} type="button">
+                    Continue
+                    <span aria-hidden="true">→</span>
+                  </button>
                 </div>
               </>
             ) : (
@@ -274,6 +221,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                 <p className={styles.prompt}>{activeStep.kind === 'DRILL' ? activeContent.drill?.prompt : activeContent.concept.modelDialogue.prompt}</p>
                 <div className={styles.actionDock}>
                   <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
+                  <button className={styles.primaryAction} onClick={advanceStep} type="button">
+                    Continue
+                    <span aria-hidden="true">→</span>
+                  </button>
                 </div>
               </>
             )}
