@@ -4,21 +4,32 @@ import { GuidedSession } from '@/components/session/GuidedSession';
 import { demoProgress } from '@/features/progress/demo-progress';
 
 describe('GuidedSession', () => {
-  it('orders reviews before the drill sprint and new pattern', () => {
-    // Break caught: the guided path stops honoring review-first session composition.
+  it('uses one stepline instead of a duplicated step rail', () => {
+    // Break caught: session progress is duplicated in a separate navigation rail.
     render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    const review = screen.getByText('Review 1');
-    const drill = screen.getByText('Drill sprint');
-    const pattern = screen.getByText('New pattern');
+    expect(screen.getByText(/step 1 of 4 · review/i)).toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: /session steps/i })).not.toBeInTheDocument();
+  });
 
-    expect(review.compareDocumentPosition(drill) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(drill.compareDocumentPosition(pattern) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(screen.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
-      'aria-valuetext',
-      'Step 1 of 4',
-    );
-    expect(screen.getByText(/audio isn’t included in this preview yet/i)).toBeInTheDocument();
+  it('withholds the answer until explicit reveal and resets it on advance', async () => {
+    // Break caught: the model answer is visible before the learner deliberately reveals it.
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /reveal model answer/i }));
+    expect(screen.getByText('Je voudrais un café, s’il vous plaît.')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /^continue$/i }));
+    expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
+  });
+
+  it('keeps unavailable fixture audio honest', () => {
+    // Break caught: the preview offers playback for fixture audio that is not actually available.
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    expect(screen.getByText(/audio isn't available for this preview/i)).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /play prompt/i })).not.toBeInTheDocument();
   });
 
   it('advances through the bounded preview and celebrates completion', async () => {

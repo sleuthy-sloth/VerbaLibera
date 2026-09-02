@@ -22,6 +22,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const course = initialCourses.find((candidate) => candidate.slug === courseSlug);
   const sessionSteps = progress.session.filter((step) => step.courseSlug === courseSlug);
   const [stepIndex, setStepIndex] = useState(0);
+  const [answerRevealed, setAnswerRevealed] = useState(false);
 
   if (!course) {
     return (
@@ -51,6 +52,12 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const stepLabel = isComplete
     ? `${sessionSteps.length} of ${sessionSteps.length} steps complete`
     : `Step ${stepIndex + 1} of ${sessionSteps.length}`;
+  const activeStepLabel = isComplete ? 'Complete' : stepNames[activeStep.kind];
+
+  const advanceStep = () => {
+    setAnswerRevealed(false);
+    setStepIndex((current) => Math.min(current + 1, sessionSteps.length));
+  };
 
   return (
     <main className={styles.session}>
@@ -64,29 +71,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
         <h1 id="session-heading">Practice one useful pattern.</h1>
       </section>
 
-      <nav className={styles.stepRail} aria-label="Session steps">
-        <ol>
-          {sessionSteps.map((step, index) => {
-            const duplicateIndex = sessionSteps
-              .slice(0, index + 1)
-              .filter((candidate) => candidate.kind === step.kind).length;
-            const label = step.kind === 'REVIEW' ? `Review ${duplicateIndex}` : stepNames[step.kind];
-            const state = index < stepIndex ? 'complete' : index === stepIndex ? 'current' : 'upcoming';
-
-            return (
-              <li aria-current={state === 'current' ? 'step' : undefined} data-state={state} key={step.id}>
-                <span aria-hidden="true">{index < stepIndex ? '✓' : index + 1}</span>
-                {label}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
-
       <div className={styles.sessionProgress}>
         <div>
           <span>Session progress</span>
-          <strong>{stepLabel}</strong>
+          <strong className={styles.stepline}>{stepLabel} · {activeStepLabel}</strong>
         </div>
         <progress
           aria-label="Session progress"
@@ -101,7 +89,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           <span className={styles.completionMark} aria-hidden="true">✓</span>
           <p className={styles.eyebrow}>Path complete</p>
           <h2>Session complete</h2>
-          <p>Nice work. This preview would add a gentle 20 preview XP—nothing was saved.</p>
+          <p>Nice work. This preview would add a gentle 20 preview XP. Nothing was saved.</p>
           <Link href="/">Back to your daily path</Link>
         </section>
       ) : (
@@ -117,12 +105,17 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
             <p className={styles.prompt}>
               {activeStep.kind === 'DRILL' ? concept.drills[0].prompt : concept.explanation}
             </p>
-            <div className={styles.audioNotice} role="note">
-              <strong>Transcript preview</strong>
-              <p>Audio isn’t included in this preview yet. Use the transcript below for this step.</p>
-              <blockquote>{concept.audioSegments[1].transcript}</blockquote>
-            </div>
-            <button onClick={() => setStepIndex((current) => Math.min(current + 1, sessionSteps.length))} type="button">
+            <p className={styles.audioNotice} role="note">Audio isn&apos;t available for this preview yet.</p>
+            <button className={styles.revealAction} onClick={() => setAnswerRevealed(true)} type="button">
+              Reveal model answer
+            </button>
+            {answerRevealed ? (
+              <section aria-label="Model answer" className={styles.modelAnswer}>
+                <p className={styles.eyebrow}>Model answer</p>
+                <p>{concept.audioSegments[1].transcript}</p>
+              </section>
+            ) : null}
+            <button className={styles.primaryAction} onClick={advanceStep} type="button">
               Continue
               <span aria-hidden="true">→</span>
             </button>

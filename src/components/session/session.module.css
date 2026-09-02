@@ -50,74 +50,8 @@
   line-height: 0.94;
 }
 
-.stepRail {
-  margin: 2.75rem 0 1.5rem;
-  overflow-x: auto;
-  scrollbar-width: thin;
-}
-
-.stepRail ol {
-  display: flex;
-  min-width: max-content;
-  margin: 0;
-  padding: 0.5rem 0;
-  list-style: none;
-}
-
-.stepRail li {
-  position: relative;
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 0.55rem;
-  padding-right: 2rem;
-  color: color-mix(in srgb, var(--ink) 52%, transparent);
-  font-size: 0.86rem;
-  font-weight: 700;
-}
-
-.stepRail li:not(:last-child)::after {
-  position: absolute;
-  top: 50%;
-  right: 0.55rem;
-  width: 0.9rem;
-  height: 2px;
-  background: color-mix(in srgb, var(--ink) 18%, transparent);
-  content: '';
-}
-
-.stepRail li > span {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  place-items: center;
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  font-family: var(--font-utility);
-  font-size: 0.65rem;
-}
-
-.stepRail li[data-state='current'] {
-  color: var(--ink);
-}
-
-.stepRail li[data-state='current'] > span {
-  border-color: var(--indigo);
-  background: var(--indigo);
-  color: white;
-}
-
-.stepRail li[data-state='complete'] {
-  color: var(--ink);
-}
-
-.stepRail li[data-state='complete'] > span {
-  border-color: var(--lime);
-  background: var(--lime);
-}
-
 .sessionProgress {
-  margin-bottom: 2rem;
+  margin: 2.75rem 0 2rem;
 }
 
 .sessionProgress > div {
@@ -135,35 +69,41 @@
   overflow: hidden;
   border: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--ink) 10%, transparent);
-  accent-color: var(--indigo);
+  background: var(--accent-soft);
+  accent-color: var(--accent);
 }
 
 .sessionProgress progress::-webkit-progress-bar {
   border-radius: 999px;
-  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  background: var(--accent-soft);
 }
 
 .sessionProgress progress::-webkit-progress-value {
   border-radius: 999px;
-  background: var(--indigo);
+  background: var(--accent);
+}
+
+.stepline {
+  color: var(--accent-strong);
+  font-family: var(--font-utility);
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
 }
 
 .activeStep {
   position: relative;
   display: grid;
   overflow: hidden;
-  border: 2px solid var(--ink);
-  border-radius: 2rem 2rem 0.75rem 2rem;
-  background: white;
-  box-shadow: 6px 6px 0 var(--coral);
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  background: var(--surface);
 }
 
 .stepNumber {
   display: grid;
   min-height: 6rem;
   place-items: center;
-  background: var(--coral);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font-family: var(--font-utility);
   font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 800;
@@ -191,28 +131,39 @@
 .audioNotice {
   max-width: 680px;
   margin: 0 0 1.5rem;
-  padding: 1rem;
-  border-left: 4px solid var(--indigo);
-  background: var(--cloud);
-}
-
-.audioNotice > strong {
-  font-size: 0.85rem;
-}
-
-.audioNotice p {
-  margin: 0.35rem 0 0.9rem;
   color: color-mix(in srgb, var(--ink) 68%, transparent);
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
-.audioNotice blockquote {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 750;
+.revealAction {
+  min-height: 44px;
+  margin: 0 0 1rem;
+  padding: 0.6rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent-strong);
+  background: transparent;
+  color: var(--accent-strong);
+  font: 700 0.78rem/1.2 var(--font-utility);
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.stepBody button,
+.modelAnswer {
+  max-width: 680px;
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+}
+
+.modelAnswer p:last-child {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.primaryAction,
 .completion a,
 .unavailable a {
   display: inline-flex;
@@ -221,67 +172,39 @@
   justify-content: center;
   gap: 2rem;
   padding: 0.8rem 1.2rem;
-  border: 2px solid var(--ink);
-  border-radius: 1rem 1rem 0.35rem 1rem;
-  background: var(--lime);
-  color: var(--ink);
+  border: 1px solid var(--accent-strong);
+  background: var(--accent-strong);
+  color: var(--canvas);
   font: inherit;
   font-weight: 800;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 4px 4px 0 var(--ink);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: background 160ms ease;
 }
 
-@media (max-width: 719px) {
+@media (max-width: 760px) {
   .sessionHeader span {
     display: none;
   }
 
-  .stepRail {
-    margin-right: 0;
-    overflow: visible;
-    padding-right: 0;
-  }
-
-  .stepRail ol {
-    display: grid;
-    min-width: 0;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 0.75rem;
-    padding: 0;
-  }
-
-  .stepRail li {
-    gap: 0.4rem;
-    padding-right: 0;
-    font-size: 0.78rem;
-  }
-
-  .stepRail li:not(:last-child)::after {
-    display: none;
-  }
-
-  .stepBody button,
+  .revealAction,
+  .primaryAction,
   .completion a,
   .unavailable a {
     width: 100%;
   }
 }
 
-.stepBody button:hover,
+.primaryAction:hover,
 .completion a:hover,
 .unavailable a:hover {
-  box-shadow: 2px 2px 0 var(--ink);
-  transform: translate(2px, 2px);
+  background: var(--accent);
 }
 
 .completion {
   padding: clamp(2rem, 7vw, 5rem);
-  border: 2px solid var(--ink);
-  border-radius: 2rem 2rem 0.75rem 2rem;
-  background: var(--lime);
-  box-shadow: 8px 8px 0 var(--indigo);
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  background: var(--surface);
 }
 
 .completionMark {
@@ -290,7 +213,7 @@
   height: 4rem;
   margin-bottom: 2rem;
   place-items: center;
-  border: 3px solid var(--ink);
+  border: 2px solid var(--accent);
   border-radius: 50%;
   font-size: 2rem;
   transition: transform 300ms ease;
@@ -330,16 +253,12 @@
   margin-top: 1.5rem;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 761px) {
   .activeStep {
     grid-template-columns: 0.28fr 1.72fr;
   }
 
   .stepNumber {
     min-height: 100%;
-  }
-
-  .activeStep {
-    box-shadow: 8px 8px 0 var(--coral);
   }
 }
