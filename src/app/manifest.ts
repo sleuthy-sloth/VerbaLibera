@@ -2,12 +2,18 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
+    id: '/',
     name: 'VoxLibre',
     short_name: 'VoxLibre',
+    description: 'A calm daily practice path for practical language patterns.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#F8F7FF',
-    theme_color: '#7068FF',
+    background_color: '#f4f3ee',
+    theme_color: '#f4f3ee',
+    shortcuts: [
+      { name: 'Today', url: '/' },
+      { name: 'Resume session', url: '/learn/english-to-french' },
+    ],
     icons: [
       { src: '/icons/voxlibre-192.png', sizes: '192x192', type: 'image/png' },
       { src: '/icons/voxlibre-512.png', sizes: '512x512', type: 'image/png' },
