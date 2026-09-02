@@ -20,30 +20,39 @@ function QueryTestProvider({ children }: { children: ReactNode }) {
   return <QueryClientProvider client={createQueryClient()}>{children}</QueryClientProvider>;
 }
 
+function maskCssComments(stylesheet: string) {
+  return stylesheet.replace(/\/\*[\s\S]*?\*\//g, (comment) => ' '.repeat(comment.length));
+}
+
+function normalizeMediaCondition(condition: string) {
+  return condition.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
 function topLevelMediaBlocks(stylesheet: string) {
   const blocks: Array<{ condition: string; content: string; start: number; end: number }> = [];
+  const searchableStylesheet = maskCssComments(stylesheet).toLowerCase();
   let cursor = 0;
 
   while (cursor < stylesheet.length) {
-    if (!stylesheet.startsWith('@media', cursor)) {
+    if (!searchableStylesheet.startsWith('@media', cursor)) {
       cursor += 1;
       continue;
     }
 
     const start = cursor;
-    const openingBrace = stylesheet.indexOf('{', start);
+    const openingBrace = searchableStylesheet.indexOf('{', start);
     let depth = 1;
     cursor = openingBrace + 1;
 
     while (cursor < stylesheet.length && depth > 0) {
-      if (stylesheet[cursor] === '{') depth += 1;
-      if (stylesheet[cursor] === '}') depth -= 1;
+      if (searchableStylesheet[cursor] === '{') depth += 1;
+      if (searchableStylesheet[cursor] === '}') depth -= 1;
       cursor += 1;
     }
 
     if (openingBrace > -1 && depth === 0) {
       blocks.push({
-        condition: stylesheet.slice(start + '@media'.length, openingBrace).trim(),
+        condition: normalizeMediaCondition(stylesheet.slice(start + '@media'.length, openingBrace)),
         content: stylesheet.slice(openingBrace + 1, cursor - 1),
         start,
         end: cursor,
@@ -52,6 +61,17 @@ function topLevelMediaBlocks(stylesheet: string) {
   }
 
   return blocks;
+}
+
+function hasLegacyWidthCondition(condition: string, qualifier: 'min' | 'max', pixels: number) {
+  return new RegExp(`${qualifier}-\\s*width\\s*:\\s*${pixels}\\s*px\\b`).test(condition);
+}
+
+function includesDesktopWidthAt760(condition: string) {
+  return (
+    hasLegacyWidthCondition(condition, 'min', 760) ||
+    /\bwidth\s*>=\s*760\s*px\b/.test(condition)
+  );
 }
 
 afterEach(() => {
@@ -201,13 +221,17 @@ describe('DailyPathDashboard', () => {
       'utf8',
     );
     const mediaBlocks = topLevelMediaBlocks(dashboardStyles);
-    const desktopBlock = mediaBlocks.find((block) => /min-width\s*:\s*761px/.test(block.condition));
-    const mobileBlock = mediaBlocks.find((block) => /max-width\s*:\s*760px/.test(block.condition));
+    const desktopBlock = mediaBlocks.find((block) =>
+      hasLegacyWidthCondition(block.condition, 'min', 761),
+    );
+    const mobileBlock = mediaBlocks.find((block) =>
+      hasLegacyWidthCondition(block.condition, 'max', 760),
+    );
     const desktopGrid = /\.dashboardGrid\s*\{[^}]*grid-template-columns\s*:/;
     const stickyProgress = /\.progressPanel\s*\{[^}]*position\s*:\s*sticky\s*;/;
     const fullWidthCta = /\.primaryAction\s*,\s*\.pendingAction\s*\{[^}]*width\s*:\s*100%\s*;/;
 
-    expect(mediaBlocks.some((block) => /min-width\s*:\s*760px/.test(block.condition))).toBe(false);
+    expect(mediaBlocks.some((block) => includesDesktopWidthAt760(block.condition))).toBe(false);
     expect(desktopBlock).toBeDefined();
     expect(mobileBlock).toBeDefined();
     expect(desktopBlock?.content).toMatch(desktopGrid);
@@ -222,6 +246,19 @@ describe('DailyPathDashboard', () => {
     expect(outsideDesktop).not.toMatch(desktopGrid);
     expect(outsideDesktop).not.toMatch(stickyProgress);
     expect(outsideMobile).not.toMatch(fullWidthCta);
+  });
+
+  it.each([
+    '@media (min-width: 760px)',
+    '@MEDIA (MIN-WIDTH: /* boundary */ 760PX)',
+    '@media (width >= 760px)',
+    '@MEDIA (WIDTH /* boundary */ >= 760PX)',
+  ])('recognizes a forbidden desktop boundary condition in %s', (mediaQuery) => {
+    // Break caught: a desktop query at 760px evades the boundary guard through syntax, comments, or casing.
+    const mediaBlocks = topLevelMediaBlocks(`${mediaQuery} { .futureRule { display: grid; } }`);
+
+    expect(mediaBlocks).toHaveLength(1);
+    expect(includesDesktopWidthAt760(mediaBlocks[0]?.condition ?? '')).toBe(true);
   });
 
   it('exposes high-contrast styling hooks on mixed-color focus and small-text surfaces', () => {
