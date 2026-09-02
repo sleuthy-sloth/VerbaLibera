@@ -1,24 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #20233d;
-  --indigo: #7068ff;
-  --coral: #ff765f;
-  --lime: #b8f266;
-  --cloud: #f8f7ff;
-  --focus-ring: var(--ink);
-  --background: var(--cloud);
+  --canvas: #f4f3ee;
+  --surface: #ffffff;
+  --ink: #1a1f1e;
+  --ink-deep: #0f1312;
+  --accent: #1e6563;
+  --accent-strong: #174b4a;
+  --accent-soft: #e4edeb;
+  --focus-ring: var(--accent);
+  --background: var(--canvas);
   --foreground: var(--ink);
-  --font-display: var(--font-geist-sans);
-  --font-body: var(--font-geist-sans);
-  --font-utility: var(--font-geist-mono);
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-instrument-sans);
+  --font-utility: var(--font-ibm-plex-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-utility);
 }
 
 * {
@@ -28,9 +30,7 @@
 body {
   min-width: 320px;
   margin: 0;
-  background:
-    radial-gradient(circle at 90% 6%, rgba(184, 242, 102, 0.22), transparent 18rem),
-    var(--cloud);
+  background: var(--canvas);
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
 }
@@ -46,8 +46,8 @@ a {
 }
 
 ::selection {
-  background: var(--lime);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--canvas);
 }
 
 @media (prefers-reduced-motion: reduce) {
