@@ -63,7 +63,7 @@ describe('checkDrillAnswer', () => {
         courseSlug: 'english-to-french',
         contentId: 'fr-ordering-politely',
         drillId: 'fr-ordering-politely-drill',
-        response: "Je voudrais un thé, s'il vous plaît.",
+        response: 'S’il vous plaît, je voudrais un thé.',
       });
 
       expect(result).toEqual({
@@ -77,7 +77,14 @@ describe('checkDrillAnswer', () => {
       vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', 'http://localhost:8000');
       vi.stubGlobal(
         'fetch',
-        vi.fn(async () => Response.json({ translation: 'I would like a coffee, please.' })),
+        vi.fn(async (_url: unknown, init: RequestInit) => {
+          const body = JSON.parse(init.body as string) as { text: string };
+          const translation =
+            body.text === 'Je voudrais un café, s’il vous plaît.'
+              ? 'I would like a coffee, please.'
+              : 'I would like a tea, please.';
+          return Response.json({ translation });
+        }),
       );
 
       const result = await checkDrillAnswer({
@@ -154,6 +161,8 @@ describe('contentWordF1', () => {
 
   it('returns the expected score for partial overlap', () => {
     // precision = 3/5, recall = 3/5 => F1 = 0.6
-    expect(contentWordF1('a b c d e', 'a b c x y')).toBe(SIMILARITY_CLOSE_THRESHOLD);
+    expect(
+      contentWordF1('alpha beta gamma delta epsilon', 'alpha beta gamma xray yankee'),
+    ).toBe(SIMILARITY_CLOSE_THRESHOLD);
   });
 });
