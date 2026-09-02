@@ -63,3 +63,7 @@ Two standing rules shape every option below:
 ## If we trial something
 
 Start with the three that need no keys and no learner data: the **Free Dictionary API** for English-side tooltips, **Wiktionary** for French/Italian depth, and **self-hosted LibreTranslate** as an authoring cross-check. Any integration should follow the voice service's pattern — local sidecar or server-only route, honest degradation when the service is unavailable, and attribution committed alongside the feature.
+
+## Decision (2026-09-02)
+
+Typed answer checking uses local Argos Translate inside the existing voice sidecar — the self-hosted path this survey recommended for translation. No hosted API is integrated; the survey stands as written.
