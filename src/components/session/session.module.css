@@ -355,3 +355,56 @@
     transition: none;
   }
 }
+.responseSection {
+  max-width: 680px;
+  margin: 0 0 1.5rem;
+}
+
+.responseSection label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.responseInput {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.responseInput:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.verdictCard {
+  max-width: 680px;
+  margin: 0.75rem 0 0;
+  padding: 0.8rem 1rem;
+  line-height: 1.5;
+}
+
+.verdictCard[data-verdict="exact"],
+.verdictCard[data-verdict="close"] {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+}
+
+.verdictCard[data-verdict="try_again"],
+.verdictCard[data-verdict="limited"] {
+  border-left: 3px solid color-mix(in srgb, var(--ink) 40%, transparent);
+  background: var(--surface);
+}
+
+.verdictHint {
+  margin: 0.25rem 0 0;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  font-size: 0.9rem;
+}

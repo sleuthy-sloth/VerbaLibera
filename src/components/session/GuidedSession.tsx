@@ -38,12 +38,22 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [isModelRevealed, setIsModelRevealed] = useState(false);
   const [isSelfChecked, setIsSelfChecked] = useState(false);
+  const [responseText, setResponseText] = useState('');
+  const [verdict, setVerdict] = useState<null | { verdict: 'exact' | 'close' | 'try_again'; matchedVariant?: string; limited: boolean }>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [shouldFocusVerdict, setShouldFocusVerdict] = useState(false);
   const shouldMoveActionFocus = useRef(false);
   const primaryActionRef = useRef<HTMLButtonElement>(null);
   const completionActionRef = useRef<HTMLAnchorElement>(null);
+  const verdictRef = useRef<HTMLDivElement>(null);
   const isComplete = stepIndex >= sessionSteps.length;
 
   useEffect(() => {
+    if (shouldFocusVerdict && verdictRef.current) {
+      verdictRef.current.focus();
+      setShouldFocusVerdict(false);
+      return;
+    }
     if (!shouldMoveActionFocus.current) return;
 
     if (isComplete) {
@@ -52,7 +62,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       primaryActionRef.current?.focus();
     }
     shouldMoveActionFocus.current = false;
-  }, [isComplete, isModelRevealed, isSelfChecked, stepIndex]);
+  }, [isComplete, isModelRevealed, isSelfChecked, stepIndex, shouldFocusVerdict]);
 
   if (!course) {
     return (
@@ -105,6 +115,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
     shouldMoveActionFocus.current = true;
     setIsModelRevealed(false);
     setIsSelfChecked(false);
+    setResponseText('');
+    setVerdict(null);
+    setIsChecking(false);
+    setShouldFocusVerdict(false);
     setStepIndex((current) => Math.min(current + 1, sessionSteps.length));
   };
   const revealModel = () => {
@@ -114,6 +128,31 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const confirmSelfCheck = () => {
     shouldMoveActionFocus.current = true;
     setIsSelfChecked(true);
+  };
+  const checkAnswer = async () => {
+    if (!responseText.trim()) return;
+    setIsChecking(true);
+    setShouldFocusVerdict(false);
+    try {
+      const res = await fetch('/api/answer-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          courseSlug,
+          contentId: activeStep.contentId,
+          drillId: activeStep.drillId,
+          response: responseText,
+        }),
+      });
+      if (!res.ok) throw new Error('non-ok');
+      const data = await res.json();
+      setVerdict(data);
+    } catch {
+      setVerdict({ verdict: 'try_again', limited: true });
+    } finally {
+      setIsChecking(false);
+      setShouldFocusVerdict(true);
+    }
   };
 
   return (
@@ -216,9 +255,62 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   </button>
                 </div>
               </>
+            ) : activeStep.kind === 'DRILL' ? (
+              <>
+                <p className={styles.prompt}>{activeContent.drill?.prompt}</p>
+                <div className={styles.responseSection}>
+                  <label htmlFor="drill-response" className={styles.eyebrow}>Your answer</label>
+                  <textarea
+                    id="drill-response"
+                    className={styles.responseInput}
+                    value={responseText}
+                    onChange={(e) => setResponseText(e.target.value)}
+                    rows={1}
+                    disabled={isChecking}
+                  />
+                  {verdict && (
+                    <div
+                      ref={verdictRef}
+                      tabIndex={-1}
+                      className={styles.verdictCard}
+                      data-verdict={verdict.limited ? 'limited' : verdict.verdict}
+                      aria-live="polite"
+                      aria-busy={isChecking}
+                    >
+                      <p>
+                        {verdict.limited
+                          ? 'Local checking is unavailable right now — compare with the model answer.'
+                          : verdict.verdict === 'exact'
+                          ? 'That matches an accepted answer.'
+                          : verdict.verdict === 'close'
+                          ? 'Close — compare with the accepted answer.'
+                          : 'Try again, or reveal the model answer.'}
+                      </p>
+                      {verdict.verdict === 'close' && verdict.matchedVariant && (
+                        <p className={styles.verdictHint}>{verdict.matchedVariant}</p>
+                      )}
+                      {!verdict.limited && <p>Checked locally. Nothing was saved.</p>}
+                    </div>
+                  )}
+                </div>
+                <div className={styles.actionDock}>
+                  <button
+                    onClick={checkAnswer}
+                    disabled={isChecking || !responseText.trim()}
+                    type="button"
+                  >
+                    {isChecking ? 'Checking…' : 'Check my answer'}
+                  </button>
+                  <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
+                  <button className={styles.primaryAction} onClick={advanceStep} type="button">
+                    Continue
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </>
             ) : (
               <>
-                <p className={styles.prompt}>{activeStep.kind === 'DRILL' ? activeContent.drill?.prompt : activeContent.concept.modelDialogue.prompt}</p>
+                <p className={styles.prompt}>{activeContent.concept.modelDialogue.prompt}</p>
                 <div className={styles.actionDock}>
                   <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
                   <button className={styles.primaryAction} onClick={advanceStep} type="button">

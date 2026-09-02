@@ -195,3 +195,194 @@ describe('GuidedSession', () => {
     );
   });
 });
+
+describe('typed answer checking on DRILL steps', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('input is absent on step 1 (REVIEW) and present on step 2 (DRILL) after one Continue', async () => {
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByLabelText(/your answer/i)).toBeInTheDocument();
+  });
+
+  it('shows exact verdict and checked-locally note for a matching answer', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              verdict: 'exact',
+              matchedVariant: 'Je voudrais un thé, s’il vous plaît.',
+              limited: false,
+            }),
+        }),
+      ),
+    );
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
+    expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
+  });
+
+  it('shows close verdict with matched variant hint', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              verdict: 'close',
+              matchedVariant: 'Je voudrais un thé, s’il vous plaît.',
+              limited: false,
+            }),
+        }),
+      ),
+    );
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un the s il vous plait');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    expect(await screen.findByText('Close — compare with the accepted answer.')).toBeInTheDocument();
+    expect(screen.getByText('Je voudrais un thé, s’il vous plaît.')).toBeInTheDocument();
+    expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
+  });
+
+  it('shows try-again verdict with checked-locally note', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({ verdict: 'try_again', limited: false }),
+        }),
+      ),
+    );
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'completely wrong');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    expect(await screen.findByText('Try again, or reveal the model answer.')).toBeInTheDocument();
+    expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
+  });
+
+  it('shows limited unavailable copy when fetch rejects and omits checked-locally note', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('network'))));
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'anything');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    expect(
+      await screen.findByText('Local checking is unavailable right now — compare with the model answer.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Checked locally. Nothing was saved.')).not.toBeInTheDocument();
+  });
+
+  it('keeps reveal model answer independent of checking', async () => {
+    const user = userEvent.setup();
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
+
+    expect(screen.getByText('Je voudrais un thé, s’il vous plaît.')).toBeInTheDocument();
+    expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
+  });
+
+  it('moves focus to the verdict region after check resolves', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              verdict: 'exact',
+              matchedVariant: 'Je voudrais un thé, s’il vous plaît.',
+              limited: false,
+            }),
+        }),
+      ),
+    );
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'test');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    const verdictText = await screen.findByText('That matches an accepted answer.');
+    expect(verdictText.closest('[tabindex="-1"]')).toHaveFocus();
+  });
+
+  it('clears verdict after advancing to the next step', async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              verdict: 'exact',
+              matchedVariant: 'Je voudrais un thé, s’il vous plaît.',
+              limited: false,
+            }),
+        }),
+      ),
+    );
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'test');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+    expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.queryByText('That matches an accepted answer.')).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/your answer/i)).toHaveValue('');
+  });
+
+  it('shows Checking… while the request is pending', async () => {
+    const user = userEvent.setup();
+    let resolveFetch: (value: unknown) => void;
+    vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveFetch = resolve; })));
+    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.type(screen.getByLabelText(/your answer/i), 'test');
+    await user.click(screen.getByRole('button', { name: 'Check my answer' }));
+
+    expect(screen.getByRole('button', { name: 'Checking…' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Checking…' })).toBeDisabled();
+
+    resolveFetch!({
+      ok: true,
+      json: () => Promise.resolve({ verdict: 'exact', matchedVariant: 'Je voudrais un thé, s’il vous plaît.', limited: false }),
+    });
+
+    await screen.findByText('That matches an accepted answer.');
+    expect(screen.getByRole('button', { name: 'Check my answer' })).toBeInTheDocument();
+  });
+});
