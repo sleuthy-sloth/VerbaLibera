@@ -307,6 +307,8 @@ describe('typed answer checking on DRILL steps', () => {
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
 
     expect(screen.getByText('Je voudrais un thé, s’il vous plaît.')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'I checked my answer' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Check my answer' })).toBeInTheDocument();
     expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
   });
 
