@@ -70,7 +70,8 @@ function hasLegacyWidthCondition(condition: string, qualifier: 'min' | 'max', pi
 function includesDesktopWidthAt760(condition: string) {
   return (
     hasLegacyWidthCondition(condition, 'min', 760) ||
-    /\bwidth\s*>=\s*760\s*px\b/.test(condition)
+    /\bwidth\s*>=\s*760\s*px\b/.test(condition) ||
+    /\b760\s*px\s*<=\s*width\b/.test(condition)
   );
 }
 
@@ -253,8 +254,10 @@ describe('DailyPathDashboard', () => {
     '@MEDIA (MIN-WIDTH: /* boundary */ 760PX)',
     '@media (width >= 760px)',
     '@MEDIA (WIDTH /* boundary */ >= 760PX)',
+    '@media (760px <= width)',
+    '@MEDIA (760PX /* boundary */ <= WIDTH)',
   ])('recognizes a forbidden desktop boundary condition in %s', (mediaQuery) => {
-    // Break caught: a desktop query at 760px evades the boundary guard through syntax, comments, or casing.
+    // Break caught: a desktop query at 760px evades the guard through syntax, operand order, comments, or casing.
     const mediaBlocks = topLevelMediaBlocks(`${mediaQuery} { .futureRule { display: grid; } }`);
 
     expect(mediaBlocks).toHaveLength(1);
