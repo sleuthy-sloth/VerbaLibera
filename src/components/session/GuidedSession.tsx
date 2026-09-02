@@ -140,7 +140,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
         body: JSON.stringify({
           courseSlug,
           contentId: activeStep.contentId,
-          drillId: activeStep.drillId,
+          drillId: activeStep.kind === 'DRILL' ? activeStep.drillId : undefined,
           response: responseText,
         }),
       });
