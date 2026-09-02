@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GuidedSession } from '@/components/session/GuidedSession';
 import { demoProgress } from '@/features/progress/demo-progress';

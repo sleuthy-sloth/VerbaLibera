@@ -179,7 +179,7 @@ describe('DailyPathDashboard', () => {
           selectedCourseSlug: 'english-to-german',
           session: [
             ...demoProgress.session,
-            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german' },
+            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german', contentId: 'de-greeting' },
           ],
           courses: [
             ...demoProgress.courses,
