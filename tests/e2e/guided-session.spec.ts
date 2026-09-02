@@ -36,6 +36,32 @@ test('Italian travel session is available after course selection', async ({ page
   await expect(page.getByText('Vorrei un caffè, per favore.')).toBeVisible();
 });
 
+test('typed exact answer is checked without any sidecar', async ({ page }) => {
+  await page.goto('/learn/english-to-french');
+  await page.getByRole('button', { name: 'Continue' }).click();
+
+  const answer = page.getByLabel('Your answer');
+  await answer.fill('Je voudrais un thé, s’il vous plaît.');
+  await page.getByRole('button', { name: 'Check my answer' }).click();
+
+  await expect(page.getByText('That matches an accepted answer.')).toBeVisible();
+  await expect(page.getByText('Checked locally. Nothing was saved.')).toBeVisible();
+});
+
+test('non-exact answers honestly report limited local checking', async ({ page }) => {
+  await page.goto('/learn/english-to-french');
+  await page.getByRole('button', { name: 'Continue' }).click();
+
+  const answer = page.getByLabel('Your answer');
+  await answer.fill('Je voudrais un thé tout de suite, s’il vous plaît.');
+  await page.getByRole('button', { name: 'Check my answer' }).click();
+
+  await expect(
+    page.getByText('Local checking is unavailable right now — compare with the model answer.'),
+  ).toBeVisible();
+  await expect(page.getByText('Checked locally. Nothing was saved.')).toHaveCount(0);
+});
+
 test('French pilot serves both WAVs while reveal and self-check remain reachable', async ({ page }) => {
   // Break caught: the lesson renders an audio control for asset URLs that were
   // never generated, or audio playback replaces the independent text path.

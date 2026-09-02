@@ -25,6 +25,50 @@ class VoiceEngine(Protocol):
         """Return a final transcript for a short learner response, if any."""
 
 
+class TranslateEngine(Protocol):
+    """Local, in-process text translation used by the HTTP application."""
+
+    def translate(self, text: str, source: str, target: str) -> str:
+        """Translate ``text`` from ``source`` language code to ``target`` language code."""
+
+
+DEFAULT_TRANSLATION_PAIRS = frozenset({("fr", "en"), ("it", "en")})
+DEFAULT_MAX_TEXT_CHARS = 2_000
+
+
+@dataclass(frozen=True)
+class TranslationServiceSettings:
+    """Environment-backed bounds for the optional local translation service."""
+
+    permitted_pairs: frozenset[tuple[str, str]] = DEFAULT_TRANSLATION_PAIRS
+    max_text_chars: int = DEFAULT_MAX_TEXT_CHARS
+
+    @classmethod
+    def from_environment(
+        cls, environment: Mapping[str, str] | None = None
+    ) -> "TranslationServiceSettings":
+        env = os.environ if environment is None else environment
+        pairs = _csv(env.get("VOXLIBRE_TRANSLATION_PAIRS", "fr-en,it-en"))
+        parsed_pairs: set[tuple[str, str]] = set()
+        for pair in pairs:
+            if "-" not in pair:
+                continue
+            source, target = pair.split("-", 1)
+            parsed_pairs.add((source, target))
+        return cls(
+            permitted_pairs=frozenset(parsed_pairs),
+            max_text_chars=int(
+                env.get("VOXLIBRE_TRANSLATION_MAX_TEXT_CHARS", str(DEFAULT_MAX_TEXT_CHARS))
+            ),
+        )
+
+    def permits_pair(self, source: str, target: str) -> bool:
+        return (source, target) in self.permitted_pairs
+
+    def pairs(self) -> tuple[str, ...]:
+        return tuple(f"{source}-{target}" for source, target in sorted(self.permitted_pairs))
+
+
 def _csv(value: str) -> frozenset[str]:
     return frozenset(item.strip() for item in value.split(",") if item.strip())
 

@@ -111,3 +111,13 @@ The committed contract tests use an injected in-memory fake engine, so they do n
 download model weights or need microphone hardware. Run a local model smoke test only
 after installing model dependencies and providing compatible local weights/hardware; it
 is intentionally deferred from the default test suite.
+
+## Answer checking (optional)
+
+The guided session can check typed drill answers against the authored variants. Exact matches need nothing beyond the app. Meaning-based checking ("close" verdicts) uses local Argos Translate models inside the voice sidecar:
+
+1. Install the library in the sidecar venv: `.venv/bin/pip install argostranslate`
+2. Install the model packages: `.venv/bin/argospm install translate-fr_en translate-it_en`
+3. Restart the sidecar; `/health` then reports `"translation": {"available": true, "pairs": ["fr-en", "it-en"]}`.
+
+Without the models the app keeps working: checking falls back to exact matches and says so honestly. Learner answers go only to this localhost service and are never stored.
