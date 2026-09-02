@@ -17,7 +17,7 @@ describe('VoxLibre PWA manifest', () => {
     });
   });
 
-  it('declares regular and maskable original Signal Pop icons', () => {
+  it('declares regular and maskable VoxLibre icons', () => {
     // Break caught: installation metadata stops pointing at the committed app icons.
     const appManifest = manifest();
 

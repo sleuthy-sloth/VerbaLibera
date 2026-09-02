@@ -7,7 +7,12 @@ describe('Quiet Ink global styles', () => {
     const css = await readFile(path.join(process.cwd(), 'src/app/globals.css'), 'utf8');
 
     expect(css).toContain('--canvas: #f4f3ee');
+    expect(css).toContain('--surface: #ffffff');
+    expect(css).toContain('--ink: #1a1f1e');
+    expect(css).toContain('--ink-deep: #0f1312');
     expect(css).toContain('--accent: #1e6563');
+    expect(css).toContain('--accent-strong: #174b4a');
+    expect(css).toContain('--accent-soft: #e4edeb');
     expect(css).toContain('--font-display: var(--font-newsreader)');
     expect(css).toContain('--font-body: var(--font-instrument-sans)');
     expect(css).toContain('--font-utility: var(--font-ibm-plex-mono)');

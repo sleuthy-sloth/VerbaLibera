@@ -3,8 +3,11 @@
 :root {
   --canvas: #f4f3ee;
   --surface: #ffffff;
-  --ink: #24221f;
+  --ink: #1a1f1e;
+  --ink-deep: #0f1312;
   --accent: #1e6563;
+  --accent-strong: #174b4a;
+  --accent-soft: #e4edeb;
   --focus-ring: var(--accent);
   --background: var(--canvas);
   --foreground: var(--ink);
