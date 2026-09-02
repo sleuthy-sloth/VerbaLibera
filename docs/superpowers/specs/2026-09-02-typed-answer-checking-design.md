@@ -12,7 +12,7 @@ Every drill fixture already carries acceptedResponses and recallTarget. The miss
 
 - Normalization (both paths): trim; collapse internal whitespace; unify curly and straight apostrophes to '; lowercase; strip trailing . ! ? and surrounding quotes. Accents are preserved and significant.
 - Exact path: a normalized response equal to any normalized acceptedResponses entry or recallTarget → exact.
-- Meaning path (only when the exact path misses and the local sidecar is available): translate the response and each accepted variant to English with the local Argos engine, compute token-overlap F1 between the response translation and each variant translation, take the best score. F1 ≥ 0.75 → close; otherwise try_again. Thresholds are named constants.
+- Meaning path (only when the exact path misses and the local sidecar is available): translate the response and each accepted variant to English with the local Argos engine, compute content-word F1 between the response translation and each variant translation (English stop words filtered before scoring), take the best score. F1 ≥ 0.60 → close; otherwise try_again. The threshold is a named constant adopted after SME review of short-sentence behavior (plain token F1 masks noun substitutions — the exact error these drills train); a prompt-keyword pre-check remains a documented future optimization.
 - Degradation: sidecar unavailable → exact path only; the UI states local checking is limited. A sidecar failure never blocks reveal.
 
 ## Verdicts

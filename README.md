@@ -33,6 +33,7 @@ Working:
 - Responsive dashboard and step-specific guided sessions, including keyboard focus continuity and mobile/desktop browser coverage.
 - Optional model-audio playback with text/reveal fallback when a clip is unavailable.
 - A real French polite-ordering audio pilot: two original Kokoro 0.9.4 / `ff_siwis` WAV clips, committed with hashes and provenance.
+- Typed answer checking on drill steps with an honest three-state verdict — computed locally via the optional voice sidecar, with exact-match fallback when it is off.
 - Prisma/PostgreSQL schema for users, courses, concepts, drills, progress, and audio segments.
 - SM-2 sentence-construction scheduler (quality mapping keeps answer reveal from counting as mastery).
 - Exact-concept access policy: a passed assessment unlocks the related drills.
@@ -48,7 +49,7 @@ Not working yet:
 - Offline sync for mutable learner data.
 - Hosted voice service. The sidecar is local-only.
 
-Privacy-wise, no learner audio is persisted by default. The voice route returns only a transcript and status; it does not store recordings or transcripts.
+Privacy-wise, no learner audio is persisted by default. The voice route returns only a transcript and status; it does not store recordings or transcripts. Typed drill answers are checked locally too: they travel only to the optional local sidecar and are never stored — and when the sidecar is off, checking degrades to exact-match comparison against the authored variants.
 
 ## Quick start
 
