@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { transcribeVoiceResponse } from '@/lib/voice-service';
+import { MAX_AUDIO_BYTES, transcribeVoiceResponse } from '@/lib/voice-service';
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' };
 // Allow room for multipart metadata while keeping the learner audio itself capped at 1 MB.
@@ -55,6 +55,56 @@ async function boundedMultipartRequest(request: Request): Promise<BoundedMultipa
   const headers = new Headers(request.headers);
   headers.delete('content-length');
   return { status: 'ready', request: new Request(request.url, { method: request.method, headers, body }) };
+}
+
+// Route-level total body bound: the 1,000,000 byte audio limit plus ~64 KB for multipart
+// boundaries and metadata. Anything larger is rejected before reaching the parser.
+const MAX_TOTAL_BODY_BYTES = MAX_AUDIO_BYTES + 64_000;
+
+function oversizedResponse() {
+  return NextResponse.json({ status: 'invalid_request' }, { status: 413, headers: NO_STORE_HEADERS });
+}
+
+/**
+ * Reads a streamed request body up to `maxBytes` and returns its buffered bytes.
+ * Returns `null` as soon as the accumulated bytes exceed the cap so the caller
+ * can reject the request without ever invoking a multipart parser on an
+ * unbounded body.
+ */
+async function readBoundedBody(request: Request, maxBytes: number): Promise<ArrayBuffer | null> {
+  const body = request.body;
+  if (!body) {
+    return new ArrayBuffer(0);
+  }
+
+  const reader = body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+
+      total += value.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel('oversized');
+        return null;
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const result = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return result.buffer as ArrayBuffer;
 }
 
 /** Forwards a validated short response to an opted-in, same-host local voice service. */

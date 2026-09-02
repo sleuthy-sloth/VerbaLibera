@@ -1,6 +1,6 @@
 import 'server-only';
 
-const MAX_AUDIO_BYTES = 1_000_000;
+export const MAX_AUDIO_BYTES = 1_000_000;
 const SUPPORTED_LANGUAGES = new Set(['fr', 'it']);
 const ACCEPTED_AUDIO_TYPES = new Set(['audio/webm', 'audio/wav']);
 

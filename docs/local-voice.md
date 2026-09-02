@@ -12,15 +12,24 @@ as unavailable and the normal non-voice lesson path remains available.
 
 ## Requirements
 
-- Python 3.10 or newer is recommended for the pinned Kokoro and faster-whisper runtime.
+- Python 3.10 through 3.12 is required by the pinned Kokoro runtime. VoxLibre pins its
+  local voice toolchain to Python 3.11 in `services/voice/.python-version`.
 - A local CPU installation works with the default `cpu` + `int8` faster-whisper settings.
 - CUDA hosts can opt in with a compatible CTranslate2/CUDA setup and a CUDA compute type;
   verify that configuration independently before enabling it for a shared deployment.
 
+Check the interpreter explicitly before creating the environment. On macOS, the unqualified
+`python3` command can still resolve to the system Python 3.9, which causes pip to hide the
+Kokoro 0.9.4 release as incompatible.
+
+```bash
+python3.11 --version
+```
+
 Create the service environment from the repository root:
 
 ```bash
-python3 -m venv services/voice/.venv
+python3.11 -m venv services/voice/.venv
 services/voice/.venv/bin/pip install -r services/voice/requirements.txt
 ```
 
@@ -55,6 +64,16 @@ export VOXLIBRE_FASTER_WHISPER_MODEL=small
 export VOXLIBRE_FASTER_WHISPER_MODEL_PATH=/absolute/path/to/faster-whisper-model
 export VOXLIBRE_FASTER_WHISPER_DEVICE=cpu
 export VOXLIBRE_FASTER_WHISPER_COMPUTE_TYPE=int8
+```
+
+On macOS, if the bundled eSpeak loader reports a missing build-machine
+`espeak-ng-data` path, install the maintained system package and point phonemizer at
+it before starting the sidecar:
+
+```bash
+brew install espeak-ng
+export PHONEMIZER_ESPEAK_LIBRARY=/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib
+export PHONEMIZER_ESPEAK_DATA_PATH=/opt/homebrew/opt/espeak-ng/share/espeak-ng-data
 ```
 
 Unset optional path variables rather than setting them to a fake path. Start the

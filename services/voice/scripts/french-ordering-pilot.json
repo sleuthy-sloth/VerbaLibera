@@ -1,0 +1,18 @@
+{
+  "clips": [
+    {
+      "id": "fr-ordering-politely-prompt",
+      "text": "Bonjour, je voudrais un café, s'il vous plaît.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-ordering-politely-prompt.wav"
+    },
+    {
+      "id": "fr-ordering-politely-answer",
+      "text": "Bien sûr. Vous le prenez sur place ou à emporter ?",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-ordering-politely-answer.wav"
+    }
+  ]
+}

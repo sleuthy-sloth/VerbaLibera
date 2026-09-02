@@ -20,6 +20,8 @@ class LocalModelSettings:
     whisper_model_path: str | None
     whisper_device: str
     whisper_compute_type: str
+    espeak_library_path: str | None
+    espeak_data_path: str | None
 
     @classmethod
     def from_environment(
@@ -34,6 +36,8 @@ class LocalModelSettings:
             whisper_compute_type=env.get(
                 "VOXLIBRE_FASTER_WHISPER_COMPUTE_TYPE", "int8"
             ),
+            espeak_library_path=env.get("PHONEMIZER_ESPEAK_LIBRARY") or None,
+            espeak_data_path=env.get("PHONEMIZER_ESPEAK_DATA_PATH") or None,
         )
 
 
@@ -83,10 +87,13 @@ class KokoroFasterWhisperEngine:
 
         pipeline = self._pipeline_for(language)
         output = io.BytesIO()
+        chunks: list[bytes] = []
         for _, _, audio in pipeline(text, voice=voice):
-            sound_file.write(output, audio, 24_000, format="WAV")
-            return output.getvalue()
-        raise RuntimeError("Kokoro did not return audio for the authored text.")
+            chunks.extend(audio)
+        if not chunks:
+            raise RuntimeError("Kokoro did not return audio for the authored text.")
+        sound_file.write(output, chunks, 24_000, format="WAV")
+        return output.getvalue()
 
     def transcribe(self, audio: bytes, language: str) -> str | None:
         """Transcribe from an in-memory stream; no learner recording is written by this app."""
@@ -100,6 +107,12 @@ class KokoroFasterWhisperEngine:
     def _pipeline_for(self, language: str):
         if language not in self._pipelines:
             from kokoro import KPipeline
+            from phonemizer.backend.espeak.wrapper import EspeakWrapper
+
+            if self._model_settings.espeak_library_path:
+                EspeakWrapper.set_library(self._model_settings.espeak_library_path)
+            if self._model_settings.espeak_data_path:
+                EspeakWrapper.set_data_path(self._model_settings.espeak_data_path)
 
             options: dict[str, str] = {}
             if self._model_settings.kokoro_model_path:
