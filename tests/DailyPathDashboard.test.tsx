@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { afterEach, vi } from 'vitest';
@@ -16,6 +18,40 @@ function createQueryClient() {
 
 function QueryTestProvider({ children }: { children: ReactNode }) {
   return <QueryClientProvider client={createQueryClient()}>{children}</QueryClientProvider>;
+}
+
+function topLevelMediaBlocks(stylesheet: string) {
+  const blocks: Array<{ condition: string; content: string; start: number; end: number }> = [];
+  let cursor = 0;
+
+  while (cursor < stylesheet.length) {
+    if (!stylesheet.startsWith('@media', cursor)) {
+      cursor += 1;
+      continue;
+    }
+
+    const start = cursor;
+    const openingBrace = stylesheet.indexOf('{', start);
+    let depth = 1;
+    cursor = openingBrace + 1;
+
+    while (cursor < stylesheet.length && depth > 0) {
+      if (stylesheet[cursor] === '{') depth += 1;
+      if (stylesheet[cursor] === '}') depth -= 1;
+      cursor += 1;
+    }
+
+    if (openingBrace > -1 && depth === 0) {
+      blocks.push({
+        condition: stylesheet.slice(start + '@media'.length, openingBrace).trim(),
+        content: stylesheet.slice(openingBrace + 1, cursor - 1),
+        start,
+        end: cursor,
+      });
+    }
+  }
+
+  return blocks;
 }
 
 afterEach(() => {
@@ -36,7 +72,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
     expect(screen.getByText(/6 reviews waiting/i)).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /english to italian: a1 patterns/i })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
       '4 of 5 daily steps',
@@ -48,7 +84,7 @@ describe('DailyPathDashboard', () => {
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    await user.click(screen.getByRole('button', { name: /switch to english to italian: a1 patterns/i }));
+    await user.click(screen.getByRole('button', { name: /english to italian: a1 patterns/i }));
 
     expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
@@ -76,7 +112,39 @@ describe('DailyPathDashboard', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: /english to german: a1 patterns selected/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /english to german: a1 patterns/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  });
+
+  it('renders generic course segments in the header', () => {
+    // Break caught: course selection falls back to a separate, language-specific course lane.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getByRole('button', { name: /english to french: a1 patterns/i })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(screen.queryByRole('heading', { name: /your course lane/i })).not.toBeInTheDocument();
+  });
+
+  it('keeps goal and three steps in the Today card', () => {
+    // Break caught: daily-path content is split between a session card and a separate path section.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    const today = screen.getByRole('region', { name: /today's 8-minute path/i });
+    expect(today).toHaveTextContent('Review');
+    expect(today).toHaveTextContent('Drill');
+    expect(today).toHaveTextContent('Pattern');
+    expect(within(today).getByRole('progressbar', { name: /daily goal/i })).toBeInTheDocument();
+  });
+
+  it('shows the review queue once, in Progress snapshot', () => {
+    // Break caught: the review count is repeated in the daily path instead of living in the secondary snapshot.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.getAllByText(/6 reviews waiting/i)).toHaveLength(1);
   });
 
   it('does not link an available course to a session that has not been supplied yet', () => {
@@ -126,6 +194,36 @@ describe('DailyPathDashboard', () => {
     );
   });
 
+  it('keeps the 760px boundary in the one-column, full-width-action layout', () => {
+    // Break caught: a desktop breakpoint at 760px turns the binding mobile boundary into two columns.
+    const dashboardStyles = readFileSync(
+      resolve(process.cwd(), 'src/components/dashboard/dashboard.module.css'),
+      'utf8',
+    );
+    const mediaBlocks = topLevelMediaBlocks(dashboardStyles);
+    const desktopBlock = mediaBlocks.find((block) => /min-width\s*:\s*761px/.test(block.condition));
+    const mobileBlock = mediaBlocks.find((block) => /max-width\s*:\s*760px/.test(block.condition));
+    const desktopGrid = /\.dashboardGrid\s*\{[^}]*grid-template-columns\s*:/;
+    const stickyProgress = /\.progressPanel\s*\{[^}]*position\s*:\s*sticky\s*;/;
+    const fullWidthCta = /\.primaryAction\s*,\s*\.pendingAction\s*\{[^}]*width\s*:\s*100%\s*;/;
+
+    expect(mediaBlocks.some((block) => /min-width\s*:\s*760px/.test(block.condition))).toBe(false);
+    expect(desktopBlock).toBeDefined();
+    expect(mobileBlock).toBeDefined();
+    expect(desktopBlock?.content).toMatch(desktopGrid);
+    expect(desktopBlock?.content).toMatch(stickyProgress);
+    expect(mobileBlock?.content).toMatch(fullWidthCta);
+    expect(mobileBlock?.content).not.toMatch(desktopGrid);
+    expect(mobileBlock?.content).not.toMatch(stickyProgress);
+    expect(desktopBlock?.content).not.toMatch(fullWidthCta);
+
+    const outsideDesktop = dashboardStyles.slice(0, desktopBlock?.start) + dashboardStyles.slice(desktopBlock?.end);
+    const outsideMobile = dashboardStyles.slice(0, mobileBlock?.start) + dashboardStyles.slice(mobileBlock?.end);
+    expect(outsideDesktop).not.toMatch(desktopGrid);
+    expect(outsideDesktop).not.toMatch(stickyProgress);
+    expect(outsideMobile).not.toMatch(fullWidthCta);
+  });
+
   it('exposes high-contrast styling hooks on mixed-color focus and small-text surfaces', () => {
     // Break caught: focus falls back to the low-contrast coral ring or small indigo copy loses its contrast surface.
     render(<DailyPathDashboard progress={demoProgress} />);
@@ -133,7 +231,9 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
-    expect(screen.getByText('Current course · 80% complete')).toHaveClass(styles.courseProgress);
+    expect(screen.getByRole('button', { name: /english to french: a1 patterns/i })).toHaveClass(
+      styles.courseSegment,
+    );
   });
 
   it('keeps every small metric label on the accessible Ink contrast hook', () => {

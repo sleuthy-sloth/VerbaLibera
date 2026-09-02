@@ -12,7 +12,7 @@ type DailyPathDashboardProps = Readonly<{
 }>;
 
 const practiceSteps = [
-  { label: 'Review', detail: '', tone: 'review' },
+  { label: 'Review', detail: 'Bring the phrase back to mind', tone: 'review' },
   { label: 'Drill', detail: 'Use the pattern without a prompt', tone: 'drill' },
   { label: 'Pattern', detail: 'Add one useful way to say it', tone: 'pattern' },
 ] as const;
@@ -47,6 +47,25 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
           <span aria-hidden="true">V</span>
           VoxLibre
         </Link>
+        <div aria-label="Available courses" className={styles.courseSegments} role="group">
+          {progress.courses.map((course, index) => {
+            const isSelected = index === selectedCourseIndex;
+            const compactLabel = course.title.replace(/^English to /, '');
+
+            return (
+              <button
+                aria-label={course.title}
+                aria-pressed={isSelected}
+                className={styles.courseSegment}
+                key={course.slug}
+                onClick={() => setSelectedCourseIndex(index)}
+                type="button"
+              >
+                {compactLabel}
+              </button>
+            );
+          })}
+        </div>
         <p className={styles.previewBadge}>
           <span aria-hidden="true" />
           Preview progress
@@ -67,126 +86,90 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
         </div>
       </section>
 
-      <section className={styles.sessionLaunch} aria-labelledby="session-title">
-        <div>
-          <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
-          <h2 id="session-title">{selectedCourse.unitLabel}</h2>
-          <p className={styles.courseMeta}>{selectedCourse.title}</p>
-        </div>
-        {hasSelectedSession ? (
-          <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
-            Continue 8-minute session
-            <span aria-hidden="true">→</span>
-          </Link>
-        ) : (
-          <p className={styles.pendingAction} role="status">
-            Session preview coming soon
-          </p>
-        )}
-      </section>
-
-      <section className={styles.pathSection} aria-labelledby="path-title">
-        <div className={styles.sectionHeading}>
-          <div>
-            <p className={styles.kicker}>In this order</p>
-            <h2 id="path-title">Review → drill → pattern</h2>
+      <div className={styles.dashboardGrid}>
+        <section className={styles.todayCard} aria-labelledby="today-title">
+          <div className={styles.todayHeading}>
+            <div>
+              <p className={styles.kicker} id="today-title">Today's 8-minute path</p>
+              <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
+              <h2>{selectedCourse.unitLabel}</h2>
+              <p className={styles.courseMeta}>{selectedCourse.title}</p>
+            </div>
+            <p className={styles.pathTime}>About 8 min</p>
           </div>
-          <p className={styles.pathTime}>About 8 min</p>
-        </div>
 
-        <ol className={styles.practicePath}>
-          {practiceSteps.map((step, index) => (
-            <li className={styles.pathStep} data-tone={step.tone} key={step.label}>
-              <span className={styles.stepMarker} aria-hidden="true">
-                {index + 1}
-              </span>
-              <div>
-                <h3>{step.label}</h3>
-                <p>
-                  {step.tone === 'review'
-                    ? progress.dueReviewCount === 0
-                      ? 'Start with a quick confidence check'
-                      : `Bring ${progress.dueReviewCount} waiting reviews back into reach`
-                    : step.detail}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <aside className={styles.progressPanel} aria-labelledby="progress-title">
-        <div className={styles.sectionHeading}>
-          <div>
-            <p className={styles.kicker}>Your pace</p>
-            <h2 id="progress-title">Progress snapshot</h2>
+          <div className={styles.goal}>
+            <div className={styles.goalLabel}>
+              <span>Daily goal</span>
+              <strong>{goalLabel}</strong>
+            </div>
+            <progress
+              aria-label="Daily goal"
+              aria-valuetext={goalLabel}
+              max={progress.dailyGoal.target}
+              value={Math.min(progress.dailyGoal.completed, progress.dailyGoal.target)}
+            />
           </div>
-        </div>
 
-        <dl className={styles.metrics}>
-          <div>
-            <dt className={styles.metricLabel}>Total XP</dt>
-            <dd>{progress.xp} XP</dd>
-          </div>
-          <div>
-            <dt className={styles.metricLabel}>Practice flow</dt>
-            <dd>
-              <p>{progress.practiceFlowDays}-day practice flow</p>
-            </dd>
-          </div>
-          <div>
-            <dt className={styles.metricLabel}>Review queue</dt>
-            <dd>
-              <p>
-                {progress.dueReviewCount === 0
-                  ? 'You are caught up on reviews.'
-                  : `${progress.dueReviewCount} reviews waiting`}
-              </p>
-            </dd>
-          </div>
-        </dl>
-
-        <div className={styles.goal}>
-          <div className={styles.goalLabel}>
-            <span>Daily goal</span>
-            <strong>{goalLabel}</strong>
-          </div>
-          <progress
-            aria-label="Daily goal"
-            aria-valuetext={goalLabel}
-            max={progress.dailyGoal.target}
-            value={Math.min(progress.dailyGoal.completed, progress.dailyGoal.target)}
-          />
-        </div>
-      </aside>
-
-      <section className={styles.courseSwitcher} aria-labelledby="course-title">
-        <div>
-          <p className={styles.kicker}>Course lane</p>
-          <h2 id="course-title">Your course lane</h2>
-        </div>
-        <div aria-label="Available courses" className={styles.courseButtons} role="group">
-          {progress.courses.map((course, index) => {
-            const isSelected = index === selectedCourseIndex;
-
-            return (
-              <button
-                aria-pressed={isSelected}
-                className={styles.courseButton}
-                key={course.slug}
-                onClick={() => setSelectedCourseIndex(index)}
-                type="button"
+          <ol className={styles.practicePath}>
+            {practiceSteps.map((step, index) => (
+              <li
+                className={styles.pathStep}
+                data-state={index === 0 ? 'active' : 'pending'}
+                data-tone={step.tone}
+                key={step.label}
               >
-                <span>{isSelected ? `${course.title} selected` : `Switch to ${course.title}`}</span>
-                <small className={styles.courseProgress}>
-                  {isSelected ? 'Current course · ' : ''}
-                  {course.completionPercent}% complete
-                </small>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+                <span className={styles.stepMarker} aria-hidden="true">{index + 1}</span>
+                <div>
+                  <h3>{step.label}</h3>
+                  <p>{step.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {hasSelectedSession ? (
+            <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
+              Continue 8-minute session
+              <span aria-hidden="true">→</span>
+            </Link>
+          ) : (
+            <p className={styles.pendingAction} role="status">
+              Session preview coming soon
+            </p>
+          )}
+        </section>
+
+        <aside className={styles.progressPanel} aria-labelledby="progress-title">
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.kicker}>Your pace</p>
+              <h2 id="progress-title">Progress snapshot</h2>
+            </div>
+          </div>
+
+          <dl className={styles.metrics}>
+            <div>
+              <dt className={styles.metricLabel}>Total XP</dt>
+              <dd>{progress.xp} XP</dd>
+            </div>
+            <div>
+              <dt className={styles.metricLabel}>Practice flow</dt>
+              <dd><p>{progress.practiceFlowDays}-day practice flow</p></dd>
+            </div>
+            <div>
+              <dt className={styles.metricLabel}>Review queue</dt>
+              <dd>
+                <p>
+                  {progress.dueReviewCount === 0
+                    ? 'You are caught up on reviews.'
+                    : `${progress.dueReviewCount} reviews waiting`}
+                </p>
+              </dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
     </main>
   );
 }
