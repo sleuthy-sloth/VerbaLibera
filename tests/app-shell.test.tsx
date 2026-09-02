@@ -14,7 +14,10 @@ describe('HomePage', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 
-    const page = await HomePage({ searchParams: Promise.resolve({}) });
+    const page = await HomePage({
+      params: Promise.resolve({}),
+      searchParams: Promise.resolve({}),
+    });
     render(
       <QueryClientProvider client={client}>
         {page}
@@ -36,6 +39,7 @@ describe('HomePage', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
     const page = await HomePage({
+      params: Promise.resolve({}),
       searchParams: Promise.resolve({ course: 'english-to-italian' }),
     });
 
