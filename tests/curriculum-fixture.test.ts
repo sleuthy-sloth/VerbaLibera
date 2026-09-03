@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { initialCourses } from '@/features/curriculum/fixture';
 
@@ -260,6 +262,7 @@ describe('initial curriculum fixtures', () => {
   });
 
   it('adds a picture-choice vocab drill to every pattern', () => {
+    const seenImages = new Set<string>();
     for (const course of initialCourses) {
       for (const concept of course.concepts) {
         expect(concept.drills).toHaveLength(2);
@@ -277,8 +280,15 @@ describe('initial curriculum fixtures', () => {
         ).toBe(true);
         expect(picture?.choices?.some((c) => c.id === picture?.recallTarget)).toBe(true);
         expect(new Set(picture?.choices?.map((c) => c.id)).size).toBe(4);
+        for (const choice of picture?.choices ?? []) {
+          seenImages.add(choice.imageUrl);
+          // Break caught: fixture references a vocab image that was never committed.
+          expect(existsSync(join(process.cwd(), 'public', choice.imageUrl)), `${choice.imageUrl} must exist on disk`).toBe(true);
+        }
       }
     }
+    // 22 unique CC0 photos cover all 8 patterns (shared across languages).
+    expect(seenImages.size).toBe(22);
   });
 
   it.each([

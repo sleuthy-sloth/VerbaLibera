@@ -69,6 +69,32 @@ test('picture drill offers four CC0 photos and accepts the coffee tap', async ({
   expect(coffee.headers()['content-type']).toContain('image/jpeg');
 });
 
+test.describe('mobile touch', () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+  test('picture choices are tappable on a mobile viewport', async ({ page }) => {
+    await page.goto('/learn/english-to-italian');
+    for (let i = 0; i < 3; i++) {
+      await page.getByRole('button', { name: /reveal model answer/i }).click();
+      await page.getByRole('button', { name: /i checked my answer/i }).click();
+      await page.getByRole('button', { name: 'Continue' }).click();
+    }
+
+    const coffee = page.getByRole('radio', { name: 'A cup of coffee' });
+    await expect(coffee).toBeVisible();
+    const box = await coffee.boundingBox();
+    // 44px minimum touch target (WCAG 2.5.8).
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+    expect(box?.width).toBeGreaterThanOrEqual(44);
+    await coffee.tap();
+    await expect(page.getByText('That is the right picture.')).toBeVisible();
+
+    // Bottom tabs are reachable by touch on mobile.
+    await page.getByRole('link', { name: 'Spanish lessons' }).tap();
+    await expect(page).toHaveURL(/\/learn\/english-to-spanish$/);
+  });
+});
+
 test('non-exact answers honestly report limited local checking', async ({ page }) => {
   await page.goto('/learn/english-to-french');
   await page.getByRole('button', { name: 'Continue' }).click();
