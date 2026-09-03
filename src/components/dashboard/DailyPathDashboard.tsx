@@ -90,7 +90,7 @@ export function DailyPathDashboard({ progress }: DailyPathDashboardProps) {
         <section className={styles.todayCard} aria-labelledby="today-title">
           <div className={styles.todayHeading}>
             <div>
-              <p className={styles.kicker} id="today-title">Today's 8-minute path</p>
+              <p className={styles.kicker} id="today-title">Today&apos;s 8-minute path</p>
               <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
               <h2>{selectedCourse.unitLabel}</h2>
               <p className={styles.courseMeta}>{selectedCourse.title}</p>

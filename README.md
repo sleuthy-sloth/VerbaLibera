@@ -18,34 +18,38 @@ The first release is scoped to two independent English-source courses:
 
 Both are currently seeded as original A1 demonstration shells. The curriculum model supports CEFR levels A1–C2 and additional language pairs.
 
-**Explore the project:** [design](docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md) · [development plan](docs/superpowers/plans/2026-08-30-voxlibre-phase-1.md) · [audio licensing policy](#third-party-audio-policy)
+**Explore the project:** [Phase 1 design](docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md) · [Quiet Ink redesign](docs/superpowers/specs/2026-09-01-quiet-ink-interface-redesign.md) · [local voice](docs/local-voice.md) · [audio licensing policy](#third-party-audio-policy)
 
 ## Current status
 
-This repository contains the work completed so far in Phase 1:
+This repository contains the work completed so far in Phase 1 + Quiet Ink:
 
 - Next.js App Router, React, TypeScript, Tailwind CSS, and TanStack Query bootstrap.
-- Accessible responsive landing shell with both initial courses.
+- Quiet Ink design system: canvas `#f4f3ee`/ink `#1a1f1e`/teal `#1e6563`, Newsreader/Instrument Sans/IBM Plex Mono via `next/font`, flat canvas, visible focus, reduced-motion.
 - Prisma/PostgreSQL schema for users, languages, courses, concept blocks, drill items, SRS progress, audio segments, assessments, and mastery proofs.
 - PostgreSQL migration constraints for language-pair validity, ordering, nonnegative values, audio parent exclusivity, SM-2 bounds, and passing assessment proofs.
 - Original French and Italian A1 fixture data with explicitly unavailable audio URLs; no third-party course recordings are included.
 - A tested construction SRS service: SM-2 quality mapping preserves response accuracy and recall latency without turning answer reveal into mastery.
 - A tested concept-access policy: a passed assessment for the exact concept unlocks the related drills; progress is course-isolated.
 - An accessible active-pause audio player: prompts pause indefinitely, then a deliberate touch or safe keyboard action reveals the answer. It handles audio failures, retries, cleanup, and rapid repeated input.
+- Daily Path dashboard: generic course-segment selector (`aria-pressed`), Today 8-minute card (Review/Drill/Pattern + daily goal), sticky Progress snapshot with single review-queue metric. Responsive at 760px breakpoint.
+- Guided session: stepline + progress bar (rail removed), deliberate "Reveal model answer" (reset on advance), honest unavailable-audio fallback,  `Nothing was saved` completion state.
+- Read-only demo progress API (`GET /api/demo/progress`, `isDemo:true`, `no-store`) and optional local voice companion (`docs/local-voice.md`).
+- PWA shell: manifest with `id`/`start_url`/`standalone`/Today shortcuts, offline fallback (`offline.html`), and a conservative static-only service worker (`public/sw.js`).
 - Vitest, Testing Library, Playwright, lint, typecheck, and Prisma scripts.
-- Design specification and implementation plan in `docs/superpowers/`.
+- Design specifications and implementation plans in `docs/superpowers/` (Phase 1 → Gamified/Signal Pop → Quiet Ink). Quiet Ink is the approved direction and supersedes Signal Pop tokens.
 
-Still planned: the responsive dashboard and learning route, read-only demo query, PWA shell, Web Speech API adapter, authentication, persisted progress mutations, full course content, and offline lesson synchronization. The next implementation tasks are recorded in the plan and must preserve the no-anonymous-mastery boundary.
+Still deferred: authentication, persisted progress mutations, full course content, downloadable offline lessons, offline progress sync, browser speech adapter, and CEFR certification. Preview/demo values remain non-persistent.
 
 ## Delivery map
 
 | Area | Delivered now | Next milestone |
 | --- | --- | --- |
-| Curriculum | CEFR-mapped schema, original French/Italian A1 fixtures, migration safeguards | Expand original, rights-cleared content |
-| Learning engine | Exact-concept unlock policy and sentence-construction SM-2 scheduler | Persist authenticated progress and assemble lesson sessions |
-| Active thinking | Segmented active-pause player with keyboard/touch controls and error recovery | Connect licensed/original recordings and voice validation |
-| Product shell | Responsive landing experience and course discovery | Dashboard, lesson route, and offline PWA behavior |
-| Quality | Unit/component coverage, linting, type checking, Prisma validation | Browser E2E coverage and production deployment checks |
+| Curriculum | CEFR-mapped schema, original French/Italian A1 fixtures, migration safeguards | Expand original, rights-cleared content + Kokoro-authored static clips |
+| Learning engine | Exact-concept unlock policy, sentence-construction SM-2 scheduler, demo session composition | Persist authenticated progress, mastery rings, Anki export |
+| Active thinking | Segmented active-pause player with keyboard/touch controls and error recovery | Connect Kokoro static assets, deliberate reveal, optional faster-whisper transcribe |
+| Product shell | Quiet Ink dashboard (Daily Path), guided session, PWA manifest/offline/service worker | Tap-to-gloss, Phrasebook, refined icons/screenshots |
+| Quality | 85 Vitest tests, lint, typecheck, Prisma validate/generate, Next production build | Browser E2E at 1440px/390px, real-DB migration smoke, deployment checks |
 
 ## Product principles
 
@@ -64,18 +68,27 @@ VoxLibre/
 │   ├── schema.prisma                 # PostgreSQL curriculum and learning data
 │   ├── migrations/                   # Generated schema + PostgreSQL checks/triggers
 │   └── seed.ts                       # en→fr and en→it original fixtures
+├── public/
+│   ├── sw.js / offline.html / manifest # PWA shell
+│   └── audio/                        # Kokoro-authored static clips (when generated)
+├── services/voice/                   # Optional local Kokoro + faster-whisper sidecar
 ├── src/
-│   ├── app/                          # Next.js App Router pages and layout
+│   ├── app/                          # Next.js App Router pages, layout, manifest
 │   ├── components/audio/              # Active-pause audio player and availability rules
-│   ├── features/curriculum/          # Typed course fixture boundary
+│   ├── components/dashboard/          # DailyPathDashboard (Quiet Ink)
+│   ├── components/session/            # GuidedSession (stepline + reveal)
+│   ├── components/pwa/                # PWA registrar
+│   ├── features/curriculum/          # Typed course fixture + access policy
+│   ├── features/progress/            # Demo progress types + hooks
+│   ├── features/session/             # Demo session composition
 │   ├── features/srs/                  # Construction quality and SM-2 scheduling
-│   ├── lib/                          # Prisma client and React Query provider
+│   ├── lib/                          # Prisma client, React Query provider, voice service
 │   └── test/                         # Shared Vitest setup
-├── tests/                             # Unit/component tests
-└── docs/superpowers/                  # Approved design and implementation plan
+├── tests/                             # Unit/component tests (85)
+└── docs/superpowers/                  # Approved designs and plans (Phase 1 → Quiet Ink)
 ```
 
-The approved design is [VoxLibre Phase 1 Design](docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md). The task-by-task execution plan is [VoxLibre Phase 1 Implementation Plan](docs/superpowers/plans/2026-08-30-voxlibre-phase-1.md).
+The approved designs are [VoxLibre Phase 1 Design](docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md) (foundation), [Gamified Dashboard](docs/superpowers/specs/2026-08-31-gamified-dashboard-and-local-voice-design.md) (superseded by Quiet Ink), and [Quiet Ink](docs/superpowers/specs/2026-09-01-quiet-ink-interface-redesign.md) (current UI direction). Plans are in `docs/superpowers/plans/`.
 
 ## Local development
 
@@ -129,7 +142,7 @@ npm run build                # Next production build
 npm run test:e2e             # Playwright browser tests (as they are added)
 ```
 
-The delivered foundation has passed its unit/component tests, lint, typecheck, and Prisma validation. A later Turbopack build attempt was blocked by the execution environment's port-binding permissions; this is documented rather than presented as a product failure or a passing build. `npm audit` currently reports transitive dependency findings that should be reviewed before production deployment.
+The delivered foundation passes its 85 Vitest tests, lint, typecheck, Prisma validate/generate, and Next production build (Turbopack). `npm audit` currently reports transitive dependency findings that should be reviewed before production deployment. Applying the committed migration to a real PostgreSQL instance still requires `DATABASE_URL` (see below).
 
 ## Database model
 
