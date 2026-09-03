@@ -1,17 +1,11 @@
+import { createHash } from 'node:crypto';
+
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 import { initialCourses } from '../src/features/curriculum/fixture';
 
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error('DATABASE_URL is required to seed the curriculum.');
-}
-
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString }),
-});
+const CONTENT_VERSION_ID = 'fixtures';
 
 const languages = [
   { code: 'en', displayName: 'English' },
@@ -19,8 +13,30 @@ const languages = [
   { code: 'it', displayName: 'Italian' },
 ] as const;
 
-async function seed() {
+function computeFixtureVersion(): string {
+  return createHash('sha256').update(JSON.stringify(initialCourses)).digest('hex');
+}
+
+export async function seed(prisma: PrismaClient): Promise<void> {
+  const fixtureVersion = computeFixtureVersion();
+
   await prisma.$transaction(async (transaction) => {
+    const existingVersion = await transaction.contentVersion.findUnique({
+      where: { id: CONTENT_VERSION_ID },
+    });
+
+    if (existingVersion && existingVersion.version !== fixtureVersion) {
+      throw new Error(
+        `Fixture drift detected: stored content version ${existingVersion.version} does not match current fixture version ${fixtureVersion}.`,
+      );
+    }
+
+    await transaction.contentVersion.upsert({
+      where: { id: CONTENT_VERSION_ID },
+      update: { version: fixtureVersion },
+      create: { id: CONTENT_VERSION_ID, version: fixtureVersion },
+    });
+
     for (const language of languages) {
       await transaction.language.upsert({
         where: { code: language.code },
@@ -120,10 +136,25 @@ async function seed() {
   });
 }
 
-seed()
-  .then(() => {
-    console.info('Seeded original English-to-French and English-to-Italian A1 fixtures.');
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
+async function main() {
+  const connectionString = process.env.DATABASE_URL;
+
+  if (!connectionString) {
+    throw new Error('DATABASE_URL is required to seed the curriculum.');
+  }
+
+  const prisma = new PrismaClient({
+    adapter: new PrismaPg({ connectionString }),
   });
+
+  try {
+    await seed(prisma);
+    console.info('Seeded original English-to-French and English-to-Italian A1 fixtures.');
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+if (import.meta.url === new URL(process.argv[1] ?? '', 'file://').href) {
+  main();
+}
