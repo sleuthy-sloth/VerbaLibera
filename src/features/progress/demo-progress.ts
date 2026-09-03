@@ -29,7 +29,9 @@ function deriveSession() {
     const dueReviews = concepts.slice(1, 2).map((c) => ({ id: `${c.id}-review-1`, contentId: c.id }));
     const drillRounds = concepts.slice(1, 3).map((c) => ({ id: `${c.id}-drill-1`, contentId: c.id, drillId: `${c.id}-drill` }));
     // Picture-choice vocab drills ride along with their concept's text drill.
-    const pictureRounds = concepts.slice(1, 3).flatMap((c) =>
+    // The demo path surfaces the ordering picture only (slice 1,2); every
+    // pattern ships a picture drill in the fixture for review practice.
+    const pictureRounds = concepts.slice(1, 2).flatMap((c) =>
       c.drills
         .filter((d) => d.kind === 'PICTURE_CHOICE')
         .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),

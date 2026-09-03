@@ -100,32 +100,90 @@ const portuguesePatterns: readonly PatternSeed[] = [
 
 type VocabChoice = Readonly<{ id: string; imageUrl: string; alt: string; words: Readonly<{ fr: string; it: string; es: string; pt: string }> }>;
 
-// Pilot vocab: ordering-pattern nouns. Pictures are language-neutral — one
-// image set serves all four courses.
-const ORDERING_VOCAB: readonly VocabChoice[] = [
-  { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
-  { id: 'tea', imageUrl: '/images/vocab/tea.jpg', alt: 'A cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
-  { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
-  { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
-];
+type VocabSet = Readonly<{ target: string; items: readonly VocabChoice[] }>;
 
-const ORDERING_CONCEPT_IDS = new Set([
-  'fr-ordering-politely',
-  'it-ordering-politely',
-  'es-ordering-politely',
-  'pt-ordering-politely',
-]);
-
-const ORDERING_TARGET_WORD: Record<string, 'coffee' | 'tea'> = {
-  'fr-ordering-politely': 'coffee',
-  'it-ordering-politely': 'coffee',
-  'es-ordering-politely': 'coffee',
-  'pt-ordering-politely': 'coffee',
+// Pilot vocab: concrete nouns per travel pattern. Pictures are
+// language-neutral — one image set serves all four courses.
+const VOCAB_BY_PATTERN: Record<string, VocabSet> = {
+  'ordering-politely': {
+    target: 'coffee',
+    items: [
+      { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
+      { id: 'tea', imageUrl: '/images/vocab/tea.jpg', alt: 'A cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
+      { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
+      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+    ],
+  },
+  'greet-politely': {
+    target: 'shopkeeper',
+    items: [
+      { id: 'shopkeeper', imageUrl: '/images/vocab/shopkeeper.jpg', alt: 'A shopkeeper behind a counter', words: { fr: 'un commerçant', it: 'un negoziante', es: 'un comerciante', pt: 'um comerciante' } },
+      { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
+      { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
+      { id: 'door', imageUrl: '/images/vocab/door.jpg', alt: 'A shop door', words: { fr: 'une porte', it: 'una porta', es: 'una puerta', pt: 'uma porta' } },
+    ],
+  },
+  'find-place': {
+    target: 'station',
+    items: [
+      { id: 'station', imageUrl: '/images/vocab/station.jpg', alt: 'A train station entrance', words: { fr: 'une gare', it: 'una stazione', es: 'una estación', pt: 'uma estação' } },
+      { id: 'museum', imageUrl: '/images/vocab/museum.jpg', alt: 'A museum building', words: { fr: 'un musée', it: 'un museo', es: 'un museo', pt: 'um museu' } },
+      { id: 'street', imageUrl: '/images/vocab/street.jpg', alt: 'A city street', words: { fr: 'une rue', it: 'una strada', es: 'una calle', pt: 'uma rua' } },
+      { id: 'map', imageUrl: '/images/vocab/map.jpg', alt: 'A city map', words: { fr: 'un plan', it: 'una mappa', es: 'un mapa', pt: 'um mapa' } },
+    ],
+  },
+  'ask-help': {
+    target: 'door',
+    items: [
+      { id: 'door', imageUrl: '/images/vocab/door.jpg', alt: 'A building entrance door', words: { fr: 'une entrée', it: 'un ingresso', es: 'una entrada', pt: 'uma entrada' } },
+      { id: 'map', imageUrl: '/images/vocab/map.jpg', alt: 'A city map', words: { fr: 'un plan', it: 'una mappa', es: 'un mapa', pt: 'um mapa' } },
+      { id: 'phone', imageUrl: '/images/vocab/phone.jpg', alt: 'A mobile phone', words: { fr: 'un téléphone', it: 'un telefono', es: 'un teléfono', pt: 'um telefone' } },
+      { id: 'helper', imageUrl: '/images/vocab/helper.jpg', alt: 'A person offering help', words: { fr: 'une personne', it: 'una persona', es: 'una persona', pt: 'uma pessoa' } },
+    ],
+  },
+  'pay-politely': {
+    target: 'card',
+    items: [
+      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+      { id: 'card', imageUrl: '/images/vocab/card.jpg', alt: 'A bank card', words: { fr: 'une carte', it: 'una carta', es: 'una tarjeta', pt: 'um cartão' } },
+      { id: 'coins', imageUrl: '/images/vocab/coins.jpg', alt: 'Coins in a hand', words: { fr: 'des pièces', it: 'delle monete', es: 'unas monedas', pt: 'umas moedas' } },
+      { id: 'wallet', imageUrl: '/images/vocab/wallet.jpg', alt: 'A wallet', words: { fr: 'un portefeuille', it: 'un portafoglio', es: 'una cartera', pt: 'uma carteira' } },
+    ],
+  },
+  'ask-directions': {
+    target: 'museum',
+    items: [
+      { id: 'museum', imageUrl: '/images/vocab/museum.jpg', alt: 'A museum building', words: { fr: 'un musée', it: 'un museo', es: 'un museo', pt: 'um museu' } },
+      { id: 'station', imageUrl: '/images/vocab/station.jpg', alt: 'A train station entrance', words: { fr: 'une gare', it: 'una stazione', es: 'una estación', pt: 'uma estação' } },
+      { id: 'street', imageUrl: '/images/vocab/street.jpg', alt: 'A city street', words: { fr: 'une rue', it: 'una strada', es: 'una calle', pt: 'uma rua' } },
+      { id: 'map', imageUrl: '/images/vocab/map.jpg', alt: 'A city map', words: { fr: 'un plan', it: 'una mappa', es: 'un mapa', pt: 'um mapa' } },
+    ],
+  },
+  'hotel-checkin': {
+    target: 'key',
+    items: [
+      { id: 'hotel', imageUrl: '/images/vocab/hotel.jpg', alt: 'A hotel entrance', words: { fr: 'un hôtel', it: 'un hotel', es: 'un hotel', pt: 'um hotel' } },
+      { id: 'key', imageUrl: '/images/vocab/key.jpg', alt: 'A room key', words: { fr: 'une clé', it: 'una chiave', es: 'una llave', pt: 'uma chave' } },
+      { id: 'bed', imageUrl: '/images/vocab/bed.jpg', alt: 'A hotel bed', words: { fr: 'un lit', it: 'un letto', es: 'una cama', pt: 'uma cama' } },
+      { id: 'suitcase', imageUrl: '/images/vocab/suitcase.jpg', alt: 'A suitcase', words: { fr: 'une valise', it: 'una valigia', es: 'una maleta', pt: 'uma mala' } },
+    ],
+  },
+  'emergency-help': {
+    target: 'ambulance',
+    items: [
+      { id: 'ambulance', imageUrl: '/images/vocab/ambulance.jpg', alt: 'An ambulance', words: { fr: 'une ambulance', it: 'un’ambulanza', es: 'una ambulancia', pt: 'uma ambulância' } },
+      { id: 'police', imageUrl: '/images/vocab/police.jpg', alt: 'A police car', words: { fr: 'la police', it: 'la polizia', es: 'la policía', pt: 'a polícia' } },
+      { id: 'phone', imageUrl: '/images/vocab/phone.jpg', alt: 'A mobile phone', words: { fr: 'un téléphone', it: 'un telefono', es: 'un teléfono', pt: 'um telefone' } },
+      { id: 'hospital', imageUrl: '/images/vocab/hospital.jpg', alt: 'A hospital entrance', words: { fr: 'un hôpital', it: 'un ospedale', es: 'un hospital', pt: 'um hospital' } },
+    ],
+  },
 };
 
 const makePictureDrill = (code: 'fr' | 'it' | 'es' | 'pt', seedId: string) => {
-  const targetId = ORDERING_TARGET_WORD[seedId] ?? 'coffee';
-  const target = ORDERING_VOCAB.find((v) => v.id === targetId) ?? ORDERING_VOCAB[0]!;
+  const base = seedId.slice(3);
+  const set = VOCAB_BY_PATTERN[base];
+  if (!set) return null;
+  const target = set.items.find((v) => v.id === set.target) ?? set.items[0]!;
   const word = target.words[code];
   return {
     id: `${seedId}-picture`,
@@ -135,13 +193,14 @@ const makePictureDrill = (code: 'fr' | 'it' | 'es' | 'pt', seedId: string) => {
     prompt: `Which picture shows “${word}”? Tap it.`,
     acceptedResponses: [target.id],
     recallTarget: target.id,
-    choices: ORDERING_VOCAB.map(({ id, imageUrl, alt }) => ({ id, imageUrl, alt })),
+    choices: set.items.map(({ id, imageUrl, alt }) => ({ id, imageUrl, alt })),
     contentProvenance: 'ORIGINAL' as const,
   };
 };
 
 const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
   const pilotAudio = lessonAudioFor(seed.id);
+  const pictureDrill = makePictureDrill(seed.id.slice(0, 2) as 'fr' | 'it' | 'es' | 'pt', seed.id);
 
   return {
   id: seed.id, position, cefrLevel: 'A1', title: seed.title, explanation: seed.explanation, scenario: seed.scenario, notice: seed.notice,
@@ -152,9 +211,7 @@ const makeConcept = (language: string, position: number, seed: PatternSeed): Con
   ],
   drills: [
     { id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' },
-    ...(ORDERING_CONCEPT_IDS.has(seed.id)
-      ? [makePictureDrill(seed.id.slice(0, 2) as 'fr' | 'it' | 'es' | 'pt', seed.id)]
-      : []),
+    ...(pictureDrill ? [pictureDrill] : []),
   ],
   };
 };

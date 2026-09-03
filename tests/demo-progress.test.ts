@@ -24,7 +24,7 @@ function deriveDemoSession() {
     const concepts = course.concepts;
     const dueReviews = concepts.slice(1, 2).map((c) => ({ id: `${c.id}-review-1`, contentId: c.id }));
     const drillRounds = concepts.slice(1, 3).map((c) => ({ id: `${c.id}-drill-1`, contentId: c.id, drillId: `${c.id}-drill` }));
-    const pictureRounds = concepts.slice(1, 3).flatMap((c) =>
+    const pictureRounds = concepts.slice(1, 2).flatMap((c) =>
       c.drills
         .filter((d) => d.kind === 'PICTURE_CHOICE')
         .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),

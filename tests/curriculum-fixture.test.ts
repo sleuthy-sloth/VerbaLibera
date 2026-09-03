@@ -176,13 +176,13 @@ describe('initial curriculum fixtures', () => {
           expect.objectContaining({ type: 'ANSWER', pauseAfter: false }),
         ]),
       );
-      expect(concept?.drills).toEqual([
+      expect(concept?.drills[0]).toEqual(
         expect.objectContaining({
           conceptId: concept?.id,
           kind: 'TRANSFORMATION',
           contentProvenance: 'ORIGINAL',
         }),
-      ]);
+      );
     }
   });
 
@@ -259,29 +259,24 @@ describe('initial curriculum fixtures', () => {
     }
   });
 
-  it('adds a picture-choice vocab drill to every ordering pattern', () => {
-    const orderingIds = ['fr-ordering-politely', 'it-ordering-politely', 'es-ordering-politely', 'pt-ordering-politely'];
+  it('adds a picture-choice vocab drill to every pattern', () => {
     for (const course of initialCourses) {
       for (const concept of course.concepts) {
-        if (orderingIds.includes(concept.id)) {
-          expect(concept.drills).toHaveLength(2);
-          const picture = concept.drills[1];
-          expect(picture).toMatchObject({
-            id: `${concept.id}-picture`,
-            conceptId: concept.id,
-            kind: 'PICTURE_CHOICE',
-            contentProvenance: 'ORIGINAL',
-          });
-          expect(picture?.acceptedResponses).toEqual([picture?.recallTarget]);
-          expect(picture?.choices).toHaveLength(4);
-          expect(picture?.choices?.map((c) => c.id)).toEqual(['coffee', 'tea', 'table', 'bill']);
-          expect(
-            picture?.choices?.every((c) => c.imageUrl.startsWith('/images/vocab/') && c.alt.length > 0),
-          ).toBe(true);
-          expect(picture?.choices?.some((c) => c.id === picture?.recallTarget)).toBe(true);
-        } else {
-          expect(concept.drills).toHaveLength(1);
-        }
+        expect(concept.drills).toHaveLength(2);
+        const picture = concept.drills[1];
+        expect(picture).toMatchObject({
+          id: `${concept.id}-picture`,
+          conceptId: concept.id,
+          kind: 'PICTURE_CHOICE',
+          contentProvenance: 'ORIGINAL',
+        });
+        expect(picture?.acceptedResponses).toEqual([picture?.recallTarget]);
+        expect(picture?.choices).toHaveLength(4);
+        expect(
+          picture?.choices?.every((c) => c.imageUrl.startsWith('/images/vocab/') && c.imageUrl.endsWith('.jpg') && c.alt.length > 0),
+        ).toBe(true);
+        expect(picture?.choices?.some((c) => c.id === picture?.recallTarget)).toBe(true);
+        expect(new Set(picture?.choices?.map((c) => c.id)).size).toBe(4);
       }
     }
   });
