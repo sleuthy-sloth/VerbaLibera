@@ -8,6 +8,7 @@ const STATIC_ASSETS = [
   '/illustrations/daily-practice.png',
   '/learn/english-to-french',
   '/learn/english-to-italian',
+  '/learn/english-to-spanish',
   '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   '/audio/french-ordering/fr-ordering-politely-answer.wav',
 ];

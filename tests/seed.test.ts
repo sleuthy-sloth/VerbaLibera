@@ -94,18 +94,18 @@ describe('seed', () => {
     await seed(client as unknown as Parameters<typeof seed>[0]);
     await seed(client as unknown as Parameters<typeof seed>[0]);
 
-    expect(stores.language.size).toBe(3);
-    expect(stores.course.size).toBe(2);
-    expect(stores.conceptBlock.size).toBe(10);
-    expect(stores.drillItem.size).toBe(10);
-    expect(stores.audioSegment.size).toBe(20);
+    expect(stores.language.size).toBe(4);
+    expect(stores.course.size).toBe(3);
+    expect(stores.conceptBlock.size).toBe(24);
+    expect(stores.drillItem.size).toBe(24);
+    expect(stores.audioSegment.size).toBe(48);
     expect(stores.contentVersion.size).toBe(1);
 
-    expect(client.language.upsert).toHaveBeenCalledTimes(6);
-    expect(client.course.upsert).toHaveBeenCalledTimes(4);
-    expect(client.conceptBlock.upsert).toHaveBeenCalledTimes(20);
-    expect(client.drillItem.upsert).toHaveBeenCalledTimes(20);
-    expect(client.audioSegment.upsert).toHaveBeenCalledTimes(40);
+    expect(client.language.upsert).toHaveBeenCalledTimes(8);
+    expect(client.course.upsert).toHaveBeenCalledTimes(6);
+    expect(client.conceptBlock.upsert).toHaveBeenCalledTimes(48);
+    expect(client.drillItem.upsert).toHaveBeenCalledTimes(48);
+    expect(client.audioSegment.upsert).toHaveBeenCalledTimes(96);
   });
 
   it('keeps ContentVersion stable when fixture unchanged', async () => {
@@ -212,7 +212,7 @@ describe('seed', () => {
 
     expect(stores.conceptBlock.size).toBe(conceptCountFirst);
     expect(stores.drillItem.size).toBe(drillCountFirst);
-    expect(conceptCountFirst).toBe(10);
-    expect(drillCountFirst).toBe(10);
+    expect(conceptCountFirst).toBe(24);
+    expect(drillCountFirst).toBe(24);
   });
 });

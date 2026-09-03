@@ -58,10 +58,10 @@ describe('demo progress snapshot', () => {
     // Break caught: dashboard data drifting from the deterministic daily-session policy.
     expect(demoProgress).toMatchObject({
       selectedCourseSlug: 'english-to-french',
-      xp: 260,
+      xp: 420,
       practiceFlowDays: 4,
       dailyGoal: { completed: 4, target: 5 },
-      dueReviewCount: 6,
+      dueReviewCount: 9,
     });
     expect(demoProgress.session.filter((step) => step.courseSlug === 'english-to-french')).toEqual([
       { id: 'fr-ordering-politely-review-1', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },

@@ -22,6 +22,9 @@ function CountReader() {
   const { data } = useQuery<DemoProgressSnapshot>({
     queryKey: ['demo', 'progress'],
     queryFn: async () => demoProgress,
+    // Seeded cache must stick: without this the queryFn (live demoProgress
+    // singleton) background-refetches on mount and clobbers setQueryData seeds.
+    staleTime: Infinity,
   });
   return <span data-testid="due-count">{data?.dueReviewCount ?? 'unknown'}</span>;
 }
