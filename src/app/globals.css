@@ -36,6 +36,13 @@ body {
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
 }
 
+/* Room for the fixed mobile bottom tabs (56px + safe area). Desktop hides them. */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;

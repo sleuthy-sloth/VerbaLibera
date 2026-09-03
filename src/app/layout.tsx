@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Newsreader } from "next/font/google";
 import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
+import { BottomTabs } from "@/components/nav/BottomTabs";
 import { QueryProvider } from "@/lib/query-provider";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <QueryProvider>
           {children}
+          <BottomTabs />
           <PwaRegistrar />
         </QueryProvider>
       </body>
