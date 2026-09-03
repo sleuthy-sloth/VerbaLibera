@@ -6,6 +6,6 @@ describe('GET /api/demo/progress', () => {
     const response = await GET();
 
     expect(response.headers.get('Cache-Control')).toBe('no-store');
-    expect(await response.json()).toMatchObject({ xp: 600, dueReviewCount: 16 });
+    expect(await response.json()).toMatchObject({ xp: 680, dueReviewCount: 20 });
   });
 });
