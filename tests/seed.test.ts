@@ -97,14 +97,14 @@ describe('seed', () => {
     expect(stores.language.size).toBe(5);
     expect(stores.course.size).toBe(4);
     expect(stores.conceptBlock.size).toBe(32);
-    expect(stores.drillItem.size).toBe(32);
+    expect(stores.drillItem.size).toBe(36);
     expect(stores.audioSegment.size).toBe(64);
     expect(stores.contentVersion.size).toBe(1);
 
     expect(client.language.upsert).toHaveBeenCalledTimes(10);
     expect(client.course.upsert).toHaveBeenCalledTimes(8);
     expect(client.conceptBlock.upsert).toHaveBeenCalledTimes(64);
-    expect(client.drillItem.upsert).toHaveBeenCalledTimes(64);
+    expect(client.drillItem.upsert).toHaveBeenCalledTimes(72);
     expect(client.audioSegment.upsert).toHaveBeenCalledTimes(128);
   });
 
@@ -213,6 +213,6 @@ describe('seed', () => {
     expect(stores.conceptBlock.size).toBe(conceptCountFirst);
     expect(stores.drillItem.size).toBe(drillCountFirst);
     expect(conceptCountFirst).toBe(32);
-    expect(drillCountFirst).toBe(32);
+    expect(drillCountFirst).toBe(36);
   });
 });

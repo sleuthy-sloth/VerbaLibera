@@ -248,13 +248,40 @@ describe('initial curriculum fixtures', () => {
   it('gives every authored pattern a controlled variation instead of repeating its model target', () => {
     for (const course of initialCourses) {
       for (const concept of course.concepts) {
-        expect(concept.drills).toHaveLength(1);
-        expect(concept.drills[0]).toMatchObject({
+        const textDrill = concept.drills[0];
+        expect(textDrill).toMatchObject({
           conceptId: concept.id,
           contentProvenance: 'ORIGINAL',
         });
-        expect(concept.drills[0]?.acceptedResponses).toContain(concept.drills[0]?.recallTarget);
-        expect(concept.drills[0]?.recallTarget).not.toBe(concept.modelDialogue.answer);
+        expect(textDrill?.acceptedResponses).toContain(textDrill?.recallTarget);
+        expect(textDrill?.recallTarget).not.toBe(concept.modelDialogue.answer);
+      }
+    }
+  });
+
+  it('adds a picture-choice vocab drill to every ordering pattern', () => {
+    const orderingIds = ['fr-ordering-politely', 'it-ordering-politely', 'es-ordering-politely', 'pt-ordering-politely'];
+    for (const course of initialCourses) {
+      for (const concept of course.concepts) {
+        if (orderingIds.includes(concept.id)) {
+          expect(concept.drills).toHaveLength(2);
+          const picture = concept.drills[1];
+          expect(picture).toMatchObject({
+            id: `${concept.id}-picture`,
+            conceptId: concept.id,
+            kind: 'PICTURE_CHOICE',
+            contentProvenance: 'ORIGINAL',
+          });
+          expect(picture?.acceptedResponses).toEqual([picture?.recallTarget]);
+          expect(picture?.choices).toHaveLength(4);
+          expect(picture?.choices?.map((c) => c.id)).toEqual(['coffee', 'tea', 'table', 'bill']);
+          expect(
+            picture?.choices?.every((c) => c.imageUrl.startsWith('/images/vocab/') && c.alt.length > 0),
+          ).toBe(true);
+          expect(picture?.choices?.some((c) => c.id === picture?.recallTarget)).toBe(true);
+        } else {
+          expect(concept.drills).toHaveLength(1);
+        }
       }
     }
   });

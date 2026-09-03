@@ -98,6 +98,48 @@ const portuguesePatterns: readonly PatternSeed[] = [
   { id: 'pt-emergency-help', scenario: 'Getting help in an emergency', notice: '“Socorro!” calls for urgent help; add what you need next.', title: 'Portuguese: calling for help with “Socorro!”', explanation: 'Use “Socorro! Chame uma ambulância, por favor.” in an emergency.', prompt: 'Call for help and ask someone to call an ambulance.', answer: 'Socorro! Chame uma ambulância, por favor.', drillPrompt: 'Now ask someone to call the police instead.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Socorro! Chame a polícia, por favor.'] },
 ];
 
+type VocabChoice = Readonly<{ id: string; imageUrl: string; alt: string; words: Readonly<{ fr: string; it: string; es: string; pt: string }> }>;
+
+// Pilot vocab: ordering-pattern nouns. Pictures are language-neutral — one
+// image set serves all four courses.
+const ORDERING_VOCAB: readonly VocabChoice[] = [
+  { id: 'coffee', imageUrl: '/images/vocab/coffee.png', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
+  { id: 'tea', imageUrl: '/images/vocab/tea.png', alt: 'A cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
+  { id: 'table', imageUrl: '/images/vocab/table.png', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
+  { id: 'bill', imageUrl: '/images/vocab/bill.png', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+];
+
+const ORDERING_CONCEPT_IDS = new Set([
+  'fr-ordering-politely',
+  'it-ordering-politely',
+  'es-ordering-politely',
+  'pt-ordering-politely',
+]);
+
+const ORDERING_TARGET_WORD: Record<string, 'coffee' | 'tea'> = {
+  'fr-ordering-politely': 'coffee',
+  'it-ordering-politely': 'coffee',
+  'es-ordering-politely': 'coffee',
+  'pt-ordering-politely': 'coffee',
+};
+
+const makePictureDrill = (code: 'fr' | 'it' | 'es' | 'pt', seedId: string) => {
+  const targetId = ORDERING_TARGET_WORD[seedId] ?? 'coffee';
+  const target = ORDERING_VOCAB.find((v) => v.id === targetId) ?? ORDERING_VOCAB[0]!;
+  const word = target.words[code];
+  return {
+    id: `${seedId}-picture`,
+    conceptId: seedId,
+    cefrLevel: 'A1' as const,
+    kind: 'PICTURE_CHOICE' as const,
+    prompt: `Which picture shows “${word}”? Tap it.`,
+    acceptedResponses: [target.id],
+    recallTarget: target.id,
+    choices: ORDERING_VOCAB.map(({ id, imageUrl, alt }) => ({ id, imageUrl, alt })),
+    contentProvenance: 'ORIGINAL' as const,
+  };
+};
+
 const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
   const pilotAudio = lessonAudioFor(seed.id);
 
@@ -108,7 +150,12 @@ const makeConcept = (language: string, position: number, seed: PatternSeed): Con
     { id: `${seed.id}-prompt`, type: 'PROMPT', position: 1, pauseAfter: true, audioUrl: pilotAudio?.prompt ?? unavailableAudio(`${seed.id}-prompt`), transcript: seed.prompt, contentProvenance: 'ORIGINAL' },
     { id: `${seed.id}-answer`, type: 'ANSWER', position: 2, pauseAfter: false, audioUrl: pilotAudio?.answer ?? unavailableAudio(`${seed.id}-answer`), transcript: seed.answer, contentProvenance: 'ORIGINAL' },
   ],
-  drills: [{ id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' }],
+  drills: [
+    { id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' },
+    ...(ORDERING_CONCEPT_IDS.has(seed.id)
+      ? [makePictureDrill(seed.id.slice(0, 2) as 'fr' | 'it' | 'es' | 'pt', seed.id)]
+      : []),
+  ],
   };
 };
 const makeCourse = (language: string, code: string, patterns: readonly PatternSeed[]): CourseFixture => ({

@@ -18,6 +18,7 @@ enum CEFRLevel {
 enum DrillKind {
   SUBSTITUTION
   TRANSFORMATION
+  PICTURE_CHOICE
 }
 
 enum AudioSegmentType {
@@ -137,6 +138,7 @@ model DrillItem {
   prompt            String
   acceptedResponses Json
   recallTarget      String
+  choices           Json?
   contentProvenance ContentProvenance
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt

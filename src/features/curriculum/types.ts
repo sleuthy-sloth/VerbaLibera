@@ -1,6 +1,6 @@
 export type CEFRLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
-export type DrillKind = 'SUBSTITUTION' | 'TRANSFORMATION';
+export type DrillKind = 'SUBSTITUTION' | 'TRANSFORMATION' | 'PICTURE_CHOICE';
 
 export type AudioSegmentType = 'PROMPT' | 'ANSWER';
 
@@ -19,6 +19,8 @@ export type AudioSegmentFixture = Readonly<{
   contentProvenance: ContentProvenance;
 }>;
 
+export type DrillChoiceFixture = Readonly<{ id: string; imageUrl: string; alt: string }>;
+
 export type DrillFixture = Readonly<{
   id: string;
   conceptId: string;
@@ -27,6 +29,7 @@ export type DrillFixture = Readonly<{
   prompt: string;
   acceptedResponses: readonly string[];
   recallTarget: string;
+  choices?: readonly DrillChoiceFixture[];
   contentProvenance: ContentProvenance;
 }>;
 

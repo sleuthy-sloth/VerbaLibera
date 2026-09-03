@@ -124,6 +124,7 @@ export async function seed(prisma: PrismaClient): Promise<void> {
             prompt: drillFixture.prompt,
             acceptedResponses: [...drillFixture.acceptedResponses] as Prisma.InputJsonValue,
             recallTarget: drillFixture.recallTarget,
+            choices: (('choices' in drillFixture && Array.isArray(drillFixture.choices) ? drillFixture.choices.map((c) => ({ ...(c as Record<string, unknown>) })) : null)) as Prisma.InputJsonValue,
             contentProvenance: drillFixture.contentProvenance,
           };
 
