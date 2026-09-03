@@ -202,7 +202,7 @@ describe('DailyPathDashboard', () => {
     // Break caught: a zero review count is announced as work waiting anywhere on the path.
     render(<DailyPathDashboard progress={{ ...demoProgress, dueReviewCount: 0 }} />);
 
-    expect(screen.getByText('You are caught up on reviews.')).toBeInTheDocument();
+    expect(screen.getByText(/You're caught up — one pattern tomorrow keeps the flow\./)).toBeInTheDocument();
     expect(screen.queryByText(/bring six phrases back into reach/i)).not.toBeInTheDocument();
   });
 

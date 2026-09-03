@@ -9,6 +9,7 @@
   --accent-strong: #174b4a;
   --accent-soft: #e4edeb;
   --focus-ring: var(--accent);
+  --motion-duration: 220ms;
   --background: var(--canvas);
   --foreground: var(--ink);
   --font-display: var(--font-newsreader);

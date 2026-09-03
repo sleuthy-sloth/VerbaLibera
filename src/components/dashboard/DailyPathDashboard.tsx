@@ -204,7 +204,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
               <dd>
                 <p>
                   {progress.dueReviewCount === 0
-                    ? 'You are caught up on reviews.'
+                    ? "You're caught up — one pattern tomorrow keeps the flow."
                     : `${progress.dueReviewCount} reviews waiting`}
                 </p>
               </dd>

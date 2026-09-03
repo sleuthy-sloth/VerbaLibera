@@ -45,9 +45,9 @@ export function reviewQueueCopy(
       ? isPreviewOrArgs.dueCount
       : (dueCount as number);
   if (isPreview) {
-    return count === 0 ? 'You are caught up on reviews.' : `${count} reviews waiting (preview)`;
+    return count === 0 ? "You're caught up — one pattern tomorrow keeps the flow." : `${count} reviews waiting (preview)`;
   }
-  return count === 0 ? 'You are caught up on reviews.' : `${count} reviews waiting`;
+  return count === 0 ? "You're caught up — one pattern tomorrow keeps the flow." : `${count} reviews waiting`;
 }
 
 export function dailyGoalCopy(isPreview: boolean, completed: number, target: number): string;

@@ -266,6 +266,17 @@
   background: var(--surface);
 }
 
+@keyframes completionCheckIn {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .completionMark {
   display: grid;
   width: 4rem;
@@ -274,8 +285,17 @@
   place-items: center;
   border: 2px solid var(--accent);
   border-radius: 50%;
+  color: var(--accent-strong);
+  background: var(--surface);
   font-size: 2rem;
-  transition: transform 300ms ease;
+  transition: transform var(--motion-duration, 220ms) ease;
+  animation: completionCheckIn var(--motion-duration, 220ms) ease-out;
+}
+
+.completionMark[data-reduced-motion="true"],
+[data-reduced-motion="true"] .completionMark {
+  animation: none;
+  transition: none;
 }
 
 .completion h2 {
@@ -353,6 +373,10 @@
   .completion a,
   .unavailable a {
     transition: none;
+    animation: none;
+  }
+  .completionMark {
+    animation: none;
   }
 }
 .responseSection {
