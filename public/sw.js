@@ -38,12 +38,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // App shell, lesson routes, audio, and Next static are cached for offline use.
-  // Precaches: /, /learn/*, /audio/**, /_next/static/**
+  // App shell, lesson routes, audio, images, and Next static are cached for offline use.
+  // Precaches: /, /learn/*, /audio/**, /images/**, /_next/static/**
   if (
     url.pathname === '/' ||
     url.pathname.startsWith('/learn/') ||
     url.pathname.startsWith('/audio/') ||
+    url.pathname.startsWith('/images/') ||
     url.pathname.startsWith('/_next/static/')
   ) {
     event.respondWith(

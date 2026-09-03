@@ -103,10 +103,10 @@ type VocabChoice = Readonly<{ id: string; imageUrl: string; alt: string; words: 
 // Pilot vocab: ordering-pattern nouns. Pictures are language-neutral — one
 // image set serves all four courses.
 const ORDERING_VOCAB: readonly VocabChoice[] = [
-  { id: 'coffee', imageUrl: '/images/vocab/coffee.png', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
-  { id: 'tea', imageUrl: '/images/vocab/tea.png', alt: 'A cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
-  { id: 'table', imageUrl: '/images/vocab/table.png', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
-  { id: 'bill', imageUrl: '/images/vocab/bill.png', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+  { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
+  { id: 'tea', imageUrl: '/images/vocab/tea.jpg', alt: 'A cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
+  { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
+  { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
 ];
 
 const ORDERING_CONCEPT_IDS = new Set([

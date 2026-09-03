@@ -164,7 +164,7 @@ describe('static PWA service worker contract', () => {
     expect(assets.some((a) => a.includes('/api'))).toBe(false);
     expect(assets.some((a) => a.includes('/api/demo/progress'))).toBe(false);
 
-    // runtime behavior: lesson/audio/next-static should be served via cache, api must bypass
+    // runtime behavior: lesson/audio/images/next-static should be served via cache, api must bypass
     const { handlers } = await evaluateWorker();
     const fetchHandler = handlers.get('fetch');
     const lessonEvent = {
@@ -173,6 +173,10 @@ describe('static PWA service worker contract', () => {
     };
     const audioEvent = {
       request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/audio/french-ordering/fr-ordering-politely-prompt.wav' },
+      respondWith: vi.fn(),
+    };
+    const imageEvent = {
+      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/images/vocab/coffee.jpg' },
       respondWith: vi.fn(),
     };
     const nextStaticEvent = {
@@ -186,12 +190,14 @@ describe('static PWA service worker contract', () => {
 
     fetchHandler?.(lessonEvent as never);
     fetchHandler?.(audioEvent as never);
+    fetchHandler?.(imageEvent as never);
     fetchHandler?.(nextStaticEvent as never);
     fetchHandler?.(apiEvent2 as never);
 
-    // lessons, audio, and Next static must be intercepted (respondWith called)
+    // lessons, audio, images, and Next static must be intercepted (respondWith called)
     expect(lessonEvent.respondWith).toHaveBeenCalledTimes(1);
     expect(audioEvent.respondWith).toHaveBeenCalledTimes(1);
+    expect(imageEvent.respondWith).toHaveBeenCalledTimes(1);
     expect(nextStaticEvent.respondWith).toHaveBeenCalledTimes(1);
     // api must never be intercepted
     expect(apiEvent2.respondWith).not.toHaveBeenCalled();
