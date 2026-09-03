@@ -34,6 +34,8 @@ Working:
 - Optional model-audio playback with text/reveal fallback when a clip is unavailable.
 - A real French polite-ordering audio pilot: two original Kokoro 0.9.4 / `ff_siwis` WAV clips, committed with hashes and provenance.
 - Typed answer checking on drill steps with an honest three-state verdict — computed locally via the optional voice sidecar, with exact-match fallback when it is off.
+- Passkey accounts (WebAuthn, no passwords) with persisted progress — `GET /api/demo/progress` is account-scoped when signed in and `POST /api/progress/review` is idempotent via `ReviewLog`.
+- Truthful progress copy single-sourced in `src/lib/progress/copy.ts`: `dashboardBadgeCopy({ isPreview })` → `Preview progress` (signed-out preview) / `Saved to your account` (signed-in), `sessionCompletionCopy({ isPreview })` → `Nothing was saved.` (preview) / `Saved to your account.` (signed-in).
 - Prisma/PostgreSQL schema for users, courses, concepts, drills, progress, and audio segments.
 - SM-2 sentence-construction scheduler (quality mapping keeps answer reveal from counting as mastery).
 - Exact-concept access policy: a passed assessment unlocks the related drills.
@@ -42,8 +44,6 @@ Working:
 
 Not working yet:
 
-- Authentication. There are no accounts, so all progress is preview-only.
-- Persistence mutations. SRS writes, mastery records, and progress updates are not saved.
 - Full audio coverage. Only the French polite-ordering pilot has reviewed technical assets; all remaining patterns retain an honest text-only fallback.
 - Native-speaker linguistic review of the French pilot clips. The required listening checklist is intentionally still open.
 - Offline sync for mutable learner data.
@@ -53,13 +53,13 @@ Privacy-wise, no learner audio is persisted by default. The voice route returns 
 
 ## Accounts and data truthfulness
 
-VoxLibre now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session says "Nothing was saved", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release.
+VoxLibre now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session completion says "Nothing was saved.", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release. Copy is single-sourced in `src/lib/progress/copy.ts` (`dashboardBadgeCopy({ isPreview })` and `sessionCompletionCopy({ isPreview })`), wired into `DailyPathDashboard` and `GuidedSession`.
 
 When you create a passkey (WebAuthn, no passwords) and sign in, your progress becomes account-scoped and persisted:
 
 - `GET /api/demo/progress` then composes your `DemoProgressSnapshot` from your `UserProgress` rows, with `dueReviewCount` derived per request from `dueAt <= now`.
 - `POST /api/progress/review` applies SM-2 server-side, is idempotent via `clientMutationId`, and logs each review in `ReviewLog`.
-- The UI badge then says "Saved to your account" and due counts reflect your real queue. The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
+- The UI badge then says "Saved to your account" and due counts reflect your real queue. Session completion then says "Saved to your account." The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
 
 Learner progress is visible only to that account. No third-party trackers are used.
 
@@ -113,7 +113,7 @@ The optional voice companion runs locally and is called only through server-only
 
 ## Status and roadmap
 
-VoxLibre is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot, typed answer checking, authentication, persisted progress mutations, and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VoxLibre is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 

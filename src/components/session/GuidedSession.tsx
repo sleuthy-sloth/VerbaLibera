@@ -8,7 +8,7 @@ import { initialCourses } from '@/features/curriculum/fixture';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
-import { isPreviewMode } from '@/lib/progress/copy';
+import { isPreviewMode, sessionCompletionCopy } from '@/lib/progress/copy';
 import styles from './session.module.css';
 
 type GuidedSessionProps = Readonly<{
@@ -23,11 +23,12 @@ const stepNames: Record<SessionStepKind, string> = {
 };
 
 function UnavailableStep({ courseTitle, dashboardHref }: Readonly<{ courseTitle: string; dashboardHref: string }>) {
+  const isPreview = isPreviewMode(null);
   return (
     <main className={styles.unavailable}>
       <p className={styles.eyebrow}>{courseTitle}</p>
       <h1>This lesson step is not available in preview.</h1>
-      <p>Nothing was saved. Return to your daily path to choose another preview session.</p>
+      <p>{sessionCompletionCopy({ isPreview })} Return to your daily path to choose another preview session.</p>
       <Link href={dashboardHref}>Return to your daily path</Link>
     </main>
   );
@@ -48,6 +49,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const completionActionRef = useRef<HTMLAnchorElement>(null);
   const verdictRef = useRef<HTMLDivElement>(null);
   const isComplete = stepIndex >= sessionSteps.length;
+  const isPreview = isPreviewMode(null);
 
   useEffect(() => {
     if (shouldFocusVerdict && verdictRef.current) {
@@ -202,7 +204,11 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           <span className={styles.completionMark} aria-hidden="true">✓</span>
           <p className={styles.eyebrow}>Path complete</p>
           <h2>Session complete</h2>
-          <p>Nice work. This preview would add a gentle 20 preview XP. Nothing was saved.</p>
+          <p>
+            {isPreview
+              ? `Nice work. This preview would add a gentle 20 preview XP. ${sessionCompletionCopy({ isPreview })}`
+              : `Nice work. ${sessionCompletionCopy({ isPreview })}`}
+          </p>
           <Link href={dashboardHref} ref={completionActionRef}>Back to your daily path</Link>
         </section>
       ) : (

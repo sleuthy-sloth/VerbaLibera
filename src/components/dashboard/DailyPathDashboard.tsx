@@ -86,7 +86,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         </div>
         <p className={styles.previewBadge}>
           <span aria-hidden="true" />
-          {dashboardBadgeCopy(isPreview)}
+          {dashboardBadgeCopy({ isPreview })}
         </p>
       </header>
 
