@@ -1,0 +1,60 @@
+{
+  "clips": [
+    {
+      "id": "it-greet-politely-prompt",
+      "text": "Buongiorno, vorrei un tavolo, per favore.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-greet-politely-prompt.wav"
+    },
+    {
+      "id": "it-greet-politely-answer",
+      "text": "Buongiorno! Prego, si accomodi.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-greet-politely-answer.wav"
+    },
+    {
+      "id": "it-find-place-prompt",
+      "text": "Dov'è la stazione?",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-find-place-prompt.wav"
+    },
+    {
+      "id": "it-find-place-answer",
+      "text": "La stazione è in fondo alla strada.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-find-place-answer.wav"
+    },
+    {
+      "id": "it-ask-help-prompt",
+      "text": "Può aiutarmi?",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-ask-help-prompt.wav"
+    },
+    {
+      "id": "it-ask-help-answer",
+      "text": "Certo, come posso aiutarla?",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-ask-help-answer.wav"
+    },
+    {
+      "id": "it-pay-politely-prompt",
+      "text": "Il conto, per favore.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-pay-politely-prompt.wav"
+    },
+    {
+      "id": "it-pay-politely-answer",
+      "text": "Subito, le porto il conto.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-pay-politely-answer.wav"
+    }
+  ]
+}

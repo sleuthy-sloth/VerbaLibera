@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "it-greet-politely-prompt",
+      "filename": "it-greet-politely-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "79a78b67da2bacc4c74e563f12dd6806300798e1ef90dc3d9fcff7bd771ccaa0",
+      "audio_sha256": "5d91478c238d7f8b7bcb4a35119919b19a43b0873eba88dea31c43334864a3bf",
+      "content_type": "audio/wav",
+      "bytes": 150044
+    },
+    {
+      "id": "it-greet-politely-answer",
+      "filename": "it-greet-politely-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "ac98ae7ccaaf3a81b8e22ca7898c626124cf8bb201d40d6bae65a522b41be369",
+      "audio_sha256": "52fa7f6455389f6f50e0959a7cd46fe0d51dacf9c4625e503bc93ca12595726d",
+      "content_type": "audio/wav",
+      "bytes": 121244
+    },
+    {
+      "id": "it-find-place-prompt",
+      "filename": "it-find-place-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "513454ab10fe6823f2b9d71c0d89b3ad71073b3f47cbc4cc0cb4599df0075021",
+      "audio_sha256": "800cf76480379bc81f71855cb5e369c85565b1987e818e6914e3a579ab062b4b",
+      "content_type": "audio/wav",
+      "bytes": 93644
+    },
+    {
+      "id": "it-find-place-answer",
+      "filename": "it-find-place-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "7c9ddf0d570e9565f1a830bdf6d1a6d79076f89d5cfae4b96999467669d940c3",
+      "audio_sha256": "dd5f2348a8d091d65d50a97c83f71ad974ca4ba2926cb532f464055697084f6d",
+      "content_type": "audio/wav",
+      "bytes": 134444
+    },
+    {
+      "id": "it-ask-help-prompt",
+      "filename": "it-ask-help-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "65705b14df7d1bb458297b14ae95a6928c6bf246ab878e81d21045ae9989f35b",
+      "audio_sha256": "d54f4af0a991aab35dda70ca2a67c941266fb97d28c12b6c5f38380e0f3b7da6",
+      "content_type": "audio/wav",
+      "bytes": 84044
+    },
+    {
+      "id": "it-ask-help-answer",
+      "filename": "it-ask-help-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "b5cb2f0ad03b698102efb2ea16fcfdda19ec293175e606b30d081ebfdeb0e716",
+      "audio_sha256": "bff3b14d481680769cb96c536ca1277475dca6145a09d09e6fc9a74cf5d776cc",
+      "content_type": "audio/wav",
+      "bytes": 117644
+    },
+    {
+      "id": "it-pay-politely-prompt",
+      "filename": "it-pay-politely-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "b4e42f572e69ea05aecb9bc59dfae971b5283cd079190f753b776c53c61fac77",
+      "audio_sha256": "a34184cd5e25b01b75d1ac4e3440fa24309fa2876e0590089ea125d1c0c5327f",
+      "content_type": "audio/wav",
+      "bytes": 102044
+    },
+    {
+      "id": "it-pay-politely-answer",
+      "filename": "it-pay-politely-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "4260ce47bda984a47a0fbb322b8e3ce23155d340b0c15f09f792230eb97405ae",
+      "audio_sha256": "ee040fa68c315913bcb5fea3ca839732327c530185d48ef11d0b68f35eff1407",
+      "content_type": "audio/wav",
+      "bytes": 115244
+    }
+  ]
+}
