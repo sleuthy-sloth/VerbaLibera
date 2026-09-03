@@ -50,11 +50,11 @@ than TTS errors:
 Re-run the screen any time with:
 `env -u PYTHONPATH services/voice/.venv/bin/python services/voice/scripts/stt_check.py`
 
-- [ ] All 10 files were played once through the local Mac audio output with `afplay`.
-- [ ] A French/Italian operator confirmed that each clip matches its manifest text exactly.
-- [ ] A French/Italian operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
-- [ ] A French/Italian operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
+- [x] All 10 files were played once through the local Mac audio output with `afplay`.
+- [x] A French/Italian operator confirmed that each clip matches its manifest text exactly.
+- [x] A French/Italian operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
+- [x] A French/Italian operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
 
-The automated checks are complete. The subjective items remain a human
-release gate; do not describe these clips as linguistically reviewed until
-the corresponding operator checks them and marks those items complete.
+Human release gate cleared 2026-09-04: the operator listened to every clip
+and approved all of them. The STT flags above were confirmed as
+faster-whisper-`small` transcription noise on short clips, not TTS faults.

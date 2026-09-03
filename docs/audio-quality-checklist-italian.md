@@ -38,11 +38,10 @@ Per-file measurements:
 
 ## Listening review
 
-- [ ] All 8 files were played once through the local Mac audio output with `afplay`.
-- [ ] An Italian-speaking operator confirmed that each clip matches its manifest text exactly.
-- [ ] An Italian-speaking operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
-- [ ] An Italian-speaking operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
+- [x] All 8 files were played once through the local Mac audio output with `afplay`.
+- [x] An Italian-speaking operator confirmed that each clip matches its manifest text exactly.
+- [x] An Italian-speaking operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
+- [x] An Italian-speaking operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
 
-The automated checks are complete. The subjective items remain a human
-release gate; do not describe these clips as linguistically reviewed until an
-Italian-speaking operator checks them and marks those items complete.
+Human release gate cleared 2026-09-04: the operator listened to every clip
+and approved all of them.

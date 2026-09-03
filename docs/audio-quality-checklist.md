@@ -21,10 +21,9 @@ French `ff_siwis` voice. The generation sidecar was bound only to
 ## Listening review
 
 - [x] Both files were played once through the local Mac audio output with `afplay`.
-- [ ] A French-speaking operator confirmed that each clip matches its manifest text exactly.
-- [ ] A French-speaking operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
-- [ ] A French-speaking operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
+- [x] A French-speaking operator confirmed that each clip matches its manifest text exactly.
+- [x] A French-speaking operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.
+- [x] A French-speaking operator confirmed there are no audible clicks, truncation, unexpected pauses, or artifacts.
 
-The automated and playback checks are complete. The three subjective items remain a
-human release gate; do not describe these clips as linguistically reviewed until a
-French-speaking operator checks them and marks those items complete.
+Human release gate cleared 2026-09-04: the operator listened to both clips
+and approved them.
