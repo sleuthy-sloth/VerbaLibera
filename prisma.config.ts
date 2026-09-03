@@ -6,7 +6,7 @@ export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: {
     path: 'prisma/migrations',
-    seed: 'node --experimental-strip-types prisma/seed.ts',
+    seed: 'npx tsx prisma/seed.ts',
   },
   datasource: {
     // Prisma 7 keeps connection URLs out of schema.prisma. Validation and
