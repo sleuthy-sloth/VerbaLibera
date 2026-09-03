@@ -10,7 +10,7 @@ import {
 } from '@/components/dashboard/DailyPathDashboard';
 import { DashboardDataBoundary } from '@/components/dashboard/DashboardDataBoundary';
 import styles from '@/components/dashboard/dashboard.module.css';
-import { demoProgress } from '@/features/progress/demo-progress';
+import { blankDemoProgress, demoProgress } from '@/features/progress/demo-progress';
 
 function createQueryClient() {
   return new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -294,6 +294,17 @@ describe('DailyPathDashboard', () => {
     const illustration = screen.getByAltText('');
     expect(illustration).toHaveAttribute('src', expect.stringContaining('daily-practice.png'));
     expect(illustration.parentElement?.tagName).toBe('DIV');
+  });
+
+  it('shows onboarding when progress is blank', () => {
+    // Break caught: first-run lands on fake metrics instead of an honest empty state.
+    render(<DailyPathDashboard progress={blankDemoProgress} />);
+
+    expect(screen.getByRole('heading', { name: /Start with one useful phrase/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Start 8-minute session/i })).toHaveAttribute(
+      'href',
+      '/learn/english-to-french',
+    );
   });
 });
 

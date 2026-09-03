@@ -1,6 +1,29 @@
 import { composeDailySession } from '@/features/session/compose-session';
 import type { DemoProgressSnapshot } from './types';
 
+export const blankDemoProgress: DemoProgressSnapshot = {
+  selectedCourseSlug: 'english-to-french',
+  xp: 0,
+  practiceFlowDays: 0,
+  dailyGoal: { completed: 0, target: 5 },
+  dueReviewCount: 0,
+  courses: [
+    {
+      slug: 'english-to-french',
+      title: 'English to French: A1 patterns',
+      unitLabel: 'Unit 1: Polite ordering',
+      completionPercent: 0,
+    },
+    {
+      slug: 'english-to-italian',
+      title: 'English to Italian: A1 patterns',
+      unitLabel: 'Unit 1: Polite ordering',
+      completionPercent: 0,
+    },
+  ],
+  session: [],
+};
+
 export const demoProgress: DemoProgressSnapshot = {
   selectedCourseSlug: 'english-to-french',
   xp: 260,

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { dashboardBadgeCopy, isPreviewMode } from '@/lib/progress/copy';
+import { FirstRunOnboarding } from './FirstRunOnboarding';
 import styles from './dashboard.module.css';
 
 type DailyPathDashboardProps = Readonly<{
@@ -32,6 +33,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     : Math.max(0, snapshotCourseIndex);
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(initialCourseIndex);
   const selectedCourse = progress.courses[selectedCourseIndex] ?? progress.courses[0];
+  const isBlank = progress.dueReviewCount === 0 && progress.dailyGoal.completed === 0;
 
   if (!selectedCourse) {
     return (
@@ -117,45 +119,51 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
             <p className={styles.pathTime}>About 8 min</p>
           </div>
 
-          <div className={styles.goal}>
-            <div className={styles.goalLabel}>
-              <span>Daily goal</span>
-              <strong>{goalLabel}</strong>
-            </div>
-            <progress
-              aria-label="Daily goal"
-              aria-valuetext={goalLabel}
-              max={progress.dailyGoal.target}
-              value={Math.min(progress.dailyGoal.completed, progress.dailyGoal.target)}
-            />
-          </div>
-
-          <ol className={styles.practicePath}>
-            {practiceSteps.map((step, index) => (
-              <li
-                className={styles.pathStep}
-                data-state={index === 0 ? 'active' : 'pending'}
-                data-tone={step.tone}
-                key={step.label}
-              >
-                <span className={styles.stepMarker} aria-hidden="true">{index + 1}</span>
-                <div>
-                  <h3>{step.label}</h3>
-                  <p>{step.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          {hasSelectedSession ? (
-            <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
-              Continue 8-minute session
-              <span aria-hidden="true">→</span>
-            </Link>
+          {isBlank ? (
+            <FirstRunOnboarding />
           ) : (
-            <p className={styles.pendingAction} role="status">
-              Session preview coming soon
-            </p>
+            <>
+              <div className={styles.goal}>
+                <div className={styles.goalLabel}>
+                  <span>Daily goal</span>
+                  <strong>{goalLabel}</strong>
+                </div>
+                <progress
+                  aria-label="Daily goal"
+                  aria-valuetext={goalLabel}
+                  max={progress.dailyGoal.target}
+                  value={Math.min(progress.dailyGoal.completed, progress.dailyGoal.target)}
+                />
+              </div>
+
+              <ol className={styles.practicePath}>
+                {practiceSteps.map((step, index) => (
+                  <li
+                    className={styles.pathStep}
+                    data-state={index === 0 ? 'active' : 'pending'}
+                    data-tone={step.tone}
+                    key={step.label}
+                  >
+                    <span className={styles.stepMarker} aria-hidden="true">{index + 1}</span>
+                    <div>
+                      <h3>{step.label}</h3>
+                      <p>{step.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+
+              {hasSelectedSession ? (
+                <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
+                  Continue 8-minute session
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ) : (
+                <p className={styles.pendingAction} role="status">
+                  Session preview coming soon
+                </p>
+              )}
+            </>
           )}
         </section>
 
