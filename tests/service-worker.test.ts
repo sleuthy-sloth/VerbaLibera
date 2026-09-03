@@ -24,8 +24,13 @@ async function evaluateWorker(
 ) {
   const handlers = new Map<string, WorkerHandler>();
   const cacheDelete = vi.fn().mockResolvedValue(true);
-  const cacheMatch = vi.fn();
-  const networkFetch = vi.fn();
+  const cacheMatch = vi.fn().mockResolvedValue(undefined);
+  const cachePut = vi.fn().mockResolvedValue(undefined);
+  const cacheAddAll = vi.fn().mockResolvedValue(undefined);
+  const cacheOpen = vi.fn().mockImplementation(() =>
+    Promise.resolve({ addAll: cacheAddAll, match: cacheMatch, put: cachePut }),
+  );
+  const networkFetch = vi.fn().mockResolvedValue(new Response('ok'));
   const clients = { claim: vi.fn() };
 
   runInNewContext(await readWorkerSource(), {
@@ -35,7 +40,7 @@ async function evaluateWorker(
       delete: cacheDelete,
       keys: vi.fn().mockResolvedValue(cacheKeys),
       match: cacheMatch,
-      open: vi.fn(),
+      open: cacheOpen,
     },
     fetch: networkFetch,
     self: {
@@ -45,7 +50,7 @@ async function evaluateWorker(
     },
   });
 
-  return { cacheDelete, cacheMatch, clients, handlers, networkFetch };
+  return { cacheDelete, cacheMatch, cachePut, cacheAddAll, cacheOpen, clients, handlers, networkFetch };
 }
 
 describe('static PWA service worker contract', () => {
@@ -54,11 +59,16 @@ describe('static PWA service worker contract', () => {
     const assets = staticAssetsFrom(await readWorkerSource());
 
     expect(assets).toEqual([
+      '/',
       '/offline.html',
       '/icons/voxlibre-192.png',
       '/icons/voxlibre-512.png',
       '/icons/voxlibre-maskable-512.png',
       '/illustrations/daily-practice.png',
+      '/learn/english-to-french',
+      '/learn/english-to-italian',
+      '/audio/french-ordering/fr-ordering-politely-prompt.wav',
+      '/audio/french-ordering/fr-ordering-politely-answer.wav',
     ]);
   });
 
@@ -83,7 +93,10 @@ describe('static PWA service worker contract', () => {
     expect(networkFetch).not.toHaveBeenCalled();
 
     const offlineResponse = new Response('offline path');
-    cacheMatch.mockResolvedValue(offlineResponse);
+    cacheMatch.mockImplementation((arg: unknown) => {
+      if (arg === '/offline.html') return Promise.resolve(offlineResponse);
+      return Promise.resolve(undefined);
+    });
     networkFetch.mockRejectedValue(new Error('network unavailable'));
     const navigationEvent = {
       request: { method: 'GET', mode: 'navigate', url: 'https://voxlibre.test/learn/english-to-french' },
@@ -111,9 +124,72 @@ describe('static PWA service worker contract', () => {
 
     expect(cacheDelete).toHaveBeenCalledTimes(2);
     expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v0');
-    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v2');
-    expect(cacheDelete).not.toHaveBeenCalledWith('voxlibre-static-v1');
+    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v1');
+    expect(cacheDelete).not.toHaveBeenCalledWith('voxlibre-static-v2');
     expect(cacheDelete).not.toHaveBeenCalledWith('another-app-cache');
     expect(clients.claim).toHaveBeenCalledTimes(1);
+  });
+
+  it('scopes precache to shell, lessons, audio and Next static with v2 and keeps api no-store', async () => {
+    // Break caught: service worker regresses to v1, misses lesson/audio, or caches private API responses.
+    const source = await readWorkerSource();
+
+    // version must be v2
+    expect(source).toMatch(/voxlibre-static-v2/);
+    expect(source).not.toMatch(/voxlibre-static-v1/);
+
+    // Cache-Control no-store must still be documented for /api/* (privacy boundary)
+    // grep for Cache-Control no-store and absence of /api in precache
+    expect(source).toMatch(/Cache-Control/);
+    expect(source).toMatch(/no-store/);
+    expect(source).toMatch(/\/api\//);
+
+    const assets = staticAssetsFrom(source);
+    // precache must include app shell
+    expect(assets).toContain('/');
+    expect(assets).toContain('/offline.html');
+    // precache must include lesson routes (/learn/*)
+    expect(assets.some((a) => a.startsWith('/learn/'))).toBe(true);
+    expect(assets).toContain('/learn/english-to-french');
+    expect(assets).toContain('/learn/english-to-italian');
+    // precache must include audio (**)
+    expect(assets.some((a) => a.startsWith('/audio/'))).toBe(true);
+    // precache handling for Next static (verified via source contains _next/static)
+    expect(source).toMatch(/\/_next\/static/);
+    // never cache API
+    expect(assets.some((a) => a.includes('/api'))).toBe(false);
+    expect(assets.some((a) => a.includes('/api/demo/progress'))).toBe(false);
+
+    // runtime behavior: lesson/audio/next-static should be served via cache, api must bypass
+    const { handlers } = await evaluateWorker();
+    const fetchHandler = handlers.get('fetch');
+    const lessonEvent = {
+      request: { method: 'GET', mode: 'navigate', url: 'https://voxlibre.test/learn/english-to-french' },
+      respondWith: vi.fn(),
+    };
+    const audioEvent = {
+      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/audio/french-ordering/fr-ordering-politely-prompt.wav' },
+      respondWith: vi.fn(),
+    };
+    const nextStaticEvent = {
+      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/_next/static/chunks/webpack.js' },
+      respondWith: vi.fn(),
+    };
+    const apiEvent2 = {
+      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/api/demo/progress' },
+      respondWith: vi.fn(),
+    };
+
+    fetchHandler?.(lessonEvent as never);
+    fetchHandler?.(audioEvent as never);
+    fetchHandler?.(nextStaticEvent as never);
+    fetchHandler?.(apiEvent2 as never);
+
+    // lessons, audio, and Next static must be intercepted (respondWith called)
+    expect(lessonEvent.respondWith).toHaveBeenCalledTimes(1);
+    expect(audioEvent.respondWith).toHaveBeenCalledTimes(1);
+    expect(nextStaticEvent.respondWith).toHaveBeenCalledTimes(1);
+    // api must never be intercepted
+    expect(apiEvent2.respondWith).not.toHaveBeenCalled();
   });
 });

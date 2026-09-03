@@ -1,10 +1,15 @@
-const STATIC_CACHE = 'voxlibre-static-v1';
+const STATIC_CACHE = 'voxlibre-static-v2';
 const STATIC_ASSETS = [
+  '/',
   '/offline.html',
   '/icons/voxlibre-192.png',
   '/icons/voxlibre-512.png',
   '/icons/voxlibre-maskable-512.png',
   '/illustrations/daily-practice.png',
+  '/learn/english-to-french',
+  '/learn/english-to-italian',
+  '/audio/french-ordering/fr-ordering-politely-prompt.wav',
+  '/audio/french-ordering/fr-ordering-politely-answer.wav',
 ];
 
 self.addEventListener('install', (event) => {
@@ -25,7 +30,35 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
+  // API routes are never cached — Cache-Control: no-store (handled by server, bypassed here)
+  // This preserves privacy: learner progress and auth responses stay network-only.
   if (request.method !== 'GET' || url.pathname.startsWith('/api/')) {
+    return;
+  }
+
+  // App shell, lesson routes, audio, and Next static are cached for offline use.
+  // Precaches: /, /learn/*, /audio/**, /_next/static/**
+  if (
+    url.pathname === '/' ||
+    url.pathname.startsWith('/learn/') ||
+    url.pathname.startsWith('/audio/') ||
+    url.pathname.startsWith('/_next/static/')
+  ) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() =>
+          caches.match(request).then(
+            (cached) => cached ?? caches.match('/offline.html').then((response) => response ?? Response.error()),
+          ),
+        ),
+    );
     return;
   }
 
