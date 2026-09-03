@@ -143,6 +143,31 @@ VoxLibre is in active development. Immediate next steps are native-speaker revie
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 
+## Deploy to Vercel (Hobby + Neon free tiers)
+
+1. Create a free Postgres at [neon.tech](https://neon.tech) and copy the connection string.
+2. Import `sleuthy-sloth/VoxLibre` into a **personal Hobby** Vercel project (avoids team Deployment Protection walls).
+3. Set env vars (Production + Preview):
+   - `DATABASE_URL` — Neon connection string (add `?sslmode=require` if Neon gives it without)
+   - `AUTH_JWT_PRIVATE_KEY` / `AUTH_JWT_PUBLIC_KEY` — ES256 PEM pair (see below)
+   - `WEBAUTHN_RP_ID` — your domain without scheme (e.g. `voxlibre.vercel.app`)
+   - `WEBAUTHN_ORIGIN` — full origin (e.g. `https://voxlibre.vercel.app`)
+   - Leave `VOXLIBRE_VOICE_SERVICE_URL` unset — the app degrades honestly to the non-voice lesson path.
+4. Deploy. `vercel.json` already runs `prisma migrate deploy && next build`; `postinstall` runs `prisma generate`.
+5. Seed from your machine against prod (writes only fixture `ContentVersion`, idempotent):
+   `DATABASE_URL="<prod-url>" npm run prisma:seed`
+
+Generate the ES256 pair locally with openssl (`prime256v1` = P-256/ES256; the app imports
+PKCS#8 via `jose.importPKCS8`, so convert before pasting):
+
+```bash
+openssl ecparam -genkey -name prime256v1 -noout -out private.pem
+openssl pkcs8 -topk8 -nocrypt -in private.pem -out private-pkcs8.pem
+openssl ec -in private.pem -pubout -out public.pem
+# AUTH_JWT_PRIVATE_KEY = contents of private-pkcs8.pem
+# AUTH_JWT_PUBLIC_KEY  = contents of public.pem
+```
+
 ## License
 
 Released under the [MIT License](LICENSE). The license covers the original source code and demonstration content. Third-party assets, recordings, or transcripts must be added only with compatible licensing and attribution.
