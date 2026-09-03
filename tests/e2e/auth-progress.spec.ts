@@ -88,5 +88,8 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
 
   // Reload and verify that progress would persist (mocked via cookie still present)
   await page.reload();
+  // A fresh reload resets the preview session to step 1 (REVIEW), which has no
+  // answer input. Click Continue once to reach the DRILL step where the input appears.
+  await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByLabel('Your answer')).toBeVisible();
 });
