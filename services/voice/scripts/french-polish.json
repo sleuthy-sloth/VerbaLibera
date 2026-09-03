@@ -1,0 +1,60 @@
+{
+  "clips": [
+    {
+      "id": "fr-greet-politely-prompt",
+      "text": "Bonjour, je voudrais une table, s'il vous plaît.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-greet-politely-prompt.wav"
+    },
+    {
+      "id": "fr-greet-politely-answer",
+      "text": "Bien sûr, suivez-moi.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-greet-politely-answer.wav"
+    },
+    {
+      "id": "fr-find-place-prompt",
+      "text": "Où est la gare ?",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-find-place-prompt.wav"
+    },
+    {
+      "id": "fr-find-place-answer",
+      "text": "La gare est à dix minutes d'ici.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-find-place-answer.wav"
+    },
+    {
+      "id": "fr-ask-help-prompt",
+      "text": "Pouvez-vous m'aider ?",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-ask-help-prompt.wav"
+    },
+    {
+      "id": "fr-ask-help-answer",
+      "text": "Bien sûr, que puis-je faire pour vous ?",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-ask-help-answer.wav"
+    },
+    {
+      "id": "fr-pay-politely-prompt",
+      "text": "L'addition, s'il vous plaît.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-pay-politely-prompt.wav"
+    },
+    {
+      "id": "fr-pay-politely-answer",
+      "text": "Je vous apporte ça tout de suite.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-pay-politely-answer.wav"
+    }
+  ]
+}

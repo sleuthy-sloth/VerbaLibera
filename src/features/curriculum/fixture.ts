@@ -1,18 +1,33 @@
 import type { CourseFixture, ConceptFixture, DrillKind } from './types';
 
 const unavailableAudio = (id: string) => `unavailable://original-demo/${id}`;
+
 const frenchOrderingPilotAudio = {
   prompt: '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   answer: '/audio/french-ordering/fr-ordering-politely-answer.wav',
 } as const;
-type PatternSeed = Readonly<{ id: string; scenario: string; notice: string; title: string; explanation: string; prompt: string; answer: string; drillPrompt: string; drillKind: DrillKind; acceptedResponses: readonly string[] }>;
+
+const frenchLessonAudio: Record<string, { prompt: string; answer: string }> = {
+  'fr-greet-politely': { prompt: '/audio/french/fr-greet-politely-prompt.wav', answer: '/audio/french/fr-greet-politely-answer.wav' },
+  'fr-find-place': { prompt: '/audio/french/fr-find-place-prompt.wav', answer: '/audio/french/fr-find-place-answer.wav' },
+  'fr-ask-help': { prompt: '/audio/french/fr-ask-help-prompt.wav', answer: '/audio/french/fr-ask-help-answer.wav' },
+  'fr-pay-politely': { prompt: '/audio/french/fr-pay-politely-prompt.wav', answer: '/audio/french/fr-pay-politely-answer.wav' },
+};
 
 const italianLessonAudio: Record<string, { prompt: string; answer: string }> = {
   'it-greet-politely': { prompt: '/audio/italian/it-greet-politely-prompt.wav', answer: '/audio/italian/it-greet-politely-answer.wav' },
   'it-find-place': { prompt: '/audio/italian/it-find-place-prompt.wav', answer: '/audio/italian/it-find-place-answer.wav' },
   'it-ask-help': { prompt: '/audio/italian/it-ask-help-prompt.wav', answer: '/audio/italian/it-ask-help-answer.wav' },
+  'it-ordering-politely': { prompt: '/audio/italian/it-ordering-politely-prompt.wav', answer: '/audio/italian/it-ordering-politely-answer.wav' },
   'it-pay-politely': { prompt: '/audio/italian/it-pay-politely-prompt.wav', answer: '/audio/italian/it-pay-politely-answer.wav' },
 };
+
+const lessonAudioFor = (id: string): { prompt: string; answer: string } | null => {
+  if (id === 'fr-ordering-politely') return frenchOrderingPilotAudio;
+  return frenchLessonAudio[id] ?? italianLessonAudio[id] ?? null;
+};
+
+type PatternSeed = Readonly<{ id: string; scenario: string; notice: string; title: string; explanation: string; prompt: string; answer: string; drillPrompt: string; drillKind: DrillKind; acceptedResponses: readonly string[] }>;
 
 const frenchPatterns: readonly PatternSeed[] = [
   { id: 'fr-greet-politely', scenario: 'Greeting politely', notice: 'A friendly greeting can introduce a polite request.', title: 'French: greeting politely with “Bonjour…”', explanation: 'Use “Bonjour, je voudrais…” to greet someone and begin a polite request.', prompt: 'Greet a shopkeeper and say you would like a table.', answer: 'Bonjour, je voudrais une table, s’il vous plaît.', drillPrompt: 'Now greet café staff and say you would like a coffee.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Bonjour, je voudrais un café, s’il vous plaît.'] },
@@ -30,7 +45,7 @@ const italianPatterns: readonly PatternSeed[] = [
 ];
 
 const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
-  const pilotAudio = seed.id === 'fr-ordering-politely' ? frenchOrderingPilotAudio : (italianLessonAudio[seed.id] ?? null);
+  const pilotAudio = lessonAudioFor(seed.id);
 
   return {
   id: seed.id, position, cefrLevel: 'A1', title: seed.title, explanation: seed.explanation, scenario: seed.scenario, notice: seed.notice,

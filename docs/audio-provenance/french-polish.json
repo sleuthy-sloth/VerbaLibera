@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/french-polish.json",
+  "languages": [
+    "fr"
+  ],
+  "voices": [
+    "fr:ff_siwis"
+  ],
+  "clips": [
+    {
+      "id": "fr-greet-politely-prompt",
+      "filename": "fr-greet-politely-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "b6557000d29141421d18af8543bb61adb27f1970dad9742cef83ac99e933ea7a",
+      "audio_sha256": "e8560b38d751eb43fce225d818cbbab39e5210c8ee62a1c89097a6959a7d287f",
+      "content_type": "audio/wav",
+      "bytes": 145244
+    },
+    {
+      "id": "fr-greet-politely-answer",
+      "filename": "fr-greet-politely-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "98cf13023241e225585fdc7bdbbece1d6f717acb2e455015a14dbce565130044",
+      "audio_sha256": "3108fa26a090a21d61d62664ed81894ad9e315c713c83860f9dc1d7dceb198a1",
+      "content_type": "audio/wav",
+      "bytes": 94844
+    },
+    {
+      "id": "fr-find-place-prompt",
+      "filename": "fr-find-place-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "4fda60c624c30903d7b42c3fea08a1df1371aad0e8e3447bcf39c9497d5dea3e",
+      "audio_sha256": "33d1780245c23326b4b7a670af9cef90fb8e8be429495b2df83e3d6a11de682f",
+      "content_type": "audio/wav",
+      "bytes": 73244
+    },
+    {
+      "id": "fr-find-place-answer",
+      "filename": "fr-find-place-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "1bfab51eaff2887e20a270110c9a0ecc426eb41aedd4b38e1df1c1273945d731",
+      "audio_sha256": "a673fb838967aefd67023db0e2d0eb60046367a83218de056a3ff1c992657f51",
+      "content_type": "audio/wav",
+      "bytes": 112844
+    },
+    {
+      "id": "fr-ask-help-prompt",
+      "filename": "fr-ask-help-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "5f10a7ec8251eb504b5a6030eba1bd80cb20f8bf71da08af7931413d50af2315",
+      "audio_sha256": "f0e78001652e4ae47467f8b60d941eb37b0fc4a16000a084961944975969a77f",
+      "content_type": "audio/wav",
+      "bytes": 75644
+    },
+    {
+      "id": "fr-ask-help-answer",
+      "filename": "fr-ask-help-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "ca1f28236fb2cc15990670c08fc79a33d602d20c79538ac6e505f02b49764899",
+      "audio_sha256": "8b9af4f6474e11a97a90cf51c39b3ce3d5ff981b91d5c7cde0c29dd6f77d1632",
+      "content_type": "audio/wav",
+      "bytes": 126044
+    },
+    {
+      "id": "fr-pay-politely-prompt",
+      "filename": "fr-pay-politely-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "48d37195a9ea9e3db5115ee7557be04c9f3408b2faf195e59077dbd406f9b395",
+      "audio_sha256": "cd7674d6c8abfd27762612b50b5c20d044ce1a6c1b93eec7e08bcf045857f19a",
+      "content_type": "audio/wav",
+      "bytes": 91244
+    },
+    {
+      "id": "fr-pay-politely-answer",
+      "filename": "fr-pay-politely-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "914c99d7be46697d81ec747d70e6eb0e964c6cbffc709546d197973ef30743bb",
+      "audio_sha256": "56aac8c8ee66a70771b4d23168213a1feccaa7fb288502363faec092f538e076",
+      "content_type": "audio/wav",
+      "bytes": 117644
+    }
+  ]
+}

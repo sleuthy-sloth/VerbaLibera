@@ -15,6 +15,20 @@
       "filename": "it-greet-politely-answer.wav"
     },
     {
+      "id": "it-ordering-politely-prompt",
+      "text": "Vorrei un caffè, per favore.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-ordering-politely-prompt.wav"
+    },
+    {
+      "id": "it-ordering-politely-answer",
+      "text": "Subito, glielo porto.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-ordering-politely-answer.wav"
+    },
+    {
       "id": "it-find-place-prompt",
       "text": "Dov'è la stazione?",
       "language": "it",

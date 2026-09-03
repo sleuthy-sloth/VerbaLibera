@@ -1,5 +1,14 @@
 {
   "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/italian-patterns.json",
+  "languages": [
+    "it"
+  ],
+  "voices": [
+    "it:if_sara"
+  ],
   "clips": [
     {
       "id": "it-greet-politely-prompt",
@@ -20,6 +29,26 @@
       "audio_sha256": "52fa7f6455389f6f50e0959a7cd46fe0d51dacf9c4625e503bc93ca12595726d",
       "content_type": "audio/wav",
       "bytes": 121244
+    },
+    {
+      "id": "it-ordering-politely-prompt",
+      "filename": "it-ordering-politely-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "34bdcb9cd90c3fa9f9f7e1a25deba641d2169a4e6380a30cac7b01181b494c6e",
+      "audio_sha256": "2def850cb30a6cd23163750bcb23b947fe8b4a8ee7d169f9c6961df3e0fe73cc",
+      "content_type": "audio/wav",
+      "bytes": 111644
+    },
+    {
+      "id": "it-ordering-politely-answer",
+      "filename": "it-ordering-politely-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "8a9863d04f3d21f49d5ae6d3b1771db47054512a8cc4f60bcf8a4ab4066688b5",
+      "audio_sha256": "06515d78327ef2fd7e2b7af80285a393195d8f6d6a67eba31ff8ac24127fcfef",
+      "content_type": "audio/wav",
+      "bytes": 102044
     },
     {
       "id": "it-find-place-prompt",

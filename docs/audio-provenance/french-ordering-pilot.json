@@ -1,19 +1,14 @@
 {
   "schema_version": 1,
-  "status": "technical-review-passed",
-  "generated_on": "2026-09-01",
-  "source_manifest": "services/voice/scripts/french-ordering-pilot.json",
-  "source_manifest_sha256": "f67ec23f5479c788953eca2ae0c119f05fc9b4214fbd6a2ebc07881d94a8547d",
-  "generation": {
-    "tool_command": "services/voice/.pilot-venv/bin/python services/voice/scripts/generate_lesson_audio.py --manifest services/voice/scripts/french-ordering-pilot.json --service-url http://127.0.0.1:8090 --output-dir public/audio/french-ordering --provenance docs/audio-provenance/french-ordering-pilot.json",
-    "service_binding": "http://127.0.0.1:8090",
-    "python_version": "3.11.15",
-    "kokoro_version": "0.9.4",
-    "misaki_version": "0.9.4",
-    "model_repo": "hexgrad/Kokoro-82M",
-    "voice": "ff_siwis",
-    "sample_rate_hz": 24000
-  },
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/french-ordering-pilot.json",
+  "languages": [
+    "fr"
+  ],
+  "voices": [
+    "fr:ff_siwis"
+  ],
   "clips": [
     {
       "id": "fr-ordering-politely-prompt",
@@ -23,11 +18,7 @@
       "text_sha256": "396a59e8e5b210b9b2b1eba6384c849dbb8a62838925ab7c9893531be8db4183",
       "audio_sha256": "a1854f7fef41e4d5b3685825511f17c22ae1d9c68886d210e2638127bf6e52ec",
       "content_type": "audio/wav",
-      "bytes": 144044,
-      "channels": 1,
-      "sample_width_bits": 16,
-      "frames": 72000,
-      "duration_seconds": 3.0
+      "bytes": 144044
     },
     {
       "id": "fr-ordering-politely-answer",
@@ -37,11 +28,7 @@
       "text_sha256": "04b3123094d74351f73d1a2850a5cf91d4d08c67119537f410f6a9d2d874b6d2",
       "audio_sha256": "cff617ab5f17d2523d5abf80bac9e4b045dd2dbbe3372c98829c99c2703e960c",
       "content_type": "audio/wav",
-      "bytes": 160844,
-      "channels": 1,
-      "sample_width_bits": 16,
-      "frames": 80400,
-      "duration_seconds": 3.35
+      "bytes": 160844
     }
   ]
 }
