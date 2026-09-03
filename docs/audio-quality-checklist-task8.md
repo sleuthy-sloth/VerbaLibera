@@ -35,6 +35,21 @@ Per-file measurements for the 10 Task-8 clips:
 
 ## Listening review
 
+Machine pre-screen (2026-09-03, faster-whisper `small`, CPU): 14/20 clips
+match their manifest text word-for-word. Flagged for focused human
+listening — note some flags may be STT errors on 2-second clips rather
+than TTS errors:
+
+- `fr-ordering-politely-answer` (pilot): "ou à emporter" heard as "ou emporté"
+- `it-find-place-prompt`: "Dov'è" heard as "Dove" (elision swallowed)
+- `it-greet-politely-answer`: "si accomodi" heard as "sia comodi"
+- `it-ordering-politely-answer`: "glielo porto" heard as "il gelo porto"
+- `it-pay-politely-answer`: "le porto" heard as "le parto"
+- (`fr-find-place-answer` "dix"→"10" is a normalizer artifact, not a real flag.)
+
+Re-run the screen any time with:
+`env -u PYTHONPATH services/voice/.venv/bin/python services/voice/scripts/stt_check.py`
+
 - [ ] All 10 files were played once through the local Mac audio output with `afplay`.
 - [ ] A French/Italian operator confirmed that each clip matches its manifest text exactly.
 - [ ] A French/Italian operator confirmed intelligible pronunciation, natural pacing, and acceptable prosody.

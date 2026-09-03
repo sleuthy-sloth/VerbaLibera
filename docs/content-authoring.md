@@ -95,6 +95,7 @@ Update the curriculum-fixture test to include the new id in
 
 ```bash
 services/voice/.venv/bin/python services/voice/scripts/reconcile_provenance.py
+env -u PYTHONPATH services/voice/.venv/bin/python services/voice/scripts/stt_check.py
 npm run test
 npm run lint
 npm run typecheck
