@@ -45,7 +45,7 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
   // Simple derivation: dailyGoal completed is min(dueCount, target) or based on progress?
   // For now, use demoProgress as base but override dueReviewCount and xp
   const base = demoProgress;
-  const xp = 260 + totalProgress * 10; // simplistic: 10 XP per reviewed item
+  const xp = base.xp + totalProgress * 10; // derived from fiction math: demoProgress.xp + 10 XP per reviewed item
   const completed = Math.min(dueCount, base.dailyGoal.target);
 
   return {
