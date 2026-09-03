@@ -54,6 +54,11 @@ PROVENANCE_SOURCES = [
         "manifest": ROOT / "services/voice/scripts/italian-expansion.json",
         "audio_subdir": "italian",
     },
+    {
+        "path": PROV_DIR / "portuguese-patterns.json",
+        "manifest": ROOT / "services/voice/scripts/portuguese-patterns.json",
+        "audio_subdir": "portuguese",
+    },
 ]
 
 

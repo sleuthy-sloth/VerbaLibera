@@ -24,7 +24,7 @@ back to `unavailable://`. That is the only thing you must NOT commit.
 Kokoro 0.9.4 is the local TTS model behind every shipped clip. It is
 reached through the sidecar at `POST /tts`, which validates language and
 voice before returning WAV bytes. Each clip is committed to
-`public/audio/{french,italian,spanish}/` together with a sha256 of both the text
+`public/audio/{french,italian,spanish,portuguese}/` together with a sha256 of both the text
 and the WAV in the provenance JSON under `docs/audio-provenance/`.
 
 Create a manifest entry in `services/voice/scripts/`:
@@ -35,15 +35,15 @@ Create a manifest entry in `services/voice/scripts/`:
     {
       "id": "<seed-id>-prompt",
       "text": "<prompt text from the fixture>",
-      "language": "<fr|it|es>",
-      "voice": "<ff_siwis|if_sara|ef_dora>",
+      "language": "<fr|it|es|pt>",
+      "voice": "<ff_siwis|if_sara|ef_dora|pf_dora>",
       "filename": "<seed-id>-prompt.wav"
     },
     {
       "id": "<seed-id>-answer",
       "text": "<answer text from the fixture>",
-      "language": "<fr|it|es>",
-      "voice": "<ff_siwis|if_sara|ef_dora>",
+      "language": "<fr|it|es|pt>",
+      "voice": "<ff_siwis|if_sara|ef_dora|pf_dora>",
       "filename": "<seed-id>-answer.wav"
     }
   ]

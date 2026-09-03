@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "pt-greet-politely-prompt",
+      "filename": "pt-greet-politely-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "e322976e52a3a2591447cb7b5f0d7e995f30d18bd209838e6311e6cf8a90c3d1",
+      "audio_sha256": "dc6f1a759e991afbd2cb6ca1247c7166284b7a3f6360480a888cab1275b6cabd",
+      "content_type": "audio/wav",
+      "bytes": 130844
+    },
+    {
+      "id": "pt-greet-politely-answer",
+      "filename": "pt-greet-politely-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "c155d37a2e287ff2e2c0f977f076e11e45412f71fe0bd415444e3282e4fdd983",
+      "audio_sha256": "0ffc2693a8cfe933a061a53739fa9950c1374ec08cf6760f0f6dade6711ecb36",
+      "content_type": "audio/wav",
+      "bytes": 75644
+    },
+    {
+      "id": "pt-ordering-politely-prompt",
+      "filename": "pt-ordering-politely-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "425cb285e7afa577740667fd4fb0cde7aa77ee5a6db1af956c88d1350e63e000",
+      "audio_sha256": "45cbcd8055e189fbae8910ed8d92a87db96f33931bfd5a4999189b5b7c83be1d",
+      "content_type": "audio/wav",
+      "bytes": 115244
+    },
+    {
+      "id": "pt-ordering-politely-answer",
+      "filename": "pt-ordering-politely-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "f934f282ee030010b04237c9dc978b9f8d3f189a6a8031da748be794f42cff13",
+      "audio_sha256": "58e667834997f4fca5e48c7d8f558fe08ef67dae39fc3ae4fa9ad9a8db0b39a4",
+      "content_type": "audio/wav",
+      "bytes": 52844
+    },
+    {
+      "id": "pt-find-place-prompt",
+      "filename": "pt-find-place-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "b67947393de62e244f47ecd6461bbd695edddc3fd4ba1fe334c3ee523514de59",
+      "audio_sha256": "5ead69eb0a56cb28693ba325a69dab2e52b6594f6656484e0436e4f2036f9c1f",
+      "content_type": "audio/wav",
+      "bytes": 82844
+    },
+    {
+      "id": "pt-find-place-answer",
+      "filename": "pt-find-place-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "5b2814dc112e9bfea223d754594947da90327ffb7db531db6d2ee29d0874a247",
+      "audio_sha256": "c5c8ccfb499f9d100c7c2280f1cb70a14dcd78eadea16d3b85987f2da4f4769a",
+      "content_type": "audio/wav",
+      "bytes": 63644
+    },
+    {
+      "id": "pt-ask-help-prompt",
+      "filename": "pt-ask-help-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "70396a5b322aa5d5d05ec234f243b8e8d0ff1d32d7603bc6e8e3edc819472326",
+      "audio_sha256": "7e13e8b29e9eedc54636508371513f49e87c7fb7ab29dbbe75cc209466829516",
+      "content_type": "audio/wav",
+      "bytes": 109244
+    },
+    {
+      "id": "pt-ask-help-answer",
+      "filename": "pt-ask-help-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "25260f13bed2127a6ff2a14fa8a30b228cff185c31be7ff2c780181e12399ad0",
+      "audio_sha256": "a1b3cb5f8090f664922ab04e325afc02e784159f78d4cd9a0beb4381b0a1ff0a",
+      "content_type": "audio/wav",
+      "bytes": 62444
+    },
+    {
+      "id": "pt-pay-politely-prompt",
+      "filename": "pt-pay-politely-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "da37e0c2325dfbb76c3309b99a5213b341688b49e2296825871a39064e924533",
+      "audio_sha256": "74c39a12bd44ac102537b1956a3fb5a37970daa1eff86ca995c7ce531875bde5",
+      "content_type": "audio/wav",
+      "bytes": 79244
+    },
+    {
+      "id": "pt-pay-politely-answer",
+      "filename": "pt-pay-politely-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "d70645c7a46eb3dae87cfc5032706ed669ceb98e1763789c846503e2af496a83",
+      "audio_sha256": "bd203a02fe14f6902c65a1e681d7e1d47269ea70848b6c5f42168b603b8e2802",
+      "content_type": "audio/wav",
+      "bytes": 67244
+    },
+    {
+      "id": "pt-ask-directions-prompt",
+      "filename": "pt-ask-directions-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "c16306f9182101979c02b85284dcd57c61241667985ef69219f84eed7a798af2",
+      "audio_sha256": "4f8f36edbfe08ca68976d637c60b5e9a9008d11ccdaf47d09ce479039f87dcc0",
+      "content_type": "audio/wav",
+      "bytes": 100844
+    },
+    {
+      "id": "pt-ask-directions-answer",
+      "filename": "pt-ask-directions-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "beec8fd58d37d8c7133c55bfe38d4906c0ca8a480260abf056539695ecffd3ef",
+      "audio_sha256": "286b7c66fa3e299969ced09ec7b36d3ed59ef4c04199c9731a370b6bda12cfd3",
+      "content_type": "audio/wav",
+      "bytes": 118844
+    },
+    {
+      "id": "pt-hotel-checkin-prompt",
+      "filename": "pt-hotel-checkin-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "1485f8158d35f3dd118f55a9a774d556e2cf4830dd48978f1e227b1e4682495a",
+      "audio_sha256": "1709739b454dd22500f7c81d2f9efb951921152cff7c0582e4286a58df2e2bb7",
+      "content_type": "audio/wav",
+      "bytes": 139244
+    },
+    {
+      "id": "pt-hotel-checkin-answer",
+      "filename": "pt-hotel-checkin-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "9366250e30e5bca707839c7f54179778d3fcd6a4907272d37cb93323e6cff86f",
+      "audio_sha256": "b4018b26971b50736a73fd7cff618385969fa19ab912b06d576363a8b0d77b14",
+      "content_type": "audio/wav",
+      "bytes": 97244
+    },
+    {
+      "id": "pt-emergency-help-prompt",
+      "filename": "pt-emergency-help-prompt.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "10ae246aff2941070438e615d8f54d9ad676d8c8f512b7a0e95763c1375551b5",
+      "audio_sha256": "6cad33d8a221d44159a24dc941cae0c9f54e0326a54dbc4daace5fcfef896ffa",
+      "content_type": "audio/wav",
+      "bytes": 124844
+    },
+    {
+      "id": "pt-emergency-help-answer",
+      "filename": "pt-emergency-help-answer.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "eacb6715f377d1fa3f6517f7d8e0523c75ace40f5794fd99957a50b7a6bc0a8f",
+      "audio_sha256": "3f93e34723de37e7a9a40bc24ddbd65a24892a9e854b5df90b1b0b710ef5236f",
+      "content_type": "audio/wav",
+      "bytes": 79244
+    }
+  ]
+}

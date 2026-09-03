@@ -14,12 +14,13 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-AUDIO_SUBDIRS = ("french-ordering", "french", "italian", "spanish")
+AUDIO_SUBDIRS = ("french-ordering", "french", "italian", "spanish", "portuguese")
 MANIFEST_NAMES = (
     "french-ordering-pilot.json",
     "french-polish.json",
     "italian-patterns.json",
     "spanish-patterns.json",
+    "portuguese-patterns.json",
     "french-expansion.json",
     "italian-expansion.json",
 )
