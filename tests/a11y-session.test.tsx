@@ -185,6 +185,7 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
     await completeIndependentStep();
     await completeIndependentStep();
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     const heading = screen.getByRole('heading', { name: 'Session complete' });
     expect(heading).toBeInTheDocument();

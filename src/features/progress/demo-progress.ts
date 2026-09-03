@@ -28,13 +28,19 @@ function deriveSession() {
     // Derive session inputs from fixture concepts — no hardcoded contentIds
     const dueReviews = concepts.slice(1, 2).map((c) => ({ id: `${c.id}-review-1`, contentId: c.id }));
     const drillRounds = concepts.slice(1, 3).map((c) => ({ id: `${c.id}-drill-1`, contentId: c.id, drillId: `${c.id}-drill` }));
+    // Picture-choice vocab drills ride along with their concept's text drill.
+    const pictureRounds = concepts.slice(1, 3).flatMap((c) =>
+      c.drills
+        .filter((d) => d.kind === 'PICTURE_CHOICE')
+        .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
+    );
     const newPattern = concepts[0] ? { id: `${concepts[0].id}-1`, contentId: concepts[0].id } : null;
     return composeDailySession({
       courseSlug: course.slug,
       dueReviews,
-      drillRounds,
+      drillRounds: [...drillRounds, ...pictureRounds],
       newPattern,
-      maxSteps: 4,
+      maxSteps: 5,
     });
   });
 }

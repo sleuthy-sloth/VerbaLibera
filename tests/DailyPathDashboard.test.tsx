@@ -89,14 +89,14 @@ describe('DailyPathDashboard', () => {
       'href',
       '/learn/english-to-french',
     );
-    expect(screen.getByText(/4 of 5 daily steps/i)).toBeInTheDocument();
+    expect(screen.getByText(/5 of 5 daily steps/i)).toBeInTheDocument();
     expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
-    expect(screen.getByText(/12 reviews waiting/i)).toBeInTheDocument();
+    expect(screen.getByText(/16 reviews waiting/i)).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /english to italian: a1 patterns/i })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
-      '4 of 5 daily steps',
+      '5 of 5 daily steps',
     );
   });
 
@@ -111,7 +111,7 @@ describe('DailyPathDashboard', () => {
       'href',
       '/learn/english-to-italian',
     );
-    expect(screen.getByText(/4 of 5 daily steps/i)).toBeInTheDocument();
+    expect(screen.getByText(/5 of 5 daily steps/i)).toBeInTheDocument();
     expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
   });
 
@@ -167,7 +167,7 @@ describe('DailyPathDashboard', () => {
     // Break caught: the review count is repeated in the daily path instead of living in the secondary snapshot.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getAllByText(/12 reviews waiting/i)).toHaveLength(1);
+    expect(screen.getAllByText(/16 reviews waiting/i)).toHaveLength(1);
   });
 
   it('does not link an available course to a session that has not been supplied yet', () => {

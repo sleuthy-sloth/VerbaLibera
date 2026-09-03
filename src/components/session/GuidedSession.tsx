@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { AudioPlayer, type AudioSegment } from '@/components/audio/AudioPlayer';
 import { hasUnavailableAudio } from '@/components/audio/audio-availability';
+import { PictureChoice } from '@/components/session/PictureChoice';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { useReviewMutation } from '@/features/progress/use-review-mutation';
@@ -325,6 +326,27 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                 </>
               ) : (
                 <>
+                  {activeContent.drill?.kind === 'PICTURE_CHOICE' && activeContent.drill.choices ? (
+                    <>
+                      <PictureChoice
+                        key={activeContent.drill.id}
+                        prompt={activeContent.drill.prompt}
+                        choices={activeContent.drill.choices}
+                        recallTarget={activeContent.drill.recallTarget}
+                        onVerdict={(pictureVerdict) => {
+                          setVerdict({ verdict: pictureVerdict, limited: false });
+                          setShouldFocusVerdict(false);
+                        }}
+                      />
+                      <div className={styles.actionDock}>
+                        <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">
+                          Continue
+                          <span aria-hidden="true">→</span>
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
                   <p className={styles.prompt}>{activeContent.drill?.prompt}</p>
                   <div className={styles.responseSection}>
                     <label htmlFor="drill-response" className={styles.eyebrow}>Your answer</label>
@@ -377,6 +399,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                       <span aria-hidden="true">→</span>
                     </button>
                   </div>
+                    </>
+                  )}
                 </>
               )
             ) : isSelfChecked ? (

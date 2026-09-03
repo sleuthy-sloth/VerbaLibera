@@ -48,6 +48,27 @@ test('typed exact answer is checked without any sidecar', async ({ page }) => {
   await expect(page.getByText('Checked locally. Nothing was saved.')).toBeVisible();
 });
 
+test('picture drill offers four CC0 photos and accepts the coffee tap', async ({ page }) => {
+  await page.goto('/learn/english-to-french');
+  // Walk review + two text drills via reveal/self-check/continue.
+  for (let i = 0; i < 3; i++) {
+    await page.getByRole('button', { name: /reveal model answer/i }).click();
+    await page.getByRole('button', { name: /i checked my answer/i }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+  }
+
+  await expect(page.getByRole('radiogroup', { name: /picture choices/i })).toBeVisible();
+  await expect(page.getByRole('radio')).toHaveCount(4);
+  await expect(page.getByRole('radio', { name: 'A cup of coffee' })).toBeVisible();
+
+  await page.getByRole('radio', { name: 'A cup of coffee' }).click();
+  await expect(page.getByText('That is the right picture.')).toBeVisible();
+
+  const coffee = await page.request.get('/images/vocab/coffee.jpg');
+  expect(coffee.ok()).toBe(true);
+  expect(coffee.headers()['content-type']).toContain('image/jpeg');
+});
+
 test('non-exact answers honestly report limited local checking', async ({ page }) => {
   await page.goto('/learn/english-to-french');
   await page.getByRole('button', { name: 'Continue' }).click();
@@ -106,7 +127,7 @@ test('mobile sticky action stays in view through reveal, self-check, and continu
 
   await expect(page.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
     'aria-valuetext',
-    'Step 2 of 4',
+    'Step 2 of 5',
   );
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
   await assertNoHorizontalOverflow(page);

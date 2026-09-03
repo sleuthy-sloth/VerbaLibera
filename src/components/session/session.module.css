@@ -369,6 +369,7 @@
 @media (prefers-reduced-motion: reduce) {
   .completionMark,
   .actionDock button,
+  .pictureChoice,
   .primaryAction,
   .completion a,
   .unavailable a {
@@ -431,4 +432,65 @@
   margin: 0.25rem 0 0;
   color: color-mix(in srgb, var(--ink) 60%, transparent);
   font-size: 0.9rem;
+}
+
+.pictureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 680px;
+  margin: 0.75rem 0 0;
+}
+
+@media (max-width: 480px) {
+  .pictureGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pictureChoice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 52px;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.pictureChoice:hover {
+  background: var(--accent-soft);
+}
+
+.pictureChoice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pictureChoice img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.pictureChoice[data-selected][data-correct] {
+  border: 1px solid var(--accent-strong);
+  background: var(--accent-soft);
+}
+
+.pictureChoice[data-selected]:not([data-correct]) {
+  border: 1px solid color-mix(in srgb, var(--ink) 40%, transparent);
+}
+
+.pictureAlt {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
