@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "fr-ask-directions-prompt",
+      "filename": "fr-ask-directions-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "9e6410b1bdfaeb44720725e6db102ed08a32ecc468d3c5ff47c33b7fa247aa7c",
+      "audio_sha256": "1ccad623e29a7179724f818855c72c6204090af468a573bf731a1e55348c285d",
+      "content_type": "audio/wav",
+      "bytes": 111644
+    },
+    {
+      "id": "fr-ask-directions-answer",
+      "filename": "fr-ask-directions-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "3272fe4dfdb6adb0d6c7ecd3450918582c71ae87023917cb11cac981e9c8e39a",
+      "audio_sha256": "0102b43a1a82b22fcc3fbd173858b5a34dc909486c5ad0e49464bf782b65ce14",
+      "content_type": "audio/wav",
+      "bytes": 91244
+    },
+    {
+      "id": "fr-hotel-checkin-prompt",
+      "filename": "fr-hotel-checkin-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "b48a1851fcad552f00724d4651d926c3584d6427fec9adfeee2259fd283ba71a",
+      "audio_sha256": "cd3204604f6cd739abc41336c818dcd4f7b51d22fdb882ce4e160e7f2140cc76",
+      "content_type": "audio/wav",
+      "bytes": 153644
+    },
+    {
+      "id": "fr-hotel-checkin-answer",
+      "filename": "fr-hotel-checkin-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "481564265b29c21f86be7a61c5452f830f03a5bdae7adb103df1ebb8d12af531",
+      "audio_sha256": "39db243eea995d71ca11265447715382bcff2203c9a334fb6f685fabdefbf9aa",
+      "content_type": "audio/wav",
+      "bytes": 104444
+    },
+    {
+      "id": "fr-emergency-help-prompt",
+      "filename": "fr-emergency-help-prompt.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "0a20d221f9fe62a173234bea88b4726b0cf6704925a24c86e2411fe0145ef442",
+      "audio_sha256": "28b27d81ef20b0c3e0f0fe08f1536642d0c7ca671e0788f0535979067fe67adc",
+      "content_type": "audio/wav",
+      "bytes": 145244
+    },
+    {
+      "id": "fr-emergency-help-answer",
+      "filename": "fr-emergency-help-answer.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "97f7075040bf85af4a2c38a08e702039c481523ca7197e514d262a7598c4d5e0",
+      "audio_sha256": "3bdc2b102e2ccfbb307ba4e28e17e6eb578cb42db4d80b4d2a1480285b9710be",
+      "content_type": "audio/wav",
+      "bytes": 94844
+    }
+  ]
+}

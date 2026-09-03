@@ -10,6 +10,9 @@ and verified by `services/voice/scripts/reconcile_provenance.py`.
 | `services/voice/scripts/french-ordering-pilot.json` | `french-ordering-pilot.json` | fr | `ff_siwis` | 2 |
 | `services/voice/scripts/italian-patterns.json` | `italian-patterns.json` | it | `if_sara` | 10 |
 | `services/voice/scripts/french-polish.json` | `french-polish.json` | fr | `ff_siwis` | 8 |
+| `services/voice/scripts/spanish-patterns.json` | `spanish-patterns.json` | es | `ef_dora` | 16 |
+| `services/voice/scripts/french-expansion.json` | `french-expansion.json` | fr | `ff_siwis` | 6 |
+| `services/voice/scripts/italian-expansion.json` | `italian-expansion.json` | it | `if_sara` | 6 |
 
 `reconcile_provenance.py` is the source of truth: it hashes every WAV on
 disk and refuses to allow the JSON to drift. Run it after every change:

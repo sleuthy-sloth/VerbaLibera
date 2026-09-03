@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "it-ask-directions-prompt",
+      "filename": "it-ask-directions-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "325abdc77f21f2e31540438ca145dd3f01e10e8e57c7f7ddf814c8bf9530488a",
+      "audio_sha256": "da2ee06758c9a74a534863d8686bed2e09446620714f9079c584c92ab052256d",
+      "content_type": "audio/wav",
+      "bytes": 136844
+    },
+    {
+      "id": "it-ask-directions-answer",
+      "filename": "it-ask-directions-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "91df56ad1488853783ccf5cc766689664b607f92f408452d43688dcb628f86d0",
+      "audio_sha256": "2aba690b415dbf7ae3a534de2c08ed6420079d99176ec5e1e40fc00b82fcecdf",
+      "content_type": "audio/wav",
+      "bytes": 121244
+    },
+    {
+      "id": "it-hotel-checkin-prompt",
+      "filename": "it-hotel-checkin-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "95541f96899c4019bb64a228886dc68ba630a0918e5668572ceed059575e5f39",
+      "audio_sha256": "e1a89ffa04bd7aca7009b94e8cbd953d060621bce81fe786118d1ead988f493d",
+      "content_type": "audio/wav",
+      "bytes": 162044
+    },
+    {
+      "id": "it-hotel-checkin-answer",
+      "filename": "it-hotel-checkin-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "19150ab9221263fee5bcb7dd03fad5041da5de0f4c0baee0003ef20249dfe40d",
+      "audio_sha256": "d2f0fa279ef01f368bce3eceb23715fc54ab98dc0d0e309b94135102688e2551",
+      "content_type": "audio/wav",
+      "bytes": 117644
+    },
+    {
+      "id": "it-emergency-help-prompt",
+      "filename": "it-emergency-help-prompt.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "8209ef61b698ee6f39c47e8a93d973e06741e43a10e3f01d3f7eb2cb584babc0",
+      "audio_sha256": "f4d99ab986f09f13a2279d1c6d06eed0e40749110baf801ec28597ed3403ba93",
+      "content_type": "audio/wav",
+      "bytes": 142844
+    },
+    {
+      "id": "it-emergency-help-answer",
+      "filename": "it-emergency-help-answer.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "68faf7a1da20eb8760896754cf0bd41d7bde51f50860f6dbe8405db2d80b5bcd",
+      "audio_sha256": "c4f13aedd2e730cf3e6913be77ac7bf364ce0612ccd63a44ce30748a5d5d12fa",
+      "content_type": "audio/wav",
+      "bytes": 86444
+    }
+  ]
+}
