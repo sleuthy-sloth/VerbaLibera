@@ -67,6 +67,32 @@ Learner progress is visible only to that account. No third-party trackers are us
 
 You need Node.js 20 or newer, npm, and optionally PostgreSQL 14 or newer if you want to apply migrations and run seeds.
 
+### One-command deploy with Docker Compose (app + Postgres 16)
+
+This is the production-like path — no manual Postgres install needed. The app image is multi-stage `node:20-alpine` and runs `prisma migrate deploy` on start.
+
+```bash
+cp .env.example .env
+# Edit .env: set DATABASE_URL, AUTH_JWT_PRIVATE_KEY / AUTH_JWT_PUBLIC_KEY (or *_PATH), WEBAUTHN_RP_ID, VOXLIBRE_VOICE_SERVICE_URL
+docker compose up --build
+```
+
+Open [http://localhost:3000](http://localhost:3000). Migrations run automatically via `prisma migrate deploy` in the container entrypoint; to seed demo content:
+
+```bash
+docker compose exec app npx prisma db seed
+# or: docker compose exec app npm run prisma:seed
+```
+
+Optional voice sidecar (local TTS/STT, requires Python toolchain weights — not pulled in default `docker compose up`):
+
+```bash
+docker compose --profile voice up --build
+# then set VOXLIBRE_VOICE_SERVICE_URL=http://voice:8000 in .env / compose.yml
+```
+
+### Local dev without Docker
+
 ```bash
 npm install
 cp .env.example .env

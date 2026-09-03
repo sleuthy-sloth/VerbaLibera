@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: voxlibre
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d voxlibre"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/voxlibre?schema=public
+      VOXLIBRE_VOICE_SERVICE_URL: ${VOXLIBRE_VOICE_SERVICE_URL:-}
+      AUTH_JWT_PRIVATE_KEY: ${AUTH_JWT_PRIVATE_KEY:-}
+      AUTH_JWT_PUBLIC_KEY: ${AUTH_JWT_PUBLIC_KEY:-}
+      AUTH_JWT_PRIVATE_KEY_PATH: ${AUTH_JWT_PRIVATE_KEY_PATH:-}
+      AUTH_JWT_PUBLIC_KEY_PATH: ${AUTH_JWT_PUBLIC_KEY_PATH:-}
+      WEBAUTHN_RP_ID: ${WEBAUTHN_RP_ID:-localhost}
+      WEBAUTHN_RP_NAME: ${WEBAUTHN_RP_NAME:-VoxLibre}
+      WEBAUTHN_ORIGIN: ${WEBAUTHN_ORIGIN:-http://localhost:3000}
+    restart: unless-stopped
+
+  # Optional local voice sidecar (FastAPI + Kokoro). Start with:
+  #   docker compose --profile voice up --build
+  # The app will use VOXLIBRE_VOICE_SERVICE_URL=http://voice:8000 when this profile is active.
+  voice:
+    build:
+      context: ./services/voice
+      dockerfile: Dockerfile
+    profiles: ["voice"]
+    ports:
+      - "8000:8000"
+    environment:
+      VOXLIBRE_VOICE_MAX_AUDIO_BYTES: ${VOXLIBRE_VOICE_MAX_AUDIO_BYTES:-1000000}
+    restart: unless-stopped
+    # Uses Dockerfile CMD: uvicorn services.voice.app:create_production_app --factory --host 0.0.0.0 --port 8000
+    # Note: the Python image + Kokoro weights are large; building this service
+    # is optional and not needed for `docker compose up` (app + db only).
+
+volumes:
+  db_data:
