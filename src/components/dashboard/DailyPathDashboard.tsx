@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
+import { dashboardBadgeCopy, isPreviewMode } from '@/lib/progress/copy';
 import styles from './dashboard.module.css';
 
 type DailyPathDashboardProps = Readonly<{
@@ -19,6 +20,7 @@ const practiceSteps = [
 ] as const;
 
 export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
+  const isPreview = isPreviewMode(null);
   const requestedCourseIndex = requestedCourseSlug
     ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
     : -1;
@@ -84,7 +86,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         </div>
         <p className={styles.previewBadge}>
           <span aria-hidden="true" />
-          Preview progress
+          {dashboardBadgeCopy(isPreview)}
         </p>
       </header>
 

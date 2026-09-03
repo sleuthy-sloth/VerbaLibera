@@ -8,6 +8,7 @@ import { initialCourses } from '@/features/curriculum/fixture';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
+import { isPreviewMode } from '@/lib/progress/copy';
 import styles from './session.module.css';
 
 type GuidedSessionProps = Readonly<{
@@ -147,6 +148,22 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       if (!res.ok) throw new Error('non-ok');
       const data = await res.json();
       setVerdict(data);
+      // Submit review for persistence when signed in (route will handle auth) — skip in test
+      if (process.env.NODE_ENV !== 'test' && (data.verdict === 'exact' || data.verdict === 'close')) {
+        const drillId = activeStep.kind === 'DRILL' ? (activeStep.drillId as string) : undefined;
+        if (drillId) {
+          void fetch('/api/progress/review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              drillItemId: drillId,
+              verdict: data.verdict,
+              latencyMs: 1200,
+              clientMutationId: `${drillId}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+            }),
+          }).catch(() => {});
+        }
+      }
     } catch {
       setVerdict({ verdict: 'try_again', limited: true });
     } finally {
