@@ -24,7 +24,7 @@ describe('GuidedSession', () => {
     // Break caught: session progress is duplicated in a separate navigation rail.
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    expect(screen.getByText(/step 1 of 6 · review/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 1 of 8 · review/i)).toBeInTheDocument();
     expect(screen.queryByRole('navigation', { name: /session steps/i })).not.toBeInTheDocument();
   });
 
@@ -40,33 +40,39 @@ describe('GuidedSession', () => {
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
   });
 
-  it('renders the exact review, drill, drill, picture-drill, picture-drill, new-pattern sequence', async () => {
+  it('renders the exact review, drill, drill, picture, picture, listen, builder, new-pattern sequence', async () => {
     // Break caught: the guided path stops honoring review-first session composition.
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
       'aria-valuetext',
-      'Step 1 of 6',
+      'Step 1 of 8',
     );
-    expect(screen.getByText(/step 1 of 6 · review/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 1 of 8 · review/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 2 of 6 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 2 of 8 · drill sprint/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 3 of 6 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 3 of 8 · drill sprint/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 4 of 6 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 4 of 8 · drill sprint/i)).toBeInTheDocument();
     expect(screen.getByRole('radiogroup', { name: /picture choices/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 5 of 6 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 5 of 8 · drill sprint/i)).toBeInTheDocument();
     expect(screen.getByRole('radiogroup', { name: /picture choices/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 6 of 6 · new pattern/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 6 of 8 · drill sprint/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByText(/step 7 of 8 · drill sprint/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByText(/step 8 of 8 · new pattern/i)).toBeInTheDocument();
   });
 
   it('renders the audio player for French polite ordering when every segment is playable', async () => {
@@ -105,6 +111,8 @@ describe('GuidedSession', () => {
     await completeIndependentStep(user);
     await completeIndependentStep(user);
     await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -172,6 +180,8 @@ describe('GuidedSession', () => {
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     expect(screen.getByRole('link', { name: /back to your daily path/i })).toHaveFocus();
   });
@@ -209,6 +219,8 @@ describe('GuidedSession', () => {
     await completeIndependentStep(user);
     await completeIndependentStep(user);
     await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));

@@ -35,13 +35,20 @@ function deriveSession() {
         .filter((d) => d.kind === 'PICTURE_CHOICE')
         .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
     );
+    // The ordering anchor concept gets the full multimodal treatment: listen
+    // (ear) + builder (word order) join its text + picture drills.
+    const anchorRounds = concepts.slice(1, 2).flatMap((c) =>
+      c.drills
+        .filter((d) => d.kind === 'LISTEN_TYPE' || d.kind === 'WORD_ORDER')
+        .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
+    );
     const newPattern = concepts[0] ? { id: `${concepts[0].id}-1`, contentId: concepts[0].id } : null;
     return composeDailySession({
       courseSlug: course.slug,
       dueReviews,
-      drillRounds: [...drillRounds, ...pictureRounds],
+      drillRounds: [...drillRounds, ...pictureRounds, ...anchorRounds],
       newPattern,
-      maxSteps: 6,
+      maxSteps: 8,
     });
   });
 }

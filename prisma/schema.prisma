@@ -19,6 +19,8 @@ enum DrillKind {
   SUBSTITUTION
   TRANSFORMATION
   PICTURE_CHOICE
+  LISTEN_TYPE
+  WORD_ORDER
 }
 
 enum AudioSegmentType {

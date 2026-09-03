@@ -1,0 +1,3 @@
+-- AlterEnum
+ALTER TYPE "DrillKind" ADD VALUE 'LISTEN_TYPE';
+ALTER TYPE "DrillKind" ADD VALUE 'WORD_ORDER';

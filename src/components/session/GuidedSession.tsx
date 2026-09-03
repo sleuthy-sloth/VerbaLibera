@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AudioPlayer, type AudioSegment } from '@/components/audio/AudioPlayer';
 import { hasUnavailableAudio } from '@/components/audio/audio-availability';
 import { PictureChoice } from '@/components/session/PictureChoice';
+import { WordBuilder } from '@/components/session/WordBuilder';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { useReviewMutation } from '@/features/progress/use-review-mutation';
@@ -348,6 +349,26 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   ) : (
                     <>
                   <p className={styles.prompt}>{activeContent.drill?.prompt}</p>
+                  {activeContent.drill?.kind === 'LISTEN_TYPE' ? (
+                    <div className={styles.listenAudio}>
+                      {activeAudioSegments
+                        .filter((segment) => segment.type === 'answer')
+                        .map((segment) => (
+                          // eslint-disable-next-line jsx-a11y/media-has-caption
+                          <audio key={segment.id} controls preload="none" src={segment.url}>
+                            <track kind="captions" />
+                          </audio>
+                        ))}
+                    </div>
+                  ) : null}
+                  {activeContent.drill?.kind === 'WORD_ORDER' ? (
+                    <WordBuilder
+                      key={activeContent.drill.id}
+                      drillId={activeContent.drill.id}
+                      target={activeContent.drill.recallTarget}
+                      onAssemble={setResponseText}
+                    />
+                  ) : (
                   <div className={styles.responseSection}>
                     <label htmlFor="drill-response" className={styles.eyebrow}>Your answer</label>
                     <textarea
@@ -385,6 +406,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                       </div>
                     )}
                   </div>
+                  )}
                   <div className={styles.actionDock}>
                     <button
                       onClick={checkAnswer}

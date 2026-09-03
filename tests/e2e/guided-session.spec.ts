@@ -153,7 +153,7 @@ test('mobile sticky action stays in view through reveal, self-check, and continu
 
   await expect(page.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
     'aria-valuetext',
-    'Step 2 of 6',
+    'Step 2 of 8',
   );
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
   await assertNoHorizontalOverflow(page);

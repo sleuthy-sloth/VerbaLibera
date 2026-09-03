@@ -29,13 +29,18 @@ function deriveDemoSession() {
         .filter((d) => d.kind === 'PICTURE_CHOICE')
         .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
     );
+    const anchorRounds = concepts.slice(1, 2).flatMap((c) =>
+      c.drills
+        .filter((d) => d.kind === 'LISTEN_TYPE' || d.kind === 'WORD_ORDER')
+        .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
+    );
     const newPattern = concepts[0] ? { id: `${concepts[0].id}-1`, contentId: concepts[0].id } : null;
     return composeDailySession({
       courseSlug: course.slug,
       dueReviews,
-      drillRounds: [...drillRounds, ...pictureRounds],
+      drillRounds: [...drillRounds, ...pictureRounds, ...anchorRounds],
       newPattern,
-      maxSteps: 6,
+      maxSteps: 8,
     });
   });
 }
@@ -63,10 +68,10 @@ describe('demo progress snapshot', () => {
     // Break caught: dashboard data drifting from the deterministic daily-session policy.
     expect(demoProgress).toMatchObject({
       selectedCourseSlug: 'english-to-french',
-      xp: 680,
+      xp: 840,
       practiceFlowDays: 4,
       dailyGoal: { completed: 5, target: 5 },
-      dueReviewCount: 20,
+      dueReviewCount: 28,
     });
     expect(demoProgress.session.filter((step) => step.courseSlug === 'english-to-french')).toEqual([
       { id: 'fr-ordering-politely-review-1', kind: 'REVIEW', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely' },
@@ -74,6 +79,8 @@ describe('demo progress snapshot', () => {
       { id: 'fr-find-place-drill-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
       { id: 'fr-ordering-politely-picture-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely', drillId: 'fr-ordering-politely-picture' },
       { id: 'fr-find-place-picture-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-find-place', drillId: 'fr-find-place-picture' },
+      { id: 'fr-ordering-politely-listen-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely', drillId: 'fr-ordering-politely-listen' },
+      { id: 'fr-ordering-politely-build-1', kind: 'DRILL', courseSlug: 'english-to-french', contentId: 'fr-ordering-politely', drillId: 'fr-ordering-politely-build' },
       { id: 'fr-greet-politely-1', kind: 'NEW_PATTERN', courseSlug: 'english-to-french', contentId: 'fr-greet-politely' },
     ]);
     expect(demoProgress.session.filter((step) => step.courseSlug === 'english-to-italian')).toEqual([
@@ -82,6 +89,8 @@ describe('demo progress snapshot', () => {
       { id: 'it-find-place-drill-1', kind: 'DRILL', courseSlug: 'english-to-italian', contentId: 'it-find-place', drillId: 'it-find-place-drill' },
       { id: 'it-ordering-politely-picture-1', kind: 'DRILL', courseSlug: 'english-to-italian', contentId: 'it-ordering-politely', drillId: 'it-ordering-politely-picture' },
       { id: 'it-find-place-picture-1', kind: 'DRILL', courseSlug: 'english-to-italian', contentId: 'it-find-place', drillId: 'it-find-place-picture' },
+      { id: 'it-ordering-politely-listen-1', kind: 'DRILL', courseSlug: 'english-to-italian', contentId: 'it-ordering-politely', drillId: 'it-ordering-politely-listen' },
+      { id: 'it-ordering-politely-build-1', kind: 'DRILL', courseSlug: 'english-to-italian', contentId: 'it-ordering-politely', drillId: 'it-ordering-politely-build' },
       { id: 'it-greet-politely-1', kind: 'NEW_PATTERN', courseSlug: 'english-to-italian', contentId: 'it-greet-politely' },
     ]);
     expect(new Set(demoProgress.session.map((step) => step.id)).size).toBe(demoProgress.session.length);

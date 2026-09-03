@@ -211,6 +211,8 @@ const makeConcept = (language: string, position: number, seed: PatternSeed): Con
   ],
   drills: [
     { id: `${seed.id}-drill`, conceptId: seed.id, cefrLevel: 'A1', kind: seed.drillKind, prompt: seed.drillPrompt, acceptedResponses: seed.acceptedResponses, recallTarget: seed.acceptedResponses[0] ?? seed.answer, contentProvenance: 'ORIGINAL' },
+    { id: `${seed.id}-listen`, conceptId: seed.id, cefrLevel: 'A1', kind: 'LISTEN_TYPE', prompt: 'Listen to the answer clip and type exactly what you hear.', acceptedResponses: [seed.answer], recallTarget: seed.answer, contentProvenance: 'ORIGINAL' },
+    { id: `${seed.id}-build`, conceptId: seed.id, cefrLevel: 'A1', kind: 'WORD_ORDER', prompt: 'Tap the words in order to build the answer.', acceptedResponses: [seed.answer], recallTarget: seed.answer, contentProvenance: 'ORIGINAL' },
     ...(pictureDrill ? [pictureDrill] : []),
   ],
   };

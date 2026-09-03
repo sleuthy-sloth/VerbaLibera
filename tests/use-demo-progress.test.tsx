@@ -31,7 +31,7 @@ describe('useDemoProgress', () => {
 
     render(<ProgressConsumer />, { wrapper: QueryTestProvider });
 
-    expect(await screen.findByText('20 reviews due')).toBeInTheDocument();
+    expect(await screen.findByText('28 reviews due')).toBeInTheDocument();
   });
 
   it('renders the practice-path message when the preview request fails', async () => {

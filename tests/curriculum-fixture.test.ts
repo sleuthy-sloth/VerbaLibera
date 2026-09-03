@@ -261,12 +261,32 @@ describe('initial curriculum fixtures', () => {
     }
   });
 
+  it('adds listen-and-type plus word-builder drills to every pattern', () => {
+    for (const course of initialCourses) {
+      for (const concept of course.concepts) {
+        const byKind = new Map(concept.drills.map((d) => [d.kind, d]));
+        const listen = byKind.get('LISTEN_TYPE');
+        const builder = byKind.get('WORD_ORDER');
+        expect(listen).toMatchObject({
+          id: `${concept.id}-listen`,
+          prompt: 'Listen to the answer clip and type exactly what you hear.',
+        });
+        expect(listen?.acceptedResponses).toEqual([concept.modelDialogue.answer]);
+        expect(builder).toMatchObject({
+          id: `${concept.id}-build`,
+          prompt: 'Tap the words in order to build the answer.',
+        });
+        expect(builder?.acceptedResponses).toEqual([concept.modelDialogue.answer]);
+      }
+    }
+  });
+
   it('adds a picture-choice vocab drill to every pattern', () => {
     const seenImages = new Set<string>();
     for (const course of initialCourses) {
       for (const concept of course.concepts) {
-        expect(concept.drills).toHaveLength(2);
-        const picture = concept.drills[1];
+        expect(concept.drills).toHaveLength(4);
+        const picture = concept.drills[3];
         expect(picture).toMatchObject({
           id: `${concept.id}-picture`,
           conceptId: concept.id,

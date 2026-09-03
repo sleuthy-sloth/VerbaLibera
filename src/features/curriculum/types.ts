@@ -1,6 +1,6 @@
 export type CEFRLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
 
-export type DrillKind = 'SUBSTITUTION' | 'TRANSFORMATION' | 'PICTURE_CHOICE';
+export type DrillKind = 'SUBSTITUTION' | 'TRANSFORMATION' | 'PICTURE_CHOICE' | 'LISTEN_TYPE' | 'WORD_ORDER';
 
 export type AudioSegmentType = 'PROMPT' | 'ANSWER';
 
