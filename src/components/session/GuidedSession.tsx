@@ -205,7 +205,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const showReviewActions = !isComplete && activeStep.kind !== 'NEW_PATTERN';
 
   return (
-    <main className={styles.session}>
+    <main id="main-content" tabIndex={-1} className={styles.session}>
       <header className={styles.sessionHeader}>
         <Link href={dashboardHref}>← Daily path</Link>
         <span>8-minute preview</span>
@@ -343,6 +343,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                         className={styles.verdictCard}
                         data-verdict={verdict.limited ? 'limited' : verdict.verdict}
                         aria-live="polite"
+                        aria-atomic="true"
+                        role="status"
                         aria-busy={isChecking}
                       >
                         <p>
@@ -369,7 +371,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                     >
                       {isChecking ? 'Checking…' : 'Check my answer'}
                     </button>
-                    <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
+                    <button onClick={revealModel} ref={primaryActionRef} type="button" aria-label="Reveal model answer">Reveal model answer</button>
                     <button className={styles.primaryAction} onClick={advanceStep} type="button">
                       Continue
                       <span aria-hidden="true">→</span>
@@ -409,7 +411,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
               <>
                 <p className={styles.prompt}>{activeContent.concept.modelDialogue.prompt}</p>
                 <div className={styles.actionDock}>
-                  <button onClick={revealModel} ref={primaryActionRef} type="button">Reveal model answer</button>
+                  <button onClick={revealModel} ref={primaryActionRef} type="button" aria-label="Reveal model answer">Reveal model answer</button>
                   <button className={styles.primaryAction} onClick={advanceStep} type="button">
                     Continue
                     <span aria-hidden="true">→</span>

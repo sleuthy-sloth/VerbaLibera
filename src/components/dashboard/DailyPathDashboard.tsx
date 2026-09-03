@@ -47,7 +47,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
 
   if (!selectedCourse) {
     return (
-      <main className={`${styles.dashboard} ${styles.focusSurface}`}>
+      <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
         <p className={styles.eyebrow}>VoxLibre preview</p>
         <h1>VoxLibre</h1>
         <p>No preview courses are ready yet.</p>
@@ -71,7 +71,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     progress.session.some((step) => step.courseSlug === selectedCourse.slug);
 
   return (
-    <main className={`${styles.dashboard} ${styles.focusSurface}`}>
+    <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
       <header className={styles.brandHeader}>
         <Link className={styles.wordmark} href="/" aria-label="VoxLibre home">
           <span aria-hidden="true">V</span>

@@ -31,6 +31,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${newsreader.variable} ${instrumentSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <QueryProvider>
           {children}
           <PwaRegistrar />
