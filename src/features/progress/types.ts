@@ -13,4 +13,10 @@ export type DemoProgressSnapshot = Readonly<{
   }>[];
   session: readonly SessionStep[];
   contentVersion: string | null;
+  /**
+   * UTC ISO-8601 snapshot time (new Date().toISOString()) used for
+   * due-queue freshness and midnight rollover proof. Always UTC, never
+   * server-local string, so dashboard staleness is determined by dueAt <= now UTC.
+   */
+  snapshotAt: string;
 }>;

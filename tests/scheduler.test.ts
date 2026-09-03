@@ -85,4 +85,45 @@ describe('scheduleReview', () => {
   it('rejects invalid prior state', () => {
     expect(() => scheduleReview(state({ intervalDays: -1 }), 4, reviewedAt)).toThrow('intervalDays');
   });
+
+  describe('UTC midnight rollover (Task 6)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ now: new Date('2026-09-03T00:05:00Z') });
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('interval 1 day rolls at UTC midnight, not server local', () => {
+      // reviewed at UTC midnight 2026-09-02, interval 1 -> due at UTC midnight 2026-09-03
+      const reviewedAtUtcMidnight = new Date('2026-09-02T00:00:00.000Z');
+      const result = scheduleReview(state(), 4, reviewedAtUtcMidnight);
+      expect(result.dueAt.toISOString()).toBe('2026-09-03T00:00:00.000Z');
+      // exact UTC math: reviewedAt.getTime() + 86_400_000
+      expect(result.dueAt.getTime()).toBe(reviewedAtUtcMidnight.getTime() + 86_400_000);
+      // dueAt must be <= frozen now (00:05 UTC) — proves rollover at UTC midnight, not local
+      expect(result.dueAt.getTime() <= Date.now()).toBe(true);
+      // UTC hours preserved, not shifted by local TZ offset
+      expect(result.dueAt.getUTCHours()).toBe(0);
+    });
+
+    it('late-night UTC review preserves UTC hours across interval', () => {
+      const lateNight = new Date('2026-09-02T23:30:00.000Z');
+      const result = scheduleReview(state(), 4, lateNight);
+      expect(result.dueAt.toISOString()).toBe('2026-09-03T23:30:00.000Z');
+      expect(result.dueAt.getUTCHours()).toBe(23);
+      expect(result.dueAt.getUTCMinutes()).toBe(30);
+    });
+
+    it('due queue is inclusive at UTC midnight (dueAt <= now)', () => {
+      const reviewedAt = new Date('2026-09-02T00:00:00.000Z');
+      const result = scheduleReview(state(), 4, reviewedAt);
+      const now = new Date('2026-09-03T00:05:00Z');
+      // scheduler stores dueAt as UTC epoch; dashboard due check is dueAt <= now (UTC)
+      expect(result.dueAt.getTime() <= now.getTime()).toBe(true);
+      // 1ms before UTC midnight must NOT be due
+      const justBefore = new Date('2026-09-02T23:59:59.999Z');
+      expect(result.dueAt.getTime() <= justBefore.getTime()).toBe(false);
+    });
+  });
 });

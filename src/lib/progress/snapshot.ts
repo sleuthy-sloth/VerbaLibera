@@ -19,15 +19,18 @@ async function fetchContentVersion(): Promise<string | null> {
 
 export async function getProgressSnapshot(userId: string | null): Promise<DemoProgressSnapshot> {
   const contentVersion = await fetchContentVersion();
+  // UTC snapshot time — must be ISO-8601 UTC (toISOString), never server-local string.
+  // Used for due-queue staleness proof: dueAt (UTC epoch) <= now (UTC) vs. snapshotAt.
+  const snapshotAt = new Date().toISOString();
+  const now = new Date(snapshotAt);
 
   if (!userId) {
     // Signed-out preview: demoProgress is byte-identical for everyone,
-    // but we expose contentVersion for debug badge (?debug=1).
-    return { ...demoProgress, contentVersion };
+    // but we expose contentVersion and snapshotAt for debug badge (?debug=1).
+    return { ...demoProgress, contentVersion, snapshotAt };
   }
 
   // For signed-in users, compose from UserProgress rows
-  const now = new Date();
   const dueCount = await prisma.userProgress.count({
     where: {
       userId,
@@ -51,6 +54,7 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
     xp,
     dailyGoal: { ...base.dailyGoal, completed },
     contentVersion,
+    snapshotAt,
   };
 }
 

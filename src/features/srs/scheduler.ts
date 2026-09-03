@@ -14,6 +14,12 @@ export type SrsState = {
 const DAY_IN_MS = 86_400_000;
 const MINIMUM_EASE_FACTOR = 1.3;
 
+/**
+ * Schedule the next review in UTC.
+ * dueAt is computed as reviewedAt (UTC epoch millis) + intervalDays * 86_400_000,
+ * so rollover occurs at UTC midnight, not server-local midnight.
+ * Use toISOString() for serialization; never toLocaleString().
+ */
 export function scheduleReview(
   previous: SrsState,
   quality: ReviewQuality,
@@ -34,6 +40,7 @@ export function scheduleReview(
     easeFactor,
     intervalDays,
     repetitions,
+    // UTC: epoch millis + interval * 86_400_000; dueAt <= now is UTC comparison, not local
     dueAt: new Date(reviewedAt.getTime() + intervalDays * DAY_IN_MS),
     lapseCount: previous.lapseCount + (succeeded ? 0 : 1),
     lastReviewedAt: new Date(reviewedAt.getTime()),

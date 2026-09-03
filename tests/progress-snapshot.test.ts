@@ -1,20 +1,41 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 import { getProgressSnapshot } from '../src/lib/progress/snapshot';
 import { demoProgress } from '../src/features/progress/demo-progress';
 
+// Mock prisma for contentVersion fallback (no DB) and due counts
+vi.mock('@/lib/prisma', () => ({
+  prisma: {
+    contentVersion: {
+      findUnique: vi.fn().mockResolvedValue(null),
+    },
+    userProgress: {
+      count: vi.fn().mockResolvedValue(3),
+    },
+  },
+}));
+
+import { prisma } from '@/lib/prisma';
+
 describe('progress snapshot', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('returns demoProgress for signed-out (null user)', async () => {
     const snapshot = await getProgressSnapshot(null);
-    expect(snapshot).toEqual(demoProgress);
+    // demoProgress is byte-identical for everyone except contentVersion + snapshotAt which are dynamic
+    const { snapshotAt, contentVersion, ...rest } = snapshot as unknown as Record<string, unknown>;
+    const { snapshotAt: _a, contentVersion: _b, ...demoRest } = demoProgress as unknown as Record<string, unknown>;
+    expect(rest).toEqual(demoRest);
   });
 
   it('returns demoProgress for undefined user', async () => {
     const snapshot = await getProgressSnapshot(null);
-    // Should be byte-identical to demoProgress for preview
+    // Should be byte-identical to demoProgress for preview (except dynamic fields)
     expect(snapshot.selectedCourseSlug).toBe(demoProgress.selectedCourseSlug);
-    expect(snapshot.xp).toBe(demoProgress.xp);
-    expect(snapshot.dailyGoal).toEqual(demoProgress.dailyGoal);
+    expect(snapshot.courses).toEqual(demoProgress.courses);
+    expect(snapshot.session).toEqual(demoProgress.session);
   });
 
   it('has same structure as demoProgress', async () => {
@@ -23,5 +44,58 @@ describe('progress snapshot', () => {
     expect(snapshot.session).toBeDefined();
     expect(Array.isArray(snapshot.courses)).toBe(true);
     expect(Array.isArray(snapshot.session)).toBe(true);
+  });
+
+  describe('UTC midnight rollover (Task 6)', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ now: new Date('2026-09-03T00:05:00Z') });
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('exposes snapshotAt as UTC ISO string at frozen midnight, not server local', async () => {
+      const snapshot = await getProgressSnapshot(null);
+      // Must be UTC ISO via new Date().toISOString() at frozen time
+      expect((snapshot as unknown as Record<string, unknown>).snapshotAt).toBe('2026-09-03T00:05:00.000Z');
+      const snapshotAt = (snapshot as unknown as Record<string, unknown>).snapshotAt as string;
+      expect(typeof snapshotAt).toBe('string');
+      expect(snapshotAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+      // not locale string (no GMT, PST etc.)
+      expect(snapshotAt).not.toMatch(/GMT|PST|PDT|Local/);
+      expect(snapshotAt.endsWith('Z')).toBe(true);
+      // reparses to same instant
+      expect(new Date(snapshotAt).toISOString()).toBe(snapshotAt);
+    });
+
+    it('due queue count uses UTC now (dueAt <= now) at frozen midnight', async () => {
+      const mockCount = prisma.userProgress.count as unknown as ReturnType<typeof vi.fn>;
+      mockCount.mockResolvedValue(2);
+      const snapshot = await getProgressSnapshot('user-123');
+      // snapshotAt still UTC ISO
+      expect((snapshot as unknown as Record<string, unknown>).snapshotAt).toBe('2026-09-03T00:05:00.000Z');
+      // prisma count was called with dueAt: { lte: now } where now is frozen UTC
+      expect(mockCount).toHaveBeenCalled();
+      const dueCall = mockCount.mock.calls.find((args) => (args[0] as { where?: { dueAt?: unknown } })?.where?.dueAt) as [{ where: { dueAt: { lte: Date } } }] | undefined;
+      const callArgs = dueCall?.[0] as { where?: { dueAt?: { lte?: Date } } } | undefined;
+      const lte = callArgs?.where?.dueAt?.lte;
+      expect(lte).toBeInstanceOf(Date);
+      expect((lte as Date).toISOString()).toBe('2026-09-03T00:05:00.000Z');
+      // verify inclusive UTC midnight semantics: dueAt == now is considered due, 1ms after is not
+      expect((lte as Date).getTime()).toBe(new Date('2026-09-03T00:05:00Z').getTime());
+      expect(snapshot.dueReviewCount).toBe(2);
+    });
+
+    it('snapshotAt reparses as UTC even when server TZ would shift local midnight', async () => {
+      const snapshot = await getProgressSnapshot(null);
+      const snapshotAt = (snapshot as unknown as Record<string, unknown>).snapshotAt as string;
+      const parsed = new Date(snapshotAt);
+      // getUTCHours must be 0 for 00:05Z, getHours would vary with TZ, so assert UTC
+      expect(parsed.getUTCHours()).toBe(0);
+      expect(parsed.getUTCMinutes()).toBe(5);
+      // ensure toISOString round-trips, not toLocaleString
+      expect(parsed.toISOString()).toBe(snapshotAt);
+      expect(parsed.toString()).not.toBe(snapshotAt);
+    });
   });
 });

@@ -7,6 +7,7 @@ export const blankDemoProgress: DemoProgressSnapshot = {
   practiceFlowDays: 0,
   dailyGoal: { completed: 0, target: 5 },
   dueReviewCount: 0,
+  snapshotAt: new Date(0).toISOString(),
   courses: [
     {
       slug: 'english-to-french',
@@ -31,6 +32,7 @@ export const demoProgress: DemoProgressSnapshot = {
   practiceFlowDays: 4,
   dailyGoal: { completed: 4, target: 5 },
   dueReviewCount: 6,
+  snapshotAt: new Date(0).toISOString(),
   courses: [
     {
       slug: 'english-to-french',
