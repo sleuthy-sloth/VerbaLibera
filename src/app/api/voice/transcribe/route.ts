@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { MAX_AUDIO_BYTES, transcribeVoiceResponse } from '@/lib/voice-service';
+import { withObserve } from '@/lib/observe';
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' };
 // Allow room for multipart metadata while keeping the learner audio itself capped at 1 MB.
@@ -108,7 +109,7 @@ async function readBoundedBody(request: Request, maxBytes: number): Promise<Arra
 }
 
 /** Forwards a validated short response to an opted-in, same-host local voice service. */
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   const boundedRequest = await boundedMultipartRequest(request);
   if (boundedRequest.status === 'too_large') {
     return NextResponse.json(
@@ -135,3 +136,5 @@ export async function POST(request: Request) {
   const status = result.status === 'invalid_request' ? 400 : result.status === 'unavailable' ? 503 : 200;
   return NextResponse.json(result, { status, headers: NO_STORE_HEADERS });
 }
+
+export const POST = withObserve('/api/voice/transcribe', postHandler);

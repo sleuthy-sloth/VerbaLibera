@@ -8,6 +8,7 @@ import { validateCsrfRequest } from '@/lib/auth/csrf';
 import { qualityFromVerdict } from '@/lib/progress/quality';
 import { scheduleReview } from '@/features/srs/scheduler';
 import type { ReviewQuality } from '@/features/srs/scheduler';
+import { withObserve } from '@/lib/observe';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,7 +61,7 @@ async function boundedJsonBody(request: Request): Promise<
   }
 }
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   // CSRF check for authenticated mutation
   const cookieHeader = request.headers.get('cookie') ?? '';
   if (cookieHeader.includes('voxlibre_csrf') && !validateCsrfRequest(request)) {
@@ -223,3 +224,5 @@ export async function POST(request: Request) {
     { status: 200, headers: NO_STORE_HEADERS },
   );
 }
+
+export const POST = withObserve('/api/progress/review', postHandler);

@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 import { demoProgress } from '@/features/progress/demo-progress';
 import { getProgressSnapshot } from '@/lib/progress/snapshot';
 import { SESSION_COOKIE_NAME, verifySessionToken } from '@/lib/auth/session';
+import { withObserve } from '@/lib/observe';
 
-export async function GET(request?: Request) {
+async function getHandler(request?: Request) {
   const req = request ?? new Request('http://localhost/api/demo/progress');
   const cookieHeader = req.headers.get('cookie') ?? '';
   const cookies = cookieHeader.split(';').map((c) => c.trim());
@@ -30,3 +31,5 @@ export async function GET(request?: Request) {
     headers: { 'Cache-Control': 'no-store' },
   });
 }
+
+export const GET = withObserve('/api/demo/progress', getHandler as unknown as (req?: Request) => Promise<Response>);

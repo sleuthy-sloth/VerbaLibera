@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { checkDrillAnswer, type AnswerCheckInput } from '@/lib/answer-checking';
+import { withObserve } from '@/lib/observe';
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' };
 const MAX_BODY_BYTES = 2560;
@@ -85,7 +86,7 @@ function isValidInput(value: unknown): value is AnswerCheckInput {
   return trimmed.length >= 1 && trimmed.length <= 500;
 }
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   const bounded = await boundedJsonBody(request);
   if (bounded.status === 'too_large') {
     return NextResponse.json(
@@ -123,3 +124,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export const POST = withObserve('/api/answer-check', postHandler);

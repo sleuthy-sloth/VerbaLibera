@@ -4,12 +4,13 @@ import { NextResponse } from 'next/server';
 
 import { SESSION_COOKIE_BASE_NAME, SESSION_HOST_COOKIE_NAME, clearSessionCookieOptions, getSessionCookieName } from '@/lib/auth/session';
 import { validateCsrfRequest } from '@/lib/auth/csrf';
+import { withObserve } from '@/lib/observe';
 
 export const dynamic = 'force-dynamic';
 
 const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' } as const;
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   // Enforce double-submit CSRF for authenticated logout
   const cookieHeader = request.headers.get('cookie') ?? '';
   if (cookieHeader.includes('voxlibre_csrf') && !validateCsrfRequest(request)) {
@@ -22,3 +23,5 @@ export async function POST(request: Request) {
   response.cookies.set(getSessionCookieName(), '', clearSessionCookieOptions() as never);
   return response;
 }
+
+export const POST = withObserve('/api/auth/logout', postHandler);

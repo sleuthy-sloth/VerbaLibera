@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
 import { verifyRegistration } from '@/lib/auth/webauthn';
+import { withObserve } from '@/lib/observe';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,7 +68,7 @@ function isRegistrationAllowed(request: Request, bodyToken?: unknown): boolean {
   return false;
 }
 
-export async function POST(request: Request) {
+async function postHandler(request: Request) {
   const bounded = await boundedJsonBody(request);
   if (bounded.status === 'too_large') {
     return NextResponse.json({ status: 'request_too_large' }, { status: 413, headers: NO_STORE_HEADERS });
@@ -140,3 +141,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
 }
+
+export const POST = withObserve('/api/auth/register', postHandler);
