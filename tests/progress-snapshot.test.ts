@@ -11,6 +11,10 @@ vi.mock('@/lib/prisma', () => ({
     },
     userProgress: {
       count: vi.fn().mockResolvedValue(3),
+      findMany: vi.fn().mockResolvedValue([]),
+    },
+    reviewLog: {
+      findMany: vi.fn().mockResolvedValue([]),
     },
   },
 }));
@@ -96,6 +100,51 @@ describe('progress snapshot', () => {
       // ensure toISOString round-trips, not toLocaleString
       expect(parsed.toISOString()).toBe(snapshotAt);
       expect(parsed.toString()).not.toBe(snapshotAt);
+    });
+  });
+
+  describe('streaks + real review queue', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ now: new Date('2026-09-04T12:00:00Z') });
+      (prisma.reviewLog.findMany as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([]);
+      (prisma.userProgress.findMany as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([]);
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('derives streakDays from distinct UTC review days', async () => {
+      const mockReviews = prisma.reviewLog.findMany as unknown as ReturnType<typeof vi.fn>;
+      mockReviews.mockResolvedValue([
+        { createdAt: new Date('2026-09-04T08:00:00Z') },
+        { createdAt: new Date('2026-09-03T20:00:00Z') },
+        { createdAt: new Date('2026-09-02T09:00:00Z') },
+      ]);
+      const snapshot = await getProgressSnapshot('user-123');
+      expect(snapshot.streakDays).toBe(3);
+    });
+
+    it('reports zero streak with no review activity', async () => {
+      const snapshot = await getProgressSnapshot('user-123');
+      expect(snapshot.streakDays).toBe(0);
+    });
+
+    it('prefers due SRS items as review steps in the signed-in session', async () => {
+      const mockDue = prisma.userProgress.findMany as unknown as ReturnType<typeof vi.fn>;
+      mockDue.mockResolvedValue([
+        {
+          drillItemId: 'fr-pay-politely-drill',
+          drillItem: { conceptBlock: { id: 'fr-pay-politely', course: { slug: 'english-to-french' } } },
+        },
+      ]);
+      const snapshot = await getProgressSnapshot('user-123');
+      const french = snapshot.session.filter((step) => step.courseSlug === 'english-to-french');
+      expect(french[0]).toMatchObject({ kind: 'REVIEW', contentId: 'fr-pay-politely' });
+    });
+
+    it('falls back to the demo session when nothing is due', async () => {
+      const snapshot = await getProgressSnapshot('user-123');
+      expect(snapshot.session).toEqual(demoProgress.session);
     });
   });
 });

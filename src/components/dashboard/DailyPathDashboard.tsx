@@ -200,6 +200,16 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
               <dd><p>{progress.practiceFlowDays}-day practice flow</p></dd>
             </div>
             <div>
+              <dt className={styles.metricLabel}>Streak</dt>
+              <dd>
+                <p>
+                  {progress.streakDays === 0
+                    ? 'No streak yet — finish a session to start one.'
+                    : `${progress.streakDays}-day streak`}
+                </p>
+              </dd>
+            </div>
+            <div>
               <dt className={styles.metricLabel}>Review queue</dt>
               <dd>
                 <p>

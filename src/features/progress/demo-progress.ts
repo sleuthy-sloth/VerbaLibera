@@ -87,6 +87,7 @@ const dailyGoal = {
 
 export const blankDemoProgress: DemoProgressSnapshot = {
   selectedCourseSlug,
+  streakDays: 0,
   xp: 0,
   practiceFlowDays: 0,
   dailyGoal: { completed: 0, target: DAILY_GOAL_TARGET },
@@ -99,6 +100,8 @@ export const blankDemoProgress: DemoProgressSnapshot = {
 
 export const demoProgress: DemoProgressSnapshot = {
   selectedCourseSlug,
+  // Fiction: a 4-day streak behind the near-complete first course.
+  streakDays: 4,
   xp,
   practiceFlowDays,
   dailyGoal,

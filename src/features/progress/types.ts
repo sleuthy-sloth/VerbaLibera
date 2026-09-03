@@ -5,6 +5,7 @@ export type DemoProgressSnapshot = Readonly<{
   practiceFlowDays: number;
   dailyGoal: Readonly<{ completed: number; target: number }>;
   dueReviewCount: number;
+  streakDays: number;
   courses: readonly Readonly<{
     slug: string;
     title: string;

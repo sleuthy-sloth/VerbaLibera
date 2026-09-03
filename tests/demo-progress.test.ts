@@ -69,6 +69,7 @@ describe('demo progress snapshot', () => {
     expect(demoProgress).toMatchObject({
       selectedCourseSlug: 'english-to-french',
       xp: 840,
+      streakDays: 4,
       practiceFlowDays: 4,
       dailyGoal: { completed: 5, target: 5 },
       dueReviewCount: 28,
