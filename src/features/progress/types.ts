@@ -1,5 +1,4 @@
 import type { SessionStep } from '@/features/session/compose-session';
-
 export type DemoProgressSnapshot = Readonly<{
   selectedCourseSlug: string;
   xp: number;
@@ -13,4 +12,5 @@ export type DemoProgressSnapshot = Readonly<{
     completionPercent: number;
   }>[];
   session: readonly SessionStep[];
+  contentVersion: string | null;
 }>;

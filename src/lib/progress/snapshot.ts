@@ -4,9 +4,26 @@ import { demoProgress } from '@/features/progress/demo-progress';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { prisma } from '@/lib/prisma';
 
+async function fetchContentVersion(): Promise<string | null> {
+  try {
+    const record = await prisma.contentVersion.findUnique({
+      where: { id: 'fixtures' },
+      select: { version: true },
+    });
+    if (record?.version) return record.version;
+  } catch {
+    // DB not configured or query failed — fall back to null
+  }
+  return null;
+}
+
 export async function getProgressSnapshot(userId: string | null): Promise<DemoProgressSnapshot> {
+  const contentVersion = await fetchContentVersion();
+
   if (!userId) {
-    return demoProgress;
+    // Signed-out preview: demoProgress is byte-identical for everyone,
+    // but we expose contentVersion for debug badge (?debug=1).
+    return { ...demoProgress, contentVersion };
   }
 
   // For signed-in users, compose from UserProgress rows
@@ -33,5 +50,10 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
     dueReviewCount: dueCount,
     xp,
     dailyGoal: { ...base.dailyGoal, completed },
+    contentVersion,
   };
+}
+
+export async function getContentVersion(): Promise<string | null> {
+  return fetchContentVersion();
 }

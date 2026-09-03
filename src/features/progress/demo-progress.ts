@@ -22,6 +22,7 @@ export const blankDemoProgress: DemoProgressSnapshot = {
     },
   ],
   session: [],
+  contentVersion: null,
 };
 
 export const demoProgress: DemoProgressSnapshot = {
@@ -52,7 +53,8 @@ export const demoProgress: DemoProgressSnapshot = {
         { id: 'fr-ordering-drill-1', contentId: 'fr-ordering-politely', drillId: 'fr-ordering-politely-drill' },
         { id: 'fr-find-place-drill-1', contentId: 'fr-find-place', drillId: 'fr-find-place-drill' },
       ],
-      newPattern: { id: 'fr-greet-politely-1', contentId: 'fr-greet-politely' }, maxSteps: 4,
+      newPattern: { id: 'fr-greet-politely-1', contentId: 'fr-greet-politely' },
+      maxSteps: 4,
     }),
     ...composeDailySession({
       courseSlug: 'english-to-italian',
@@ -61,7 +63,9 @@ export const demoProgress: DemoProgressSnapshot = {
         { id: 'it-ordering-drill-1', contentId: 'it-ordering-politely', drillId: 'it-ordering-politely-drill' },
         { id: 'it-find-place-drill-1', contentId: 'it-find-place', drillId: 'it-find-place-drill' },
       ],
-      newPattern: { id: 'it-greet-politely-1', contentId: 'it-greet-politely' }, maxSteps: 4,
+      newPattern: { id: 'it-greet-politely-1', contentId: 'it-greet-politely' },
+      maxSteps: 4,
     }),
   ],
+  contentVersion: null,
 };

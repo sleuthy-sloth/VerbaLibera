@@ -9,6 +9,15 @@ import { dashboardBadgeCopy, isPreviewMode } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
 import styles from './dashboard.module.css';
 
+function useDebugFlag(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return new URLSearchParams(window.location.search).get('debug') === '1';
+  } catch {
+    return false;
+  }
+}
+
 type DailyPathDashboardProps = Readonly<{
   progress: DemoProgressSnapshot;
   requestedCourseSlug?: string;
@@ -22,6 +31,7 @@ const practiceSteps = [
 
 export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
   const isPreview = isPreviewMode(null);
+  const isDebug = useDebugFlag();
   const requestedCourseIndex = requestedCourseSlug
     ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
     : -1;
@@ -90,6 +100,11 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           <span aria-hidden="true" />
           {dashboardBadgeCopy({ isPreview })}
         </p>
+        {isDebug && progress.contentVersion ? (
+          <p data-testid="content-version-badge" className={styles.previewBadge} style={{ marginLeft: '0.5rem' }}>
+            v{progress.contentVersion}
+          </p>
+        ) : null}
       </header>
 
       <section className={styles.intro} aria-labelledby="dashboard-title">
@@ -194,6 +209,12 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
                 </p>
               </dd>
             </div>
+            {isDebug && progress.contentVersion ? (
+              <div data-testid="content-version-panel">
+                <dt className={styles.metricLabel}>Content version</dt>
+                <dd>{progress.contentVersion}</dd>
+              </div>
+            ) : null}
           </dl>
         </aside>
       </div>

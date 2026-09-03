@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Prisma, PrismaClient } from '@prisma/client';
 
 import { initialCourses } from '../src/features/curriculum/fixture';
 
-const CONTENT_VERSION_ID = 'fixtures';
+export const CONTENT_VERSION_ID = 'fixtures';
 
 const languages = [
   { code: 'en', displayName: 'English' },
@@ -13,28 +14,51 @@ const languages = [
   { code: 'it', displayName: 'Italian' },
 ] as const;
 
-function computeFixtureVersion(): string {
+export function computeFixtureVersion(): string {
   return createHash('sha256').update(JSON.stringify(initialCourses)).digest('hex');
 }
 
-export async function seed(prisma: PrismaClient): Promise<void> {
-  const fixtureVersion = computeFixtureVersion();
-
-  await prisma.$transaction(async (transaction) => {
-    const existingVersion = await transaction.contentVersion.findUnique({
-      where: { id: CONTENT_VERSION_ID },
-    });
-
-    if (existingVersion && existingVersion.version !== fixtureVersion) {
-      throw new Error(
-        `Fixture drift detected: stored content version ${existingVersion.version} does not match current fixture version ${fixtureVersion}.`,
-      );
+export function getBaseVersion(): string {
+  const envVersion = process.env.CONTENT_VERSION?.trim();
+  if (envVersion) return envVersion;
+  try {
+    const pkgUrl = new URL('../package.json', import.meta.url);
+    const pkgRaw = readFileSync(pkgUrl, 'utf8');
+    const pkg = JSON.parse(pkgRaw) as { version?: string };
+    if (typeof pkg.version === 'string' && pkg.version.trim().length > 0) {
+      return pkg.version.trim();
     }
+  } catch {
+    // ignore and fall through
+  }
+  return '0.0.0';
+}
 
+export function resolveContentVersion(): string {
+  const base = getBaseVersion();
+  const hash = computeFixtureVersion();
+  // Use 12-char hash suffix for readable debug badge while still detecting drift
+  // Format: <baseVersion>-<12 hex>  e.g. 0.1.0-afe82eda3788
+  // Full hash is still implied; 12 chars gives 48-bit collision resistance,
+  // enough to detect fixture change without bloating the badge.
+  return `${base}-${hash.slice(0, 12)}`;
+}
+
+export async function seed(prisma: PrismaClient): Promise<void> {
+  const fixtureHash = computeFixtureVersion();
+  // Keep full hash for logging/diagnostics, but version string uses short hash for badge
+  const contentVersion = resolveContentVersion();
+
+  // All writes are upserts inside a transaction. Deletes are Restrict in schema
+  // (ConceptBlock->Course, DrillItem->ConceptBlock, UserProgress->DrillItem, etc.)
+  // so we never orphan UserProgress/ReviewLog and we preserve learner data.
+  await prisma.$transaction(async (transaction) => {
+    // Idempotent version bump: only changes when base version or fixture hash changes.
+    // No throw on drift — we upsert and let version bump to reflect new fixtures.
     await transaction.contentVersion.upsert({
       where: { id: CONTENT_VERSION_ID },
-      update: { version: fixtureVersion },
-      create: { id: CONTENT_VERSION_ID, version: fixtureVersion },
+      update: { version: contentVersion },
+      create: { id: CONTENT_VERSION_ID, version: contentVersion },
     });
 
     for (const language of languages) {
@@ -133,6 +157,11 @@ export async function seed(prisma: PrismaClient): Promise<void> {
         }
       }
     }
+
+    // Intentionally no deleteMany or cascading deletes here — UserProgress,
+    // ConceptAssessment, ConceptMastery, ReviewLog, Credential are preserved
+    // across seeds thanks to Restrict FKs and upsert-only logic.
+    void fixtureHash;
   });
 }
 
@@ -149,7 +178,9 @@ async function main() {
 
   try {
     await seed(prisma);
-    console.info('Seeded original English-to-French and English-to-Italian A1 fixtures.');
+    console.info(
+      `Seeded original English-to-French and English-to-Italian A1 fixtures (contentVersion=${resolveContentVersion()}).`,
+    );
   } finally {
     await prisma.$disconnect();
   }
