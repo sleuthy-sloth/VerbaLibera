@@ -49,7 +49,7 @@ class LocalModelSettings:
 class KokoroFasterWhisperEngine:
     """Loads local models once and keeps every request's audio in process memory."""
 
-    _KOKORO_LANGUAGE_CODES = {"fr": "f", "it": "i"}
+    _KOKORO_LANGUAGE_CODES = {"fr": "f", "it": "i", "es": "e"}
 
     def __init__(
         self,
@@ -131,7 +131,7 @@ class KokoroFasterWhisperEngine:
 class ArgosTranslateEngine:
     """Wraps argostranslate for offline, in-process text translation."""
 
-    _SUPPORTED_CODES = {"fr", "it", "en"}
+    _SUPPORTED_CODES = {"fr", "it", "es", "en"}
 
     def __init__(self) -> None:
         if _argos_translate is None:
@@ -146,7 +146,7 @@ class ArgosTranslateEngine:
         try:
             engine = cls()
             # Verify that the required language directions can be resolved.
-            for source, target in (("fr", "en"), ("it", "en")):
+            for source, target in (("fr", "en"), ("it", "en"), ("es", "en")):
                 engine.translate("test", source, target)
             return engine
         except Exception:

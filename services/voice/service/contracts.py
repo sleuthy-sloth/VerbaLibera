@@ -106,6 +106,7 @@ class VoiceServiceSettings:
             permitted_voices={
                 "fr": _csv(env.get("VOXLIBRE_VOICE_FRENCH_VOICES", "ff_siwis")),
                 "it": _csv(env.get("VOXLIBRE_VOICE_ITALIAN_VOICES", "if_sara")),
+                "es": _csv(env.get("VOXLIBRE_VOICE_SPANISH_VOICES", "ef_dora")),
             },
         )
 

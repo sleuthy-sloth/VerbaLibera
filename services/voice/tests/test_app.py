@@ -7,6 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from services.voice.app import create_app
+from services.voice.service.contracts import VoiceServiceSettings
 from services.voice.service.engines import (
     KokoroFasterWhisperEngine,
     LocalModelSettings,
@@ -258,4 +259,63 @@ def test_kokoro_adapter_configures_operator_espeak_before_pipeline_construction(
         ("library", "/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib"),
         ("data", "/opt/homebrew/opt/espeak-ng/share/espeak-ng-data"),
         ("pipeline", "f"),
+    ]
+
+
+def test_spanish_voice_is_permitted_by_default() -> None:
+    settings = VoiceServiceSettings.from_environment({})
+    assert settings.permits_voice("es", "ef_dora")
+    assert not settings.permits_voice("es", "ff_siwis")
+
+
+def test_spanish_voice_override_from_environment() -> None:
+    settings = VoiceServiceSettings.from_environment(
+        {"VOXLIBRE_VOICE_SPANISH_VOICES": "em_alex,em_santa"}
+    )
+    assert settings.permits_voice("es", "em_alex")
+    assert not settings.permits_voice("es", "ef_dora")
+
+
+def test_kokoro_adapter_builds_spanish_pipeline_with_e_code(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events: list[tuple[str, str]] = []
+
+    class FakeEspeakWrapper:
+        @classmethod
+        def set_library(cls, value: str) -> None:
+            events.append(("library", value))
+
+        @classmethod
+        def set_data_path(cls, value: str) -> None:
+            events.append(("data", value))
+
+    class FakePipeline:
+        def __init__(self, lang_code: str, **options: str) -> None:
+            assert lang_code == "e"
+            assert options == {}
+            events.append(("pipeline", lang_code))
+
+    monkeypatch.setitem(sys.modules, "kokoro", SimpleNamespace(KPipeline=FakePipeline))
+    monkeypatch.setitem(
+        sys.modules,
+        "phonemizer.backend.espeak.wrapper",
+        SimpleNamespace(EspeakWrapper=FakeEspeakWrapper),
+    )
+    engine = object.__new__(KokoroFasterWhisperEngine)
+    engine._pipelines = {}
+    engine._model_settings = LocalModelSettings.from_environment(
+        {
+            "PHONEMIZER_ESPEAK_LIBRARY": "/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib",
+            "PHONEMIZER_ESPEAK_DATA_PATH": "/opt/homebrew/opt/espeak-ng/share/espeak-ng-data",
+        }
+    )
+
+    result = engine._pipeline_for("es")
+
+    assert isinstance(result, FakePipeline)
+    assert events == [
+        ("library", "/opt/homebrew/opt/espeak-ng/lib/libespeak-ng.dylib"),
+        ("data", "/opt/homebrew/opt/espeak-ng/share/espeak-ng-data"),
+        ("pipeline", "e"),
     ]
