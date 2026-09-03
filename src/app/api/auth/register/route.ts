@@ -3,7 +3,8 @@ import 'server-only';
 import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
-import { SESSION_COOKIE_NAME, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
+import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
+import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
 import { verifyRegistration } from '@/lib/auth/webauthn';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +18,7 @@ async function boundedJsonBody(request: Request): Promise<
   | { status: 'invalid_request' }
 > {
   const declaredLength = request.headers.get('content-length');
-  if (declaredLength && /^\d+$/.test(declaredLength) && Number(declaredLength) > MAX_BODY_BYTES) {
+  if (declaredLength && /^\\d+$/.test(declaredLength) && Number(declaredLength) > MAX_BODY_BYTES) {
     return { status: 'too_large' };
   }
   const body = request.body;
@@ -130,8 +131,10 @@ export async function POST(request: Request) {
     });
 
     const token = await issueSessionToken(user.id);
+    const csrfToken = generateCsrfToken();
     const response = NextResponse.json({ status: 'ok', userId: user.id }, { status: 200, headers: NO_STORE_HEADERS });
-    response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions());
+    response.cookies.set(getSessionCookieName(), token, sessionCookieOptions() as never);
+    response.cookies.set(CSRF_COOKIE_NAME, csrfToken, csrfCookieOptions() as never);
     return response;
   } catch {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-import { SESSION_COOKIE_NAME } from '@/lib/auth/session';
+import { getSessionCookieName, SESSION_COOKIE_BASE_NAME, SESSION_HOST_COOKIE_NAME } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
 
 const PUBLIC_PATHS = [
@@ -43,6 +43,15 @@ export function isProtectedMutation(pathname: string, method: string): boolean {
   return false;
 }
 
+function getSessionTokenFromRequest(request: NextRequest): string | undefined {
+  // Support both legacy and __Host- cookie names for smooth production transition
+  return (
+    request.cookies.get(SESSION_HOST_COOKIE_NAME)?.value ??
+    request.cookies.get(SESSION_COOKIE_BASE_NAME)?.value ??
+    request.cookies.get(getSessionCookieName())?.value
+  );
+}
+
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
@@ -67,7 +76,7 @@ export default async function proxy(request: NextRequest) {
 
   // Protected mutations: require valid session (cookie presence; full verify in route handler)
   if (isProtectedMutation(pathname, method)) {
-    const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+    const token = getSessionTokenFromRequest(request);
     if (!token) {
       if (pathname.startsWith('/api/')) {
         return NextResponse.json({ status: 'unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
@@ -82,7 +91,7 @@ export default async function proxy(request: NextRequest) {
   // For all other protected pages (e.g. /account/*), require session cookie presence
   const isProtectedPage = pathname.startsWith('/account') || pathname.startsWith('/settings') || pathname.startsWith('/api/progress');
   if (isProtectedPage) {
-    const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+    const token = getSessionTokenFromRequest(request);
     if (!token) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('next', pathname);

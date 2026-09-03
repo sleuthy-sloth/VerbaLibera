@@ -2,7 +2,7 @@ import 'server-only';
 
 import { NextResponse } from 'next/server';
 
-import { SESSION_COOKIE_NAME, clearSessionCookieOptions } from '@/lib/auth/session';
+import { SESSION_COOKIE_BASE_NAME, SESSION_HOST_COOKIE_NAME, clearSessionCookieOptions, getSessionCookieName } from '@/lib/auth/session';
 import { validateCsrfRequest } from '@/lib/auth/csrf';
 
 export const dynamic = 'force-dynamic';
@@ -16,6 +16,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 403, headers: NO_STORE_HEADERS });
   }
   const response = NextResponse.json({ status: 'ok' }, { status: 200, headers: NO_STORE_HEADERS });
-  response.cookies.set(SESSION_COOKIE_NAME, '', clearSessionCookieOptions());
+  // Clear both legacy and Host-prefixed cookies to handle env transitions
+  response.cookies.set(SESSION_COOKIE_BASE_NAME, '', clearSessionCookieOptions() as never);
+  response.cookies.set(SESSION_HOST_COOKIE_NAME, '', clearSessionCookieOptions() as never);
+  response.cookies.set(getSessionCookieName(), '', clearSessionCookieOptions() as never);
   return response;
 }
