@@ -44,6 +44,45 @@ model User {
   progress          UserProgress[]
   assessments       ConceptAssessment[]
   masteries         ConceptMastery[]
+  credentials       Credential[]
+  reviewLogs        ReviewLog[]
+}
+
+model Credential {
+  id           String   @id @default(cuid())
+  userId       String
+  credentialId String   @unique
+  publicKey    Bytes
+  counter      BigInt   @default(0)
+  transports   String?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ReviewLog {
+  id               String    @id @default(cuid())
+  userId           String
+  drillItemId      String
+  clientMutationId String?
+  quality          Int
+  latencyMs        Int?
+  intervalDays     Int
+  nextReviewAt     DateTime
+  createdAt        DateTime  @default(now())
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  drillItem        DrillItem @relation(fields: [drillItemId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, drillItemId, clientMutationId])
+  @@index([userId])
+  @@index([drillItemId])
+}
+
+model ContentVersion {
+  id        String   @id
+  version   String
+  updatedAt DateTime @updatedAt
 }
 
 model Language {
@@ -104,6 +143,7 @@ model DrillItem {
   conceptBlock      ConceptBlock      @relation(fields: [conceptBlockId], references: [id], onDelete: Restrict)
   audioSegments     AudioSegment[]    @relation("DrillAudio")
   progress          UserProgress[]
+  reviewLogs        ReviewLog[]
 
   @@index([conceptBlockId, cefrLevel])
 }
