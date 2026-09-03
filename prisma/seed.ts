@@ -13,6 +13,7 @@ const languages = [
   { code: 'fr', displayName: 'French' },
   { code: 'it', displayName: 'Italian' },
   { code: 'es', displayName: 'Spanish' },
+  { code: 'pt', displayName: 'Portuguese' },
 ] as const;
 
 export function computeFixtureVersion(): string {

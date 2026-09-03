@@ -68,6 +68,7 @@ describe('static PWA service worker contract', () => {
       '/learn/english-to-french',
       '/learn/english-to-italian',
       '/learn/english-to-spanish',
+      '/learn/english-to-portuguese',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
     ]);
@@ -154,6 +155,7 @@ describe('static PWA service worker contract', () => {
     expect(assets).toContain('/learn/english-to-french');
     expect(assets).toContain('/learn/english-to-italian');
     expect(assets).toContain('/learn/english-to-spanish');
+    expect(assets).toContain('/learn/english-to-portuguese');
     // precache must include audio (**)
     expect(assets.some((a) => a.startsWith('/audio/'))).toBe(true);
     // precache handling for Next static (verified via source contains _next/static)

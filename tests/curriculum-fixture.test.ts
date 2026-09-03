@@ -111,21 +111,58 @@ const EXPANSION_FR_IT_AUDIO: Record<string, [string, string]> = {
   ],
 };
 
-const SHIPPED_AUDIO = { ...TASK_8_FR_AUDIO, ...TASK_7_IT_AUDIO, ...ES_AUDIO, ...EXPANSION_FR_IT_AUDIO };
+// Portuguese expansion: full 8-pattern English-to-Portuguese course (Kokoro `pf_dora`).
+const PT_AUDIO: Record<string, [string, string]> = {
+  'pt-greet-politely': [
+    '/audio/portuguese/pt-greet-politely-prompt.wav',
+    '/audio/portuguese/pt-greet-politely-answer.wav',
+  ],
+  'pt-ordering-politely': [
+    '/audio/portuguese/pt-ordering-politely-prompt.wav',
+    '/audio/portuguese/pt-ordering-politely-answer.wav',
+  ],
+  'pt-find-place': [
+    '/audio/portuguese/pt-find-place-prompt.wav',
+    '/audio/portuguese/pt-find-place-answer.wav',
+  ],
+  'pt-ask-help': [
+    '/audio/portuguese/pt-ask-help-prompt.wav',
+    '/audio/portuguese/pt-ask-help-answer.wav',
+  ],
+  'pt-pay-politely': [
+    '/audio/portuguese/pt-pay-politely-prompt.wav',
+    '/audio/portuguese/pt-pay-politely-answer.wav',
+  ],
+  'pt-ask-directions': [
+    '/audio/portuguese/pt-ask-directions-prompt.wav',
+    '/audio/portuguese/pt-ask-directions-answer.wav',
+  ],
+  'pt-hotel-checkin': [
+    '/audio/portuguese/pt-hotel-checkin-prompt.wav',
+    '/audio/portuguese/pt-hotel-checkin-answer.wav',
+  ],
+  'pt-emergency-help': [
+    '/audio/portuguese/pt-emergency-help-prompt.wav',
+    '/audio/portuguese/pt-emergency-help-answer.wav',
+  ],
+};
+
+const SHIPPED_AUDIO = { ...TASK_8_FR_AUDIO, ...TASK_7_IT_AUDIO, ...ES_AUDIO, ...EXPANSION_FR_IT_AUDIO, ...PT_AUDIO };
 const FR_PILOT: [string, string] = [
   '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   '/audio/french-ordering/fr-ordering-politely-answer.wav',
 ];
 
 describe('initial curriculum fixtures', () => {
-  it('contains separate original English-to-French, English-to-Italian, and English-to-Spanish A1 courses', () => {
+  it('contains separate original English-to-French, English-to-Italian, English-to-Spanish, and English-to-Portuguese A1 courses', () => {
     expect(initialCourses.map((course) => course.slug)).toEqual([
       'english-to-french',
       'english-to-italian',
       'english-to-spanish',
+      'english-to-portuguese',
     ]);
     expect(initialCourses.every((course) => course.sourceLanguageCode === 'en')).toBe(true);
-    expect(initialCourses.map((course) => course.targetLanguageCode)).toEqual(['fr', 'it', 'es']);
+    expect(initialCourses.map((course) => course.targetLanguageCode)).toEqual(['fr', 'it', 'es', 'pt']);
     expect(initialCourses.every((course) => course.concepts[0]?.cefrLevel === 'A1')).toBe(true);
   });
 
@@ -161,6 +198,10 @@ describe('initial curriculum fixtures', () => {
     expect(initialCourses.find((c) => c.slug === 'english-to-spanish')?.concepts.find((c) => c.id === 'es-ordering-politely')).toMatchObject({
       title: 'Spanish: ordering politely with “Quisiera…”',
       explanation: expect.stringContaining('Quisiera'),
+    });
+    expect(initialCourses.find((c) => c.slug === 'english-to-portuguese')?.concepts.find((c) => c.id === 'pt-ordering-politely')).toMatchObject({
+      title: 'Portuguese: ordering politely with “Gostaria…”',
+      explanation: expect.stringContaining('gostaria'),
     });
     expect(JSON.stringify(initialCourses).toLowerCase()).not.toContain('cognate');
     expect(JSON.stringify(initialCourses)).not.toContain('Thinking Method');
@@ -222,6 +263,7 @@ describe('initial curriculum fixtures', () => {
     ['english-to-french', 'fr-find-place', 'Turn “Le musée est ici.” into a question asking where the museum is.', 'Où est le musée ?'],
     ['english-to-italian', 'it-find-place', 'Turn “Il museo è qui.” into a question asking where the museum is.', 'Dov’è il museo?'],
     ['english-to-spanish', 'es-find-place', 'Turn “El museo está aquí.” into a question asking where the museum is.', '¿Dónde está el museo?'],
+    ['english-to-portuguese', 'pt-find-place', 'Turn “O museu fica aqui.” into a question asking where the museum is.', 'Onde fica o museu?'],
   ])('uses a statement-to-question transformation for %s finding-place practice', (courseSlug, conceptId, prompt, recallTarget) => {
     const concept = initialCourses
       .find((course) => course.slug === courseSlug)
@@ -243,6 +285,8 @@ describe('initial curriculum fixtures', () => {
     ['english-to-french', 'fr-pay-politely', 'Je voudrais payer par carte, s’il vous plaît.'],
     ['english-to-italian', 'it-pay-politely', 'Vorrei pagare con la carta, per favore.'],
     ['english-to-spanish', 'es-pay-politely', 'Quisiera pagar con tarjeta, por favor.'],
+    ['english-to-portuguese', 'pt-greet-politely', 'Olá, eu gostaria de um café, por favor.'],
+    ['english-to-portuguese', 'pt-pay-politely', 'Eu gostaria de pagar com cartão, por favor.'],
   ])('varies the requested item or payment context for %s %s', (courseSlug, conceptId, recallTarget) => {
     const concept = initialCourses
       .find((course) => course.slug === courseSlug)

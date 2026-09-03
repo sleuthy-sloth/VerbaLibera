@@ -39,9 +39,20 @@ const spanishLessonAudio: Record<string, { prompt: string; answer: string }> = {
   'es-emergency-help': { prompt: '/audio/spanish/es-emergency-help-prompt.wav', answer: '/audio/spanish/es-emergency-help-answer.wav' },
 };
 
+const portugueseLessonAudio: Record<string, { prompt: string; answer: string }> = {
+  'pt-greet-politely': { prompt: '/audio/portuguese/pt-greet-politely-prompt.wav', answer: '/audio/portuguese/pt-greet-politely-answer.wav' },
+  'pt-ordering-politely': { prompt: '/audio/portuguese/pt-ordering-politely-prompt.wav', answer: '/audio/portuguese/pt-ordering-politely-answer.wav' },
+  'pt-find-place': { prompt: '/audio/portuguese/pt-find-place-prompt.wav', answer: '/audio/portuguese/pt-find-place-answer.wav' },
+  'pt-ask-help': { prompt: '/audio/portuguese/pt-ask-help-prompt.wav', answer: '/audio/portuguese/pt-ask-help-answer.wav' },
+  'pt-pay-politely': { prompt: '/audio/portuguese/pt-pay-politely-prompt.wav', answer: '/audio/portuguese/pt-pay-politely-answer.wav' },
+  'pt-ask-directions': { prompt: '/audio/portuguese/pt-ask-directions-prompt.wav', answer: '/audio/portuguese/pt-ask-directions-answer.wav' },
+  'pt-hotel-checkin': { prompt: '/audio/portuguese/pt-hotel-checkin-prompt.wav', answer: '/audio/portuguese/pt-hotel-checkin-answer.wav' },
+  'pt-emergency-help': { prompt: '/audio/portuguese/pt-emergency-help-prompt.wav', answer: '/audio/portuguese/pt-emergency-help-answer.wav' },
+};
+
 const lessonAudioFor = (id: string): { prompt: string; answer: string } | null => {
   if (id === 'fr-ordering-politely') return frenchOrderingPilotAudio;
-  return frenchLessonAudio[id] ?? italianLessonAudio[id] ?? spanishLessonAudio[id] ?? null;
+  return frenchLessonAudio[id] ?? italianLessonAudio[id] ?? spanishLessonAudio[id] ?? portugueseLessonAudio[id] ?? null;
 };
 
 type PatternSeed = Readonly<{ id: string; scenario: string; notice: string; title: string; explanation: string; prompt: string; answer: string; drillPrompt: string; drillKind: DrillKind; acceptedResponses: readonly string[] }>;
@@ -76,6 +87,16 @@ const spanishPatterns: readonly PatternSeed[] = [
   { id: 'es-hotel-checkin', scenario: 'Checking in at a hotel', notice: '“Tengo una reserva…” states your booking clearly at reception.', title: 'Spanish: checking in with “Tengo una reserva…”', explanation: 'Use “Tengo una reserva a nombre de García.” to check in at a hotel.', prompt: 'Check in: say you have a reservation under the name García.', answer: 'Buenas noches, tengo una reserva a nombre de García.', drillPrompt: 'Now check in under the name López.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Buenas noches, tengo una reserva a nombre de López.'] },
   { id: 'es-emergency-help', scenario: 'Getting help in an emergency', notice: '“¡Socorro!” calls for urgent help; add what you need next.', title: 'Spanish: calling for help with “¡Socorro!”', explanation: 'Use “¡Socorro! Llame a una ambulancia, por favor.” in an emergency.', prompt: 'Call for help and ask someone to call an ambulance.', answer: '¡Socorro! Llame a una ambulancia, por favor.', drillPrompt: 'Now ask someone to call the police instead.', drillKind: 'SUBSTITUTION', acceptedResponses: ['¡Socorro! Llame a la policía, por favor.'] },
 ];
+const portuguesePatterns: readonly PatternSeed[] = [
+  { id: 'pt-greet-politely', scenario: 'Greeting politely', notice: 'A friendly greeting can introduce a polite request.', title: 'Portuguese: greeting politely with “Olá…”', explanation: 'Use “Olá, eu gostaria de…” to greet someone and begin a polite request.', prompt: 'Greet a shopkeeper and say you would like a table.', answer: 'Olá, eu gostaria de uma mesa, por favor.', drillPrompt: 'Now greet café staff and say you would like a coffee.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Olá, eu gostaria de um café, por favor.'] },
+  { id: 'pt-ordering-politely', scenario: 'Ordering coffee or food', notice: '“Eu gostaria de” makes a request sound courteous; change only the item.', title: 'Portuguese: ordering politely with “Gostaria…”', explanation: 'Use “Eu gostaria de um café, por favor.” to order a coffee politely in Portuguese.', prompt: 'You want to order a coffee politely in Portuguese. What do you say?', answer: 'Eu gostaria de um café, por favor.', drillPrompt: 'Order a tea instead of a coffee.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Eu gostaria de um chá, por favor.'] },
+  { id: 'pt-find-place', scenario: 'Finding a place', notice: 'Turn a place into a question with “Onde fica… ?”', title: 'Portuguese: asking where something is', explanation: 'Use “Onde fica a estação?” to ask where a place is.', prompt: 'Ask where the station is in Portuguese.', answer: 'Onde fica a estação?', drillPrompt: 'Turn “O museu fica aqui.” into a question asking where the museum is.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Onde fica o museu?'] },
+  { id: 'pt-ask-help', scenario: 'Asking for help', notice: 'A polite question can ask someone directly for help.', title: 'Portuguese: asking for help politely', explanation: 'Use “Você pode me ajudar, por favor?” when you need help.', prompt: 'Ask someone politely if they can help you.', answer: 'Você pode me ajudar, por favor?', drillPrompt: 'Ask whether someone can show you the entrance.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Você pode me mostrar a entrada, por favor?'] },
+  { id: 'pt-pay-politely', scenario: 'Paying', notice: 'A short service request becomes polite with “por favor.”', title: 'Portuguese: requesting the bill', explanation: 'Use “A conta, por favor.” to request the bill.', prompt: 'Ask for the bill politely in Portuguese.', answer: 'A conta, por favor.', drillPrompt: 'You have the bill; say that you would like to pay by card.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Eu gostaria de pagar com cartão, por favor.'] },
+  { id: 'pt-ask-directions', scenario: 'Asking for directions', notice: '“Para ir a… ?” turns a destination into a direction question.', title: 'Portuguese: asking the way with “Para ir a… ?”', explanation: 'Use “Para ir à estação, por favor?” to ask the way to the station.', prompt: 'Ask the way to the station in Portuguese.', answer: 'Para ir à estação, por favor?', drillPrompt: 'Now ask the way to the museum.', drillKind: 'TRANSFORMATION', acceptedResponses: ['Para ir ao museu, por favor?'] },
+  { id: 'pt-hotel-checkin', scenario: 'Checking in at a hotel', notice: '“Tenho uma reserva…” states your booking clearly at reception.', title: 'Portuguese: checking in with “Tenho uma reserva…”', explanation: 'Use “Tenho uma reserva no nome de Silva.” to check in at a hotel.', prompt: 'Check in: say you have a reservation under the name Silva.', answer: 'Boa noite, tenho uma reserva no nome de Silva.', drillPrompt: 'Now check in under the name Santos.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Boa noite, tenho uma reserva no nome de Santos.'] },
+  { id: 'pt-emergency-help', scenario: 'Getting help in an emergency', notice: '“Socorro!” calls for urgent help; add what you need next.', title: 'Portuguese: calling for help with “Socorro!”', explanation: 'Use “Socorro! Chame uma ambulância, por favor.” in an emergency.', prompt: 'Call for help and ask someone to call an ambulance.', answer: 'Socorro! Chame uma ambulância, por favor.', drillPrompt: 'Now ask someone to call the police instead.', drillKind: 'SUBSTITUTION', acceptedResponses: ['Socorro! Chame a polícia, por favor.'] },
+];
 
 const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
   const pilotAudio = lessonAudioFor(seed.id);
@@ -94,4 +115,4 @@ const makeCourse = (language: string, code: string, patterns: readonly PatternSe
   slug: `english-to-${language}`, sourceLanguageCode: 'en', targetLanguageCode: code, title: `English to ${language[0]?.toUpperCase()}${language.slice(1)}: A1 patterns`, description: `Original A1 demonstrations for using practical ${language} patterns.`, concepts: patterns.map((pattern, index) => makeConcept(language, index + 1, pattern)),
 });
 
-export const initialCourses = [makeCourse('french', 'fr', frenchPatterns), makeCourse('italian', 'it', italianPatterns), makeCourse('spanish', 'es', spanishPatterns)] as const satisfies readonly CourseFixture[];
+export const initialCourses = [makeCourse('french', 'fr', frenchPatterns), makeCourse('italian', 'it', italianPatterns), makeCourse('spanish', 'es', spanishPatterns), makeCourse('portuguese', 'pt', portuguesePatterns)] as const satisfies readonly CourseFixture[];
