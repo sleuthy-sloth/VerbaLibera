@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { AudioPlayer, type AudioSegment } from '@/components/audio/AudioPlayer';
 import { hasUnavailableAudio } from '@/components/audio/audio-availability';
+import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
+import { useReviewMutation } from '@/features/progress/use-review-mutation';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
@@ -50,6 +52,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const verdictRef = useRef<HTMLDivElement>(null);
   const isComplete = stepIndex >= sessionSteps.length;
   const isPreview = isPreviewMode(null);
+  const reviewMutation = useReviewMutation();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (shouldFocusVerdict && verdictRef.current) {
@@ -132,6 +136,30 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
     shouldMoveActionFocus.current = true;
     setIsSelfChecked(true);
   };
+  const submitReview = (reviewVerdict: 'exact' | 'close' | 'try_again') => {
+    const drillItemId =
+      activeStep.kind === 'DRILL' ? (activeStep as { drillId: string }).drillId : activeStep.id;
+    // REVIEW steps use id as drillItemId for persistence; server validates existence
+    // In preview with unavailable ids, the server will 400 but optimistic still shows
+    reviewMutation.mutate(
+      {
+        drillItemId,
+        verdict: reviewVerdict,
+        latencyMs: 1200,
+        clientMutationId: `${drillItemId}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      },
+      {
+        onSuccess: () => {
+          setToastMessage(reviewVerdict === 'try_again' ? 'Saved — we’ll show this again soon.' : 'Progress saved');
+          // Advance after successful save to keep flow
+          advanceStep();
+        },
+        onError: () => {
+          setToastMessage('Could not save progress. Please try again.');
+        },
+      },
+    );
+  };
   const checkAnswer = async () => {
     if (!responseText.trim()) return;
     setIsChecking(true);
@@ -173,6 +201,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       setShouldFocusVerdict(true);
     }
   };
+
+  const showReviewActions = !isComplete && activeStep.kind !== 'NEW_PATTERN';
 
   return (
     <main className={styles.session}>
@@ -387,9 +417,30 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                 </div>
               </>
             )}
+            {showReviewActions ? (
+              <div className={styles.actionDock} aria-label="Review actions">
+                <button
+                  type="button"
+                  onClick={() => submitReview('exact')}
+                  disabled={reviewMutation.isPending}
+                  aria-label="I got it"
+                >
+                  {reviewMutation.isPending ? 'Saving…' : 'I got it'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => submitReview('try_again')}
+                  disabled={reviewMutation.isPending}
+                  aria-label="Try again"
+                >
+                  {reviewMutation.isPending ? 'Saving…' : 'Try again'}
+                </button>
+              </div>
+            ) : null}
           </div>
         </section>
       )}
+      <Toast message={toastMessage} onDismiss={() => setToastMessage(null)} />
     </main>
   );
 }

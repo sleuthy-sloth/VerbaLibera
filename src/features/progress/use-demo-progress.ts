@@ -5,7 +5,7 @@ import type { DemoProgressSnapshot } from './types';
 
 export function useDemoProgress() {
   return useQuery({
-    queryKey: ['demo-progress'],
+    queryKey: ['demo', 'progress'],
     queryFn: async (): Promise<DemoProgressSnapshot> => {
       const response = await fetch('/api/demo/progress', { cache: 'no-store' });
 

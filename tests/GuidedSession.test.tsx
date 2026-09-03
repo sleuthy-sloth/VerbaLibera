@@ -1,7 +1,17 @@
 import { render, screen } from '@testing-library/react';
+import * as React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
 import { GuidedSession } from '@/components/session/GuidedSession';
 import { demoProgress } from '@/features/progress/demo-progress';
+
+function createTestQueryClient() {
+  return new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } });
+}
+function renderGuided(ui: React.ReactElement) {
+  return render(<QueryClientProvider client={createTestQueryClient()}>{ui}</QueryClientProvider>);
+}
+
 
 describe('GuidedSession', () => {
   async function completeIndependentStep(user: ReturnType<typeof userEvent.setup>) {
@@ -12,7 +22,7 @@ describe('GuidedSession', () => {
 
   it('uses one stepline instead of a duplicated step rail', () => {
     // Break caught: session progress is duplicated in a separate navigation rail.
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.getByText(/step 1 of 4 · review/i)).toBeInTheDocument();
     expect(screen.queryByRole('navigation', { name: /session steps/i })).not.toBeInTheDocument();
@@ -21,7 +31,7 @@ describe('GuidedSession', () => {
   it('withholds the answer until explicit reveal and resets it on advance', async () => {
     // Break caught: the model answer is visible before the learner deliberately reveals it.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /reveal model answer/i }));
@@ -33,7 +43,7 @@ describe('GuidedSession', () => {
   it('renders the exact review, drill, drill, new-pattern sequence', async () => {
     // Break caught: the guided path stops honoring review-first session composition.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
       'aria-valuetext',
@@ -54,7 +64,7 @@ describe('GuidedSession', () => {
   it('renders the audio player for French polite ordering when every segment is playable', async () => {
     // Break caught: a fully authored pilot lesson stays on the text-only fallback instead of exposing its player.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.getByRole('region', { name: /lesson audio player/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
@@ -67,7 +77,7 @@ describe('GuidedSession', () => {
   it('keeps unavailable Italian audio on the text-only reveal and self-check path', async () => {
     // Break caught: unavailable audio blocks an Italian learner from revealing and self-checking the authored response.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
 
     expect(screen.queryByRole('region', { name: /lesson audio player/i })).not.toBeInTheDocument();
     expect(screen.getByText(/audio isn’t included in this preview yet/i)).toBeInTheDocument();
@@ -82,7 +92,7 @@ describe('GuidedSession', () => {
   it('advances through the bounded preview and celebrates completion', async () => {
     // Break caught: Continue does not advance every preview step to a finite completion state.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await completeIndependentStep(user);
     await completeIndependentStep(user);
@@ -95,7 +105,7 @@ describe('GuidedSession', () => {
 
   it('renders an honest unavailable state for an unknown course slug', () => {
     // Break caught: unknown URLs leak steps from a different course.
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-german" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-german" />);
 
     expect(screen.getByText('This course is not available in preview.')).toBeInTheDocument();
     expect(screen.queryByText('Drill sprint')).not.toBeInTheDocument();
@@ -104,7 +114,7 @@ describe('GuidedSession', () => {
   it('renders the active step’s scenario instead of the first course pattern', async () => {
     // Break caught: a later step renders the first course pattern rather than its resolved content.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await completeIndependentStep(user);
     await completeIndependentStep(user);
@@ -115,7 +125,7 @@ describe('GuidedSession', () => {
   it('hides a model answer until the learner deliberately reveals and self-checks it', async () => {
     // Break caught: an independent answer is exposed before the learner chooses to reveal it.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
@@ -129,7 +139,7 @@ describe('GuidedSession', () => {
   it('moves focus to each replacement primary action', async () => {
     // Break caught: replacing the clicked action drops keyboard focus back to the document body.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByRole('button', { name: 'I checked my answer' })).toHaveFocus();
@@ -144,7 +154,7 @@ describe('GuidedSession', () => {
   it('moves focus from the last continue action to the dashboard return link', async () => {
     // Break caught: finishing the final card leaves focus on a removed Continue button.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await completeIndependentStep(user);
     await completeIndependentStep(user);
@@ -168,7 +178,7 @@ describe('GuidedSession', () => {
       ],
     };
 
-    render(<GuidedSession progress={progressWithMissingStep} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={progressWithMissingStep} courseSlug="english-to-french" />);
 
     expect(screen.getByText(/this lesson step is not available in preview/i)).toBeInTheDocument();
     expect(screen.queryByText(/ordering coffee or food/i)).not.toBeInTheDocument();
@@ -177,7 +187,7 @@ describe('GuidedSession', () => {
   it('returns lesson exits and completion to the selected course dashboard', async () => {
     // Break caught: leaving or completing an Italian lesson silently resets dashboard selection.
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-italian" />);
 
     expect(screen.getByRole('link', { name: /daily path/i })).toHaveAttribute(
       'href',
@@ -203,7 +213,7 @@ describe('typed answer checking on DRILL steps', () => {
 
   it('input is absent on step 1 (REVIEW) and present on step 2 (DRILL) after one Continue', async () => {
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -226,7 +236,7 @@ describe('typed answer checking on DRILL steps', () => {
         }),
       ),
     );
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
@@ -252,7 +262,7 @@ describe('typed answer checking on DRILL steps', () => {
         }),
       ),
     );
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un the s il vous plait');
@@ -274,7 +284,7 @@ describe('typed answer checking on DRILL steps', () => {
         }),
       ),
     );
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'completely wrong');
@@ -287,7 +297,7 @@ describe('typed answer checking on DRILL steps', () => {
   it('shows limited unavailable copy when fetch rejects and omits checked-locally note', async () => {
     const user = userEvent.setup();
     vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('network'))));
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'anything');
@@ -301,7 +311,7 @@ describe('typed answer checking on DRILL steps', () => {
 
   it('keeps reveal model answer independent of checking', async () => {
     const user = userEvent.setup();
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
@@ -328,7 +338,7 @@ describe('typed answer checking on DRILL steps', () => {
         }),
       ),
     );
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
@@ -354,7 +364,7 @@ describe('typed answer checking on DRILL steps', () => {
         }),
       ),
     );
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
@@ -370,7 +380,7 @@ describe('typed answer checking on DRILL steps', () => {
     const user = userEvent.setup();
     let resolveFetch: (value: unknown) => void;
     vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveFetch = resolve; })));
-    render(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
