@@ -107,6 +107,7 @@ class VoiceServiceSettings:
                 "fr": _csv(env.get("VOXLIBRE_VOICE_FRENCH_VOICES", "ff_siwis")),
                 "it": _csv(env.get("VOXLIBRE_VOICE_ITALIAN_VOICES", "if_sara")),
                 "es": _csv(env.get("VOXLIBRE_VOICE_SPANISH_VOICES", "ef_dora")),
+                "pt": _csv(env.get("VOXLIBRE_VOICE_PORTUGUESE_VOICES", "pf_dora")),
             },
         )
 
