@@ -51,6 +51,18 @@ Not working yet:
 
 Privacy-wise, no learner audio is persisted by default. The voice route returns only a transcript and status; it does not store recordings or transcripts. Typed drill answers are checked locally too: they travel only to the optional local sidecar and are never stored — and when the sidecar is off, checking degrades to exact-match comparison against the authored variants.
 
+## Accounts and data truthfulness
+
+VoxLibre now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session says "Nothing was saved", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release.
+
+When you create a passkey (WebAuthn, no passwords) and sign in, your progress becomes account-scoped and persisted:
+
+- `GET /api/demo/progress` then composes your `DemoProgressSnapshot` from your `UserProgress` rows, with `dueReviewCount` derived per request from `dueAt <= now`.
+- `POST /api/progress/review` applies SM-2 server-side, is idempotent via `clientMutationId`, and logs each review in `ReviewLog`.
+- The UI badge then says "Saved to your account" and due counts reflect your real queue. The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
+
+Learner progress is visible only to that account. No third-party trackers are used.
+
 ## Quick start
 
 You need Node.js 20 or newer, npm, and optionally PostgreSQL 14 or newer if you want to apply migrations and run seeds.
