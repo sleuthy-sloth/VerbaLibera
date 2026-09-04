@@ -24,7 +24,7 @@ describe('HomePage', () => {
       </QueryClientProvider>,
     );
 
-    expect(await screen.findByRole('heading', { name: /VoxLibre/i })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /VerbaLibera/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'English to French: A1 patterns' })).toHaveAttribute(
       'aria-pressed',
       'true',

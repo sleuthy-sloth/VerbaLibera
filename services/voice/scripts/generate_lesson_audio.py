@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export reviewed lesson audio through the local VoxLibre voice sidecar.
+"""Export reviewed lesson audio through the local VerbaLibera voice sidecar.
 
 This command is intentionally authoring-only. It does not belong in the browser
 or application runtime, and it only contacts a loopback ``/tts`` endpoint.

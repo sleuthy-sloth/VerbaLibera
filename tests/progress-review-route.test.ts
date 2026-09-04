@@ -18,7 +18,7 @@ vi.mock('@/lib/prisma', () => ({
 // Mock session
 vi.mock('@/lib/auth/session', () => ({
   verifySessionToken: vi.fn(),
-  SESSION_COOKIE_NAME: 'voxlibre_session',
+  SESSION_COOKIE_NAME: 'verbalibera_session',
 }));
 
 // Mock csrf
@@ -55,7 +55,7 @@ describe('POST /api/progress/review', () => {
   function makeRequest(body: unknown, headers: Record<string, string> = {}) {
     return new Request('http://localhost/api/progress/review', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', cookie: 'voxlibre_session=valid-token', ...headers },
+      headers: { 'Content-Type': 'application/json', cookie: 'verbalibera_session=valid-token', ...headers },
       body: JSON.stringify(body),
     });
   }
@@ -70,7 +70,7 @@ describe('POST /api/progress/review', () => {
     const big = 'x'.repeat(2000);
     const req = new Request('http://localhost/api/progress/review', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', cookie: 'voxlibre_session=valid-token', 'content-length': '2000' },
+      headers: { 'Content-Type': 'application/json', cookie: 'verbalibera_session=valid-token', 'content-length': '2000' },
       body: JSON.stringify({ drillItemId: big, verdict: 'exact' }),
     });
     const res = await reviewPOST(req);

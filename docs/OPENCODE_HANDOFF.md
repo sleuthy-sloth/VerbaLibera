@@ -1,15 +1,15 @@
-# OpenCode Handoff — VoxLibre Quiet Ink redesign
+# OpenCode Handoff — VerbaLibera Quiet Ink redesign
 
 ## Repository and branch
 
 Work from this worktree and branch:
 
 ```text
-/Users/spkoehl/Documents/ChatGPT/VoxLibre/.worktrees/voxlibre-phase-1
-codex/voxlibre-phase-1
+/Users/spkoehl/Documents/ChatGPT/VerbaLibera/.worktrees/verbalibera-phase-1
+codex/verbalibera-phase-1
 ```
 
-The top-level `/Users/spkoehl/Documents/ChatGPT/VoxLibre` checkout is docs-only. The application source is in the worktree above. Do not touch the pre-existing untracked file `README 2.md`.
+The top-level `/Users/spkoehl/Documents/ChatGPT/VerbaLibera` checkout is docs-only. The application source is in the worktree above. Do not touch the pre-existing untracked file `README 2.md`.
 
 ## What is already committed
 

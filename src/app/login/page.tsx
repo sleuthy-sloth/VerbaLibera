@@ -69,7 +69,7 @@ export default function LoginPage() {
 
   return (
     <main style={{ maxWidth: 480, margin: '0 auto', padding: '2rem 1rem', fontFamily: 'system-ui, sans-serif' }}>
-      <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>Sign in to VoxLibre</h1>
+      <h1 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>Sign in to VerbaLibera</h1>
       <p style={{ color: '#555', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
         Passkeys keep your progress saved to your account. Nothing is shared.
       </p>

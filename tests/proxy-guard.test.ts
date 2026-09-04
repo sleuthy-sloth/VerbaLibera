@@ -33,10 +33,10 @@ describe('proxy guard', () => {
     const sessionMod = await import('../src/lib/auth/session');
     const getName = (sessionMod as unknown as { getSessionCookieName?: () => string }).getSessionCookieName;
     if (typeof getName === 'function') {
-      expect(getName()).toBe('__Host-voxlibre_session');
+      expect(getName()).toBe('__Host-verbalibera_session');
     } else {
       // Before implementation, SESSION_COOKIE_NAME is still legacy, so this fails
-      expect((sessionMod as unknown as { SESSION_COOKIE_NAME: string }).SESSION_COOKIE_NAME).toBe('__Host-voxlibre_session');
+      expect((sessionMod as unknown as { SESSION_COOKIE_NAME: string }).SESSION_COOKIE_NAME).toBe('__Host-verbalibera_session');
     }
     (process.env as unknown as { NODE_ENV: string }).NODE_ENV = prev;
   });

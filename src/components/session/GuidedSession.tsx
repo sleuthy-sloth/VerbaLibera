@@ -77,7 +77,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   if (!course) {
     return (
       <main className={styles.unavailable}>
-        <p className={styles.eyebrow}>VoxLibre preview</p>
+        <p className={styles.eyebrow}>VerbaLibera preview</p>
         <h1>This course is not available in preview.</h1>
         <Link href="/">Return to your daily path</Link>
       </main>

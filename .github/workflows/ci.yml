@@ -60,7 +60,7 @@ jobs:
         run: npx next build
         env:
           # Use dummy DATABASE_URL for build; prisma generate already validated schema
-          DATABASE_URL: postgresql://user:pass@localhost:5432/voxlibre_ci
+          DATABASE_URL: postgresql://user:pass@localhost:5432/verbalibera_ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps

@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- Author all lesson text, prompts, dialogues, accepted responses, and UI copy specifically for VoxLibre; do not reproduce third-party lessons, recordings, assets, exercise sequences, or trade dress.
+- Author all lesson text, prompts, dialogues, accepted responses, and UI copy specifically for VerbaLibera; do not reproduce third-party lessons, recordings, assets, exercise sequences, or trade dress.
 - Keep this release preview-only: no progress, XP, mastery, assessment, or SRS mutation may be persisted or claimed by the UI.
 - Preserve original-content provenance and identify unavailable audio honestly.
 - Use `notice → build → vary → use` for each new pattern, with practical travel scenarios in French and Italian.

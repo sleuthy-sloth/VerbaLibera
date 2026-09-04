@@ -1,4 +1,4 @@
-"""Explicit contracts and configuration for VoxLibre's optional voice sidecar."""
+"""Explicit contracts and configuration for VerbaLibera's optional voice sidecar."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ class TranslationServiceSettings:
         cls, environment: Mapping[str, str] | None = None
     ) -> "TranslationServiceSettings":
         env = os.environ if environment is None else environment
-        pairs = _csv(env.get("VOXLIBRE_TRANSLATION_PAIRS", "fr-en,it-en"))
+        pairs = _csv(env.get("VERBALIBERA_TRANSLATION_PAIRS", "fr-en,it-en"))
         parsed_pairs: set[tuple[str, str]] = set()
         for pair in pairs:
             if "-" not in pair:
@@ -58,7 +58,7 @@ class TranslationServiceSettings:
         return cls(
             permitted_pairs=frozenset(parsed_pairs),
             max_text_chars=int(
-                env.get("VOXLIBRE_TRANSLATION_MAX_TEXT_CHARS", str(DEFAULT_MAX_TEXT_CHARS))
+                env.get("VERBALIBERA_TRANSLATION_MAX_TEXT_CHARS", str(DEFAULT_MAX_TEXT_CHARS))
             ),
         )
 
@@ -76,7 +76,7 @@ def _csv(value: str) -> frozenset[str]:
 def _max_audio_bytes(value: str) -> int:
     parsed = int(value)
     if parsed <= 0:
-        raise ValueError("VOXLIBRE_VOICE_MAX_AUDIO_BYTES must be greater than zero.")
+        raise ValueError("VERBALIBERA_VOICE_MAX_AUDIO_BYTES must be greater than zero.")
     return parsed
 
 
@@ -94,20 +94,20 @@ class VoiceServiceSettings:
         cls, environment: Mapping[str, str] | None = None
     ) -> "VoiceServiceSettings":
         env = os.environ if environment is None else environment
-        languages = _csv(env.get("VOXLIBRE_VOICE_LANGUAGES", "fr,it"))
+        languages = _csv(env.get("VERBALIBERA_VOICE_LANGUAGES", "fr,it"))
         return cls(
             permitted_languages=languages,
             accepted_audio_types=_csv(
-                env.get("VOXLIBRE_VOICE_ACCEPTED_MIME_TYPES", "audio/webm,audio/wav")
+                env.get("VERBALIBERA_VOICE_ACCEPTED_MIME_TYPES", "audio/webm,audio/wav")
             ),
             max_audio_bytes=_max_audio_bytes(
-                env.get("VOXLIBRE_VOICE_MAX_AUDIO_BYTES", str(DEFAULT_MAX_AUDIO_BYTES))
+                env.get("VERBALIBERA_VOICE_MAX_AUDIO_BYTES", str(DEFAULT_MAX_AUDIO_BYTES))
             ),
             permitted_voices={
-                "fr": _csv(env.get("VOXLIBRE_VOICE_FRENCH_VOICES", "ff_siwis")),
-                "it": _csv(env.get("VOXLIBRE_VOICE_ITALIAN_VOICES", "if_sara")),
-                "es": _csv(env.get("VOXLIBRE_VOICE_SPANISH_VOICES", "ef_dora")),
-                "pt": _csv(env.get("VOXLIBRE_VOICE_PORTUGUESE_VOICES", "pf_dora")),
+                "fr": _csv(env.get("VERBALIBERA_VOICE_FRENCH_VOICES", "ff_siwis")),
+                "it": _csv(env.get("VERBALIBERA_VOICE_ITALIAN_VOICES", "if_sara")),
+                "es": _csv(env.get("VERBALIBERA_VOICE_SPANISH_VOICES", "ef_dora")),
+                "pt": _csv(env.get("VERBALIBERA_VOICE_PORTUGUESE_VOICES", "pf_dora")),
             },
         )
 

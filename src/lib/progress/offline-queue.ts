@@ -6,10 +6,10 @@
  * Store name must be `reviewQueue` per Task 15 contract.
  */
 
-export const DB_NAME = 'voxlibre-offline';
+export const DB_NAME = 'verbalibera-offline';
 export const DB_VERSION = 1;
 export const REVIEW_QUEUE_STORE = 'reviewQueue';
-export const LS_KEY = 'voxlibre:reviewQueue';
+export const LS_KEY = 'verbalibera:reviewQueue';
 
 export type ReviewVerdict = 'exact' | 'close' | 'try_again';
 
@@ -400,7 +400,7 @@ export function setupOfflineQueueSync(onReplay?: (result: { succeeded: number; f
       onReplay?.(result);
       // Dispatch a custom event for UI layers to react (e.g., invalidation)
       try {
-        window.dispatchEvent(new CustomEvent('voxlibre:queue-replayed', { detail: result }));
+        window.dispatchEvent(new CustomEvent('verbalibera:queue-replayed', { detail: result }));
       } catch {}
     } catch {
       // swallow — will retry on next online

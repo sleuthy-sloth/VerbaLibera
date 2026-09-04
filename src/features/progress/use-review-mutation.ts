@@ -93,7 +93,7 @@ export function useReviewMutation() {
           }
           try {
             window.dispatchEvent(
-              new CustomEvent('voxlibre:offline-queued', { detail: payload }),
+              new CustomEvent('verbalibera:offline-queued', { detail: payload }),
             );
           } catch {}
         }

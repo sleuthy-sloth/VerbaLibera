@@ -7,7 +7,7 @@ describe('LoginPage', () => {
   it('renders passkey UI with 44px targets and Quiet Ink copy', () => {
     render(<LoginPage />);
 
-    expect(screen.getByRole('heading', { name: /sign in to voxlibre/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /sign in to verbalibera/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/account name/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /create passkey/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign in with passkey/i })).toBeInTheDocument();

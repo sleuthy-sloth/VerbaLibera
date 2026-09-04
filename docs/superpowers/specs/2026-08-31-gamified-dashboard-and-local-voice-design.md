@@ -1,4 +1,4 @@
-# VoxLibre Gamified Dashboard and Local Voice Design
+# VerbaLibera Gamified Dashboard and Local Voice Design
 
 Date: 2026-08-31
 
@@ -6,7 +6,7 @@ Status: Approved in conversation; this document is awaiting user review before i
 
 ## 1. Objective and scope
 
-Refocus VoxLibre from the Thinking Method to a practical, drill-first language-learning experience. The product retains proven retrieval practice: sentence-construction SRS, DLI/FSI-style substitution and transformation drills, model audio, and deliberate spoken responses. It removes cognate-led structural lessons, indefinite “thinking” framing, and user-facing references to the Thinking Method.
+Refocus VerbaLibera from the Thinking Method to a practical, drill-first language-learning experience. The product retains proven retrieval practice: sentence-construction SRS, DLI/FSI-style substitution and transformation drills, model audio, and deliberate spoken responses. It removes cognate-led structural lessons, indefinite “thinking” framing, and user-facing references to the Thinking Method.
 
 The immediate goal is a mobile-first dashboard that feels motivational and polished without becoming punitive. The selected experience is **Daily Path**: a short guided session is the primary action, supported by a streak, XP, daily goal, course progress, and a small SRS queue indicator. The visual direction is **Signal Pop**: original indigo, coral, lime, and off-white artwork with expressive abstract language/speech motifs.
 
@@ -30,7 +30,7 @@ This phase does not add authentication, real user mutations, social competition,
 - **Practice sentences, not isolated lists.** SRS continues to schedule authored sentence constructions; FSI/DLI substitution and transformation drills supply repetition and automation.
 - **Reward completion honestly.** XP, streaks, and goals reflect practice events in preview mode. They never represent proficiency, mastery, or assessment success.
 - **Keep learning available.** Speech, audio, and online services augment the experience; they do not gate it.
-- **Keep it original.** VoxLibre may be inspired by the clarity and motivation of modern language products but must not reproduce their mascots, artwork, copy, sound, or brand treatment.
+- **Keep it original.** VerbaLibera may be inspired by the clarity and motivation of modern language products but must not reproduce their mascots, artwork, copy, sound, or brand treatment.
 - **Protect learner privacy.** Local voice processing is opt-in and ephemeral. A transcript is an input to the current answer check, not an account record by default.
 
 ## 3. Learner experience
@@ -130,7 +130,7 @@ The PWA is installable as a web application, but installation does not make nati
 
 Use the built-in image-generation tool to produce original raster assets for the project:
 
-- `public/brand/voxlibre-app-icon-source.png`: a square Signal Pop icon with an abstract coral speech wave and lime motion accent on indigo; no text, no brand imitation, and a strong silhouette at 32 pixels.
+- `public/brand/verbalibera-app-icon-source.png`: a square Signal Pop icon with an abstract coral speech wave and lime motion accent on indigo; no text, no brand imitation, and a strong silhouette at 32 pixels.
 - Derived `192×192` and `512×512` regular and maskable PWA PNG icons. The maskable version maintains safe-zone padding and does not use a transparent background.
 - `public/illustrations/`: one original, inclusive abstract “daily practice” illustration that supports the dashboard but does not convey a real learner’s identity or mimic another product’s artwork.
 

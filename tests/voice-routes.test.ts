@@ -9,7 +9,7 @@ afterEach(() => {
 describe('local voice routes', () => {
   it('reports an unavailable optional service when its URL is not configured', async () => {
     // Break caught: the browser learns an internal service URL or a false positive health state.
-    vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', '');
+    vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', '');
 
     const response = await GET();
 

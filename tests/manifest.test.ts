@@ -1,6 +1,6 @@
 import manifest from '@/app/manifest';
 
-describe('VoxLibre PWA manifest', () => {
+describe('VerbaLibera PWA manifest', () => {
   it('describes the Quiet Ink standalone application', () => {
     // Break caught: installed clients no longer open with the Quiet Ink presentation metadata.
     expect(manifest()).toMatchObject({
@@ -17,24 +17,24 @@ describe('VoxLibre PWA manifest', () => {
     });
   });
 
-  it('declares regular and maskable VoxLibre icons', () => {
+  it('declares regular and maskable VerbaLibera icons', () => {
     // Break caught: installation metadata stops pointing at the committed app icons.
     const appManifest = manifest();
 
     expect(appManifest.icons).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          src: '/icons/voxlibre-192.png',
+          src: '/icons/verbalibera-192.png',
           sizes: '192x192',
           type: 'image/png',
         }),
         expect.objectContaining({
-          src: '/icons/voxlibre-512.png',
+          src: '/icons/verbalibera-512.png',
           sizes: '512x512',
           type: 'image/png',
         }),
         expect.objectContaining({
-          src: '/icons/voxlibre-maskable-512.png',
+          src: '/icons/verbalibera-maskable-512.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'maskable',

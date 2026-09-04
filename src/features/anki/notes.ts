@@ -1,7 +1,7 @@
 import type { ConceptFixture, CourseFixture } from '@/features/curriculum/types';
 import { vocabWordFor } from '@/features/curriculum/fixture';
 
-export const ANKI_MODEL_NAME = 'VoxLibre';
+export const ANKI_MODEL_NAME = 'VerbaLibera';
 
 export type AnkiMedia = Readonly<{
   filename: string;
@@ -27,7 +27,7 @@ export type AnkiDeck = Readonly<{
 
 export function deckNameFor(course: CourseFixture): string {
   const raw = course.slug.split('-').pop() ?? course.targetLanguageCode;
-  return `VoxLibre::${raw.charAt(0).toUpperCase()}${raw.slice(1)}`;
+  return `VerbaLibera::${raw.charAt(0).toUpperCase()}${raw.slice(1)}`;
 }
 
 export function languageNameFor(course: CourseFixture): string {
@@ -79,7 +79,7 @@ export function buildAnkiDeck(course: CourseFixture): AnkiDeck {
     const answerSound = soundTag(answerAudio(concept), media);
 
     notes.push({
-      key: `voxlibre:${concept.id}:dialogue`,
+      key: `verbalibera:${concept.id}:dialogue`,
       front: `${escapeHtml(concept.modelDialogue.prompt)}${promptSound ? `<br>${promptSound}` : ''}`,
       back: `${escapeHtml(concept.modelDialogue.answer)}${answerSound ? `<br>${answerSound}` : ''}`,
     });
@@ -89,14 +89,14 @@ export function buildAnkiDeck(course: CourseFixture): AnkiDeck {
     );
     if (recall) {
       notes.push({
-        key: `voxlibre:${recall.id}:recall`,
+        key: `verbalibera:${recall.id}:recall`,
         front: escapeHtml(recall.prompt),
         back: recall.acceptedResponses.map(escapeHtml).join('<br>'),
       });
     }
 
     notes.push({
-      key: `voxlibre:${concept.id}:listen`,
+      key: `verbalibera:${concept.id}:listen`,
       front: `Type what you hear.${answerSound ? `<br>${answerSound}` : ''}`,
       back: escapeHtml(concept.modelDialogue.answer),
     });
@@ -110,7 +110,7 @@ export function buildAnkiDeck(course: CourseFixture): AnkiDeck {
         media.set(filename, { filename, sourceUrl: choice.imageUrl, kind: 'image' });
       }
       notes.push({
-        key: `voxlibre:${concept.id}:vocab:${choice.id}`,
+        key: `verbalibera:${concept.id}:vocab:${choice.id}`,
         front: `What is this in ${language}?<br><img src="${filename}" alt="${escapeHtml(choice.alt)}">`,
         back: escapeHtml(word),
       });
@@ -120,7 +120,7 @@ export function buildAnkiDeck(course: CourseFixture): AnkiDeck {
   return {
     deckName: deckNameFor(course),
     modelName: ANKI_MODEL_NAME,
-    tags: ['voxlibre', course.slug],
+    tags: ['verbalibera', course.slug],
     notes,
     media: [...media.values()],
   };

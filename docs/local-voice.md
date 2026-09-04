@@ -1,6 +1,6 @@
 # Optional local voice companion
 
-VoxLibre works fully with touch and keyboard controls. This companion is an optional,
+VerbaLibera works fully with touch and keyboard controls. This companion is an optional,
 self-hosted service for two local-only capabilities:
 
 - **Kokoro** produces reviewable, original model-audio clips during course authoring.
@@ -12,7 +12,7 @@ as unavailable and the normal non-voice lesson path remains available.
 
 ## Requirements
 
-- Python 3.10 through 3.12 is required by the pinned Kokoro runtime. VoxLibre pins its
+- Python 3.10 through 3.12 is required by the pinned Kokoro runtime. VerbaLibera pins its
   local voice toolchain to Python 3.11 in `services/voice/.python-version`.
 - A local CPU installation works with the default `cpu` + `int8` faster-whisper settings.
 - CUDA hosts can opt in with a compatible CTranslate2/CUDA setup and a CUDA compute type;
@@ -43,27 +43,27 @@ The Next.js server is the only caller of this service. Set its endpoint to the l
 trusted sidecar URL:
 
 ```bash
-export VOXLIBRE_VOICE_SERVICE_URL=http://127.0.0.1:8090
+export VERBALIBERA_VOICE_SERVICE_URL=http://127.0.0.1:8090
 ```
 
 Configure the sidecar with these exact environment variables. Defaults are shown where
 they exist.
 
 ```bash
-export VOXLIBRE_VOICE_LANGUAGES=fr,it
-export VOXLIBRE_VOICE_ACCEPTED_MIME_TYPES=audio/webm,audio/wav
-export VOXLIBRE_VOICE_MAX_AUDIO_BYTES=1000000
-export VOXLIBRE_VOICE_FRENCH_VOICES=ff_siwis
-export VOXLIBRE_VOICE_ITALIAN_VOICES=if_sara
+export VERBALIBERA_VOICE_LANGUAGES=fr,it
+export VERBALIBERA_VOICE_ACCEPTED_MIME_TYPES=audio/webm,audio/wav
+export VERBALIBERA_VOICE_MAX_AUDIO_BYTES=1000000
+export VERBALIBERA_VOICE_FRENCH_VOICES=ff_siwis
+export VERBALIBERA_VOICE_ITALIAN_VOICES=if_sara
 
 # Leave empty to use the Kokoro package's configured model source.
-export VOXLIBRE_KOKORO_MODEL_PATH=/absolute/path/to/kokoro-model
+export VERBALIBERA_KOKORO_MODEL_PATH=/absolute/path/to/kokoro-model
 
 # Either point at a previously downloaded model directory or use a model name.
-export VOXLIBRE_FASTER_WHISPER_MODEL=small
-export VOXLIBRE_FASTER_WHISPER_MODEL_PATH=/absolute/path/to/faster-whisper-model
-export VOXLIBRE_FASTER_WHISPER_DEVICE=cpu
-export VOXLIBRE_FASTER_WHISPER_COMPUTE_TYPE=int8
+export VERBALIBERA_FASTER_WHISPER_MODEL=small
+export VERBALIBERA_FASTER_WHISPER_MODEL_PATH=/absolute/path/to/faster-whisper-model
+export VERBALIBERA_FASTER_WHISPER_DEVICE=cpu
+export VERBALIBERA_FASTER_WHISPER_COMPUTE_TYPE=int8
 ```
 
 On macOS, if the bundled eSpeak loader reports a missing build-machine
@@ -100,7 +100,7 @@ check; it is not a pronunciation score or account record.
 Learners can deny microphone permission, skip recording, or continue with touch/keyboard
 at every point. No voice error changes an SRS result, XP, or progression.
 
-Installing VoxLibre as a PWA does **not** run Python models on a learner's phone. The
+Installing VerbaLibera as a PWA does **not** run Python models on a learner's phone. The
 service is for a developer machine or an intentionally self-hosted server alongside the
 web app. A truly device-local mobile model needs separate native/browser-runtime,
 download, consent, and hardware-budget work.

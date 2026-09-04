@@ -1,6 +1,6 @@
-# VoxLibre
+# VerbaLibera
 
-Language learning through practical sentence construction. VoxLibre introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
+Language learning through practical sentence construction. VerbaLibera introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
 
 ![Dashboard on desktop](docs/screenshots/quiet-ink-dashboard-desktop.png)
 
@@ -14,7 +14,7 @@ The screenshots show the live app running locally with the Quiet Ink interface �
 
 ## What this is
 
-VoxLibre is a preview implementation of a practical, drill-first language-learning tool. The current release has two original A1 travel units:
+VerbaLibera is a preview implementation of a practical, drill-first language-learning tool. The current release has two original A1 travel units:
 
 - English → French
 - English → Italian
@@ -54,7 +54,7 @@ Privacy-wise, no learner audio is persisted by default. The voice route returns 
 
 ## Accounts and data truthfulness
 
-VoxLibre now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session completion says "Nothing was saved.", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release. Copy is single-sourced in `src/lib/progress/copy.ts` (`dashboardBadgeCopy({ isPreview })` and `sessionCompletionCopy({ isPreview })`), wired into `DailyPathDashboard` and `GuidedSession`.
+VerbaLibera now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session completion says "Nothing was saved.", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release. Copy is single-sourced in `src/lib/progress/copy.ts` (`dashboardBadgeCopy({ isPreview })` and `sessionCompletionCopy({ isPreview })`), wired into `DailyPathDashboard` and `GuidedSession`.
 
 When you create a passkey (WebAuthn, no passwords) and sign in, your progress becomes account-scoped and persisted:
 
@@ -74,7 +74,7 @@ This is the production-like path — no manual Postgres install needed. The app 
 
 ```bash
 cp .env.example .env
-# Edit .env: set DATABASE_URL, AUTH_JWT_PRIVATE_KEY / AUTH_JWT_PUBLIC_KEY (or *_PATH), WEBAUTHN_RP_ID, VOXLIBRE_VOICE_SERVICE_URL
+# Edit .env: set DATABASE_URL, AUTH_JWT_PRIVATE_KEY / AUTH_JWT_PUBLIC_KEY (or *_PATH), WEBAUTHN_RP_ID, VERBALIBERA_VOICE_SERVICE_URL
 docker compose up --build
 ```
 
@@ -89,7 +89,7 @@ Optional voice sidecar (local TTS/STT, requires Python toolchain weights — not
 
 ```bash
 docker compose --profile voice up --build
-# then set VOXLIBRE_VOICE_SERVICE_URL=http://voice:8000 in .env / compose.yml
+# then set VERBALIBERA_VOICE_SERVICE_URL=http://voice:8000 in .env / compose.yml
 ```
 
 ### Local dev without Docker
@@ -140,20 +140,20 @@ The optional voice companion runs locally and is called only through server-only
 
 ## Status and roadmap
 
-VoxLibre is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VerbaLibera is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 
 ## Deploy to Vercel (Hobby + Neon free tiers)
 
 1. Create a free Postgres at [neon.tech](https://neon.tech) and copy the connection string.
-2. Import `sleuthy-sloth/VoxLibre` into a **personal Hobby** Vercel project (avoids team Deployment Protection walls).
+2. Import `sleuthy-sloth/VerbaLibera` into a **personal Hobby** Vercel project (avoids team Deployment Protection walls).
 3. Set env vars (Production + Preview):
    - `DATABASE_URL` — Neon connection string (add `?sslmode=require` if Neon gives it without)
    - `AUTH_JWT_PRIVATE_KEY` / `AUTH_JWT_PUBLIC_KEY` — ES256 PEM pair (see below)
-   - `WEBAUTHN_RP_ID` — your domain without scheme (e.g. `voxlibre.vercel.app`)
-   - `WEBAUTHN_ORIGIN` — full origin (e.g. `https://voxlibre.vercel.app`)
-   - Leave `VOXLIBRE_VOICE_SERVICE_URL` unset — the app degrades honestly to the non-voice lesson path.
+   - `WEBAUTHN_RP_ID` — your domain without scheme (e.g. `verbalibera.vercel.app`)
+   - `WEBAUTHN_ORIGIN` — full origin (e.g. `https://verbalibera.vercel.app`)
+   - Leave `VERBALIBERA_VOICE_SERVICE_URL` unset — the app degrades honestly to the non-voice lesson path.
 4. Deploy. `vercel.json` already runs `prisma migrate deploy && next build`; `postinstall` runs `prisma generate`.
 5. Seed from your machine against prod (writes only fixture `ContentVersion`, idempotent):
    `DATABASE_URL="<prod-url>" npm run prisma:seed`

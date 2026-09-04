@@ -84,7 +84,7 @@ describe('DailyPathDashboard', () => {
     // Break caught: the dashboard loses its primary session entry point or progress summary.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getByRole('heading', { level: 1, name: /VoxLibre/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /VerbaLibera/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
       'href',
       '/learn/english-to-french',

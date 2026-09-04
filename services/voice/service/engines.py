@@ -34,12 +34,12 @@ class LocalModelSettings:
     ) -> "LocalModelSettings":
         env = os.environ if environment is None else environment
         return cls(
-            kokoro_model_path=env.get("VOXLIBRE_KOKORO_MODEL_PATH") or None,
-            whisper_model_name=env.get("VOXLIBRE_FASTER_WHISPER_MODEL", "small"),
-            whisper_model_path=env.get("VOXLIBRE_FASTER_WHISPER_MODEL_PATH") or None,
-            whisper_device=env.get("VOXLIBRE_FASTER_WHISPER_DEVICE", "cpu"),
+            kokoro_model_path=env.get("VERBALIBERA_KOKORO_MODEL_PATH") or None,
+            whisper_model_name=env.get("VERBALIBERA_FASTER_WHISPER_MODEL", "small"),
+            whisper_model_path=env.get("VERBALIBERA_FASTER_WHISPER_MODEL_PATH") or None,
+            whisper_device=env.get("VERBALIBERA_FASTER_WHISPER_DEVICE", "cpu"),
             whisper_compute_type=env.get(
-                "VOXLIBRE_FASTER_WHISPER_COMPUTE_TYPE", "int8"
+                "VERBALIBERA_FASTER_WHISPER_COMPUTE_TYPE", "int8"
             ),
             espeak_library_path=env.get("PHONEMIZER_ESPEAK_LIBRARY") or None,
             espeak_data_path=env.get("PHONEMIZER_ESPEAK_DATA_PATH") or None,

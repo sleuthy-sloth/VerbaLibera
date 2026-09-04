@@ -12,7 +12,7 @@ describe('SendToAnki', () => {
       if (!body.action) return { ok: true, arrayBuffer: async () => new Uint8Array([1]).buffer };
       calls.push(body.action);
       if (body.action === 'version') return { json: async () => ({ result: 6, error: null }) };
-      if (body.action === 'modelNames') return { json: async () => ({ result: ['VoxLibre'], error: null }) };
+      if (body.action === 'modelNames') return { json: async () => ({ result: ['VerbaLibera'], error: null }) };
       if (body.action === 'addNotes') return { json: async () => ({ result: [1, null], error: null }) };
       return { json: async () => ({ result: 'ok', error: null }) };
     }) as unknown as typeof fetch;

@@ -21,8 +21,8 @@ describe('buildAnkiDeck', () => {
     const first = buildAnkiDeck(course);
     const second = buildAnkiDeck(course);
     expect(second.notes.map((note) => note.key)).toEqual(first.notes.map((note) => note.key));
-    expect(first.deckName).toBe('VoxLibre::French');
-    expect(deckNameFor(initialCourses[3]!)).toBe('VoxLibre::Portuguese');
+    expect(first.deckName).toBe('VerbaLibera::French');
+    expect(deckNameFor(initialCourses[3]!)).toBe('VerbaLibera::Portuguese');
   });
 
   it('embeds real audio via [sound:] tags and never leaks unavailable://', () => {

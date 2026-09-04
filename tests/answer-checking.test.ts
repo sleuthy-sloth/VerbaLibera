@@ -53,7 +53,7 @@ describe('checkDrillAnswer', () => {
 
   describe('meaning path with stubbed translation service', () => {
     it('returns close when translation is near-identical to variant', async () => {
-      vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', 'http://localhost:8000');
+      vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', 'http://localhost:8000');
       vi.stubGlobal(
         'fetch',
         vi.fn(async () => Response.json({ translation: 'I would like a tea, please.' })),
@@ -74,7 +74,7 @@ describe('checkDrillAnswer', () => {
     });
 
     it('returns try_again when content words differ', async () => {
-      vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', 'http://localhost:8000');
+      vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', 'http://localhost:8000');
       vi.stubGlobal(
         'fetch',
         vi.fn(async (_url: unknown, init: RequestInit) => {
@@ -98,7 +98,7 @@ describe('checkDrillAnswer', () => {
     });
 
     it('returns close at the exact 0.60 threshold', async () => {
-      vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', 'http://localhost:8000');
+      vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', 'http://localhost:8000');
       vi.stubGlobal(
         'fetch',
         vi.fn(async () => Response.json({ translation: 'a b c d e' })),
@@ -118,7 +118,7 @@ describe('checkDrillAnswer', () => {
 
   describe('fallbacks', () => {
     it('returns limited try_again when no service URL is configured', async () => {
-      vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', '');
+      vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', '');
 
       const result = await checkDrillAnswer({
         courseSlug: 'english-to-french',
@@ -131,7 +131,7 @@ describe('checkDrillAnswer', () => {
     });
 
     it('returns limited try_again when fetch rejects', async () => {
-      vi.stubEnv('VOXLIBRE_VOICE_SERVICE_URL', 'http://localhost:8000');
+      vi.stubEnv('VERBALIBERA_VOICE_SERVICE_URL', 'http://localhost:8000');
       vi.stubGlobal('fetch', vi.fn(async () => Promise.reject(new Error('connection refused'))));
 
       const result = await checkDrillAnswer({

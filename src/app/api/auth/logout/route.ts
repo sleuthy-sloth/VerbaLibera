@@ -13,7 +13,7 @@ const NO_STORE_HEADERS = { 'Cache-Control': 'no-store' } as const;
 async function postHandler(request: Request) {
   // Enforce double-submit CSRF for authenticated logout
   const cookieHeader = request.headers.get('cookie') ?? '';
-  if (cookieHeader.includes('voxlibre_csrf') && !validateCsrfRequest(request)) {
+  if (cookieHeader.includes('verbalibera_csrf') && !validateCsrfRequest(request)) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 403, headers: NO_STORE_HEADERS });
   }
   const response = NextResponse.json({ status: 'ok' }, { status: 200, headers: NO_STORE_HEADERS });

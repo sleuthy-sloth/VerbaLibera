@@ -21,7 +21,7 @@ async function readMediaBytes(sourceUrl: string): Promise<Uint8Array> {
 /**
  * One-way export to Anki desktop via AnkiConnect (http://127.0.0.1:8765).
  * Anki must be open with the add-on installed; reviews stay in Anki —
- * nothing syncs back into VoxLibre.
+ * nothing syncs back into VerbaLibera.
  */
 export function SendToAnki({ courseSlug }: { courseSlug: string }) {
   const [status, setStatus] = useState<Status>({ phase: 'idle' });

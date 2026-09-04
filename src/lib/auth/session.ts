@@ -2,8 +2,8 @@ import 'server-only';
 
 import * as jose from 'jose';
 
-export const SESSION_COOKIE_BASE_NAME = 'voxlibre_session';
-export const SESSION_HOST_COOKIE_NAME = '__Host-voxlibre_session';
+export const SESSION_COOKIE_BASE_NAME = 'verbalibera_session';
+export const SESSION_HOST_COOKIE_NAME = '__Host-verbalibera_session';
 export function getSessionCookieName(): string {
   return process.env.NODE_ENV === 'production' ? SESSION_HOST_COOKIE_NAME : SESSION_COOKIE_BASE_NAME;
 }
@@ -11,7 +11,7 @@ export function getSessionCookieName(): string {
 export const SESSION_COOKIE_NAME = SESSION_COOKIE_BASE_NAME;
 export const SESSION_DURATION_SECONDS = 30 * 60;
 export const SESSION_ALG = 'ES256' as const;
-export const SESSION_ISSUER = 'voxlibre';
+export const SESSION_ISSUER = 'verbalibera';
 
 type KeyPair = {
   privateKey: CryptoKey;

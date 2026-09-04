@@ -1,4 +1,4 @@
-"""HTTP boundary for VoxLibre's optional, self-hosted voice capabilities."""
+"""HTTP boundary for VerbaLibera's optional, self-hosted voice capabilities."""
 
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ def create_app(
     translation_service_settings = (
         translation_settings or TranslationServiceSettings.from_environment()
     )
-    app = FastAPI(title="VoxLibre local voice service", docs_url=None, redoc_url=None)
+    app = FastAPI(title="VerbaLibera local voice service", docs_url=None, redoc_url=None)
 
     @app.middleware("http")
     async def bound_transcribe_body(request: Request, call_next):

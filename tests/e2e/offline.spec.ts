@@ -10,7 +10,7 @@ test('offline shell and lesson still serve while api falls back', async ({ page,
   await expect(page.getByRole('heading').first()).toBeVisible({ timeout: 10_000 });
 
   // Give the service worker time to precache shell, lessons, audio and Next static.
-  // The SW precaches /, /learn/*, /audio/**, /_next/static/** with voxlibre-static-v2.
+  // The SW precaches /, /learn/*, /audio/**, /_next/static/** with verbalibera-static-v2.
   await page.waitForTimeout(2000);
 
   // Best-effort wait for service worker activation (ignore if not yet controlling).
@@ -39,7 +39,7 @@ test('offline shell and lesson still serve while api falls back', async ({ page,
   // for its data fetch to fail must be visible. The dashboard skeleton renders a
   // status "Preparing your practice path…" while /api/demo/progress is pending,
   // which is the correct offline behavior (the shell loads, the API call fails).
-  const shellVisible = await page.getByText(/VoxLibre/i).first().isVisible().catch(() => false);
+  const shellVisible = await page.getByText(/VerbaLibera/i).first().isVisible().catch(() => false);
   const offlineHeading = await page.getByText(/practice path is waiting|is offline/i).isVisible().catch(() => false);
   const anyHeading = await page.getByRole('heading').first().isVisible().catch(() => false);
   const loadingStatus = await page

@@ -20,7 +20,7 @@ export type VoiceServiceOptions = Readonly<{
 }>;
 
 function localServiceUrl(serviceUrl?: string): string | undefined {
-  const configuredUrl = serviceUrl ?? process.env.VOXLIBRE_VOICE_SERVICE_URL;
+  const configuredUrl = serviceUrl ?? process.env.VERBALIBERA_VOICE_SERVICE_URL;
   return configuredUrl?.trim() || undefined;
 }
 

@@ -11,7 +11,7 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <main className={`${styles.dashboard} ${styles.focusSurface} ${styles.errorShell}`}>
       <div className={styles.errorMessage} role="alert">
-        <p className={styles.eyebrow}>VoxLibre preview</p>
+        <p className={styles.eyebrow}>VerbaLibera preview</p>
         <h1>Unable to load your practice path.</h1>
         <p>
           Something went wrong. Your preview progress is still safe. Try the read-only snapshot again.

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Replace VoxLibre’s Signal Pop presentation with Quiet Ink: a calm, editorial, audio-first learning interface that guides a learner through one daily path without gamified pressure. Apply the approved design handoff to the dashboard, guided-session page, and static PWA shell while preserving the existing course, progress, SRS, access-policy, and content-provenance boundaries.
+Replace VerbaLibera’s Signal Pop presentation with Quiet Ink: a calm, editorial, audio-first learning interface that guides a learner through one daily path without gamified pressure. Apply the approved design handoff to the dashboard, guided-session page, and static PWA shell while preserving the existing course, progress, SRS, access-policy, and content-provenance boundaries.
 
 ## Scope
 
@@ -26,7 +26,7 @@ The body uses a flat canvas. Cards are disciplined surfaces with thin rules, res
 
 `DailyPathDashboard` becomes a two-column desktop composition and a single-column mobile flow.
 
-- The header contains the VoxLibre wordmark, preview-progress chip, and a compact segmented course selector. The selector is generated from `progress.courses`: it uses the full course title and a stable abbreviated label derived from course data, never hardcoded French/Italian buttons. It stays keyboard-accessible and communicates the selected course with `aria-pressed`.
+- The header contains the VerbaLibera wordmark, preview-progress chip, and a compact segmented course selector. The selector is generated from `progress.courses`: it uses the full course title and a stable abbreviated label derived from course data, never hardcoded French/Italian buttons. It stays keyboard-accessible and communicates the selected course with `aria-pressed`.
 - The intro band contains a utility kicker, Newsreader headline, concise explanation, and the existing abstract daily-practice mark contained within the band.
 - The primary “Today’s 8-minute path” card combines the unit title, course title, daily-goal progress, three compact Review/Drill/Pattern rows, time estimate, and the session CTA. The CTA only links when the selected course has both curriculum content and session data; otherwise it remains an explicit unavailable state.
 - The desktop secondary column is sticky and contains exactly one Progress snapshot: total XP, practice flow, and review queue. The review count is not repeated elsewhere as a headline metric.

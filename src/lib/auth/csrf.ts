@@ -1,4 +1,4 @@
-export const CSRF_COOKIE_NAME = 'voxlibre_csrf';
+export const CSRF_COOKIE_NAME = 'verbalibera_csrf';
 export const CSRF_HEADER_NAME = 'x-csrf-token';
 
 export function generateCsrfToken(): string {

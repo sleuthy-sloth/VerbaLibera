@@ -23,7 +23,7 @@ export type WebAuthnCredentialDescriptor = {
 
 function getRpConfig() {
   const rpID = process.env.WEBAUTHN_RP_ID ?? 'localhost';
-  const rpName = process.env.WEBAUTHN_RP_NAME ?? 'VoxLibre';
+  const rpName = process.env.WEBAUTHN_RP_NAME ?? 'VerbaLibera';
   const origin = process.env.WEBAUTHN_ORIGIN ?? `http://${rpID}:3000`;
   return { rpID, rpName, origin };
 }

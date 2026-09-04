@@ -3,8 +3,8 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'VoxLibre',
-    short_name: 'VoxLibre',
+    name: 'VerbaLibera',
+    short_name: 'VerbaLibera',
     description: 'A calm daily practice path for practical language patterns.',
     start_url: '/',
     display: 'standalone',
@@ -15,10 +15,10 @@ export default function manifest(): MetadataRoute.Manifest {
       { name: 'Resume session', url: '/learn/english-to-french' },
     ],
     icons: [
-      { src: '/icons/voxlibre-192.png', sizes: '192x192', type: 'image/png' },
-      { src: '/icons/voxlibre-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icons/verbalibera-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icons/verbalibera-512.png', sizes: '512x512', type: 'image/png' },
       {
-        src: '/icons/voxlibre-maskable-512.png',
+        src: '/icons/verbalibera-maskable-512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',

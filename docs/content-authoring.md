@@ -1,6 +1,6 @@
 # Audio content authoring guide
 
-This guide explains how to add a new spoken pattern to VoxLibre without
+This guide explains how to add a new spoken pattern to VerbaLibera without
 shipping silent placeholders. It is the companion to the plan items
 covered by the `audio-quality-checklist-*.md` files and the
 `reconcile_provenance.py` helper.
@@ -118,5 +118,5 @@ linguistically reviewed until an FR/IT operator has signed off.
 
 `public/sw.js` already precaches `/audio/**`; once a learner visits a
 lesson once, the new WAVs persist for the lifetime of the
-`voxlibre-static-v2` cache. Bumping the cache version forces a refresh
+`verbalibera-static-v2` cache. Bumping the cache version forces a refresh
 on the next deploy.

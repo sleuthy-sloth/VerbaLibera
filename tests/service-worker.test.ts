@@ -20,7 +20,7 @@ function staticAssetsFrom(source: string) {
 }
 
 async function evaluateWorker(
-  cacheKeys = ['voxlibre-static-v0', 'voxlibre-static-v1', 'voxlibre-static-v2', 'another-app-cache'],
+  cacheKeys = ['verbalibera-static-v0', 'verbalibera-static-v1', 'verbalibera-static-v2', 'another-app-cache'],
 ) {
   const handlers = new Map<string, WorkerHandler>();
   const cacheDelete = vi.fn().mockResolvedValue(true);
@@ -61,9 +61,9 @@ describe('static PWA service worker contract', () => {
     expect(assets).toEqual([
       '/',
       '/offline.html',
-      '/icons/voxlibre-192.png',
-      '/icons/voxlibre-512.png',
-      '/icons/voxlibre-maskable-512.png',
+      '/icons/verbalibera-192.png',
+      '/icons/verbalibera-512.png',
+      '/icons/verbalibera-maskable-512.png',
       '/illustrations/daily-practice.png',
       '/learn/english-to-french',
       '/learn/english-to-italian',
@@ -79,11 +79,11 @@ describe('static PWA service worker contract', () => {
     const { cacheMatch, handlers, networkFetch } = await evaluateWorker();
     const fetchHandler = handlers.get('fetch');
     const apiEvent = {
-      request: { method: 'GET', mode: 'navigate', url: 'https://voxlibre.test/api/demo/progress' },
+      request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/api/demo/progress' },
       respondWith: vi.fn(),
     };
     const resourceEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/illustrations/daily-practice.png' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/illustrations/daily-practice.png' },
       respondWith: vi.fn(),
     };
 
@@ -101,7 +101,7 @@ describe('static PWA service worker contract', () => {
     });
     networkFetch.mockRejectedValue(new Error('network unavailable'));
     const navigationEvent = {
-      request: { method: 'GET', mode: 'navigate', url: 'https://voxlibre.test/learn/english-to-french' },
+      request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/learn/english-to-french' },
       respondWith: vi.fn(),
     };
 
@@ -113,9 +113,15 @@ describe('static PWA service worker contract', () => {
     expect(cacheMatch).toHaveBeenCalledWith('/offline.html');
   });
 
-  it('deletes only stale VoxLibre static cache versions on activation', async () => {
-    // Break caught: activation removes another application's cache or retains obsolete VoxLibre static assets.
-    const { cacheDelete, clients, handlers } = await evaluateWorker();
+  it('deletes only stale VerbaLibera static cache versions on activation', async () => {
+    // Break caught: activation removes another application's cache or retains obsolete VerbaLibera static assets.
+    const { cacheDelete, clients, handlers } = await evaluateWorker([
+      'verbalibera-static-v0',
+      'verbalibera-static-v1',
+      'verbalibera-static-v2',
+      'voxlibre-static-v2',
+      'another-app-cache',
+    ]);
     const activateHandler = handlers.get('activate');
     const activationEvent = { waitUntil: vi.fn() };
 
@@ -124,10 +130,11 @@ describe('static PWA service worker contract', () => {
     expect(activationEvent.waitUntil).toHaveBeenCalledTimes(1);
     await activationEvent.waitUntil.mock.calls[0][0];
 
-    expect(cacheDelete).toHaveBeenCalledTimes(2);
-    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v0');
-    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v1');
-    expect(cacheDelete).not.toHaveBeenCalledWith('voxlibre-static-v2');
+    expect(cacheDelete).toHaveBeenCalledTimes(3);
+    expect(cacheDelete).toHaveBeenCalledWith('verbalibera-static-v0');
+    expect(cacheDelete).toHaveBeenCalledWith('verbalibera-static-v1');
+    expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v2');
+    expect(cacheDelete).not.toHaveBeenCalledWith('verbalibera-static-v2');
     expect(cacheDelete).not.toHaveBeenCalledWith('another-app-cache');
     expect(clients.claim).toHaveBeenCalledTimes(1);
   });
@@ -137,8 +144,8 @@ describe('static PWA service worker contract', () => {
     const source = await readWorkerSource();
 
     // version must be v2
-    expect(source).toMatch(/voxlibre-static-v2/);
-    expect(source).not.toMatch(/voxlibre-static-v1/);
+    expect(source).toMatch(/verbalibera-static-v2/);
+    expect(source).not.toMatch(/verbalibera-static-v1/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
     // grep for Cache-Control no-store and absence of /api in precache
@@ -168,23 +175,23 @@ describe('static PWA service worker contract', () => {
     const { handlers } = await evaluateWorker();
     const fetchHandler = handlers.get('fetch');
     const lessonEvent = {
-      request: { method: 'GET', mode: 'navigate', url: 'https://voxlibre.test/learn/english-to-french' },
+      request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/learn/english-to-french' },
       respondWith: vi.fn(),
     };
     const audioEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/audio/french-ordering/fr-ordering-politely-prompt.wav' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/audio/french-ordering/fr-ordering-politely-prompt.wav' },
       respondWith: vi.fn(),
     };
     const imageEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/images/vocab/coffee.jpg' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/images/vocab/coffee.jpg' },
       respondWith: vi.fn(),
     };
     const nextStaticEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/_next/static/chunks/webpack.js' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/_next/static/chunks/webpack.js' },
       respondWith: vi.fn(),
     };
     const apiEvent2 = {
-      request: { method: 'GET', mode: 'cors', url: 'https://voxlibre.test/api/demo/progress' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/api/demo/progress' },
       respondWith: vi.fn(),
     };
 

@@ -1,6 +1,6 @@
 # Privacy — what is and isn't logged
 
-VoxLibre is built for production observability **without surveillance**. We need enough signal to know the service is healthy, but we never track learners.
+VerbaLibera is built for production observability **without surveillance**. We need enough signal to know the service is healthy, but we never track learners.
 
 ## What is logged
 

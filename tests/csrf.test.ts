@@ -146,8 +146,8 @@ describe('csrf double-submit', () => {
     });
     const res = await POST(req);
     const setCookie = res.headers.get('set-cookie') ?? '';
-    // In production, cookie name should be __Host-voxlibre_session
-    expect(setCookie).toMatch(/__Host-voxlibre_session/i);
+    // In production, cookie name should be __Host-verbalibera_session
+    expect(setCookie).toMatch(/__Host-verbalibera_session/i);
     expect(setCookie).toMatch(/Secure/i);
     expect(setCookie).toMatch(/HttpOnly/i);
     expect(setCookie).toMatch(/SameSite=Lax/i);

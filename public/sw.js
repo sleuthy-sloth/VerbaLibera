@@ -1,10 +1,10 @@
-const STATIC_CACHE = 'voxlibre-static-v2';
+const STATIC_CACHE = 'verbalibera-static-v2';
 const STATIC_ASSETS = [
   '/',
   '/offline.html',
-  '/icons/voxlibre-192.png',
-  '/icons/voxlibre-512.png',
-  '/icons/voxlibre-maskable-512.png',
+  '/icons/verbalibera-192.png',
+  '/icons/verbalibera-512.png',
+  '/icons/verbalibera-maskable-512.png',
   '/illustrations/daily-practice.png',
   '/learn/english-to-french',
   '/learn/english-to-italian',
@@ -23,7 +23,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('voxlibre-static-') && key !== STATIC_CACHE).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => (key.startsWith('verbalibera-static-') || key.startsWith('voxlibre-static-')) && key !== STATIC_CACHE).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
 });

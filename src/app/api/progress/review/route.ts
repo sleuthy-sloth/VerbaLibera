@@ -64,7 +64,7 @@ async function boundedJsonBody(request: Request): Promise<
 async function postHandler(request: Request) {
   // CSRF check for authenticated mutation
   const cookieHeader = request.headers.get('cookie') ?? '';
-  if (cookieHeader.includes('voxlibre_csrf') && !validateCsrfRequest(request)) {
+  if (cookieHeader.includes('verbalibera_csrf') && !validateCsrfRequest(request)) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 403, headers: NO_STORE_HEADERS });
   }
 

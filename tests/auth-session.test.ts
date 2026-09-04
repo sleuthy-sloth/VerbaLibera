@@ -59,7 +59,7 @@ describe('auth session', () => {
     expect(opts.path).toBe('/');
     expect(opts.maxAge).toBe(SESSION_DURATION_SECONDS);
     expect(opts.maxAge).toBe(1800);
-    expect(SESSION_COOKIE_NAME).toBe('voxlibre_session');
+    expect(SESSION_COOKIE_NAME).toBe('verbalibera_session');
   });
 
   it('issues with short expiry for test and verifies before expiry', async () => {
@@ -123,7 +123,7 @@ describe('auth session', () => {
       typeof (mod as unknown as { getSessionCookieName?: () => string }).getSessionCookieName === 'function'
         ? (mod as unknown as { getSessionCookieName: () => string }).getSessionCookieName()
         : (mod as unknown as { SESSION_COOKIE_NAME: string }).SESSION_COOKIE_NAME;
-    expect(nameViaFn).toBe('__Host-voxlibre_session');
+    expect(nameViaFn).toBe('__Host-verbalibera_session');
     const opts = mod.sessionCookieOptions();
     expect(opts.secure).toBe(true);
     expect(opts.httpOnly).toBe(true);
@@ -136,8 +136,8 @@ describe('auth session', () => {
     const token = await issueSessionToken('user-both', { privateKey: keyPair.privateKey });
     // Use static imported function and setter so they share same module cache
     __setCachedKeyPairForTest(keyPair as unknown as never);
-    const legacyHeader = `voxlibre_session=${encodeURIComponent(token)}`;
-    const hostHeader = `__Host-voxlibre_session=${encodeURIComponent(token)}`;
+    const legacyHeader = `verbalibera_session=${encodeURIComponent(token)}`;
+    const hostHeader = `__Host-verbalibera_session=${encodeURIComponent(token)}`;
     const legacyRes = await getSessionFromCookieHeader(legacyHeader);
     const hostRes = await getSessionFromCookieHeader(hostHeader);
     expect(legacyRes?.userId).toBe('user-both');

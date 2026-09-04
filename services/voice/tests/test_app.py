@@ -270,7 +270,7 @@ def test_spanish_voice_is_permitted_by_default() -> None:
 
 def test_spanish_voice_override_from_environment() -> None:
     settings = VoiceServiceSettings.from_environment(
-        {"VOXLIBRE_VOICE_SPANISH_VOICES": "em_alex,em_santa"}
+        {"VERBALIBERA_VOICE_SPANISH_VOICES": "em_alex,em_santa"}
     )
     assert settings.permits_voice("es", "em_alex")
     assert not settings.permits_voice("es", "ef_dora")
@@ -329,7 +329,7 @@ def test_portuguese_voice_is_permitted_by_default() -> None:
 
 def test_portuguese_voice_override_from_environment() -> None:
     settings = VoiceServiceSettings.from_environment(
-        {"VOXLIBRE_VOICE_PORTUGUESE_VOICES": "pm_alex,pm_santa"}
+        {"VERBALIBERA_VOICE_PORTUGUESE_VOICES": "pm_alex,pm_santa"}
     )
     assert settings.permits_voice("pt", "pm_alex")
     assert not settings.permits_voice("pt", "pf_dora")

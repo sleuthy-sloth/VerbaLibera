@@ -38,13 +38,13 @@ describe("deploy + migrations (Task 17)", () => {
     expect(c.toLowerCase()).toMatch(/prisma/);
   });
 
-  it(".env.example documents DATABASE_URL, VOXLIBRE_VOICE_SERVICE_URL, AUTH_JWT_*, WEBAUTHN_RP_ID", () => {
+  it(".env.example documents DATABASE_URL, VERBALIBERA_VOICE_SERVICE_URL, AUTH_JWT_*, WEBAUTHN_RP_ID", () => {
     const envExample = readIfExists(".env.example");
     expect(envExample, "expected .env.example at repo root").not.toBeNull();
     const c = envExample!;
 
     expect(c).toMatch(/DATABASE_URL/);
-    expect(c).toMatch(/VOXLIBRE_VOICE_SERVICE_URL/);
+    expect(c).toMatch(/VERBALIBERA_VOICE_SERVICE_URL/);
     // AUTH_JWT_* — check at least private and public key variants (file or inline)
     expect(c).toMatch(/AUTH_JWT_PRIVATE_KEY/);
     expect(c).toMatch(/AUTH_JWT_PUBLIC_KEY/);
@@ -77,8 +77,8 @@ describe("deploy + migrations (Task 17)", () => {
     // optional voice sidecar — if present, should reference voice
     // we at least check file mentions voice or has a voice service/profile
     // to keep test not overly strict, accept either voice service present or comment about optional
-    const hasVoice = /voice\s*:/i.test(c) || /VOXLIBRE_VOICE_SERVICE_URL/i.test(c);
-    expect(hasVoice, "compose should mention voice service or VOXLIBRE_VOICE_SERVICE_URL").toBe(true);
+    const hasVoice = /voice\s*:/i.test(c) || /VERBALIBERA_VOICE_SERVICE_URL/i.test(c);
+    expect(hasVoice, "compose should mention voice service or VERBALIBERA_VOICE_SERVICE_URL").toBe(true);
   });
 
   it("README Quick start documents docker compose up and prisma migrate", () => {

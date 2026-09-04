@@ -1,14 +1,14 @@
-# VoxLibre Phase 1 Implementation Plan
+# VerbaLibera Phase 1 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Deliver a responsive, installable VoxLibre foundation with English-to-French and English-to-Italian sample courses, Prisma curriculum persistence, active-pause audio, sentence-construction SRS, and a public GitHub repository.
+**Goal:** Deliver a responsive, installable VerbaLibera foundation with English-to-French and English-to-Italian sample courses, Prisma curriculum persistence, active-pause audio, sentence-construction SRS, and a public GitHub repository.
 
 **Architecture:** Next.js App Router renders the application shell and client components control audio and query state. Prisma/PostgreSQL owns curriculum and future learner data; pure services implement curriculum access policy and SM-2 scheduling. Preview endpoints serve fixed fixture data only, so no anonymous visitor can create mastery or review records.
 
 **Tech Stack:** Next.js App Router, React, TypeScript, Tailwind CSS, TanStack Query, Prisma ORM, PostgreSQL, Vitest, React Testing Library, Playwright, HTML Audio API, service worker, GitHub CLI.
 
-**Spec:** `docs/superpowers/specs/2026-08-30-voxlibre-phase-1-design.md`
+**Spec:** `docs/superpowers/specs/2026-08-30-verbalibera-phase-1-design.md`
 
 > **Status note (2026-08-31):** The [Gamified Dashboard and Local Voice Implementation Plan](docs/superpowers/plans/2026-08-31-gamified-dashboard-and-local-voice.md) supersedes this plan's Thinking Method-specific UI work. The dashboard, guided session route, PWA shell, and documentation portions described here were fulfilled by the newer plan. Historical task checkboxes and evidence below are preserved as-is and are not retroactively altered.
 
@@ -75,9 +75,9 @@ import { render, screen } from '@testing-library/react';
 import HomePage from '@/app/page';
 
 describe('HomePage', () => {
-  it('identifies VoxLibre and its two initial courses', () => {
+  it('identifies VerbaLibera and its two initial courses', () => {
     render(<HomePage />);
-    expect(screen.getByRole('heading', { name: /VoxLibre/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /VerbaLibera/i })).toBeInTheDocument();
     expect(screen.getByText(/English to French/i)).toBeInTheDocument();
     expect(screen.getByText(/English to Italian/i)).toBeInTheDocument();
   });
@@ -88,7 +88,7 @@ describe('HomePage', () => {
 
 Run: `npm run test -- tests/app-shell.test.tsx`
 
-Expected: FAIL because the generated page does not render VoxLibre and both course names.
+Expected: FAIL because the generated page does not render VerbaLibera and both course names.
 
 - [ ] **Step 4: Implement the smallest accessible shell and test harness**
 
@@ -119,7 +119,7 @@ Expected: all commands exit zero.
 
 ```bash
 git add package.json package-lock.json next.config.ts tsconfig.json postcss.config.mjs tailwind.config.ts vitest.config.ts playwright.config.ts src tests .gitignore .env.example
-git commit -m "chore: bootstrap VoxLibre application"
+git commit -m "chore: bootstrap VerbaLibera application"
 ```
 
 ### Task 2: Add the Prisma curriculum model, constraints, and original French/Italian fixtures
@@ -433,9 +433,9 @@ git commit -m "feat: add responsive course dashboard"
 
 **Interfaces:**
 
-- Produces a manifest named `VoxLibre`, `display: 'standalone'`, with regular and maskable icons.
+- Produces a manifest named `VerbaLibera`, `display: 'standalone'`, with regular and maskable icons.
 - Produces `ServiceWorkerRegistration(): null`, registered only in browser environments.
-- Produces a service worker cache named `voxlibre-static-v1`, containing only the offline fallback and public icon assets.
+- Produces a service worker cache named `verbalibera-static-v1`, containing only the offline fallback and public icon assets.
 
 - [ ] **Step 1: Write failing manifest and cache-boundary tests**
 
@@ -457,7 +457,7 @@ Expected: FAIL because manifest and worker files do not exist.
 Register only after `window` exists and only when `serviceWorker` is available. The install event precaches explicit public files. The fetch handler handles navigation requests with network first and `offline.html` on network failure; it never intercepts API routes. Use original purpose-built PNG icons, not assets copied from third parties.
 
 ```js
-const STATIC_CACHE = 'voxlibre-static-v1';
+const STATIC_CACHE = 'verbalibera-static-v1';
 const STATIC_ASSETS = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('fetch', (event) => {
@@ -492,7 +492,7 @@ Expected: every applicable command exits zero; record any environment-blocked Po
 
 ```bash
 git add README.md docs src/app/manifest.ts src/components/pwa public tests e2e .gitignore .env.example
-git commit -m "feat: make VoxLibre installable and documented"
+git commit -m "feat: make VerbaLibera installable and documented"
 ```
 
 - [ ] **Step 7: Publish the verified repository**
@@ -500,8 +500,8 @@ git commit -m "feat: make VoxLibre installable and documented"
 Check the exact owner/repository first. If absent, create it public and push the checked-out `main` branch:
 
 ```bash
-gh repo view sleuthy-sloth/VoxLibre
-gh repo create sleuthy-sloth/VoxLibre --public --source=. --remote=origin --push
+gh repo view sleuthy-sloth/VerbaLibera
+gh repo create sleuthy-sloth/VerbaLibera --public --source=. --remote=origin --push
 ```
 
 Expected: GitHub reports a public repository URL and `git remote -v` shows `origin`. If the repository exists, stop and inspect its owner/content before changing it.

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Deliver VoxLibre’s mobile-first Signal Pop Daily Path dashboard, practical-pattern curriculum copy, optional local Kokoro/faster-whisper voice boundary, and original PWA visual assets.
+**Goal:** Deliver VerbaLibera’s mobile-first Signal Pop Daily Path dashboard, practical-pattern curriculum copy, optional local Kokoro/faster-whisper voice boundary, and original PWA visual assets.
 
 **Architecture:** Pure TypeScript services compose a short daily session and supply a read-only demonstration snapshot to a React Query dashboard. Presentational React components render that snapshot into a responsive Daily Path UI and guided-session route. An optional FastAPI sidecar owns local TTS/STT behind an injected engine interface; Next.js accesses it only through server-side code. Generated Signal Pop assets live in `public/` with provenance and are named by `manifest.ts`.
 
@@ -330,12 +330,12 @@ git commit -m "feat: build Signal Pop daily path dashboard"
 ### Task 4: Generate original Signal Pop visuals and package the PWA shell
 
 **Files:**
-- Create: `public/brand/voxlibre-app-icon-source.png`, `public/icons/voxlibre-192.png`, `public/icons/voxlibre-512.png`, `public/icons/voxlibre-maskable-512.png`, `public/illustrations/daily-practice.png`, `public/offline.html`, `public/sw.js`, `src/app/manifest.ts`, `src/components/pwa/PwaRegistrar.tsx`, `docs/asset-provenance.md`
+- Create: `public/brand/verbalibera-app-icon-source.png`, `public/icons/verbalibera-192.png`, `public/icons/verbalibera-512.png`, `public/icons/verbalibera-maskable-512.png`, `public/illustrations/daily-practice.png`, `public/offline.html`, `public/sw.js`, `src/app/manifest.ts`, `src/components/pwa/PwaRegistrar.tsx`, `docs/asset-provenance.md`
 - Modify: `src/app/layout.tsx`, `tests/app-shell.test.tsx`
 - Test: `tests/manifest.test.ts`, `tests/pwa-registrar.test.tsx`
 
 **Interfaces:**
-- `manifest(): MetadataRoute.Manifest` names `voxlibre-192.png`, `voxlibre-512.png`, and `voxlibre-maskable-512.png` with correct dimensions/purposes.
+- `manifest(): MetadataRoute.Manifest` names `verbalibera-192.png`, `verbalibera-512.png`, and `verbalibera-maskable-512.png` with correct dimensions/purposes.
 - `PwaRegistrar(): null` registers `/sw.js` in the browser only and does nothing during SSR.
 
 - [ ] **Step 1: Write failing manifest and registrar tests**
@@ -346,8 +346,8 @@ import manifest from '@/app/manifest';
 it('declares regular and maskable original Signal Pop icons', () => {
   const appManifest = manifest();
   expect(appManifest.icons).toEqual(expect.arrayContaining([
-    expect.objectContaining({ src: '/icons/voxlibre-192.png', sizes: '192x192' }),
-    expect.objectContaining({ src: '/icons/voxlibre-maskable-512.png', purpose: 'maskable' }),
+    expect.objectContaining({ src: '/icons/verbalibera-192.png', sizes: '192x192' }),
+    expect.objectContaining({ src: '/icons/verbalibera-maskable-512.png', purpose: 'maskable' }),
   ]));
 });
 ```
@@ -367,7 +367,7 @@ Generate a square, text-free source image using this prompt:
 ```text
 Use case: logo-brand
 Asset type: PWA app-icon source and dashboard visual system
-Primary request: an original abstract speech-wave emblem for VoxLibre: a coral curved speech wave and a small lime motion accent inside a rounded indigo square, clean high-contrast silhouette, friendly but adult, premium mobile-app icon
+Primary request: an original abstract speech-wave emblem for VerbaLibera: a coral curved speech wave and a small lime motion accent inside a rounded indigo square, clean high-contrast silhouette, friendly but adult, premium mobile-app icon
 Style/medium: polished contemporary raster illustration, simple geometric forms
 Color palette: ink #20233D, indigo #7068FF, coral #FF765F, lime #B8F266, cloud #F8F7FF
 Constraints: no text, no letters, no faces, no animals, no brand resemblance, no watermark, preserve a large safe margin around the symbol
@@ -383,18 +383,18 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'VoxLibre', short_name: 'VoxLibre', start_url: '/', display: 'standalone',
+    name: 'VerbaLibera', short_name: 'VerbaLibera', start_url: '/', display: 'standalone',
     background_color: '#F8F7FF', theme_color: '#7068FF',
     icons: [
-      { src: '/icons/voxlibre-192.png', sizes: '192x192', type: 'image/png' },
-      { src: '/icons/voxlibre-512.png', sizes: '512x512', type: 'image/png' },
-      { src: '/icons/voxlibre-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: '/icons/verbalibera-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icons/verbalibera-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icons/verbalibera-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
   };
 }
 ```
 
-`sw.js` must cache only `/offline.html`, the three icons, and the generated illustration during install, delete only caches prefixed `voxlibre-static-` during activate, and respond to failed navigation requests with `/offline.html`. It must not intercept `/api/` requests. Render `<PwaRegistrar />` inside `RootLayout` after `QueryProvider`.
+`sw.js` must cache only `/offline.html`, the three icons, and the generated illustration during install, delete only caches prefixed `verbalibera-static-` during activate, and respond to failed navigation requests with `/offline.html`. It must not intercept `/api/` requests. Render `<PwaRegistrar />` inside `RootLayout` after `QueryProvider`.
 
 - [ ] **Step 5: Write asset provenance and verify the PWA shell**
 
@@ -424,7 +424,7 @@ git commit -m "feat: add Signal Pop PWA visuals"
 **Interfaces:**
 - Python `create_app(engine: VoiceEngine): FastAPI` supports dependency-injected fakes in tests.
 - `VoiceEngine.health()`, `VoiceEngine.synthesize(text, language, voice)`, and `VoiceEngine.transcribe(audio, language)` never write learner recordings to disk.
-- TypeScript `getVoiceHealth()` and `transcribeVoiceResponse(formData)` are server-only functions that use `VOXLIBRE_VOICE_SERVICE_URL` and fail closed when unset.
+- TypeScript `getVoiceHealth()` and `transcribeVoiceResponse(formData)` are server-only functions that use `VERBALIBERA_VOICE_SERVICE_URL` and fail closed when unset.
 
 - [ ] **Step 1: Write failing Python service contract tests**
 
@@ -513,7 +513,7 @@ git commit -m "feat: add optional local voice service"
 ### Task 6: Finish documentation and run end-to-end verification
 
 **Files:**
-- Modify: `README.md`, `docs/superpowers/plans/2026-08-30-voxlibre-phase-1.md`
+- Modify: `README.md`, `docs/superpowers/plans/2026-08-30-verbalibera-phase-1.md`
 - Create: `e2e/daily-path.spec.ts`
 - Test: `e2e/daily-path.spec.ts`
 
@@ -567,6 +567,6 @@ Expected: every locally supported command exits zero. Document any non-code plat
 - [ ] **Step 5: Commit Task 6**
 
 ```bash
-git add README.md docs/superpowers/plans/2026-08-30-voxlibre-phase-1.md e2e/daily-path.spec.ts
+git add README.md docs/superpowers/plans/2026-08-30-verbalibera-phase-1.md e2e/daily-path.spec.ts
 git commit -m "docs: complete gamified dashboard handoff"
 ```

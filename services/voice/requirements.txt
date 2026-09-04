@@ -1,4 +1,4 @@
-# Runtime dependencies for the optional, self-hosted VoxLibre voice sidecar.
+# Runtime dependencies for the optional, self-hosted VerbaLibera voice sidecar.
 # Kokoro 0.9.4 requires Python >=3.10,<3.13; the local toolchain uses Python 3.11.
 fastapi==0.115.12
 uvicorn[standard]==0.34.0

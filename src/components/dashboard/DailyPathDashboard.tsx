@@ -48,8 +48,8 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   if (!selectedCourse) {
     return (
       <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
-        <p className={styles.eyebrow}>VoxLibre preview</p>
-        <h1>VoxLibre</h1>
+        <p className={styles.eyebrow}>VerbaLibera preview</p>
+        <h1>VerbaLibera</h1>
         <p>No preview courses are ready yet.</p>
       </main>
     );
@@ -73,9 +73,9 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
       <header className={styles.brandHeader}>
-        <Link className={styles.wordmark} href="/" aria-label="VoxLibre home">
+        <Link className={styles.wordmark} href="/" aria-label="VerbaLibera home">
           <span aria-hidden="true">V</span>
-          VoxLibre
+          VerbaLibera
         </Link>
         <div aria-label="Available courses" className={styles.courseSegments} role="group">
           {progress.courses.map((course, index) => {
@@ -110,7 +110,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
       <section className={styles.intro} aria-labelledby="dashboard-title">
         <p className={styles.eyebrow}>Today · your daily path</p>
         <h1 id="dashboard-title">
-          <span className={styles.srOnly}>VoxLibre — </span>
+          <span className={styles.srOnly}>VerbaLibera — </span>
           Keep your useful phrases moving.
         </h1>
         <p className={styles.introCopy}>

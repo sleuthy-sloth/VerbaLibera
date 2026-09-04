@@ -148,7 +148,7 @@ describe('offline-queue', () => {
 
   it('exposes reviewQueue store constants for IndexedDB', async () => {
     expect(REVIEW_QUEUE_STORE).toBe('reviewQueue');
-    expect(DB_NAME).toBe('voxlibre-offline');
+    expect(DB_NAME).toBe('verbalibera-offline');
     const fs = await import('node:fs');
     const path = await import('node:path');
     const src = fs.readFileSync(path.resolve(process.cwd(), 'src/lib/progress/offline-queue.ts'), 'utf8');

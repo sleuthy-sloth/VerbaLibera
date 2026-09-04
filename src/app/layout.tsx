@@ -21,7 +21,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 export const metadata: Metadata = {
-  title: "VoxLibre · Daily practice path",
+  title: "VerbaLibera · Daily practice path",
   description: "A focused daily path for practical language patterns.",
 };
 

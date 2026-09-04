@@ -31,7 +31,7 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
   }
 
   await page.goto('/login');
-  await expect(page.getByRole('heading', { name: /sign in to voxlibre/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /sign in to verbalibera/i })).toBeVisible();
 
   // Mock registration by directly setting a session cookie via API
   // We will call the register endpoint with a mocked attestation that our server will accept via test double
@@ -43,7 +43,7 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      headers: { 'Set-Cookie': 'voxlibre_session=mock-session-token; Path=/; HttpOnly; SameSite=Lax' },
+      headers: { 'Set-Cookie': 'verbalibera_session=mock-session-token; Path=/; HttpOnly; SameSite=Lax' },
       body: JSON.stringify({ status: 'ok', userId: 'user-e2e' }),
     });
   });
@@ -51,7 +51,7 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
   // After mocked register, we set the cookie manually for the review test
   await context.addCookies([
     {
-      name: 'voxlibre_session',
+      name: 'verbalibera_session',
       value: 'mock-session-token',
       domain: 'localhost',
       path: '/',

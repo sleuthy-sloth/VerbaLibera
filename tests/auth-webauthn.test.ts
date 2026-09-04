@@ -5,7 +5,7 @@ vi.mock('@simplewebauthn/server', async () => {
   return {
     ...actual,
     generateRegistrationOptions: vi.fn(async (opts: never) => ({
-      rp: { name: 'VoxLibre', id: 'localhost' },
+      rp: { name: 'VerbaLibera', id: 'localhost' },
       user: { id: (opts as { userID: string }).userID, name: (opts as { userName: string }).userName, displayName: '' },
       challenge: 'test-challenge-reg',
       pubKeyCredParams: [{ alg: -7, type: 'public-key' }],

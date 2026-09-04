@@ -11,6 +11,6 @@ export default defineConfig({
   datasource: {
     // Prisma 7 keeps connection URLs out of schema.prisma. Validation and
     // client generation do not connect; migrations/seeding require DATABASE_URL.
-    url: process.env.DATABASE_URL ?? 'postgresql://unconfigured@localhost:1/voxlibre',
+    url: process.env.DATABASE_URL ?? 'postgresql://unconfigured@localhost:1/verbalibera',
   },
 });

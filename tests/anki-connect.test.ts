@@ -49,16 +49,16 @@ describe('pushDeckToAnki', () => {
       deck.media.length,
     );
     expect(actions.at(-1)).toBe('addNotes');
-    expect(result).toMatchObject({ deckName: 'VoxLibre::French', added: 10, duplicates: 46, total: 56 });
+    expect(result).toMatchObject({ deckName: 'VerbaLibera::French', added: 10, duplicates: 46, total: 56 });
   });
 
-  it('skips createModel when the VoxLibre model already exists', async () => {
+  it('skips createModel when the VerbaLibera model already exists', async () => {
     const [course] = initialCourses;
     if (!course) throw new Error('missing fixture course');
     const { fetchFn, calls } = mockFetch({
       version: 6,
       createDeck: 1,
-      modelNames: ['Basic', 'VoxLibre'],
+      modelNames: ['Basic', 'VerbaLibera'],
       storeMediaFile: 'stored',
       addNotes: [],
     });
@@ -72,7 +72,7 @@ describe('pushDeckToAnki', () => {
     const { fetchFn, calls } = mockFetch({
       version: 6,
       createDeck: 1,
-      modelNames: ['VoxLibre'],
+      modelNames: ['VerbaLibera'],
       storeMediaFile: 'stored',
       addNotes: [1],
     });
@@ -83,15 +83,15 @@ describe('pushDeckToAnki', () => {
     const addCall = calls.find((call) => (call.body as { action: string }).action === 'addNotes');
     const note = (addCall!.body as { params: { notes: Record<string, unknown>[] } }).params.notes[0]!;
     expect(note).toMatchObject({
-      deckName: 'VoxLibre::French',
-      modelName: 'VoxLibre',
+      deckName: 'VerbaLibera::French',
+      modelName: 'VerbaLibera',
       fields: {
-        ID: 'voxlibre:fr-greet-politely:dialogue',
+        ID: 'verbalibera:fr-greet-politely:dialogue',
         Front: expect.stringContaining('Greet a shopkeeper'),
         Back: expect.stringContaining('Bonjour'),
       },
       options: { allowDuplicate: false },
-      tags: ['voxlibre', 'english-to-french'],
+      tags: ['verbalibera', 'english-to-french'],
     });
   });
 
@@ -112,7 +112,7 @@ describe('pushDeckToAnki', () => {
   it('names the failing media file when app media is unreadable', async () => {
     const [course] = initialCourses;
     if (!course) throw new Error('missing fixture course');
-    const { fetchFn } = mockFetch({ version: 6, createDeck: 1, modelNames: ['VoxLibre'] });
+    const { fetchFn } = mockFetch({ version: 6, createDeck: 1, modelNames: ['VerbaLibera'] });
     await expect(
       pushDeckToAnki(buildAnkiDeck(course), {
         fetchFn,

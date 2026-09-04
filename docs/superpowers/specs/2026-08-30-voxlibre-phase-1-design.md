@@ -1,4 +1,4 @@
-# VoxLibre Phase 1 Design
+# VerbaLibera Phase 1 Design
 
 Date: 2026-08-30
 
@@ -6,7 +6,7 @@ Status: The user approved the proposed architecture in conversation. This writte
 
 ## 1. Objective and scope
 
-Build a runnable, responsive foundation for VoxLibre, a language-learning application that combines deliberate sentence construction with subsequent high-intensity spoken drills. The first release contains two English-source courses: English to French and English to Italian. The data model supports additional language pairs and CEFR levels A1 through C2.
+Build a runnable, responsive foundation for VerbaLibera, a language-learning application that combines deliberate sentence construction with subsequent high-intensity spoken drills. The first release contains two English-source courses: English to French and English to Italian. The data model supports additional language pairs and CEFR levels A1 through C2.
 
 The learner first understands a structural concept, hears a construction prompt, and thinks or speaks without a time limit. After explicitly requesting the instructor's answer, the learner can compare their construction. Merely requesting an answer or finishing audio does not establish mastery. A separate concept assessment is required before related automation drills can be unlocked.
 
@@ -20,7 +20,7 @@ Phase 1 delivers:
 - Server-side curriculum access policy and service boundaries, with tests for concept-specific unlocking.
 - An installable PWA shell, icons, and a safe offline fallback.
 - Setup instructions, an architecture tree, and a concrete voice-validation integration guide.
-- A public GitHub repository at `sleuthy-sloth/VoxLibre`, subject to the name being available.
+- A public GitHub repository at `sleuthy-sloth/VerbaLibera`, subject to the name being available.
 
 The first release seeds two independent A1 course shells:
 
@@ -42,7 +42,7 @@ There is no unauthenticated progress-mutation endpoint. Production service inter
 ### Planned structure
 
 ```text
-VoxLibre/
+VerbaLibera/
 ├── prisma/
 │   ├── schema.prisma
 │   └── migrations/
@@ -178,7 +178,7 @@ Support keyboard navigation, reduced-motion preferences, and screen-reader statu
 
 ## 8. PWA boundary
 
-Provide a manifest with the VoxLibre name, standalone display mode, start URL, theme/background colors, and suitable regular and maskable icons. Register the service worker only in the browser, with versioned caches and explicit old-cache cleanup.
+Provide a manifest with the VerbaLibera name, standalone display mode, start URL, theme/background colors, and suitable regular and maskable icons. Register the service worker only in the browser, with versioned caches and explicit old-cache cleanup.
 
 Phase 1 guarantees an offline fallback after a successful initial online visit, not a complete offline curriculum. Cache only deliberately public static fallback assets. Do not cache authenticated requests, progress mutations, arbitrary APIs, or private learner information. Navigation network failures should reach the fallback rather than an indefinite loading screen.
 
@@ -217,6 +217,6 @@ Phase 1 is ready to publish when:
 
 ## 11. Publication and handoff
 
-Before creating the repository, check whether `sleuthy-sloth/VoxLibre` already exists. If it does, inspect its ownership and content before deciding whether it is the intended destination; do not overwrite an unrelated repository. If it is absent, create it as public, commit the verified application, and push the project.
+Before creating the repository, check whether `sleuthy-sloth/VerbaLibera` already exists. If it does, inspect its ownership and content before deciding whether it is the intended destination; do not overwrite an unrelated repository. If it is absent, create it as public, commit the verified application, and push the project.
 
 The final handoff includes the GitHub URL, links to `schema.prisma` and `AudioPlayer.tsx`, the architecture documentation, verification results, and concrete remaining steps. Deployment credentials and authentication secrets are neither required for the Phase 1 preview nor committed to GitHub.

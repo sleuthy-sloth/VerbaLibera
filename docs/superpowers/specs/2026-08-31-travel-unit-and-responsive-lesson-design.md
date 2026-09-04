@@ -1,4 +1,4 @@
-# VoxLibre Travel Unit and Responsive Lesson Design
+# VerbaLibera Travel Unit and Responsive Lesson Design
 
 Date: 2026-08-31
 
@@ -19,7 +19,7 @@ Every authored pattern follows an original `notice → build → vary → use` s
 3. **Vary:** controlled substitution and transformation prompts change one meaningful part at a time so the learner practices the structure rather than a disconnected word list.
 4. **Use:** an independent scenario asks for an appropriate response; the learner may reveal the model answer and self-check.
 
-This takes inspiration from guided structural reasoning, pattern drills, and scenario-centred communicative lessons. All copy, prompts, accepted responses, dialogues, artwork, and UI remain authored specifically for VoxLibre. The application must not reproduce Language Transfer, DLI/FSI, Busuu, FreeLingo, Lingo Lessons, LibreLingo, or related products' lesson text, recordings, trade dress, characters, or exercise sequences.
+This takes inspiration from guided structural reasoning, pattern drills, and scenario-centred communicative lessons. All copy, prompts, accepted responses, dialogues, artwork, and UI remain authored specifically for VerbaLibera. The application must not reproduce Language Transfer, DLI/FSI, Busuu, FreeLingo, Lingo Lessons, LibreLingo, or related products' lesson text, recordings, trade dress, characters, or exercise sequences.
 
 ## Authored content model
 

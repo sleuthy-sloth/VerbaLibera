@@ -3,7 +3,7 @@ import 'server-only';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
-const connectionString = process.env.DATABASE_URL ?? 'postgresql://unconfigured@localhost:1/voxlibre';
+const connectionString = process.env.DATABASE_URL ?? 'postgresql://unconfigured@localhost:1/verbalibera';
 
 const globalForPrisma = globalThis as typeof globalThis & {
   prisma?: PrismaClient;
