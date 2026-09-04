@@ -149,10 +149,10 @@ describe('PlanOverview', () => {
     const keys = firstWeek.items.map((item, itemIndex) =>
       planItemKey(0, itemIndex, item.conceptId, item.mode, item.drillId),
     );
-    expect(new Set(keys)).toHaveLength(keys.length);
+    expect(new Set(keys).size).toBe(keys.length);
 
     render(<PlanOverview plan={plan} done={{}} onToggle={() => {}} onReset={() => {}} />);
     const ids = screen.getAllByRole('checkbox').map((checkbox) => checkbox.id);
-    expect(new Set(ids)).toHaveLength(ids.length);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
