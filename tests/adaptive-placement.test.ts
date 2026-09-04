@@ -40,7 +40,10 @@ describe('adaptive placement', () => {
   });
 
   it('unlocks the B1 checkpoint only after strong A2 evidence', () => {
-    const a1AndA2 = frenchPlacementItems.filter((item) => item.band !== 'B1').slice(0, 6);
+    const a1AndA2 = [
+      ...frenchPlacementItems.filter((item) => item.band === 'A1').slice(0, 3),
+      ...frenchPlacementItems.filter((item) => item.band === 'A2').slice(0, 3),
+    ];
     const answers = answersFor(a1AndA2.map((item) => item.id), true);
     const next = nextAdaptivePlacementItem(
       frenchPlacementItems,
