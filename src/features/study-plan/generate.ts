@@ -28,17 +28,18 @@ function addDaysUtc(dateIso: string, days: number): string {
   return `${out.getUTCFullYear()}-${pad(out.getUTCMonth() + 1)}-${pad(out.getUTCDate())}`;
 }
 
-// The drill a week practices for a concept: first production drill
-// (substitution/transformation, then cloze when the learner placed above
-// A1), falling back to the first drill of any kind.
+// Placement above A1 unlocks a stretch drill where the concept has one.
+// Otherwise use the first productive drill, then fall back to any drill.
 function mainDrillId(concept: ConceptFixture, stretchUnlocked: boolean): string | null {
-  const production = concept.drills.filter(
-    (drill) =>
-      drill.kind === 'SUBSTITUTION' ||
-      drill.kind === 'TRANSFORMATION' ||
-      (stretchUnlocked && drill.kind === 'CLOZE'),
+  const stretch = stretchUnlocked
+    ? concept.drills.find((drill) => drill.kind === 'CLOZE')
+    : undefined;
+  if (stretch) return stretch.id;
+
+  const production = concept.drills.find(
+    (drill) => drill.kind === 'SUBSTITUTION' || drill.kind === 'TRANSFORMATION',
   );
-  return (production[0] ?? concept.drills[0])?.id ?? null;
+  return (production ?? concept.drills[0])?.id ?? null;
 }
 
 // Pure and idempotent: the same input and concepts always yield the same
