@@ -99,6 +99,22 @@ model PlacementResult {
   @@index([courseSlug])
 }
 
+model StudyPlan {
+  id            String   @id @default(cuid())
+  userId        String?
+  courseSlug    String
+  targetLevel   String
+  daysPerWeek   Int
+  minutesPerDay Int
+  startDate     String
+  planJson      Json
+  createdAt     DateTime @default(now())
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([courseSlug])
+}
+
 model ContentVersion {
   id        String   @id
   version   String
