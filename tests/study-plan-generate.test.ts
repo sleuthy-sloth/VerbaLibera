@@ -55,6 +55,13 @@ describe('generatePlan properties', () => {
     expect(taught.has('fr-find-place')).toBe(true);
   });
 
+  it('uses a CLOZE stretch drill for learners placed above A1', () => {
+    const plan = generatePlan({ ...BASE, startCefr: 'B1' }, FRENCH);
+    expect(
+      plan.weeks.flatMap((week) => week.items).some((item) => item.drillId === 'fr-ordering-politely-cloze'),
+    ).toBe(true);
+  });
+
   it('marks the frontier when the target level has no content yet', () => {
     const plan = generatePlan({ ...BASE, targetLevel: 'B2' }, FRENCH);
     expect(plan.frontier).not.toBeNull();
