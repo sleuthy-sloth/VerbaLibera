@@ -198,6 +198,13 @@ const makePictureDrill = (code: 'fr' | 'it' | 'es' | 'pt', seedId: string) => {
   };
 };
 
+export function vocabWordFor(seedId: string, itemId: string): string | null {
+  const code = seedId.slice(0, 2) as 'fr' | 'it' | 'es' | 'pt';
+  const set = VOCAB_BY_PATTERN[seedId.slice(3)];
+  const item = set?.items.find((entry) => entry.id === itemId);
+  return item?.words[code] ?? null;
+}
+
 const makeConcept = (language: string, position: number, seed: PatternSeed): ConceptFixture => {
   const pilotAudio = lessonAudioFor(seed.id);
   const pictureDrill = makePictureDrill(seed.id.slice(0, 2) as 'fr' | 'it' | 'es' | 'pt', seed.id);

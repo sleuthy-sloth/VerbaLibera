@@ -41,6 +41,7 @@ Working:
 - Exact-concept access policy: a passed assessment unlocks the related drills.
 - Safe PWA shell with original generated assets and a static-only service worker.
 - Optional local FastAPI voice sidecar using Kokoro for TTS and faster-whisper for STT.
+- One-way Anki export: each lesson page has a "Send to Anki" section (56 cards per course — dialogues, recall, listening, vocab with audio and images) via AnkiConnect. Needs Anki desktop open with the AnkiConnect add-on (code 2055492159). Reviews stay in Anki; nothing syncs back.
 
 Not working yet:
 
