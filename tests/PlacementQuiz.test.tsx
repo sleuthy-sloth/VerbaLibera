@@ -68,9 +68,9 @@ describe('PlacementQuiz', () => {
 
     expect(screen.getByText(/starting at the beginning/i)).toBeInTheDocument();
     expect(screen.getByText(/0 of 3/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /start learning/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute(
       'href',
-      '/learn/english-to-french',
+      '/learn/english-to-french/plan',
     );
   });
 
