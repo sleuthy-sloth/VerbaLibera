@@ -51,10 +51,12 @@ async function answerFoundationIncorrectly() {
   const user = userEvent.setup();
   render(<PlacementQuiz courseSlug="english-to-french" />);
 
-  await user.click(screen.getAllByRole('radio').at(-1)!);
+  const firstChoices = screen.getAllByRole('radio');
+  await user.click(firstChoices[firstChoices.length - 1]!);
   await user.click(screen.getByRole('button', { name: 'Continue' }));
 
-  await user.click(screen.getAllByRole('radio').at(-1)!);
+  const secondChoices = screen.getAllByRole('radio');
+  await user.click(secondChoices[secondChoices.length - 1]!);
   await user.click(screen.getByRole('button', { name: 'Continue' }));
 
   await user.type(screen.getByLabelText(/your answer/i), 'wrong answer');
