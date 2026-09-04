@@ -55,7 +55,11 @@ describe('adaptive placement', () => {
   });
 
   it('reports B1+ only after a strong B1 checkpoint', () => {
-    const items = frenchPlacementItems.slice(0, 9);
+    const items = [
+      ...frenchPlacementItems.filter((item) => item.band === 'A1').slice(0, 3),
+      ...frenchPlacementItems.filter((item) => item.band === 'A2').slice(0, 3),
+      ...frenchPlacementItems.filter((item) => item.band === 'B1').slice(0, 3),
+    ];
     const answers = answersFor(items.map((item) => item.id), true);
 
     expect(scoreAdaptivePlacement(frenchPlacementItems, answers)).toMatchObject({
