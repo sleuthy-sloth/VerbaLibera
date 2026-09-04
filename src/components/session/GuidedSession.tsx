@@ -7,6 +7,7 @@ import { hasUnavailableAudio } from '@/components/audio/audio-availability';
 import { PictureChoice } from '@/components/session/PictureChoice';
 import { VoiceRecorder } from '@/components/session/VoiceRecorder';
 import { WordBuilder } from '@/components/session/WordBuilder';
+import { ClozeBuilder } from '@/components/session/ClozeBuilder';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { useReviewMutation } from '@/features/progress/use-review-mutation';
@@ -362,7 +363,13 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                         ))}
                     </div>
                   ) : null}
-                  {activeContent.drill?.kind === 'WORD_ORDER' ? (
+                  {activeContent.drill?.kind === 'CLOZE' ? (
+                    <ClozeBuilder
+                      key={activeContent.drill.id}
+                      template={activeContent.drill.prompt}
+                      onAssemble={setResponseText}
+                    />
+                  ) : activeContent.drill?.kind === 'WORD_ORDER' ? (
                     <WordBuilder
                       key={activeContent.drill.id}
                       drillId={activeContent.drill.id}
@@ -380,33 +387,33 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                       rows={1}
                       disabled={isChecking}
                     />
-                    {verdict && (
-                      <div
-                        ref={verdictRef}
-                        tabIndex={-1}
-                        className={styles.verdictCard}
-                        data-verdict={verdict.limited ? 'limited' : verdict.verdict}
-                        aria-live="polite"
-                        aria-atomic="true"
-                        role="status"
-                        aria-busy={isChecking}
-                      >
-                        <p>
-                          {verdict.limited
-                            ? 'Local checking is unavailable right now — compare with the model answer.'
-                            : verdict.verdict === 'exact'
-                            ? 'That matches an accepted answer.'
-                            : verdict.verdict === 'close'
-                            ? 'Close — compare with the accepted answer.'
-                            : 'Try again, or reveal the model answer.'}
-                        </p>
-                        {verdict.verdict === 'close' && verdict.matchedVariant && (
-                          <p className={styles.verdictHint}>{verdict.matchedVariant}</p>
-                        )}
-                        {!verdict.limited && <p>Checked locally. Nothing was saved.</p>}
-                      </div>
-                    )}
                   </div>
+                  )}
+                  {verdict && (
+                    <div
+                      ref={verdictRef}
+                      tabIndex={-1}
+                      className={styles.verdictCard}
+                      data-verdict={verdict.limited ? 'limited' : verdict.verdict}
+                      aria-live="polite"
+                      aria-atomic="true"
+                      role="status"
+                      aria-busy={isChecking}
+                    >
+                      <p>
+                        {verdict.limited
+                          ? 'Local checking is unavailable right now — compare with the model answer.'
+                          : verdict.verdict === 'exact'
+                          ? 'That matches an accepted answer.'
+                          : verdict.verdict === 'close'
+                          ? 'Close — compare with the accepted answer.'
+                          : 'Try again, or reveal the model answer.'}
+                      </p>
+                      {verdict.verdict === 'close' && verdict.matchedVariant && (
+                        <p className={styles.verdictHint}>{verdict.matchedVariant}</p>
+                      )}
+                      {!verdict.limited && <p>Checked locally. Nothing was saved.</p>}
+                    </div>
                   )}
                   <div className={styles.actionDock}>
                     <button

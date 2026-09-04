@@ -21,6 +21,7 @@ enum DrillKind {
   PICTURE_CHOICE
   LISTEN_TYPE
   WORD_ORDER
+  CLOZE
 }
 
 enum AudioSegmentType {

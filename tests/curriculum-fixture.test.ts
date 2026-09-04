@@ -285,7 +285,11 @@ describe('initial curriculum fixtures', () => {
     const seenImages = new Set<string>();
     for (const course of initialCourses) {
       for (const concept of course.concepts) {
-        expect(concept.drills).toHaveLength(4);
+        // Base set is text + listen + builder + picture; B1 stretch patterns
+        // carry one extra CLOZE drill at the end.
+        const cloze = concept.drills.filter((drill) => drill.kind === 'CLOZE');
+        expect(concept.drills).toHaveLength(4 + cloze.length);
+        expect(cloze.length).toBeLessThanOrEqual(1);
         const picture = concept.drills[3];
         expect(picture).toMatchObject({
           id: `${concept.id}-picture`,
