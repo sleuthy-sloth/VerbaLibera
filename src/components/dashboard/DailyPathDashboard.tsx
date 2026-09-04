@@ -114,7 +114,9 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           Keep your useful phrases moving.
         </h1>
         <p className={styles.introCopy}>
-          Review what is fading, sharpen it in a drill, then leave with one new pattern.
+          Review what is fading, sharpen it in a drill, then leave with one new pattern. Not
+          starting from zero?{' '}
+          <Link href={`/learn/${selectedCourse.slug}/placement`}>Take the 3-minute placement quiz</Link>.
         </p>
         <div className={styles.introArtwork}>
           <Image alt="" height={1024} src="/illustrations/daily-practice.png" width={1536} />
