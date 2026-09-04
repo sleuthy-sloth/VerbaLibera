@@ -1,33 +1,24 @@
 import { test, expect } from '@playwright/test';
 
-test('French placement quiz walks 15 items and reports a band', async ({ page }) => {
+test('French placement exits early for a learner who needs foundations', async ({ page }) => {
   await page.goto('/learn/english-to-french/placement');
 
-  await expect(page.getByText(/placement · 1 of 15/i)).toBeVisible();
+  await expect(page.getByText(/placement · question 1/i)).toBeVisible();
 
-  for (let index = 0; index < 15; index++) {
-    const radios = page.getByRole('radio');
-    if ((await radios.count()) > 0) {
-      await radios.first().check();
-    } else {
-      const blank = page.getByLabel(/blank 1/i);
-      const typed = page.getByLabel(/your answer/i);
-      if ((await blank.count()) > 0) {
-        await blank.fill('test');
-      } else {
-        await typed.fill('test');
-      }
-    }
-    if (index < 14) {
-      await page.getByRole('button', { name: 'Continue' }).click();
-    }
-  }
+  await page.getByRole('radio').last().check();
+  await page.getByRole('button', { name: 'Continue' }).click();
 
+  await page.getByRole('radio').last().check();
+  await page.getByRole('button', { name: 'Continue' }).click();
+
+  await page.getByLabel(/your answer/i).fill('wrong answer');
   await page.getByRole('button', { name: 'See my result' }).click();
-  await expect(page.getByText(/placement result/i)).toBeVisible();
-  await expect(page.getByRole('link', { name: /start learning/i })).toHaveAttribute(
+
+  await expect(page.getByText(/starting at the beginning/i)).toBeVisible();
+  await expect(page.getByText(/0 of 3/i)).toBeVisible();
+  await expect(page.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute(
     'href',
-    '/learn/english-to-french',
+    '/learn/english-to-french/plan',
   );
 });
 
