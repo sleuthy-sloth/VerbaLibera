@@ -61,7 +61,9 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
   ]);
 
   // Now go to a drill and check that review can be submitted (mocked)
+  // Steps 1-2 teach and review; typing starts at the step 3 drill.
   await page.goto('/learn/english-to-french');
+  await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
   const answer = page.getByLabel('Your answer');
   await expect(answer).toBeVisible();
@@ -88,8 +90,9 @@ test('signed-in register → review → reload flow persists (mocked passkey)', 
 
   // Reload and verify that progress would persist (mocked via cookie still present)
   await page.reload();
-  // A fresh reload resets the preview session to step 1 (REVIEW), which has no
-  // answer input. Click Continue once to reach the DRILL step where the input appears.
+  // A fresh reload resets the preview session to step 1 (NEW_PATTERN, taught),
+  // step 2 is REVIEW (no input either) — two Continues reach the DRILL input.
+  await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByLabel('Your answer')).toBeVisible();
 });

@@ -28,6 +28,12 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
   await expect(italianSessionLink).toBeVisible();
   await italianSessionLink.click();
 
+  // Step 1 teaches the greeting up front: model shown, nothing to reveal yet.
+  await expect(page.getByRole('heading', { level: 2, name: /greeting politely/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /reveal model answer/i })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Continue' }).click();
+
+  // Step 2 reviews ordering through reveal.
   await expect(page.getByText(/ordering coffee or food/i)).toBeVisible();
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
 

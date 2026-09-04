@@ -23,12 +23,28 @@ export type DailySessionInput = Readonly<{
 
 export function composeDailySession(input: DailySessionInput): readonly SessionStep[] {
   const maxSteps = Number.isFinite(input.maxSteps) ? Math.max(0, Math.floor(input.maxSteps)) : 0;
-  const steps: SessionStep[] = input.dueReviews.slice(0, maxSteps).map((review) => ({
-    id: review.id,
-    kind: 'REVIEW',
-    courseSlug: input.courseSlug,
-    contentId: review.contentId,
-  }));
+  const steps: SessionStep[] = [];
+
+  // Teach first: the new pattern leads so the learner sees the model
+  // dialogue before any step asks them to produce language.
+  if (input.newPattern && steps.length < maxSteps) {
+    steps.push({
+      id: input.newPattern.id,
+      kind: 'NEW_PATTERN',
+      courseSlug: input.courseSlug,
+      contentId: input.newPattern.contentId,
+    });
+  }
+
+  for (const review of input.dueReviews) {
+    if (steps.length >= maxSteps) break;
+    steps.push({
+      id: review.id,
+      kind: 'REVIEW',
+      courseSlug: input.courseSlug,
+      contentId: review.contentId,
+    });
+  }
 
   for (const drill of input.drillRounds) {
     if (steps.length >= maxSteps) break;
@@ -38,15 +54,6 @@ export function composeDailySession(input: DailySessionInput): readonly SessionS
       courseSlug: input.courseSlug,
       contentId: drill.contentId,
       drillId: drill.drillId,
-    });
-  }
-
-  if (steps.length < maxSteps && input.newPattern) {
-    steps.push({
-      id: input.newPattern.id,
-      kind: 'NEW_PATTERN',
-      courseSlug: input.courseSlug,
-      contentId: input.newPattern.contentId,
     });
   }
 

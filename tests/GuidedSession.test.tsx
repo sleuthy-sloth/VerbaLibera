@@ -24,15 +24,21 @@ describe('GuidedSession', () => {
     // Break caught: session progress is duplicated in a separate navigation rail.
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    expect(screen.getByText(/step 1 of 8 · review/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 1 of 8 · new pattern/i)).toBeInTheDocument();
     expect(screen.queryByRole('navigation', { name: /session steps/i })).not.toBeInTheDocument();
   });
 
-  it('withholds the answer until explicit reveal and resets it on advance', async () => {
-    // Break caught: the model answer is visible before the learner deliberately reveals it.
+  it('teaches the pattern up front, then withholds later answers until reveal', async () => {
+    // Break caught: the session opens by demanding production of unseen language.
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
+    // Step 1 is the new pattern: the model dialogue is taught, not tested.
+    expect(screen.getByText('Bonjour, je voudrais une table, s’il vous plaît.')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /reveal model answer/i })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /^continue$/i }));
+    // Step 2 withholds its own answer until explicit reveal and resets it on advance.
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /reveal model answer/i }));
     expect(screen.getByText('Je voudrais un café, s’il vous plaît.')).toBeInTheDocument();
@@ -40,8 +46,8 @@ describe('GuidedSession', () => {
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
   });
 
-  it('renders the exact review, drill, drill, picture, picture, listen, builder, new-pattern sequence', async () => {
-    // Break caught: the guided path stops honoring review-first session composition.
+  it('renders the exact new-pattern, review, drill, drill, picture, picture, listen, builder sequence', async () => {
+    // Break caught: the guided path stops teaching the new pattern before testing it.
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
@@ -49,17 +55,16 @@ describe('GuidedSession', () => {
       'aria-valuetext',
       'Step 1 of 8',
     );
-    expect(screen.getByText(/step 1 of 8 · review/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 1 of 8 · new pattern/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 2 of 8 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 2 of 8 · review/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText(/step 3 of 8 · drill sprint/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText(/step 4 of 8 · drill sprint/i)).toBeInTheDocument();
-    expect(screen.getByRole('radiogroup', { name: /picture choices/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText(/step 5 of 8 · drill sprint/i)).toBeInTheDocument();
@@ -67,12 +72,13 @@ describe('GuidedSession', () => {
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText(/step 6 of 8 · drill sprint/i)).toBeInTheDocument();
+    expect(screen.getByRole('radiogroup', { name: /picture choices/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.getByText(/step 7 of 8 · drill sprint/i)).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.getByText(/step 8 of 8 · new pattern/i)).toBeInTheDocument();
+    expect(screen.getByText(/step 8 of 8 · drill sprint/i)).toBeInTheDocument();
   });
 
   it('renders the audio player for French polite ordering when every segment is playable', async () => {
@@ -80,10 +86,15 @@ describe('GuidedSession', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
+    // Step 1 teaches the greeting with its own audio…
     expect(screen.getByRole('region', { name: /lesson audio player/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
     expect(screen.queryByText(/audio isn’t included in this preview yet/i)).not.toBeInTheDocument();
+    expect(screen.getByText('Bonjour, je voudrais une table, s’il vous plaît.')).toBeInTheDocument();
 
+    // …step 2 reviews ordering with the same player treatment.
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(screen.getByRole('region', { name: /lesson audio player/i })).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByText('Je voudrais un café, s’il vous plaît.')).toBeInTheDocument();
   });
@@ -96,7 +107,9 @@ describe('GuidedSession', () => {
     expect(screen.getByRole('region', { name: /lesson audio player/i })).toBeInTheDocument();
     expect(screen.queryByText(/audio isn’t included in this preview yet/i)).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: /start lesson/i })).toBeInTheDocument();
+    expect(screen.getByText('Buongiorno, vorrei un tavolo, per favore.')).toBeInTheDocument();
 
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByText('Vorrei un caffè, per favore.')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
@@ -108,7 +121,7 @@ describe('GuidedSession', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await completeIndependentStep(user);
     await completeIndependentStep(user);
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -134,6 +147,7 @@ describe('GuidedSession', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await completeIndependentStep(user);
     await completeIndependentStep(user);
 
@@ -145,6 +159,7 @@ describe('GuidedSession', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     expect(screen.queryByText('Je voudrais un café, s’il vous plaît.')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByText('Je voudrais un café, s’il vous plaît.')).toBeInTheDocument();
@@ -158,6 +173,11 @@ describe('GuidedSession', () => {
     // Break caught: replacing the clicked action drops keyboard focus back to the document body.
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    // Step 1 teaches with a single Continue primary action…
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    // …step 2 review hands focus to its reveal action.
+    expect(screen.getByRole('button', { name: 'Reveal model answer' })).toHaveFocus();
 
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
     expect(screen.getByRole('button', { name: 'I checked my answer' })).toHaveFocus();
@@ -174,7 +194,7 @@ describe('GuidedSession', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await completeIndependentStep(user);
     await completeIndependentStep(user);
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -216,7 +236,7 @@ describe('GuidedSession', () => {
       '/?course=english-to-italian',
     );
 
-    await completeIndependentStep(user);
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await completeIndependentStep(user);
     await completeIndependentStep(user);
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -237,12 +257,17 @@ describe('typed answer checking on DRILL steps', () => {
     vi.unstubAllGlobals();
   });
 
-  it('input is absent on step 1 (REVIEW) and present on step 2 (DRILL) after one Continue', async () => {
+  it('input is absent on teaching and review steps, present on the drill step', async () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
+    // Step 1 teaches the new pattern: no production demanded.
     expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+    // Step 2 reviews: still no typing.
+    expect(screen.queryByLabelText(/your answer/i)).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    // Step 3 drills: typing begins only after teaching.
     expect(screen.getByLabelText(/your answer/i)).toBeInTheDocument();
   });
 
@@ -263,6 +288,8 @@ describe('typed answer checking on DRILL steps', () => {
       ),
     );
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
@@ -291,6 +318,8 @@ describe('typed answer checking on DRILL steps', () => {
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un the s il vous plait');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
@@ -313,6 +342,8 @@ describe('typed answer checking on DRILL steps', () => {
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'completely wrong');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
@@ -324,6 +355,8 @@ describe('typed answer checking on DRILL steps', () => {
     const user = userEvent.setup();
     vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('network'))));
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'anything');
@@ -338,6 +371,8 @@ describe('typed answer checking on DRILL steps', () => {
   it('keeps reveal model answer independent of checking', async () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
@@ -367,6 +402,8 @@ describe('typed answer checking on DRILL steps', () => {
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
@@ -393,6 +430,8 @@ describe('typed answer checking on DRILL steps', () => {
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
     expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
@@ -407,6 +446,8 @@ describe('typed answer checking on DRILL steps', () => {
     let resolveFetch: (value: unknown) => void;
     vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveFetch = resolve; })));
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');

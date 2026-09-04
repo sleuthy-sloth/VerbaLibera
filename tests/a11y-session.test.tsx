@@ -27,7 +27,7 @@ const axeRules = {
 };
 
 describe('a11y session audit — jest-axe + focus + screen reader', () => {
-  it('has no axe violations on initial REVIEW step', async () => {
+  it('has no axe violations on initial NEW_PATTERN teaching step', async () => {
     const { container } = renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
     const results = await axe(container, {
       rules: axeRules,
@@ -38,7 +38,8 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
   it('has no axe violations on DRILL step with answer checking', async () => {
     const user = userEvent.setup();
     const { container } = renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
-    // advance REVIEW -> DRILL
+    // advance NEW_PATTERN -> REVIEW -> DRILL
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     // DRILL now visible with textarea
     expect(screen.getByLabelText(/your answer/i)).toBeInTheDocument();
@@ -49,7 +50,10 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
   });
 
   it('reveal model answer button has explicit aria-label for screen readers', async () => {
+    const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    // Step 1 teaches with the answer shown; the reveal control lives on step 2.
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     const reveal = screen.getByRole('button', { name: /reveal model answer/i });
     // Task 11 requires explicit aria-label on reveal, not just visible text
     expect(reveal).toHaveAttribute('aria-label', 'Reveal model answer');
@@ -57,11 +61,12 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
     expect(reveal).toHaveAccessibleName('Reveal model answer');
   });
 
-  it('second reveal path (REVIEW after DRILL navigation) also has aria-label', async () => {
+  it('second reveal path (REVIEW after teaching navigation) also has aria-label', async () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
-    // Step 1 is REVIEW with its own reveal model answer before DRILL
-    // But ensure after navigating to step 2 DRILL, reveal still labeled
+    // Step 1 is NEW_PATTERN (taught, no reveal); step 2 REVIEW and step 3 DRILL both reveal.
+    // But ensure after navigating to step 3 DRILL, reveal still labeled
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     // Now on DRILL, reveal should still have proper label
     const reveal = screen.getByRole('button', { name: /reveal model answer/i });
@@ -81,6 +86,8 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
       ),
     );
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+    // Step 1 teaches, step 2 reviews — the drill input lives on step 3.
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
@@ -101,6 +108,12 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
   it('supports roving tabIndex: no positive tabIndex, Tab moves without focus trap, and action dock is reachable', async () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+
+    // Step 1 teaches (Continue only); keyboard flow is exercised from step 2 review.
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    // Advancing hands focus to the new primary action — release it so the Tab
+    // walk starts from the top of the document like a fresh keyboard user.
+    (document.activeElement as HTMLElement | null)?.blur?.();
 
     // 1) No element uses positive tabIndex (focus trap signal)
     const positives = Array.from(document.querySelectorAll('[tabindex]')).filter((el: Element) => {
@@ -175,13 +188,13 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
     const user = userEvent.setup();
     renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
 
-    // Complete all steps via reveal/self-check/continue pattern
+    // Complete all steps: Continue past teaching, then reveal/self-check/continue pattern
     async function completeIndependentStep() {
       await user.click(screen.getByRole('button', { name: 'Reveal model answer' }));
       await user.click(screen.getByRole('button', { name: 'I checked my answer' }));
       await user.click(screen.getByRole('button', { name: 'Continue' }));
     }
-    await completeIndependentStep();
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
     await completeIndependentStep();
     await completeIndependentStep();
     await user.click(screen.getByRole('button', { name: 'Continue' }));

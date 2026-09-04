@@ -139,7 +139,9 @@ describe('progress snapshot', () => {
       ]);
       const snapshot = await getProgressSnapshot('user-123');
       const french = snapshot.session.filter((step) => step.courseSlug === 'english-to-french');
-      expect(french[0]).toMatchObject({ kind: 'REVIEW', contentId: 'fr-pay-politely' });
+      // Teaching still leads; the due SRS review follows immediately after.
+      expect(french[0]).toMatchObject({ kind: 'NEW_PATTERN' });
+      expect(french[1]).toMatchObject({ kind: 'REVIEW', contentId: 'fr-pay-politely' });
     });
 
     it('falls back to the demo session when nothing is due', async () => {
