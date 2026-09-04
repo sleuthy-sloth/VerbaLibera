@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 import { ClozeBuilder } from '@/components/session/ClozeBuilder';
 import sessionStyles from '@/components/session/session.module.css';
 import { frenchPlacementItems, type PlacementItem } from '@/features/placement/items';
-import { scorePlacement, type PlacementResult } from '@/features/placement/score';
+import {
+  nextAdaptivePlacementItem,
+  scoreAdaptivePlacement,
+} from '@/features/placement/adaptive';
+import type { PlacementResult } from '@/features/placement/score';
 
 const DRAFT_KEY = 'verbalibera_placement:draft';
 const RESULT_KEY = 'verbalibera_placement';
@@ -57,20 +61,22 @@ function ChoiceStep({
   );
 }
 
+type PlacementDraft = Readonly<{
+  answers?: Record<string, string>;
+  completedItemIds?: readonly string[];
+}>;
+
 export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) {
-  const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [completedItemIds, setCompletedItemIds] = useState<readonly string[]>([]);
   const [result, setResult] = useState<PlacementResult | null>(null);
 
-  // Restore draft/result after mount (deferred so the effect never sets
-  // state synchronously, and SSR prerender stays mismatch-free).
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
-        const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) ?? 'null') as {
-          answers?: Record<string, string>;
-        } | null;
+        const draft = JSON.parse(localStorage.getItem(DRAFT_KEY) ?? 'null') as PlacementDraft | null;
         if (draft?.answers) setAnswers(draft.answers);
+        if (Array.isArray(draft?.completedItemIds)) setCompletedItemIds(draft.completedItemIds);
         const saved = JSON.parse(localStorage.getItem(RESULT_KEY) ?? 'null') as PlacementResult | null;
         if (saved && typeof saved.score === 'number') setResult(saved);
       } catch {
@@ -80,22 +86,29 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
     return () => clearTimeout(timer);
   }, []);
 
-  const item = frenchPlacementItems[index];
-  if (!item) return null;
+  const item = nextAdaptivePlacementItem(frenchPlacementItems, answers, completedItemIds);
   const copy = result ? BAND_COPY[result.band] : null;
 
-  const record = (value: string) => {
-    const next = { ...answers, [item.id]: value };
-    setAnswers(next);
+  const saveDraft = (nextAnswers: Record<string, string>, nextCompleted: readonly string[]) => {
     try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify({ answers: next }));
+      localStorage.setItem(
+        DRAFT_KEY,
+        JSON.stringify({ answers: nextAnswers, completedItemIds: nextCompleted }),
+      );
     } catch {
       // Draft persistence is best-effort.
     }
   };
 
-  const finish = () => {
-    const scored = scorePlacement(frenchPlacementItems, answers, courseSlug);
+  const record = (value: string) => {
+    if (!item) return;
+    const next = { ...answers, [item.id]: value };
+    setAnswers(next);
+    saveDraft(next, completedItemIds);
+  };
+
+  const finish = (finalAnswers = answers) => {
+    const scored = scoreAdaptivePlacement(frenchPlacementItems, finalAnswers, courseSlug);
     setResult(scored);
     try {
       localStorage.setItem(RESULT_KEY, JSON.stringify(scored));
@@ -105,9 +118,28 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
     }
   };
 
+  const advance = () => {
+    if (!item) return;
+    const nextCompleted = [...completedItemIds, item.id];
+    const nextItem = nextAdaptivePlacementItem(frenchPlacementItems, answers, nextCompleted);
+    if (nextItem) {
+      setCompletedItemIds(nextCompleted);
+      saveDraft(answers, nextCompleted);
+    } else {
+      setCompletedItemIds(nextCompleted);
+      finish(answers);
+    }
+  };
+
+  const goBack = () => {
+    const nextCompleted = completedItemIds.slice(0, -1);
+    setCompletedItemIds(nextCompleted);
+    saveDraft(answers, nextCompleted);
+  };
+
   const retake = () => {
     setAnswers({});
-    setIndex(0);
+    setCompletedItemIds([]);
     setResult(null);
     try {
       localStorage.removeItem(DRAFT_KEY);
@@ -126,8 +158,8 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
         </h1>
         <p>{copy.detail}</p>
         <div className={sessionStyles.actionDock}>
-          <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}`}>
-            Start learning
+          <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}/plan`}>
+            Build my learning plan
             <span aria-hidden="true">→</span>
           </Link>
           <button type="button" onClick={retake}>
@@ -138,21 +170,39 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
     );
   }
 
+  if (!item) {
+    return (
+      <main id="main-content" className={sessionStyles.session}>
+        <p className={sessionStyles.eyebrow}>Placement</p>
+        <h1>Your placement is ready.</h1>
+        <button type="button" className={sessionStyles.primaryAction} onClick={() => finish()}>
+          See my result
+          <span aria-hidden="true">→</span>
+        </button>
+      </main>
+    );
+  }
+
   const current = answers[item.id] ?? '';
   const canAdvance = current.trim() !== '';
+  const completesPlacement =
+    nextAdaptivePlacementItem(frenchPlacementItems, answers, [...completedItemIds, item.id]) === null;
 
   return (
     <main id="main-content" className={sessionStyles.session}>
       <p className={sessionStyles.eyebrow}>
-        Placement · {index + 1} of {frenchPlacementItems.length}
+        Placement · question {completedItemIds.length + 1}
       </p>
       <h1>{item.prompt}</h1>
+      <p className={sessionStyles.status}>
+        This short check adapts to your answers, so you only see the levels that help us set your start.
+      </p>
       <div className={sessionStyles.sessionProgress}>
         <progress
           aria-label="Placement progress"
-          aria-valuetext={`Question ${index + 1} of ${frenchPlacementItems.length}`}
-          max={frenchPlacementItems.length}
-          value={index + 1}
+          aria-valuetext={`Question ${completedItemIds.length + 1}`}
+          max={9}
+          value={completedItemIds.length + 1}
         />
       </div>
 
@@ -181,32 +231,20 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
       )}
 
       <div className={sessionStyles.actionDock}>
-        {index > 0 ? (
-          <button type="button" onClick={() => setIndex((i) => Math.max(0, i - 1))}>
+        {completedItemIds.length > 0 ? (
+          <button type="button" onClick={goBack}>
             Back
           </button>
         ) : null}
-        {index < frenchPlacementItems.length - 1 ? (
-          <button
-            type="button"
-            className={sessionStyles.primaryAction}
-            disabled={!canAdvance}
-            onClick={() => setIndex((i) => i + 1)}
-          >
-            Continue
-            <span aria-hidden="true">→</span>
-          </button>
-        ) : (
-          <button
-            type="button"
-            className={sessionStyles.primaryAction}
-            disabled={!canAdvance}
-            onClick={finish}
-          >
-            See my result
-            <span aria-hidden="true">→</span>
-          </button>
-        )}
+        <button
+          type="button"
+          className={sessionStyles.primaryAction}
+          disabled={!canAdvance}
+          onClick={advance}
+        >
+          {completesPlacement ? 'See my result' : 'Continue'}
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
     </main>
   );
