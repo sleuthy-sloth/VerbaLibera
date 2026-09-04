@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AudioPlayer, type AudioSegment } from '@/components/audio/AudioPlayer';
 import { hasUnavailableAudio } from '@/components/audio/audio-availability';
 import { PictureChoice } from '@/components/session/PictureChoice';
+import { VoiceRecorder } from '@/components/session/VoiceRecorder';
 import { WordBuilder } from '@/components/session/WordBuilder';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
@@ -275,6 +276,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   <span>Model answer</span>
                   <strong>{activeContent.concept.modelDialogue.answer}</strong>
                 </div>
+                {hasPlayableAudio ? <VoiceRecorder key={`rec-${activeContent.concept.id}`} /> : null}
                 <div className={styles.actionDock}>
                   <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">
                     Continue
@@ -354,7 +356,6 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                       {activeAudioSegments
                         .filter((segment) => segment.type === 'answer')
                         .map((segment) => (
-                          // eslint-disable-next-line jsx-a11y/media-has-caption
                           <audio key={segment.id} controls preload="none" src={segment.url}>
                             <track kind="captions" />
                           </audio>
