@@ -3,42 +3,56 @@
 import sessionStyles from '@/components/session/session.module.css';
 import type { StudyPlan } from '@/features/study-plan/types';
 
-export function planItemKey(weekIndex: number, conceptId: string, mode: string, drillId?: string) {
-  return `${weekIndex}:${mode}:${conceptId}:${drillId ?? ''}`;
+export function planItemKey(
+  weekIndex: number,
+  itemIndex: number,
+  conceptId: string,
+  mode: string,
+  drillId?: string,
+) {
+  return `${weekIndex}:${itemIndex}:${mode}:${conceptId}:${drillId ?? ''}`;
 }
 
-// Position-based week: skipped days push the schedule instead of shaming it.
-// Completion binding to the daily session arrives in Slice 3; until then the
-// checklist persists locally.
-export function currentWeekIndex(plan: StudyPlan, todayIso: string): number {
-  const [year, month, day] = todayIso.split('-').map(Number);
-  const today = Date.UTC(year!, month! - 1, day!);
-  let current = 0;
-  plan.weeks.forEach((week, index) => {
-    const [wy, wm, wd] = week.startsOn.split('-').map(Number);
-    if (Date.UTC(wy!, wm! - 1, wd!) <= today) current = index;
-  });
-  return current;
+function isWeekComplete(plan: StudyPlan, weekIndex: number, done: Record<string, boolean>): boolean {
+  const week = plan.weeks[weekIndex];
+  return Boolean(
+    week &&
+      week.items.length > 0 &&
+      week.items.every((item, itemIndex) =>
+        done[planItemKey(weekIndex, itemIndex, item.conceptId, item.mode, item.drillId)],
+      ),
+  );
+}
+
+// Position-based progression: missed days do not skip learners ahead.
+export function currentWeekIndex(plan: StudyPlan, done: Record<string, boolean>): number {
+  const firstIncomplete = plan.weeks.findIndex((_, weekIndex) => !isWeekComplete(plan, weekIndex, done));
+  return firstIncomplete === -1 ? Math.max(0, plan.weeks.length - 1) : firstIncomplete;
 }
 
 const MODE_LABEL: Record<string, string> = { teach: 'Learn', drill: 'Drill', review: 'Review' };
 
 export function PlanOverview({
   plan,
-  todayIso,
   done,
   onToggle,
   onReset,
 }: Readonly<{
   plan: StudyPlan;
-  todayIso: string;
   done: Record<string, boolean>;
   onToggle: (key: string, checked: boolean) => void;
   onReset: () => void;
 }>) {
-  const current = currentWeekIndex(plan, todayIso);
-  const doneCount = Object.values(done).filter(Boolean).length;
+  const current = currentWeekIndex(plan, done);
   const totalCount = plan.weeks.reduce((sum, week) => sum + week.items.length, 0);
+  const doneCount = plan.weeks.reduce(
+    (sum, week, weekIndex) =>
+      sum +
+      week.items.filter((item, itemIndex) =>
+        done[planItemKey(weekIndex, itemIndex, item.conceptId, item.mode, item.drillId)],
+      ).length,
+    0,
+  );
 
   return (
     <div>
@@ -60,8 +74,8 @@ export function PlanOverview({
             {weekIndex === current ? ' · this week' : ''}
           </h2>
           <ul>
-            {week.items.map((item) => {
-              const key = planItemKey(weekIndex, item.conceptId, item.mode, item.drillId);
+            {week.items.map((item, itemIndex) => {
+              const key = planItemKey(weekIndex, itemIndex, item.conceptId, item.mode, item.drillId);
               const id = `plan-done-${key.replace(/[^a-z0-9]+/gi, '-')}`;
               return (
                 <li key={key}>
