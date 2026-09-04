@@ -14,12 +14,14 @@ The screenshots show the live app running locally with the Quiet Ink interface �
 
 ## What this is
 
-VerbaLibera is a preview implementation of a practical, drill-first language-learning tool. The current release has two original A1 travel units:
+VerbaLibera is a preview implementation of a practical, drill-first language-learning tool. The current release has four original A1 travel units:
 
 - English → French
 - English → Italian
+- English → Spanish
+- English → Portuguese
 
-Each course currently contains five original travel patterns: greeting politely, ordering, finding a place, asking for help, and paying. Every pattern follows a short `notice → build → vary → use` sequence, with sentence-construction review and controlled drills. Sessions are deliberately bounded to about eight minutes.
+Each course currently contains eight original travel patterns: greeting politely, ordering, finding a place, asking for help, paying, asking directions, hotel check-in, and emergency help. Every pattern follows a short `notice → build → vary → use` sequence, with sentence-construction review and controlled drills. Sessions are deliberately bounded to about eight minutes.
 
 The guided session is built around deliberate retrieval. A learner can reveal the model answer, self-check, and continue with keyboard- and touch-friendly controls. Nothing saved in preview mode represents mastery or proficiency.
 
@@ -29,10 +31,9 @@ This repo is a working preview, not a finished product.
 
 Working:
 
-- Two original A1 travel units with five French and five Italian patterns.
+- Four original A1 travel units (French, Italian, Spanish, Portuguese) with eight patterns each, every pattern carrying a substitution/transformation drill plus a picture-choice drill (22 CC0 photos, provenance in `docs/image-provenance.md`).
 - Responsive dashboard and step-specific guided sessions, including keyboard focus continuity and mobile/desktop browser coverage.
-- Optional model-audio playback with text/reveal fallback when a clip is unavailable.
-- A real French polite-ordering audio pilot: two original Kokoro 0.9.4 / `ff_siwis` WAV clips, committed with hashes and provenance.
+- Model-audio playback for every authored pattern — 64 original Kokoro 0.9.4 WAVs committed with hashes and provenance (`ff_siwis` / `if_sara` / `ef_dora` / `pf_dora`), with honest text/reveal fallback when a clip is unavailable.
 - Typed answer checking on drill steps with an honest three-state verdict — computed locally via the optional voice sidecar, with exact-match fallback when it is off.
 - Passkey accounts (WebAuthn, no passwords) with persisted progress — `GET /api/demo/progress` is account-scoped when signed in and `POST /api/progress/review` is idempotent via `ReviewLog`.
 - Truthful progress copy single-sourced in `src/lib/progress/copy.ts`: `dashboardBadgeCopy({ isPreview })` → `Preview progress` (signed-out preview) / `Saved to your account` (signed-in), `sessionCompletionCopy({ isPreview })` → `Nothing was saved.` (preview) / `Saved to your account.` (signed-in).
@@ -45,8 +46,7 @@ Working:
 
 Not working yet:
 
-- Full audio coverage. Only the French polite-ordering pilot has reviewed technical assets; all remaining patterns retain an honest text-only fallback.
-- Native-speaker linguistic review of the French pilot clips. The required listening checklist is intentionally still open.
+- Full audio coverage review. All 64 clips pass the faster-whisper STT pre-screen; human listening checklists (`docs/audio-quality-checklist-*.md`) are still open.
 - Offline sync for mutable learner data.
 - Hosted voice service. The sidecar is local-only.
 

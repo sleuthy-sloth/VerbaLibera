@@ -8,7 +8,7 @@ All assets in this document are original VerbaLibera project assets. They were g
 - **Tool:** Playwright Chromium against the locally running app (`next dev`, port 3100)
 - **Files:** `docs/screenshots/quiet-ink-dashboard-desktop.png`, `docs/screenshots/quiet-ink-dashboard-mobile.png`, `docs/screenshots/quiet-ink-session-desktop.png`, `docs/screenshots/quiet-ink-session-mobile.png`
 - **Intended use:** README gallery and verification evidence for the Quiet Ink redesign.
-- **Status:** live captures of the app itself; no third-party source material. The earlier `dashboard-*.png` / `session-*.png` captures show the previous interface and are retained as historical evidence referenced by the superpowers plans.
+- **Status:** live captures of the app itself; no third-party source material. Retaken 2026-09-03 after the VoxLibre → VerbaLibera rebrand. The earlier `dashboard-*.png` / `session-*.png` captures (previous interface) were removed — nothing referenced them.
 
 ## Asset status under Quiet Ink
 
