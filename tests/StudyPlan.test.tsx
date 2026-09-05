@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { PlanBuilder } from '@/components/plan/PlanBuilder';
-import { PlanOverview, currentWeekIndex } from '@/components/plan/PlanOverview';
+import { PlanOverview, currentWeekIndex, planItemKey } from '@/components/plan/PlanOverview';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { generatePlan } from '@/features/study-plan/generate';
 import type { StudyPlan } from '@/features/study-plan/types';
@@ -67,6 +67,22 @@ function frenchPlan(): StudyPlan {
   );
 }
 
+function longerFrenchPlan(): StudyPlan {
+  const concepts = initialCourses.find((course) => course.slug === 'english-to-french')!.concepts;
+  return generatePlan(
+    {
+      courseSlug: 'english-to-french',
+      startCefr: 'A1',
+      startConceptId: 'fr-greet-politely',
+      daysPerWeek: 2,
+      minutesPerDay: 5,
+      targetLevel: 'B1',
+      startDate: '2026-09-07',
+    },
+    concepts,
+  );
+}
+
 describe('PlanBuilder', () => {
   it('previews weeks live and saves the plan', async () => {
     const user = userEvent.setup();
@@ -96,7 +112,7 @@ describe('PlanOverview', () => {
     const user = userEvent.setup();
     const onToggle = vi.fn();
     render(
-      <PlanOverview plan={frenchPlan()} todayIso="2026-09-07" done={{}} onToggle={onToggle} onReset={() => {}} />,
+      <PlanOverview plan={frenchPlan()} done={{}} onToggle={onToggle} onReset={() => {}} />,
     );
 
     expect(screen.getByText(/week 1 of/i)).toBeInTheDocument();
@@ -108,24 +124,36 @@ describe('PlanOverview', () => {
     expect(onToggle).toHaveBeenCalledTimes(1);
   });
 
-  it('advances the current week from the date, not the checklist', () => {
-    const concepts = initialCourses.find((course) => course.slug === 'english-to-french')!.concepts;
-    const longPlan = generatePlan(
-      {
-        courseSlug: 'english-to-french',
-        startCefr: 'A1',
-        startConceptId: 'fr-greet-politely',
-        daysPerWeek: 2,
-        minutesPerDay: 5,
-        targetLevel: 'B1',
-        startDate: '2026-09-07',
-      },
-      concepts,
+  it('keeps learners on the first incomplete week instead of advancing by date', () => {
+    const plan = longerFrenchPlan();
+    expect(plan.weeks.length).toBeGreaterThan(1);
+    expect(currentWeekIndex(plan, {})).toBe(0);
+
+    const firstWeekDone = Object.fromEntries(
+      plan.weeks[0]!.items.map((item, itemIndex) => [
+        planItemKey(0, itemIndex, item.conceptId, item.mode, item.drillId),
+        true,
+      ]),
     );
-    expect(longPlan.weeks.length).toBeGreaterThan(1);
-    expect(currentWeekIndex(longPlan, '2026-09-07')).toBe(0);
-    expect(currentWeekIndex(longPlan, '2026-09-20')).toBe(1);
-    expect(currentWeekIndex(longPlan, '2026-01-01')).toBe(0);
+    expect(currentWeekIndex(plan, firstWeekDone)).toBe(1);
+  });
+
+  it('gives repeated review items independent completion identities', () => {
+    const plan = frenchPlan();
+    const firstWeek = plan.weeks[0]!;
+    const reviewIndexes = firstWeek.items
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => item.mode === 'review');
+
+    expect(reviewIndexes.length).toBeGreaterThan(1);
+    const keys = firstWeek.items.map((item, itemIndex) =>
+      planItemKey(0, itemIndex, item.conceptId, item.mode, item.drillId),
+    );
+    expect(new Set(keys).size).toBe(keys.length);
+
+    render(<PlanOverview plan={plan} done={{}} onToggle={() => {}} onReset={() => {}} />);
+    const ids = screen.getAllByRole('checkbox').map((checkbox) => checkbox.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 

@@ -25,9 +25,10 @@ export function splitClozeTemplate(template: string): ClozePart[] {
 type ClozeBuilderProps = Readonly<{
   template: string;
   onAssemble: (text: string) => void;
+  disabled?: boolean;
 }>;
 
-export function ClozeBuilder({ template, onAssemble }: ClozeBuilderProps) {
+export function ClozeBuilder({ template, onAssemble, disabled = false }: ClozeBuilderProps) {
   const parts = useMemo(() => splitClozeTemplate(template), [template]);
   const blankCount = parts.filter((part) => part.kind === 'blank').length;
   const [fills, setFills] = useState<readonly string[]>([]);
@@ -77,6 +78,7 @@ export function ClozeBuilder({ template, onAssemble }: ClozeBuilderProps) {
                 type="text"
                 autoComplete="off"
                 value={fills[part.index] ?? ''}
+                disabled={disabled}
                 onChange={(event) => fill(part.index, event.target.value)}
               />
             </div>

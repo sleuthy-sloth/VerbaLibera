@@ -33,11 +33,6 @@ function placementStart(courseSlug: string): { startCefr: CEFRLevel; startConcep
   return null;
 }
 
-function todayIso(): string {
-  const now = new Date();
-  const pad = (value: number) => String(value).padStart(2, '0');
-  return `${now.getUTCFullYear()}-${pad(now.getUTCMonth() + 1)}-${pad(now.getUTCDate())}`;
-}
 
 export function PlanSection({ courseSlug }: Readonly<{ courseSlug: string }>) {
   const [plan, setPlan] = useState<StudyPlan | null>(null);
@@ -105,7 +100,7 @@ export function PlanSection({ courseSlug }: Readonly<{ courseSlug: string }>) {
       </p>
       <h1>Your {course?.title ?? 'course'} study plan</h1>
       {plan ? (
-        <PlanOverview plan={plan} todayIso={todayIso()} done={done} onToggle={toggle} onReset={reset} />
+        <PlanOverview plan={plan} done={done} onToggle={toggle} onReset={reset} />
       ) : (
         <>
           {placed ? (

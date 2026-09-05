@@ -369,6 +369,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                       key={activeContent.drill.id}
                       template={activeContent.drill.prompt}
                       onAssemble={setResponseText}
+                      disabled={isChecking}
                     />
                   ) : activeContent.drill?.kind === 'WORD_ORDER' ? (
                     <WordBuilder

@@ -60,6 +60,11 @@ describe('ClozeBuilder', () => {
 
     expect(seen.at(-1)).toBe('');
   });
+
+  it('locks its inputs while an answer is being checked', () => {
+    render(<ClozeBuilder template="Hier soir, nous ____ au café." onAssemble={() => {}} disabled />);
+    expect(screen.getByLabelText(/blank 1/i)).toBeDisabled();
+  });
 });
 
 describe('ClozeBuilder in GuidedSession', () => {
