@@ -496,3 +496,21 @@ describe('useReviewMutation offline', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
+
+
+describe('offline review account isolation', () => {
+  it('does not replay reviews after the signed-in session changes', async () => {
+    await clearQueuedReviews();
+    document.cookie = 'verbalibera_csrf=first-session; path=/';
+    await enqueueReview({ drillItemId: 'fr-ordering-politely-drill', verdict: 'exact' });
+    document.cookie = 'verbalibera_csrf=other-session; path=/';
+    const fetchFn = vi.fn().mockResolvedValue({ ok: true });
+    try {
+      expect(await replayQueuedReviews({ fetchFn })).toEqual({ succeeded: 0, failed: 1 });
+      expect(fetchFn).not.toHaveBeenCalled();
+    } finally {
+      document.cookie = 'verbalibera_csrf=; Max-Age=0; path=/';
+      await clearQueuedReviews();
+    }
+  });
+});

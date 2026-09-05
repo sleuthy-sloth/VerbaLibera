@@ -1,3 +1,4 @@
+import { csrfHeaders } from '@/lib/auth/cookies';
 /**
  * Offline review queue — IndexedDB with localStorage fallback.
  *
@@ -20,6 +21,7 @@ export type QueuedReview = Readonly<{
   latencyMs: number | null;
   clientMutationId: string;
   enqueuedAt: number;
+  csrfToken?: string;
 }>;
 
 export type ReviewInput = Readonly<{
@@ -52,6 +54,7 @@ function normalizeInput(input: ReviewInput): QueuedReview {
     latencyMs: input.latencyMs ?? null,
     clientMutationId,
     enqueuedAt: Date.now(),
+    csrfToken: csrfHeaders()['x-csrf-token'],
   };
 }
 
@@ -352,10 +355,15 @@ export async function replayQueuedReviews(options?: { fetchFn?: typeof fetch }):
 
   // Sequential replay to preserve order and avoid thundering
   for (const entry of queued) {
+    // A new sign-in rotates this token. Never attribute another session's work to it.
+    if (entry.csrfToken !== csrfHeaders()['x-csrf-token']) {
+      failed += 1;
+      continue;
+    }
     try {
       const response = await fetchFn('/api/progress/review', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...csrfHeaders() },
         body: JSON.stringify({
           drillItemId: entry.drillItemId,
           verdict: entry.verdict,

@@ -1,20 +1,22 @@
 # VerbaLibera
 
+Live platform: [verbalibera.vercel.app](https://verbalibera.vercel.app).
+
 Language learning through practical sentence construction. VerbaLibera introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
 
-![Dashboard on desktop](docs/screenshots/quiet-ink-dashboard-desktop.png)
+![Dashboard on desktop](docs/screenshots/release/home-1280.png)
 
-![Session on desktop](docs/screenshots/quiet-ink-session-desktop.png)
+![Session on desktop](docs/screenshots/release/lesson-1280.png)
 
 The screenshots show the live app running locally with the Quiet Ink interface — a flat paper canvas, thin rules, and a single teal accent. The dashboard is mobile-first, so the narrow layout is the one most learners will see.
 
-![Dashboard on mobile](docs/screenshots/quiet-ink-dashboard-mobile.png)
+![Dashboard on mobile](docs/screenshots/release/home-390.png)
 
-![Session on mobile](docs/screenshots/quiet-ink-session-mobile.png)
+![Session on mobile](docs/screenshots/release/lesson-390.png)
 
 ## What this is
 
-VerbaLibera is a preview implementation of a practical, drill-first language-learning tool. The current release has four original A1 travel units:
+VerbaLibera is a preview implementation of a practical, teaching-first language-learning tool. The current release has four original A1 travel units:
 
 - English → French
 - English → Italian
@@ -22,6 +24,10 @@ VerbaLibera is a preview implementation of a practical, drill-first language-lea
 - English → Portuguese
 
 Each course currently contains eight original travel patterns: greeting politely, ordering, finding a place, asking for help, paying, asking directions, hotel check-in, and emergency help. Every pattern follows a short `notice → build → vary → use` sequence, with sentence-construction review and controlled drills. Sessions are deliberately bounded to about eight minutes.
+
+Every lesson now includes an authored explanation, translated sentence parts, and a worked variation before practice. Its exercises stay on the pattern just taught. All eight lessons in each language are accessible from the course index.
+
+Optional placement recommends a specific available starting lesson. French has 15 questions spanning beginner and intermediate material; Italian, Spanish, and Portuguese each have eight checks of the available A1 travel patterns. These are rough starting recommendations, not validated CEFR certifications. Results and study-plan checklists stay in the current browser.
 
 The guided session is built around deliberate retrieval. A learner can reveal the model answer, self-check, and continue with keyboard- and touch-friendly controls. Nothing saved in preview mode represents mastery or proficiency.
 
@@ -37,30 +43,30 @@ Working:
 - Typed answer checking on drill steps with an honest three-state verdict — computed locally via the optional voice sidecar, with exact-match fallback when it is off.
 - Passkey accounts (WebAuthn, no passwords) with persisted progress — `GET /api/demo/progress` is account-scoped when signed in and `POST /api/progress/review` is idempotent via `ReviewLog`.
 - Truthful progress copy single-sourced in `src/lib/progress/copy.ts`: `dashboardBadgeCopy({ isPreview })` → `Preview progress` (signed-out preview) / `Saved to your account` (signed-in), `sessionCompletionCopy({ isPreview })` → `Nothing was saved.` (preview) / `Saved to your account.` (signed-in).
-- Prisma/PostgreSQL schema for users, courses, concepts, drills, progress, and audio segments.
+- Prisma/PostgreSQL schema for users, courses, concepts, drills, progress, audio segments, and expiring single-use passkey challenges.
 - SM-2 sentence-construction scheduler (quality mapping keeps answer reveal from counting as mastery).
 - Exact-concept access policy: a passed assessment unlocks the related drills.
-- Safe PWA shell with original generated assets and a static-only service worker.
+- Safe PWA shell with original generated assets and a static-only service worker. Personalized HTML and API responses are never cached; offline navigation shows a reconnect page.
 - Optional local FastAPI voice sidecar using Kokoro for TTS and faster-whisper for STT.
-- One-way Anki export: each lesson page has a "Send to Anki" section (56 cards per course — dialogues, recall, listening, vocab with audio and images) via AnkiConnect. Needs Anki desktop open with the AnkiConnect add-on (code 2055492159). Reviews stay in Anki; nothing syncs back.
+- One-way Anki export: each lesson page has a "Take these lessons to Anki" section (56 cards per course — dialogues, recall, listening, vocab with audio and images) via AnkiConnect. Needs Anki desktop open with the AnkiConnect add-on (code 2055492159). Reviews stay in Anki; nothing syncs back.
 
 Not working yet:
 
 - Full audio coverage review. All 64 clips pass the faster-whisper STT pre-screen; human listening checklists (`docs/audio-quality-checklist-*.md`) are still open.
-- Offline sync for mutable learner data.
+- Cross-device study-plan and placement sync. Offline review queuing is limited to the current signed-in session; queued work is never replayed into another session.
 - Hosted voice service. The sidecar is local-only.
 
 Privacy-wise, no learner audio is persisted by default. The voice route returns only a transcript and status; it does not store recordings or transcripts. Typed drill answers are checked locally too: they travel only to the optional local sidecar and are never stored — and when the sidecar is off, checking degrades to exact-match comparison against the authored variants.
 
 ## Accounts and data truthfulness
 
-VerbaLibera now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session completion says "Nothing was saved.", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. This preview is byte-identical to the original release. Copy is single-sourced in `src/lib/progress/copy.ts` (`dashboardBadgeCopy({ isPreview })` and `sessionCompletionCopy({ isPreview })`), wired into `DailyPathDashboard` and `GuidedSession`.
+VerbaLibera now supports passkey accounts. Signed-out visitors see a fully honest preview: the dashboard badge says "Preview progress", the session completion says "Nothing was saved.", and `GET /api/demo/progress` returns the same fixture snapshot for everyone. Copy is single-sourced in `src/lib/progress/copy.ts` (`dashboardBadgeCopy({ isPreview })` and `sessionCompletionCopy({ isPreview })`), wired into `DailyPathDashboard` and `GuidedSession`.
 
 When you create a passkey (WebAuthn, no passwords) and sign in, your progress becomes account-scoped and persisted:
 
-- `GET /api/demo/progress` then composes your `DemoProgressSnapshot` from your `UserProgress` rows, with `dueReviewCount` derived per request from `dueAt <= now`.
+- `GET /api/demo/progress` derives due reviews from `UserProgress`, XP and daily activity from `ReviewLog`, and assessed course completion from `ConceptMastery`. New accounts start at zero. The next lesson advances after a successful saved production review.
 - `POST /api/progress/review` applies SM-2 server-side, is idempotent via `clientMutationId`, and logs each review in `ReviewLog`.
-- The UI badge then says "Saved to your account" and due counts reflect your real queue. Session completion then says "Saved to your account." The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
+- The UI badge then says "Saved to your account" and due counts reflect your real queue. Session completion reports how many review results were actually saved, with separate wording for queued or unsaved practice. The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
 
 Learner progress is visible only to that account. No third-party trackers are used.
 
@@ -140,7 +146,7 @@ The optional voice companion runs locally and is called only through server-only
 
 ## Status and roadmap
 
-VerbaLibera is in active development. Immediate next steps are native-speaker review and expansion of the audio pilot and offline lesson sync. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VerbaLibera is in active development. Next priorities are native-speaker review of teaching notes and audio, deeper A1/A2 curricula, and connecting study-plan checklists to lesson completion. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 

@@ -156,3 +156,11 @@ describe('PlanOverview', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+
+it('gives repeated scheduled reviews independent identities and readable labels', () => {
+  render(<PlanOverview plan={frenchPlan()} todayIso="2026-09-07" done={{}} onToggle={() => {}} onReset={() => {}} />);
+  const inputs = screen.getAllByRole('checkbox');
+  expect(new Set(inputs.map(input => input.id)).size).toBe(inputs.length);
+  expect(screen.queryByText(/fr-greet-politely/)).not.toBeInTheDocument();
+});

@@ -15,7 +15,9 @@ vi.mock('@/lib/prisma', () => ({
     },
     reviewLog: {
       findMany: vi.fn().mockResolvedValue([]),
+      count: vi.fn().mockResolvedValue(0),
     },
+    conceptMastery: { findMany: vi.fn().mockResolvedValue([]) },
   },
 }));
 
@@ -133,7 +135,7 @@ describe('progress snapshot', () => {
       const mockDue = prisma.userProgress.findMany as unknown as ReturnType<typeof vi.fn>;
       mockDue.mockResolvedValue([
         {
-          drillItemId: 'fr-pay-politely-drill',
+          drillItemId: 'fr-pay-politely-drill', dueAt: new Date('2026-09-03T00:00:00Z'), lastQuality: 4,
           drillItem: { conceptBlock: { id: 'fr-pay-politely', course: { slug: 'english-to-french' } } },
         },
       ]);
@@ -141,12 +143,38 @@ describe('progress snapshot', () => {
       const french = snapshot.session.filter((step) => step.courseSlug === 'english-to-french');
       // Teaching still leads; the due SRS review follows immediately after.
       expect(french[0]).toMatchObject({ kind: 'NEW_PATTERN' });
-      expect(french[1]).toMatchObject({ kind: 'REVIEW', contentId: 'fr-pay-politely' });
+      expect(french.find(step => step.id.endsWith('-due'))).toMatchObject({ kind: 'DRILL', contentId: 'fr-pay-politely', drillId: 'fr-pay-politely-drill' });
     });
 
-    it('falls back to the demo session when nothing is due', async () => {
+    it('starts a coherent first lesson when nothing has been practiced', async () => {
       const snapshot = await getProgressSnapshot('user-123');
-      expect(snapshot.session).toEqual(demoProgress.session);
+      expect(snapshot.session.filter(step => step.courseSlug === 'english-to-french').every(step => step.contentId === 'fr-greet-politely')).toBe(true);
     });
+  });
+});
+
+
+describe('account metrics never borrow preview activity', () => {
+  beforeEach(() => {
+    vi.mocked(prisma.userProgress.count).mockResolvedValue(7);
+    vi.mocked(prisma.userProgress.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.reviewLog.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.reviewLog.count).mockResolvedValue(0);
+    vi.mocked(prisma.conceptMastery.findMany).mockResolvedValue([]);
+  });
+  it('starts an account at zero even with reviews waiting', async () => {
+    const snapshot = await getProgressSnapshot('new-user');
+    expect(snapshot.xp).toBe(0);
+    expect(snapshot.dailyGoal.completed).toBe(0);
+    expect(snapshot.practiceFlowDays).toBe(0);
+    expect(snapshot.courses.every(course => course.completionPercent === 0)).toBe(true);
+    expect(snapshot.isPreview).toBe(false);
+  });
+  it('counts completed reviews today separately from the due queue', async () => {
+    vi.mocked(prisma.reviewLog.count).mockResolvedValueOnce(9).mockResolvedValueOnce(2);
+    const snapshot = await getProgressSnapshot('active-user');
+    expect(snapshot.xp).toBe(90);
+    expect(snapshot.dailyGoal.completed).toBe(2);
+    expect(snapshot.dueReviewCount).toBe(7);
   });
 });

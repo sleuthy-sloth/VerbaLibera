@@ -34,10 +34,10 @@ describe('scorePlacement', () => {
     expect(scorePlacement(frenchPlacementItems, answersFor(correct)).band).toBe(band);
   });
 
-  it('points A1 at the first concept and B1 at the stretch drills', () => {
+  it('points learners to the first missed foundation', () => {
     const a1 = scorePlacement(frenchPlacementItems, answersFor(3));
     expect(a1.startCefr).toBe('A1');
-    expect(a1.startConceptId).toBe('fr-greet-politely');
+    expect(a1.startConceptId).toBe('fr-pay-politely');
 
     const b1 = scorePlacement(frenchPlacementItems, answersFor(12));
     expect(b1.startCefr).toBe('B1');
@@ -55,4 +55,10 @@ describe('scorePlacement', () => {
     const result = scorePlacement(frenchPlacementItems, answers);
     expect(result.score).toBe(1);
   });
+});
+
+it('recommends an available lesson for the first missed foundation', () => {
+  const answers = answersFor(15);
+  answers['fr-place-3'] = 'wrong';
+  expect(scorePlacement(frenchPlacementItems, answers).startConceptId).toBe('fr-find-place');
 });

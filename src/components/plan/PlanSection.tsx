@@ -17,14 +17,14 @@ function doneKey(courseSlug: string) {
   return `verbalibera_plan_done:${courseSlug}`;
 }
 
-function placementStart(): { startCefr: CEFRLevel; startConceptId: string } | null {
+function placementStart(courseSlug: string): { startCefr: CEFRLevel; startConceptId: string } | null {
   try {
-    const saved = JSON.parse(localStorage.getItem('verbalibera_placement') ?? 'null') as {
+    const saved = JSON.parse(localStorage.getItem(`verbalibera_placement:${courseSlug}`) ?? 'null') as {
       band?: string;
       startCefr?: CEFRLevel;
       startConceptId?: string;
     } | null;
-    if (saved?.startConceptId && saved?.startCefr) {
+    if (saved?.startConceptId && saved?.startCefr && initialCourses.find(course => course.slug === courseSlug)?.concepts.some(concept => concept.id === saved.startConceptId)) {
       return { startCefr: saved.startCefr, startConceptId: saved.startConceptId };
     }
   } catch {
@@ -61,7 +61,7 @@ export function PlanSection({ courseSlug }: Readonly<{ courseSlug: string }>) {
 
   const course = initialCourses.find((candidate) => candidate.slug === courseSlug);
   const fallbackConcept = course?.concepts[0]?.id ?? '';
-  const placed = placementStart();
+  const placed = placementStart(courseSlug);
 
   const save = (next: StudyPlan) => {
     setPlan(next);

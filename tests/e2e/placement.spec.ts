@@ -19,6 +19,7 @@ test('French placement exits early for a learner who needs foundations', async (
   await expect(page.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute(
     'href',
     '/learn/english-to-french/plan',
+    /^\/learn\/english-to-french\?concept=fr-/,
   );
 });
 
@@ -29,7 +30,7 @@ test('dashboard links to the placement quiz', async ({ page }) => {
   ).toHaveAttribute('href', /\/learn\/.*\/placement/);
 });
 
-test('non-French placement is honestly unavailable', async ({ page }) => {
+test('Italian placement checks available beginner patterns', async ({ page }) => {
   await page.goto('/learn/english-to-italian/placement');
-  await expect(page.getByText(/placement is french-first/i)).toBeVisible();
+  await expect(page.getByText(/placement · 1 of 8/i)).toBeVisible();
 });

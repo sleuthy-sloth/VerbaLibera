@@ -165,7 +165,7 @@ export async function seed(prisma: PrismaClient): Promise<void> {
     // ConceptAssessment, ConceptMastery, ReviewLog, Credential are preserved
     // across seeds thanks to Restrict FKs and upsert-only logic.
     void fixtureHash;
-  });
+  }, { timeout: 60000, maxWait: 10000 });
 }
 
 async function main() {

@@ -2,6 +2,7 @@ import 'server-only';
 
 import { NextResponse } from 'next/server';
 
+import { challengeOptions, consumeChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
@@ -89,9 +90,10 @@ async function postHandler(request: Request) {
 
   const accountIdentifier = (body as { accountIdentifier?: unknown }).accountIdentifier;
   const attestationResponse = (body as { attestationResponse?: unknown }).attestationResponse;
-  const expectedChallenge = (body as { expectedChallenge?: unknown }).expectedChallenge;
+  const challenge = await consumeChallenge(request, 'register');
+  const expectedChallenge = challenge?.challenge;
 
-  if (typeof accountIdentifier !== 'string' || !accountIdentifier.trim()) {
+  if (typeof accountIdentifier !== 'string' || !accountIdentifier.trim() || accountIdentifier.trim() !== challenge?.accountIdentifier) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
   if (!attestationResponse || typeof attestationResponse !== 'object') {
@@ -113,21 +115,12 @@ async function postHandler(request: Request) {
 
     const { credentialId, publicKey, counter, transports } = verification.credential;
 
-    // Upsert user by accountIdentifier
-    const user = await prisma.user.upsert({
-      where: { accountIdentifier: accountIdentifier.trim() },
-      update: {},
-      create: { accountIdentifier: accountIdentifier.trim() },
-    });
-
-    // Persist credential
-    await prisma.credential.create({
+    // A new passkey cannot be attached to an existing account by name.
+    // The unique identifier and nested write make registration atomic.
+    const user = await prisma.user.create({
       data: {
-        userId: user.id,
-        credentialId,
-        publicKey: Buffer.from(publicKey),
-        counter: BigInt(counter),
-        transports: transports ? transports.join(',') : null,
+        accountIdentifier: accountIdentifier.trim(),
+        credentials: { create: { credentialId, publicKey: Buffer.from(publicKey), counter: BigInt(counter), transports: transports ? transports.join(',') : null } },
       },
     });
 
@@ -136,6 +129,7 @@ async function postHandler(request: Request) {
     const response = NextResponse.json({ status: 'ok', userId: user.id }, { status: 200, headers: NO_STORE_HEADERS });
     response.cookies.set(getSessionCookieName(), token, sessionCookieOptions() as never);
     response.cookies.set(CSRF_COOKIE_NAME, csrfToken, csrfCookieOptions() as never);
+    response.cookies.set(CHALLENGE_COOKIE, '', { path: '/', maxAge: 0 });
     return response;
   } catch {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
@@ -143,3 +137,5 @@ async function postHandler(request: Request) {
 }
 
 export const POST = withObserve('/api/auth/register', postHandler);
+
+export const GET = (request: Request) => challengeOptions(request, 'register');

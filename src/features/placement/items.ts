@@ -1,9 +1,11 @@
+import { initialCourses } from '@/features/curriculum/fixture';
 export type PlacementBand = 'A1' | 'A2' | 'B1';
 
 export type PlacementItemKind = 'CHOICE' | 'CLOZE' | 'PRODUCTION';
 
 export type PlacementItem = Readonly<{
   id: string;
+  conceptId?: string;
   band: PlacementBand;
   kind: PlacementItemKind;
   prompt: string;
@@ -65,7 +67,7 @@ export const frenchPlacementItems: readonly PlacementItem[] = [
   },
   {
     id: 'fr-place-8', band: 'A2', kind: 'CLOZE',
-    prompt: 'Complete with the right pronoun: Je ____ ai parlé hier.',
+    prompt: 'Complete with “to them”: Je ____ ai parlé hier.',
     acceptedResponses: ['Je leur ai parlé hier.'],
   },
   {
@@ -113,3 +115,22 @@ export const frenchPlacementItems: readonly PlacementItem[] = [
     acceptedResponses: [],
   },
 ];
+
+
+export function placementItemsFor(courseSlug: string): readonly PlacementItem[] {
+  if (courseSlug === 'english-to-french') return frenchPlacementItems;
+  const course = initialCourses.find(course => course.slug === courseSlug);
+  if (!course) return [];
+  return course.concepts.map((concept, index) => {
+    const answer = concept.modelDialogue.answer;
+    const choices = [answer, course.concepts[(index + 2) % course.concepts.length].modelDialogue.answer, course.concepts[(index + 4) % course.concepts.length].modelDialogue.answer];
+    const offset = index % choices.length;
+    return {
+      id: `${concept.id}-placement`, conceptId: concept.id, band: 'A1' as const,
+      kind: index % 2 === 0 ? 'CHOICE' as const : 'PRODUCTION' as const,
+      prompt: concept.modelDialogue.prompt,
+      choices: [...choices.slice(offset), ...choices.slice(0, offset)],
+      answerKey: answer, acceptedResponses: [answer],
+    };
+  });
+}

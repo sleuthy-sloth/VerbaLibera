@@ -50,6 +50,8 @@ model User {
   masteries         ConceptMastery[]
   credentials       Credential[]
   reviewLogs        ReviewLog[]
+  placements        PlacementResult[]
+  studyPlans        StudyPlan[]
 }
 
 model Credential {
@@ -251,4 +253,14 @@ model ConceptMastery {
 
   @@unique([userId, conceptBlockId])
   @@unique([assessmentId, userId, conceptBlockId])
+}
+
+model AuthChallenge {
+  id                String   @id
+  challenge         String
+  purpose           String
+  accountIdentifier String?
+  expiresAt         DateTime
+
+  @@index([expiresAt])
 }

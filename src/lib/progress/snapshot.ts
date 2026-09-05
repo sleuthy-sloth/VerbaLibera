@@ -1,8 +1,9 @@
 import 'server-only';
 
+import { initialCourses } from '@/features/curriculum/fixture';
 import { demoProgress } from '@/features/progress/demo-progress';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
-import { composeDailySession } from '@/features/session/compose-session';
+import { composeLessonSession } from '@/features/session/lesson-path';
 import type { SessionStep } from '@/features/session/compose-session';
 import { computeStreak } from '@/features/srs/streaks';
 import { prisma } from '@/lib/prisma';
@@ -41,9 +42,14 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
     },
   });
 
-  const totalProgress = await prisma.userProgress.count({
-    where: { userId },
-  });
+  const today = new Date(now);
+  today.setUTCHours(0, 0, 0, 0);
+  const [totalReviews, todayReviews, masteries] = await Promise.all([
+    prisma.reviewLog.count({ where: { userId } }),
+    prisma.reviewLog.count({ where: { userId, createdAt: { gte: today, lte: now } } }),
+    prisma.conceptMastery.findMany({ where: { userId }, select: { conceptBlockId: true } }),
+  ]);
+  const mastered = new Set(masteries.map(row => row.conceptBlockId));
 
   // Streak from distinct UTC activity days (review log); quiet today is fine
   // if yesterday was active — computeStreak owns that rule.
@@ -63,14 +69,20 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
     streakDays = 0;
   }
 
-  // Simple derivation: dailyGoal completed is min(dueCount, target) or based on progress?
-  // For now, use demoProgress as base but override dueReviewCount and xp
   const base = demoProgress;
-  const xp = base.xp + totalProgress * 10; // derived from fiction math: demoProgress.xp + 10 XP per reviewed item
-  const completed = Math.min(dueCount, base.dailyGoal.target);
+  const xp = totalReviews * 10;
+  const completed = Math.min(todayReviews, base.dailyGoal.target);
 
   return {
     ...base,
+    isPreview: false,
+    practiceFlowDays: streakDays,
+    courses: initialCourses.map(course => ({
+      slug: course.slug,
+      title: course.title,
+      unitLabel: `Unit 1: ${course.concepts[0]?.scenario ?? 'Patterns'}`,
+      completionPercent: Math.round(100 * course.concepts.filter(c => mastered.has(c.id)).length / Math.max(1, course.concepts.length)),
+    })),
     dueReviewCount: dueCount,
     xp,
     streakDays,
@@ -81,66 +93,25 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
   };
 }
 
-/**
- * Prefer the learner's own SRS-due items: due UserProgress rows become REVIEW
- * steps ahead of the fixture drill rounds, per course. Falls back to the
- * demo session when nothing is due (or the query fails).
- */
 async function buildSignedInSession(
   userId: string,
   now: Date,
-  fallback: DemoProgressSnapshot['session'],
+  _fallback: DemoProgressSnapshot['session'],
 ): Promise<readonly SessionStep[]> {
-  let dueRows: {
-    drillItemId: string;
-    drillItem: { conceptBlock: { id: string; course: { slug: string } } };
-  }[];
-  try {
-    dueRows = (await prisma.userProgress.findMany({
-      where: { userId, dueAt: { lte: now } },
-      include: { drillItem: { include: { conceptBlock: { include: { course: true } } } } },
-      orderBy: { dueAt: 'asc' },
-      take: 12,
-    })) as typeof dueRows;
-  } catch {
-    return fallback;
-  }
-  if (dueRows.length === 0) return fallback;
-
-  const byCourse = new Map<string, typeof dueRows>();
-  for (const row of dueRows) {
-    const slug = row.drillItem.conceptBlock.course.slug;
-    byCourse.set(slug, [...(byCourse.get(slug) ?? []), row]);
-  }
-
-  const courseOrder: string[] = [];
-  for (const step of fallback) {
-    if (!courseOrder.includes(step.courseSlug)) courseOrder.push(step.courseSlug);
-  }
-
-  return courseOrder.flatMap((courseSlug) => {
-    const rows = byCourse.get(courseSlug) ?? [];
-    const baseSteps = fallback.filter((step) => step.courseSlug === courseSlug);
-    if (rows.length === 0) return baseSteps;
-    const dueReviews = rows.slice(0, 4).map((row, index) => ({
-      id: `${row.drillItemId}-review-${index}`,
-      contentId: row.drillItem.conceptBlock.id,
+  const practiced = await prisma.userProgress.findMany({ where: { userId } });
+  const completed = new Set(practiced.filter(row => (row.lastQuality ?? 0) >= 3).map(row => row.drillItemId));
+  return initialCourses.flatMap(course => {
+    const next = course.concepts.find(concept => !completed.has(`${concept.id}-drill`));
+    const steps = next ? [...composeLessonSession(course, next.id)] : [];
+    const due = practiced.filter(row => row.dueAt <= now && course.concepts.some(concept => concept.drills.some(drill => drill.id === row.drillItemId)))
+      .sort((a, b) => a.dueAt.getTime() - b.dueAt.getTime()).slice(0, 4);
+    const reviews = due.map(row => ({
+      id: `${row.drillItemId}-due`, kind: 'DRILL' as const, courseSlug: course.slug,
+      contentId: course.concepts.find(concept => concept.drills.some(drill => drill.id === row.drillItemId))!.id,
+      drillId: row.drillItemId,
     }));
-    const drillRounds = baseSteps
-      .filter((step) => step.kind === 'DRILL')
-      .map((step) => ({
-        id: step.id,
-        contentId: step.contentId,
-        drillId: (step as { drillId?: string }).drillId ?? step.contentId,
-      }));
-    const newPattern = baseSteps.find((step) => step.kind === 'NEW_PATTERN');
-    return composeDailySession({
-      courseSlug,
-      dueReviews,
-      drillRounds,
-      newPattern: newPattern ? { id: newPattern.id, contentId: newPattern.contentId } : null,
-      maxSteps: 8,
-    });
+    // A new lesson teaches first; reviews already encountered by this learner follow.
+    return [...steps, ...reviews];
   });
 }
 

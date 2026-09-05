@@ -48,10 +48,17 @@ export function scorePlacement(
   courseSlug = 'english-to-french',
 ): PlacementResult {
   const score = items.filter((item) => isPlacementCorrect(item, answers[item.id] ?? '')).length;
-  const startConceptId = startConceptIdFor(courseSlug);
+  const course = initialCourses.find(course => course.slug === courseSlug);
+  const frenchFoundations: Record<string, string> = {
+    'fr-place-1': 'fr-greet-politely', 'fr-place-2': 'fr-ordering-politely',
+    'fr-place-3': 'fr-find-place', 'fr-place-4': 'fr-pay-politely', 'fr-place-5': 'fr-ask-help',
+  };
+  const firstGap = items.find(item => item.band === 'A1' && !isPlacementCorrect(item, answers[item.id] ?? ''));
+  const startConceptId = (firstGap ? firstGap.conceptId ?? frenchFoundations[firstGap.id] : course?.concepts[5]?.id) ?? startConceptIdFor(courseSlug);
   const base = { score, total: items.length, startConceptId, stretchUnlocked: false, aboveContent: false } as const;
+  if (courseSlug !== 'english-to-french') return { ...base, band: 'A1', startCefr: 'A1' };
   if (score <= 5) return { ...base, band: 'A1', startCefr: 'A1' };
-  if (score <= 10) return { ...base, band: 'A2', startCefr: 'A2', stretchUnlocked: true };
-  if (score <= 13) return { ...base, band: 'B1', startCefr: 'B1', stretchUnlocked: true };
-  return { ...base, band: 'B1+', startCefr: 'B1', stretchUnlocked: true, aboveContent: true };
+  if (score <= 10) return { ...base, band: 'A2', startCefr: 'A2', stretchUnlocked: false };
+  if (score <= 13) return { ...base, band: 'B1', startCefr: 'B1', stretchUnlocked: false };
+  return { ...base, band: 'B1+', startCefr: 'B1', stretchUnlocked: false, aboveContent: true };
 }

@@ -59,16 +59,11 @@ describe('static PWA service worker contract', () => {
     const assets = staticAssetsFrom(await readWorkerSource());
 
     expect(assets).toEqual([
-      '/',
       '/offline.html',
       '/icons/verbalibera-192.png',
       '/icons/verbalibera-512.png',
       '/icons/verbalibera-maskable-512.png',
       '/illustrations/daily-practice.png',
-      '/learn/english-to-french',
-      '/learn/english-to-italian',
-      '/learn/english-to-spanish',
-      '/learn/english-to-portuguese',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
     ]);
@@ -80,11 +75,11 @@ describe('static PWA service worker contract', () => {
     const fetchHandler = handlers.get('fetch');
     const apiEvent = {
       request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/api/demo/progress' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const resourceEvent = {
       request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/illustrations/daily-practice.png' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
 
     fetchHandler?.(apiEvent as never);
@@ -102,7 +97,7 @@ describe('static PWA service worker contract', () => {
     networkFetch.mockRejectedValue(new Error('network unavailable'));
     const navigationEvent = {
       request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/learn/english-to-french' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
 
     fetchHandler?.(navigationEvent as never);
@@ -130,21 +125,21 @@ describe('static PWA service worker contract', () => {
     expect(activationEvent.waitUntil).toHaveBeenCalledTimes(1);
     await activationEvent.waitUntil.mock.calls[0][0];
 
-    expect(cacheDelete).toHaveBeenCalledTimes(3);
+    expect(cacheDelete).toHaveBeenCalledTimes(4);
     expect(cacheDelete).toHaveBeenCalledWith('verbalibera-static-v0');
     expect(cacheDelete).toHaveBeenCalledWith('verbalibera-static-v1');
     expect(cacheDelete).toHaveBeenCalledWith('voxlibre-static-v2');
-    expect(cacheDelete).not.toHaveBeenCalledWith('verbalibera-static-v2');
+    expect(cacheDelete).toHaveBeenCalledWith('verbalibera-static-v2');
     expect(cacheDelete).not.toHaveBeenCalledWith('another-app-cache');
     expect(clients.claim).toHaveBeenCalledTimes(1);
   });
 
-  it('scopes precache to shell, lessons, audio and Next static with v2 and keeps api no-store', async () => {
+  it('keeps navigation private while caching audio and Next static', async () => {
     // Break caught: service worker regresses to v1, misses lesson/audio, or caches private API responses.
     const source = await readWorkerSource();
 
     // version must be v2
-    expect(source).toMatch(/verbalibera-static-v2/);
+    expect(source).toMatch(/verbalibera-static-v3/);
     expect(source).not.toMatch(/verbalibera-static-v1/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
@@ -155,14 +150,10 @@ describe('static PWA service worker contract', () => {
 
     const assets = staticAssetsFrom(source);
     // precache must include app shell
-    expect(assets).toContain('/');
+    expect(assets).not.toContain('/');
     expect(assets).toContain('/offline.html');
     // precache must include lesson routes (/learn/*)
-    expect(assets.some((a) => a.startsWith('/learn/'))).toBe(true);
-    expect(assets).toContain('/learn/english-to-french');
-    expect(assets).toContain('/learn/english-to-italian');
-    expect(assets).toContain('/learn/english-to-spanish');
-    expect(assets).toContain('/learn/english-to-portuguese');
+    expect(assets.some((a) => a.startsWith('/learn/'))).toBe(false);
     // precache must include audio (**)
     expect(assets.some((a) => a.startsWith('/audio/'))).toBe(true);
     // precache handling for Next static (verified via source contains _next/static)
@@ -176,23 +167,23 @@ describe('static PWA service worker contract', () => {
     const fetchHandler = handlers.get('fetch');
     const lessonEvent = {
       request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/learn/english-to-french' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const audioEvent = {
       request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/audio/french-ordering/fr-ordering-politely-prompt.wav' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const imageEvent = {
       request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/images/vocab/coffee.jpg' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const nextStaticEvent = {
       request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/_next/static/chunks/webpack.js' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const apiEvent2 = {
       request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/api/demo/progress' },
-      respondWith: vi.fn(),
+      respondWith: vi.fn(), waitUntil: vi.fn(),
     };
 
     fetchHandler?.(lessonEvent as never);
@@ -209,4 +200,15 @@ describe('static PWA service worker contract', () => {
     // api must never be intercepted
     expect(apiEvent2.respondWith).not.toHaveBeenCalled();
   });
+});
+
+it('never puts personalized lesson HTML into the shared browser cache', async () => {
+  const { handlers, networkFetch, cachePut } = await evaluateWorker();
+  const privatePage = new Response('private account lesson', { headers: { 'Cache-Control': 'private, no-store' } });
+  networkFetch.mockResolvedValue(privatePage);
+  const event = { request: { method: 'GET', mode: 'navigate', url: 'https://verbalibera.test/learn/english-to-french' }, respondWith: vi.fn() };
+  handlers.get('fetch')?.(event as never);
+  await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(privatePage);
+  await Promise.resolve();
+  expect(cachePut).not.toHaveBeenCalled();
 });

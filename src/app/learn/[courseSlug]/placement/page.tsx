@@ -20,16 +20,5 @@ export default async function PlacementPage({
     );
   }
 
-  if (courseSlug !== 'english-to-french') {
-    return (
-      <main id="main-content">
-        <p>VerbaLibera preview</p>
-        <h1>Placement is French-first for now.</h1>
-        <p>More languages follow the same 15-question template once their items are authored.</p>
-        <Link href={`/learn/${courseSlug}`}>Back to {course.title}</Link>
-      </main>
-    );
-  }
-
   return <PlacementQuiz courseSlug={courseSlug} />;
 }

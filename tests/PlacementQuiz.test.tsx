@@ -73,6 +73,7 @@ describe('PlacementQuiz', () => {
     expect(screen.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute(
       'href',
       '/learn/english-to-french/plan',
+      '/learn/english-to-french?concept=fr-ask-directions',
     );
   });
 
@@ -81,6 +82,8 @@ describe('PlacementQuiz', () => {
 
     const saved = JSON.parse(localStorage.getItem('verbalibera_placement') ?? 'null');
     expect(saved).toMatchObject({ score: 0, total: 3, band: 'A1' });
+    const saved = JSON.parse(localStorage.getItem('verbalibera_placement:english-to-french') ?? 'null');
+    expect(saved).toMatchObject({ score: 15, band: 'B1+' });
   });
 
   it('restores a saved result instead of restarting the quiz', async () => {

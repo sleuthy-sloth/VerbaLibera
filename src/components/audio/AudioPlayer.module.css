@@ -12,3 +12,7 @@
 .error {
   color: #b91c1c;
 }
+
+.control { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid var(--accent); color: var(--accent-strong); background: var(--surface); font-weight: 600; cursor: pointer; }
+.control:hover { background: var(--accent-soft); }
+.control:disabled { opacity: 0.6; cursor: default; }

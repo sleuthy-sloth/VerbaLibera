@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
-import { dashboardBadgeCopy, isPreviewMode } from '@/lib/progress/copy';
+import { csrfHeaders } from '@/lib/auth/cookies';
+import { dashboardBadgeCopy } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
 import styles from './dashboard.module.css';
 
@@ -24,14 +25,15 @@ type DailyPathDashboardProps = Readonly<{
 }>;
 
 const practiceSteps = [
-  { label: 'Review', detail: 'Bring the phrase back to mind', tone: 'review' },
-  { label: 'Drill', detail: 'Use the pattern without a prompt', tone: 'drill' },
-  { label: 'Pattern', detail: 'Add one useful way to say it', tone: 'pattern' },
+  { label: 'Learn', detail: 'Understand the pattern with a worked example', tone: 'pattern' },
+  { label: 'Practice', detail: 'Build, listen, and try it for yourself', tone: 'drill' },
+  { label: 'Remember', detail: 'Recall it and plan your next review', tone: 'review' },
 ] as const;
 
 export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
-  const isPreview = isPreviewMode(null);
+  const isPreview = progress.isPreview !== false;
   const isDebug = useDebugFlag();
+  const [signOutError, setSignOutError] = useState(false);
   const requestedCourseIndex = requestedCourseSlug
     ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
     : -1;
@@ -105,6 +107,14 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
             v{progress.contentVersion}
           </p>
         ) : null}
+        {isPreview ? <Link className={styles.accountLink} href="/login">Save your progress</Link> : <button className={styles.accountLink} type="button" onClick={async () => {
+          try {
+            const response = await fetch('/api/auth/logout', { method: 'POST', headers: csrfHeaders() });
+            if (!response.ok) throw new Error('Sign-out failed');
+            window.location.assign('/');
+          } catch { setSignOutError(true); }
+        }}>Sign out</button>}
+        {signOutError ? <p role="alert">Could not sign out. Please try again.</p> : null}
       </header>
 
       <section className={styles.intro} aria-labelledby="dashboard-title">
@@ -114,8 +124,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           Keep your useful phrases moving.
         </h1>
         <p className={styles.introCopy}>
-          Review what is fading, sharpen it in a drill, then leave with one new pattern. Not
-          starting from zero?{' '}
+          Learn how the language works, practice one useful pattern, and make it part of your everyday vocabulary. Already know some?{' '}
           <Link href={`/learn/${selectedCourse.slug}/placement`}>Take the 3-minute placement quiz</Link>.
         </p>
         <div className={styles.introArtwork}>
@@ -123,6 +132,9 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         </div>
       </section>
 
+      <div className={styles.learningPromise}>
+        <span>Free to learn</span><span>Explanations before exercises</span><span>No timers or lost hearts</span>
+      </div>
       <div className={styles.dashboardGrid}>
         <section className={styles.todayCard} aria-labelledby="today-title">
           <div className={styles.todayHeading}>
@@ -137,7 +149,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           </div>
 
           {isBlank ? (
-            <FirstRunOnboarding />
+            <FirstRunOnboarding courseSlug={selectedCourse.slug} />
           ) : (
             <>
               <div className={styles.goal}>
