@@ -2,20 +2,14 @@ import { NextResponse } from 'next/server';
 
 import { demoProgress } from '@/features/progress/demo-progress';
 import { getProgressSnapshot } from '@/lib/progress/snapshot';
-import { SESSION_COOKIE_NAME, verifySessionToken } from '@/lib/auth/session';
+import { verifySessionToken } from '@/lib/auth/session';
+import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { withObserve } from '@/lib/observe';
 
 async function getHandler(request?: Request) {
   const req = request ?? new Request('http://localhost/api/demo/progress');
   const cookieHeader = req.headers.get('cookie') ?? '';
-  const cookies = cookieHeader.split(';').map((c) => c.trim());
-  let token: string | null = null;
-  for (const cookie of cookies) {
-    if (cookie.startsWith(`${SESSION_COOKIE_NAME}=`)) {
-      token = decodeURIComponent(cookie.slice(SESSION_COOKIE_NAME.length + 1));
-      break;
-    }
-  }
+  const token = sessionTokenFromCookies(cookieHeader);
 
   if (token) {
     const session = await verifySessionToken(token);

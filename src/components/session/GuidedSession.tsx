@@ -8,6 +8,7 @@ import { PictureChoice } from '@/components/session/PictureChoice';
 import { VoiceRecorder } from '@/components/session/VoiceRecorder';
 import { WordBuilder } from '@/components/session/WordBuilder';
 import { ClozeBuilder } from '@/components/session/ClozeBuilder';
+import { TeachingNotes } from './TeachingNotes';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { useReviewMutation } from '@/features/progress/use-review-mutation';
@@ -51,12 +52,15 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   const [isChecking, setIsChecking] = useState(false);
   const [shouldFocusVerdict, setShouldFocusVerdict] = useState(false);
   const shouldMoveActionFocus = useRef(false);
+  const mutationIds = useRef(new Map<string, string>());
   const primaryActionRef = useRef<HTMLButtonElement>(null);
   const completionActionRef = useRef<HTMLAnchorElement>(null);
   const verdictRef = useRef<HTMLDivElement>(null);
   const isComplete = stepIndex >= sessionSteps.length;
-  const isPreview = isPreviewMode(null);
+  const isPreview = progress.isPreview !== false;
   const reviewMutation = useReviewMutation();
+  const [savedReviews, setSavedReviews] = useState(0);
+  const [queuedReviews, setQueuedReviews] = useState(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -142,19 +146,23 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   };
   const submitReview = (reviewVerdict: 'exact' | 'close' | 'try_again') => {
     const drillItemId =
-      activeStep.kind === 'DRILL' ? (activeStep as { drillId: string }).drillId : activeStep.id;
+      activeStep.kind === 'DRILL' ? activeStep.drillId : `${activeStep.contentId}-listen`;
+    if (isPreview) { advanceStep(); return; }
     // REVIEW steps use id as drillItemId for persistence; server validates existence
     // In preview with unavailable ids, the server will 400 but optimistic still shows
+    const clientMutationId = mutationIds.current.get(activeStep.id) ?? crypto.randomUUID();
+    mutationIds.current.set(activeStep.id, clientMutationId);
     reviewMutation.mutate(
       {
         drillItemId,
-        verdict: reviewVerdict,
-        latencyMs: 1200,
-        clientMutationId: `${drillItemId}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        verdict: isModelRevealed || isSelfChecked ? 'try_again' : reviewVerdict,
+        clientMutationId,
       },
       {
-        onSuccess: () => {
-          setToastMessage(reviewVerdict === 'try_again' ? 'Saved — we’ll show this again soon.' : 'Progress saved');
+        onSuccess: (data) => {
+          const queued = !!(data && typeof data === 'object' && 'offline' in data && data.offline);
+          if (queued) { setQueuedReviews(count => count + 1); } else { setSavedReviews(count => count + 1); }
+          setToastMessage(queued ? 'Review queued on this device. It will sync when you reconnect.' : reviewVerdict === 'try_again' ? 'Saved — we’ll show this again soon.' : 'Progress saved');
           // Advance after successful save to keep flow
           advanceStep();
         },
@@ -182,22 +190,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       if (!res.ok) throw new Error('non-ok');
       const data = await res.json();
       setVerdict(data);
-      // Submit review for persistence when signed in (route will handle auth) — skip in test
-      if (process.env.NODE_ENV !== 'test' && (data.verdict === 'exact' || data.verdict === 'close')) {
-        const drillId = activeStep.kind === 'DRILL' ? (activeStep.drillId as string) : undefined;
-        if (drillId) {
-          void fetch('/api/progress/review', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              drillItemId: drillId,
-              verdict: data.verdict,
-              latencyMs: 1200,
-              clientMutationId: `${drillId}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-            }),
-          }).catch(() => {});
-        }
-      }
+
     } catch {
       setVerdict({ verdict: 'try_again', limited: true });
     } finally {
@@ -206,13 +199,15 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
     }
   };
 
+  const learnedConceptId = sessionSteps.find(step => step.kind === 'NEW_PATTERN')?.contentId;
+  const nextConcept = course.concepts[course.concepts.findIndex(concept => concept.id === learnedConceptId) + 1];
   const showReviewActions = !isComplete && activeStep.kind !== 'NEW_PATTERN';
 
   return (
     <main id="main-content" tabIndex={-1} className={styles.session}>
       <header className={styles.sessionHeader}>
         <Link href={dashboardHref}>← Daily path</Link>
-        <span>8-minute preview</span>
+        <span>{isPreview ? '8-minute preview' : 'Your daily practice'}</span>
       </header>
 
       <section className={styles.sessionIntro} aria-labelledby="session-heading">
@@ -220,7 +215,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
         <h1 id="session-heading">Practice one useful pattern.</h1>
       </section>
 
-      <div className={styles.sessionProgress}>
+      <div className={styles.sessionProgress} aria-live="polite">
         <div>
           <span>Session progress</span>
           <strong className={styles.stepline}>{stepLabel} · {activeStepLabel}</strong>
@@ -241,13 +236,18 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
           <p>
             {isPreview
               ? `Nice work. This preview would add a gentle 20 preview XP. ${sessionCompletionCopy({ isPreview })}`
-              : `Nice work. ${sessionCompletionCopy({ isPreview })}`}
+              : savedReviews > 0 ? `${savedReviews} practice results saved to your account.` : 'You completed this session without saving any practice results.'}
           </p>
+          {queuedReviews > 0 ? <p>{queuedReviews} reviews are waiting on this device to sync when you reconnect.</p> : null}
+          {nextConcept && learnedConceptId ? <Link className={styles.nextLesson} href={`/learn/${courseSlug}?concept=${nextConcept.id}`}>Next lesson: {nextConcept.scenario}<span aria-hidden="true">→</span></Link> : null}
           <Link href={dashboardHref} ref={completionActionRef}>Back to your daily path</Link>
         </section>
       ) : (
         <section className={styles.activeStep} aria-labelledby="active-step-title">
           <aside className={styles.stepContext} aria-label="Lesson context">
+            <ol className={styles.learningStages} aria-label="Learning stages">
+              {(['Learn', 'Practice', 'Recall'] as const).map((stage, index) => <li key={stage} aria-current={(activeStep.kind === 'NEW_PATTERN' ? 0 : activeStep.kind === 'DRILL' ? 1 : 2) === index ? 'step' : undefined}>{stage}</li>)}
+            </ol>
             <div className={styles.stepNumber} aria-hidden="true">
               {String(stepIndex + 1).padStart(2, '0')}
             </div>
@@ -277,6 +277,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                   <span>Model answer</span>
                   <strong>{activeContent.concept.modelDialogue.answer}</strong>
                 </div>
+                <TeachingNotes concept={activeContent.concept} language={course.targetLanguageCode} />
                 {hasPlayableAudio ? <VoiceRecorder key={`rec-${activeContent.concept.id}`} /> : null}
                 <div className={styles.actionDock}>
                   <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">
@@ -289,7 +290,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
               isSelfChecked ? (
                 <>
                   <p className={styles.status} aria-live="polite">
-                    This is a preview—nothing was saved. Continue whenever you are ready.
+                    {isPreview ? 'This is a preview—nothing was saved. Continue whenever you are ready.' : 'Use the review buttons to save your practice, or continue without saving.'}
                   </p>
                   <div className={styles.actionDock}>
                     <button
@@ -436,7 +437,7 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
             ) : isSelfChecked ? (
               <>
                 <p className={styles.status} aria-live="polite">
-                  This is a preview—nothing was saved. Continue whenever you are ready.
+                  {isPreview ? 'This is a preview—nothing was saved. Continue whenever you are ready.' : 'Use the review buttons to save your practice, or continue without saving.'}
                 </p>
                 <div className={styles.actionDock}>
                   <button className={styles.primaryAction} onClick={advanceStep} ref={primaryActionRef} type="button">

@@ -1,5 +1,6 @@
 import type { SessionStep } from '@/features/session/compose-session';
 export type DemoProgressSnapshot = Readonly<{
+  isPreview?: boolean;
   selectedCourseSlug: string;
   xp: number;
   practiceFlowDays: number;

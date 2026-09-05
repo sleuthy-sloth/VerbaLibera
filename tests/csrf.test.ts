@@ -1,3 +1,4 @@
+vi.mock('@/lib/auth/challenge', () => ({ consumeChallenge: vi.fn(async () => ({ challenge: 'test-challenge', accountIdentifier: 'test@example.com' })), CHALLENGE_COOKIE: 'verbalibera_challenge' }));
 import { describe, it, expect, vi } from 'vitest';
 
 import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME, generateCsrfToken, validateCsrfRequest, csrfCookieOptions } from '../src/lib/auth/csrf';

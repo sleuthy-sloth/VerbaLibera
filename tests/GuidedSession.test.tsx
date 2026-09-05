@@ -465,3 +465,12 @@ describe('typed answer checking on DRILL steps', () => {
     expect(screen.getByRole('button', { name: 'Check my answer' })).toBeInTheDocument();
   });
 });
+
+
+it('explains sentence construction before practice starts', () => {
+  renderGuided(<GuidedSession progress={demoProgress} courseSlug="english-to-french" />);
+  expect(screen.getByRole('heading', { name: /how this works/i })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /build it piece by piece/i })).toBeInTheDocument();
+  expect(screen.getByText('I would like')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: /worked example/i })).toBeInTheDocument();
+});

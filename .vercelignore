@@ -1,0 +1,6 @@
+.worktrees
+services/voice
+.next
+.env*
+test-results
+playwright-report

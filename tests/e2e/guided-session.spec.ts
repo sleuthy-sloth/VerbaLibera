@@ -37,16 +37,15 @@ test('Italian travel session teaches the pattern before testing it', async ({ pa
 
   await page.getByRole('button', { name: 'Continue' }).click();
   // Step 2 tests: the answer stays hidden until reveal.
-  await expect(page.getByText('Vorrei un caffè, per favore.')).toBeHidden();
+  await expect(page.getByText('Buongiorno, vorrei un caffè, per favore.')).toBeHidden();
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
   await page.getByRole('button', { name: /reveal model answer/i }).click();
-  await expect(page.getByText('Vorrei un caffè, per favore.')).toBeVisible();
+  await expect(page.getByText('Buongiorno, vorrei un caffè, per favore.')).toBeVisible();
 });
 
 test('typed exact answer is checked without any sidecar', async ({ page }) => {
-  await page.goto('/learn/english-to-french');
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
   // Step 1 teaches the greeting, step 2 reviews ordering — typing starts at step 3.
-  await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
 
   const answer = page.getByLabel('Your answer');
@@ -58,7 +57,7 @@ test('typed exact answer is checked without any sidecar', async ({ page }) => {
 });
 
 test('picture drill offers four CC0 photos and accepts the coffee tap', async ({ page }) => {
-  await page.goto('/learn/english-to-french');
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
   // Step 1 teaches (Continue only), then walk review + two text drills via reveal/self-check/continue.
   await page.getByRole('button', { name: 'Continue' }).click();
   for (let i = 0; i < 3; i++) {
@@ -83,7 +82,7 @@ test.describe('mobile touch', () => {
   test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
 
   test('picture choices are tappable on a mobile viewport', async ({ page }) => {
-    await page.goto('/learn/english-to-italian');
+    await page.goto('/learn/english-to-italian?concept=it-ordering-politely');
     await page.getByRole('button', { name: 'Continue' }).click();
     for (let i = 0; i < 3; i++) {
       await page.getByRole('button', { name: /reveal model answer/i }).click();
@@ -107,8 +106,7 @@ test.describe('mobile touch', () => {
 });
 
 test('non-exact answers honestly report limited local checking', async ({ page }) => {
-  await page.goto('/learn/english-to-french');
-  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
   await page.getByRole('button', { name: 'Continue' }).click();
 
   const answer = page.getByLabel('Your answer');
@@ -146,7 +144,7 @@ test('French pilot serves both WAVs while reveal and self-check remain reachable
 
   // …step 2 reviews ordering through reveal and self-check.
   await page.getByRole('button', { name: /reveal model answer/i }).click();
-  await expect(page.getByText('Je voudrais un café, s’il vous plaît.')).toBeVisible();
+  await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeVisible();
   await page.getByRole('button', { name: /i checked my answer/i }).click();
   await expect(page.getByText(/this is a preview—nothing was saved/i)).toBeVisible();
 });
@@ -173,7 +171,7 @@ test('mobile sticky action stays in view through reveal, self-check, and continu
 
   await expect(page.getByRole('progressbar', { name: /session progress/i })).toHaveAttribute(
     'aria-valuetext',
-    'Step 3 of 8',
+    'Step 3 of 6',
   );
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
   await assertNoHorizontalOverflow(page);
@@ -223,12 +221,12 @@ test('desktop lesson keeps its context rail beside the content without overflow'
   // Step 1 teaches with no reveal; step 2 reviews ordering through reveal.
   await expect(page.getByRole('button', { name: /reveal model answer/i })).toHaveCount(0);
   await page.getByRole('button', { name: 'Continue' }).click();
-  await expect(page.getByRole('heading', { level: 2, name: /French: ordering politely/i })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: /French: greeting politely/i })).toBeVisible();
 
   const reveal = page.getByRole('button', { name: /reveal model answer/i });
   expect(await reveal.evaluate((element) => getComputedStyle(element.parentElement!).position)).toBe('static');
-  await expect(page.getByText('Je voudrais un café, s’il vous plaît.')).toBeHidden();
+  await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeHidden();
   await reveal.click();
-  await expect(page.getByText('Je voudrais un café, s’il vous plaît.')).toBeVisible();
+  await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeVisible();
   await assertNoHorizontalOverflow(page);
 });

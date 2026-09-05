@@ -3,7 +3,8 @@ import 'server-only';
 import { NextResponse } from 'next/server';
 
 import { prisma } from '@/lib/prisma';
-import { SESSION_COOKIE_NAME, verifySessionToken } from '@/lib/auth/session';
+import { verifySessionToken } from '@/lib/auth/session';
+import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { validateCsrfRequest } from '@/lib/auth/csrf';
 import { qualityFromVerdict } from '@/lib/progress/quality';
 import { scheduleReview } from '@/features/srs/scheduler';
@@ -70,8 +71,7 @@ async function postHandler(request: Request) {
 
   // Auth guard
   const cookie = request.headers.get('cookie') ?? '';
-  const match = cookie.split(';').find((c) => c.trim().startsWith(`${SESSION_COOKIE_NAME}=`));
-  const token = match ? decodeURIComponent(match.split('=')[1] ?? '') : null;
+  const token = sessionTokenFromCookies(cookie);
   if (!token) {
     return NextResponse.json({ status: 'unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
   }

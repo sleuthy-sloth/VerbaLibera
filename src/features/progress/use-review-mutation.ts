@@ -1,5 +1,8 @@
 'use client';
 
+import { csrfHeaders } from '@/lib/auth/cookies';
+
+
 import { useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { enqueueReview, replayQueuedReviews } from '@/lib/progress/offline-queue';
@@ -104,7 +107,7 @@ export function useReviewMutation() {
 
       const response = await fetch('/api/progress/review', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...csrfHeaders() },
         body: JSON.stringify(payload),
       });
       if (!response.ok) {

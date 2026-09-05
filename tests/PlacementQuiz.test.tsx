@@ -84,7 +84,7 @@ describe('PlacementQuiz', () => {
     expect(screen.getByText(/15 of 15/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /start learning/i })).toHaveAttribute(
       'href',
-      '/learn/english-to-french',
+      '/learn/english-to-french?concept=fr-ask-directions',
     );
   });
 
@@ -92,7 +92,7 @@ describe('PlacementQuiz', () => {
     const user = await answerAllCorrectly();
     await user.click(screen.getByRole('button', { name: 'See my result' }));
 
-    const saved = JSON.parse(localStorage.getItem('verbalibera_placement') ?? 'null');
+    const saved = JSON.parse(localStorage.getItem('verbalibera_placement:english-to-french') ?? 'null');
     expect(saved).toMatchObject({ score: 15, band: 'B1+' });
   });
 

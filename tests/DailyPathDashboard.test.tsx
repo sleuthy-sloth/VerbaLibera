@@ -157,9 +157,9 @@ describe('DailyPathDashboard', () => {
     render(<DailyPathDashboard progress={demoProgress} />);
 
     const today = screen.getByRole('region', { name: /today's 8-minute path/i });
-    expect(today).toHaveTextContent('Review');
-    expect(today).toHaveTextContent('Drill');
-    expect(today).toHaveTextContent('Pattern');
+    expect(today).toHaveTextContent('Learn');
+    expect(today).toHaveTextContent('Practice');
+    expect(today).toHaveTextContent('Remember');
     expect(within(today).getByRole('progressbar', { name: /daily goal/i })).toBeInTheDocument();
   });
 

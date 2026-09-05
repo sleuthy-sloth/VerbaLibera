@@ -2,6 +2,7 @@ import 'server-only';
 
 import { NextResponse } from 'next/server';
 
+import { challengeOptions, consumeChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
@@ -74,7 +75,8 @@ async function postHandler(request: Request) {
   }
 
   const authenticationResponse = (body as { authenticationResponse?: unknown }).authenticationResponse;
-  const expectedChallenge = (body as { expectedChallenge?: unknown }).expectedChallenge;
+  const challenge = await consumeChallenge(request, 'login');
+  const expectedChallenge = challenge?.challenge;
 
   if (!authenticationResponse || typeof authenticationResponse !== 'object') {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
@@ -131,6 +133,7 @@ async function postHandler(request: Request) {
     const response = NextResponse.json({ status: 'ok', userId: credential.userId }, { status: 200, headers: NO_STORE_HEADERS });
     response.cookies.set(getSessionCookieName(), token, sessionCookieOptions() as never);
     response.cookies.set(CSRF_COOKIE_NAME, csrfToken, csrfCookieOptions() as never);
+    response.cookies.set(CHALLENGE_COOKIE, '', { path: '/', maxAge: 0 });
     return response;
   } catch {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
@@ -138,3 +141,5 @@ async function postHandler(request: Request) {
 }
 
 export const POST = withObserve('/api/auth/login', postHandler);
+
+export const GET = (request: Request) => challengeOptions(request, 'login');

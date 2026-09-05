@@ -1,10 +1,12 @@
 'use client';
 
+import Link from 'next/link';
+import { initialCourses } from '@/features/curriculum/fixture';
 import sessionStyles from '@/components/session/session.module.css';
 import type { StudyPlan } from '@/features/study-plan/types';
 
-export function planItemKey(weekIndex: number, conceptId: string, mode: string, drillId?: string) {
-  return `${weekIndex}:${mode}:${conceptId}:${drillId ?? ''}`;
+export function planItemKey(weekIndex: number, conceptId: string, mode: string, drillId?: string, occurrence = 0) {
+  return `${weekIndex}:${mode}:${conceptId}:${drillId ?? ''}:${occurrence}`;
 }
 
 // Position-based week: skipped days push the schedule instead of shaming it.
@@ -37,7 +39,8 @@ export function PlanOverview({
   onReset: () => void;
 }>) {
   const current = currentWeekIndex(plan, todayIso);
-  const doneCount = Object.values(done).filter(Boolean).length;
+  const doneCount = plan.weeks.reduce((sum, week, index) => sum + week.items.filter((item, occurrence) =>
+    done[planItemKey(index, item.conceptId, item.mode, item.drillId, occurrence)]).length, 0);
   const totalCount = plan.weeks.reduce((sum, week) => sum + week.items.length, 0);
 
   return (
@@ -48,20 +51,21 @@ export function PlanOverview({
       <p aria-live="polite">
         {doneCount} of {totalCount} items done
       </p>
+      <p className={sessionStyles.prompt}>Your personal checklist is stored in this browser. Check off each practice when you finish; this does not certify mastery.</p>
       {plan.frontier ? (
         <p role="note">
           {plan.frontier.note} Your plan covers through {plan.frontier.coveredThrough}.
         </p>
       ) : null}
       {plan.weeks.map((week, weekIndex) => (
-        <section key={week.startsOn} aria-labelledby={`plan-week-${weekIndex}`}>
+        <section className={sessionStyles.planWeek} key={week.startsOn} aria-labelledby={`plan-week-${weekIndex}`}>
           <h2 id={`plan-week-${weekIndex}`}>
             Week {weekIndex + 1} · starts {week.startsOn}
             {weekIndex === current ? ' · this week' : ''}
           </h2>
-          <ul>
-            {week.items.map((item) => {
-              const key = planItemKey(weekIndex, item.conceptId, item.mode, item.drillId);
+          <ul className={sessionStyles.planChecklist}>
+            {week.items.map((item, occurrence) => {
+              const key = planItemKey(weekIndex, item.conceptId, item.mode, item.drillId, occurrence);
               const id = `plan-done-${key.replace(/[^a-z0-9]+/gi, '-')}`;
               return (
                 <li key={key}>
@@ -72,8 +76,9 @@ export function PlanOverview({
                     onChange={(event) => onToggle(key, event.target.checked)}
                   />{' '}
                   <label htmlFor={id}>
-                    {MODE_LABEL[item.mode] ?? item.mode} · {item.conceptId}
+                    {MODE_LABEL[item.mode] ?? item.mode} · {initialCourses.find(course => course.slug === plan.courseSlug)?.concepts.find(concept => concept.id === item.conceptId)?.scenario ?? 'Practice pattern'}
                   </label>
+                  <Link href={`/learn/${plan.courseSlug}?concept=${item.conceptId}`} aria-label={`Open lesson: ${initialCourses.find(course => course.slug === plan.courseSlug)?.concepts.find(concept => concept.id === item.conceptId)?.scenario ?? 'Practice pattern'}`}>Study<span aria-hidden="true"> →</span></Link>
                 </li>
               );
             })}

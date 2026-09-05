@@ -4,30 +4,29 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ClozeBuilder } from '@/components/session/ClozeBuilder';
 import sessionStyles from '@/components/session/session.module.css';
-import { frenchPlacementItems, type PlacementItem } from '@/features/placement/items';
+import { placementItemsFor, type PlacementItem } from '@/features/placement/items';
 import { scorePlacement, type PlacementResult } from '@/features/placement/score';
 
-const DRAFT_KEY = 'verbalibera_placement:draft';
-const RESULT_KEY = 'verbalibera_placement';
+
 
 const BAND_COPY: Record<PlacementResult['band'], { title: string; detail: string }> = {
   A1: {
     title: 'Starting at the beginning',
-    detail: 'French foundations — greetings, ordering, and everyday survival first.',
+    detail: 'Begin with a guided lesson on the first foundation to revisit. You can explore every lesson at your own pace.',
   },
   A2: {
     title: 'Beyond the basics',
     detail:
-      'You placed past A1. Leveled A2 content is still being authored, so you start at the beginning with B1 stretch drills unlocked.',
+      'Your answers suggest some familiarity beyond beginner phrases. The available course currently covers A1 travel patterns; we recommend a useful foundation to revisit.',
   },
   B1: {
     title: 'Independent learner',
-    detail: 'You placed at B1. Stretch drills are unlocked from the start.',
+    detail: 'Your answers suggest familiarity with several intermediate patterns. This short check is an estimate; the available lessons currently cover A1 travel language.',
   },
   'B1+': {
     title: 'Above our current content',
     detail:
-      'You placed above everything we have authored so far. Everything is open to you — B2 is on the roadmap, not in the app.',
+      'You answered nearly all of this short check correctly. Our current lessons cover A1 travel language, so they may be revision for you. More advanced courses are still being developed.',
   },
 };
 
@@ -58,6 +57,9 @@ function ChoiceStep({
 }
 
 export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) {
+  const items = placementItemsFor(courseSlug);
+  const RESULT_KEY = `verbalibera_placement:${courseSlug}`;
+  const DRAFT_KEY = `${RESULT_KEY}:draft`;
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [result, setResult] = useState<PlacementResult | null>(null);
@@ -71,16 +73,16 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
           answers?: Record<string, string>;
         } | null;
         if (draft?.answers) setAnswers(draft.answers);
-        const saved = JSON.parse(localStorage.getItem(RESULT_KEY) ?? 'null') as PlacementResult | null;
-        if (saved && typeof saved.score === 'number') setResult(saved);
+        const saved = JSON.parse((localStorage.getItem(RESULT_KEY) ?? (courseSlug === 'english-to-french' ? localStorage.getItem('verbalibera_placement') : null)) ?? 'null') as PlacementResult | null;
+        if (saved && typeof saved.score === 'number' && saved.band in BAND_COPY) setResult(saved);
       } catch {
         // Fresh start when storage is unavailable or corrupt.
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, []);
+  }, [courseSlug, DRAFT_KEY, RESULT_KEY]);
 
-  const item = frenchPlacementItems[index];
+  const item = items[index];
   if (!item) return null;
   const copy = result ? BAND_COPY[result.band] : null;
 
@@ -94,8 +96,8 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
     }
   };
 
-  const finish = () => {
-    const scored = scorePlacement(frenchPlacementItems, answers, courseSlug);
+  const finish = (finalAnswers = answers) => {
+    const scored = scorePlacement(items, finalAnswers, courseSlug);
     setResult(scored);
     try {
       localStorage.setItem(RESULT_KEY, JSON.stringify(scored));
@@ -125,8 +127,9 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
           {copy.title} — {result.score} of {result.total}
         </h1>
         <p>{copy.detail}</p>
+        <p>This is a starting recommendation, not a CEFR certificate. Your result stays in this browser.</p>
         <div className={sessionStyles.actionDock}>
-          <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}`}>
+          <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}?concept=${result.startConceptId}`}>
             Start learning
             <span aria-hidden="true">→</span>
           </Link>
@@ -144,14 +147,16 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
   return (
     <main id="main-content" className={sessionStyles.session}>
       <p className={sessionStyles.eyebrow}>
-        Placement · {index + 1} of {frenchPlacementItems.length}
+        Placement · {index + 1} of {items.length}
       </p>
       <h1>{item.prompt}</h1>
+      <p>This optional check helps choose your first lesson. It is fine not to know an answer.</p>
+      <Link href={`/learn/${courseSlug}`}>New to this language? Start with teaching</Link>
       <div className={sessionStyles.sessionProgress}>
         <progress
           aria-label="Placement progress"
-          aria-valuetext={`Question ${index + 1} of ${frenchPlacementItems.length}`}
-          max={frenchPlacementItems.length}
+          aria-valuetext={`Question ${index + 1} of ${items.length}`}
+          max={items.length}
           value={index + 1}
         />
       </div>
@@ -181,12 +186,17 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
       )}
 
       <div className={sessionStyles.actionDock}>
+        <button type="button" onClick={() => {
+          record('');
+          if (index < items.length - 1) setIndex(index + 1);
+          else finish({ ...answers, [item.id]: '' });
+        }}>I don’t know yet</button>
         {index > 0 ? (
           <button type="button" onClick={() => setIndex((i) => Math.max(0, i - 1))}>
             Back
           </button>
         ) : null}
-        {index < frenchPlacementItems.length - 1 ? (
+        {index < items.length - 1 ? (
           <button
             type="button"
             className={sessionStyles.primaryAction}
@@ -201,7 +211,7 @@ export function PlacementQuiz({ courseSlug }: Readonly<{ courseSlug: string }>) 
             type="button"
             className={sessionStyles.primaryAction}
             disabled={!canAdvance}
-            onClick={finish}
+            onClick={() => finish()}
           >
             See my result
             <span aria-hidden="true">→</span>

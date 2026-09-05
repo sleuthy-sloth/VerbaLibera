@@ -94,3 +94,15 @@ describe('POST /api/progress/review', () => {
     expect(data.intervalDays).toBe(2);
   });
 });
+
+
+it('accepts the production host cookie for a saved review', async () => {
+  vi.mocked(verifySessionToken).mockResolvedValue({ userId: 'user-123' });
+  vi.mocked(prisma.drillItem.findUnique).mockResolvedValue({ id: 'drill-123' } as never);
+  vi.mocked(prisma.reviewLog.findUnique).mockResolvedValue(null);
+  const response = await reviewPOST(new Request('https://verbalibera.vercel.app/api/progress/review', {
+    method: 'POST', headers: { 'content-type': 'application/json', cookie: '__Host-verbalibera_session=valid-token' },
+    body: JSON.stringify({ drillItemId: 'drill-123', verdict: 'exact' }),
+  }));
+  expect(response.status).toBe(200);
+});

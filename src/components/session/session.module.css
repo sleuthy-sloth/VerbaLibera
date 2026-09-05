@@ -29,12 +29,12 @@
 }
 
 .sessionHeader span {
-  color: color-mix(in srgb, var(--ink) 58%, transparent);
+  color: #46534f;
 }
 
 .eyebrow {
   margin: 0 0 0.65rem;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  color: #46534f;
   font-family: var(--font-utility);
   font-size: 0.72rem;
   font-weight: 750;
@@ -172,7 +172,7 @@
 }
 
 .modelDialogue span {
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  color: #46534f;
   font-family: var(--font-utility);
   font-size: 0.72rem;
   font-weight: 750;
@@ -196,7 +196,7 @@
 
 .actionDock {
   position: sticky;
-  bottom: 0;
+  bottom: calc(56px + env(safe-area-inset-bottom));
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
@@ -431,7 +431,7 @@
 
 .verdictHint {
   margin: 0.25rem 0 0;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  color: #46534f;
   font-size: 0.9rem;
 }
 
@@ -493,7 +493,7 @@
 .pictureAlt {
   font-size: 0.9rem;
   line-height: 1.4;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  color: #46534f;
 }
 
 .assembled {
@@ -539,7 +539,7 @@
   padding: 0.5rem 0;
   border: none;
   background: none;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  color: #46534f;
   font: inherit;
   font-size: 0.9rem;
   text-decoration: underline;
@@ -591,3 +591,60 @@
 .practiceActions {
   margin-top: 0.5rem;
 }
+
+.teachingNotes { max-width: 680px; line-height: 1.65; }
+.teachingNotes h3 { margin: 1.8rem 0 0.6rem; font-size: 1.1rem; }
+.phrasePieces { margin: 1rem 0; border-top: 1px solid #cbd8d4; }
+.phrasePieces > div { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid #cbd8d4; }
+.phrasePieces dt { font-weight: 600; }
+.phrasePieces dd { margin: 0; }
+
+/* A language workbook: the phrase is the focal point, with notes close by. */
+.sessionIntro h1 { font-family: var(--font-display), Georgia, serif; font-weight: 550; letter-spacing: -0.045em; font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1.05; }
+.modelDialogue strong { font-family: var(--font-display), Georgia, serif; font-size: clamp(1.35rem, 3vw, 1.85rem); font-weight: 550; }
+.teachingNotes h3 { font-weight: 700; }
+.phrasePieces { border-color: #cbd8d4; }
+.phrasePieces > div { border-color: #cbd8d4; align-items: baseline; }
+.phrasePieces dt { color: var(--accent-strong); font-size: 1.1rem; }
+.phrasePieces dd { color: #46534f; font-size: 0.95rem; }
+.learningStages { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.learningStages li { color: #46534f; padding: 0.45rem 0.65rem; font-size: 0.8rem; border: 1px solid transparent; border-radius: 1rem; }
+.learningStages li[aria-current] { background: var(--accent-strong); color: white; font-weight: 700; }
+.stepContext { align-content: start; }
+.courseIndex, .courseExtras { width: min(100% - 2rem, 984px); margin: 1.5rem auto 2.5rem; }
+.courseIndex h2 { font-family: var(--font-display), Georgia, serif; font-size: 2.2rem; line-height: 1.2; margin-bottom: 0.6rem; }
+.courseIndex > p { max-width: 65ch; color: #46534f; line-height: 1.6; }
+.courseIndex ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; list-style: none; padding: 0; margin: 1.5rem 0; }
+.courseIndex li a { display: flex; align-items: center; gap: 1rem; min-height: 68px; padding: 0.9rem 1rem; border: 1px solid #cbd8d4; background: white; text-decoration: none; }
+.courseIndex li a > span:last-child { margin-left: auto; color: var(--accent); }
+.courseIndex li a[aria-current], .courseIndex li a:hover { background: var(--accent-soft); border-color: var(--accent); }
+.lessonNumber { font-family: var(--font-utility); font-size: 0.85rem; color: var(--accent-strong); }
+.courseIndex > a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
+.courseExtras summary { padding: 1rem 0; cursor: pointer; font-weight: 600; border-top: 1px solid #cbd8d4; }
+.courseExtras .practiceSay { max-width: none; }
+.nextLesson { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.3rem; margin: 1.5rem 0; color: white !important; background: var(--accent-strong); text-decoration: none; min-height: 52px; }
+.planWeek { margin: 2rem 0; }
+.planWeek h2 { font-family: var(--font-display), Georgia, serif; font-size: 1.7rem; margin-bottom: 1rem; }
+.planChecklist { list-style: none; padding: 0; }
+.planChecklist li { display: flex; align-items: center; gap: 0.8rem; padding: 0.5rem 0; border-bottom: 1px solid #cbd8d4; }
+.planChecklist input { width: 22px; height: 22px; accent-color: var(--accent); flex-shrink: 0; }
+.planChecklist label { padding: 0.65rem 0; flex: 1; cursor: pointer; }
+.planChecklist a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; }
+@media (min-width: 760px) {
+  .learningStages { flex-direction: column; }
+  .stepContext { align-content: start; }
+}
+@media (max-width: 759px) {
+  .courseIndex ol { grid-template-columns: 1fr; }
+  .stepContext { gap: 0.8rem; }
+  .stepNumber { display: none; }
+  .phrasePieces > div { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+}
+
+/* The full-width assessment and plan forms do not have the lesson body's inset. */
+.session > .actionDock, .responseSection > .actionDock, .planWeek ~ .actionDock { margin-inline: 0; padding-inline: 0; }
+.session fieldset { min-width: 0; }
+.session > h1 { font: 550 clamp(1.8rem, 5vw, 3rem)/1.2 var(--font-display), Georgia, serif; margin: 1rem 0; overflow-wrap: anywhere; }
+.session > p { max-width: 70ch; line-height: 1.6; }
+.session > a { display: inline-flex; min-height: 44px; align-items: center; color: var(--accent-strong); text-decoration: underline; text-underline-offset: 4px; }
+.responseSection fieldset { margin: 1.2rem 0; }
