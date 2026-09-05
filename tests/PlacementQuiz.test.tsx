@@ -2,97 +2,84 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, beforeEach } from 'vitest';
 import { PlacementQuiz } from '@/components/placement/PlacementQuiz';
+import { frenchPlacementItems } from '@/features/placement/items';
+import { nextAdaptivePlacementItem } from '@/features/placement/adaptive';
 
 function ensureMockLocalStorage() {
-  const createMock = () => {
-    const store = new Map<string, string>();
-    return {
-      getItem: (k: string) => (store.has(k) ? store.get(k)! : null),
-      setItem: (k: string, v: string) => {
-        store.set(k, String(v));
-      },
-      removeItem: (k: string) => {
-        store.delete(k);
-      },
-      clear: () => {
-        store.clear();
-      },
-      get length() {
-        return store.size;
-      },
-      key: (index: number) => Array.from(store.keys())[index] ?? null,
-    } as unknown as Storage;
-  };
-  let needsMock = true;
   try {
-    const ls = (window as unknown as { localStorage?: Storage }).localStorage;
-    needsMock = !ls || typeof ls.clear !== 'function';
-  } catch {
-    needsMock = true;
-  }
-  if (needsMock) {
-    const mock = createMock();
-    try {
-      Object.defineProperty(window, 'localStorage', { value: mock, configurable: true, writable: true });
-    } catch {}
-    try {
-      Object.defineProperty(globalThis, 'localStorage', { value: mock, configurable: true, writable: true });
-    } catch {}
-  }
+    if (typeof window.localStorage?.clear === 'function') return;
+  } catch {}
+  const store = new Map<string, string>();
+  const mock = {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => store.set(key, String(value)),
+    removeItem: (key: string) => store.delete(key),
+    clear: () => store.clear(),
+    get length() { return store.size; },
+    key: (index: number) => [...store.keys()][index] ?? null,
+  } as unknown as Storage;
+  Object.defineProperty(window, 'localStorage', { value: mock, configurable: true });
+  Object.defineProperty(globalThis, 'localStorage', { value: mock, configurable: true });
 }
 
 ensureMockLocalStorage();
-
-beforeEach(() => {
-  localStorage.clear();
-});
+beforeEach(() => localStorage.clear());
 
 async function answerFoundationIncorrectly() {
   const user = userEvent.setup();
   render(<PlacementQuiz courseSlug="english-to-french" />);
-
-  const firstChoices = screen.getAllByRole('radio');
-  await user.click(firstChoices[firstChoices.length - 1]!);
+  await user.click(screen.getAllByRole('radio').at(-1)!);
   await user.click(screen.getByRole('button', { name: 'Continue' }));
-
-  const secondChoices = screen.getAllByRole('radio');
-  await user.click(secondChoices[secondChoices.length - 1]!);
+  await user.click(screen.getAllByRole('radio').at(-1)!);
   await user.click(screen.getByRole('button', { name: 'Continue' }));
-
   await user.type(screen.getByLabelText(/your answer/i), 'wrong answer');
   await user.click(screen.getByRole('button', { name: 'See my result' }));
+  return user;
+}
+
+async function answerAdaptiveCorrectly() {
+  const user = userEvent.setup();
+  render(<PlacementQuiz courseSlug="english-to-french" />);
+  const answers: Record<string, string> = {};
+  const completed: string[] = [];
+  for (let step = 0; step < 9; step += 1) {
+    const item = nextAdaptivePlacementItem(frenchPlacementItems, answers, completed)!;
+    if (item.kind === 'CHOICE') await user.click(screen.getByRole('radio', { name: item.answerKey! }));
+    else if (item.kind === 'CLOZE') {
+      const assembled = item.acceptedResponses[0]!;
+      const template = item.prompt.replace(/^Complete[^:]*: /, '');
+      const [before, after] = template.split('____');
+      await user.type(screen.getByLabelText(/blank 1/i), assembled.replace(before!, '').replace(after!, ''));
+    } else await user.type(screen.getByLabelText(/your answer/i), item.acceptedResponses[0]!);
+    answers[item.id] = item.kind === 'CHOICE' ? item.answerKey! : item.acceptedResponses[0]!;
+    completed.push(item.id);
+    await user.click(screen.getByRole('button', { name: step === 8 ? 'See my result' : 'Continue' }));
+  }
   return user;
 }
 
 describe('PlacementQuiz', () => {
   it('ends early after unsuccessful foundation checks', async () => {
     await answerFoundationIncorrectly();
-
     expect(screen.getByText(/starting at the beginning/i)).toBeInTheDocument();
     expect(screen.getByText(/0 of 3/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute(
-      'href',
-      '/learn/english-to-french/plan',
-      '/learn/english-to-french?concept=fr-ask-directions',
-    );
+    expect(screen.getByRole('link', { name: /build my learning plan/i })).toHaveAttribute('href', '/learn/english-to-french/plan');
   });
 
-  it('persists the adaptive result for the learning plan to read later', async () => {
+  it('persists an adaptive result for the learning plan', async () => {
     await answerFoundationIncorrectly();
+    expect(JSON.parse(localStorage.getItem('verbalibera_placement:english-to-french') ?? 'null')).toMatchObject({ score: 0, total: 3, band: 'A1' });
+  });
 
-    const saved = JSON.parse(localStorage.getItem('verbalibera_placement') ?? 'null');
-    expect(saved).toMatchObject({ score: 0, total: 3, band: 'A1' });
-    const saved = JSON.parse(localStorage.getItem('verbalibera_placement:english-to-french') ?? 'null');
-    expect(saved).toMatchObject({ score: 15, band: 'B1+' });
+  it('reports the top band after strong evidence at each checkpoint', async () => {
+    await answerAdaptiveCorrectly();
+    expect(screen.getByText(/above our current content/i)).toBeInTheDocument();
+    expect(screen.getByText(/9 of 9/i)).toBeInTheDocument();
   });
 
   it('restores a saved result instead of restarting the quiz', async () => {
-    localStorage.setItem(
-      'verbalibera_placement',
-      JSON.stringify({ score: 3, total: 3, band: 'A1', startCefr: 'A1', startConceptId: 'fr-greet-politely', stretchUnlocked: false, aboveContent: false }),
-    );
+    localStorage.setItem('verbalibera_placement:english-to-french', JSON.stringify({ score: 3, total: 3, band: 'A1', startCefr: 'A1', startConceptId: 'fr-greet-politely', stretchUnlocked: false, aboveContent: false }));
     render(<PlacementQuiz courseSlug="english-to-french" />);
-
     expect(await screen.findByText(/starting at the beginning/i)).toBeInTheDocument();
     expect(screen.queryByText(/placement · question 1/i)).not.toBeInTheDocument();
   });
