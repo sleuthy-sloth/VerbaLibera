@@ -25,11 +25,7 @@ describe('HomePage', () => {
     );
 
     expect(await screen.findByRole('heading', { name: /VerbaLibera/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'English to French: A1 patterns' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
-    expect(screen.getByRole('button', { name: 'English to Italian: A1 patterns' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-french');
     expect(await screen.findByRole('link', { name: /continue 8-minute session/i })).toBeInTheDocument();
     expect(screen.getByText(/today's 8-minute path/i)).toBeInTheDocument();
   });
@@ -45,9 +41,7 @@ describe('HomePage', () => {
 
     render(<QueryClientProvider client={client}>{page}</QueryClientProvider>);
 
-    expect(
-      await screen.findByRole('button', { name: 'English to Italian: A1 patterns' }),
-    ).toHaveAttribute('aria-pressed', 'true');
+    expect(await screen.findByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-italian');
     expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
       'href',
       '/learn/english-to-italian',

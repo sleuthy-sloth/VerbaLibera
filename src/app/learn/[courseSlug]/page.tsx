@@ -9,6 +9,7 @@ import { composeLessonSession } from '@/features/session/lesson-path';
 import { getProgressSnapshot } from '@/lib/progress/snapshot';
 import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { verifySessionToken } from '@/lib/auth/session';
+import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 
 export default async function LearnPage({ params, searchParams }: {
   params: Promise<{ courseSlug: string }>;
@@ -25,6 +26,7 @@ export default async function LearnPage({ params, searchParams }: {
   const steps = session && !requestedConcept ? progress.session.filter(step => step.courseSlug === courseSlug) : course ? composeLessonSession(course, conceptId) : [];
 
   return <>
+    <div className={styles.languageBar}><LanguageSwitcher currentCourse={courseSlug} /></div>
     <GuidedSession key={`${courseSlug}:${conceptId}`} courseSlug={courseSlug} progress={{ ...progress, session: steps }} />
     {course ? <nav aria-label="Course lessons" className={styles.courseIndex}>
       <h2>Explore the course</h2>

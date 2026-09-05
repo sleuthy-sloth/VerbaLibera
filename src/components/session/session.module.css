@@ -7,6 +7,8 @@
   color: var(--ink);
 }
 
+.languageBar { width: min(100%, 1080px); margin: 0 auto; padding: 1rem clamp(1rem, 4vw, 3rem) 0; display: flex; justify-content: flex-end; }
+
 .sessionHeader {
   display: flex;
   align-items: center;

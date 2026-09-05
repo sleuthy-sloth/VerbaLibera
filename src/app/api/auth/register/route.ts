@@ -131,7 +131,10 @@ async function postHandler(request: Request) {
     response.cookies.set(CSRF_COOKIE_NAME, csrfToken, csrfCookieOptions() as never);
     response.cookies.set(CHALLENGE_COOKIE, '', { path: '/', maxAge: 0 });
     return response;
-  } catch {
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
+      return NextResponse.json({ status: 'account_exists' }, { status: 409, headers: NO_STORE_HEADERS });
+    }
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
 }

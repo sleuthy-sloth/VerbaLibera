@@ -5,6 +5,27 @@ import styles from './login.module.css';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import { useState } from 'react';
 
+function authErrorMessage(error: unknown, action: 'registration' | 'sign-in'): string {
+  if (error instanceof DOMException) {
+    if (error.name === 'NotAllowedError') return `The ${action} prompt was canceled or timed out. Try again and complete the device prompt.`;
+    if (error.name === 'InvalidStateError') return 'This passkey is already registered on this device. Use a different account name or sign in.';
+    if (error.name === 'SecurityError') return 'Passkeys require this secure VerbaLibera address. Open the HTTPS site and try again.';
+    if (error.name === 'NotSupportedError') return 'This browser or device does not support passkeys. Try a current version of Safari, Chrome, or Edge.';
+  }
+  if (error instanceof Error && error.message) return error.message;
+  return action === 'registration' ? 'Registration could not be completed. Try again.' : 'Sign-in could not be completed. Try again.';
+}
+
+async function responseStatus(response: Response): Promise<string> {
+  try {
+    const body = await response.json() as { status?: string };
+    if (body.status === 'account_exists') return 'That account name is already in use. Choose another name or sign in with its passkey.';
+    if (body.status === 'unauthorized') return 'Registration is restricted on this deployment. An invitation token is required.';
+    if (body.status === 'invalid_request') return 'The passkey request expired or was invalid. Start again from this page.';
+  } catch {}
+  return 'The server could not complete this request. Try again.';
+}
+
 export default function LoginPage() {
   const [accountIdentifier, setAccountIdentifier] = useState('');
   const [registrationToken, setRegistrationToken] = useState('');
@@ -19,11 +40,15 @@ export default function LoginPage() {
     setIsBusy(true);
     setStatus(null);
     try {
+      if (typeof window === 'undefined' || !window.PublicKeyCredential) {
+        setStatus('This browser or device does not support passkeys. Try a current version of Safari, Chrome, or Edge.');
+        return;
+      }
       const optionsResponse = await fetch(`/api/auth/register?account=${encodeURIComponent(accountIdentifier.trim())}`, {
         headers: { 'x-registration-token': registrationToken }, cache: 'no-store',
       });
       if (!optionsResponse.ok) {
-        setStatus(optionsResponse.status === 409 ? 'That account name is already in use. Sign in with its passkey or choose another name.' : 'Could not start registration. Please try again.');
+        setStatus(optionsResponse.status === 409 ? 'That account name is already in use. Choose another name or sign in with its passkey.' : await responseStatus(optionsResponse));
         return;
       }
       const attestationResponse = await startRegistration({ optionsJSON: await optionsResponse.json() });
@@ -36,11 +61,13 @@ export default function LoginPage() {
         window.location.assign('/');
       } else if (res.status === 401) {
         setStatus('Registration not allowed. Check your registration token.');
+      } else if (res.status === 409) {
+        setStatus('That account name is already in use. Choose another name or sign in with its passkey.');
       } else {
-        setStatus('Registration failed. Try again.');
+        setStatus(await responseStatus(res));
       }
-    } catch {
-      setStatus('Registration failed. Try again.');
+    } catch (error) {
+      setStatus(authErrorMessage(error, 'registration'));
     } finally {
       setIsBusy(false);
     }
@@ -50,8 +77,12 @@ export default function LoginPage() {
     setIsBusy(true);
     setStatus(null);
     try {
+      if (typeof window === 'undefined' || !window.PublicKeyCredential) {
+        setStatus('This browser or device does not support passkeys. Try a current version of Safari, Chrome, or Edge.');
+        return;
+      }
       const optionsResponse = await fetch('/api/auth/login', { cache: 'no-store' });
-      if (!optionsResponse.ok) throw new Error('Could not start sign-in');
+      if (!optionsResponse.ok) { setStatus(await responseStatus(optionsResponse)); return; }
       const authenticationResponse = await startAuthentication({ optionsJSON: await optionsResponse.json() });
       const res = await fetch('/api/auth/login', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -61,10 +92,10 @@ export default function LoginPage() {
         setStatus('Signed in.');
         window.location.assign('/');
       } else {
-        setStatus('Sign-in failed. Try again.');
+        setStatus(await responseStatus(res));
       }
-    } catch {
-      setStatus('Sign-in failed. Try again.');
+    } catch (error) {
+      setStatus(authErrorMessage(error, 'sign-in'));
     } finally {
       setIsBusy(false);
     }

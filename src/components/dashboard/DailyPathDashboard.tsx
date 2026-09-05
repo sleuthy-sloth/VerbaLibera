@@ -8,6 +8,7 @@ import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { csrfHeaders } from '@/lib/auth/cookies';
 import { dashboardBadgeCopy } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
+import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
 
 function useDebugFlag(): boolean {
@@ -79,25 +80,10 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           <span aria-hidden="true">V</span>
           VerbaLibera
         </Link>
-        <div aria-label="Available courses" className={styles.courseSegments} role="group">
-          {progress.courses.map((course, index) => {
-            const isSelected = index === selectedCourseIndex;
-            const compactLabel = course.title.replace(/^English to /, '');
-
-            return (
-              <button
-                aria-label={course.title}
-                aria-pressed={isSelected}
-                className={styles.courseSegment}
-                key={course.slug}
-                onClick={() => setSelectedCourseIndex(index)}
-                type="button"
-              >
-                {compactLabel}
-              </button>
-            );
-          })}
-        </div>
+        <LanguageSwitcher currentCourse={selectedCourse.slug} courses={progress.courses} dashboard onChange={(slug) => {
+          const nextIndex = progress.courses.findIndex((course) => course.slug === slug);
+          if (nextIndex >= 0) setSelectedCourseIndex(nextIndex);
+        }} />
         <p className={styles.previewBadge}>
           <span aria-hidden="true" />
           {dashboardBadgeCopy({ isPreview })}

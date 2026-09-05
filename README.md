@@ -27,6 +27,8 @@ Each course currently contains eight original travel patterns: greeting politely
 
 Every lesson now includes an authored explanation, translated sentence parts, and a worked variation before practice. Its exercises stay on the pattern just taught. All eight lessons in each language are accessible from the course index.
 
+The dashboard and lesson pages share a Learning language dropdown. Changing it takes you directly to the same learning surface in French, Italian, Spanish, or Portuguese while keeping the current course choice visible in the URL.
+
 Optional placement recommends a specific available starting lesson. French has 15 questions spanning beginner and intermediate material; Italian, Spanish, and Portuguese each have eight checks of the available A1 travel patterns. These are rough starting recommendations, not validated CEFR certifications. Results and study-plan checklists stay in the current browser.
 
 The guided session is built around deliberate retrieval. A learner can reveal the model answer, self-check, and continue with keyboard- and touch-friendly controls. Nothing saved in preview mode represents mastery or proficiency.
@@ -69,6 +71,8 @@ When you create a passkey (WebAuthn, no passwords) and sign in, your progress be
 - The UI badge then says "Saved to your account" and due counts reflect your real queue. Session completion reports how many review results were actually saved, with separate wording for queued or unsaved practice. The sentence "Checked locally. Nothing was saved." still correctly describes the answer-checking payload — it is not a claim about your saved progress.
 
 Learner progress is visible only to that account. No third-party trackers are used.
+
+Passkeys require the secure `https://verbalibera.vercel.app` address and a current browser with a device screen lock, fingerprint, or face unlock. If the prompt is canceled or times out, start registration again; if an account name is already taken, sign in with that passkey or choose another name. The account screen now reports those cases directly instead of using one generic failure message.
 
 ## Quick start
 

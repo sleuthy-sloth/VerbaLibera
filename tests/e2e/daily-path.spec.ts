@@ -21,7 +21,7 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
   const sessionLink = page.getByRole('link', { name: /continue 8-minute session/i });
   await expect(sessionLink).toBeVisible();
 
-  await page.getByRole('button', { name: 'English to Italian: A1 patterns' }).click();
+  await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
 
   // After switching courses, the same CTA re-renders pointing at the Italian route.
   const italianSessionLink = page.getByRole('link', { name: /continue 8-minute session/i });

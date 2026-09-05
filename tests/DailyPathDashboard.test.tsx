@@ -93,7 +93,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
     expect(screen.getByText(/28 reviews waiting/i)).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /english to italian: a1 patterns/i })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Italian: A1 patterns' })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
       '5 of 5 daily steps',
@@ -105,7 +105,7 @@ describe('DailyPathDashboard', () => {
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    await user.click(screen.getByRole('button', { name: /english to italian: a1 patterns/i }));
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Learning language' }), 'english-to-italian');
 
     expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
       'href',
@@ -135,20 +135,15 @@ describe('DailyPathDashboard', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: /english to german: a1 patterns/i })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    expect(screen.getByRole('option', { name: 'German: A1 patterns' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-german');
   });
 
   it('renders generic course segments in the header', () => {
     // Break caught: course selection falls back to a separate, language-specific course lane.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getByRole('button', { name: /english to french: a1 patterns/i })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-french');
     expect(screen.queryByRole('heading', { name: /your course lane/i })).not.toBeInTheDocument();
   });
 
@@ -273,9 +268,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
-    expect(screen.getByRole('button', { name: /english to french: a1 patterns/i })).toHaveClass(
-      styles.courseSegment,
-    );
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toBeInTheDocument();
   });
 
   it('keeps every small metric label on the accessible Ink contrast hook', () => {
