@@ -2,7 +2,7 @@ import 'server-only';
 
 import { NextResponse } from 'next/server';
 
-import { challengeOptions, consumeChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
+import { challengeOptions, consumeChallengeById, readChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
@@ -90,7 +90,7 @@ async function postHandler(request: Request) {
 
   const accountIdentifier = (body as { accountIdentifier?: unknown }).accountIdentifier;
   const attestationResponse = (body as { attestationResponse?: unknown }).attestationResponse;
-  const challenge = await consumeChallenge(request, 'register');
+  const challenge = await readChallenge(request, 'register');
   const expectedChallenge = challenge?.challenge;
 
   if (typeof accountIdentifier !== 'string' || !accountIdentifier.trim() || accountIdentifier.trim() !== challenge?.accountIdentifier) {
@@ -99,7 +99,7 @@ async function postHandler(request: Request) {
   if (!attestationResponse || typeof attestationResponse !== 'object') {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
-  if (typeof expectedChallenge !== 'string' || !expectedChallenge.trim()) {
+  if (!challenge || typeof expectedChallenge !== 'string' || !expectedChallenge.trim()) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
 
@@ -110,6 +110,12 @@ async function postHandler(request: Request) {
     });
 
     if (!verification.verified || !verification.credential) {
+      return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
+    }
+
+    // Consume only after WebAuthn verification succeeds. This lets a user
+    // retry a response after a transient browser or hostname mismatch.
+    if (!await consumeChallengeById(challenge.id, 'register', challenge.expiresAt)) {
       return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
     }
 

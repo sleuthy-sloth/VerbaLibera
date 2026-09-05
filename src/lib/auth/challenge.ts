@@ -29,11 +29,26 @@ export async function challengeOptions(request: Request, purpose: 'register' | '
 }
 
 export async function consumeChallenge(request: Request, purpose: 'register' | 'login') {
+  const record = await readChallenge(request, purpose);
+  if (!record) return null;
+  return await consumeChallengeById(record.id, purpose, record.expiresAt) ? record : null;
+}
+
+/** Read the current challenge without consuming it. Verification can fail for
+ * reasons unrelated to the challenge (for example an alternate hostname), so
+ * callers should only consume it after the WebAuthn response verifies. */
+export async function readChallenge(request: Request, purpose: 'register' | 'login') {
   const cookie = request.headers.get('cookie')?.split(';').find(value => value.trim().startsWith(`${CHALLENGE_COOKIE}=`));
   if (!cookie) return null;
   const id = cookie.trim().slice(CHALLENGE_COOKIE.length + 1);
   const record = await prisma.authChallenge.findUnique({ where: { id } });
   if (!record || record.purpose !== purpose || record.expiresAt <= new Date()) return null;
-  const consumed = await prisma.authChallenge.deleteMany({ where: { id, expiresAt: { gt: new Date() } } });
-  return consumed.count === 1 ? record : null;
+  return record;
+}
+
+export async function consumeChallengeById(id: string, purpose: 'register' | 'login', expiresAt: Date) {
+  const consumed = await prisma.authChallenge.deleteMany({
+    where: { id, purpose, expiresAt: { gt: new Date(expiresAt) } },
+  });
+  return consumed.count === 1;
 }

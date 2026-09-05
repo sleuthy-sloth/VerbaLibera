@@ -2,7 +2,7 @@ import 'server-only';
 
 import { NextResponse } from 'next/server';
 
-import { challengeOptions, consumeChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
+import { challengeOptions, consumeChallengeById, readChallenge, CHALLENGE_COOKIE } from '@/lib/auth/challenge';
 import { prisma } from '@/lib/prisma';
 import { getSessionCookieName, issueSessionToken, sessionCookieOptions } from '@/lib/auth/session';
 import { CSRF_COOKIE_NAME, csrfCookieOptions, generateCsrfToken } from '@/lib/auth/csrf';
@@ -75,13 +75,13 @@ async function postHandler(request: Request) {
   }
 
   const authenticationResponse = (body as { authenticationResponse?: unknown }).authenticationResponse;
-  const challenge = await consumeChallenge(request, 'login');
+  const challenge = await readChallenge(request, 'login');
   const expectedChallenge = challenge?.challenge;
 
   if (!authenticationResponse || typeof authenticationResponse !== 'object') {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
-  if (typeof expectedChallenge !== 'string' || !expectedChallenge.trim()) {
+  if (!challenge || typeof expectedChallenge !== 'string' || !expectedChallenge.trim()) {
     return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
   }
 
@@ -120,6 +120,10 @@ async function postHandler(request: Request) {
 
     if (!verification.verified) {
       return NextResponse.json({ status: 'unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
+    }
+
+    if (!await consumeChallengeById(challenge.id, 'login', challenge.expiresAt)) {
+      return NextResponse.json({ status: 'invalid_request' }, { status: 400, headers: NO_STORE_HEADERS });
     }
 
     // Update counter for clone detection
