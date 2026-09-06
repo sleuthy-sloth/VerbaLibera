@@ -1315,32 +1315,6 @@
             "it-identity-word-4"
           ],
           "reviewOf": [],
-          "id": "it-identity-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I am Anna.",
-          "answers": [
-            "Io sono Anna.",
-            "sono Anna."
-          ],
-          "errors": [
-            {
-              "answer": "Io è Anna.",
-              "category": "wrong conjugation",
-              "explanation": "With io, use sono, not è."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-identity-concept",
-          "explanation": "Io means I. Sono is the I-form of essere (to be). Italian often omits io because the verb identifies the speaker. Use sono with your name or nationality. Ciao is informal; buongiorno is a polite greeting.",
-          "vocabulary": [
-            "it-identity-word-1",
-            "it-identity-word-2",
-            "it-identity-word-3",
-            "it-identity-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-identity-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -1389,6 +1363,32 @@
           "prompt": "Complete: Io ___ Anna.",
           "answers": [
             "sono"
+          ]
+        },
+        {
+          "conceptId": "it-identity-concept",
+          "explanation": "Io means I. Sono is the I-form of essere (to be). Italian often omits io because the verb identifies the speaker. Use sono with your name or nationality. Ciao is informal; buongiorno is a polite greeting.",
+          "vocabulary": [
+            "it-identity-word-1",
+            "it-identity-word-2",
+            "it-identity-word-3",
+            "it-identity-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-identity-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I am Anna.",
+          "answers": [
+            "Io sono Anna.",
+            "sono Anna."
+          ],
+          "errors": [
+            {
+              "answer": "Io è Anna.",
+              "category": "wrong conjugation",
+              "explanation": "With io, use sono, not è."
+            }
           ]
         },
         {
@@ -1475,31 +1475,6 @@
             "it-people-word-4"
           ],
           "reviewOf": [],
-          "id": "it-people-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: You are Marco.",
-          "answers": [
-            "Tu sei Marco."
-          ],
-          "errors": [
-            {
-              "answer": "Tu è Marco.",
-              "category": "wrong conjugation",
-              "explanation": "With tu, essere is sei."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-people-concept",
-          "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
-          "vocabulary": [
-            "it-people-word-1",
-            "it-people-word-2",
-            "it-people-word-3",
-            "it-people-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-people-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -1547,6 +1522,31 @@
           "prompt": "Complete: Tu ___ Marco.",
           "answers": [
             "sei"
+          ]
+        },
+        {
+          "conceptId": "it-people-concept",
+          "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+          "vocabulary": [
+            "it-people-word-1",
+            "it-people-word-2",
+            "it-people-word-3",
+            "it-people-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-people-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: You are Marco.",
+          "answers": [
+            "Tu sei Marco."
+          ],
+          "errors": [
+            {
+              "answer": "Tu è Marco.",
+              "category": "wrong conjugation",
+              "explanation": "With tu, essere is sei."
+            }
           ]
         },
         {
@@ -1654,32 +1654,6 @@
             "it-family-word-4"
           ],
           "reviewOf": [],
-          "id": "it-family-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I have a brother.",
-          "answers": [
-            "Ho un fratello.",
-            "Io ho un fratello."
-          ],
-          "errors": [
-            {
-              "answer": "Io ha un fratello.",
-              "category": "wrong conjugation",
-              "explanation": "With io, avere is ho. The h is silent."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-family-concept",
-          "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
-          "vocabulary": [
-            "it-family-word-1",
-            "it-family-word-2",
-            "it-family-word-3",
-            "it-family-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-family-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -1728,6 +1702,32 @@
           "prompt": "Complete: Io ___ un fratello.",
           "answers": [
             "ho"
+          ]
+        },
+        {
+          "conceptId": "it-family-concept",
+          "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+          "vocabulary": [
+            "it-family-word-1",
+            "it-family-word-2",
+            "it-family-word-3",
+            "it-family-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-family-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I have a brother.",
+          "answers": [
+            "Ho un fratello.",
+            "Io ho un fratello."
+          ],
+          "errors": [
+            {
+              "answer": "Io ha un fratello.",
+              "category": "wrong conjugation",
+              "explanation": "With io, avere is ho. The h is silent."
+            }
           ]
         },
         {
@@ -1834,32 +1834,6 @@
             "it-numbers-word-4"
           ],
           "reviewOf": [],
-          "id": "it-numbers-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I am twenty years old.",
-          "answers": [
-            "Ho venti anni.",
-            "Io ho venti anni."
-          ],
-          "errors": [
-            {
-              "answer": "Sono venti anni.",
-              "category": "incorrect answer",
-              "explanation": "Use avere for a person’s age: Ho venti anni."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-numbers-concept",
-          "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
-          "vocabulary": [
-            "it-numbers-word-1",
-            "it-numbers-word-2",
-            "it-numbers-word-3",
-            "it-numbers-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-numbers-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -1907,6 +1881,32 @@
           "prompt": "Complete: ___ venti anni.",
           "answers": [
             "Ho"
+          ]
+        },
+        {
+          "conceptId": "it-numbers-concept",
+          "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+          "vocabulary": [
+            "it-numbers-word-1",
+            "it-numbers-word-2",
+            "it-numbers-word-3",
+            "it-numbers-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-numbers-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I am twenty years old.",
+          "answers": [
+            "Ho venti anni.",
+            "Io ho venti anni."
+          ],
+          "errors": [
+            {
+              "answer": "Sono venti anni.",
+              "category": "incorrect answer",
+              "explanation": "Use avere for a person’s age: Ho venti anni."
+            }
           ]
         },
         {
@@ -2015,32 +2015,6 @@
             "it-home-word-4"
           ],
           "reviewOf": [],
-          "id": "it-home-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I have a house.",
-          "answers": [
-            "Ho una casa.",
-            "Io ho una casa."
-          ],
-          "errors": [
-            {
-              "answer": "La libro è in casa.",
-              "category": "incorrect answer",
-              "explanation": "Libro is masculine: il libro."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-home-concept",
-          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
-          "vocabulary": [
-            "it-home-word-1",
-            "it-home-word-2",
-            "it-home-word-3",
-            "it-home-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-home-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2090,6 +2064,32 @@
           "prompt": "Complete: ___ libro è in casa.",
           "answers": [
             "Il"
+          ]
+        },
+        {
+          "conceptId": "it-home-concept",
+          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+          "vocabulary": [
+            "it-home-word-1",
+            "it-home-word-2",
+            "it-home-word-3",
+            "it-home-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-home-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I have a house.",
+          "answers": [
+            "Ho una casa.",
+            "Io ho una casa."
+          ],
+          "errors": [
+            {
+              "answer": "La libro è in casa.",
+              "category": "incorrect answer",
+              "explanation": "Libro is masculine: il libro."
+            }
           ]
         },
         {
@@ -2197,31 +2197,6 @@
             "it-descriptions-word-4"
           ],
           "reviewOf": [],
-          "id": "it-descriptions-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: The house is white.",
-          "answers": [
-            "La casa è bianca."
-          ],
-          "errors": [
-            {
-              "answer": "La casa è bianco.",
-              "category": "incorrect answer",
-              "explanation": "Casa is feminine, so bianco becomes bianca."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-descriptions-concept",
-          "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
-          "vocabulary": [
-            "it-descriptions-word-1",
-            "it-descriptions-word-2",
-            "it-descriptions-word-3",
-            "it-descriptions-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-descriptions-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2270,6 +2245,31 @@
           "prompt": "Complete: La casa è ___.",
           "answers": [
             "bianca"
+          ]
+        },
+        {
+          "conceptId": "it-descriptions-concept",
+          "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+          "vocabulary": [
+            "it-descriptions-word-1",
+            "it-descriptions-word-2",
+            "it-descriptions-word-3",
+            "it-descriptions-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-descriptions-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: The house is white.",
+          "answers": [
+            "La casa è bianca."
+          ],
+          "errors": [
+            {
+              "answer": "La casa è bianco.",
+              "category": "incorrect answer",
+              "explanation": "Casa is feminine, so bianco becomes bianca."
+            }
           ]
         },
         {
@@ -2377,31 +2377,6 @@
             "it-plural-word-4"
           ],
           "reviewOf": [],
-          "id": "it-plural-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: The books are white.",
-          "answers": [
-            "I libri sono bianchi."
-          ],
-          "errors": [
-            {
-              "answer": "I libri sono bianco.",
-              "category": "incorrect answer",
-              "explanation": "Plural libri needs plural bianchi."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-plural-concept",
-          "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
-          "vocabulary": [
-            "it-plural-word-1",
-            "it-plural-word-2",
-            "it-plural-word-3",
-            "it-plural-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-plural-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2450,6 +2425,31 @@
           "prompt": "Complete: I libri sono ___.",
           "answers": [
             "bianchi"
+          ]
+        },
+        {
+          "conceptId": "it-plural-concept",
+          "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+          "vocabulary": [
+            "it-plural-word-1",
+            "it-plural-word-2",
+            "it-plural-word-3",
+            "it-plural-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-plural-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: The books are white.",
+          "answers": [
+            "I libri sono bianchi."
+          ],
+          "errors": [
+            {
+              "answer": "I libri sono bianco.",
+              "category": "incorrect answer",
+              "explanation": "Plural libri needs plural bianchi."
+            }
           ]
         },
         {
@@ -2556,32 +2556,6 @@
             "it-routine-word-4"
           ],
           "reviewOf": [],
-          "id": "it-routine-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I study every day.",
-          "answers": [
-            "Studio ogni giorno.",
-            "Io studio ogni giorno."
-          ],
-          "errors": [
-            {
-              "answer": "Io studi ogni giorno.",
-              "category": "wrong conjugation",
-              "explanation": "With io, studiare becomes studio."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-routine-concept",
-          "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
-          "vocabulary": [
-            "it-routine-word-1",
-            "it-routine-word-2",
-            "it-routine-word-3",
-            "it-routine-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-routine-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2629,6 +2603,32 @@
           "prompt": "Complete: Io ___ ogni giorno.",
           "answers": [
             "studio"
+          ]
+        },
+        {
+          "conceptId": "it-routine-concept",
+          "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+          "vocabulary": [
+            "it-routine-word-1",
+            "it-routine-word-2",
+            "it-routine-word-3",
+            "it-routine-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-routine-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I study every day.",
+          "answers": [
+            "Studio ogni giorno.",
+            "Io studio ogni giorno."
+          ],
+          "errors": [
+            {
+              "answer": "Io studi ogni giorno.",
+              "category": "wrong conjugation",
+              "explanation": "With io, studiare becomes studio."
+            }
           ]
         },
         {
@@ -2735,31 +2735,6 @@
             "it-negation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-negation-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I do not work at home.",
-          "answers": [
-            "Non lavoro in casa."
-          ],
-          "errors": [
-            {
-              "answer": "Io non lavori in casa.",
-              "category": "wrong conjugation",
-              "explanation": "The verb still agrees with io: non lavoro."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-negation-concept",
-          "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
-          "vocabulary": [
-            "it-negation-word-1",
-            "it-negation-word-2",
-            "it-negation-word-3",
-            "it-negation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-negation-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2807,6 +2782,31 @@
           "prompt": "Complete: ___ lavoro in casa.",
           "answers": [
             "Non"
+          ]
+        },
+        {
+          "conceptId": "it-negation-concept",
+          "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+          "vocabulary": [
+            "it-negation-word-1",
+            "it-negation-word-2",
+            "it-negation-word-3",
+            "it-negation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-negation-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I do not work at home.",
+          "answers": [
+            "Non lavoro in casa."
+          ],
+          "errors": [
+            {
+              "answer": "Io non lavori in casa.",
+              "category": "wrong conjugation",
+              "explanation": "The verb still agrees with io: non lavoro."
+            }
           ]
         },
         {
@@ -2914,32 +2914,6 @@
             "it-food-word-4"
           ],
           "reviewOf": [],
-          "id": "it-food-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I will have a coffee.",
-          "answers": [
-            "Prendo un caffè.",
-            "Io prendo un caffè."
-          ],
-          "errors": [
-            {
-              "answer": "Io prendi un caffè.",
-              "category": "wrong conjugation",
-              "explanation": "With io, prendere becomes prendo."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-food-concept",
-          "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
-          "vocabulary": [
-            "it-food-word-1",
-            "it-food-word-2",
-            "it-food-word-3",
-            "it-food-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-food-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -2987,6 +2961,32 @@
           "prompt": "Complete: Io ___ un caffè.",
           "answers": [
             "prendo"
+          ]
+        },
+        {
+          "conceptId": "it-food-concept",
+          "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
+          "vocabulary": [
+            "it-food-word-1",
+            "it-food-word-2",
+            "it-food-word-3",
+            "it-food-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-food-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I will have a coffee.",
+          "answers": [
+            "Prendo un caffè.",
+            "Io prendo un caffè."
+          ],
+          "errors": [
+            {
+              "answer": "Io prendi un caffè.",
+              "category": "wrong conjugation",
+              "explanation": "With io, prendere becomes prendo."
+            }
           ]
         },
         {
@@ -3093,31 +3093,6 @@
             "it-possession-word-4"
           ],
           "reviewOf": [],
-          "id": "it-possession-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: My house is white.",
-          "answers": [
-            "La mia casa è bianca."
-          ],
-          "errors": [
-            {
-              "answer": "La mio casa è bianca.",
-              "category": "incorrect answer",
-              "explanation": "Mia agrees with feminine casa."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-possession-concept",
-          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
-          "vocabulary": [
-            "it-possession-word-1",
-            "it-possession-word-2",
-            "it-possession-word-3",
-            "it-possession-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-possession-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -3167,6 +3142,31 @@
           "prompt": "Complete: La ___ casa è bianca.",
           "answers": [
             "mia"
+          ]
+        },
+        {
+          "conceptId": "it-possession-concept",
+          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
+          "vocabulary": [
+            "it-possession-word-1",
+            "it-possession-word-2",
+            "it-possession-word-3",
+            "it-possession-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-possession-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: My house is white.",
+          "answers": [
+            "La mia casa è bianca."
+          ],
+          "errors": [
+            {
+              "answer": "La mio casa è bianca.",
+              "category": "incorrect answer",
+              "explanation": "Mia agrees with feminine casa."
+            }
           ]
         },
         {
@@ -3274,32 +3274,6 @@
             "it-transport-word-4"
           ],
           "reviewOf": [],
-          "id": "it-transport-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I am going to the station.",
-          "answers": [
-            "Vado alla stazione.",
-            "Io vado alla stazione."
-          ],
-          "errors": [
-            {
-              "answer": "Vado a la stazione.",
-              "category": "incorrect answer",
-              "explanation": "A + la contracts to alla."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-transport-concept",
-          "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
-          "vocabulary": [
-            "it-transport-word-1",
-            "it-transport-word-2",
-            "it-transport-word-3",
-            "it-transport-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-transport-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -3347,6 +3321,32 @@
           "prompt": "Complete: Vado ___ stazione.",
           "answers": [
             "alla"
+          ]
+        },
+        {
+          "conceptId": "it-transport-concept",
+          "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
+          "vocabulary": [
+            "it-transport-word-1",
+            "it-transport-word-2",
+            "it-transport-word-3",
+            "it-transport-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-transport-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I am going to the station.",
+          "answers": [
+            "Vado alla stazione.",
+            "Io vado alla stazione."
+          ],
+          "errors": [
+            {
+              "answer": "Vado a la stazione.",
+              "category": "incorrect answer",
+              "explanation": "A + la contracts to alla."
+            }
           ]
         },
         {
@@ -3457,32 +3457,6 @@
             "it-requests-word-4"
           ],
           "reviewOf": [],
-          "id": "it-requests-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Can I have a coffee?",
-          "answers": [
-            "Posso prendere un caffè?",
-            "Io posso prendere un caffè?"
-          ],
-          "errors": [
-            {
-              "answer": "Posso prendo un caffè?",
-              "category": "incorrect answer",
-              "explanation": "After posso, use the infinitive prendere."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-requests-concept",
-          "explanation": "Potere means can or be able to: io posso, tu puoi. Follow it with an infinitive: posso prendere. Do not conjugate both verbs. Per favore means please. Vorrei is a useful fixed polite request meaning I would like.",
-          "vocabulary": [
-            "it-requests-word-1",
-            "it-requests-word-2",
-            "it-requests-word-3",
-            "it-requests-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-requests-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -3531,6 +3505,32 @@
           "prompt": "Complete: Posso ___ un caffè?",
           "answers": [
             "prendere"
+          ]
+        },
+        {
+          "conceptId": "it-requests-concept",
+          "explanation": "Potere means can or be able to: io posso, tu puoi. Follow it with an infinitive: posso prendere. Do not conjugate both verbs. Per favore means please. Vorrei is a useful fixed polite request meaning I would like.",
+          "vocabulary": [
+            "it-requests-word-1",
+            "it-requests-word-2",
+            "it-requests-word-3",
+            "it-requests-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-requests-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Can I have a coffee?",
+          "answers": [
+            "Posso prendere un caffè?",
+            "Io posso prendere un caffè?"
+          ],
+          "errors": [
+            {
+              "answer": "Posso prendo un caffè?",
+              "category": "incorrect answer",
+              "explanation": "After posso, use the infinitive prendere."
+            }
           ]
         },
         {
@@ -3657,31 +3657,6 @@
             "it-reflexive-word-4"
           ],
           "reviewOf": [],
-          "id": "it-reflexive-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I get up at seven.",
-          "answers": [
-            "Mi alzo alle sette."
-          ],
-          "errors": [
-            {
-              "answer": "Io ti alzo alle sette.",
-              "category": "wrong conjugation",
-              "explanation": "For your own routine with io, use mi alzo."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-reflexive-concept",
-          "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
-          "vocabulary": [
-            "it-reflexive-word-1",
-            "it-reflexive-word-2",
-            "it-reflexive-word-3",
-            "it-reflexive-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-reflexive-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -3730,6 +3705,31 @@
           "prompt": "Complete: Io ___ alzo alle sette.",
           "answers": [
             "mi"
+          ]
+        },
+        {
+          "conceptId": "it-reflexive-concept",
+          "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
+          "vocabulary": [
+            "it-reflexive-word-1",
+            "it-reflexive-word-2",
+            "it-reflexive-word-3",
+            "it-reflexive-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-reflexive-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I get up at seven.",
+          "answers": [
+            "Mi alzo alle sette."
+          ],
+          "errors": [
+            {
+              "answer": "Io ti alzo alle sette.",
+              "category": "wrong conjugation",
+              "explanation": "For your own routine with io, use mi alzo."
+            }
           ]
         },
         {
@@ -3838,31 +3838,6 @@
             "it-past-word-4"
           ],
           "reviewOf": [],
-          "id": "it-past-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Yesterday I ate.",
-          "answers": [
-            "Ieri ho mangiato."
-          ],
-          "errors": [
-            {
-              "answer": "Io ha mangiato.",
-              "category": "wrong conjugation",
-              "explanation": "With io, avere is ho: Io ho mangiato."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-past-concept",
-          "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
-          "vocabulary": [
-            "it-past-word-1",
-            "it-past-word-2",
-            "it-past-word-3",
-            "it-past-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-past-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -3911,6 +3886,31 @@
           "prompt": "Complete: Ieri ___ mangiato.",
           "answers": [
             "ho"
+          ]
+        },
+        {
+          "conceptId": "it-past-concept",
+          "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
+          "vocabulary": [
+            "it-past-word-1",
+            "it-past-word-2",
+            "it-past-word-3",
+            "it-past-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-past-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Yesterday I ate.",
+          "answers": [
+            "Ieri ho mangiato."
+          ],
+          "errors": [
+            {
+              "answer": "Io ha mangiato.",
+              "category": "wrong conjugation",
+              "explanation": "With io, avere is ho: Io ho mangiato."
+            }
           ]
         },
         {
@@ -4017,31 +4017,6 @@
             "it-plans-word-4"
           ],
           "reviewOf": [],
-          "id": "it-plans-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Tomorrow I am going to Rome.",
-          "answers": [
-            "Domani vado a Roma."
-          ],
-          "errors": [
-            {
-              "answer": "Domani io vai a Roma.",
-              "category": "incorrect answer",
-              "explanation": "Io uses vado, even when the plan is for tomorrow."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-plans-concept",
-          "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
-          "vocabulary": [
-            "it-plans-word-1",
-            "it-plans-word-2",
-            "it-plans-word-3",
-            "it-plans-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-plans-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -4090,6 +4065,31 @@
           "prompt": "Complete: Domani io ___ a Roma.",
           "answers": [
             "vado"
+          ]
+        },
+        {
+          "conceptId": "it-plans-concept",
+          "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
+          "vocabulary": [
+            "it-plans-word-1",
+            "it-plans-word-2",
+            "it-plans-word-3",
+            "it-plans-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-plans-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Tomorrow I am going to Rome.",
+          "answers": [
+            "Domani vado a Roma."
+          ],
+          "errors": [
+            {
+              "answer": "Domani io vai a Roma.",
+              "category": "incorrect answer",
+              "explanation": "Io uses vado, even when the plan is for tomorrow."
+            }
           ]
         },
         {
@@ -4196,31 +4196,6 @@
             "it-days-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-days-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Today is Monday.",
-          "answers": [
-            "Oggi è lunedì."
-          ],
-          "errors": [
-            {
-              "answer": "Oggi ha lunedì.",
-              "category": "incorrect answer",
-              "explanation": "Use essere for the day: Oggi è lunedì."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-days-concept",
-          "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
-          "vocabulary": [
-            "it-days-foundation-word-1",
-            "it-days-foundation-word-2",
-            "it-days-foundation-word-3",
-            "it-days-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-days-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -4268,6 +4243,31 @@
           "prompt": "Complete the date: Il compleanno è il ___ maggio.",
           "answers": [
             "tre"
+          ]
+        },
+        {
+          "conceptId": "it-days-concept",
+          "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
+          "vocabulary": [
+            "it-days-foundation-word-1",
+            "it-days-foundation-word-2",
+            "it-days-foundation-word-3",
+            "it-days-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-days-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Today is Monday.",
+          "answers": [
+            "Oggi è lunedì."
+          ],
+          "errors": [
+            {
+              "answer": "Oggi ha lunedì.",
+              "category": "incorrect answer",
+              "explanation": "Use essere for the day: Oggi è lunedì."
+            }
           ]
         },
         {
@@ -4381,32 +4381,6 @@
             "it-time-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-time-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: It is half past three.",
-          "answers": [
-            "Sono le tre e mezza.",
-            "Sono le 3 e mezza."
-          ],
-          "errors": [
-            {
-              "answer": "È le tre e mezza.",
-              "category": "incorrect answer",
-              "explanation": "Hours take sono, except one o’clock: Sono le tre e mezza."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-time-concept",
-          "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
-          "vocabulary": [
-            "it-time-foundation-word-1",
-            "it-time-foundation-word-2",
-            "it-time-foundation-word-3",
-            "it-time-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-time-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -4456,6 +4430,32 @@
           "prompt": "Complete the time: ___ l’una.",
           "answers": [
             "È"
+          ]
+        },
+        {
+          "conceptId": "it-time-concept",
+          "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+          "vocabulary": [
+            "it-time-foundation-word-1",
+            "it-time-foundation-word-2",
+            "it-time-foundation-word-3",
+            "it-time-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-time-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: It is half past three.",
+          "answers": [
+            "Sono le tre e mezza.",
+            "Sono le 3 e mezza."
+          ],
+          "errors": [
+            {
+              "answer": "È le tre e mezza.",
+              "category": "incorrect answer",
+              "explanation": "Hours take sono, except one o’clock: Sono le tre e mezza."
+            }
           ]
         },
         {
@@ -4570,32 +4570,6 @@
             "it-weather-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-weather-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: It is cold today.",
-          "answers": [
-            "Oggi fa freddo.",
-            "Fa freddo oggi."
-          ],
-          "errors": [
-            {
-              "answer": "Oggi è freddo.",
-              "category": "incorrect answer",
-              "explanation": "Weather uses fare: Oggi fa freddo."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-weather-concept",
-          "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
-          "vocabulary": [
-            "it-weather-foundation-word-1",
-            "it-weather-foundation-word-2",
-            "it-weather-foundation-word-3",
-            "it-weather-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-weather-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -4643,6 +4617,32 @@
           "prompt": "Complete the forecast: Domani ___ caldo.",
           "answers": [
             "fa"
+          ]
+        },
+        {
+          "conceptId": "it-weather-concept",
+          "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+          "vocabulary": [
+            "it-weather-foundation-word-1",
+            "it-weather-foundation-word-2",
+            "it-weather-foundation-word-3",
+            "it-weather-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-weather-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: It is cold today.",
+          "answers": [
+            "Oggi fa freddo.",
+            "Fa freddo oggi."
+          ],
+          "errors": [
+            {
+              "answer": "Oggi è freddo.",
+              "category": "incorrect answer",
+              "explanation": "Weather uses fare: Oggi fa freddo."
+            }
           ]
         },
         {
@@ -4757,31 +4757,6 @@
             "it-market-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-market-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: How much is a kilo of apples?",
-          "answers": [
-            "Quanto costa un chilo di mele?"
-          ],
-          "errors": [
-            {
-              "answer": "Quanto costano un chilo di mele?",
-              "category": "incorrect answer",
-              "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
-            }
-          ]
-        },
-        {
-          "conceptId": "it-market-concept",
-          "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
-          "vocabulary": [
-            "it-market-foundation-word-1",
-            "it-market-foundation-word-2",
-            "it-market-foundation-word-3",
-            "it-market-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-market-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -4832,6 +4807,31 @@
           "prompt": "Complete the price: ___ tre euro.",
           "answers": [
             "Costano"
+          ]
+        },
+        {
+          "conceptId": "it-market-concept",
+          "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+          "vocabulary": [
+            "it-market-foundation-word-1",
+            "it-market-foundation-word-2",
+            "it-market-foundation-word-3",
+            "it-market-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-market-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: How much is a kilo of apples?",
+          "answers": [
+            "Quanto costa un chilo di mele?"
+          ],
+          "errors": [
+            {
+              "answer": "Quanto costano un chilo di mele?",
+              "category": "incorrect answer",
+              "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
+            }
           ]
         },
         {
@@ -4946,31 +4946,6 @@
             "it-health-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-health-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: My head hurts.",
-          "answers": [
-            "Mi fa male la testa."
-          ],
-          "errors": [
-            {
-              "answer": "La mia testa è male.",
-              "category": "incorrect answer",
-              "explanation": "Pain uses fare: Mi fa male la testa."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-health-concept",
-          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
-          "vocabulary": [
-            "it-health-foundation-word-1",
-            "it-health-foundation-word-2",
-            "it-health-foundation-word-3",
-            "it-health-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-health-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -5020,6 +4995,31 @@
           "prompt": "Complete the pain: Mi ___ male la testa.",
           "answers": [
             "fa"
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: My head hurts.",
+          "answers": [
+            "Mi fa male la testa."
+          ],
+          "errors": [
+            {
+              "answer": "La mia testa è male.",
+              "category": "incorrect answer",
+              "explanation": "Pain uses fare: Mi fa male la testa."
+            }
           ]
         },
         {
@@ -5133,31 +5133,6 @@
             "it-pharmacy-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-pharmacy-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: I need some medicine.",
-          "answers": [
-            "Ho bisogno di una medicina."
-          ],
-          "errors": [
-            {
-              "answer": "Ho bisogno una medicina.",
-              "category": "incorrect answer",
-              "explanation": "Bisogno needs di: Ho bisogno di una medicina."
-            }
-          ]
-        },
-        {
-          "conceptId": "it-pharmacy-concept",
-          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
-          "vocabulary": [
-            "it-pharmacy-foundation-word-1",
-            "it-pharmacy-foundation-word-2",
-            "it-pharmacy-foundation-word-3",
-            "it-pharmacy-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-pharmacy-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -5207,6 +5182,31 @@
           "prompt": "Complete the need: Ho bisogno ___ una medicina.",
           "answers": [
             "di"
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I need some medicine.",
+          "answers": [
+            "Ho bisogno di una medicina."
+          ],
+          "errors": [
+            {
+              "answer": "Ho bisogno una medicina.",
+              "category": "incorrect answer",
+              "explanation": "Bisogno needs di: Ho bisogno di una medicina."
+            }
           ]
         },
         {
@@ -5320,31 +5320,6 @@
             "it-emergency-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-emergency-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Help! Call an ambulance!",
-          "answers": [
-            "Aiuto! Chiami un’ambulanza!"
-          ],
-          "errors": [
-            {
-              "answer": "Aiuto! Chiamo un’ambulanza!",
-              "category": "incorrect answer",
-              "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
-            }
-          ]
-        },
-        {
-          "conceptId": "it-emergency-concept",
-          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
-          "vocabulary": [
-            "it-emergency-foundation-word-1",
-            "it-emergency-foundation-word-2",
-            "it-emergency-foundation-word-3",
-            "it-emergency-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-emergency-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -5392,6 +5367,31 @@
           "prompt": "Complete the call: Chiami ___!",
           "answers": [
             "un’ambulanza"
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Help! Call an ambulance!",
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "errors": [
+            {
+              "answer": "Aiuto! Chiamo un’ambulanza!",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+            }
           ]
         },
         {
@@ -5505,31 +5505,6 @@
             "it-invitations-foundation-word-4"
           ],
           "reviewOf": [],
-          "id": "it-invitations-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
-          "answers": [
-            "Vuoi venire a cena sabato?"
-          ],
-          "errors": [
-            {
-              "answer": "Vuoi andare a cena sabato?",
-              "category": "incorrect answer",
-              "explanation": "Andare is to go; invite with venire: Vuoi venire a cena sabato?"
-            }
-          ]
-        },
-        {
-          "conceptId": "it-invitations-concept",
-          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
-          "vocabulary": [
-            "it-invitations-foundation-word-1",
-            "it-invitations-foundation-word-2",
-            "it-invitations-foundation-word-3",
-            "it-invitations-foundation-word-4"
-          ],
-          "reviewOf": [],
           "id": "it-invitations-foundation-meaning",
           "kind": "translate",
           "mode": "recognition",
@@ -5579,6 +5554,31 @@
           "prompt": "Complete the reply: Sì, grazie, ___.",
           "answers": [
             "volentieri"
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
+          "answers": [
+            "Vuoi venire a cena sabato?"
+          ],
+          "errors": [
+            {
+              "answer": "Vuoi andare a cena sabato?",
+              "category": "incorrect answer",
+              "explanation": "Andare is to go; invite with venire: Vuoi venire a cena sabato?"
+            }
           ]
         },
         {
