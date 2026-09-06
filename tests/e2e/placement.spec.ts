@@ -29,7 +29,7 @@ test('French placement exits early for a learner who needs foundations', async (
 });
 
 test('dashboard links to the placement quiz', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/dashboard');
   await expect(
     page.getByRole('link', { name: /take the 3-minute placement quiz/i }),
   ).toHaveAttribute('href', /\/learn\/.*\/placement/);

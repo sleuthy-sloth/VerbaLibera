@@ -35,7 +35,7 @@ export function LanguageSwitcher({ currentCourse, dashboard = false, onChange, c
     try { localStorage.setItem('verbalibera_course', courseSlug); } catch {}
     onChange?.(courseSlug);
     if (dashboard) {
-      window.history.pushState({}, '', `/?course=${encodeURIComponent(courseSlug)}`);
+      window.history.pushState({}, '', `/dashboard?course=${encodeURIComponent(courseSlug)}`);
     } else {
       window.location.href = `/learn/${courseSlug}`;
     }

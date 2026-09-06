@@ -18,7 +18,7 @@ export default async function PlacementPage({
       <main id="main-content">
         <p>VerbaLibera preview</p>
         <h1>This course is not available in preview.</h1>
-        <Link href="/">Return to your daily path</Link>
+        <Link href="/dashboard">Return to your daily path</Link>
       </main>
     );
   }

@@ -20,7 +20,7 @@ test('study plan builder saves and shows the week overview', async ({ page }) =>
 
   // Slice 3: the saved plan surfaces on the daily path with its position,
   // today's items, and a link back to the plan — the plan → session walk.
-  await page.goto('/');
+  await page.goto('/dashboard');
   await expect(page.getByText(/week 1 of \d+ · \w+ track/i)).toBeVisible();
   await expect(page.getByText(/plan items today/i)).toBeVisible();
   const planLink = page.getByRole('link', { name: /review your study plan/i });

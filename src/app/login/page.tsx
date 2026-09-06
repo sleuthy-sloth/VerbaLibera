@@ -58,7 +58,7 @@ export default function LoginPage() {
         body: JSON.stringify({ accountIdentifier: accountIdentifier.trim(), attestationResponse, registrationToken }),
       });
       if (res.ok) {
-        window.location.assign('/');
+        window.location.assign('/dashboard');
       } else if (res.status === 401) {
         setStatus('Registration not allowed. Check your registration token.');
       } else if (res.status === 409) {
@@ -90,7 +90,7 @@ export default function LoginPage() {
       });
       if (res.ok) {
         setStatus('Signed in.');
-        window.location.assign('/');
+        window.location.assign('/dashboard');
       } else {
         setStatus(await responseStatus(res));
       }

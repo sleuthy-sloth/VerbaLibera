@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import base from "./playwright.config";
 export default defineConfig({
   ...base,
-  testMatch: "course-packs.spec.ts",
+  testMatch: ["course-packs.spec.ts", "landing-page.spec.ts"],
   projects: [
     {
       name: "iphone-webkit",

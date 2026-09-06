@@ -11,7 +11,8 @@ export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; cours
   const audio = useRef<HTMLAudioElement>(null);
   const [heard, setHeard] = useState<string | null>(null);
   useEffect(() => {
-    setHeard(listenedAt(track.lessonId));
+    const timer = setTimeout(() => setHeard(listenedAt(track.lessonId)), 0);
+    return () => clearTimeout(timer);
   }, [track.lessonId]);
   useEffect(() => {
     const media = navigator.mediaSession;

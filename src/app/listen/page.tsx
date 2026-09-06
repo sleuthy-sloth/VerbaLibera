@@ -18,6 +18,7 @@ export default function ListenPage() {
   const [selected, setSelected] = useState("");
   const [error, setError] = useState("");
   useEffect(() => {
+    const timer = setTimeout(() => {
     try {
       const params = new URLSearchParams(window.location.search);
       const saved = window.localStorage.getItem(COURSE_KEY);
@@ -28,10 +29,11 @@ export default function ListenPage() {
     } catch {
       // Defaults stand.
     }
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
   useEffect(() => {
     let active = true;
-    setError("");
     fetch(`/packs/${course}.json`)
       .then((r) => {
         if (!r.ok) throw new Error("Course pack is not downloaded yet.");
@@ -40,6 +42,7 @@ export default function ListenPage() {
       .then(validatePack)
       .then((pack) => {
         if (!active) return;
+        setError("");
         setLessons(pack.lessons.map((l) => ({ id: l.id, title: l.title })));
         try {
           window.localStorage.setItem(COURSE_KEY, course);
@@ -68,7 +71,7 @@ export default function ListenPage() {
       </p>
       <label className={styles.label}>
         Course
-        <select value={course} onChange={(e) => { setCourse(e.target.value); setSelected(""); }}>
+        <select value={course} onChange={(e) => { setCourse(e.target.value); setSelected(""); setError(""); }}>
           {catalog.map((c) => (
             <option key={c.slug} value={c.slug}>{c.title}</option>
           ))}

@@ -114,3 +114,6 @@ html[data-motion='reduced'] *::after {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
 }
+
+/* The public page has its own navigation and needs no bottom-tab clearance. */
+body:has([data-landing-page]) { padding-bottom: 0; }

@@ -5,7 +5,7 @@ test("Listen tab plays the French L1 audio lesson and logs it heard", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/dashboard");
   await page.getByRole("link", { name: "Audio lessons" }).click();
   await expect(page).toHaveURL(/\/listen$/);
   await expect(

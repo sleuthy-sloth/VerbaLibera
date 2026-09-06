@@ -24,12 +24,12 @@ describe('QuickNav', () => {
   });
 
   it('renders Today, Practice, Listen and You — never per-language tabs', async () => {
-    await pathname('/');
+    await pathname('/dashboard');
     render(<QuickNav />);
 
     expect(screen.getByRole('navigation', { name: 'Primary' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Daily path' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Resume practice' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Daily path' })).toHaveAttribute('href', '/dashboard');
+    expect(screen.getByRole('link', { name: 'Resume practice' })).toHaveAttribute('href', '/dashboard');
     expect(screen.getByRole('link', { name: 'Audio lessons' })).toHaveAttribute('href', '/listen');
     expect(screen.getByRole('link', { name: 'Account' })).toHaveAttribute('href', '/you');
     expect(screen.queryByRole('link', { name: 'French lessons' })).not.toBeInTheDocument();
@@ -38,7 +38,7 @@ describe('QuickNav', () => {
 
   it('points Practice at the last-used course', async () => {
     localStorage.setItem('verbalibera_course', 'english-to-italian');
-    await pathname('/');
+    await pathname('/dashboard');
     render(<QuickNav />);
 
     expect(await screen.findByRole('link', { name: 'Resume practice' })).toHaveAttribute(
@@ -68,4 +68,10 @@ describe('QuickNav', () => {
     );
     expect(screen.getByRole('link', { name: 'Resume practice' })).not.toHaveAttribute('aria-current');
   });
+});
+
+it('keeps learner tabs off the public landing page', async () => {
+  await pathname('/');
+  render(<QuickNav />);
+  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 });

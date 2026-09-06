@@ -51,7 +51,7 @@ test('real passkey registration, review persistence, and sign-in against Postgre
     expect(snapshot).toMatchObject({ isPreview: false, xp: 10, dailyGoal: { completed: 1 } });
     await page.reload();
     await expect(page.getByRole('heading', { name: /French: ordering politely/i })).toBeVisible();
-    await page.goto('/');
+    await page.goto('/dashboard');
     // Header profile link (the bottom Account tab is mobile-only CSS).
     await page.getByRole('link', { name: 'Your profile' }).click();
     await expect(page.getByRole('heading', { name: /your profile/i })).toBeVisible();

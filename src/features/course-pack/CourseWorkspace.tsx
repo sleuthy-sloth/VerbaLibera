@@ -146,7 +146,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         {error ? (
           <button onClick={() => location.reload()}>Try again</button>
         ) : null}
-        <a href="/">Daily path</a>
+        <a href="/dashboard">Daily path</a>
       </main>
     );
   const summary = conceptEvidence(pack, events);
@@ -215,7 +215,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
   return (
     <main id="main-content" className="study">
       <header className="study-header">
-        <a href="/">← Daily path</a>
+        <a href="/dashboard">← Daily path</a>
         <label>
           Foundation language
           <select

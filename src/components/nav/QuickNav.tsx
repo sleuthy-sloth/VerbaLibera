@@ -9,7 +9,7 @@ import styles from './bottom-tabs.module.css';
 // Language switching lives in the header switcher; these tabs never duplicate it.
 export function QuickNav() {
   const pathname = usePathname() ?? '/';
-  const [practiceHref, setPracticeHref] = useState('/');
+  const [practiceHref, setPracticeHref] = useState('/dashboard');
   // Deferred read after paint so the effect never sets state synchronously
   // (cascading-render lint): QuickNav renders a safe default first.
   useEffect(() => {
@@ -22,7 +22,7 @@ export function QuickNav() {
     return () => clearTimeout(timer);
   }, []);
   const tabs = [
-    { href: '/', label: 'Today', fullName: 'Daily path', active: pathname === '/' },
+    { href: '/dashboard', label: 'Today', fullName: 'Daily path', active: pathname === '/dashboard' },
     {
       href: practiceHref,
       label: 'Practice',
@@ -32,6 +32,7 @@ export function QuickNav() {
     { href: '/listen', label: 'Listen', fullName: 'Audio lessons', active: pathname.startsWith('/listen') },
     { href: '/you', label: 'You', fullName: 'Account', active: pathname.startsWith('/you') || pathname.startsWith('/login') },
   ];
+  if (pathname === '/') return null;
   return (
     <nav aria-label="Primary" className={styles.tabs}>
       {tabs.map((tab) => (
