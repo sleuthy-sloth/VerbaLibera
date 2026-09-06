@@ -23,6 +23,21 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "VerbaLibera · Daily practice path",
   description: "A focused daily path for practical language patterns.",
+  metadataBase: new URL("https://verbalibera.vercel.app"),
+  icons: { apple: "/apple-touch-icon.png" },
+  openGraph: {
+    title: "VerbaLibera · An offline language course that respects you",
+    description: "Structured Italian and French A1 lessons with hear-it-first audio. No signup, no AI chatbot, works offline.",
+    url: "/",
+    siteName: "VerbaLibera",
+    images: [{ url: "/og-card.jpg", width: 1200, height: 630, alt: "VerbaLibera — an offline language course that respects you" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VerbaLibera · An offline language course that respects you",
+    description: "Structured Italian and French A1 lessons with hear-it-first audio. No signup, no AI chatbot, works offline.",
+    images: ["/og-card.jpg"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
