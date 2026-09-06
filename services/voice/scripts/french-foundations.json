@@ -167,6 +167,13 @@
       "language": "fr",
       "voice": "ff_siwis",
       "filename": "fr-invitations-foundation-model.wav"
+    },
+    {
+      "id": "fr-first-words-foundation-model",
+      "text": "Bonjour, merci.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-first-words-foundation-model.wav"
     }
   ]
 }

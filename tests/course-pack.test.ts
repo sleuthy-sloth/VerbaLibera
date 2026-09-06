@@ -189,13 +189,14 @@ it("daily selection advances past successful items and recovered mistakes", () =
       .exerciseIds,
   ).toContain(second.exercises[5].id);
 });
-it.each(["italian", "french"])(
+it.each([["italian", "it-identity-foundation"], ["french", "fr-identity-foundation"]])(
   "accepts ordinary English recognition without editorial parentheticals (%s)",
-  (language) => {
+  (language, lessonId) => {
     const p = validatePack(
       JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
     );
-    const e = p.lessons[0].exercises.find((e) => e.mode === "recognition" && e.kind === "translate")!;
+    const lesson = p.lessons.find((l) => l.id === lessonId)!;
+    const e = lesson.exercises.find((e) => e.mode === "recognition" && e.kind === "translate")!;
     expect(
       evaluateAnswer(
         language === "italian" ? "I am Italian." : "I am French.",

@@ -1,12 +1,12 @@
 # Phased upgrade status
 
-Status after Units 6 (24 lessons/language), foundation-aware placement, meet-the-word onboarding, hear-it-first autoplay, guest blank-slate, and brand artwork. “Partial” means working functionality exists, with the named gaps still open; it is not a completion claim for the full phase.
+Status after French L0 (words-first opener) plus Units 6 (25 French / 24 Italian lessons), foundation-aware placement, meet-the-word onboarding, hear-it-first autoplay, guest blank-slate, and brand artwork. “Partial” means working functionality exists, with the named gaps still open; it is not a completion claim for the full phase.
 
 | Phase | Status and remaining work |
 | --- | --- |
 | 1 Audit | Completed initial audit and baseline verification. |
 | 2 Content architecture | Versioned JSON packs, schema and references implemented; richer level/stage/skill metadata remains partial. |
-| 3 Curriculum | Italian/French: 24 lessons each (Units 1–6); partial A1. German foundations announced as coming-soon (metadata only, zero lessons). More domains, depth and native-speaker review remain. |
+| 3 Curriculum | French: 25 lessons (L0 words-first opener + Units 1–6); Italian: 24 lessons (Units 1–6); partial A1. German foundations announced as coming-soon (metadata only, zero lessons). More domains, depth and native-speaker review remain. |
 | 4 Exercises | Reusable registry and seven contracts; five populated forms. Full proposed catalogue remains partial. |
 | 5 Answer evaluator | Deterministic variants, normalization, authored errors and conservative typo handling implemented; broader morphology data remains. |
 | 6 Mastery | Mode-separated concept evidence and exercise schedules implemented; richer concept stability summaries remain. |
@@ -14,8 +14,8 @@ Status after Units 6 (24 lessons/language), foundation-aware placement, meet-the
 | 8 Daily lessons | Due/weak/prerequisite selection and session bounds implemented; diversity and goal weighting remain partial. |
 | 9 Interference | Deferred. |
 | 10 Dialogues | Four static branching scenarios; wider situations and constrained typed branches remain partial. |
-| 11 Reading | 48 short original readings, lookup and optional translation; saved words and longer materials remain partial. |
-| 12 Listening | 48 new prerecorded models: every foundation lesson now has optional listening practice plus hear-it-first autoplay on practice start. French L1 adds the first audio-only Thinking Method track (teacher guide + think-pauses + reveals, bottom Listen tab, precached offline, heard-logging without mastery claims). Slow replay/dictation work offline; minimal pairs, listen-and-order, longer dialogue audio and human prosody review remain. |
+| 11 Reading | 49 short original readings, lookup and optional translation; saved words and longer materials remain partial. |
+| 12 Listening | 49 new prerecorded models: every foundation lesson now has optional listening practice plus hear-it-first autoplay on practice start. French L1 adds the first audio-only Thinking Method track (teacher guide + think-pauses + reveals, bottom Listen tab, precached offline, heard-logging without mastery claims). Slow replay/dictation work offline; minimal pairs, listen-and-order, longer dialogue audio and human prosody review remain. |
 | 13 Pronunciation | Existing optional local transcription retained; no invented pronunciation score. |
 | 14 Course packs | Validated downloadable packs, compatibility/content versions, media hashes and attribution implemented. |
 | 15 Offline | Static cold-start study, teaching, audio and durable practice verified in Chromium. Physical Safari/PWA QA remains open. |

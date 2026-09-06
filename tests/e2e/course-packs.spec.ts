@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { completeFrenchL0 } from "./helpers/complete-l0";
 test("Italian teaches, checks locally, saves practice and survives an offline cold start", async ({
   page,
   context,
@@ -128,6 +129,8 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
   page,
 }) => {
   await page.goto("/courses/french");
+  // L1 practice is prerequisite-gated behind L0: complete first words first.
+  await completeFrenchL0(page);
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
@@ -230,6 +233,7 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
 for (const [language, answer] of [['italian', 'Io sono Anna.'], ['french', 'Je suis Anna.']]) {
   test(`${language} model audio plays and optional listening saves a separate recall`, async ({ page, context, browserName }) => {
     await page.goto(`/courses/${language}`);
+    if (language === 'french') await completeFrenchL0(page);
     if (browserName === 'chromium') {
       await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
       await expect(page.getByText('Downloaded. You can open offline study without a connection.', { exact: true })).toBeVisible();
@@ -246,9 +250,12 @@ for (const [language, answer] of [['italian', 'Io sono Anna.'], ['french', 'Je s
     await page.getByLabel('Your answer', { exact: true }).fill(answer);
     await page.getByRole('button', { name: 'Check answer', exact: true }).click();
     await page.getByRole('button', { name: 'Save and continue', exact: true }).click();
-    await expect(page.getByText(/1 practice result on this device/)).toBeVisible();
+    // French runs complete L0 first (7 device results) before this listening save.
+    await expect(page.getByText(language === 'french' ? '8 practice results on this device' : '1 practice result on this device')).toBeVisible();
     await page.getByRole('button', { name: 'Grammar', exact: true }).click();
-    await expect(page.getByText(/listening: 1 successful, 0 missed recalls/)).toBeVisible();
+    // L0's concept summary also reports its own listening save: scope to L1.
+    const grammar = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'Names and introductions' }) });
+    await expect(grammar.getByText(/listening: 1 successful, 0 missed recalls/)).toBeVisible();
     await context.setOffline(false);
   });
 }

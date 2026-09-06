@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "fr-foundations",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "language": "fr",
   "sourceLanguage": "en",
   "title": "French foundations",
@@ -423,6 +423,22 @@
         }
       ],
       "commonError": "Venir means to come: Tu veux venir dîner ?"
+    },
+    {
+      "id": "fr-first-words-concept",
+      "title": "First words and greetings",
+      "explanation": "French shares the Latin alphabet with English, and thousands of everyday words came into both languages from Latin — nation, information, restaurant, café. You can already recognize them before you speak a word of French. The words below are the first ones to say out loud: bonjour opens almost every conversation, merci answers kindness, oui and non steer it.",
+      "examples": [
+        {
+          "target": "Bonjour.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Merci.",
+          "meaning": "Thank you."
+        }
+      ],
+      "commonError": "Say bonjour the moment you arrive — the French notice silence more than accent. Save bonsoir for the evening."
     }
   ],
   "vocabulary": [
@@ -1097,6 +1113,48 @@
       "meaning": "sorry",
       "partOfSpeech": "word or expression",
       "example": "Désolé, je ne peux pas."
+    },
+    {
+      "id": "fr-first-words-word-1",
+      "word": "bonjour",
+      "meaning": "hello",
+      "partOfSpeech": "word or expression",
+      "example": "Bonjour."
+    },
+    {
+      "id": "fr-first-words-word-2",
+      "word": "merci",
+      "meaning": "thank you",
+      "partOfSpeech": "word or expression",
+      "example": "Merci."
+    },
+    {
+      "id": "fr-first-words-word-3",
+      "word": "oui",
+      "meaning": "yes",
+      "partOfSpeech": "word or expression",
+      "example": "Oui."
+    },
+    {
+      "id": "fr-first-words-word-4",
+      "word": "non",
+      "meaning": "no",
+      "partOfSpeech": "word or expression",
+      "example": "Non."
+    },
+    {
+      "id": "fr-first-words-word-5",
+      "word": "nation",
+      "meaning": "nation",
+      "partOfSpeech": "word or expression",
+      "example": "Nation."
+    },
+    {
+      "id": "fr-first-words-word-6",
+      "word": "café",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Un café."
     }
   ],
   "media": [
@@ -1274,16 +1332,191 @@
       "sha256": "e8be99eb9b31e3637d92b4e7d074062fc42f33f5cae004eaa51ba96049714f0d",
       "transcript": "Tu veux venir dîner samedi ?",
       "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "fr-first-words-foundation-model",
+      "url": "/audio/french-foundations/fr-first-words-foundation-model.wav",
+      "sha256": "cb66d82925f8fad1b348d4cc09cf23b8a084000a51d8571edf78bc9ae3fb1ffc",
+      "transcript": "Bonjour, merci.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
     }
   ],
   "lessons": [
+    {
+      "id": "fr-first-words-foundation",
+      "unitId": "fr-unit-1",
+      "title": "First words",
+      "objective": "Recognize and say your first French words — greetings and Latin-shared words — before building any sentences.",
+      "cefr": "A1",
+      "prerequisites": [],
+      "conceptIds": [
+        "fr-first-words-concept"
+      ],
+      "vocabulary": [
+        "fr-first-words-word-1",
+        "fr-first-words-word-2",
+        "fr-first-words-word-3",
+        "fr-first-words-word-4",
+        "fr-first-words-word-5",
+        "fr-first-words-word-6"
+      ],
+      "explanation": "You already know hundreds of French words: nation, information, restaurant. They came into English and French from Latin, the common root of French, Italian, Spanish and Portuguese — which is why the Romance languages resemble each other. Today you only say a few out loud: bonjour, merci, oui, non. No sentences yet — those come next.",
+      "examples": [
+        {
+          "target": "Bonjour.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Merci.",
+          "meaning": "Thank you."
+        },
+        {
+          "target": "Oui.",
+          "meaning": "Yes."
+        },
+        {
+          "target": "Non.",
+          "meaning": "No."
+        }
+      ],
+      "culturalNote": "Bonjour works from morning until evening; bonsoir arrives after dark. Salut is for friends.",
+      "exercises": [
+        {
+          "id": "fr-first-words-foundation-meet",
+          "conceptId": "fr-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You already know this word — it opens almost every conversation in France. «Bonjour» — what does it mean?",
+          "answers": [
+            "Hello."
+          ],
+          "options": [
+            "Hello.",
+            "Thank you.",
+            "Yes.",
+            "Goodbye."
+          ],
+          "explanation": "Bonjour is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "vocabulary": [
+            "fr-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-think-bonjour",
+          "conceptId": "fr-first-words-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 5,
+          "prompt": "Think: you walk into a bakery. One word greets the baker before anything else. Say it in your head — then write it.",
+          "answers": [
+            "Bonjour."
+          ],
+          "explanation": "Bonjour. One word, said first, opens the conversation.",
+          "vocabulary": [
+            "fr-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-notice-latin",
+          "conceptId": "fr-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Nation, information, restaurant — spelled almost the same in English and French. Why do you already recognize them?",
+          "answers": [
+            "French and English share thousands of words from Latin."
+          ],
+          "options": [
+            "French and English share thousands of words from Latin.",
+            "French borrowed its everyday words from modern English.",
+            "The shared spellings are coincidences."
+          ],
+          "explanation": "Both languages inherited these words from Latin — the common root of French, Italian, Spanish and Portuguese. Recognition comes before production.",
+          "vocabulary": [
+            "fr-first-words-word-5"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-meaning-merci",
+          "conceptId": "fr-first-words-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Merci.",
+          "answers": [
+            "Thank you."
+          ],
+          "explanation": "Merci is thank you — the second word to say out loud.",
+          "vocabulary": [
+            "fr-first-words-word-2"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-cloze-bonjour",
+          "conceptId": "fr-first-words-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the first word you say when you arrive: ___jour.",
+          "answers": [
+            "Bonjour."
+          ],
+          "explanation": "Bonjour — one greeting, said before everything else.",
+          "vocabulary": [
+            "fr-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-read-merci",
+          "conceptId": "fr-first-words-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. How many times do you read the word for thank you?",
+          "passage": "— Bonjour ! — Bonjour. — Merci ? — Oui, merci. — Non, merci.",
+          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "answers": [
+            "Three times."
+          ],
+          "explanation": "Bonjour twice, merci three times — every word on this page is one you already learned.",
+          "vocabulary": [
+            "fr-first-words-word-1",
+            "fr-first-words-word-2",
+            "fr-first-words-word-3",
+            "fr-first-words-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-first-words-foundation-listen-model",
+          "conceptId": "fr-first-words-concept",
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-first-words-foundation-model",
+          "prompt": "Listen and write the model: first words.",
+          "answers": [
+            "Bonjour, merci."
+          ],
+          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "vocabulary": [
+            "fr-first-words-word-1",
+            "fr-first-words-word-2"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
+    },
     {
       "id": "fr-identity-foundation",
       "unitId": "fr-unit-1",
       "title": "Names and introductions",
       "objective": "Derive how French introductions work — I-am, masculine/feminine — by thinking, not memorizing.",
       "cefr": "A1",
-      "prerequisites": [],
+      "prerequisites": [
+        "fr-first-words-foundation"
+      ],
       "conceptIds": [
         "fr-identity-concept"
       ],
@@ -1323,8 +1556,8 @@
             "suis"
           ],
           "options": [
-            "suis",
             "je",
+            "suis",
             "Anna",
             "bonjour"
           ],

@@ -1,23 +1,23 @@
 {
   "id": "fr-foundations",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "level": "A1 foundations (partial syllabus)",
-  "lessons": 24,
-  "concepts": 24,
-  "vocabulary": 96,
-  "exercises": 195,
+  "lessons": 25,
+  "concepts": 25,
+  "vocabulary": 102,
+  "exercises": 202,
   "kinds": {
-    "choice": 25,
-    "think": 3,
-    "order": 24,
-    "translate": 70,
-    "cloze": 24,
-    "reading": 24,
-    "dictation": 25
+    "choice": 27,
+    "think": 4,
+    "translate": 71,
+    "cloze": 25,
+    "reading": 25,
+    "dictation": 26,
+    "order": 24
   },
-  "audioClips": 25,
-  "lessonsWithAudio": 24,
-  "packBytes": 178452,
+  "audioClips": 26,
+  "lessonsWithAudio": 25,
+  "packBytes": 184844,
   "answerCoverage": "100%",
   "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
 }
