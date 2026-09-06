@@ -125,7 +125,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
       <header className={styles.brandHeader}>
         <Link className={styles.wordmark} href="/" aria-label="VerbaLibera home">
-          <span aria-hidden="true">V</span>
+          <Image alt="" height={68} priority src="/brand/logo-mark.jpg" width={68} />
           VerbaLibera
         </Link>
         <LanguageSwitcher currentCourse={selectedCourse.slug} courses={progress.courses} dashboard onChange={(slug) => {
@@ -162,7 +162,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           <Link href={`/learn/${selectedCourse.slug}/placement`}>Take the 3-minute placement quiz</Link>.
         </p>
         <div className={styles.introArtwork}>
-          <Image alt="" height={1024} src="/illustrations/daily-practice.png" width={1536} />
+          <Image alt="" height={1024} src="/brand/hero-banner.jpg" width={1536} />
         </div>
       </section>
 

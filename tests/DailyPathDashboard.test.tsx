@@ -299,13 +299,15 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText('Review queue')).toHaveClass(styles.metricLabel);
   });
 
-  it('uses the original daily-practice illustration as decorative dashboard support', () => {
-    // Break caught: the approved original supporting illustration is removed or announced redundantly.
+  it('uses the hero banner as decorative dashboard support', () => {
+    // Break caught: the approved supporting illustration is removed or announced redundantly.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    const illustration = screen.getByAltText('');
-    expect(illustration).toHaveAttribute('src', expect.stringContaining('daily-practice.png'));
-    expect(illustration.parentElement?.tagName).toBe('DIV');
+    const hero = screen
+      .getAllByAltText('')
+      .find((img) => img.getAttribute('src')?.includes('hero-banner.jpg'));
+    expect(hero).toBeDefined();
+    expect(hero?.parentElement?.tagName).toBe('DIV');
   });
 
   it('shows onboarding when progress is blank', () => {

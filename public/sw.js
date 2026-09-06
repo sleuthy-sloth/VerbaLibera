@@ -1,10 +1,12 @@
-const STATIC_CACHE = 'verbalibera-static-v4';
+const STATIC_CACHE = 'verbalibera-static-v5';
 const STATIC_ASSETS = [
   '/offline.html',
   '/icons/verbalibera-192.png',
   '/icons/verbalibera-512.png',
   '/icons/verbalibera-maskable-512.png',
-  '/illustrations/daily-practice.png',
+  '/brand/logo-mark.jpg',
+  '/brand/logo-lockup.jpg',
+  '/brand/hero-banner.jpg',
   '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   '/audio/french-ordering/fr-ordering-politely-answer.wav',
 ];

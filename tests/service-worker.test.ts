@@ -63,7 +63,9 @@ describe('static PWA service worker contract', () => {
       '/icons/verbalibera-192.png',
       '/icons/verbalibera-512.png',
       '/icons/verbalibera-maskable-512.png',
-      '/illustrations/daily-practice.png',
+      '/brand/logo-mark.jpg',
+      '/brand/logo-lockup.jpg',
+      '/brand/hero-banner.jpg',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
     ]);
@@ -78,7 +80,7 @@ describe('static PWA service worker contract', () => {
       respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const resourceEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/illustrations/daily-practice.png' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/brand/hero-banner.jpg' },
       respondWith: vi.fn(), waitUntil: vi.fn(),
     };
 
@@ -139,7 +141,7 @@ describe('static PWA service worker contract', () => {
     const source = await readWorkerSource();
 
     // Cache changes must invalidate the previous shell.
-    expect(source).toMatch(/verbalibera-static-v4/);
+    expect(source).toMatch(/verbalibera-static-v5/);
     expect(source).not.toMatch(/verbalibera-static-v1/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
