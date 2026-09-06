@@ -61,6 +61,14 @@ export const exerciseSchema = z.discriminatedUnion("kind", [
     mode: z.literal("production"),
   }),
   exerciseBase.extend({
+    kind: z.literal("think"),
+    mode: z.literal("production"),
+    // Thinking Method: the learner predicts the form before seeing it.
+    // Graded deterministically like any production step; the think-first
+    // framing lives in the UI (gated input) and the listen track (pause).
+    thinkSeconds: z.number().int().min(3).max(60).default(10),
+  }),
+  exerciseBase.extend({
     kind: z.literal("dictation"),
     mode: z.literal("listening"),
     audioId: id,

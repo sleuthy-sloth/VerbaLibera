@@ -143,8 +143,28 @@ function ReadingInput(props: InputProps) {
     </>
   );
 }
+function ThinkInput(props: InputProps) {
+  const [ready, setReady] = useState(false);
+  if (props.exercise.kind !== "think") return null;
+  if (!ready) {
+    return (
+      <div className="study-think-gate">
+        <p>
+          <strong>Think first — don&apos;t write yet.</strong> Say it in your
+          head, out loud, or to whoever is nearby. There is nothing to memorize;
+          build it from what this lesson already gave you.
+        </p>
+        <button type="button" onClick={() => setReady(true)}>
+          I&apos;ve thought about it — let me answer
+        </button>
+      </div>
+    );
+  }
+  return <TextInput {...props} />;
+}
 const renderers: Record<Exercise["kind"], React.ComponentType<InputProps>> = {
   translate: TextInput,
+  think: ThinkInput,
   choice: ChoiceInput,
   order: OrderInput,
   cloze: TextInput,

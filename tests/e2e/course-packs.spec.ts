@@ -134,24 +134,41 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
   await page
     .getByRole("button", { name: "Begin practice", exact: true })
     .click();
-  // Meet-the-word choice opens practice, then the sentence ladder runs
-  // meaning → order → cloze → produce → reading.
+  // Thinking sequence: bridge choice → think (Marc) → notice (-e) →
+  // think (Marie) → build (order) → transfer (Sophie, untaught) →
+  // meaning → cloze → reading.
   await page.getByRole("radio", { name: "suis", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");
   await page
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
-  for (const answer of ["I am French.", "Je suis Anna."]) {
-    await page.getByLabel("Your answer", { exact: true }).fill(answer);
+  for (const answer of ["Je suis Marc.", "Je suis française.", "Je suis Sophie."]) {
+    if (answer === "Je suis française.") {
+      await page
+        .getByRole("radio", {
+          name: "The woman's word ends in -e; the man's does not.",
+          exact: true,
+        })
+        .check();
+      await page
+        .getByRole("button", { name: "Check answer", exact: true })
+        .click();
+      await expect(page.getByRole("status")).toContainText("correct");
+      await page
+        .getByRole("button", { name: "Save and continue", exact: true })
+        .click();
+    }
     await page
-      .getByRole("button", { name: "Check answer", exact: true })
+      .getByRole("button", { name: /i've thought about it/i })
       .click();
+    await page.getByLabel("Your answer", { exact: true }).fill(answer);
+    await page.getByRole("button", { name: "Check answer", exact: true }).click();
     await expect(page.getByRole("status")).toContainText("correct");
     await page
       .getByRole("button", { name: "Save and continue", exact: true })
       .click();
-    if (answer === "I am French.") {
+    if (answer === "Je suis française.") {
       for (const word of ["Je", "suis", "française."])
         await page.getByRole("button", { name: word, exact: true }).click();
       await page.getByRole("button", { name: "Check answer", exact: true }).click();
@@ -159,14 +176,20 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
       await page
         .getByRole("button", { name: "Save and continue", exact: true })
         .click();
-      await page.getByLabel("Your answer", { exact: true }).fill("suis");
-      await page.getByRole("button", { name: "Check answer", exact: true }).click();
-      await expect(page.getByRole("status")).toContainText("correct");
-      await page
-        .getByRole("button", { name: "Save and continue", exact: true })
-        .click();
     }
   }
+  await page.getByLabel("Your answer", { exact: true }).fill("I am French.");
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("correct");
+  await page
+    .getByRole("button", { name: "Save and continue", exact: true })
+    .click();
+  await page.getByLabel("Your answer", { exact: true }).fill("suis");
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("correct");
+  await page
+    .getByRole("button", { name: "Save and continue", exact: true })
+    .click();
   await page.getByLabel("Your answer", { exact: true }).fill("Anna");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");

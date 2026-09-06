@@ -1281,7 +1281,7 @@
       "id": "fr-identity-foundation",
       "unitId": "fr-unit-1",
       "title": "Names and introductions",
-      "objective": "Use names and introductions in a short exchange.",
+      "objective": "Derive how French introductions work — I-am, masculine/feminine — by thinking, not memorizing.",
       "cefr": "A1",
       "prerequisites": [],
       "conceptIds": [
@@ -1293,78 +1293,110 @@
         "fr-identity-word-3",
         "fr-identity-word-4"
       ],
-      "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+      "explanation": "The rule you just discovered: Je means I. Suis is the I-form of être (to be), so Je suis is 'I am'. French normally keeps the subject pronoun. Française describes a French woman; français describes a French man — the feminine form adds an -e you can hear as a soft 'z' before it.",
       "examples": [
         {
           "target": "Je suis Anna.",
           "meaning": "I am Anna."
         },
         {
+          "target": "Je suis Marc.",
+          "meaning": "I am Marc."
+        },
+        {
           "target": "Je suis française.",
           "meaning": "I am French (a woman)."
+        },
+        {
+          "target": "Je suis français.",
+          "meaning": "I am French (a man)."
         }
       ],
       "exercises": [
         {
+          "id": "fr-identity-foundation-meet",
+          "conceptId": "fr-identity-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You already know the name Anna. «Je suis Anna» means “I am Anna”. Which word do you think means “am”?",
           "answers": [
             "suis"
           ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "fr-identity-foundation-meet",
-          "conceptId": "fr-identity-concept",
-          "prompt": "Which French word means “am”?",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
-          "vocabulary": [
-            "fr-identity-word-1",
-            "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "choice",
-          "mode": "recognition",
           "options": [
             "suis",
             "je",
-            "française",
+            "Anna",
             "bonjour"
-          ]
-        },
-        {
-          "conceptId": "fr-identity-concept",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+          ],
+          "explanation": "Two words do the work: Je means I, suis means am. You did not memorize that — you split a sentence you already half-understood.",
           "vocabulary": [
             "fr-identity-word-1",
-            "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
+            "fr-identity-word-2"
           ],
-          "reviewOf": [],
-          "id": "fr-identity-foundation-meaning",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Je suis française.",
+          "reviewOf": []
+        },
+        {
+          "id": "fr-identity-foundation-think-marc",
+          "conceptId": "fr-identity-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 10,
+          "prompt": "Think: Je means I, suis means am. Marc is introducing himself. How does he say “I am Marc”? Build it from the two words — then write it.",
           "answers": [
-            "I am French.",
-            "I am French (a woman).",
-            "I'm French."
-          ]
+            "Je suis Marc."
+          ],
+          "explanation": "Je suis Marc. Same two building blocks, new name in the same slot. Names slide into the pattern without changing anything.",
+          "vocabulary": [
+            "fr-identity-word-1",
+            "fr-identity-word-2"
+          ],
+          "reviewOf": []
         },
         {
+          "id": "fr-identity-foundation-notice",
           "conceptId": "fr-identity-concept",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Marie (a woman) says «Je suis française». Paul (a man) says «Je suis français». Look closely — what is the difference?",
+          "answers": [
+            "The woman's word ends in -e; the man's does not."
+          ],
+          "options": [
+            "The woman's word ends in -e; the man's does not.",
+            "The man's word ends in -e; the woman's does not.",
+            "They are spelled exactly the same.",
+            "The woman says je and the man says j'ai."
+          ],
+          "explanation": "French marks feminine with a final -e: française for a woman, français for a man. One letter carries the whole distinction.",
+          "vocabulary": [
+            "fr-identity-word-3"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-identity-foundation-think-marie",
+          "conceptId": "fr-identity-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 10,
+          "prompt": "Think: Marie is telling someone she is French. Build her sentence — I-am plus the woman's word for French — then write it.",
+          "answers": [
+            "Je suis française."
+          ],
+          "explanation": "Je suis française. You combined two things you derived minutes ago: the Je suis pattern and the feminine -e.",
           "vocabulary": [
             "fr-identity-word-1",
             "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
+            "fr-identity-word-3"
           ],
-          "reviewOf": [],
+          "reviewOf": []
+        },
+        {
           "id": "fr-identity-foundation-order",
+          "conceptId": "fr-identity-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Arrange the words to say: I am French (a woman).",
+          "prompt": "Build it with the blocks: I am French (a woman).",
           "answers": [
             "Je suis française."
           ],
@@ -1372,62 +1404,70 @@
             "française.",
             "suis",
             "Je"
-          ]
-        },
-        {
-          "conceptId": "fr-identity-concept",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+          ],
+          "explanation": "The rule you just discovered: Je means I. Suis is the I-form of être (to be), so Je suis is 'I am'. French normally keeps the subject pronoun. Française describes a French woman; français describes a French man — the feminine form adds an -e you can hear as a soft 'z' before it.",
           "vocabulary": [
             "fr-identity-word-1",
             "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
+            "fr-identity-word-3"
           ],
-          "reviewOf": [],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-identity-foundation-transfer",
+          "conceptId": "fr-identity-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 15,
+          "prompt": "Nobody taught you this sentence. Sophie is introducing herself. What does she say? Think — then write it.",
+          "answers": [
+            "Je suis Sophie."
+          ],
+          "explanation": "Je suis Sophie. You never practiced this sentence; you derived it. That is the whole method: new situations, same few blocks.",
+          "vocabulary": [
+            "fr-identity-word-1",
+            "fr-identity-word-2"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "fr-identity-foundation-meaning",
+          "conceptId": "fr-identity-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Je suis française.",
+          "answers": [
+            "I am French.",
+            "I am French (a woman).",
+            "I'm French."
+          ],
+          "explanation": "The rule you just discovered: Je means I. Suis is the I-form of être (to be), so Je suis is 'I am'. French normally keeps the subject pronoun. Française describes a French woman; français describes a French man — the feminine form adds an -e you can hear as a soft 'z' before it.",
+          "vocabulary": [
+            "fr-identity-word-1",
+            "fr-identity-word-2",
+            "fr-identity-word-3"
+          ],
+          "reviewOf": []
+        },
+        {
           "id": "fr-identity-foundation-cloze",
+          "conceptId": "fr-identity-concept",
           "kind": "cloze",
           "mode": "production",
           "prompt": "Complete: Je ___ Anna.",
           "answers": [
             "suis"
-          ]
-        },
-        {
-          "conceptId": "fr-identity-concept",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+          ],
+          "explanation": "The rule you just discovered: Je means I. Suis is the I-form of être (to be), so Je suis is 'I am'. French normally keeps the subject pronoun. Française describes a French woman; français describes a French man — the feminine form adds an -e you can hear as a soft 'z' before it.",
           "vocabulary": [
             "fr-identity-word-1",
-            "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
+            "fr-identity-word-2"
           ],
-          "reviewOf": [],
-          "id": "fr-identity-foundation-produce",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Write in French: I am Anna.",
-          "answers": [
-            "Je suis Anna."
-          ],
-          "errors": [
-            {
-              "answer": "Je est Anna.",
-              "category": "wrong conjugation",
-              "explanation": "With je, être is suis."
-            }
-          ]
+          "reviewOf": []
         },
         {
-          "conceptId": "fr-identity-concept",
-          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
-          "vocabulary": [
-            "fr-identity-word-1",
-            "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
-          ],
-          "reviewOf": [],
           "id": "fr-identity-foundation-read",
+          "conceptId": "fr-identity-concept",
           "kind": "reading",
           "mode": "recognition",
           "prompt": "What is her name? (Reading 1)",
@@ -1435,13 +1475,22 @@
           "translation": "Hello! I am Anna. I am French.",
           "answers": [
             "Anna"
-          ]
+          ],
+          "explanation": "The rule you just discovered: Je means I. Suis is the I-form of être (to be), so Je suis is 'I am'. French normally keeps the subject pronoun. Française describes a French woman; français describes a French man — the feminine form adds an -e you can hear as a soft 'z' before it.",
+          "vocabulary": [
+            "fr-identity-word-1",
+            "fr-identity-word-2",
+            "fr-identity-word-3",
+            "fr-identity-word-4"
+          ],
+          "reviewOf": []
         },
         {
           "id": "fr-identity-foundation-listen-model",
+          "conceptId": "fr-identity-concept",
           "kind": "dictation",
           "mode": "listening",
-          "conceptId": "fr-identity-concept",
+          "audioId": "fr-identity-foundation-model",
           "prompt": "Listen and write the model: names and introductions.",
           "answers": [
             "Je suis Anna."
@@ -1449,12 +1498,9 @@
           "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
           "vocabulary": [
             "fr-identity-word-1",
-            "fr-identity-word-2",
-            "fr-identity-word-3",
-            "fr-identity-word-4"
+            "fr-identity-word-2"
           ],
-          "reviewOf": [],
-          "audioId": "fr-identity-foundation-model"
+          "reviewOf": []
         }
       ],
       "optionalExerciseIds": [

@@ -164,6 +164,16 @@
   width: 100%;
   max-width: 420px;
 }
+.study-think-gate {
+  padding: 12px 16px;
+  margin: 12px 0;
+  border: 1px dashed var(--accent, #2e7d5b);
+  border-radius: 8px;
+  background: #f4f8f4;
+}
+.study-think-gate p {
+  margin: 0 0 8px;
+}
 .study-daily {
   display: flex;
   gap: 24px;

@@ -5,18 +5,19 @@
   "lessons": 24,
   "concepts": 24,
   "vocabulary": 96,
-  "exercises": 192,
+  "exercises": 195,
   "kinds": {
-    "choice": 24,
-    "translate": 71,
+    "choice": 25,
+    "think": 3,
     "order": 24,
+    "translate": 70,
     "cloze": 24,
     "reading": 24,
     "dictation": 25
   },
   "audioClips": 25,
   "lessonsWithAudio": 24,
-  "packBytes": 176400,
+  "packBytes": 178434,
   "answerCoverage": "100%",
   "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
 }
