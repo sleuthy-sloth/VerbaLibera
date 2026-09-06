@@ -258,3 +258,23 @@ it('accepts ordinary numeric notation in listening answers without changing mean
     expect(evaluateAnswer(answer, pack.lessons.flatMap(l => l.exercises).find(e => e.id === id)!).accepted).toBe(true);
   }
 });
+describe('coming-soon packs', () => {
+  const readGerman = () =>
+    JSON.parse(readFileSync('courses/german/manifest.json', 'utf8'));
+  it('validates the empty German announcement pack', () => {
+    const pack = validatePack(readGerman());
+    expect(pack.status).toBe('coming-soon');
+    expect(pack.language).toBe('de');
+    expect(pack.lessons).toHaveLength(0);
+  });
+  it('rejects content smuggled into a coming-soon pack', () => {
+    const raw = readGerman();
+    raw.units = [{ id: 'de-unit-1', title: 'Planned', objective: 'Not yet.' }];
+    expect(() => validatePack(raw)).toThrow(/coming-soon/);
+  });
+  it('rejects an active pack with no lessons', () => {
+    const raw = readPack();
+    raw.lessons = [];
+    expect(() => validatePack(raw)).toThrow(/units, concepts and lessons/);
+  });
+});

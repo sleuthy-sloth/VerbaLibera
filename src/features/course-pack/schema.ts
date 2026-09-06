@@ -102,12 +102,13 @@ export const packSchema = z.object({
   schemaVersion: z.literal(1),
   id,
   version: z.string().regex(/^\d+\.\d+\.\d+$/),
-  language: z.enum(["it", "fr", "es", "pt"]),
+  language: z.enum(["it", "fr", "es", "pt", "de"]),
+  status: z.enum(["active", "coming-soon"]).default("active"),
   title: text,
   sourceLanguage: z.literal("en"),
   description: text,
   attribution: text,
-  units: z.array(z.object({ id, title: text, objective: text })).min(1),
+  units: z.array(z.object({ id, title: text, objective: text })),
   concepts: z
     .array(
       z.object({
@@ -117,8 +118,7 @@ export const packSchema = z.object({
         examples: z.array(z.object({ target: text, meaning: text })).min(1),
         commonError: text,
       }),
-    )
-    .min(1),
+    ),
   vocabulary: z.array(
     z.object({
       id,
@@ -144,7 +144,7 @@ export const packSchema = z.object({
       attribution: text,
     }),
   ),
-  lessons: z.array(lessonSchema).min(1),
+  lessons: z.array(lessonSchema),
   dialogues: z
     .array(
       z.object({
@@ -180,6 +180,23 @@ export function validatePack(raw: unknown): CoursePack {
   const fail = (message: string): never => {
     throw new Error(`${p.id}: ${message}`);
   };
+  if (p.status === "coming-soon") {
+    // A coming-soon course is metadata only: no syllabus, no lessons, no
+    // audio. Anything present would be a half-authored pack masquerading as
+    // an announcement, so every content list must be empty.
+    for (const [label, values] of [
+      ["unit", p.units],
+      ["concept", p.concepts],
+      ["vocabulary entry", p.vocabulary],
+      ["audio clip", p.media],
+      ["lesson", p.lessons],
+      ["dialogue", p.dialogues],
+    ] as const)
+      if (values.length) fail(`coming-soon pack must not ship ${label}s`);
+    return p;
+  }
+  if (!p.units.length || !p.concepts.length || !p.lessons.length)
+    fail("active pack needs units, concepts and lessons");
   const unique = (values: string[], label: string) => {
     if (new Set(values).size !== values.length) fail(`duplicate ${label}`);
     return new Set(values);

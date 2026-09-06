@@ -149,6 +149,24 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         <a href="/dashboard">Daily path</a>
       </main>
     );
+  if (pack.status === "coming-soon")
+    // Announced but unauthored: show the honest placeholder instead of an
+    // empty workspace. Lessons appear here as units land.
+    return (
+      <main id="main-content" className="study">
+        <p className="study-eyebrow">VerbaLibera · A1 course packs</p>
+        <h1>{pack.title}</h1>
+        <p className="study-lede">{pack.description}</p>
+        <p>
+          {pack.title.replace(/ foundations$/, "")} lessons are being authored
+          now — this page fills in as units land. Meanwhile,{" "}
+          <a href="/courses/french">French foundations</a> and{" "}
+          <a href="/courses/italian">Italian foundations</a> are ready to
+          study.
+        </p>
+        <a href="/dashboard">← Daily path</a>
+      </main>
+    );
   const summary = conceptEvidence(pack, events);
   const progress = projectProgress(pack, events),
     completed = completedLessons(pack, events),
