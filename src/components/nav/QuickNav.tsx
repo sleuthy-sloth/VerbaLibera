@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './bottom-tabs.module.css';
 
-// Bottom quick nav: Today, Practice (resumes the last-used course), You.
+// Bottom quick nav: Today, Practice (resumes the last-used course), Listen, You.
 // Language switching lives in the header switcher; these tabs never duplicate it.
 export function QuickNav() {
   const pathname = usePathname() ?? '/';
@@ -29,6 +29,7 @@ export function QuickNav() {
       fullName: 'Resume practice',
       active: pathname.startsWith('/learn/') || pathname.startsWith('/courses/'),
     },
+    { href: '/listen', label: 'Listen', fullName: 'Audio lessons', active: pathname.startsWith('/listen') },
     { href: '/you', label: 'You', fullName: 'Account', active: pathname.startsWith('/you') || pathname.startsWith('/login') },
   ];
   return (

@@ -15,7 +15,7 @@ Status after Units 6 (24 lessons/language), foundation-aware placement, meet-the
 | 9 Interference | Deferred. |
 | 10 Dialogues | Four static branching scenarios; wider situations and constrained typed branches remain partial. |
 | 11 Reading | 48 short original readings, lookup and optional translation; saved words and longer materials remain partial. |
-| 12 Listening | 48 new prerecorded models: every foundation lesson now has optional listening practice plus hear-it-first autoplay on practice start. Slow replay/dictation work offline; minimal pairs, listen-and-order, longer dialogue audio and human prosody review remain. |
+| 12 Listening | 48 new prerecorded models: every foundation lesson now has optional listening practice plus hear-it-first autoplay on practice start. French L1 adds the first audio-only Thinking Method track (teacher guide + think-pauses + reveals, bottom Listen tab, precached offline, heard-logging without mastery claims). Slow replay/dictation work offline; minimal pairs, listen-and-order, longer dialogue audio and human prosody review remain. |
 | 13 Pronunciation | Existing optional local transcription retained; no invented pronunciation score. |
 | 14 Course packs | Validated downloadable packs, compatibility/content versions, media hashes and attribution implemented. |
 | 15 Offline | Static cold-start study, teaching, audio and durable practice verified in Chromium. Physical Safari/PWA QA remains open. |

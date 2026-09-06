@@ -1,0 +1,42 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 16px 96px;
+}
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+}
+.lede {
+  max-width: 560px;
+}
+.label {
+  display: block;
+  margin: 12px 0;
+}
+.label select {
+  display: block;
+  margin-top: 4px;
+}
+.list {
+  padding: 0;
+  list-style: none;
+}
+.list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #c2cbc5;
+}
+.list li span:last-child {
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.back {
+  margin: 8px 0;
+}

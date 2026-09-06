@@ -23,13 +23,14 @@ describe('QuickNav', () => {
     });
   });
 
-  it('renders Today, Practice and You — never per-language tabs', async () => {
+  it('renders Today, Practice, Listen and You — never per-language tabs', async () => {
     await pathname('/');
     render(<QuickNav />);
 
     expect(screen.getByRole('navigation', { name: 'Primary' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Daily path' })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: 'Resume practice' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Audio lessons' })).toHaveAttribute('href', '/listen');
     expect(screen.getByRole('link', { name: 'Account' })).toHaveAttribute('href', '/you');
     expect(screen.queryByRole('link', { name: 'French lessons' })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Italian lessons' })).not.toBeInTheDocument();
@@ -55,5 +56,16 @@ describe('QuickNav', () => {
       'page',
     );
     expect(screen.getByRole('link', { name: 'Daily path' })).not.toHaveAttribute('aria-current');
+  });
+
+  it('marks Listen active on the audio path', async () => {
+    await pathname('/listen');
+    render(<QuickNav />);
+
+    expect(screen.getByRole('link', { name: 'Audio lessons' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    expect(screen.getByRole('link', { name: 'Resume practice' })).not.toHaveAttribute('aria-current');
   });
 });

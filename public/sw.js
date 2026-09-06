@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'verbalibera-static-v6';
+const STATIC_CACHE = 'verbalibera-static-v7';
 const STATIC_ASSETS = [
   '/offline.html',
   '/icons/verbalibera-192.png',
@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   '/brand/courses/portuguese.jpg',
   '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   '/audio/french-ordering/fr-ordering-politely-answer.wav',
+  '/audio/french-foundations/fr-identity-listen.mp3',
 ];
 
 self.addEventListener('install', event => {
