@@ -1,5 +1,11 @@
 # VerbaLibera
 
+[![CI](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml/badge.svg)](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-live-teal)](https://verbalibera.vercel.app)
+[![Offline PWA](https://img.shields.io/badge/offline-PWA-teal)](public/sw.js)
+[![No runtime AI](https://img.shields.io/badge/runtime_AI-none-teal)](docs/astra/phase-status.md)
+
 Hosted release (may differ from this checkout): [verbalibera.vercel.app](https://verbalibera.vercel.app).
 
 Language learning through practical sentence construction. VerbaLibera introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
