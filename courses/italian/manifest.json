@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "it-foundations",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "language": "it",
   "sourceLanguage": "en",
   "title": "Italian foundations",
-  "description": "Twenty original A1 foundation lessons. A growing course, not a complete A1 certification syllabus.",
+  "description": "Twenty-four original A1 foundation lessons. A growing course, not a complete A1 certification syllabus.",
   "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
   "units": [
     {
@@ -32,6 +32,11 @@
       "id": "it-unit-5",
       "title": "Time and the world around you",
       "objective": "Handle days, time, weather and market prices."
+    },
+    {
+      "id": "it-unit-6",
+      "title": "Health and social life",
+      "objective": "Handle aches, the pharmacy, emergencies and invitations."
     }
   ],
   "concepts": [
@@ -354,6 +359,70 @@
         }
       ],
       "commonError": "Un chilo is singular, so the question is singular: Quanto costa un chilo di mele?"
+    },
+    {
+      "id": "it-health-concept",
+      "title": "Saying where it hurts",
+      "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+      "examples": [
+        {
+          "target": "Mi fa male la testa.",
+          "meaning": "My head hurts."
+        },
+        {
+          "target": "Ho la febbre.",
+          "meaning": "I have a fever."
+        }
+      ],
+      "commonError": "Pain uses fare, not essere: Mi fa male la testa."
+    },
+    {
+      "id": "it-pharmacy-concept",
+      "title": "Asking for medicine",
+      "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+      "examples": [
+        {
+          "target": "Ho bisogno di una medicina.",
+          "meaning": "I need some medicine."
+        },
+        {
+          "target": "Costa cinque euro.",
+          "meaning": "It costs five euros."
+        }
+      ],
+      "commonError": "Bisogno needs di before the noun: Ho bisogno di una medicina."
+    },
+    {
+      "id": "it-emergency-concept",
+      "title": "Calling for help",
+      "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+      "examples": [
+        {
+          "target": "Aiuto! Chiami un’ambulanza!",
+          "meaning": "Help! Call an ambulance!"
+        },
+        {
+          "target": "È urgente.",
+          "meaning": "It is urgent."
+        }
+      ],
+      "commonError": "Chiami is the polite command form: Chiami un’ambulanza!"
+    },
+    {
+      "id": "it-invitations-concept",
+      "title": "Inviting and replying",
+      "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+      "examples": [
+        {
+          "target": "Vuoi venire a cena sabato?",
+          "meaning": "Do you want to come to dinner Saturday?"
+        },
+        {
+          "target": "Sì, grazie, volentieri.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ],
+      "commonError": "Venire means to come: Vuoi venire a cena?"
     }
   ],
   "vocabulary": [
@@ -916,6 +985,118 @@
       "meaning": "price",
       "partOfSpeech": "word or expression",
       "example": "Il prezzo è alto."
+    },
+    {
+      "id": "it-health-foundation-word-1",
+      "word": "testa",
+      "meaning": "head",
+      "partOfSpeech": "word or expression",
+      "example": "Ho mal di testa."
+    },
+    {
+      "id": "it-health-foundation-word-2",
+      "word": "febbre",
+      "meaning": "fever",
+      "partOfSpeech": "word or expression",
+      "example": "Ho la febbre."
+    },
+    {
+      "id": "it-health-foundation-word-3",
+      "word": "dottore",
+      "meaning": "doctor",
+      "partOfSpeech": "word or expression",
+      "example": "Il dottore aiuta."
+    },
+    {
+      "id": "it-health-foundation-word-4",
+      "word": "male",
+      "meaning": "pain",
+      "partOfSpeech": "word or expression",
+      "example": "Mi fa male il piede."
+    },
+    {
+      "id": "it-pharmacy-foundation-word-1",
+      "word": "farmacia",
+      "meaning": "pharmacy",
+      "partOfSpeech": "word or expression",
+      "example": "La farmacia è aperta."
+    },
+    {
+      "id": "it-pharmacy-foundation-word-2",
+      "word": "medicina",
+      "meaning": "medicine",
+      "partOfSpeech": "word or expression",
+      "example": "Ho bisogno di una medicina."
+    },
+    {
+      "id": "it-pharmacy-foundation-word-3",
+      "word": "pastiglia",
+      "meaning": "pill",
+      "partOfSpeech": "word or expression",
+      "example": "Prendo una pastiglia."
+    },
+    {
+      "id": "it-pharmacy-foundation-word-4",
+      "word": "sciroppo",
+      "meaning": "syrup",
+      "partOfSpeech": "word or expression",
+      "example": "Lo sciroppo aiuta la tosse."
+    },
+    {
+      "id": "it-emergency-foundation-word-1",
+      "word": "aiuto",
+      "meaning": "help",
+      "partOfSpeech": "word or expression",
+      "example": "Aiuto, per favore!"
+    },
+    {
+      "id": "it-emergency-foundation-word-2",
+      "word": "ambulanza",
+      "meaning": "ambulance",
+      "partOfSpeech": "word or expression",
+      "example": "L’ambulanza arriva."
+    },
+    {
+      "id": "it-emergency-foundation-word-3",
+      "word": "urgente",
+      "meaning": "urgent",
+      "partOfSpeech": "word or expression",
+      "example": "È urgente."
+    },
+    {
+      "id": "it-emergency-foundation-word-4",
+      "word": "telefono",
+      "meaning": "phone",
+      "partOfSpeech": "word or expression",
+      "example": "Il telefono è qui."
+    },
+    {
+      "id": "it-invitations-foundation-word-1",
+      "word": "cena",
+      "meaning": "dinner",
+      "partOfSpeech": "word or expression",
+      "example": "La cena è alle otto."
+    },
+    {
+      "id": "it-invitations-foundation-word-2",
+      "word": "sabato",
+      "meaning": "Saturday",
+      "partOfSpeech": "word or expression",
+      "example": "Sabato ho tempo."
+    },
+    {
+      "id": "it-invitations-foundation-word-3",
+      "word": "volentieri",
+      "meaning": "gladly",
+      "partOfSpeech": "word or expression",
+      "example": "Sì, volentieri."
+    },
+    {
+      "id": "it-invitations-foundation-word-4",
+      "word": "mi dispiace",
+      "meaning": "I am sorry",
+      "partOfSpeech": "word or expression",
+      "example": "Mi dispiace, non posso."
     }
   ],
   "media": [
@@ -1065,6 +1246,34 @@
       "sha256": "3a8f56bdb72b43cb103c1c640778e61ba67905e369c9822bddcb195631db2849",
       "transcript": "Quanto costa un chilo di mele?",
       "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-05. Native-speaker prosody review pending."
+    },
+    {
+      "id": "it-health-foundation-model",
+      "url": "/audio/italian-foundations/it-health-foundation-model.wav",
+      "sha256": "c5a80a1a3431169e3dd3ab1f5249433c16d8cbeb3a21dc0a0d260aa322b51f6b",
+      "transcript": "Mi fa male la testa.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "it-pharmacy-foundation-model",
+      "url": "/audio/italian-foundations/it-pharmacy-foundation-model.wav",
+      "sha256": "5d8bc2be4f5f01b3d33982a27216d879cc8eacd8fee82f45e88d08622f6d55d4",
+      "transcript": "Ho bisogno di una medicina.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "it-emergency-foundation-model",
+      "url": "/audio/italian-foundations/it-emergency-foundation-model.wav",
+      "sha256": "fd204a53fb1e0371253517eec7d9347d3738d32a73fdb9f4b0f029148091d3c0",
+      "transcript": "Aiuto! Chiami un’ambulanza!",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "it-invitations-foundation-model",
+      "url": "/audio/italian-foundations/it-invitations-foundation-model.wav",
+      "sha256": "7ccf027783596a23634515e32ecf56d499b3e63f1d8193bd877db4ad4b81c0eb",
+      "transcript": "Vuoi venire a cena sabato?",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
     }
   ],
   "lessons": [
@@ -4695,6 +4904,752 @@
       ],
       "optionalExerciseIds": [
         "it-market-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "it-health-foundation",
+      "unitId": "it-unit-6",
+      "title": "Aches and the doctor",
+      "objective": "Say where it hurts and answer the doctor.",
+      "cefr": "A1",
+      "prerequisites": [
+        "it-market-foundation"
+      ],
+      "conceptIds": [
+        "it-health-concept"
+      ],
+      "vocabulary": [
+        "it-health-foundation-word-1",
+        "it-health-foundation-word-2",
+        "it-health-foundation-word-3",
+        "it-health-foundation-word-4"
+      ],
+      "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+      "examples": [
+        {
+          "target": "Mi fa male la testa.",
+          "meaning": "My head hurts."
+        },
+        {
+          "target": "Ho la febbre.",
+          "meaning": "I have a fever."
+        }
+      ],
+      "exercises": [
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: My head hurts.",
+          "answers": [
+            "Mi fa male la testa."
+          ],
+          "errors": [
+            {
+              "answer": "La mia testa è male.",
+              "category": "incorrect answer",
+              "explanation": "Pain uses fare: Mi fa male la testa."
+            }
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-meaning",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Ho la febbre.",
+          "answers": [
+            "I have a fever."
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-order",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Arrange the words to say: My head hurts.",
+          "answers": [
+            "Mi fa male la testa."
+          ],
+          "tokens": [
+            "testa.",
+            "la",
+            "male",
+            "fa",
+            "Mi"
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-cloze",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the pain: Mi ___ male la testa.",
+          "answers": [
+            "fa"
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-read",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "What hurts? Answer with the Italian body part. (Reading 21)",
+          "answers": [
+            "la testa"
+          ],
+          "passage": "Marco ha la febbre. Mi fa male la testa, dice al dottore.",
+          "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
+        },
+        {
+          "conceptId": "it-market-concept",
+          "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+          "vocabulary": [
+            "it-market-foundation-word-1",
+            "it-market-foundation-word-2",
+            "it-market-foundation-word-3",
+            "it-market-foundation-word-4"
+          ],
+          "reviewOf": [
+            "it-market-foundation"
+          ],
+          "id": "it-health-foundation-review",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Recall from At the market: prices: How much is a kilo of apples?",
+          "answers": [
+            "Quanto costa un chilo di mele?"
+          ],
+          "errors": [
+            {
+              "answer": "Quanto costano un chilo di mele?",
+              "category": "incorrect answer",
+              "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
+            }
+          ]
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-health-foundation-listen-model",
+          "kind": "dictation",
+          "mode": "listening",
+          "prompt": "Listen and write the model: saying where it hurts.",
+          "answers": [
+            "Mi fa male la testa."
+          ],
+          "audioId": "it-health-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "it-health-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "it-pharmacy-foundation",
+      "unitId": "it-unit-6",
+      "title": "At the pharmacy",
+      "objective": "Ask for medicine and understand the price.",
+      "cefr": "A1",
+      "prerequisites": [
+        "it-health-foundation"
+      ],
+      "conceptIds": [
+        "it-pharmacy-concept"
+      ],
+      "vocabulary": [
+        "it-pharmacy-foundation-word-1",
+        "it-pharmacy-foundation-word-2",
+        "it-pharmacy-foundation-word-3",
+        "it-pharmacy-foundation-word-4"
+      ],
+      "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+      "examples": [
+        {
+          "target": "Ho bisogno di una medicina.",
+          "meaning": "I need some medicine."
+        },
+        {
+          "target": "Costa cinque euro.",
+          "meaning": "It costs five euros."
+        }
+      ],
+      "exercises": [
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: I need some medicine.",
+          "answers": [
+            "Ho bisogno di una medicina."
+          ],
+          "errors": [
+            {
+              "answer": "Ho bisogno una medicina.",
+              "category": "incorrect answer",
+              "explanation": "Bisogno needs di: Ho bisogno di una medicina."
+            }
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-meaning",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Costa cinque euro.",
+          "answers": [
+            "It costs five euros."
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-order",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Arrange the words to say: I need some medicine.",
+          "answers": [
+            "Ho bisogno di una medicina."
+          ],
+          "tokens": [
+            "medicina.",
+            "una",
+            "di",
+            "bisogno",
+            "Ho"
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-cloze",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the need: Ho bisogno ___ una medicina.",
+          "answers": [
+            "di"
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-read",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "What does Anna take? Answer with the Italian noun. (Reading 22)",
+          "answers": [
+            "una pastiglia"
+          ],
+          "passage": "Anna ha la tosse. Prende una pastiglia e compra lo sciroppo in farmacia.",
+          "translation": "Anna has a cough. She takes a pill and buys syrup at the pharmacy."
+        },
+        {
+          "conceptId": "it-health-concept",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [
+            "it-health-foundation"
+          ],
+          "id": "it-pharmacy-foundation-review",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Recall from Aches and the doctor: My head hurts.",
+          "answers": [
+            "Mi fa male la testa."
+          ],
+          "errors": [
+            {
+              "answer": "La mia testa è male.",
+              "category": "incorrect answer",
+              "explanation": "Pain uses fare: Mi fa male la testa."
+            }
+          ]
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-pharmacy-foundation-listen-model",
+          "kind": "dictation",
+          "mode": "listening",
+          "prompt": "Listen and write the model: asking for medicine.",
+          "answers": [
+            "Ho bisogno di una medicina."
+          ],
+          "audioId": "it-pharmacy-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "it-pharmacy-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "it-emergency-foundation",
+      "unitId": "it-unit-6",
+      "title": "Emergencies",
+      "objective": "Call for help and ask for an ambulance.",
+      "cefr": "A1",
+      "prerequisites": [
+        "it-pharmacy-foundation"
+      ],
+      "conceptIds": [
+        "it-emergency-concept"
+      ],
+      "vocabulary": [
+        "it-emergency-foundation-word-1",
+        "it-emergency-foundation-word-2",
+        "it-emergency-foundation-word-3",
+        "it-emergency-foundation-word-4"
+      ],
+      "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+      "examples": [
+        {
+          "target": "Aiuto! Chiami un’ambulanza!",
+          "meaning": "Help! Call an ambulance!"
+        },
+        {
+          "target": "È urgente.",
+          "meaning": "It is urgent."
+        }
+      ],
+      "exercises": [
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Help! Call an ambulance!",
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "errors": [
+            {
+              "answer": "Aiuto! Chiamo un’ambulanza!",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+            }
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-meaning",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: È urgente.",
+          "answers": [
+            "It is urgent."
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-order",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Arrange the words to say: Help! Call an ambulance!",
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "tokens": [
+            "un’ambulanza!",
+            "Chiami",
+            "Aiuto!"
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-cloze",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the call: Chiami ___!",
+          "answers": [
+            "un’ambulanza"
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-read",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "What number? Answer with the Italian number name. (Reading 23)",
+          "answers": [
+            "il centododici"
+          ],
+          "passage": "Marco chiama il centododici. L’ambulanza arriva ed è urgente.",
+          "translation": "Marco calls 112. The ambulance arrives and it is urgent."
+        },
+        {
+          "conceptId": "it-pharmacy-concept",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [
+            "it-pharmacy-foundation"
+          ],
+          "id": "it-emergency-foundation-review",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Recall from At the pharmacy: I need some medicine.",
+          "answers": [
+            "Ho bisogno di una medicina."
+          ],
+          "errors": [
+            {
+              "answer": "Ho bisogno una medicina.",
+              "category": "incorrect answer",
+              "explanation": "Bisogno needs di: Ho bisogno di una medicina."
+            }
+          ]
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-emergency-foundation-listen-model",
+          "kind": "dictation",
+          "mode": "listening",
+          "prompt": "Listen and write the model: calling for help.",
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "audioId": "it-emergency-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "it-emergency-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "it-invitations-foundation",
+      "unitId": "it-unit-6",
+      "title": "Invitations",
+      "objective": "Invite someone and accept or decline politely.",
+      "cefr": "A1",
+      "prerequisites": [
+        "it-emergency-foundation"
+      ],
+      "conceptIds": [
+        "it-invitations-concept"
+      ],
+      "vocabulary": [
+        "it-invitations-foundation-word-1",
+        "it-invitations-foundation-word-2",
+        "it-invitations-foundation-word-3",
+        "it-invitations-foundation-word-4"
+      ],
+      "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+      "examples": [
+        {
+          "target": "Vuoi venire a cena sabato?",
+          "meaning": "Do you want to come to dinner Saturday?"
+        },
+        {
+          "target": "Sì, grazie, volentieri.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ],
+      "exercises": [
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-produce",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
+          "answers": [
+            "Vuoi venire a cena sabato?"
+          ],
+          "errors": [
+            {
+              "answer": "Vuoi andare a cena sabato?",
+              "category": "incorrect answer",
+              "explanation": "Andare is to go; invite with venire: Vuoi venire a cena sabato?"
+            }
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-meaning",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Mi dispiace, non posso.",
+          "answers": [
+            "I am sorry, I cannot."
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-order",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Arrange the words to say: Do you want to come to dinner Saturday?",
+          "answers": [
+            "Vuoi venire a cena sabato?"
+          ],
+          "tokens": [
+            "sabato?",
+            "cena",
+            "a",
+            "venire",
+            "Vuoi"
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-cloze",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the reply: Sì, grazie, ___.",
+          "answers": [
+            "volentieri"
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-read",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "When is dinner? Answer with the Italian day. (Reading 24)",
+          "answers": [
+            "sabato"
+          ],
+          "passage": "Anna invita Marco: Vuoi venire a cena sabato? Sì, grazie, volentieri, dice Marco.",
+          "translation": "Anna invites Marco: Do you want to come to dinner Saturday? “Yes, thanks, gladly,” says Marco."
+        },
+        {
+          "conceptId": "it-emergency-concept",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [
+            "it-emergency-foundation"
+          ],
+          "id": "it-invitations-foundation-review",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Recall from Emergencies: Help! Call an ambulance!",
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "errors": [
+            {
+              "answer": "Aiuto! Chiamo un’ambulanza!",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+            }
+          ]
+        },
+        {
+          "conceptId": "it-invitations-concept",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "id": "it-invitations-foundation-listen-model",
+          "kind": "dictation",
+          "mode": "listening",
+          "prompt": "Listen and write the model: inviting and replying.",
+          "answers": [
+            "Vuoi venire a cena sabato?"
+          ],
+          "audioId": "it-invitations-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "it-invitations-foundation-listen-model"
       ]
     }
   ],

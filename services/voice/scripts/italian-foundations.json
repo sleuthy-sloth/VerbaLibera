@@ -139,6 +139,34 @@
       "language": "it",
       "text": "Quanto costa un chilo di mele?",
       "voice": "if_sara"
+    },
+    {
+      "id": "it-health-foundation-model",
+      "text": "Mi fa male la testa.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-health-foundation-model.wav"
+    },
+    {
+      "id": "it-pharmacy-foundation-model",
+      "text": "Ho bisogno di una medicina.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-pharmacy-foundation-model.wav"
+    },
+    {
+      "id": "it-emergency-foundation-model",
+      "text": "Aiuto! Chiami un’ambulanza!",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-emergency-foundation-model.wav"
+    },
+    {
+      "id": "it-invitations-foundation-model",
+      "text": "Vuoi venire a cena sabato?",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-invitations-foundation-model.wav"
     }
   ]
 }
