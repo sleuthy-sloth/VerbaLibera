@@ -137,6 +137,12 @@
   max-width: 560px;
   font-size: 21px;
 }
+.course-banner {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  border-radius: 8px;
+}
 .study-scope {
   font-size: 14px;
   color: var(--muted);

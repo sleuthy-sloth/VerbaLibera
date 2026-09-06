@@ -26,6 +26,14 @@ import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
 
 type View = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
+// Per-language Quiet Ink banners. Plain <img>: this component is also bundled
+// outside Next for offline cold starts, so next/image is unavailable here.
+const BANNER_BY_LANGUAGE: Record<string, string> = {
+  french: "/brand/courses/french.jpg",
+  italian: "/brand/courses/italian.jpg",
+  spanish: "/brand/courses/spanish.jpg",
+  portuguese: "/brand/courses/portuguese.jpg",
+};
 export function CourseWorkspace({ initialLanguage = "italian" }: { initialLanguage?: string }) {
   const { scope, ready, select } = usePracticeAccount();
   if (!ready) return <main id="main-content" className="study"><p>Opening device practice…</p></main>;
@@ -209,6 +217,9 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
       </header>
       <p className="study-eyebrow">VerbaLibera · A1 course packs</p>
       <h1>{pack.title}</h1>
+      {BANNER_BY_LANGUAGE[language] ? (
+        <img className="course-banner" src={BANNER_BY_LANGUAGE[language]} alt="" />
+      ) : null}
       <p className="study-lede">
         A little explanation. A worked example. Then make the language your own.
       </p>

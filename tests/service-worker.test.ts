@@ -66,6 +66,11 @@ describe('static PWA service worker contract', () => {
       '/brand/logo-mark.jpg',
       '/brand/logo-lockup.jpg',
       '/brand/hero-banner.jpg',
+      '/brand/empty-journal.jpg',
+      '/brand/courses/french.jpg',
+      '/brand/courses/italian.jpg',
+      '/brand/courses/spanish.jpg',
+      '/brand/courses/portuguese.jpg',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
     ]);
@@ -141,7 +146,7 @@ describe('static PWA service worker contract', () => {
     const source = await readWorkerSource();
 
     // Cache changes must invalidate the previous shell.
-    expect(source).toMatch(/verbalibera-static-v5/);
+    expect(source).toMatch(/verbalibera-static-v6/);
     expect(source).not.toMatch(/verbalibera-static-v1/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
