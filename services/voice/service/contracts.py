@@ -108,6 +108,11 @@ class VoiceServiceSettings:
                 "it": _csv(env.get("VERBALIBERA_VOICE_ITALIAN_VOICES", "if_sara")),
                 "es": _csv(env.get("VERBALIBERA_VOICE_SPANISH_VOICES", "ef_dora")),
                 "pt": _csv(env.get("VERBALIBERA_VOICE_PORTUGUESE_VOICES", "pf_dora")),
+                # Teacher voice for audio-only Thinking Method tracks. English
+                # prompts are synthesized at author time into static lesson
+                # audio — never at runtime — so the learner hears a guide,
+                # not a chatbot.
+                "en": _csv(env.get("VERBALIBERA_VOICE_ENGLISH_VOICES", "af_heart")),
             },
         )
 

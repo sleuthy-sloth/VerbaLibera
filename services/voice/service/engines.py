@@ -49,7 +49,7 @@ class LocalModelSettings:
 class KokoroFasterWhisperEngine:
     """Loads local models once and keeps every request's audio in process memory."""
 
-    _KOKORO_LANGUAGE_CODES = {"fr": "f", "it": "i", "es": "e", "pt": "p"}
+    _KOKORO_LANGUAGE_CODES = {"fr": "f", "it": "i", "es": "e", "pt": "p", "en": "a"}
 
     def __init__(
         self,

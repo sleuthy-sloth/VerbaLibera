@@ -1,5 +1,14 @@
 {
   "schema_version": 1,
+  "exported_at": "2026-09-05",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/french-foundations.json",
+  "languages": [
+    "fr"
+  ],
+  "voices": [
+    "fr:ff_siwis"
+  ],
   "clips": [
     {
       "id": "fr-identity-foundation-model",
@@ -160,11 +169,86 @@
       "audio_sha256": "9162c7519074c0c4bddcecb9a6fbf7c2bc2077bf1682c4024a572b9ba7bf97da",
       "content_type": "audio/wav",
       "bytes": 96044
+    },
+    {
+      "id": "fr-days-foundation-model",
+      "filename": "fr-days-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "5f402c6502a9e9f892cbb105fd0a8debcc91857858a82c45c081f0e975894958",
+      "audio_sha256": "07827c31ccf8e34d12912e3138f0299307355af7315352dd2242115af54e6a7a",
+      "content_type": "audio/wav",
+      "bytes": 86444
+    },
+    {
+      "id": "fr-time-foundation-model",
+      "filename": "fr-time-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "a44d33a167ec62b1c88444e079f8345ae1b4324f10b0368ff31f1b8b3358ccc1",
+      "audio_sha256": "0d1a5b872f84d9ade271caf9e84faaf45f875dceba4ec8b822cd607736272d08",
+      "content_type": "audio/wav",
+      "bytes": 94844
+    },
+    {
+      "id": "fr-weather-foundation-model",
+      "filename": "fr-weather-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "180335f084b37495814d0144fd5c8adde35868dccf68069552f4a43e63ee6d9c",
+      "audio_sha256": "d8d69d9c0a1de1b0a1ca00986f498266b27f1d2629def0c21a445dfbd07e2cd2",
+      "content_type": "audio/wav",
+      "bytes": 142844
+    },
+    {
+      "id": "fr-market-foundation-model",
+      "filename": "fr-market-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "e499f8c9b6b609e29cd4e81defa906fcb85ad2c493d3b046868801741e6e6354",
+      "audio_sha256": "e1fbdbc95accc72d5c9abd4f79885517309684234cfdafaab8d8fe881eb2566d",
+      "content_type": "audio/wav",
+      "bytes": 106844
+    },
+    {
+      "id": "fr-health-foundation-model",
+      "filename": "fr-health-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "0b4b6fc774e4b105a17f176b7f311d94035d9529216e5e8dee348188fc77dac2",
+      "audio_sha256": "8dc3ee25bfb20342cd1e8939721313c28eaa6ae2c61f803c0441b17b143da3a7",
+      "content_type": "audio/wav",
+      "bytes": 84044
+    },
+    {
+      "id": "fr-pharmacy-foundation-model",
+      "filename": "fr-pharmacy-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "d4f432785981a29884abb888c7b1460ec77f9953bf02036d7f5d4c57b8ad3b24",
+      "audio_sha256": "ab3a69cdcf7d79ac331ef409aa3cef843c53c3a881d30702c03672d0331428e1",
+      "content_type": "audio/wav",
+      "bytes": 99644
+    },
+    {
+      "id": "fr-emergency-foundation-model",
+      "filename": "fr-emergency-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "b61b019e399001211bb2e92ac8312fcd6d6b3c540a258c0c5e389c916e15fb03",
+      "audio_sha256": "ac3b5bb75609d41d18c1a81329e0e43f692fac1e45f3cc564636d016a2e2edeb",
+      "content_type": "audio/wav",
+      "bytes": 117644
+    },
+    {
+      "id": "fr-invitations-foundation-model",
+      "filename": "fr-invitations-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "6392606435abc79de1be92446583697c2fea2eb308ac048cddaf1038a0788198",
+      "audio_sha256": "e8be99eb9b31e3637d92b4e7d074062fc42f33f5cae004eaa51ba96049714f0d",
+      "content_type": "audio/wav",
+      "bytes": 104444
     }
-  ],
-  "model": "kokoro@0.9.4",
-  "model_repository": "hexgrad/Kokoro-82M",
-  "exported_at": "2026-09-05",
-  "manifest": "services/voice/scripts/french-foundations.json",
-  "review": "Waveform and transcription pre-screen; native-speaker prosody review pending."
+  ]
 }

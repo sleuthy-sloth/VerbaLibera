@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "track": "fr-identity-listen.mp3",
+  "duration_s": 129.15,
+  "bytes": 1033965,
+  "audio_sha256": "3053923e55bf4a3669bc111739c0ee57f1bbfc68df46f85925535786df3767bb",
+  "content_type": "audio/mpeg",
+  "assembly": "ffmpeg concat of teacher + reveal clips with think-pauses (8s, 8s, 10s), 24kHz mono 64k mp3",
+  "note": "Author-time static audio. No runtime synthesis.",
+  "clips": [
+    {
+      "id": "t1",
+      "filename": "t1.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "8c6af44f2e7e544fe86d7135e73af8070deb376b89a6516a16fa7061a9a8b2f6",
+      "audio_sha256": "d83543cad93328ddeb68bf6f6cc863b089cbaf33f5f6d69ba35736754f36b0e3",
+      "content_type": "audio/wav",
+      "bytes": 546044,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t2",
+      "filename": "t2.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "f68b37100c29dd8a42c15b98e661c6994976cdc421db9ca59f8b16fa45058193",
+      "audio_sha256": "52dcf2e0b08491b1cd537a87fc9651a1b587e4bfade5b4c68119f292b3dd8648",
+      "content_type": "audio/wav",
+      "bytes": 388844,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t3",
+      "filename": "t3.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "65c40f8353ffdc5923610d4e5ee07adde61d942210168899623b497919318268",
+      "audio_sha256": "adaa7b60cd6e3b4afc3af07dd5468fc0e7520070541aa9661d710f3e91300824",
+      "content_type": "audio/wav",
+      "bytes": 368444,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t4",
+      "filename": "t4.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "36f8e72780015e073facc5728d76057d59100164313819d61ff8e90627145d6a",
+      "audio_sha256": "ba6240ca212bdc080a476869fa1171c9c19b7daaef73854f71f7ff8a867eba77",
+      "content_type": "audio/wav",
+      "bytes": 372044,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t5",
+      "filename": "t5.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "a371e009657448f758342093c641b4c6ec501c8b544fca7cd6fac5e79f780c50",
+      "audio_sha256": "8d0421002c13d7e9d99d2f3983a492064eeecb8e90ede474e7cc04c983748f44",
+      "content_type": "audio/wav",
+      "bytes": 277244,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t6",
+      "filename": "t6.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "c4c236ace609437076d52b6f5673110bb56956c3d5b42da94162a9a122053996",
+      "audio_sha256": "b1cf1c5817ffbf21e6c9bd76da51648a7e7127fbe2cf14fcdcc0793a3415f613",
+      "content_type": "audio/wav",
+      "bytes": 343244,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t7",
+      "filename": "t7.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "ab73e9dd17d8e940f85514ebd4ef10db63d544c4836d53231a70b3568720b62b",
+      "audio_sha256": "a427b9033839d7ce116895943e72de7dda79dc35f3ad9b9c0e91ec0de5ece962",
+      "content_type": "audio/wav",
+      "bytes": 244844,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t8",
+      "filename": "t8.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "284e7aaceccec7f3ae89b1f44d50a720593f3d877323eb3a45fc821c72a3cf2b",
+      "audio_sha256": "a3dededb701aa41a8e79012d67bdc55c1492971734d3f80bd99515e2b8c877f5",
+      "content_type": "audio/wav",
+      "bytes": 352844,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t9",
+      "filename": "t9.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "99795e7cee1fdd2772b3ad049cb4cbacbdf274c05532438f03a305436f97619a",
+      "audio_sha256": "21aee279331f6ee418e34c5385958a218872fc5d9f7ba9a4b1555affbf923f69",
+      "content_type": "audio/wav",
+      "bytes": 316844,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "t10",
+      "filename": "t10.wav",
+      "language": "en",
+      "voice": "af_heart",
+      "text_sha256": "d249b6177b62af49051bf8db963c243fc959e02863f3f36770ce7ff1aa9058d6",
+      "audio_sha256": "44e35d99a10b29e71e460c01ee9e4405558234b77a6e5e135a1f41e7af5f3ccd",
+      "content_type": "audio/wav",
+      "bytes": 609644,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "f2",
+      "filename": "f2.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "c85fd28abfb547554a7bdbcee57965fbae9755a66cad359fa3c07b3b165b9eb4",
+      "audio_sha256": "a6cee623d798349d58549f4f09e5a0741740ddd8ccdfc75d710f09334ed3bdb3",
+      "content_type": "audio/wav",
+      "bytes": 80444,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "f3",
+      "filename": "f3.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "1bff76f9bc7dd13b700e6d820e7bc50ad4b9e03968bc45fff3e33b15252a1fc5",
+      "audio_sha256": "fd993edd3c171df127db7a48478b74f44bcd01f279e9675cd860175cb5bbb61e",
+      "content_type": "audio/wav",
+      "bytes": 91244,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "f4",
+      "filename": "f4.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "fdfc42d79f1e82dfe9c3bb2eafa347d9c19ab6dea0f1a8cbacf698243ad088c4",
+      "audio_sha256": "f5acdd192e72ed233a7d42451621ea66413d8079d248c0860e215032c7849b8c",
+      "content_type": "audio/wav",
+      "bytes": 81644,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    },
+    {
+      "id": "f5",
+      "filename": "f5.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "fcb40b2adcb396fa7544e576dae1a9a2ad26e06fc77fb7baea02db6499fa054e",
+      "audio_sha256": "4a28e02812d8335462fc98fe5d633272a5f7a5f51de1cdc1cdcb5e19550fd9b5",
+      "content_type": "audio/wav",
+      "bytes": 76844,
+      "qa": "faster-whisper small, 4/4 French exact; English spot-checked"
+    }
+  ]
+}
