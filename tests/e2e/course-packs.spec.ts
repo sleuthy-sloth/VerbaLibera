@@ -17,10 +17,33 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
   await expect(page.getByText("Io sono Anna.", { exact: true }).first()).toBeVisible();
+  // Spy audio playback: Begin practice must autoplay the lesson model.
+  await page.evaluate(() => {
+    (window as unknown as { __plays: string[] }).__plays = [];
+    const orig = HTMLAudioElement.prototype.play;
+    HTMLAudioElement.prototype.play = function () {
+      (window as unknown as { __plays: string[] }).__plays.push(this.src);
+      return orig.call(this);
+    };
+  });
   await page
     .getByRole("button", { name: "Begin practice", exact: true })
     .click();
-  await page.getByLabel("Your answer", { exact: true }).fill("IO SONO ANNA!");
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          () => (window as unknown as { __plays: string[] }).__plays.join("|"),
+        ),
+      { timeout: 15000 },
+    )
+    .toContain("it-identity-foundation-model.wav");
+  // Hear-it-first: the model autoplays on Begin practice (asserted above),
+  // then practice opens on the meet-the-word choice, not a blank textbox.
+  await expect(
+    page.getByText("Which Italian word means", { exact: false }),
+  ).toBeVisible();
+  await page.getByRole("radio", { name: "sono", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");
   await page
@@ -52,11 +75,12 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
   await page
     .getByRole("button", { name: "Begin practice", exact: true })
     .click();
-  await page.getByLabel("Your answer", { exact: true }).fill("Sono Anna.");
+  await expect(
+    page.getByText("Which Italian word means", { exact: false }),
+  ).toBeVisible();
+  await page.getByRole("radio", { name: "sono", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText(
-    "acceptable alternative",
-  );
+  await expect(page.getByRole("status")).toContainText("correct");
   await page
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
@@ -103,7 +127,15 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
   await page
     .getByRole("button", { name: "Begin practice", exact: true })
     .click();
-  for (const answer of ["Je suis Anna.", "I am French."]) {
+  // Meet-the-word choice opens practice, then the sentence ladder runs
+  // meaning → order → cloze → produce → reading.
+  await page.getByRole("radio", { name: "suis", exact: true }).check();
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("correct");
+  await page
+    .getByRole("button", { name: "Save and continue", exact: true })
+    .click();
+  for (const answer of ["I am French.", "Je suis Anna."]) {
     await page.getByLabel("Your answer", { exact: true }).fill(answer);
     await page
       .getByRole("button", { name: "Check answer", exact: true })
@@ -112,22 +144,28 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
     await page
       .getByRole("button", { name: "Save and continue", exact: true })
       .click();
+    if (answer === "I am French.") {
+      for (const word of ["Je", "suis", "française."])
+        await page.getByRole("button", { name: word, exact: true }).click();
+      await page.getByRole("button", { name: "Check answer", exact: true }).click();
+      await expect(page.getByRole("status")).toContainText("correct");
+      await page
+        .getByRole("button", { name: "Save and continue", exact: true })
+        .click();
+      await page.getByLabel("Your answer", { exact: true }).fill("suis");
+      await page.getByRole("button", { name: "Check answer", exact: true }).click();
+      await expect(page.getByRole("status")).toContainText("correct");
+      await page
+        .getByRole("button", { name: "Save and continue", exact: true })
+        .click();
+    }
   }
-  for (const word of ["Je", "suis", "française."])
-    await page.getByRole("button", { name: word, exact: true }).click();
+  await page.getByLabel("Your answer", { exact: true }).fill("Anna");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("correct");
   await page
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
-  for (const answer of ["suis", "Anna"]) {
-    await page.getByLabel("Your answer", { exact: true }).fill(answer);
-    await page
-      .getByRole("button", { name: "Check answer", exact: true })
-      .click();
-    await page
-      .getByRole("button", { name: "Save and continue", exact: true })
-      .click();
-  }
   await expect(
     page.getByRole("heading", { name: "Practice complete", exact: true }),
   ).toBeVisible();

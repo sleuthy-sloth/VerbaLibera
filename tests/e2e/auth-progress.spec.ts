@@ -1,13 +1,14 @@
 import { test, expect } from '@playwright/test';
 
-test('signed-out preview is unchanged', async ({ page }) => {
+test('signed-out visitors get an honest blank slate', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('Preview progress')).toBeVisible();
-  await expect(page.getByText('Nothing was saved.')).toBeVisible({ timeout: 5000 }).catch(() => {});
-  // Dashboard should show preview badge
-  await expect(page.getByText('Preview progress')).toBeVisible();
-  // Session preview copy
-  await page.getByRole('link', { name: /continue 8-minute session/i }).click();
+  // No fiction progress: guests get onboarding, never a continue link.
+  await expect(
+    page.getByRole('link', { name: /continue 8-minute session/i }),
+  ).toHaveCount(0);
+  await page.getByRole('link', { name: /start 8-minute session/i }).click();
+  await expect(page).toHaveURL(/\/learn\//);
   await expect(page.getByText('This is a preview—nothing was saved.')).toBeVisible().catch(() => {});
 });
 

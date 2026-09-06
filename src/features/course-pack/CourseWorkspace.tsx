@@ -166,6 +166,14 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     setSession(l.exercises.filter(e => !l.optionalExerciseIds.includes(e.id)).map((e) => e.id));
     setStep(0);
     setMessage("");
+    // Hear-it-first: autoplay the lesson model inside the click gesture so
+    // the learner hears the pattern before meeting any words. Browsers allow
+    // playback here (transient activation); if blocked, play() rejects and
+    // the manual Model audio player above remains the fallback.
+    const model = pack.media.find((m) =>
+      l.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
+    );
+    if (model) void new Audio(model.url).play().catch(() => {});
   };
   const save = async (result: Evaluation, revealed: boolean) => {
     if (!activeExercise) return;
