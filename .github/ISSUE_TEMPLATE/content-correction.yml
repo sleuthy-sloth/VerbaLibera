@@ -1,0 +1,44 @@
+name: Content correction
+description: Report a wrong or unnatural sentence, translation, or audio model in a lesson.
+title: "[content]: "
+labels: ["content"]
+body:
+  - type: input
+    id: lesson
+    attributes:
+      label: Lesson
+      description: Language and lesson title, e.g. Italian, Aches and the doctor.
+      placeholder: Italian, Aches and the doctor
+    validations:
+      required: true
+  - type: input
+    id: exercise
+    attributes:
+      label: Exercise
+      description: The prompt text as shown in the app.
+      placeholder: Write in Italian - My head hurts
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: What it says now, what it should say, and why (if you know).
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of problem
+      options:
+        - Wrong word or grammar
+        - Unnatural phrasing (a native speaker would not say this)
+        - Wrong or misleading translation
+        - Audio does not match the text
+        - Typo or punctuation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: background
+    attributes:
+      label: Your background (optional)
+      description: e.g. native speaker, B2 learner, teacher. Helps weigh corrections.

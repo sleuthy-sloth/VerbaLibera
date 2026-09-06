@@ -24,6 +24,12 @@ Foundation practice starts in a **device-local guest store**. Select **Use signe
 
 The new answer evaluator uses authored variants and deterministic rules entirely in the browser. No LLM account, API key or generative runtime is required. Course JSON is separated from application code, validated during build, and fetched one language at a time. See [architecture](docs/astra/architecture.md), [curriculum](docs/astra/curriculum-system.md), [offline design](docs/astra/offline-design.md), [content tooling](docs/astra/content-pipeline.md) and [implementation report](docs/astra/implementation-report.md).
 
+## Known rough edges (help wanted)
+
+The foundation lessons are machine-authored and consistency-checked, but no native speaker has reviewed them yet. Expect the occasional unnatural phrasing, especially in Units 5–6. Corrections from learners and natives are the fastest way this improves: [file a content correction](https://github.com/sleuthy-sloth/VerbaLibera/issues/new?template=content-correction.yml) with the lesson, the prompt, and what it should say. Each report is checked against the lesson's teaching pattern before the data changes.
+
+Other honest limits: partial A1 only (no B1 yet), placement is a rough starting suggestion rather than certification, and physical-iPhone testing is still open.
+
 ## Existing travel courses
 
 The original preview path retains four A1 travel units:
