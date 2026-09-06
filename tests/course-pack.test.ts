@@ -22,6 +22,22 @@ describe("course packs", () => {
       expect(pack.lessons.every((l) => l.exercises.length >= 4)).toBe(true);
     },
   );
+  it.each(["italian", "french"])(
+    "opens every %s lesson with a word-level choice before any sentence",
+    (language) => {
+      // Break caught: day-zero learners met full-sentence production as the
+      // first practice step. The meet-word choice must stay first.
+      const p = validatePack(
+        JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
+      );
+      for (const lesson of p.lessons) {
+        const first = lesson.exercises[0];
+        expect(first.kind).toBe("choice");
+        expect(first.mode).toBe("recognition");
+        expect(first.id.endsWith("-meet")).toBe(true);
+      }
+    },
+  );
   it("rejects incompatible versions and missing answers", () => {
     const p = readPack();
     p.schemaVersion = 2;
@@ -179,7 +195,7 @@ it.each(["italian", "french"])(
     const p = validatePack(
       JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
     );
-    const e = p.lessons[0].exercises.find((e) => e.mode === "recognition")!;
+    const e = p.lessons[0].exercises.find((e) => e.mode === "recognition" && e.kind === "translate")!;
     expect(
       evaluateAnswer(
         language === "italian" ? "I am Italian." : "I am French.",

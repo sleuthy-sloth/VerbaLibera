@@ -1097,6 +1097,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "suis"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-identity-foundation-meet",
+          "conceptId": "fr-identity-concept",
+          "prompt": "Which French word means “am”?",
+          "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+          "vocabulary": [
+            "fr-identity-word-1",
+            "fr-identity-word-2",
+            "fr-identity-word-3",
+            "fr-identity-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "suis",
+            "je",
+            "française",
+            "bonjour"
+          ]
+        },
+        {
           "conceptId": "fr-identity-concept",
           "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
           "vocabulary": [
@@ -1256,6 +1282,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "es"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-people-foundation-meet",
+          "conceptId": "fr-people-concept",
+          "prompt": "Which French word means “are (with tu)”?",
+          "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+          "vocabulary": [
+            "fr-people-word-1",
+            "fr-people-word-2",
+            "fr-people-word-3",
+            "fr-people-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu",
+            "es",
+            "elle",
+            "est"
+          ]
+        },
         {
           "conceptId": "fr-people-concept",
           "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
@@ -1434,6 +1486,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "j’ai"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-family-foundation-meet",
+          "conceptId": "fr-family-concept",
+          "prompt": "Which French word means “I have”?",
+          "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+          "vocabulary": [
+            "fr-family-word-1",
+            "fr-family-word-2",
+            "fr-family-word-3",
+            "fr-family-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu as",
+            "un frère",
+            "j’ai",
+            "une sœur"
+          ]
+        },
         {
           "conceptId": "fr-family-concept",
           "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
@@ -1619,6 +1697,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "vingt"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-numbers-foundation-meet",
+          "conceptId": "fr-numbers-concept",
+          "prompt": "Which French word means “twenty”?",
+          "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+          "vocabulary": [
+            "fr-numbers-word-1",
+            "fr-numbers-word-2",
+            "fr-numbers-word-3",
+            "fr-numbers-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "trente",
+            "ans",
+            "quel âge",
+            "vingt"
+          ]
+        },
+        {
           "conceptId": "fr-numbers-concept",
           "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
           "vocabulary": [
@@ -1799,6 +1903,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "une maison"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-home-foundation-meet",
+          "conceptId": "fr-home-concept",
+          "prompt": "Which French word means “a house”?",
+          "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+          "vocabulary": [
+            "fr-home-word-1",
+            "fr-home-word-2",
+            "fr-home-word-3",
+            "fr-home-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "une maison",
+            "le livre",
+            "à la maison",
+            "la"
+          ]
+        },
         {
           "conceptId": "fr-home-concept",
           "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
@@ -1981,6 +2111,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "blanc"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-descriptions-foundation-meet",
+          "conceptId": "fr-descriptions-concept",
+          "prompt": "Which French word means “white (masculine)”?",
+          "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+          "vocabulary": [
+            "fr-descriptions-word-1",
+            "fr-descriptions-word-2",
+            "fr-descriptions-word-3",
+            "fr-descriptions-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "blanche",
+            "blanc",
+            "grand",
+            "grande"
+          ]
+        },
+        {
           "conceptId": "fr-descriptions-concept",
           "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
           "vocabulary": [
@@ -2159,6 +2315,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "les livres"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-plural-foundation-meet",
+          "conceptId": "fr-plural-concept",
+          "prompt": "Which French word means “the books”?",
+          "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+          "vocabulary": [
+            "fr-plural-word-1",
+            "fr-plural-word-2",
+            "fr-plural-word-3",
+            "fr-plural-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "les maisons",
+            "sont",
+            "les livres",
+            "blancs"
+          ]
+        },
         {
           "conceptId": "fr-plural-concept",
           "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
@@ -2339,6 +2521,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "j’étudie"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-routine-foundation-meet",
+          "conceptId": "fr-routine-concept",
+          "prompt": "Which French word means “I study”?",
+          "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+          "vocabulary": [
+            "fr-routine-word-1",
+            "fr-routine-word-2",
+            "fr-routine-word-3",
+            "fr-routine-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu travailles",
+            "chaque jour",
+            "travailler",
+            "j’étudie"
+          ]
+        },
+        {
           "conceptId": "fr-routine-concept",
           "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
           "vocabulary": [
@@ -2518,6 +2726,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "je travaille"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-negation-foundation-meet",
+          "conceptId": "fr-negation-concept",
+          "prompt": "Which French word means “I work”?",
+          "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+          "vocabulary": [
+            "fr-negation-word-1",
+            "fr-negation-word-2",
+            "fr-negation-word-3",
+            "fr-negation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "je travaille",
+            "ne … pas",
+            "n’étudie pas",
+            "oui"
+          ]
+        },
         {
           "conceptId": "fr-negation-concept",
           "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
@@ -2700,6 +2934,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "est-ce que"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-questions-foundation-meet",
+          "conceptId": "fr-questions-concept",
+          "prompt": "Which French word means “yes/no question opening”?",
+          "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+          "vocabulary": [
+            "fr-questions-word-1",
+            "fr-questions-word-2",
+            "fr-questions-word-3",
+            "fr-questions-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu étudies",
+            "est-ce que",
+            "qui",
+            "où"
+          ]
+        },
         {
           "conceptId": "fr-questions-concept",
           "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
@@ -2884,6 +3144,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "je prends"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-food-foundation-meet",
+          "conceptId": "fr-food-concept",
+          "prompt": "Which French word means “I take / I will have”?",
+          "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+          "vocabulary": [
+            "fr-food-word-1",
+            "fr-food-word-2",
+            "fr-food-word-3",
+            "fr-food-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu prends",
+            "un café",
+            "je prends",
+            "un thé"
+          ]
+        },
+        {
           "conceptId": "fr-food-concept",
           "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
           "vocabulary": [
@@ -3064,6 +3350,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "mon"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-possession-foundation-meet",
+          "conceptId": "fr-possession-concept",
+          "prompt": "Which French word means “my (masculine singular)”?",
+          "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+          "vocabulary": [
+            "fr-possession-word-1",
+            "fr-possession-word-2",
+            "fr-possession-word-3",
+            "fr-possession-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ma",
+            "mes",
+            "ton",
+            "mon"
+          ]
+        },
+        {
           "conceptId": "fr-possession-concept",
           "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
           "vocabulary": [
@@ -3242,6 +3554,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "je vais"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-transport-foundation-meet",
+          "conceptId": "fr-transport-concept",
+          "prompt": "Which French word means “I go”?",
+          "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+          "vocabulary": [
+            "fr-transport-word-1",
+            "fr-transport-word-2",
+            "fr-transport-word-3",
+            "fr-transport-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "je vais",
+            "tu vas",
+            "à la gare",
+            "à Paris"
+          ]
+        },
         {
           "conceptId": "fr-transport-concept",
           "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
@@ -3426,6 +3764,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "je peux"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-requests-foundation-meet",
+          "conceptId": "fr-requests-concept",
+          "prompt": "Which French word means “I can”?",
+          "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+          "vocabulary": [
+            "fr-requests-word-1",
+            "fr-requests-word-2",
+            "fr-requests-word-3",
+            "fr-requests-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu peux",
+            "je peux",
+            "prendre",
+            "s’il vous plaît"
+          ]
+        },
         {
           "conceptId": "fr-requests-concept",
           "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
@@ -3627,6 +3991,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "hier"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-past-foundation-meet",
+          "conceptId": "fr-past-concept",
+          "prompt": "Which French word means “yesterday”?",
+          "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+          "vocabulary": [
+            "fr-past-word-1",
+            "fr-past-word-2",
+            "fr-past-word-3",
+            "fr-past-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "étudié",
+            "travaillé",
+            "hier",
+            "j’ai étudié"
+          ]
+        },
+        {
           "conceptId": "fr-past-concept",
           "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
           "vocabulary": [
@@ -3806,6 +4196,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "demain"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-plans-foundation-meet",
+          "conceptId": "fr-plans-concept",
+          "prompt": "Which French word means “tomorrow”?",
+          "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+          "vocabulary": [
+            "fr-plans-word-1",
+            "fr-plans-word-2",
+            "fr-plans-word-3",
+            "fr-plans-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "étudier",
+            "aujourd’hui",
+            "ce soir",
+            "demain"
+          ]
+        },
         {
           "conceptId": "fr-plans-concept",
           "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
@@ -3988,6 +4404,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "lundi"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-days-foundation-meet",
+          "conceptId": "fr-days-concept",
+          "prompt": "Which French word means “Monday”?",
+          "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+          "vocabulary": [
+            "fr-days-foundation-word-1",
+            "fr-days-foundation-word-2",
+            "fr-days-foundation-word-3",
+            "fr-days-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "lundi",
+            "vendredi",
+            "aujourd’hui",
+            "demain"
+          ]
+        },
         {
           "conceptId": "fr-days-concept",
           "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
@@ -4173,6 +4615,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "heure"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-time-foundation-meet",
+          "conceptId": "fr-time-concept",
+          "prompt": "Which French word means “hour”?",
+          "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+          "vocabulary": [
+            "fr-time-foundation-word-1",
+            "fr-time-foundation-word-2",
+            "fr-time-foundation-word-3",
+            "fr-time-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "midi",
+            "heure",
+            "et demie",
+            "moins le quart"
+          ]
+        },
         {
           "conceptId": "fr-time-concept",
           "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
@@ -4362,6 +4830,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "froid"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-weather-foundation-meet",
+          "conceptId": "fr-weather-concept",
+          "prompt": "Which French word means “cold”?",
+          "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+          "vocabulary": [
+            "fr-weather-foundation-word-1",
+            "fr-weather-foundation-word-2",
+            "fr-weather-foundation-word-3",
+            "fr-weather-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "soleil",
+            "pluie",
+            "froid",
+            "chaud"
+          ]
+        },
+        {
           "conceptId": "fr-weather-concept",
           "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
           "vocabulary": [
@@ -4548,6 +5042,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "kilo"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-market-foundation-meet",
+          "conceptId": "fr-market-concept",
+          "prompt": "Which French word means “kilo”?",
+          "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+          "vocabulary": [
+            "fr-market-foundation-word-1",
+            "fr-market-foundation-word-2",
+            "fr-market-foundation-word-3",
+            "fr-market-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "marché",
+            "euro",
+            "prix",
+            "kilo"
+          ]
+        },
         {
           "conceptId": "fr-market-concept",
           "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",

@@ -5,8 +5,9 @@
   "lessons": 20,
   "concepts": 20,
   "vocabulary": 80,
-  "exercises": 140,
+  "exercises": 160,
   "kinds": {
+    "choice": 20,
     "translate": 59,
     "order": 20,
     "cloze": 20,
@@ -15,7 +16,7 @@
   },
   "audioClips": 21,
   "lessonsWithAudio": 20,
-  "packBytes": 134049,
+  "packBytes": 146166,
   "answerCoverage": "100%",
   "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
 }

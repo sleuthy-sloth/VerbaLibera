@@ -1306,6 +1306,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "sono"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-identity-foundation-meet",
+          "conceptId": "it-identity-concept",
+          "prompt": "Which Italian word means “am”?",
+          "explanation": "Io means I. Sono is the I-form of essere (to be). Italian often omits io because the verb identifies the speaker. Use sono with your name or nationality. Ciao is informal; buongiorno is a polite greeting.",
+          "vocabulary": [
+            "it-identity-word-1",
+            "it-identity-word-2",
+            "it-identity-word-3",
+            "it-identity-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "sono",
+            "io",
+            "italiana",
+            "ciao"
+          ]
+        },
+        {
           "conceptId": "it-identity-concept",
           "explanation": "Io means I. Sono is the I-form of essere (to be). Italian often omits io because the verb identifies the speaker. Use sono with your name or nationality. Ciao is informal; buongiorno is a polite greeting.",
           "vocabulary": [
@@ -1465,6 +1491,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "sei"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-people-foundation-meet",
+          "conceptId": "it-people-concept",
+          "prompt": "Which Italian word means “are (with tu)”?",
+          "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+          "vocabulary": [
+            "it-people-word-1",
+            "it-people-word-2",
+            "it-people-word-3",
+            "it-people-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tu",
+            "sei",
+            "lei",
+            "è"
+          ]
+        },
         {
           "conceptId": "it-people-concept",
           "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
@@ -1644,6 +1696,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "un fratello"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-family-foundation-meet",
+          "conceptId": "it-family-concept",
+          "prompt": "Which Italian word means “a brother”?",
+          "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+          "vocabulary": [
+            "it-family-word-1",
+            "it-family-word-2",
+            "it-family-word-3",
+            "it-family-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ho",
+            "hai",
+            "un fratello",
+            "una sorella"
+          ]
+        },
         {
           "conceptId": "it-family-concept",
           "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
@@ -1825,6 +1903,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "venti"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-numbers-foundation-meet",
+          "conceptId": "it-numbers-concept",
+          "prompt": "Which Italian word means “twenty”?",
+          "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+          "vocabulary": [
+            "it-numbers-word-1",
+            "it-numbers-word-2",
+            "it-numbers-word-3",
+            "it-numbers-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "trenta",
+            "anni",
+            "quanti",
+            "venti"
+          ]
+        },
+        {
           "conceptId": "it-numbers-concept",
           "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
           "vocabulary": [
@@ -2005,6 +2109,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "una casa"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-home-foundation-meet",
+          "conceptId": "it-home-concept",
+          "prompt": "Which Italian word means “a house”?",
+          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+          "vocabulary": [
+            "it-home-word-1",
+            "it-home-word-2",
+            "it-home-word-3",
+            "it-home-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "una casa",
+            "il libro",
+            "in",
+            "la"
+          ]
+        },
         {
           "conceptId": "it-home-concept",
           "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
@@ -2188,6 +2318,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "bianca"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-descriptions-foundation-meet",
+          "conceptId": "it-descriptions-concept",
+          "prompt": "Which Italian word means “white (feminine)”?",
+          "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+          "vocabulary": [
+            "it-descriptions-word-1",
+            "it-descriptions-word-2",
+            "it-descriptions-word-3",
+            "it-descriptions-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "bianco",
+            "bianca",
+            "grande",
+            "piccolo"
+          ]
+        },
+        {
           "conceptId": "it-descriptions-concept",
           "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
           "vocabulary": [
@@ -2368,6 +2524,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "i libri"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-plural-foundation-meet",
+          "conceptId": "it-plural-concept",
+          "prompt": "Which Italian word means “the books”?",
+          "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+          "vocabulary": [
+            "it-plural-word-1",
+            "it-plural-word-2",
+            "it-plural-word-3",
+            "it-plural-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "le case",
+            "bianchi",
+            "i libri",
+            "grandi"
+          ]
+        },
+        {
           "conceptId": "it-plural-concept",
           "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
           "vocabulary": [
@@ -2546,6 +2728,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "studio"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-routine-foundation-meet",
+          "conceptId": "it-routine-concept",
+          "prompt": "Which Italian word means “I study”?",
+          "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+          "vocabulary": [
+            "it-routine-word-1",
+            "it-routine-word-2",
+            "it-routine-word-3",
+            "it-routine-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "lavori",
+            "ogni giorno",
+            "studiare",
+            "studio"
+          ]
+        },
         {
           "conceptId": "it-routine-concept",
           "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
@@ -2726,6 +2934,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "non"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-negation-foundation-meet",
+          "conceptId": "it-negation-concept",
+          "prompt": "Which Italian word means “not”?",
+          "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+          "vocabulary": [
+            "it-negation-word-1",
+            "it-negation-word-2",
+            "it-negation-word-3",
+            "it-negation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "non",
+            "lavoro",
+            "studi",
+            "sì"
+          ]
+        },
+        {
           "conceptId": "it-negation-concept",
           "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
           "vocabulary": [
@@ -2905,6 +3139,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "prendo"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-food-foundation-meet",
+          "conceptId": "it-food-concept",
+          "prompt": "Which Italian word means “I take / I will have”?",
+          "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
+          "vocabulary": [
+            "it-food-word-1",
+            "it-food-word-2",
+            "it-food-word-3",
+            "it-food-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "prendi",
+            "prendo",
+            "un caffè",
+            "un tè"
+          ]
+        },
+        {
           "conceptId": "it-food-concept",
           "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
           "vocabulary": [
@@ -3083,6 +3343,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "mia"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-possession-foundation-meet",
+          "conceptId": "it-possession-concept",
+          "prompt": "Which Italian word means “my (feminine singular)”?",
+          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
+          "vocabulary": [
+            "it-possession-word-1",
+            "it-possession-word-2",
+            "it-possession-word-3",
+            "it-possession-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "mio",
+            "miei",
+            "mia",
+            "tuo"
+          ]
+        },
         {
           "conceptId": "it-possession-concept",
           "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
@@ -3264,6 +3550,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "vado"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-transport-foundation-meet",
+          "conceptId": "it-transport-concept",
+          "prompt": "Which Italian word means “I go”?",
+          "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
+          "vocabulary": [
+            "it-transport-word-1",
+            "it-transport-word-2",
+            "it-transport-word-3",
+            "it-transport-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "vai",
+            "alla stazione",
+            "a Roma",
+            "vado"
+          ]
+        },
         {
           "conceptId": "it-transport-concept",
           "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
@@ -3447,6 +3759,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "posso"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-requests-foundation-meet",
+          "conceptId": "it-requests-concept",
+          "prompt": "Which Italian word means “I can”?",
+          "explanation": "Potere means can or be able to: io posso, tu puoi. Follow it with an infinitive: posso prendere. Do not conjugate both verbs. Per favore means please. Vorrei is a useful fixed polite request meaning I would like.",
+          "vocabulary": [
+            "it-requests-word-1",
+            "it-requests-word-2",
+            "it-requests-word-3",
+            "it-requests-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "posso",
+            "puoi",
+            "prendere",
+            "per favore"
+          ]
+        },
         {
           "conceptId": "it-requests-concept",
           "explanation": "Potere means can or be able to: io posso, tu puoi. Follow it with an infinitive: posso prendere. Do not conjugate both verbs. Per favore means please. Vorrei is a useful fixed polite request meaning I would like.",
@@ -3648,6 +3986,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "mi alzo"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-reflexive-foundation-meet",
+          "conceptId": "it-reflexive-concept",
+          "prompt": "Which Italian word means “I get up”?",
+          "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
+          "vocabulary": [
+            "it-reflexive-word-1",
+            "it-reflexive-word-2",
+            "it-reflexive-word-3",
+            "it-reflexive-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ti alzi",
+            "mi alzo",
+            "alle sette",
+            "la mattina"
+          ]
+        },
+        {
           "conceptId": "it-reflexive-concept",
           "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
           "vocabulary": [
@@ -3829,6 +4193,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "ieri"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-past-foundation-meet",
+          "conceptId": "it-past-concept",
+          "prompt": "Which Italian word means “yesterday”?",
+          "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
+          "vocabulary": [
+            "it-past-word-1",
+            "it-past-word-2",
+            "it-past-word-3",
+            "it-past-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "mangiato",
+            "studiato",
+            "ieri",
+            "ho mangiato"
+          ]
+        },
+        {
           "conceptId": "it-past-concept",
           "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
           "vocabulary": [
@@ -4008,6 +4398,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "domani"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-plans-foundation-meet",
+          "conceptId": "it-plans-concept",
+          "prompt": "Which Italian word means “tomorrow”?",
+          "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
+          "vocabulary": [
+            "it-plans-word-1",
+            "it-plans-word-2",
+            "it-plans-word-3",
+            "it-plans-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "oggi",
+            "stasera",
+            "a casa",
+            "domani"
+          ]
+        },
+        {
           "conceptId": "it-plans-concept",
           "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
           "vocabulary": [
@@ -4186,6 +4602,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "lunedì"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-days-foundation-meet",
+          "conceptId": "it-days-concept",
+          "prompt": "Which Italian word means “Monday”?",
+          "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
+          "vocabulary": [
+            "it-days-foundation-word-1",
+            "it-days-foundation-word-2",
+            "it-days-foundation-word-3",
+            "it-days-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "lunedì",
+            "venerdì",
+            "oggi",
+            "domani"
+          ]
+        },
         {
           "conceptId": "it-days-concept",
           "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
@@ -4371,6 +4813,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "e mezza"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-time-foundation-meet",
+          "conceptId": "it-time-concept",
+          "prompt": "Which Italian word means “half past”?",
+          "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+          "vocabulary": [
+            "it-time-foundation-word-1",
+            "it-time-foundation-word-2",
+            "it-time-foundation-word-3",
+            "it-time-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ora",
+            "e mezza",
+            "mezzogiorno",
+            "meno un quarto"
+          ]
+        },
         {
           "conceptId": "it-time-concept",
           "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
@@ -4561,6 +5029,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "freddo"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-weather-foundation-meet",
+          "conceptId": "it-weather-concept",
+          "prompt": "Which Italian word means “cold”?",
+          "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+          "vocabulary": [
+            "it-weather-foundation-word-1",
+            "it-weather-foundation-word-2",
+            "it-weather-foundation-word-3",
+            "it-weather-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "sole",
+            "pioggia",
+            "freddo",
+            "caldo"
+          ]
+        },
+        {
           "conceptId": "it-weather-concept",
           "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
           "vocabulary": [
@@ -4747,6 +5241,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "chilo"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-market-foundation-meet",
+          "conceptId": "it-market-concept",
+          "prompt": "Which Italian word means “kilo”?",
+          "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+          "vocabulary": [
+            "it-market-foundation-word-1",
+            "it-market-foundation-word-2",
+            "it-market-foundation-word-3",
+            "it-market-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "mercato",
+            "euro",
+            "prezzo",
+            "chilo"
+          ]
+        },
         {
           "conceptId": "it-market-concept",
           "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
@@ -4937,6 +5457,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "testa"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-health-foundation-meet",
+          "conceptId": "it-health-concept",
+          "prompt": "Which Italian word means “head”?",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "testa",
+            "febbre",
+            "dottore",
+            "male"
+          ]
+        },
+        {
           "conceptId": "it-health-concept",
           "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
           "vocabulary": [
@@ -5123,6 +5669,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "medicina"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-pharmacy-foundation-meet",
+          "conceptId": "it-pharmacy-concept",
+          "prompt": "Which Italian word means “medicine”?",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "farmacia",
+            "medicina",
+            "pastiglia",
+            "sciroppo"
+          ]
+        },
         {
           "conceptId": "it-pharmacy-concept",
           "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
@@ -5311,6 +5883,32 @@
       ],
       "exercises": [
         {
+          "answers": [
+            "aiuto"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-emergency-foundation-meet",
+          "conceptId": "it-emergency-concept",
+          "prompt": "Which Italian word means “help”?",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ambulanza",
+            "urgente",
+            "aiuto",
+            "telefono"
+          ]
+        },
+        {
           "conceptId": "it-emergency-concept",
           "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
           "vocabulary": [
@@ -5495,6 +6093,32 @@
         }
       ],
       "exercises": [
+        {
+          "answers": [
+            "cena"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-invitations-foundation-meet",
+          "conceptId": "it-invitations-concept",
+          "prompt": "Which Italian word means “dinner”?",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "sabato",
+            "volentieri",
+            "mi dispiace",
+            "cena"
+          ]
+        },
         {
           "conceptId": "it-invitations-concept",
           "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
