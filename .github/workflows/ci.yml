@@ -78,3 +78,7 @@ jobs:
         # Serial workers: parallel workers flake under dev-server compile
         # contention (hydration/timeout failures that move between runs).
         run: npx playwright test --project=chromium --workers=1
+
+      - name: Dump e2e failure snapshots
+        if: failure()
+        run: find test-results -name 'error-context.md' -exec echo "=== {} ===" \; -exec cat {} \; 2>/dev/null | head -250
