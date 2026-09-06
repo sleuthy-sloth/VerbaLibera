@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "clips": [
+    {
+      "id": "fr-health-foundation-model",
+      "filename": "fr-health-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "0b4b6fc774e4b105a17f176b7f311d94035d9529216e5e8dee348188fc77dac2",
+      "audio_sha256": "8dc3ee25bfb20342cd1e8939721313c28eaa6ae2c61f803c0441b17b143da3a7",
+      "content_type": "audio/wav",
+      "bytes": 84044
+    },
+    {
+      "id": "fr-pharmacy-foundation-model",
+      "filename": "fr-pharmacy-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "d4f432785981a29884abb888c7b1460ec77f9953bf02036d7f5d4c57b8ad3b24",
+      "audio_sha256": "ab3a69cdcf7d79ac331ef409aa3cef843c53c3a881d30702c03672d0331428e1",
+      "content_type": "audio/wav",
+      "bytes": 99644
+    },
+    {
+      "id": "fr-emergency-foundation-model",
+      "filename": "fr-emergency-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "b61b019e399001211bb2e92ac8312fcd6d6b3c540a258c0c5e389c916e15fb03",
+      "audio_sha256": "ac3b5bb75609d41d18c1a81329e0e43f692fac1e45f3cc564636d016a2e2edeb",
+      "content_type": "audio/wav",
+      "bytes": 117644
+    },
+    {
+      "id": "fr-invitations-foundation-model",
+      "filename": "fr-invitations-foundation-model.wav",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "text_sha256": "6392606435abc79de1be92446583697c2fea2eb308ac048cddaf1038a0788198",
+      "audio_sha256": "e8be99eb9b31e3637d92b4e7d074062fc42f33f5cae004eaa51ba96049714f0d",
+      "content_type": "audio/wav",
+      "bytes": 104444
+    }
+  ]
+}

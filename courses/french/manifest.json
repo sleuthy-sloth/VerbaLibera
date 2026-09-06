@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "fr-foundations",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "language": "fr",
   "sourceLanguage": "en",
   "title": "French foundations",
-  "description": "Twenty original A1 foundation lessons. A growing course, not a complete A1 certification syllabus.",
+  "description": "Twenty-four original A1 foundation lessons. A growing course, not a complete A1 certification syllabus.",
   "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
   "units": [
     {
@@ -32,6 +32,11 @@
       "id": "fr-unit-5",
       "title": "Time and the world around you",
       "objective": "Handle days, time, weather and market prices."
+    },
+    {
+      "id": "fr-unit-6",
+      "title": "Santé et vie sociale",
+      "objective": "Handle aches, the pharmacy, emergencies and invitations."
     }
   ],
   "concepts": [
@@ -354,6 +359,70 @@
         }
       ],
       "commonError": "Un kilo is singular, so the question is singular: Combien coûte un kilo de pommes ?"
+    },
+    {
+      "id": "fr-health-concept",
+      "title": "Saying where it hurts",
+      "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+      "examples": [
+        {
+          "target": "J’ai mal à la tête.",
+          "meaning": "My head hurts."
+        },
+        {
+          "target": "J’ai de la fièvre.",
+          "meaning": "I have a fever."
+        }
+      ],
+      "commonError": "Pain uses avoir mal, not être: J’ai mal à la tête."
+    },
+    {
+      "id": "fr-pharmacy-concept",
+      "title": "Asking for medicine",
+      "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+      "examples": [
+        {
+          "target": "Je voudrais un médicament.",
+          "meaning": "I would like some medicine."
+        },
+        {
+          "target": "Ça coûte cinq euros.",
+          "meaning": "It costs five euros."
+        }
+      ],
+      "commonError": "Voudrais is polite: Je voudrais un médicament."
+    },
+    {
+      "id": "fr-emergency-concept",
+      "title": "Calling for help",
+      "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+      "examples": [
+        {
+          "target": "Au secours ! Appelez une ambulance !",
+          "meaning": "Help! Call an ambulance!"
+        },
+        {
+          "target": "C’est urgent.",
+          "meaning": "It is urgent."
+        }
+      ],
+      "commonError": "Appelez is the polite command form: Appelez une ambulance !"
+    },
+    {
+      "id": "fr-invitations-concept",
+      "title": "Inviting and replying",
+      "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "examples": [
+        {
+          "target": "Tu veux venir dîner samedi ?",
+          "meaning": "Do you want to come to dinner Saturday?"
+        },
+        {
+          "target": "Oui, merci, avec plaisir.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ],
+      "commonError": "Venir means to come: Tu veux venir dîner ?"
     }
   ],
   "vocabulary": [
@@ -916,6 +985,118 @@
       "meaning": "price",
       "partOfSpeech": "word or expression",
       "example": "Le prix est élevé."
+    },
+    {
+      "id": "fr-health-foundation-word-1",
+      "word": "tête",
+      "meaning": "head",
+      "partOfSpeech": "word or expression",
+      "example": "J’ai mal à la tête."
+    },
+    {
+      "id": "fr-health-foundation-word-2",
+      "word": "fièvre",
+      "meaning": "fever",
+      "partOfSpeech": "word or expression",
+      "example": "J’ai de la fièvre."
+    },
+    {
+      "id": "fr-health-foundation-word-3",
+      "word": "médecin",
+      "meaning": "doctor",
+      "partOfSpeech": "word or expression",
+      "example": "Le médecin aide."
+    },
+    {
+      "id": "fr-health-foundation-word-4",
+      "word": "mal",
+      "meaning": "pain",
+      "partOfSpeech": "word or expression",
+      "example": "J’ai mal au pied."
+    },
+    {
+      "id": "fr-pharmacy-foundation-word-1",
+      "word": "pharmacie",
+      "meaning": "pharmacy",
+      "partOfSpeech": "word or expression",
+      "example": "La pharmacie est ouverte."
+    },
+    {
+      "id": "fr-pharmacy-foundation-word-2",
+      "word": "médicament",
+      "meaning": "medicine",
+      "partOfSpeech": "word or expression",
+      "example": "Je voudrais un médicament."
+    },
+    {
+      "id": "fr-pharmacy-foundation-word-3",
+      "word": "comprimé",
+      "meaning": "pill",
+      "partOfSpeech": "word or expression",
+      "example": "Je prends un comprimé."
+    },
+    {
+      "id": "fr-pharmacy-foundation-word-4",
+      "word": "sirop",
+      "meaning": "syrup",
+      "partOfSpeech": "word or expression",
+      "example": "Le sirop aide la toux."
+    },
+    {
+      "id": "fr-emergency-foundation-word-1",
+      "word": "secours",
+      "meaning": "help",
+      "partOfSpeech": "word or expression",
+      "example": "Au secours, s’il vous plaît !"
+    },
+    {
+      "id": "fr-emergency-foundation-word-2",
+      "word": "ambulance",
+      "meaning": "ambulance",
+      "partOfSpeech": "word or expression",
+      "example": "L’ambulance arrive."
+    },
+    {
+      "id": "fr-emergency-foundation-word-3",
+      "word": "urgent",
+      "meaning": "urgent",
+      "partOfSpeech": "word or expression",
+      "example": "C’est urgent."
+    },
+    {
+      "id": "fr-emergency-foundation-word-4",
+      "word": "téléphone",
+      "meaning": "phone",
+      "partOfSpeech": "word or expression",
+      "example": "Le téléphone est ici."
+    },
+    {
+      "id": "fr-invitations-foundation-word-1",
+      "word": "dîner",
+      "meaning": "dinner",
+      "partOfSpeech": "word or expression",
+      "example": "Le dîner est à huit heures."
+    },
+    {
+      "id": "fr-invitations-foundation-word-2",
+      "word": "samedi",
+      "meaning": "Saturday",
+      "partOfSpeech": "word or expression",
+      "example": "Samedi j’ai le temps."
+    },
+    {
+      "id": "fr-invitations-foundation-word-3",
+      "word": "plaisir",
+      "meaning": "pleasure",
+      "partOfSpeech": "word or expression",
+      "example": "Oui, avec plaisir."
+    },
+    {
+      "id": "fr-invitations-foundation-word-4",
+      "word": "désolé",
+      "meaning": "sorry",
+      "partOfSpeech": "word or expression",
+      "example": "Désolé, je ne peux pas."
     }
   ],
   "media": [
@@ -1065,6 +1246,34 @@
       "sha256": "e1fbdbc95accc72d5c9abd4f79885517309684234cfdafaab8d8fe881eb2566d",
       "transcript": "Combien coûte un kilo de pommes ?",
       "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-05. Native-speaker prosody review pending."
+    },
+    {
+      "id": "fr-health-foundation-model",
+      "url": "/audio/french-foundations/fr-health-foundation-model.wav",
+      "sha256": "8dc3ee25bfb20342cd1e8939721313c28eaa6ae2c61f803c0441b17b143da3a7",
+      "transcript": "J’ai mal à la tête.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "fr-pharmacy-foundation-model",
+      "url": "/audio/french-foundations/fr-pharmacy-foundation-model.wav",
+      "sha256": "ab3a69cdcf7d79ac331ef409aa3cef843c53c3a881d30702c03672d0331428e1",
+      "transcript": "Je voudrais un médicament.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "fr-emergency-foundation-model",
+      "url": "/audio/french-foundations/fr-emergency-foundation-model.wav",
+      "sha256": "ac3b5bb75609d41d18c1a81329e0e43f692fac1e45f3cc564636d016a2e2edeb",
+      "transcript": "Au secours ! Appelez une ambulance !",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "fr-invitations-foundation-model",
+      "url": "/audio/french-foundations/fr-invitations-foundation-model.wav",
+      "sha256": "e8be99eb9b31e3637d92b4e7d074062fc42f33f5cae004eaa51ba96049714f0d",
+      "transcript": "Tu veux venir dîner samedi ?",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ff_siwis; generated locally 2026-09-06. Native-speaker prosody review pending."
     }
   ],
   "lessons": [
@@ -5226,6 +5435,907 @@
       ],
       "optionalExerciseIds": [
         "fr-market-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "fr-health-foundation",
+      "unitId": "fr-unit-6",
+      "title": "Douleurs et médecin",
+      "objective": "Say where it hurts and answer the doctor.",
+      "cefr": "A1",
+      "prerequisites": [
+        "fr-market-foundation"
+      ],
+      "conceptIds": [
+        "fr-health-concept"
+      ],
+      "vocabulary": [
+        "fr-health-foundation-word-1",
+        "fr-health-foundation-word-2",
+        "fr-health-foundation-word-3",
+        "fr-health-foundation-word-4"
+      ],
+      "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+      "examples": [
+        {
+          "target": "J’ai mal à la tête.",
+          "meaning": "My head hurts."
+        },
+        {
+          "target": "J’ai de la fièvre.",
+          "meaning": "I have a fever."
+        }
+      ],
+      "exercises": [
+        {
+          "answers": [
+            "tête"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-meet",
+          "conceptId": "fr-health-concept",
+          "prompt": "Which French word means “head”?",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "tête",
+            "fièvre",
+            "médecin",
+            "mal"
+          ]
+        },
+        {
+          "answers": [
+            "I have a fever."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-meaning",
+          "conceptId": "fr-health-concept",
+          "prompt": "Give the English meaning: J’ai de la fièvre.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "J’ai mal à la tête."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-order",
+          "conceptId": "fr-health-concept",
+          "prompt": "Arrange the words to say: My head hurts.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "tête.",
+            "la",
+            "à",
+            "mal",
+            "J’ai"
+          ]
+        },
+        {
+          "answers": [
+            "mal"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-cloze",
+          "conceptId": "fr-health-concept",
+          "prompt": "Complete the pain: J’ai ___ à la tête.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "J’ai mal à la tête."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Ma tête est mal.",
+              "category": "incorrect answer",
+              "explanation": "Pain uses avoir mal: J’ai mal à la tête."
+            }
+          ],
+          "id": "fr-health-foundation-produce",
+          "conceptId": "fr-health-concept",
+          "prompt": "Write in French: My head hurts.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "à la tête"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-read",
+          "conceptId": "fr-health-concept",
+          "prompt": "What hurts? Answer with the French body part. (Reading 21)",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Marco a de la fièvre. J’ai mal à la tête, dit-il au médecin.",
+          "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
+        },
+        {
+          "conceptId": "fr-market-concept",
+          "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+          "vocabulary": [
+            "fr-market-foundation-word-1",
+            "fr-market-foundation-word-2",
+            "fr-market-foundation-word-3",
+            "fr-market-foundation-word-4"
+          ],
+          "reviewOf": [
+            "fr-market-foundation"
+          ],
+          "id": "fr-health-foundation-review",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Recall from At the market: prices: How much is a kilo of apples?",
+          "answers": [
+            "Combien coûte un kilo de pommes ?"
+          ],
+          "errors": [
+            {
+              "answer": "Combien coûtent un kilo de pommes ?",
+              "category": "incorrect answer",
+              "explanation": "Un kilo is singular: Combien coûte un kilo de pommes ?"
+            }
+          ]
+        },
+        {
+          "answers": [
+            "J’ai mal à la tête."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-health-foundation-listen-model",
+          "conceptId": "fr-health-concept",
+          "prompt": "Listen and write the model: saying where it hurts.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-health-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "fr-health-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "fr-pharmacy-foundation",
+      "unitId": "fr-unit-6",
+      "title": "À la pharmacie",
+      "objective": "Ask for medicine and understand the price.",
+      "cefr": "A1",
+      "prerequisites": [
+        "fr-health-foundation"
+      ],
+      "conceptIds": [
+        "fr-pharmacy-concept"
+      ],
+      "vocabulary": [
+        "fr-pharmacy-foundation-word-1",
+        "fr-pharmacy-foundation-word-2",
+        "fr-pharmacy-foundation-word-3",
+        "fr-pharmacy-foundation-word-4"
+      ],
+      "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+      "examples": [
+        {
+          "target": "Je voudrais un médicament.",
+          "meaning": "I would like some medicine."
+        },
+        {
+          "target": "Ça coûte cinq euros.",
+          "meaning": "It costs five euros."
+        }
+      ],
+      "exercises": [
+        {
+          "answers": [
+            "médicament"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-meet",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Which French word means “medicine”?",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "pharmacie",
+            "médicament",
+            "comprimé",
+            "sirop"
+          ]
+        },
+        {
+          "answers": [
+            "It costs five euros."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-meaning",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Give the English meaning: Ça coûte cinq euros.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "Je voudrais un médicament."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-order",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Arrange the words to say: I would like some medicine.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "médicament.",
+            "un",
+            "voudrais",
+            "Je"
+          ]
+        },
+        {
+          "answers": [
+            "voudrais"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-cloze",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Complete the request: Je ___ un médicament.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Je voudrais un médicament."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Je voudrais une médicament.",
+              "category": "incorrect answer",
+              "explanation": "Médicament is masculine: un médicament."
+            }
+          ],
+          "id": "fr-pharmacy-foundation-produce",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Write in French: I would like some medicine.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "un comprimé"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-read",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "What does Anna take? Answer with the French noun. (Reading 22)",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Anna tousse. Elle prend un comprimé et achète du sirop à la pharmacie.",
+          "translation": "Anna has a cough. She takes a pill and buys syrup at the pharmacy."
+        },
+        {
+          "answers": [
+            "J’ai mal à la tête."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Ma tête est mal.",
+              "category": "incorrect answer",
+              "explanation": "Pain uses avoir mal: J’ai mal à la tête."
+            }
+          ],
+          "id": "fr-pharmacy-foundation-review",
+          "conceptId": "fr-health-concept",
+          "prompt": "Recall from Douleurs et médecin: My head hurts.",
+          "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+          "vocabulary": [
+            "fr-health-foundation-word-1",
+            "fr-health-foundation-word-2",
+            "fr-health-foundation-word-3",
+            "fr-health-foundation-word-4"
+          ],
+          "reviewOf": [
+            "fr-health-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Je voudrais un médicament."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-pharmacy-foundation-listen-model",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Listen and write the model: asking for medicine.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-pharmacy-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "fr-pharmacy-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "fr-emergency-foundation",
+      "unitId": "fr-unit-6",
+      "title": "Urgences",
+      "objective": "Call for help and ask for an ambulance.",
+      "cefr": "A1",
+      "prerequisites": [
+        "fr-pharmacy-foundation"
+      ],
+      "conceptIds": [
+        "fr-emergency-concept"
+      ],
+      "vocabulary": [
+        "fr-emergency-foundation-word-1",
+        "fr-emergency-foundation-word-2",
+        "fr-emergency-foundation-word-3",
+        "fr-emergency-foundation-word-4"
+      ],
+      "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+      "examples": [
+        {
+          "target": "Au secours ! Appelez une ambulance !",
+          "meaning": "Help! Call an ambulance!"
+        },
+        {
+          "target": "C’est urgent.",
+          "meaning": "It is urgent."
+        }
+      ],
+      "exercises": [
+        {
+          "answers": [
+            "secours"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-meet",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Which French word means “help”?",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "ambulance",
+            "urgent",
+            "secours",
+            "téléphone"
+          ]
+        },
+        {
+          "answers": [
+            "It is urgent."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-meaning",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Give the English meaning: C’est urgent.",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "Au secours ! Appelez une ambulance !"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-order",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Arrange the words to say: Help! Call an ambulance!",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "ambulance",
+            "!",
+            "Appelez",
+            "secours",
+            "!",
+            "une",
+            "Au"
+          ]
+        },
+        {
+          "answers": [
+            "ambulance"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-cloze",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Complete the call: Appelez une ___ !",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Au secours ! Appelez une ambulance !"
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Au secours ! J’appelle une ambulance !",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+            }
+          ],
+          "id": "fr-emergency-foundation-produce",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Write in French: Help! Call an ambulance!",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "le cent-douze"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-read",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "What number? Answer with the French number name. (Reading 23)",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Marco appelle le cent-douze. L’ambulance arrive et c’est urgent.",
+          "translation": "Marco calls 112. The ambulance arrives and it is urgent."
+        },
+        {
+          "answers": [
+            "Je voudrais un médicament."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Je voudrais une médicament.",
+              "category": "incorrect answer",
+              "explanation": "Médicament is masculine: un médicament."
+            }
+          ],
+          "id": "fr-emergency-foundation-review",
+          "conceptId": "fr-pharmacy-concept",
+          "prompt": "Recall from À la pharmacie: I would like some medicine.",
+          "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+          "vocabulary": [
+            "fr-pharmacy-foundation-word-1",
+            "fr-pharmacy-foundation-word-2",
+            "fr-pharmacy-foundation-word-3",
+            "fr-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [
+            "fr-pharmacy-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Au secours ! Appelez une ambulance !"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-emergency-foundation-listen-model",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Listen and write the model: calling for help.",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-emergency-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "fr-emergency-foundation-listen-model"
+      ]
+    },
+    {
+      "id": "fr-invitations-foundation",
+      "unitId": "fr-unit-6",
+      "title": "Invitations",
+      "objective": "Invite someone and accept or decline politely.",
+      "cefr": "A1",
+      "prerequisites": [
+        "fr-emergency-foundation"
+      ],
+      "conceptIds": [
+        "fr-invitations-concept"
+      ],
+      "vocabulary": [
+        "fr-invitations-foundation-word-1",
+        "fr-invitations-foundation-word-2",
+        "fr-invitations-foundation-word-3",
+        "fr-invitations-foundation-word-4"
+      ],
+      "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "examples": [
+        {
+          "target": "Tu veux venir dîner samedi ?",
+          "meaning": "Do you want to come to dinner Saturday?"
+        },
+        {
+          "target": "Oui, merci, avec plaisir.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ],
+      "exercises": [
+        {
+          "answers": [
+            "dîner"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-meet",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Which French word means “dinner”?",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "samedi",
+            "plaisir",
+            "désolé",
+            "dîner"
+          ]
+        },
+        {
+          "answers": [
+            "I am sorry, I cannot."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-meaning",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Give the English meaning: Désolé, je ne peux pas.",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "Tu veux venir dîner samedi ?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-order",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Arrange the words to say: Do you want to come to dinner Saturday?",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "samedi",
+            "?",
+            "dîner",
+            "venir",
+            "veux",
+            "Tu"
+          ]
+        },
+        {
+          "answers": [
+            "venir"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-cloze",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Complete the invitation: Tu veux ___ dîner samedi ?",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Tu veux venir dîner samedi ?"
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Tu veux aller dîner samedi ?",
+              "category": "incorrect answer",
+              "explanation": "Aller is to go; invite with venir: Tu veux venir dîner samedi ?"
+            }
+          ],
+          "id": "fr-invitations-foundation-produce",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Write in French: Do you want to come to dinner Saturday?",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "samedi"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-read",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "When is dinner? Answer with the French day. (Reading 24)",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Anna invite Marco : Tu veux venir dîner samedi ? Oui, merci, avec plaisir, dit Marco.",
+          "translation": "Anna invites Marco: Do you want to come to dinner Saturday? “Yes, thanks, gladly,” says Marco."
+        },
+        {
+          "answers": [
+            "Au secours ! Appelez une ambulance !"
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Au secours ! J’appelle une ambulance !",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+            }
+          ],
+          "id": "fr-invitations-foundation-review",
+          "conceptId": "fr-emergency-concept",
+          "prompt": "Recall from Urgences: Help! Call an ambulance!",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-emergency-foundation-word-1",
+            "fr-emergency-foundation-word-2",
+            "fr-emergency-foundation-word-3",
+            "fr-emergency-foundation-word-4"
+          ],
+          "reviewOf": [
+            "fr-emergency-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Tu veux venir dîner samedi ?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-invitations-foundation-listen-model",
+          "conceptId": "fr-invitations-concept",
+          "prompt": "Listen and write the model: inviting and replying.",
+          "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-invitations-foundation-word-1",
+            "fr-invitations-foundation-word-2",
+            "fr-invitations-foundation-word-3",
+            "fr-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-invitations-foundation-model"
+        }
+      ],
+      "optionalExerciseIds": [
+        "fr-invitations-foundation-listen-model"
       ]
     }
   ],

@@ -139,6 +139,34 @@
       "language": "fr",
       "text": "Combien coûte un kilo de pommes ?",
       "voice": "ff_siwis"
+    },
+    {
+      "id": "fr-health-foundation-model",
+      "text": "J’ai mal à la tête.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-health-foundation-model.wav"
+    },
+    {
+      "id": "fr-pharmacy-foundation-model",
+      "text": "Je voudrais un médicament.",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-pharmacy-foundation-model.wav"
+    },
+    {
+      "id": "fr-emergency-foundation-model",
+      "text": "Au secours ! Appelez une ambulance !",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-emergency-foundation-model.wav"
+    },
+    {
+      "id": "fr-invitations-foundation-model",
+      "text": "Tu veux venir dîner samedi ?",
+      "language": "fr",
+      "voice": "ff_siwis",
+      "filename": "fr-invitations-foundation-model.wav"
     }
   ]
 }
