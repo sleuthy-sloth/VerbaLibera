@@ -83,6 +83,15 @@ describe('PlacementQuiz', () => {
     expect(await screen.findByText(/starting at the beginning/i)).toBeInTheDocument();
     expect(screen.queryByText(/placement · question 1/i)).not.toBeInTheDocument();
   });
+
+  it('links a stored foundation recommendation to the course index', async () => {
+    // Break caught: placement pointed only at travel drills while the real
+    // course depth sat unmentioned in the foundation packs.
+    localStorage.setItem('verbalibera_placement:english-to-french', JSON.stringify({ score: 3, total: 15, band: 'A1', startCefr: 'A1', startConceptId: 'fr-greet-politely', stretchUnlocked: false, aboveContent: false, foundationLessonId: 'fr-identity-foundation' }));
+    render(<PlacementQuiz courseSlug="english-to-french" />);
+    const link = await screen.findByRole('link', { name: /names and introductions/i });
+    expect(link).toHaveAttribute('href', '/courses/french');
+  });
 });
 
 describe('PlacementQuiz account sync', () => {

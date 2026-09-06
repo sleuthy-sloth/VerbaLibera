@@ -30,6 +30,25 @@ function ChoiceStep({ item, value, onPick }: Readonly<{ item: PlacementItem; val
 
 type PlacementDraft = Readonly<{ answers?: Record<string, string>; completedItemIds?: readonly string[] }>;
 
+// Foundation-pack entry lessons, by stored lesson id. Titles mirror the pack
+// manifests; the drift-pinning test in placement-foundation-entry.test.ts
+// fails if a mapped id disappears.
+const FOUNDATION_LESSONS: Record<string, { language: string; title: string }> = {
+  'it-identity-foundation': { language: 'italian', title: 'Names and introductions' },
+  'it-food-foundation': { language: 'italian', title: 'Food and -ere verbs' },
+  'it-transport-foundation': { language: 'italian', title: 'Going places' },
+  'it-market-foundation': { language: 'italian', title: 'At the market: prices' },
+  'it-requests-foundation': { language: 'italian', title: 'Modal verbs and requests' },
+  'it-negation-foundation': { language: 'italian', title: 'Saying no and asking' },
+  'it-days-foundation': { language: 'italian', title: 'Days, months and dates' },
+  'fr-identity-foundation': { language: 'french', title: 'Names and introductions' },
+  'fr-food-foundation': { language: 'french', title: 'Ordering and prendre' },
+  'fr-transport-foundation': { language: 'french', title: 'Going places with aller' },
+  'fr-market-foundation': { language: 'french', title: 'At the market: prices' },
+  'fr-requests-foundation': { language: 'french', title: 'Can I? Modal requests' },
+  'fr-negation-foundation': { language: 'french', title: 'Making a negative' },
+  'fr-days-foundation': { language: 'french', title: 'Days, months and dates' },
+};
 export function PlacementQuiz({ courseSlug, userId = null }: Readonly<{ courseSlug: string; userId?: string | null }>) {
   const items = placementItemsFor(courseSlug);
   const adaptive = courseSlug === 'english-to-french';
@@ -141,14 +160,17 @@ export function PlacementQuiz({ courseSlug, userId = null }: Readonly<{ courseSl
 
   if (result) {
     const copy = BAND_COPY[result.band];
+    const foundation = (result.foundationLessonId && FOUNDATION_LESSONS[result.foundationLessonId]) || null;
     return <main id="main-content" className={sessionStyles.session}>
       <p className={sessionStyles.eyebrow}>Placement result</p>
       <h1>{copy.title} — {result.score} of {result.total}</h1>
       <p>{copy.detail}</p><p>This is a starting recommendation, not a CEFR certificate. {userId ? 'Your result is saved to your account and follows you across devices.' : 'Your result stays in this browser.'}</p>
+      {foundation ? <p>Start the foundation course at <strong>{foundation.title}</strong> — the full lesson sequence lives there.</p> : null}
       {error ? <p role="alert">{error}</p> : null}
       <div className={sessionStyles.actionDock}>
         <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}/plan`}>Build my learning plan</Link>
         <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}?concept=${result.startConceptId}`}>Start learning <span aria-hidden="true">→</span></Link>
+        {foundation ? <Link className={sessionStyles.primaryAction} href={`/courses/${foundation.language}`}>{foundation.title} <span aria-hidden="true">→</span></Link> : null}
         <button type="button" onClick={retake}>Retake placement</button>
       </div>
     </main>;
