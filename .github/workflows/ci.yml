@@ -9,7 +9,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,4 +75,6 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Playwright test (chromium)
-        run: npx playwright test --project=chromium
+        # Serial workers: parallel workers flake under dev-server compile
+        # contention (hydration/timeout failures that move between runs).
+        run: npx playwright test --project=chromium --workers=1
