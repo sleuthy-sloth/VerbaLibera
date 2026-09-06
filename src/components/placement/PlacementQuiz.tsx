@@ -34,6 +34,7 @@ type PlacementDraft = Readonly<{ answers?: Record<string, string>; completedItem
 // manifests; the drift-pinning test in placement-foundation-entry.test.ts
 // fails if a mapped id disappears.
 const FOUNDATION_LESSONS: Record<string, { language: string; title: string }> = {
+  'it-first-words-foundation': { language: 'italian', title: 'First words' },
   'it-identity-foundation': { language: 'italian', title: 'Names and introductions' },
   'it-food-foundation': { language: 'italian', title: 'Food and -ere verbs' },
   'it-transport-foundation': { language: 'italian', title: 'Going places' },
@@ -41,6 +42,7 @@ const FOUNDATION_LESSONS: Record<string, { language: string; title: string }> = 
   'it-requests-foundation': { language: 'italian', title: 'Modal verbs and requests' },
   'it-negation-foundation': { language: 'italian', title: 'Saying no and asking' },
   'it-days-foundation': { language: 'italian', title: 'Days, months and dates' },
+  'fr-first-words-foundation': { language: 'french', title: 'First words' },
   'fr-identity-foundation': { language: 'french', title: 'Names and introductions' },
   'fr-food-foundation': { language: 'french', title: 'Ordering and prendre' },
   'fr-transport-foundation': { language: 'french', title: 'Going places with aller' },

@@ -167,6 +167,13 @@
       "language": "it",
       "voice": "if_sara",
       "filename": "it-invitations-foundation-model.wav"
+    },
+    {
+      "id": "it-first-words-foundation-model",
+      "text": "Ciao, grazie.",
+      "language": "it",
+      "voice": "if_sara",
+      "filename": "it-first-words-foundation-model.wav"
     }
   ]
 }

@@ -7,7 +7,7 @@
 const ENTRY: Record<string, { items: Record<string, string>; A2: string; B1: string }> = {
   'english-to-italian': {
     items: {
-      'it-place-1': 'it-identity-foundation',
+      'it-place-1': 'it-first-words-foundation',
       'it-place-2': 'it-food-foundation',
       'it-place-3': 'it-transport-foundation',
       'it-place-4': 'it-market-foundation',
@@ -18,7 +18,7 @@ const ENTRY: Record<string, { items: Record<string, string>; A2: string; B1: str
   },
   'english-to-french': {
     items: {
-      'fr-place-1': 'fr-identity-foundation',
+      'fr-place-1': 'fr-first-words-foundation',
       'fr-place-2': 'fr-food-foundation',
       'fr-place-3': 'fr-transport-foundation',
       'fr-place-4': 'fr-market-foundation',

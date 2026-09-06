@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { completeFrenchL0 } from "./helpers/complete-l0";
+import { completeFrenchL0, completeItalianL0 } from "./helpers/complete-l0";
 test("Italian teaches, checks locally, saves practice and survives an offline cold start", async ({
   page,
   context,
@@ -14,6 +14,8 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
   await expect(
     page.getByRole("heading", { name: "Italian foundations", exact: true }),
   ).toBeVisible();
+  // L1 practice is prerequisite-gated behind L0: complete first words first.
+  await completeItalianL0(page);
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
@@ -58,7 +60,8 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
   await expect(
-    page.getByText(/1 practice result on this device/),
+    // L0's 7 saves plus this one.
+    page.getByText(/8 practice results on this device/),
   ).toBeVisible();
   await page.getByRole("button", { name: "Course", exact: true }).click();
   await page
@@ -75,7 +78,7 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     page.getByRole("heading", { name: "Italian foundations", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText(/1 practice result on this device/),
+    page.getByText(/8 practice results on this device/),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
@@ -93,11 +96,11 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
   await expect(
-    page.getByText(/2 practice results on this device/),
+    page.getByText(/9 practice results on this device/),
   ).toBeVisible();
   await page.reload();
   await expect(
-    page.getByText(/2 practice results on this device/),
+    page.getByText(/9 practice results on this device/),
   ).toBeVisible();
 });
 test("French references and mobile navigation are usable", async ({ page }) => {
@@ -234,6 +237,7 @@ for (const [language, answer] of [['italian', 'Io sono Anna.'], ['french', 'Je s
   test(`${language} model audio plays and optional listening saves a separate recall`, async ({ page, context, browserName }) => {
     await page.goto(`/courses/${language}`);
     if (language === 'french') await completeFrenchL0(page);
+    if (language === 'italian') await completeItalianL0(page);
     if (browserName === 'chromium') {
       await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
       await expect(page.getByText('Downloaded. You can open offline study without a connection.', { exact: true })).toBeVisible();
@@ -250,8 +254,8 @@ for (const [language, answer] of [['italian', 'Io sono Anna.'], ['french', 'Je s
     await page.getByLabel('Your answer', { exact: true }).fill(answer);
     await page.getByRole('button', { name: 'Check answer', exact: true }).click();
     await page.getByRole('button', { name: 'Save and continue', exact: true }).click();
-    // French runs complete L0 first (7 device results) before this listening save.
-    await expect(page.getByText(language === 'french' ? '8 practice results on this device' : '1 practice result on this device')).toBeVisible();
+    // Both languages complete L0 first (7 device results) before this listening save.
+    await expect(page.getByText('8 practice results on this device')).toBeVisible();
     await page.getByRole('button', { name: 'Grammar', exact: true }).click();
     // L0's concept summary also reports its own listening save: scope to L1.
     const grammar = page.getByRole('article').filter({ has: page.getByRole('heading', { name: 'Names and introductions' }) });

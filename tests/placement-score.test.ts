@@ -14,11 +14,18 @@ function answersFor(correctCount: number): Record<string, string> {
 }
 
 describe('scorePlacement', () => {
-  it('recommends the identity lesson when an Italian learner misses the greeting', () => {
+  it('recommends first words when an Italian learner misses the greeting', () => {
     const answers = Object.fromEntries(italianPlacementItems.map((item) => [item.id, 'wrong answer']));
     const result = scorePlacement(italianPlacementItems, answers, 'english-to-italian');
     expect(result.band).toBe('A1');
-    expect(result.foundationLessonId).toBe('it-identity-foundation');
+    expect(result.foundationLessonId).toBe('it-first-words-foundation');
+  });
+
+  it('recommends first words when a French learner misses the greeting', () => {
+    const answers = Object.fromEntries(frenchPlacementItems.map((item) => [item.id, 'wrong answer']));
+    const result = scorePlacement(frenchPlacementItems, answers, 'english-to-french');
+    expect(result.band).toBe('A1');
+    expect(result.foundationLessonId).toBe('fr-first-words-foundation');
   });
 
   it('skips ahead for stronger bands and stays null without a foundation pack', () => {

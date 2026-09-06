@@ -9,7 +9,12 @@ function lessonIds(language: 'italian' | 'french'): Set<string> {
 
 describe('foundation entry', () => {
   it('maps every A1 item id to a real Italian lesson', () => {
-    expect(foundationEntryLesson('english-to-italian', 'A1', 'it-place-1')).toBe('it-identity-foundation');
+    expect(foundationEntryLesson('english-to-italian', 'A1', 'it-place-1')).toBe('it-first-words-foundation');
+  });
+
+  it('starts greeting-missers at first words in both languages', () => {
+    expect(foundationEntryLesson('english-to-french', 'A1', 'fr-place-1')).toBe('fr-first-words-foundation');
+    expect(foundationEntryLesson('english-to-italian', 'A1', 'it-place-1')).toBe('it-first-words-foundation');
   });
 
   it('returns null for courses without foundation packs', () => {

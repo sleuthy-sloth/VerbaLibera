@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "it-foundations",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "language": "it",
   "sourceLanguage": "en",
   "title": "Italian foundations",
@@ -423,6 +423,22 @@
         }
       ],
       "commonError": "Venire means to come: Vuoi venire a cena?"
+    },
+    {
+      "id": "it-first-words-concept",
+      "title": "First words and greetings",
+      "explanation": "Italian grew where Latin was spoken, and thousands of everyday words came into both Italian and English from Latin — nazione, informazione, ristorante, caffè. You can already recognize them before you speak a word of Italian. The words below are the first ones to say out loud: ciao greets friends a dozen times a day, grazie answers kindness, sì and no steer it.",
+      "examples": [
+        {
+          "target": "Ciao.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Grazie.",
+          "meaning": "Thank you."
+        }
+      ],
+      "commonError": "Say ciao or buongiorno the moment you arrive — Italians notice warmth more than accent. Ciao is for friends and informal moments; buongiorno opens everything else."
     }
   ],
   "vocabulary": [
@@ -1097,6 +1113,48 @@
       "meaning": "I am sorry",
       "partOfSpeech": "word or expression",
       "example": "Mi dispiace, non posso."
+    },
+    {
+      "id": "it-first-words-word-1",
+      "word": "ciao",
+      "meaning": "hello",
+      "partOfSpeech": "word or expression",
+      "example": "Ciao."
+    },
+    {
+      "id": "it-first-words-word-2",
+      "word": "grazie",
+      "meaning": "thank you",
+      "partOfSpeech": "word or expression",
+      "example": "Grazie."
+    },
+    {
+      "id": "it-first-words-word-3",
+      "word": "sì",
+      "meaning": "yes",
+      "partOfSpeech": "word or expression",
+      "example": "Sì."
+    },
+    {
+      "id": "it-first-words-word-4",
+      "word": "no",
+      "meaning": "no",
+      "partOfSpeech": "word or expression",
+      "example": "No."
+    },
+    {
+      "id": "it-first-words-word-5",
+      "word": "nazione",
+      "meaning": "nation",
+      "partOfSpeech": "word or expression",
+      "example": "Nazione."
+    },
+    {
+      "id": "it-first-words-word-6",
+      "word": "caffè",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Un caffè."
     }
   ],
   "media": [
@@ -1274,16 +1332,191 @@
       "sha256": "7ccf027783596a23634515e32ecf56d499b3e63f1d8193bd877db4ad4b81c0eb",
       "transcript": "Vuoi venire a cena sabato?",
       "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
+    },
+    {
+      "id": "it-first-words-foundation-model",
+      "url": "/audio/italian-foundations/it-first-words-foundation-model.wav",
+      "sha256": "d56eddd132379c871097354a5542fca42833a6b9484219a769ed3ed98c2f6381",
+      "transcript": "Ciao, grazie.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending."
     }
   ],
   "lessons": [
+    {
+      "id": "it-first-words-foundation",
+      "unitId": "it-unit-1",
+      "title": "First words",
+      "objective": "Recognize and say your first Italian words — greetings and Latin-shared words — before building any sentences.",
+      "cefr": "A1",
+      "prerequisites": [],
+      "conceptIds": [
+        "it-first-words-concept"
+      ],
+      "vocabulary": [
+        "it-first-words-word-1",
+        "it-first-words-word-2",
+        "it-first-words-word-3",
+        "it-first-words-word-4",
+        "it-first-words-word-5",
+        "it-first-words-word-6"
+      ],
+      "explanation": "You already know hundreds of Italian words: nazione, informazione, ristorante. They came into English and Italian from Latin, the common root of Italian, French, Spanish and Portuguese — which is why the Romance languages resemble each other. Today you only say a few out loud: ciao, grazie, sì, no. No sentences yet — those come next.",
+      "examples": [
+        {
+          "target": "Ciao.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Grazie.",
+          "meaning": "Thank you."
+        },
+        {
+          "target": "Sì.",
+          "meaning": "Yes."
+        },
+        {
+          "target": "No.",
+          "meaning": "No."
+        }
+      ],
+      "culturalNote": "Ciao is for friends; buongiorno works from morning until evening.",
+      "exercises": [
+        {
+          "id": "it-first-words-foundation-meet",
+          "conceptId": "it-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You already know this word — friends say it a dozen times a day in Italy. «Ciao» — what does it mean?",
+          "answers": [
+            "Hello."
+          ],
+          "options": [
+            "Hello.",
+            "Thank you.",
+            "Yes.",
+            "Goodbye."
+          ],
+          "explanation": "Ciao is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "vocabulary": [
+            "it-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-think-ciao",
+          "conceptId": "it-first-words-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 5,
+          "prompt": "Think: you meet a friend in Rome. One word greets them before anything else. Say it in your head — then write it.",
+          "answers": [
+            "Ciao."
+          ],
+          "explanation": "Ciao. One word, said first, opens the conversation.",
+          "vocabulary": [
+            "it-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-notice-latin",
+          "conceptId": "it-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Nazione, informazione, ristorante — spelled almost the same in English and Italian. Why do you already recognize them?",
+          "answers": [
+            "Italian and English share thousands of words from Latin."
+          ],
+          "options": [
+            "Italian and English share thousands of words from Latin.",
+            "Italian borrowed its everyday words from modern English.",
+            "The shared spellings are coincidences."
+          ],
+          "explanation": "Both languages inherited these words from Latin — the common root of Italian, French, Spanish and Portuguese. Recognition comes before production.",
+          "vocabulary": [
+            "it-first-words-word-5"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-meaning-grazie",
+          "conceptId": "it-first-words-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Grazie.",
+          "answers": [
+            "Thank you."
+          ],
+          "explanation": "Grazie is thank you — the second word to say out loud.",
+          "vocabulary": [
+            "it-first-words-word-2"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-cloze-ciao",
+          "conceptId": "it-first-words-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the first word you say to a friend: ___ao.",
+          "answers": [
+            "Ciao."
+          ],
+          "explanation": "Ciao — short, warm, said before everything else.",
+          "vocabulary": [
+            "it-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-read-grazie",
+          "conceptId": "it-first-words-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. How many times do you read the word for thank you?",
+          "passage": "— Ciao ! — Ciao. — Grazie ? — Sì, grazie. — No, grazie.",
+          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "answers": [
+            "Three times."
+          ],
+          "explanation": "Ciao twice, grazie three times — every word on this page is one you already learned.",
+          "vocabulary": [
+            "it-first-words-word-1",
+            "it-first-words-word-2",
+            "it-first-words-word-3",
+            "it-first-words-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "it-first-words-foundation-listen-model",
+          "conceptId": "it-first-words-concept",
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "it-first-words-foundation-model",
+          "prompt": "Listen and write the model: first words.",
+          "answers": [
+            "Ciao, grazie."
+          ],
+          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "vocabulary": [
+            "it-first-words-word-1",
+            "it-first-words-word-2"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
+    },
     {
       "id": "it-identity-foundation",
       "unitId": "it-unit-1",
       "title": "Names and introductions",
       "objective": "Use names and introductions in a short exchange.",
       "cefr": "A1",
-      "prerequisites": [],
+      "prerequisites": [
+        "it-first-words-foundation"
+      ],
       "conceptIds": [
         "it-identity-concept"
       ],
@@ -1325,8 +1558,8 @@
           "kind": "choice",
           "mode": "recognition",
           "options": [
-            "sono",
             "io",
+            "sono",
             "italiana",
             "ciao"
           ]

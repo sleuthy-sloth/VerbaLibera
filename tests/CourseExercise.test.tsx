@@ -8,7 +8,9 @@ it("records reading with a revealed translation as assisted practice", async () 
   const p = validatePack(
       JSON.parse(readFileSync("courses/italian/manifest.json", "utf8")),
     ),
-    e = p.lessons[0].exercises.find((e) => e.kind === "reading")!;
+    e = p.lessons
+      .find((l) => l.id === "it-identity-foundation")!
+      .exercises.find((e) => e.kind === "reading")!;
   const save = vi.fn().mockResolvedValue(undefined),
     user = userEvent.setup();
   render(<ExerciseView pack={p} exercise={e} onSave={save} />);

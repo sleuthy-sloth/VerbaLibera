@@ -249,6 +249,16 @@
       "audio_sha256": "7ccf027783596a23634515e32ecf56d499b3e63f1d8193bd877db4ad4b81c0eb",
       "content_type": "audio/wav",
       "bytes": 114044
+    },
+    {
+      "id": "it-first-words-foundation-model",
+      "filename": "it-first-words-foundation-model.wav",
+      "language": "it",
+      "voice": "if_sara",
+      "text_sha256": "3664a27698f53f5b423d103a010edb804446af395e361ef4f8245749979f6cd2",
+      "audio_sha256": "d56eddd132379c871097354a5542fca42833a6b9484219a769ed3ed98c2f6381",
+      "content_type": "audio/wav",
+      "bytes": 78044
     }
   ]
 }

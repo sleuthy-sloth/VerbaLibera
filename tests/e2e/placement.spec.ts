@@ -16,8 +16,9 @@ test('French placement exits early for a learner who needs foundations', async (
 
   await expect(page.getByText(/starting at the beginning/i)).toBeVisible();
   await expect(page.getByText(/0 of 3/i)).toBeVisible();
-  // Foundation-aware: beginners are pointed at the foundation course, not only travel drills.
-  await expect(page.getByRole('link', { name: /names and introductions/i })).toHaveAttribute(
+  // Foundation-aware: beginners who miss the greeting start from first
+  // words, not sentences.
+  await expect(page.getByRole('link', { name: /first words/i })).toHaveAttribute(
     'href',
     '/courses/french',
   );
