@@ -53,6 +53,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     [step, setStep] = useState(0),
     [query, setQuery] = useState(""),
     [filter, setFilter] = useState("All"),
+    [heard, setHeard] = useState<{ url: string; transcript: string } | null>(null),
     [minutes, setMinutes] = useState(10),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
@@ -131,6 +132,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     setLessonId("");
     setSession([]);
     setStep(0);
+    setHeard(null);
     setView("Course");
     setMessage("");
     setError("");
@@ -160,6 +162,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     setLessonId("");
     setSession([]);
     setStep(0);
+    setHeard(null);
     setMessage("");
   };
   const begin = (l: Lesson) => {
@@ -174,6 +177,10 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
       l.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
     );
     if (model) void new Audio(model.url).play().catch(() => {});
+    // Remember what just played so the first practice step can name it and
+    // offer a replay: otherwise the learner hears a sentence, then faces a
+    // multiple-choice question with no idea the two are connected.
+    setHeard(model ? { url: model.url, transcript: model.transcript } : null);
   };
   const save = async (result: Evaluation, revealed: boolean) => {
     if (!activeExercise) return;
@@ -257,6 +264,25 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
           <p>
             Practice {step + 1} of {session.length}
           </p>
+          {step === 0 && heard ? (
+            <div className="study-listen-first">
+              <p>
+                <strong>Listen first.</strong> You just heard{" "}
+                <span lang={pack.language}>«{heard.transcript}»</span> — that
+                is the pattern this lesson teaches.
+              </p>
+              <audio
+                controls
+                preload="none"
+                src={heard.url}
+                aria-label="Replay the model sentence"
+              />
+              <p className="study-scope">
+                Practice 1 below starts with one word from that sentence. Just
+                listen and pick — nothing to memorize yet.
+              </p>
+            </div>
+          ) : null}
           <ExerciseView
             key={`${activeExercise.id}:${step}`}
             exercise={activeExercise}
@@ -338,7 +364,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
               Begin practice
             </button>
             {lesson.optionalExerciseIds.length ? <>
-              <button disabled={!storageReady || !lesson.prerequisites.every(id => completed.has(id))} onClick={() => { setSession(lesson.optionalExerciseIds); setStep(0); setMessage(""); }}>Practice listening</button>
+              <button disabled={!storageReady || !lesson.prerequisites.every(id => completed.has(id))} onClick={() => { setSession(lesson.optionalExerciseIds); setStep(0); setHeard(null); setMessage(""); }}>Practice listening</button>
               <p className="study-scope">Listening is optional and has its own review history. New recordings do not reset completed text lessons.</p>
             </> : null}
             {!lesson.prerequisites.every((id) => completed.has(id)) ? (

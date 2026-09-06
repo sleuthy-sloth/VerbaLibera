@@ -40,8 +40,15 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .toContain("it-identity-foundation-model.wav");
   // Hear-it-first: the model autoplays on Begin practice (asserted above),
   // then practice opens on the meet-the-word choice, not a blank textbox.
+  // The listen-first strip names the sentence just heard and offers a replay,
+  // so the learner knows the audio and Practice 1 are connected.
   await expect(
     page.getByText("Which Italian word means", { exact: false }),
+  ).toBeVisible();
+  await expect(page.getByText(/You just heard/)).toBeVisible();
+  await expect(page.getByText("«Io sono Anna.»")).toBeVisible();
+  await expect(
+    page.getByLabel("Replay the model sentence"),
   ).toBeVisible();
   await page.getByRole("radio", { name: "sono", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();

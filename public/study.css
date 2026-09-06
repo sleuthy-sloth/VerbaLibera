@@ -147,6 +147,23 @@
   font-size: 14px;
   color: var(--muted);
 }
+.study-listen-first {
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-left: 4px solid var(--accent, #2e7d5b);
+  background: #eef4ef;
+  border-radius: 0 8px 8px 0;
+}
+.study-listen-first p {
+  margin: 0 0 8px;
+}
+.study-listen-first p:last-child {
+  margin-bottom: 0;
+}
+.study-listen-first audio {
+  width: 100%;
+  max-width: 420px;
+}
 .study-daily {
   display: flex;
   gap: 24px;
