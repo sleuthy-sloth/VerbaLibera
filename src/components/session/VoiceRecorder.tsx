@@ -11,15 +11,21 @@ type RecorderState = 'idle' | 'requesting' | 'recording' | 'ready' | 'unsupporte
  * the recording lives only in this tab and is discarded on advance.
  */
 export function VoiceRecorder() {
-  const [state, setState] = useState<RecorderState>(() => {
-    if (typeof navigator === 'undefined') return 'unsupported';
-    const devices = navigator.mediaDevices as MediaDevices | undefined;
-    return typeof devices?.getUserMedia === 'function' ? 'idle' : 'unsupported';
-  });
+  // Initialize to the SSR markup ('unsupported') and upgrade after mount so
+  // the server HTML matches the first client render — reading
+  // navigator.mediaDevices during render causes a hydration mismatch on
+  // every lesson page (full client re-render, lost early interactions).
+  const [state, setState] = useState<RecorderState>('unsupported');
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
+
+  useEffect(() => {
+    const devices = navigator.mediaDevices as MediaDevices | undefined;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-only upgrade from the SSR-safe initial state; reading mediaDevices during render causes a hydration mismatch.
+    if (typeof devices?.getUserMedia === 'function') setState('idle');
+  }, []);
 
   useEffect(() => {
     const url = recordingUrl;

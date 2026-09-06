@@ -26,6 +26,9 @@ for (const width of [390, 768, 1440, 1920]) {
 test('mobile menu supports keyboard, Escape, and section navigation', async ({ page, browserName }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
+  // Keyboard input sent before React hydrates is silently lost — wait for
+  // the hydration marker before focusing and pressing Enter.
+  await page.waitForFunction(() => document.documentElement.dataset.hydrated === 'true');
   const menu = page.locator('button[aria-controls="landing-menu"]');
   await menu.focus();
   await page.keyboard.press('Enter');
