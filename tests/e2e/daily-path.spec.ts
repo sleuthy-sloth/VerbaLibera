@@ -14,7 +14,7 @@ async function assertNoHorizontalOverflow(page: import('@playwright/test').Page)
 }
 
 test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/dashboard');
 
   await assertNoHorizontalOverflow(page);
 
@@ -41,7 +41,7 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
 });
 
 test('French session path renders the guided practice heading', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/dashboard');
 
   const sessionLink = page.getByRole('link', { name: /start 8-minute session/i });
   await expect(sessionLink).toBeVisible();

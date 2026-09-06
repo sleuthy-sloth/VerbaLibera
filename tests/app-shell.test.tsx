@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { afterEach, vi } from 'vitest';
-import HomePage from '@/app/page';
+import HomePage from '@/app/dashboard/page';
 import { demoProgress } from '@/features/progress/demo-progress';
 
 afterEach(() => {
@@ -10,7 +10,7 @@ afterEach(() => {
 
 describe('HomePage', () => {
   it('loads the Quiet Ink practice dashboard with both preview courses', async () => {
-    // Break caught: the public root stops connecting its data boundary to the dashboard.
+    // Break caught: the dashboard route stops connecting its data boundary to the dashboard.
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
 

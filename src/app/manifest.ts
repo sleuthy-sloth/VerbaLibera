@@ -6,12 +6,12 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'VerbaLibera',
     short_name: 'VerbaLibera',
     description: 'A calm daily practice path for practical language patterns.',
-    start_url: '/',
+    start_url: '/dashboard',
     display: 'standalone',
     background_color: '#f4f3ee',
     theme_color: '#f4f3ee',
     shortcuts: [
-      { name: 'Today', url: '/' },
+      { name: 'Today', url: '/dashboard' },
       { name: 'Resume session', url: '/learn/english-to-french' },
     ],
     icons: [

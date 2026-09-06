@@ -34,7 +34,7 @@ test('account plan drives practice and resumes on another browser', async ({ pag
     await expect(secondPage.getByRole('checkbox').first()).toBeChecked();
     await expect(secondPage.getByRole('checkbox').first()).toBeDisabled();
     expect(await secondPage.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-    await secondPage.goto('/?course=english-to-french');
+    await secondPage.goto('/dashboard?course=english-to-french');
     await expect(secondPage.getByRole('link', { name: /review your study plan/i })).toBeVisible();
     await secondPage.goto('/learn/english-to-french');
     await expect(secondPage.getByRole('heading', { name: /French: ordering politely/ })).toBeVisible();

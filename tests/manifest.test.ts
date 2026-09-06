@@ -5,13 +5,13 @@ describe('VerbaLibera PWA manifest', () => {
     // Break caught: installed clients no longer open with the Quiet Ink presentation metadata.
     expect(manifest()).toMatchObject({
       id: '/',
-      start_url: '/',
+      start_url: '/dashboard',
       display: 'standalone',
       background_color: '#f4f3ee',
       theme_color: '#f4f3ee',
       description: 'A calm daily practice path for practical language patterns.',
       shortcuts: [
-        { name: 'Today', url: '/' },
+        { name: 'Today', url: '/dashboard' },
         { name: 'Resume session', url: '/learn/english-to-french' },
       ],
     });

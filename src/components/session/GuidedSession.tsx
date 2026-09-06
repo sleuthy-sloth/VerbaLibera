@@ -84,12 +84,12 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       <main className={styles.unavailable}>
         <p className={styles.eyebrow}>VerbaLibera preview</p>
         <h1>This course is not available in preview.</h1>
-        <Link href="/">Return to your daily path</Link>
+        <Link href="/dashboard">Return to your daily path</Link>
       </main>
     );
   }
 
-  const dashboardHref = `/?course=${encodeURIComponent(course.slug)}`;
+  const dashboardHref = `/dashboard?course=${encodeURIComponent(course.slug)}`;
 
   if (sessionSteps.length === 0) {
     return (

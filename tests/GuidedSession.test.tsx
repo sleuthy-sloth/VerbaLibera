@@ -233,7 +233,7 @@ describe('GuidedSession', () => {
 
     expect(screen.getByRole('link', { name: /daily path/i })).toHaveAttribute(
       'href',
-      '/?course=english-to-italian',
+      '/dashboard?course=english-to-italian',
     );
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
@@ -247,7 +247,7 @@ describe('GuidedSession', () => {
 
     expect(screen.getByRole('link', { name: /back to your daily path/i })).toHaveAttribute(
       'href',
-      '/?course=english-to-italian',
+      '/dashboard?course=english-to-italian',
     );
   });
 });

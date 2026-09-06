@@ -26,7 +26,7 @@ async function assertActionWithinViewport(
 }
 
 test('Italian travel session teaches the pattern before testing it', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/dashboard');
   await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
   await page.getByRole('link', { name: /start 8-minute session/i }).click();
 
