@@ -18,13 +18,13 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
 
   await assertNoHorizontalOverflow(page);
 
-  const sessionLink = page.getByRole('link', { name: /continue 8-minute session/i });
+  const sessionLink = page.getByRole('link', { name: /start 8-minute session/i });
   await expect(sessionLink).toBeVisible();
 
   await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
 
   // After switching courses, the same CTA re-renders pointing at the Italian route.
-  const italianSessionLink = page.getByRole('link', { name: /continue 8-minute session/i });
+  const italianSessionLink = page.getByRole('link', { name: /start 8-minute session/i });
   await expect(italianSessionLink).toBeVisible();
   await italianSessionLink.click();
 
@@ -43,7 +43,7 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
 test('French session path renders the guided practice heading', async ({ page }) => {
   await page.goto('/');
 
-  const sessionLink = page.getByRole('link', { name: /continue 8-minute session/i });
+  const sessionLink = page.getByRole('link', { name: /start 8-minute session/i });
   await expect(sessionLink).toBeVisible();
   await sessionLink.click();
 
