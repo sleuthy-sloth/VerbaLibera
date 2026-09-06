@@ -14,6 +14,24 @@ function answersFor(correctCount: number): Record<string, string> {
 }
 
 describe('scorePlacement', () => {
+  it('recommends the identity lesson when an Italian learner misses the greeting', () => {
+    const answers = Object.fromEntries(italianPlacementItems.map((item) => [item.id, 'wrong answer']));
+    const result = scorePlacement(italianPlacementItems, answers, 'english-to-italian');
+    expect(result.band).toBe('A1');
+    expect(result.foundationLessonId).toBe('it-identity-foundation');
+  });
+
+  it('skips ahead for stronger bands and stays null without a foundation pack', () => {
+    const partial = Object.fromEntries(italianPlacementItems.map((item) => [item.id, 'wrong answer']));
+    italianPlacementItems.slice(0, 8).forEach((item) => {
+      partial[item.id] = item.kind === 'CHOICE' ? (item.answerKey ?? '') : (item.acceptedResponses[0] ?? '');
+    });
+    expect(scorePlacement(italianPlacementItems, partial, 'english-to-italian').foundationLessonId).toBe(
+      'it-negation-foundation',
+    );
+    const empty: Record<string, string> = {};
+    expect(scorePlacement(italianPlacementItems, empty, 'english-to-spanish').foundationLessonId).toBeNull();
+  });
   it('covers 15 items across A1, A2, B1', () => {
     expect(frenchPlacementItems).toHaveLength(15);
     expect(frenchPlacementItems.filter((item) => item.band === 'A1')).toHaveLength(5);

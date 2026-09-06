@@ -1,5 +1,6 @@
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { CEFRLevel } from '@/features/curriculum/types';
+import { foundationEntryLesson } from './foundation-entry';
 import type { PlacementItem } from './items';
 
 export type PlacementBand = 'A1' | 'A2' | 'B1' | 'B1+';
@@ -12,6 +13,7 @@ export type PlacementResult = Readonly<{
   startConceptId: string;
   stretchUnlocked: boolean;
   aboveContent: boolean;
+  foundationLessonId: string | null;
 }>;
 
 export function isPlacementCorrect(item: PlacementItem, answer: string): boolean {
@@ -62,10 +64,15 @@ export function scorePlacement(
   const foundations = foundationsByCourse[courseSlug] ?? {};
   const firstGap = items.find(item => item.band === 'A1' && !isPlacementCorrect(item, answers[item.id] ?? ''));
   const startConceptId = (firstGap ? firstGap.conceptId ?? foundations[firstGap.id] : course?.concepts[5]?.id) ?? startConceptIdFor(courseSlug);
+  const foundationFor = (band: PlacementBand): string | null => {
+    if (band === 'A1') return foundationEntryLesson(courseSlug, 'A1', firstGap?.id);
+    if (band === 'A2') return foundationEntryLesson(courseSlug, 'A2');
+    return foundationEntryLesson(courseSlug, 'B1');
+  };
   const base = { score, total: items.length, startConceptId, stretchUnlocked: false, aboveContent: false } as const;
-  if (!(courseSlug in foundationsByCourse)) return { ...base, band: 'A1', startCefr: 'A1' };
-  if (score <= 5) return { ...base, band: 'A1', startCefr: 'A1' };
-  if (score <= 10) return { ...base, band: 'A2', startCefr: 'A2', stretchUnlocked: false };
-  if (score <= 13) return { ...base, band: 'B1', startCefr: 'B1', stretchUnlocked: false };
-  return { ...base, band: 'B1+', startCefr: 'B1', stretchUnlocked: false, aboveContent: true };
+  if (!(courseSlug in foundationsByCourse)) return { ...base, band: 'A1', startCefr: 'A1', foundationLessonId: foundationFor('A1') };
+  if (score <= 5) return { ...base, band: 'A1', startCefr: 'A1', foundationLessonId: foundationFor('A1') };
+  if (score <= 10) return { ...base, band: 'A2', startCefr: 'A2', stretchUnlocked: false, foundationLessonId: foundationFor('A2') };
+  if (score <= 13) return { ...base, band: 'B1', startCefr: 'B1', stretchUnlocked: false, foundationLessonId: foundationFor('B1') };
+  return { ...base, band: 'B1+', startCefr: 'B1', stretchUnlocked: false, aboveContent: true, foundationLessonId: foundationFor('B1+') };
 }

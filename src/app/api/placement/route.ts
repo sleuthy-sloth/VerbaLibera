@@ -36,6 +36,7 @@ export async function GET(request: Request) {
           {
             score: stored.score, total: stored.total, band: stored.band,
             startCefr: stored.startCefr, startConceptId: stored.startConceptId,
+            foundationLessonId: stored.foundationLessonId,
             stretchUnlocked: false, aboveContent: stored.band === 'B1+',
           },
           ctx.courseSlug,
@@ -76,6 +77,7 @@ export async function POST(request: Request) {
         ...ctx,
         score: result.score, total: result.total, band: result.band,
         startCefr: result.startCefr, startConceptId: result.startConceptId,
+        foundationLessonId: result.foundationLessonId,
       },
     });
     return reply({ saved: true });

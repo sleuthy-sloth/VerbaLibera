@@ -41,6 +41,14 @@ it('loads the account result for a known course', async () => {
   expect(body.result).toMatchObject({ score: 12, band: 'B1', startConceptId: 'fr-greet-politely' });
   expect(db.findFirst).toHaveBeenCalledWith(expect.objectContaining({ where: { userId: 'user-a', courseSlug: slug } }));
 });
+it('saves and loads the foundation lesson recommendation', async () => {
+  const withFoundation = { ...result, foundationLessonId: 'fr-identity-foundation' };
+  expect((await POST(request('POST', { result: withFoundation }))).status).toBe(200);
+  expect(db.create).toHaveBeenCalledWith({ data: expect.objectContaining({ foundationLessonId: 'fr-identity-foundation' }) });
+  db.findFirst.mockResolvedValue({ ...result, foundationLessonId: 'fr-identity-foundation' });
+  const body = await (await GET(request())).json();
+  expect(body.result).toMatchObject({ foundationLessonId: 'fr-identity-foundation' });
+});
 it('resets only this account and course', async () => {
   expect((await DELETE(request('DELETE'))).status).toBe(200);
   expect(db.deleteMany).toHaveBeenCalledWith({ where: { userId: 'user-a', courseSlug: slug } });

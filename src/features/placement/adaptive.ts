@@ -1,5 +1,6 @@
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { CEFRLevel } from '@/features/curriculum/types';
+import { foundationEntryLesson } from './foundation-entry';
 import type { PlacementItem } from './items';
 import { isPlacementCorrect, type PlacementResult } from './score';
 
@@ -42,6 +43,7 @@ function result(
     startConceptId: startConceptIdFor(courseSlug),
     stretchUnlocked: startCefr !== 'A1',
     aboveContent,
+    foundationLessonId: foundationEntryLesson(courseSlug, band === 'B1+' ? 'B1' : band),
   };
 }
 
