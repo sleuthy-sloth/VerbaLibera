@@ -1,7 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
-import { DailyPathDashboard } from '@/components/dashboard/DailyPathDashboard';
+import type { ReactNode } from 'react';
+import { vi } from 'vitest';
+import { YouProfile } from '@/components/you/YouProfile';
 import { demoProgress } from '@/features/progress/demo-progress';
 
 describe('Task 12: Motion & empty states', () => {
@@ -46,11 +49,27 @@ describe('Task 12: Motion & empty states', () => {
     expect(css).toMatch(/@media\s*\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)[\s\S]*\.completionMark[\s\S]*animation\s*:\s*none/);
   });
 
-  it('empty review queue shows honest caught-up copy', () => {
-    // break caught: empty queue still shows stale caught-up or streak-shame copy
-    render(<DailyPathDashboard progress={{ ...demoProgress, dueReviewCount: 0 }} />);
+  it('empty review queue shows honest caught-up copy', async () => {
+    // Break caught: empty queue still shows stale caught-up or streak-shame copy.
+    // The queue lives on the profile now.
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(new Response(JSON.stringify({ ...demoProgress, dueReviewCount: 0 }))),
+    );
+    const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={client}>{children}</QueryClientProvider>
+    );
+    render(<YouProfile />, { wrapper });
     expect(
-      screen.getByText("You're caught up — one pattern tomorrow keeps the flow."),
+      await screen.findByText("You're caught up — one pattern tomorrow keeps the flow."),
     ).toBeInTheDocument();
+    vi.unstubAllGlobals();
+  });
+
+  it('globals.css honors the manual reduce-motion preference', async () => {
+    // Break caught: the /you Reduce motion toggle writes data-motion with no CSS honoring it.
+    const css = await readFile(path.join(process.cwd(), 'src/app/globals.css'), 'utf8');
+    expect(css).toMatch(/html\[data-motion='reduced'\][\s\S]*animation-duration/);
   });
 });

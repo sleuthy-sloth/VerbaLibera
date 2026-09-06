@@ -86,6 +86,7 @@ afterEach(() => {
 describe('DailyPathDashboard', () => {
   it('turns preview progress into a sequential daily practice path', () => {
     // Break caught: the dashboard loses its primary session entry point or progress summary.
+    // Stats live on /you; the daily path keeps entry, daily goal and plan status.
     render(<DailyPathDashboard progress={demoProgress} />);
 
     expect(screen.getByRole('heading', { level: 1, name: /VerbaLibera/i })).toBeInTheDocument();
@@ -94,8 +95,9 @@ describe('DailyPathDashboard', () => {
       '/learn/english-to-french',
     );
     expect(screen.getByText(/5 of 5 daily steps/i)).toBeInTheDocument();
-    expect(screen.getByText(/4-day practice flow/i)).toBeInTheDocument();
-    expect(screen.getByText(/28 reviews waiting/i)).toBeInTheDocument();
+    expect(screen.queryByText(/4-day practice flow/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/28 reviews waiting/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Progress snapshot')).not.toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
     expect(screen.getByRole('option', { name: '🇮🇹 Italian · A1' })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
@@ -104,18 +106,18 @@ describe('DailyPathDashboard', () => {
     );
   });
 
-  it('shows an honest blank slate to guests with no placeholder streaks or XP', () => {
+  it('shows an honest blank slate to guests with stats living on the profile', () => {
     // Break caught: signed-out visitors saw fiction progress (streaks, XP,
-    // completions) they never earned.
+    // completions) they never earned. Stats live on /you now, never here.
     render(<DailyPathDashboard progress={blankDemoProgress} />);
 
     expect(screen.getByTestId('first-run-onboarding')).toBeInTheDocument();
     expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
-    expect(screen.getByText(/0-day practice flow/i)).toBeInTheDocument();
+    expect(screen.queryByText(/practice flow/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/reviews waiting/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/daily steps/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/0 XP/i)).toBeInTheDocument();
-    expect(screen.getByText(/no streak yet/i)).toBeInTheDocument();
+    expect(screen.queryByText(/\d+ XP/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/streak yet|-day streak/i)).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
   });
 
@@ -177,11 +179,12 @@ describe('DailyPathDashboard', () => {
     expect(within(today).getByRole('progressbar', { name: /daily goal/i })).toBeInTheDocument();
   });
 
-  it('shows the review queue once, in Progress snapshot', () => {
-    // Break caught: the review count is repeated in the daily path instead of living in the secondary snapshot.
+  it('keeps the review count off the daily path — stats live on the profile', () => {
+    // Break caught: the review count is repeated in the daily path instead of living in the profile snapshot.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getAllByText(/28 reviews waiting/i)).toHaveLength(1);
+    expect(screen.queryByText(/reviews waiting/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Progress snapshot')).not.toBeInTheDocument();
   });
 
   it('does not link an available course to a session that has not been supplied yet', () => {
@@ -212,11 +215,12 @@ describe('DailyPathDashboard', () => {
     expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
   });
 
-  it('uses caught-up copy when no reviews are due', () => {
+  it('leaves caught-up copy to the profile snapshot', () => {
     // Break caught: a zero review count is announced as work waiting anywhere on the path.
+    // The caught-up line lives on /you now; the daily path stays quiet.
     render(<DailyPathDashboard progress={{ ...demoProgress, dueReviewCount: 0 }} />);
 
-    expect(screen.getByText(/You're caught up — one pattern tomorrow keeps the flow\./)).toBeInTheDocument();
+    expect(screen.queryByText(/You're caught up — one pattern tomorrow keeps the flow\./)).not.toBeInTheDocument();
     expect(screen.queryByText(/bring six phrases back into reach/i)).not.toBeInTheDocument();
   });
 
@@ -288,15 +292,6 @@ describe('DailyPathDashboard', () => {
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
     expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
     expect(screen.getByRole('combobox', { name: 'Learning language' })).toBeInTheDocument();
-  });
-
-  it('keeps every small metric label on the accessible Ink contrast hook', () => {
-    // Break caught: metric labels fall back to the low-contrast 58%-Ink mixture on Cloud.
-    render(<DailyPathDashboard progress={demoProgress} />);
-
-    expect(screen.getByText('Total XP')).toHaveClass(styles.metricLabel);
-    expect(screen.getByText('Practice flow')).toHaveClass(styles.metricLabel);
-    expect(screen.getByText('Review queue')).toHaveClass(styles.metricLabel);
   });
 
   it('uses the hero banner as decorative dashboard support', () => {

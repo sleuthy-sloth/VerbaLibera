@@ -52,8 +52,11 @@ test('real passkey registration, review persistence, and sign-in against Postgre
     await page.reload();
     await expect(page.getByRole('heading', { name: /French: ordering politely/i })).toBeVisible();
     await page.goto('/');
+    // Header profile link (the bottom Account tab is mobile-only CSS).
+    await page.getByRole('link', { name: 'Your profile' }).click();
+    await expect(page.getByRole('heading', { name: /your profile/i })).toBeVisible();
     await page.getByRole('button', { name: 'Sign out', exact: true }).click();
-    await expect(page.getByText('Preview progress', { exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Save your progress' })).toBeVisible();
     await page.goto('/login');
     const login = page.waitForResponse(response => response.url().endsWith('/api/auth/login') && response.request().method() === 'POST');
     await page.getByRole('button', { name: 'Sign in with passkey', exact: true }).click();

@@ -1,0 +1,19 @@
+.you { display: grid; gap: 1.75rem; max-width: 640px; margin: 0 auto; padding: 1rem 1rem 6rem; }
+.eyebrow { color: var(--muted-foreground, #6b7672); font: 600 0.62rem/1.1 var(--font-utility); letter-spacing: 0.08em; text-transform: uppercase; }
+.you h1 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem, 8vw, 2.75rem); letter-spacing: -0.04em; }
+.you h2 { margin: 0 0 0.75rem; font-size: 1.15rem; }
+.you section { display: grid; gap: 0.6rem; align-content: start; }
+.previewBadge { display: inline-block; width: fit-content; padding: 0.3rem 0.75rem; border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); border-radius: 999px; font: 700 0.7rem/1.2 var(--font-utility); }
+.sectionNote { margin: 0; color: color-mix(in srgb, var(--ink) 65%, transparent); font-size: 0.85rem; }
+.metrics { display: grid; margin: 0; border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.metrics > div { display: grid; grid-template-columns: minmax(6.3rem, 0.9fr) 1.1fr; gap: 0.75rem; padding: 0.9rem 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.metrics dt { font: 700 0.68rem/1.35 var(--font-utility); letter-spacing: 0.06em; text-transform: uppercase; }
+.metricLabel { color: var(--ink); }
+.metrics dd { margin: 0; font-weight: 700; }
+.metrics dd p { margin: 0; }
+.courseList { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }
+.courseList li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.toggle { display: flex; align-items: center; gap: 0.6rem; min-height: 44px; font-weight: 600; cursor: pointer; }
+.toggle input { width: 1.25rem; height: 1.25rem; accent-color: var(--accent-strong); }
+.primaryAction { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; gap: 1rem; padding: 0.8rem 1.25rem; border: 1px solid var(--accent-strong); background: var(--accent-strong); color: var(--canvas); font-weight: 750; text-decoration: none; cursor: pointer; }
+.primaryAction:hover { background: var(--accent); }

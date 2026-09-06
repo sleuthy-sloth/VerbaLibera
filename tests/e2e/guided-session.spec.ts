@@ -99,9 +99,9 @@ test.describe('mobile touch', () => {
     await coffee.tap();
     await expect(page.getByText('That is the right picture.')).toBeVisible();
 
-    // Bottom tabs are reachable by touch on mobile.
-    await page.getByRole('link', { name: 'Spanish lessons' }).tap();
-    await expect(page).toHaveURL(/\/learn\/english-to-spanish$/);
+    // Quick nav tabs are reachable by touch on mobile.
+    await page.getByRole('link', { name: 'Account' }).tap();
+    await expect(page).toHaveURL(/\/you$/);
   });
 });
 

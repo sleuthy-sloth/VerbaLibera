@@ -101,3 +101,16 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Profile accessibility prefs (browser-local, set from /you). */
+html[data-text-size='large'] {
+  font-size: 112.5%;
+}
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

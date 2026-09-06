@@ -8,7 +8,6 @@ import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { planPosition, todayPlanItems } from '@/features/study-plan/today';
 import { parseStoredPlan } from '@/features/study-plan/parse';
 import type { StudyPlan } from '@/features/study-plan/types';
-import { csrfHeaders } from '@/lib/auth/cookies';
 import { dashboardBadgeCopy, planStatusCopy, planTodayCopy } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
@@ -56,7 +55,6 @@ function readGuestPlan(courseSlug: string): GuestPlanStatus | null {
 export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
   const isPreview = progress.isPreview !== false;
   const isDebug = useDebugFlag();
-  const [signOutError, setSignOutError] = useState(false);
   const requestedCourseIndex = requestedCourseSlug
     ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
     : -1;
@@ -141,14 +139,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
             v{progress.contentVersion}
           </p>
         ) : null}
-        {isPreview ? <Link className={styles.accountLink} href="/login">Save your progress</Link> : <button className={styles.accountLink} type="button" onClick={async () => {
-          try {
-            const response = await fetch('/api/auth/logout', { method: 'POST', headers: csrfHeaders() });
-            if (!response.ok) throw new Error('Sign-out failed');
-            window.location.assign('/');
-          } catch { setSignOutError(true); }
-        }}>Sign out</button>}
-        {signOutError ? <p role="alert">Could not sign out. Please try again.</p> : null}
+        {isPreview ? <Link className={styles.accountLink} href="/login">Save your progress</Link> : <Link className={styles.accountLink} href="/you">Your profile</Link>}
       </header>
 
       <section className={styles.intro} aria-labelledby="dashboard-title">
@@ -243,51 +234,6 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           )}
         </section>
 
-        <aside className={styles.progressPanel} aria-labelledby="progress-title">
-          <div className={styles.sectionHeading}>
-            <div>
-              <p className={styles.kicker}>Your pace</p>
-              <h2 id="progress-title">Progress snapshot</h2>
-            </div>
-          </div>
-
-          <dl className={styles.metrics}>
-            <div>
-              <dt className={styles.metricLabel}>Total XP</dt>
-              <dd>{progress.xp} XP</dd>
-            </div>
-            <div>
-              <dt className={styles.metricLabel}>Practice flow</dt>
-              <dd><p>{progress.practiceFlowDays}-day practice flow</p></dd>
-            </div>
-            <div>
-              <dt className={styles.metricLabel}>Streak</dt>
-              <dd>
-                <p>
-                  {progress.streakDays === 0
-                    ? 'No streak yet — finish a session to start one.'
-                    : `${progress.streakDays}-day streak`}
-                </p>
-              </dd>
-            </div>
-            <div>
-              <dt className={styles.metricLabel}>Review queue</dt>
-              <dd>
-                <p>
-                  {progress.dueReviewCount === 0
-                    ? "You're caught up — one pattern tomorrow keeps the flow."
-                    : `${progress.dueReviewCount} reviews waiting`}
-                </p>
-              </dd>
-            </div>
-            {isDebug && progress.contentVersion ? (
-              <div data-testid="content-version-panel">
-                <dt className={styles.metricLabel}>Content version</dt>
-                <dd>{progress.contentVersion}</dd>
-              </div>
-            ) : null}
-          </dl>
-        </aside>
       </div>
     </main>
   );
