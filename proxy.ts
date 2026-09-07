@@ -56,6 +56,18 @@ export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const method = request.method;
 
+  // Desktop-only surfaces exist only in local desktop mode. The staged
+  // server always binds loopback-only; this keeps the same URLs dead in
+  // hosted and remote modes.
+  const isDesktopApi = pathname === '/api/desktop' || pathname.startsWith('/api/desktop/');
+  const isDesktopPage = pathname === '/desktop' || pathname.startsWith('/desktop/');
+  if ((isDesktopApi || isDesktopPage) && process.env.VERBALIBERA_DESKTOP_MODE !== 'local') {
+    if (isDesktopApi) {
+      return NextResponse.json({ status: 'not_found' }, { status: 404, headers: { 'Cache-Control': 'no-store' } });
+    }
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   // Always ensure CSRF cookie is set for browser requests
   const hasCsrfCookie = request.cookies.has(CSRF_COOKIE_NAME);
   const responseNext = NextResponse.next();

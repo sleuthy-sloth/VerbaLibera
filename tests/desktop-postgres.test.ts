@@ -57,6 +57,19 @@ describe("desktop local PostgreSQL lifecycle", () => {
     expect(calls.some((c) => c.cmd.endsWith("pg_ctl"))).toBe(true);
   });
 
+  it("reuses the stored password when relaunching an existing cluster", async () => {
+    const calls: SpawnCall[] = [];
+    const dataRoot = tmpDir();
+    fs.mkdirSync(path.join(dataRoot, "pgdata"), { recursive: true });
+    fs.writeFileSync(path.join(dataRoot, "pgdata", "PG_VERSION"), "18\n");
+    const context = fakeContext(dataRoot, calls);
+    context.password = "stored-secret-from-safe-storage";
+    const result = await startLocalPostgres(context);
+    expect(result.password).toBe("stored-secret-from-safe-storage");
+    expect(result.databaseUrl).toContain("stored-secret-from-safe-storage");
+    expect(calls.some((c) => c.cmd.endsWith("initdb"))).toBe(false);
+  });
+
   it("stops the owned server with pg_ctl before falling back to kill", async () => {
     const calls: SpawnCall[] = [];
     const dataRoot = tmpDir();

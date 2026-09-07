@@ -41,10 +41,11 @@ enum ContentProvenance {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  accountIdentifier String              @unique
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  id                String                    @id @default(cuid())
+  accountIdentifier String                    @unique
+  isDesktopLocal    Boolean                   @default(false)
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
   progress          UserProgress[]
   assessments       ConceptAssessment[]
   masteries         ConceptMastery[]
@@ -53,6 +54,16 @@ model User {
   placements        PlacementResult[]
   studyPlans        StudyPlan[]
   foundationEvents  FoundationPracticeEvent[]
+  desktopProfile    DesktopProfile?
+}
+
+model DesktopProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Credential {
@@ -87,17 +98,17 @@ model ReviewLog {
 }
 
 model PlacementResult {
-  id             String   @id @default(cuid())
-  userId         String?
-  courseSlug     String
-  score          Int
-  total          Int
-  band           String
-  startCefr      String
-  startConceptId String
+  id                 String   @id @default(cuid())
+  userId             String?
+  courseSlug         String
+  score              Int
+  total              Int
+  band               String
+  startCefr          String
+  startConceptId     String
   foundationLessonId String?
-  createdAt      DateTime @default(now())
-  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt          DateTime @default(now())
+  user               User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([courseSlug])

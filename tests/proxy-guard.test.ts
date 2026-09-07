@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, beforeEach } from 'vitest';
+import { NextRequest } from 'next/server';
 
-import { isPublicPath, isProtectedMutation } from '../proxy';
+import proxy, { isPublicPath, isProtectedMutation } from '../proxy';
 
 describe('proxy guard', () => {
   it('allows public paths', () => {
@@ -51,5 +52,43 @@ describe('proxy guard', () => {
     expect(opts.sameSite).toBe('lax');
     expect(opts.path).toBe('/');
     (process.env as unknown as { NODE_ENV: string }).NODE_ENV = prev;
+  });
+
+  describe('desktop surfaces', () => {
+    const savedMode = process.env.VERBALIBERA_DESKTOP_MODE;
+    beforeEach(() => {
+      delete process.env.VERBALIBERA_DESKTOP_MODE;
+    });
+    afterEach(() => {
+      if (savedMode === undefined) delete process.env.VERBALIBERA_DESKTOP_MODE;
+      else process.env.VERBALIBERA_DESKTOP_MODE = savedMode;
+    });
+
+    it('returns 404 for desktop APIs outside local desktop mode', async () => {
+      const response = await proxy(
+        new NextRequest('http://localhost/api/desktop/health'),
+      );
+      expect(response.status).toBe(404);
+    });
+
+    it('redirects desktop pages outside local desktop mode', async () => {
+      const response = await proxy(
+        new NextRequest('http://localhost/desktop/profiles'),
+      );
+      expect(response.status).toBe(307);
+      expect(response.headers.get('location')).toBe('http://localhost/');
+    });
+
+    it('passes desktop surfaces through in local desktop mode', async () => {
+      process.env.VERBALIBERA_DESKTOP_MODE = 'local';
+      const api = await proxy(
+        new NextRequest('http://localhost/api/desktop/health'),
+      );
+      expect(api.status).toBe(200);
+      const page = await proxy(
+        new NextRequest('http://localhost/desktop/profiles'),
+      );
+      expect(page.status).toBe(200);
+    });
   });
 });

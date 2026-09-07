@@ -5,6 +5,7 @@
 
 export interface SpawnResult {
   pid: number;
+  exitCode?: number;
 }
 
 export type SpawnFn = (
@@ -18,6 +19,8 @@ export interface OwnedProcess {
   databaseUrl: string;
   dataDir: string;
   port: number;
+  /** The password securing this cluster; persist encrypted, never log. */
+  password: string;
   kill: () => void;
 }
 
@@ -26,6 +29,12 @@ export interface PostgresContext {
   runtimeBinDir: string;
   /** User-data root; the cluster lives in `<dataRoot>/pgdata`. */
   dataRoot: string;
+  /**
+   * Reuse this password for an existing cluster (decrypted from the
+   * safeStorage envelope). Omit on first setup to generate a fresh one;
+   * the caller persists `generatedPassword` from the result.
+   */
+  password?: string;
   spawn: SpawnFn;
   randomBytes: (n: number) => Buffer;
   allocPort: () => Promise<number>;

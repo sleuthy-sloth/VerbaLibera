@@ -21,7 +21,7 @@ export async function startLocalPostgres(
   fs.mkdirSync(dataDir, { recursive: true, mode: 0o700 });
   fs.chmodSync(dataDir, 0o700);
 
-  const password = context.randomBytes(32).toString("base64url");
+  const password = context.password ?? context.randomBytes(32).toString("base64url");
   const port = await context.allocPort();
 
   if (!fs.existsSync(path.join(dataDir, "PG_VERSION"))) {
@@ -94,6 +94,7 @@ export async function startLocalPostgres(
     databaseUrl,
     dataDir,
     port,
+    password,
     kill: () => {},
   };
 }

@@ -2,7 +2,7 @@
 // Composition root: single instance, first-launch setup, local/remote
 // database supervision, fixed-origin server, sandboxed windows with strict
 // navigation guards, and deterministic shutdown.
-import { app, BrowserWindow, ipcMain, safeStorage, shell } from "electron";
+import { app, BrowserWindow, ipcMain, safeStorage, session, shell } from "electron";
 import { execFile, spawn, type ChildProcess } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { createServer } from "node:net";
@@ -224,7 +224,7 @@ function secureWindow(file: string): BrowserWindow {
   return window;
 }
 
-export function createMainWindow(): BrowserWindow {
+export function createMainWindow(initialPath = "/dashboard"): BrowserWindow {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -239,7 +239,7 @@ export function createMainWindow(): BrowserWindow {
     if (!url.startsWith(APP_ORIGIN)) event.preventDefault();
   });
   mainWindow.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
-  void mainWindow.loadURL(`${APP_ORIGIN}/dashboard`);
+  void mainWindow.loadURL(`${APP_ORIGIN}${initialPath}`);
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
@@ -310,12 +310,12 @@ function registerIpc(res: ResourceLayout): void {
             });
           },
           startServer: async ({ databaseUrl }) => {
-            await bootServer(res, databaseUrl, "local");
+            const { bootstrapSecret } = await bootServer(res, databaseUrl, "local");
+            await openMainWindow("/desktop/profiles", bootstrapSecret);
           },
         });
         setupWindow?.close();
         setupWindow = null;
-        createMainWindow();
         return { ok: true as const };
       },
       inspectRemote: async (url: string) => {
@@ -403,13 +403,14 @@ async function bootServer(
   res: ResourceLayout,
   databaseUrl: string,
   mode: "local" | "remote",
-): Promise<void> {
+): Promise<{ bootstrapSecret: string }> {
   const keys = ensureJwtKeys(path.join(userDataDir, "keys"));
+  const bootstrapSecret = randomBytes(32).toString("base64url");
   runningServer = await startApplicationServer({
     serverEntry: res.serverEntry,
     databaseUrl,
     desktopMode: mode,
-    bootstrapSecret: randomBytes(32).toString("base64url"),
+    bootstrapSecret,
     healthIdentity: randomBytes(16).toString("hex"),
     appVersion: app.getVersion(),
     jwtPrivateKeyPath: keys.privatePath,
@@ -448,6 +449,22 @@ async function bootServer(
     },
     sleep,
   });
+  return { bootstrapSecret };
+}
+
+/** Sets the per-launch HTTP-only bootstrap cookie before the main window loads. */
+async function seedBootstrapCookie(bootstrapSecret: string): Promise<void> {
+  await session.defaultSession.cookies.set({
+    url: APP_ORIGIN,
+    name: "verbalibera_bootstrap",
+    value: bootstrapSecret,
+    httpOnly: true,
+  });
+}
+
+async function openMainWindow(initialPath: string, bootstrapSecret: string): Promise<void> {
+  await seedBootstrapCookie(bootstrapSecret);
+  createMainWindow(initialPath);
 }
 
 async function startup(): Promise<void> {
@@ -494,8 +511,8 @@ async function startup(): Promise<void> {
         packagedSchemaVersion: schemaVersion,
         runner,
       });
-      await bootServer(res, owned.databaseUrl, "local");
-      createMainWindow();
+      const { bootstrapSecret } = await bootServer(res, owned.databaseUrl, "local");
+      await openMainWindow("/desktop/profiles", bootstrapSecret);
     } else {
       const url = safeStorageAdapter.decryptString(
         settings.active.encryptedDatabaseUrl,
