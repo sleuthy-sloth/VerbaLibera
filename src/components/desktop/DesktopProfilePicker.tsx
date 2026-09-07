@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export interface DesktopProfileSummary {
@@ -20,6 +21,7 @@ export default function DesktopProfilePicker({
 }: {
   initialProfiles: DesktopProfileSummary[];
 }) {
+  const router = useRouter();
   const [profiles, setProfiles] = useState(initialProfiles);
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +47,7 @@ export default function DesktopProfilePicker({
         setError("That profile could not be opened. Please try again.");
         return;
       }
-      window.location.href = data.redirect ?? "/dashboard";
+      router.replace(data.redirect ?? "/dashboard");
     } catch {
       setError("That profile could not be opened. Please try again.");
     } finally {
