@@ -6,9 +6,9 @@ Use `E2E_BASE_URL` for a production server. The real-account scenario additional
 
 This run migrated and seeded an isolated Postgres 16 container on loopback port 55439, and ran the production application on port 3210. No remote database was migrated, seeded or used for account-test writes.
 
-## Latest continuation results
+## Latest continuation results (September 6, 2026 — supersedes the September 5 counts below where they differ)
 
-408 unit/component tests; 26 Chromium production E2E; 4 WebKit tests with one offline-emulation skip; 37 Python tests. Build/typecheck pass; lint remains at 0 errors and 18 pre-existing warnings. Foundation synchronization tests cover two isolated browser stores, guest isolation, offline save/reconnect, concurrent duplicate delivery, conflicting-batch rollback and expected-account checks. Listening tests exercise actual playback, rate changes, saved listening evidence and Chromium offline audio.
+601 unit/component tests across 92 files (1 file / 1 test skipped); 39 Python tests collected across 5 voice-service files; E2E list shows 43 tests in 16 files (listed, not re-run this pass). `content:validate` clean (5 packs), production build and typecheck pass; lint holds at 0 errors and the same 18 pre-existing warnings. Full exit-code record: [verification-record-2026-09-06.md](verification-record-2026-09-06.md). Foundation synchronization tests cover two isolated browser stores, guest isolation, offline save/reconnect, concurrent duplicate delivery, conflicting-batch rollback and expected-account checks. Listening tests exercise actual playback, rate changes, saved listening evidence and Chromium offline audio. The new course-start spec pins Lesson 0 default entry, post-L0 resume, and download pending/failure semantics.
 
 `node scripts/qa-courses.mjs` records representative screenshots and axe/overflow checks against `QA_BASE_URL` (default localhost:3210). `scripts/qa-foundation-audio.py` is a separate authoring pre-screen requiring the existing voice environment and locally cached Whisper model; transcript differences need review, not blind acceptance.
 

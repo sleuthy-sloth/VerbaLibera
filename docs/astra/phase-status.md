@@ -6,7 +6,7 @@ Status after French and Italian L0 (words-first openers) plus Units 6 (25 lesson
 | --- | --- |
 | 1 Audit | Completed initial audit and baseline verification. |
 | 2 Content architecture | Versioned JSON packs, schema and references implemented; richer level/stage/skill metadata remains partial. |
-| 3 Curriculum | French and Italian: 25 lessons each (L0 words-first opener + Units 1–6); partial A1. German foundations announced as coming-soon (metadata only, zero lessons). More domains, depth and native-speaker review remain. |
+| 3 Curriculum | French and Italian: 25 lessons each (L0 words-first opener + Units 1–6); partial A1. German, Portuguese and Spanish ship as active starter packs (one first-words lesson each, v0.1.0). More domains, depth and native-speaker review remain. |
 | 4 Exercises | Reusable registry and seven contracts; five populated forms. Full proposed catalogue remains partial. |
 | 5 Answer evaluator | Deterministic variants, normalization, authored errors and conservative typo handling implemented; broader morphology data remains. |
 | 6 Mastery | Mode-separated concept evidence and exercise schedules implemented; richer concept stability summaries remain. |
