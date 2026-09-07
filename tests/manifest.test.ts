@@ -12,7 +12,8 @@ describe('VerbaLibera PWA manifest', () => {
       description: 'A calm daily practice path for practical language patterns.',
       shortcuts: [
         { name: 'Today', url: '/dashboard' },
-        { name: 'Resume session', url: '/learn/english-to-french' },
+        { name: 'Start learning', url: '/courses/french?start=1' },
+        { name: 'Offline languages', url: '/offline.html' },
       ],
     });
   });

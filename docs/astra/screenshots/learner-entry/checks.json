@@ -1,0 +1,26 @@
+{
+  "errors": [],
+  "accessibility": [],
+  "widths": [
+    {
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "overflow": false
+    },
+    {
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "overflow": false
+    }
+  ]
+}

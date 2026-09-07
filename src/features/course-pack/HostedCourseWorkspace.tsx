@@ -9,8 +9,10 @@ const HOSTED_ENVIRONMENT = createHostedEnvironment();
 
 export function HostedCourseWorkspace({
   initialLanguage = "italian",
+  startNextLesson = false,
 }: {
   initialLanguage?: string;
+  startNextLesson?: boolean;
 }) {
   const { scope, ready, select } = usePracticeAccount();
   if (!ready) {
@@ -24,6 +26,7 @@ export function HostedCourseWorkspace({
     <CourseWorkspace
       key={scope ?? "guest"}
       initialLanguage={initialLanguage}
+      startNextLesson={startNextLesson}
       environment={HOSTED_ENVIRONMENT}
       scope={scope}
       synchronize={synchronizePractice}

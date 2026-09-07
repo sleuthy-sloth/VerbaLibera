@@ -86,7 +86,7 @@ describe('static PWA service worker contract', () => {
       respondWith: vi.fn(), waitUntil: vi.fn(),
     };
     const resourceEvent = {
-      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/brand/hero-banner.jpg' },
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/unmanaged-resource.bin' },
       respondWith: vi.fn(), waitUntil: vi.fn(),
     };
 
@@ -147,7 +147,11 @@ describe('static PWA service worker contract', () => {
     const source = await readWorkerSource();
 
     // Cache changes must invalidate the previous shell.
-    expect(source).toMatch(/verbalibera-static-v7/);
+    const worker = await evaluateWorker(['verbalibera-static-v7']);
+    const activation = { waitUntil: vi.fn() };
+    worker.handlers.get('activate')?.(activation as never);
+    await activation.waitUntil.mock.calls[0][0];
+    expect(worker.cacheDelete).toHaveBeenCalledWith('verbalibera-static-v7');
     expect(source).not.toMatch(/verbalibera-static-v1/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
@@ -219,4 +223,15 @@ it('never puts personalized lesson HTML into the shared browser cache', async ()
   await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(privatePage);
   await Promise.resolve();
   expect(cachePut).not.toHaveBeenCalled();
+});
+
+it('serves the cached course banner when the downloaded lesson is offline', async () => {
+  const { handlers, networkFetch, cacheMatch } = await evaluateWorker();
+  const banner = new Response('saved-banner-bytes');
+  networkFetch.mockRejectedValue(new Error('offline'));
+  cacheMatch.mockResolvedValue(banner);
+  const event = { request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/brand/courses/italian.jpg' }, respondWith: vi.fn(), waitUntil: vi.fn() };
+  handlers.get('fetch')?.(event as never);
+  expect(event.respondWith).toHaveBeenCalledTimes(1);
+  await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(banner);
 });

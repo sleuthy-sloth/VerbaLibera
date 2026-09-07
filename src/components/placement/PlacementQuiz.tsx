@@ -1,5 +1,7 @@
 'use client';
 
+import { foundationStartHref } from '@/features/course-pack/navigation';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ClozeBuilder } from '@/components/session/ClozeBuilder';
@@ -164,6 +166,9 @@ export function PlacementQuiz({ courseSlug, userId = null }: Readonly<{ courseSl
 
   if (result) {
     const copy = BAND_COPY[result.band];
+    const startHref = result.score === 0 || result.foundationLessonId?.endsWith('-first-words-foundation')
+      ? foundationStartHref(courseSlug)
+      : `/learn/${courseSlug}?concept=${result.startConceptId}`;
     const foundation = (result.foundationLessonId && FOUNDATION_LESSONS[result.foundationLessonId]) || null;
     return <main id="main-content" className={sessionStyles.session}>
       <p className={sessionStyles.eyebrow}>Placement result</p>
@@ -173,7 +178,7 @@ export function PlacementQuiz({ courseSlug, userId = null }: Readonly<{ courseSl
       {error ? <p role="alert">{error}</p> : null}
       <div className={sessionStyles.actionDock}>
         <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}/plan`}>Build my learning plan</Link>
-        <Link className={sessionStyles.primaryAction} href={`/learn/${courseSlug}?concept=${result.startConceptId}`}>Start learning <span aria-hidden="true">→</span></Link>
+        <Link className={sessionStyles.primaryAction} href={startHref}>Start learning <span aria-hidden="true">→</span></Link>
         {foundation ? <Link className={sessionStyles.primaryAction} href={`/courses/${foundation.language}`}>{foundation.title} <span aria-hidden="true">→</span></Link> : null}
         <button type="button" onClick={retake}>Retake placement</button>
       </div>

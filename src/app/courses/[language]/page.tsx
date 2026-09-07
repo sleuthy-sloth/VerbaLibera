@@ -4,10 +4,13 @@ import { HostedCourseWorkspace } from "@/features/course-pack/HostedCourseWorksp
 import "@/features/course-pack/study.css";
 export default async function CoursePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ language: string }>;
+  searchParams: Promise<{ start?: string }>;
 }) {
   const { language } = await params;
   if (!catalog.some((entry) => entry.slug === language)) notFound();
-  return <HostedCourseWorkspace initialLanguage={language} />;
+  const { start } = await searchParams;
+  return <HostedCourseWorkspace key={`${language}:${start ?? ""}`} initialLanguage={language} startNextLesson={start === "1"} />;
 }

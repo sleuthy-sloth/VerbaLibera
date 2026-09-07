@@ -12,6 +12,7 @@ import { dashboardBadgeCopy, planStatusCopy, planTodayCopy } from '@/lib/progres
 import { FirstRunOnboarding } from './FirstRunOnboarding';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
+import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
 
 function useDebugFlag(): boolean {
   if (typeof window === 'undefined') return false;
@@ -89,6 +90,8 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     );
   }
 
+  const language = foundationLanguage(selectedCourse.slug);
+  const languageName = language ? language[0].toUpperCase() + language.slice(1) : "";
   const authoredCourse = initialCourses.find((course) => course.slug === selectedCourse.slug);
   const nextStep = progress.session.find(
     (step) =>
@@ -160,6 +163,16 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
       <div className={styles.learningPromise}>
         <span>Free to learn</span><span>Explanations before exercises</span><span>No timers or lost hearts</span>
       </div>
+      {language ? <section className={styles.foundationEntry} aria-label="Foundation courses and downloads">
+        <div>
+          <h2>{languageName}, from the first words</h2>
+          <p>Start at Lesson 0 or continue your foundation course. Travel sessions remain available below.</p>
+        </div>
+        <div>
+          <Link href={foundationStartHref(selectedCourse.slug)}>Open {languageName} foundations</Link>
+          <Link href={`/courses/${language}#offline-download`}>Download {languageName} for offline study</Link>
+        </div>
+      </section> : null}
       <div className={styles.dashboardGrid}>
         <section className={styles.todayCard} aria-labelledby="today-title">
           <div className={styles.todayHeading}>

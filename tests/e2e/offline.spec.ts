@@ -16,3 +16,17 @@ test('offline navigation shows a reconnect page and never cached account HTML', 
   expect(await page.evaluate(async () => { try { await fetch('/api/demo/progress'); return false; } catch { return true; } })).toBe(true);
   await context.setOffline(false);
 });
+
+test('downloaded language can be opened from the PWA offline welcome page', async ({ page, context }) => {
+  await page.goto('/courses/italian#offline-download');
+  await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Open offline study' })).toBeVisible({ timeout: 30000 });
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  await context.setOffline(true);
+  await page.goto('/dashboard');
+  await expect(page.getByRole('heading', { name: 'Your practice path is waiting.' })).toBeVisible();
+  await page.getByRole('link', { name: 'Italian' }).click();
+  await expect(page.getByRole('heading', { name: 'Italian foundations', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Open next lesson' }).click();
+  await expect(page.getByRole('heading', { name: 'First words', exact: true })).toBeVisible();
+});

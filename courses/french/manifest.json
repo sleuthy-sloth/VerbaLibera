@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "fr-foundations",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "language": "fr",
   "sourceLanguage": "en",
   "title": "French foundations",
@@ -1868,7 +1868,7 @@
           "id": "fr-people-foundation-produce",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Write in French: You are Marc.",
+          "prompt": "You recognize Marc at a café. Address him in French: You are Marc.",
           "answers": [
             "Tu es Marc."
           ],
@@ -2074,7 +2074,7 @@
           "id": "fr-family-foundation-produce",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Write in French: I have a brother.",
+          "prompt": "A new friend asks about your family. Tell them in French: I have a brother.",
           "answers": [
             "J’ai un frère."
           ],

@@ -349,3 +349,38 @@ body:has(#study-root) {
   color: var(--accent);
   display: inline;
 }
+
+/* Activity forms are different tools: choices, movable words, a sentence gap,
+   and a reading passage. Keep the surrounding Quiet Ink canvas restrained. */
+.study-download {
+  scroll-margin-top: 24px;
+  border: 1px solid #899b95;
+  border-left: 5px solid var(--accent);
+  padding: 20px;
+  background: #edf3ef;
+}
+.study .study-download h2 { font-size: 24px; margin-top: 0; }
+.study-download-heading { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.study-download-heading p { max-width: 55ch; }
+.study-download-state { font-size: 14px; color: var(--accent); }
+.study-download details { font-size: 15px; margin-bottom: 0; }
+.study-download li { margin-bottom: 8px; }
+.study-session-progress { display: flex; align-items: center; gap: 18px; font-size: 14px; }
+.study-session-progress progress { flex: 1; min-width: 60px; height: 8px; accent-color: var(--accent); }
+.study .practice-panel { border-top: 3px solid var(--accent); padding-top: 12px; }
+.study .practice-panel h2 { max-width: 32ch; }
+.study .practice-panel fieldset { border: 0; padding: 0; }
+.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border: 1px solid #899b95; background: #fffdfa; cursor: pointer; }
+.study .study-choice:has(:checked) { border-color: var(--accent); background: #dfebe4; box-shadow: inset 4px 0 var(--accent); }
+.study .study-choice input { margin: 0; accent-color: var(--accent); }
+.study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: #e7eef4; border-bottom: 2px solid #426886; }
+.study .sentence-workbench button { background: #fffdfa; border-color: #426886; }
+.study .word-bank button { border-radius: 24px; background: #fffdfa; padding-inline: 18px; }
+.study-cloze-sentence { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; padding: 20px; font: 28px/1.6 Georgia, serif; background: #f4ecdc; }
+.study .study-cloze-sentence input { display: inline-block; width: 8ch; min-width: 100px; flex: 0 1 180px; border: 0; border-bottom: 2px solid #805c29; border-radius: 0; padding: 6px; }
+.study .activity-reading blockquote { background: #fffdfa; padding: 24px; line-height: 1.8; }
+@media (max-width: 600px) {
+  .study-download { padding: 16px; }
+  .study .study-download h2 { font-size: 23px; }
+  .study-cloze-sentence { padding: 14px; font-size: 24px; }
+}

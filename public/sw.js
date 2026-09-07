@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'verbalibera-static-v7';
+const STATIC_CACHE = 'verbalibera-static-v8';
 const STATIC_ASSETS = [
   '/offline.html',
   '/icons/verbalibera-192.png',
@@ -53,7 +53,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(fetch(request).catch(() => caches.match('/offline.html').then(response => response ?? Response.error())));
     return;
   }
-  if (url.pathname.startsWith('/audio/') || url.pathname.startsWith('/images/') || url.pathname.startsWith('/_next/static/')) {
+  if (url.pathname.startsWith('/brand/') || url.pathname.startsWith('/audio/') || url.pathname.startsWith('/images/') || url.pathname.startsWith('/_next/static/')) {
     event.respondWith(fetch(request).then(response => {
       if (response.ok && !/private|no-store/.test(response.headers.get('cache-control') ?? '')) {
         const clone = response.clone();

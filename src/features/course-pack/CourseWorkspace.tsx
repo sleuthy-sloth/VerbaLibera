@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Also bundled outside Next for offline cold starts. */
 /* Public offline entry shares this component. Keep Next/account imports out. */
 import catalog from "./catalog.json";
+import { OfflineDownload } from "./OfflineDownload";
 import { useEffect, useState, type ReactNode } from "react";
 import type { CoursePack, Lesson } from "./schema";
 import {
@@ -29,6 +30,7 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
 };
 export type CourseWorkspaceProps = {
   initialLanguage?: string;
+  startNextLesson?: boolean;
   environment: CourseEnvironment;
   scope?: string | null;
   synchronize?: (scope: string, signal?: AbortSignal) => Promise<PracticeEvent[]>;
@@ -40,15 +42,16 @@ export type CourseWorkspaceProps = {
 
 export function CourseWorkspace({
   initialLanguage = "italian",
+  startNextLesson = false,
   environment,
   scope = null,
   synchronize,
   renderAccountPractice,
 }: CourseWorkspaceProps) {
-  return <ScopedWorkspace initialLanguage={initialLanguage} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
+  return <ScopedWorkspace startNextLesson={startNextLesson} initialLanguage={initialLanguage} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
 }
-function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, renderAccountPractice }: {
-  initialLanguage: string; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
+function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment, synchronize, renderAccountPractice }: {
+  initialLanguage: string; startNextLesson: boolean; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
   const [syncStatus, setSyncStatus] = useState("");
@@ -65,8 +68,6 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
     [minutes, setMinutes] = useState(10),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
-    [downloaded, setDownloaded] = useState(false),
-    [installing, setInstalling] = useState(false),
     [storageReady, setStorageReady] = useState(false);
   const [durability, setDurability] = useState(
     environment.practice.getDurability(),
@@ -86,14 +87,16 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
           events: [] as PracticeEvent[],
           error: String(error.message),
         })),
-      environment.isInstalled?.(language).catch(() => false) ?? false,
     ])
-      .then(([p, s, download]) => {
+      .then(([p, s]) => {
         if (active) {
           setPack(p);
           setEvents(s.events);
           if (s.error) setError(s.error + " You can still read the lessons.");
-          setDownloaded(download);
+          if (startNextLesson && p.lessons.length) setLessonId(selectDaily(p, s.events, 10).lessonId);
+          if (capabilities.hostedNavigation) {
+            try { localStorage.setItem("verbalibera_course", `english-to-${language}`); } catch {}
+          }
           setStorageReady(!s.error);
         }
       })
@@ -103,7 +106,7 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
     return () => {
       active = false;
     };
-  }, [environment, language, scope]);
+  }, [environment, language, scope, startNextLesson, capabilities.hostedNavigation]);
   useEffect(() => {
     if (!capabilities.synchronization || !scope || !storageReady) return;
     const controller = new AbortController();
@@ -282,6 +285,7 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
             retry: () => setSyncRevision((n) => n + 1),
           })
         : null}
+      {capabilities.offlineInstall ? <OfflineDownload key={language} pack={pack} language={language} environment={environment} /> : null}
       <nav className="study-tabs" aria-label="Course workspace">
         {(
           ["Course", "Review", "Vocabulary", "Grammar", "Dialogues"] as const
@@ -321,6 +325,10 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
               </p>
             </div>
           ) : null}
+          <div className="study-session-progress">
+            <span>Practice {step + 1} of {session.length}</span>
+            <progress aria-label="Practice progress" max={session.length} value={step} />
+          </div>
           <ExerciseView
             key={`${activeExercise.id}:${step}`}
             exercise={activeExercise}
@@ -343,7 +351,7 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
         lesson ? (
           <section className="study-lesson">
             <button onClick={() => setLessonId("")}>← All lessons</button>
-            <p className="study-eyebrow">Notice → build → vary → use</p>
+            <p className="study-eyebrow">Lesson {pack.lessons.indexOf(lesson)} · Notice → build → vary → use</p>
             <h2 tabIndex={-1}>{lesson.title}</h2>
             <p>
               <strong>Your aim:</strong> {lesson.objective}
@@ -590,37 +598,9 @@ function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, ren
         </section>
       )}
       <footer className="study-storage">
-        <h2>{capabilities.offlineInstall ? "Keep learning offline" : "Keep a practice backup"}</h2>
-        {capabilities.offlineInstall ? <p>
-          Download this course’s text, practice tools and available audio.
-          Guest practice stays in this browser. Selected account practice syncs
-          when connected. Clearing browser data removes unsynchronized practice; keep a backup.
-        </p> : <p>Practice stays in this browser. Export a backup so you can restore it later.</p>}
+        <h2>Keep a practice backup</h2>
+        <p>Export your practice to restore it later or move it to another device. Guest and account practice stay separate.</p>
         <div className="study-actions">
-          {capabilities.offlineInstall ? <button
-            disabled={installing}
-            onClick={async () => {
-              setInstalling(true);
-              setMessage("");
-              try {
-                if (!environment.install) throw new Error("Offline installation is unavailable.");
-                await environment.install(pack, language);
-                setDownloaded(true);
-                setMessage(
-                  "Downloaded. You can open offline study without a connection.",
-                );
-              } catch (e) {
-                setError(e instanceof Error ? e.message : "Download failed.");
-              } finally {
-                setInstalling(false);
-              }
-            }}
-          >
-            {installing ? "Downloading…" : "Download for offline study"}
-          </button> : null}
-          {capabilities.offlineInstall && downloaded ? (
-            <a href={`/study.html?language=${language}`}>Open offline study</a>
-          ) : null}
           <button
             onClick={async () => {
               try {

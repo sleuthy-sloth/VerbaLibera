@@ -1,6 +1,6 @@
 {
   "id": "fr-foundations",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "level": "A1 foundations (partial syllabus)",
   "lessons": 25,
   "concepts": 25,
@@ -17,7 +17,7 @@
   },
   "audioClips": 26,
   "lessonsWithAudio": 25,
-  "packBytes": 184844,
+  "packBytes": 184922,
   "answerCoverage": "100%",
   "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
 }

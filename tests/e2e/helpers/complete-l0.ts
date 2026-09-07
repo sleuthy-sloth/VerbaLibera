@@ -43,7 +43,7 @@ async function completeL0(page: Page, answers: L0Answers) {
       await page
         .getByRole("button", { name: /i've thought about it/i })
         .click();
-    await page.getByLabel("Your answer", { exact: true }).fill(text);
+    await page.getByLabel(/^(Your answer|Missing word)$/).fill(text);
     await check();
   };
   await choose(answers.meet);

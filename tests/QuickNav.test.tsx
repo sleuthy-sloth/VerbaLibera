@@ -44,7 +44,7 @@ describe('QuickNav', () => {
     await waitFor(() => {
       expect(screen.getByRole('link', { name: 'Resume practice' })).toHaveAttribute(
         'href',
-        '/learn/english-to-italian',
+        '/courses/italian?start=1',
       );
     });
   });

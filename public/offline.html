@@ -12,13 +12,24 @@
       h1 { font-family: Georgia, 'Times New Roman', serif; }
       main > p:first-child { color: #1e6563; }
       p { line-height: 1.6; }
+      nav { display: flex; gap: .5rem; flex-wrap: wrap; }
+      a { color: #176a61; border: 1px solid #899b95; padding: .8rem 1rem; text-underline-offset: 4px; }
+      a:focus-visible { outline: 3px solid #176a61; outline-offset: 3px; }
     </style>
   </head>
   <body>
     <main>
       <p>VerbaLibera</p>
       <h1>Your practice path is waiting.</h1>
-      <p>Reconnect to continue your guided session. Your normal touch and keyboard practice controls will be ready when you return.</p>
+      <p>Downloaded foundation lessons work without a connection. Choose a language you saved on this device. Reconnect for account pages or to download another language.</p>
+      <nav aria-label="Offline languages">
+        <a href="/study.html?language=french">French</a>
+        <a href="/study.html?language=italian">Italian</a>
+        <a href="/study.html?language=german">German</a>
+        <a href="/study.html?language=spanish">Spanish</a>
+        <a href="/study.html?language=portuguese">Portuguese</a>
+      </nav>
+      <p>Not downloaded yet? When connected, open your foundation course and use “Download for offline study”. Installing the app icon alone does not save lessons.</p>
     </main>
   </body>
 </html>

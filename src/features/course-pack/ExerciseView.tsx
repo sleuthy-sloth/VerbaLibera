@@ -35,7 +35,7 @@ function ChoiceInput(props: InputProps) {
     <fieldset>
       <legend>Choose an answer</legend>
       {props.exercise.options.map((option) => (
-        <label key={option}>
+        <label className="study-choice" key={option}>
           <input
             type="radio"
             name="answer"
@@ -55,9 +55,16 @@ function OrderInput(props: InputProps) {
   const tokens = props.exercise.tokens;
   return (
     <div>
-      <p aria-live="polite">
-        {props.value || "Choose words to build the sentence."}
-      </p>
+      <div className="sentence-workbench" aria-label="Your sentence">
+        {used.length ? used.map((tokenIndex, position) => (
+          <button type="button" key={tokenIndex} disabled={props.disabled} aria-label={`Remove ${tokens[tokenIndex]}`} onClick={() => {
+            const next = used.filter((_, i) => i !== position);
+            setUsed(next);
+            props.onChange(next.map(j => tokens[j]).join(" "));
+          }}>{tokens[tokenIndex]} <span aria-hidden="true">×</span></button>
+        )) : <p>Tap words below to build your sentence.</p>}
+      </div>
+      <p className="study-scope" aria-live="polite">{props.value ? `${used.length} words placed. Tap a placed word to change it.` : "Your sentence is empty."}</p>
       <div className="word-bank">
         {tokens.map((token, i) => (
           <button
@@ -87,6 +94,22 @@ function OrderInput(props: InputProps) {
     </div>
   );
 }
+function ClozeInput(props: InputProps) {
+  // Authored cloze contracts require a blank. Preserve the surrounding sentence
+  // while grading only the missing text, as before.
+  const blank = props.exercise.prompt.indexOf("___");
+  const before = props.exercise.prompt.slice(0, blank).replace(/^Complete:\s*/i, "");
+  const after = props.exercise.prompt.slice(blank + 3);
+  return <div className="study-cloze">
+    <p className="study-scope">Complete the thought with the missing word.</p>
+    <div className="study-cloze-sentence">
+      <span>{before}</span>
+      <input aria-label="Missing word" value={props.value} onChange={e => props.onChange(e.target.value)} disabled={props.disabled} autoComplete="off" spellCheck={false} />
+      <span>{after}</span>
+    </div>
+  </div>;
+}
+
 function ListeningInput(props: InputProps) {
   const ref = useRef<HTMLAudioElement>(null);
   const [unavailable, setUnavailable] = useState(false);
@@ -168,11 +191,17 @@ const renderers: Record<Exercise["kind"], React.ComponentType<InputProps>> = {
   think: ThinkInput,
   choice: ChoiceInput,
   order: OrderInput,
-  cloze: TextInput,
+  cloze: ClozeInput,
   transform: TextInput,
   dictation: ListeningInput,
   reading: ReadingInput,
 };
+const activityNames: Record<Exercise["kind"], string> = {
+  choice: "Spot the meaning", order: "Build a sentence", cloze: "Find the missing word",
+  reading: "Read a small story", dictation: "Tune your ear", think: "Say it before you write it",
+  translate: "Make the connection", transform: "Change the pattern",
+};
+
 export function ExerciseView({
   exercise,
   pack,
@@ -195,9 +224,9 @@ export function ExerciseView({
   }, []);
   const Input = renderers[exercise.kind];
   return (
-    <section className="practice-panel" aria-labelledby="practice-title">
+    <section className={`practice-panel activity-${exercise.kind}`} aria-labelledby="practice-title">
       <p className="study-eyebrow">
-        {exercise.mode} · {exercise.kind}
+        {activityNames[exercise.kind]}
       </p>
       <h2 id="practice-title" ref={heading} tabIndex={-1}>
         {exercise.prompt}
@@ -246,7 +275,10 @@ export function ExerciseView({
           {!result.accepted || revealed ? (
             <p lang={pack.language}>{result.model}</p>
           ) : null}
-          <p>{exercise.explanation}</p>
+          <details open={!result.accepted || revealed}>
+            <summary>Why this works</summary>
+            <p>{exercise.explanation}</p>
+          </details>
           <button
             className="study-primary"
             disabled={saving}

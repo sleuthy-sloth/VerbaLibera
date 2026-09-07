@@ -309,11 +309,16 @@ describe('DailyPathDashboard', () => {
     // Break caught: first-run lands on fake metrics instead of an honest empty state.
     render(<DailyPathDashboard progress={blankDemoProgress} />);
 
-    expect(screen.getByRole('heading', { name: /Start with one useful phrase/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Start 8-minute session/i })).toHaveAttribute(
+    expect(screen.getByRole('heading', { name: /Start with your first words/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Start learning/i })).toHaveAttribute(
       'href',
-      '/learn/english-to-french',
+      '/courses/french?start=1',
     );
+  });
+
+  it('offers offline foundations for the selected language even with travel progress', () => {
+    render(<DailyPathDashboard progress={demoProgress} requestedCourseSlug="english-to-italian" />);
+    expect(screen.getByRole('link', { name: /Download Italian/i })).toHaveAttribute('href', '/courses/italian#offline-download');
   });
 });
 

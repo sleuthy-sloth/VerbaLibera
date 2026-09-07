@@ -69,7 +69,7 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .click();
   await expect(
     page.getByText(
-      "Downloaded. You can open offline study without a connection.",
+      "Downloaded on this device", { exact: true },
     ),
   ).toBeVisible({ timeout: 30000 });
   await context.setOffline(true);
@@ -168,7 +168,7 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
     await page
       .getByRole("button", { name: /i've thought about it/i })
       .click();
-    await page.getByLabel("Your answer", { exact: true }).fill(answer);
+    await page.getByLabel(/^(Your answer|Missing word)$/).fill(answer);
     await page.getByRole("button", { name: "Check answer", exact: true }).click();
     await expect(page.getByRole("status")).toContainText("correct");
     await page
@@ -184,19 +184,19 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
         .click();
     }
   }
-  await page.getByLabel("Your answer", { exact: true }).fill("I am French.");
+  await page.getByLabel(/^(Your answer|Missing word)$/).fill("I am French.");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");
   await page
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
-  await page.getByLabel("Your answer", { exact: true }).fill("suis");
+  await page.getByLabel(/^(Your answer|Missing word)$/).fill("suis");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");
   await page
     .getByRole("button", { name: "Save and continue", exact: true })
     .click();
-  await page.getByLabel("Your answer", { exact: true }).fill("Anna");
+  await page.getByLabel(/^(Your answer|Missing word)$/).fill("Anna");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("correct");
   await page
@@ -240,7 +240,7 @@ for (const [language, answer] of [['italian', 'Io sono Anna.'], ['french', 'Je s
     if (language === 'italian') await completeItalianL0(page);
     if (browserName === 'chromium') {
       await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
-      await expect(page.getByText('Downloaded. You can open offline study without a connection.', { exact: true })).toBeVisible();
+      await expect(page.getByText('Downloaded on this device', { exact: true })).toBeVisible();
       await context.setOffline(true);
       await page.goto(`/study.html?language=${language}`);
     }

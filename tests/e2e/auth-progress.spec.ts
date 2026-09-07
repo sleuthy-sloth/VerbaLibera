@@ -7,9 +7,11 @@ test('signed-out visitors get an honest blank slate', async ({ page }) => {
   await expect(
     page.getByRole('link', { name: /continue 8-minute session/i }),
   ).toHaveCount(0);
-  await page.getByRole('link', { name: /start 8-minute session/i }).click();
-  await expect(page).toHaveURL(/\/learn\//);
-  await expect(page.getByText('This is a preview—nothing was saved.')).toBeVisible().catch(() => {});
+  await page.getByRole('link', { name: /start learning/i }).click();
+  await expect(page).toHaveURL(/\/courses\/french\?start=1/);
+  await expect(page.getByRole("heading", { name: "First words", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Begin practice" })).toBeEnabled();
+
 });
 
 test('account entry offers real passkey registration and sign-in', async ({ page }) => {

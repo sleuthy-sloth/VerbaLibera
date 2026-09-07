@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "it-foundations",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "language": "it",
   "sourceLanguage": "en",
   "title": "Italian foundations",
@@ -1637,7 +1637,7 @@
           "id": "it-identity-foundation-produce",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Write in Italian: I am Anna.",
+          "prompt": "You are Anna, meeting someone for the first time. Introduce yourself in Italian: I am Anna.",
           "answers": [
             "Io sono Anna.",
             "sono Anna."
@@ -1822,7 +1822,7 @@
           "id": "it-people-foundation-produce",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Write in Italian: You are Marco.",
+          "prompt": "You recognize Marco at a café. Address him in Italian: You are Marco.",
           "answers": [
             "Tu sei Marco."
           ],
@@ -2028,7 +2028,7 @@
           "id": "it-family-foundation-produce",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Write in Italian: I have a brother.",
+          "prompt": "A new friend asks about your family. Tell them in Italian: I have a brother.",
           "answers": [
             "Ho un fratello.",
             "Io ho un fratello."

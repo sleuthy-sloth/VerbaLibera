@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './bottom-tabs.module.css';
+import { foundationStartHref, foundationLanguage } from '@/features/course-pack/navigation';
 
 // Bottom quick nav: Today, Practice (resumes the last-used course), Listen, You.
 // Language switching lives in the header switcher; these tabs never duplicate it.
@@ -16,11 +17,12 @@ export function QuickNav() {
     const timer = setTimeout(() => {
       try {
         const saved = localStorage.getItem('verbalibera_course');
-        if (saved) setPracticeHref(`/learn/${saved}`);
+        const current = pathname.startsWith('/courses/') ? pathname.split('/')[2] : saved;
+        if (current && foundationLanguage(current)) setPracticeHref(foundationStartHref(current));
       } catch {}
     }, 0);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
   const tabs = [
     { href: '/dashboard', label: 'Today', fullName: 'Daily path', active: pathname === '/dashboard' },
     {

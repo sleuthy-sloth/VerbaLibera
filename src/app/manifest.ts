@@ -12,7 +12,8 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#f4f3ee',
     shortcuts: [
       { name: 'Today', url: '/dashboard' },
-      { name: 'Resume session', url: '/learn/english-to-french' },
+      { name: 'Start learning', url: '/courses/french?start=1' },
+      { name: 'Offline languages', url: '/offline.html' },
     ],
     icons: [
       { src: '/icons/verbalibera-192.png', sizes: '192x192', type: 'image/png' },

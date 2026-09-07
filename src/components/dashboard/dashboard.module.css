@@ -38,3 +38,17 @@
 .learningPromise span::before { content: '✓'; color: var(--accent-strong); font-weight: 700; }
 .introCopy a { color: var(--accent-strong); text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 760px) { .accountLink { grid-column: 1 / -1; } .learningPromise { margin: 0 0 1.5rem; gap: 0.6rem 1rem; } }
+
+.foundationEntry {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 1.5rem 0;
+  border-block: 1px solid #b4c0b9;
+  margin-bottom: 1.5rem;
+}
+.foundationEntry h2 { margin: 0 0 .5rem; font: 1.5rem Georgia, serif; }
+.foundationEntry p { max-width: 55ch; line-height: 1.6; }
+.foundationEntry > div:last-child { display: flex; flex-direction: column; justify-content: center; gap: .5rem; }
+.foundationEntry a { color: #176a61; text-underline-offset: 4px; padding: .5rem 0; }
