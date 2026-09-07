@@ -94,9 +94,15 @@ function resolveResources(): ResourceLayout {
       prisma: {
         migrate: {
           bin: nodeBin,
-          args: [path.join(resources, "prisma-cli/index.js"), "migrate"],
+          args: [
+            path.join(resources, "prisma-cli/node_modules/prisma/build/index.js"),
+            "migrate",
+          ],
         },
-        seed: { bin: nodeBin, args: [path.join(resources, "seed/seed.cjs")] },
+        seed: {
+          bin: nodeBin,
+          args: [path.join(resources, "server/seed.mjs")],
+        },
         psqlBin: path.join(resources, "postgres/bin/psql"),
       },
       preloadEntry: path.join(__dirname, "preload.js"),
@@ -118,10 +124,7 @@ function resolveResources(): ResourceLayout {
       },
       seed: {
         bin: process.execPath,
-        args: [
-          path.join(repoRoot, "node_modules/tsx/dist/cli.mjs"),
-          path.join(repoRoot, "prisma/seed.ts"),
-        ],
+        args: [path.join(repoRoot, ".desktop-stage/server/seed.mjs")],
       },
       psqlBin: path.join(repoRoot, ".desktop-stage/postgres/bin/psql"),
     },
@@ -152,7 +155,15 @@ function saveLocalSecret(password: string): void {
 }
 
 function readLocalSecret(): string {
-  const raw = fs.readFileSync(localSecretPath(), "utf8");
+  let raw: string;
+  try {
+    raw = fs.readFileSync(localSecretPath(), "utf8");
+  } catch {
+    throw desktopFailure(
+      "SETTINGS_CORRUPT",
+      "The local database secret is missing. Restore the app user data from a backup, or reset local storage.",
+    );
+  }
   const parsed = JSON.parse(raw) as { encryptedPassword?: unknown };
   if (typeof parsed.encryptedPassword !== "string") {
     throw new Error("Local database secret is corrupt.");
@@ -203,7 +214,7 @@ const sleep = (ms: number) =>
     setTimeout(done, ms);
   });
 
-function secureWindow(file: string): BrowserWindow {
+function secureWindow(file: string, hash?: string): BrowserWindow {
   const window = new BrowserWindow({
     width: 720,
     height: 640,
@@ -222,7 +233,8 @@ function secureWindow(file: string): BrowserWindow {
   window.webContents.session.setPermissionRequestHandler((_wc, _perm, callback) => {
     callback(false);
   });
-  void window.loadFile(file);
+  if (hash) void window.loadFile(file, { hash });
+  else void window.loadFile(file);
   return window;
 }
 
@@ -260,9 +272,8 @@ function showRecovery(code: DesktopFailureCode, message: string): void {
     mainWindow = null;
   }
   logger().write("renderer", `recovery ${code}: ${message}`);
-  recoveryWindow = secureWindow(res.recoveryHtml);
-  const hash = `#code=${encodeURIComponent(code)}&message=${encodeURIComponent(message)}`;
-  void recoveryWindow.loadFile(res.recoveryHtml, { hash });
+  const hash = `code=${encodeURIComponent(code)}&message=${encodeURIComponent(message)}`;
+  recoveryWindow = secureWindow(res.recoveryHtml, hash);
 }
 
 function registerIpc(res: ResourceLayout): void {
@@ -304,6 +315,7 @@ function registerIpc(res: ResourceLayout): void {
             return { databaseUrl: owned.databaseUrl, dataDir: owned.dataDir };
           },
           migrate: async ({ databaseUrl, dataDir }) => {
+            logger().write("migration", "running packaged migrate deploy");
             await migrateDatabase({
               mode: "local",
               databaseUrl,
@@ -311,7 +323,9 @@ function registerIpc(res: ResourceLayout): void {
               appVersion: app.getVersion(),
               packagedSchemaVersion: schemaVersion,
               runner,
+              onStage: (stage) => logger().write("migration", `local ${stage} started`),
             });
+            logger().write("migration", "local migration and seed complete");
           },
           startServer: async ({ databaseUrl }) => {
             const { bootstrapSecret } = await bootServer(res, databaseUrl, "local");
@@ -471,7 +485,9 @@ async function bootServer(
     jwtPublicKeyPath: keys.publicPath,
     launch: (entry, env) =>
       new Promise((resolve, reject) => {
-        const child: ChildProcess = spawn(process.execPath, [entry], { env });
+        const child: ChildProcess = spawn(process.execPath, [entry], {
+          env: { ...env, ELECTRON_RUN_AS_NODE: "1" },
+        });
         if (child.pid === undefined) {
           reject(new Error("Failed to spawn application server."));
           return;
@@ -521,6 +537,26 @@ async function openMainWindow(initialPath: string, bootstrapSecret: string): Pro
   createMainWindow(initialPath);
 }
 
+async function probeOccupant(): Promise<{
+  identity: string;
+  version: string;
+} | null> {
+  try {
+    const response = await fetch(healthUrl());
+    if (!response.ok) return null;
+    const data = (await response.json()) as {
+      identity?: unknown;
+      version?: unknown;
+    };
+    if (typeof data.identity !== "string" || typeof data.version !== "string") {
+      return null;
+    }
+    return { identity: data.identity, version: data.version };
+  } catch {
+    return null;
+  }
+}
+
 async function startup(): Promise<void> {
   userDataDir = app.getPath("userData");
   logPath = path.join(userDataDir, "logs", "desktop.log");
@@ -549,6 +585,16 @@ async function startup(): Promise<void> {
     return;
   }
   try {
+    // Fast failure before touching databases: another occupant means
+    // starting PostgreSQL or the server would only collide with it.
+    const occupant = await probeOccupant();
+    if (occupant !== null) {
+      showRecovery(
+        "APP_PORT_OCCUPIED",
+        "The application port is already in use. Close the other VerbaLibera copy (or program) and restart.",
+      );
+      return;
+    }
     if (settings.active.mode === "local") {
       const schemaVersion = packagedSchemaVersion(res.migrationsDir);
       const password = readLocalSecret();

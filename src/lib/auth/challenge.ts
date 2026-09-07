@@ -1,4 +1,5 @@
 import 'server-only';
+import { cookieSecure } from '@/lib/auth/cookie-secure';
 import { prisma } from '@/lib/prisma';
 import { createAuthenticationOptions, createRegistrationOptions, isRegistrationAllowed } from './webauthn';
 import { NextResponse } from 'next/server';
@@ -24,7 +25,7 @@ export async function challengeOptions(request: Request, purpose: 'register' | '
   await prisma.authChallenge.deleteMany({ where: { expiresAt: { lte: new Date() } } });
   await prisma.authChallenge.create({ data: { id, challenge: options.challenge, purpose, accountIdentifier: purpose === 'register' ? accountIdentifier : null, expiresAt: new Date(Date.now() + 300000) } });
   const response = NextResponse.json(options, { headers: noStore });
-  response.cookies.set(CHALLENGE_COOKIE, id, { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 300 });
+  response.cookies.set(CHALLENGE_COOKIE, id, { httpOnly: true, sameSite: 'strict', secure: cookieSecure(), path: '/', maxAge: 300 });
   return response;
 }
 

@@ -22,6 +22,7 @@ export interface MigrateOptions {
   approved?: boolean;
   clock?: () => Date;
   runner: MigrationRunner;
+  onStage?: (stage: "deploy" | "seed") => void;
 }
 
 export interface ApprovalRequiredError extends Error {
@@ -105,8 +106,10 @@ export async function migrateDatabase(options: MigrateOptions): Promise<{
     );
   }
   if (pending.length > 0 || options.mode === "local") {
+    options.onStage?.("deploy");
     await options.runner.deploy(options.databaseUrl);
   }
+  options.onStage?.("seed");
   await options.runner.seed(options.databaseUrl);
   return { backupDir, pending };
 }

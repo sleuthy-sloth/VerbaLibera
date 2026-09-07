@@ -1,3 +1,4 @@
+import { cookieSecure } from '@/lib/auth/cookie-secure';
 export const CSRF_COOKIE_NAME = 'verbalibera_csrf';
 export const CSRF_HEADER_NAME = 'x-csrf-token';
 
@@ -19,7 +20,7 @@ export function csrfCookieOptions(): {
 } {
   return {
     httpOnly: false as const,
-    secure: process.env.NODE_ENV === 'production',
+    secure: cookieSecure(),
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 2, // 2 hours

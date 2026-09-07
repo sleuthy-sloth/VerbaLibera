@@ -70,6 +70,7 @@ export async function startApplicationServer(
     VERBALIBERA_HEALTH_IDENTITY: context.healthIdentity,
     VERBALIBERA_BOOTSTRAP_SECRET: context.bootstrapSecret,
     VERBALIBERA_APP_VERSION: context.appVersion,
+    CONTENT_VERSION: context.appVersion,
     AUTH_JWT_PRIVATE_KEY_PATH: context.jwtPrivateKeyPath,
     AUTH_JWT_PUBLIC_KEY_PATH: context.jwtPublicKeyPath,
   };

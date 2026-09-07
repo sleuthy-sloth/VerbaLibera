@@ -114,7 +114,7 @@ export default function DesktopSettings() {
             value={remoteUrl}
             autoComplete="off"
             spellCheck={false}
-            placeholder="postgresql://user:password@host:5432/verbalibera?sslmode=require"
+            placeholder="postgresql://USER@HOST:5432/DBNAME?sslmode=require (password + TLS required)"
             onChange={(event) => setRemoteUrl(event.target.value)}
           />
           <button

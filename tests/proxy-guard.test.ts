@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach, beforeEach } from 'vitest';
 import { NextRequest } from 'next/server';
 
-import proxy, { isPublicPath, isProtectedMutation } from '../proxy';
+import proxy, { isPublicPath, isProtectedMutation } from '../src/proxy';
 
 describe('proxy guard', () => {
   it('allows public paths', () => {

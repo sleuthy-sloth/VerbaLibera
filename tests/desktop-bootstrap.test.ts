@@ -186,6 +186,16 @@ describe("desktop profiles", () => {
   });
 });
 
+describe("desktop cookie security", () => {
+  it("drops the Secure flag on loopback desktop HTTP", async () => {
+    const prevNode = process.env.NODE_ENV;
+    (process.env as unknown as { NODE_ENV: string }).NODE_ENV = "production";
+    const { cookieSecure } = await import("@/lib/auth/cookie-secure");
+    expect(cookieSecure()).toBe(false);
+    (process.env as unknown as { NODE_ENV: string }).NODE_ENV = prevNode;
+  });
+});
+
 describe("desktop health", () => {
   it("reports the install identity and app version in desktop mode", async () => {
     const response = await healthGet();

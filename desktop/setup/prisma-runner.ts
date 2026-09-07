@@ -2,12 +2,13 @@
 // Runs `migrate deploy` through the bundled Prisma CLI + darwin-arm64
 // schema engine, then the staged idempotent seed bundle. DATABASE_URL is
 // passed only in the child environment, never logged.
-import { execFile } from "node:child_process";
+import { spawn } from "node:child_process";
 import type { MigrationRunner } from "../runtime/migrations";
 
 export interface PackagedCommand {
   bin: string;
   args: string[];
+  env?: Record<string, string>;
 }
 
 export interface PrismaRunnerPaths {
@@ -19,40 +20,62 @@ export interface PrismaRunnerPaths {
   psqlBin: string;
 }
 
-function run(
+export function runChild(
   bin: string,
   args: string[],
   databaseUrl: string,
+  extraEnv: Record<string, string> = {},
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
-    execFile(
-      bin,
-      args,
-      { env: { ...process.env, DATABASE_URL: databaseUrl } },
-      (error, stdout, stderr) => {
-        if (error) {
-          reject(
-            new Error(`packaged command failed: ${String(stderr || error)}`),
-          );
-          return;
-        }
-        resolve({ stdout: String(stdout), stderr: String(stderr) });
+    const child = spawn(bin, args, {
+      env: {
+        ...process.env,
+        ...extraEnv,
+        DATABASE_URL: databaseUrl,
+        // The desktop main process runs inside Electron, where
+        // process.execPath is the Electron binary. Children that must run
+        // as plain Node (Prisma CLI, seed bundle) need this flag.
+        ELECTRON_RUN_AS_NODE: "1",
       },
-    );
+      // Closed stdin: engine grandchildren must never block on an
+      // inherited pipe that nobody writes to.
+      stdio: ["ignore", "pipe", "pipe"],
+      timeout: 180_000,
+    });
+    let stdout = "";
+    let stderr = "";
+    child.stdout?.on("data", (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
+    child.stderr?.on("data", (chunk: Buffer) => {
+      stderr += chunk.toString();
+    });
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve({ stdout, stderr });
+        return;
+      }
+      reject(
+        new Error(
+          `packaged command failed (${bin}): ${stderr.slice(-2000)} ${stdout.slice(-2000)}`.trim(),
+        ),
+      );
+    });
   });
 }
 
 export function createPrismaRunner(paths: PrismaRunnerPaths): MigrationRunner {
   return {
     deploy: async (databaseUrl: string) => {
-      await run(paths.migrate.bin, [...paths.migrate.args, "deploy"], databaseUrl);
+      await runChild(paths.migrate.bin, [...paths.migrate.args, "deploy"], databaseUrl, paths.migrate.env);
     },
     seed: async (databaseUrl: string) => {
-      await run(paths.seed.bin, paths.seed.args, databaseUrl);
+      await runChild(paths.seed.bin, paths.seed.args, databaseUrl, paths.seed.env);
     },
     listApplied: async (databaseUrl: string) => {
       try {
-        const { stdout } = await run(
+        const { stdout } = await runChild(
           paths.psqlBin,
           [
             databaseUrl,

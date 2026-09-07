@@ -44,6 +44,7 @@ export function verifyPostgresRuntime(stage: string = STAGE): void {
     machOFiles(path.join(stage, "lib")),
   );
   if (binaries.length === 0) fail("no staged Mach-O binaries found");
+  let sslLinked = false;
   for (const file of binaries) {
     const archs = execFileSync("lipo", ["-archs", file], {
       encoding: "utf8",
@@ -51,10 +52,23 @@ export function verifyPostgresRuntime(stage: string = STAGE): void {
     if (archs !== "arm64") {
       fail(`${file} is ${archs}, expected arm64-only`);
     }
+    const loadCommands = execFileSync("otool", ["-l", file], { encoding: "utf8" });
     const links = execFileSync("otool", ["-L", file], { encoding: "utf8" });
     for (const line of links.split("\n").slice(1)) {
       const dep = line.trim().split(" ")[0];
       if (!dep) continue;
+      if (dep === "libssl.3.dylib" || dep === "libcrypto.3.dylib" ||
+          dep === "@rpath/libssl.3.dylib" || dep === "@rpath/libcrypto.3.dylib") {
+        sslLinked = true;
+        if (!loadCommands.includes("@loader_path")) {
+          fail(`${file} links ${dep} without an @loader_path rpath`);
+        }
+        const leaf = dep.split("/").pop() as string;
+        if (!fs.existsSync(path.join(stage, "lib", leaf))) {
+          fail(`${file} links ${dep} but it is not staged`);
+        }
+        continue;
+      }
       const system =
         dep.startsWith("/usr/lib/") || dep.startsWith("/System/");
       const staged = dep.startsWith("@rpath") || dep.includes(".desktop-stage");
@@ -76,6 +90,9 @@ export function verifyPostgresRuntime(stage: string = STAGE): void {
         }
       }
     }
+  }
+  if (!sslLinked) {
+    fail("no staged binary links the bundled OpenSSL runtime; remote TLS would be unsupported");
   }
   console.log(`postgres:verify: ${binaries.length} arm64 Mach-O files, ${version}`);
 }

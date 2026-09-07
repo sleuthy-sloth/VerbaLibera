@@ -13,6 +13,12 @@ interface ReleaseManifest {
     sha256: string;
     arch: string;
   };
+  openssl: {
+    version: string;
+    url: string;
+    sha256: string;
+    note: string;
+  };
 }
 
 function readManifest(): ReleaseManifest {
@@ -31,6 +37,13 @@ describe("desktop PostgreSQL runtime", () => {
       sha256:
         "555610c24d53e4316da5b7d3fc25c279d96856d5e0e23ee308c328c5fa881d9f",
       arch: "arm64",
+    });
+    expect(manifest.openssl).toEqual({
+      version: "3.5.7",
+      url: "https://github.com/openssl/openssl/releases/download/openssl-3.5.7/openssl-3.5.7.tar.gz",
+      sha256:
+        "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8",
+      note: expect.any(String),
     });
   });
 

@@ -6,6 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 export const STAGE_DIR = ".desktop-stage/server";
+export const PRISMA_CLI_STAGE_DIR = ".desktop-stage/prisma-cli";
+export const SEED_STAGE_DIR = ".desktop-stage/seed";
 
 const COPY_TREES: Array<{ from: string; to: string }> = [
   { from: ".next/standalone", to: "." },
@@ -37,7 +39,7 @@ function rejectExternalSymlinks(dir: string, sourceRoot: string): void {
   }
 }
 
-export function stageNextServer(root: string = process.cwd()): string {
+export async function stageNextServer(root: string = process.cwd()): Promise<string> {
   const repoRoot = path.resolve(root);
   const stageRoot = path.join(repoRoot, STAGE_DIR);
   for (const { from, to } of COPY_TREES) {
@@ -58,7 +60,106 @@ export function stageNextServer(root: string = process.cwd()): string {
     );
   }
   neutralizeBuildMachineRoot(serverEntry, repoRoot);
+  neutralizeRequiredServerFiles(path.join(stageRoot, ".next/required-server-files.json"), repoRoot);
+  stripSourceMaps(stageRoot);
+  stagePrismaCli(repoRoot);
+  await buildSeedBundle(repoRoot);
   return stageRoot;
+}
+
+/** Source maps are dev-only weight; drop them from the shipped tree. */
+export function stripSourceMaps(stageRoot: string): number {
+  let removed = 0;
+  function walk(dir: string): void {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.isFile() && full.endsWith(".map")) {
+        fs.rmSync(full);
+        removed += 1;
+      }
+    }
+  }
+  walk(stageRoot);
+  return removed;
+}
+
+/**
+ * Stages the Prisma CLI (`migrate deploy`) with only its migration closure:
+ * the CLI package plus the engine packages it resolves at runtime. Studio,
+ * client, and dev tools are excluded to keep the download small.
+ */
+const PRISMA_SCOPED_ALLOWLIST = [
+  "engines",
+  "engines-version",
+  "debug",
+  "fetch-engine",
+  "get-platform",
+  "config",
+  "driver-adapter-utils",
+];
+
+export function stagePrismaCli(repoRoot: string): string {
+  const dest = path.join(repoRoot, PRISMA_CLI_STAGE_DIR);
+  fs.rmSync(dest, { recursive: true, force: true });
+  const destModules = path.join(dest, "node_modules");
+  fs.mkdirSync(path.join(destModules, "@prisma"), { recursive: true });
+  const prismaSource = path.join(repoRoot, "node_modules/prisma");
+  if (!fs.existsSync(prismaSource)) {
+    throw new Error("Missing prisma in node_modules; run 'npm ci' first.");
+  }
+  fs.cpSync(prismaSource, path.join(destModules, "prisma"), {
+    recursive: true,
+    filter: (source) => !source.endsWith(".map"),
+  });
+  for (const pkg of PRISMA_SCOPED_ALLOWLIST) {
+    const source = path.join(repoRoot, "node_modules/@prisma", pkg);
+    if (!fs.existsSync(source)) continue;
+    fs.cpSync(source, path.join(destModules, "@prisma", pkg), {
+      recursive: true,
+      filter: (source) => !source.endsWith(".map"),
+    });
+  }
+  const cliEntry = path.join(destModules, "prisma/build/index.js");
+  if (!fs.existsSync(cliEntry)) {
+    throw new Error(`Staged Prisma CLI entry missing at ${cliEntry}.`);
+  }
+  return dest;
+}
+
+/**
+ * Bundles prisma/seed.ts into a single ESM file placed inside the staged
+ * server directory, so its bare database-driver imports resolve from the
+ * staged server's node_modules with no extra path configuration.
+ */
+export async function buildSeedBundle(repoRoot: string): Promise<string> {
+  const { buildSync } = await import("esbuild");
+  const outfile = path.join(repoRoot, STAGE_DIR, "seed.mjs");
+  fs.rmSync(outfile, { force: true });
+  buildSync({
+    entryPoints: [path.join(repoRoot, "prisma/seed.ts")],
+    bundle: true,
+    platform: "node",
+    format: "esm",
+    outfile,
+    alias: { "@": path.join(repoRoot, "src") },
+    external: ["@prisma/client", "@prisma/adapter-pg", "pg"],
+  });
+  return outfile;
+}
+
+/**
+ * required-server-files.json carries the same baked build-machine roots as
+ * server.js. Rewrite them to "." for the same reason (see above).
+ */
+export function neutralizeRequiredServerFiles(file: string, repoRoot: string): void {
+  if (!fs.existsSync(file)) return;
+  const content = fs.readFileSync(file, "utf8");
+  const replaced = content.split(repoRoot).join(".");
+  if (/\/Users\/|\/home\//.test(replaced)) {
+    throw new Error("required-server-files.json still contains a developer home path.");
+  }
+  fs.writeFileSync(file, replaced);
 }
 
 /**
@@ -94,5 +195,11 @@ const invokedDirectly =
     path.join("scripts", "desktop", "stage-next.ts"),
   );
 if (invokedDirectly) {
-  console.log(stageNextServer());
+  stageNextServer().then(
+    (dir) => console.log(dir),
+    (error: unknown) => {
+      console.error(error instanceof Error ? error.message : error);
+      process.exit(1);
+    },
+  );
 }

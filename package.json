@@ -5,7 +5,7 @@
   "type": "module",
   "main": "desktop-dist/main.js",
   "scripts": {
-    "desktop:compile": "tsc -p desktop/tsconfig.json && cp desktop/ui/*.html desktop-dist/ui/",
+    "desktop:compile": "tsc -p desktop/tsconfig.json && cp desktop/ui/*.html desktop-dist/ui/ && esbuild desktop/ui/setup.ts --bundle --format=iife --outfile=desktop-dist/ui/setup.js --log-level=error && esbuild desktop/ui/recovery.ts --bundle --format=iife --outfile=desktop-dist/ui/recovery.js --log-level=error && esbuild desktop/preload.ts --bundle --platform=node --format=cjs --external:electron --outfile=desktop-dist/preload.js --log-level=error && echo '{\"type\":\"commonjs\"}' > desktop-dist/package.json",
     "desktop:stage-next": "tsx scripts/desktop/stage-next.ts",
     "electron:dev": "npm run desktop:compile && electron .",
     "electron:package": "electron-forge package --arch=arm64",
@@ -37,7 +37,8 @@
     "portable:verify": "tsx scripts/portable/verify.ts",
     "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts",
     "postgres:prepare": "bash scripts/desktop/prepare-postgres.sh",
-    "postgres:verify": "tsx scripts/desktop/verify-postgres.ts"
+    "postgres:verify": "tsx scripts/desktop/verify-postgres.ts",
+    "electron:verify": "tsx scripts/desktop/verify-artifact.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

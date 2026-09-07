@@ -16,7 +16,8 @@ function tmpDir(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-pg-"));
 }
 
-function fakeContext(dataRoot: string, calls: SpawnCall[]): PostgresContext {
+function fakeContext(dataRoot: string, calls: SpawnCall[]): PostgresContext & { probed: string[] } {
+  const probed: string[] = [];
   return {
     runtimeBinDir: "/staged/postgres/bin",
     dataRoot,
@@ -26,8 +27,12 @@ function fakeContext(dataRoot: string, calls: SpawnCall[]): PostgresContext {
     }) as PostgresContext["spawn"],
     randomBytes: ((n: number) => Buffer.alloc(n, 7)) as PostgresContext["randomBytes"],
     allocPort: async () => 55444,
-    probe: async () => true,
+    probe: async (url: string) => {
+      probed.push(url);
+      return true;
+    },
     sleep: async () => {},
+    probed,
   };
 }
 
@@ -45,6 +50,16 @@ describe("desktop local PostgreSQL lifecycle", () => {
     const ctl = calls.find((c) => c.cmd.endsWith("pg_ctl") && c.args[0] === "start");
     expect(ctl?.args.join(" ")).toContain("listen_addresses=127.0.0.1");
     expect(fs.statSync(path.join(dataRoot, "pgdata")).mode & 0o777).toBe(0o700);
+  });
+
+  it("probes the maintenance database before migrate creates the app database", async () => {
+    const calls: SpawnCall[] = [];
+    const context = fakeContext(tmpDir(), calls);
+    await startLocalPostgres(context);
+    expect(context.probed.length).toBeGreaterThan(0);
+    for (const url of context.probed) {
+      expect(new URL(url).pathname).toBe("/postgres");
+    }
   });
 
   it("skips initdb when the data directory is already initialized", async () => {

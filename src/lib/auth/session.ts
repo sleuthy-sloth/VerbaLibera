@@ -1,4 +1,5 @@
 import 'server-only';
+import { cookieSecure } from '@/lib/auth/cookie-secure';
 
 import * as jose from 'jose';
 
@@ -191,7 +192,7 @@ export function sessionCookieOptions(): {
 } {
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: cookieSecure(),
     sameSite: 'lax',
     path: '/',
     maxAge: SESSION_DURATION_SECONDS,
@@ -207,7 +208,7 @@ export function clearSessionCookieOptions(): {
 } {
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: cookieSecure(),
     sameSite: 'lax',
     path: '/',
     maxAge: 0,

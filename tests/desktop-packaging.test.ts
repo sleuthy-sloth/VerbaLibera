@@ -35,4 +35,48 @@ describe("desktop packaging configuration", () => {
     );
     expect(typeof stageNextServer).toBe("function");
   });
+
+  it("ships staged server, database, and license resources unpacked", async () => {
+    const forgeConfig = (await import("../forge.config")).default as {
+      packagerConfig?: {
+        extraResource?: string[];
+        asar?: boolean | { unpack?: string };
+      };
+    };
+    const extra = JSON.stringify(forgeConfig.packagerConfig?.extraResource ?? []);
+    expect(extra).toMatch(/\.desktop-stage\/server/);
+    expect(extra).toMatch(/\.desktop-stage\/postgres/);
+    expect(extra).toMatch(/THIRD_PARTY_NOTICES/);
+  });
+
+  it("provides the electron artifact verification command", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
+    ) as { scripts?: Record<string, string> };
+    expect(packageJson.scripts?.["electron:verify"]).toMatch(/verify-artifact/);
+    expect(packageJson.scripts?.["electron:make"]).toMatch(/--arch=arm64/);
+  });
+
+  it("ships no auto-updater package, feed, or update channel", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"),
+    ) as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
+    const allDeps = JSON.stringify({
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies,
+    });
+    expect(allDeps).not.toMatch(/electron-updater|update-electron-app/);
+    const mainJs = fs.readFileSync(
+      path.join(process.cwd(), "desktop-dist/main.js"),
+      "utf8",
+    );
+    expect(mainJs).not.toMatch(/autoUpdater|checkForUpdates|feedURL/);
+  });
 });

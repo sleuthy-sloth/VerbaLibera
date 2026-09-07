@@ -67,8 +67,12 @@ export async function startLocalPostgres(
 
   const databaseUrl =
     `postgresql://${DB_USER}:${password}@127.0.0.1:${port}/${DB_NAME}`;
+  // The application database is created later by `migrate deploy`; readiness
+  // probes the always-present postgres maintenance database instead.
+  const probeUrl = new URL(databaseUrl);
+  probeUrl.pathname = "/postgres";
   for (let attempt = 0; attempt < READINESS_ATTEMPTS; attempt += 1) {
-    if (await context.probe(databaseUrl)) break;
+    if (await context.probe(probeUrl.toString())) break;
     if (attempt === READINESS_ATTEMPTS - 1) {
       throw Object.assign(
         new Error("Local database did not become ready."),
