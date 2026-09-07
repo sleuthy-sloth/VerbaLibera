@@ -1,7 +1,9 @@
-// Minimal preload skeleton (Task 1).
-// The restricted setup/recovery API surface arrives in Task 6.
-import { contextBridge } from "electron";
+// Preload wiring (Task 6). The API surface itself is defined and tested
+// in preload-api.ts; this module only bridges it to Electron IPC.
+import { contextBridge, ipcRenderer } from "electron";
+import { createExposedApi } from "./preload-api";
 
-export const exposedApi = {} as const;
-
-contextBridge.exposeInMainWorld("verbalibera", exposedApi);
+contextBridge.exposeInMainWorld(
+  "verbalibera",
+  createExposedApi((channel, ...args) => ipcRenderer.invoke(channel, ...args)),
+);

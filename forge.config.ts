@@ -13,7 +13,6 @@ const config: ForgeConfig = {
       /^\/\.git\//,
       /^\/\.next\/cache/,
       /^\/\.desktop-stage/,
-      /^\/desktop-dist/,
       /^\/dist\//,
       /^\/tests\//,
       /^\/services\//,
