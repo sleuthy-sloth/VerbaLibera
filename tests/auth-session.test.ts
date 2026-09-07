@@ -29,7 +29,8 @@ describe('auth session', () => {
 
   it('rejects tampered token', async () => {
     const token = await issueSessionToken('user-123', { privateKey: keyPair.privateKey });
-    const tampered = token.slice(0, -2) + 'ab';
+    const [header, payload, signature] = token.split('.');
+    const tampered = `${header}.${payload}.${signature[0] === 'A' ? 'B' : 'A'}${signature.slice(1)}`;
     const result = await verifySessionToken(tampered, { publicKey: keyPair.publicKey });
     expect(result).toBeNull();
   });
