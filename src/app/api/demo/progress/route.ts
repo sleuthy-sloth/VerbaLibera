@@ -26,4 +26,4 @@ async function getHandler(request?: Request) {
   });
 }
 
-export const GET = withObserve('/api/demo/progress', getHandler as unknown as (req?: Request) => Promise<Response>);
+export const GET = withObserve('/api/demo/progress', getHandler as (req: Request) => Promise<Response>);

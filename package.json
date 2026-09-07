@@ -11,7 +11,7 @@
     "electron:package": "electron-forge package --arch=arm64",
     "electron:make": "electron-forge make --arch=arm64",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
