@@ -18,6 +18,16 @@ export interface SetupFlows {
   approveRemoteMigration: (token: string) => Promise<{ ok: true }>;
   revealLog: () => Promise<void>;
   restart: () => Promise<void>;
+  getStorageStatus: () => Promise<{
+    active: { mode: "local" } | { mode: "remote" };
+    pending: { mode: "local" } | { mode: "remote" } | null;
+    restartRequired: boolean;
+  }>;
+  scheduleStorageChange: (request: {
+    mode: "local" | "remote";
+    databaseUrl?: string;
+  }) => Promise<{ restartRequired: true }>;
+  resetLocalData: (phrase: string) => Promise<{ backupPath: string }>;
 }
 
 export type IpcHandler = (
@@ -25,25 +35,33 @@ export type IpcHandler = (
   ...args: unknown[]
 ) => Promise<unknown>;
 
-function assertSender(allowed: string[], event: IpcSenderEvent): void {
+function assertSender(
+  allowed: string[],
+  prefixes: string[],
+  event: IpcSenderEvent,
+): void {
   const url = event.senderFrame?.url;
-  if (!url || !allowed.includes(url)) {
+  if (
+    !url ||
+    (!allowed.includes(url) && !prefixes.some((prefix) => url.startsWith(prefix)))
+  ) {
     throw new Error(`Rejected IPC invocation from sender: ${url ?? "none"}`);
   }
 }
 
 export function createIpcHandlers(deps: {
   allowedSenderUrls: string[];
+  allowedSenderPrefixes?: string[];
   flows: SetupFlows;
 }): Record<string, IpcHandler> {
-  const { allowedSenderUrls, flows } = deps;
+  const { allowedSenderUrls, allowedSenderPrefixes = [], flows } = deps;
   return {
     "verbalibera:chooseLocal": async (event) => {
-      assertSender(allowedSenderUrls, event);
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
       return flows.chooseLocal();
     },
     "verbalibera:inspectRemote": async (event, ...args) => {
-      assertSender(allowedSenderUrls, event);
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
       const parsed = z.string().min(1).safeParse(args[0]);
       if (!parsed.success) {
         throw new Error("inspectRemote expects a connection-string argument.");
@@ -59,7 +77,7 @@ export function createIpcHandlers(deps: {
       return flows.inspectRemote(parsed.data);
     },
     "verbalibera:approveRemoteMigration": async (event, ...args) => {
-      assertSender(allowedSenderUrls, event);
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
       const parsed = z.string().min(1).safeParse(args[0]);
       if (!parsed.success) {
         throw new Error("approveRemoteMigration expects a token argument.");
@@ -67,12 +85,34 @@ export function createIpcHandlers(deps: {
       return flows.approveRemoteMigration(parsed.data);
     },
     "verbalibera:revealLog": async (event) => {
-      assertSender(allowedSenderUrls, event);
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
       return flows.revealLog();
     },
     "verbalibera:restart": async (event) => {
-      assertSender(allowedSenderUrls, event);
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
       return flows.restart();
+    },
+    "verbalibera:getStorageStatus": async (event) => {
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
+      return flows.getStorageStatus();
+    },
+    "verbalibera:scheduleStorageChange": async (event, ...args) => {
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
+      const parsed = z
+        .object({ mode: z.enum(["local", "remote"]), databaseUrl: z.string().optional() })
+        .safeParse(args[0]);
+      if (!parsed.success) {
+        throw new Error("scheduleStorageChange expects { mode, databaseUrl? }.");
+      }
+      return flows.scheduleStorageChange(parsed.data);
+    },
+    "verbalibera:resetLocalData": async (event, ...args) => {
+      assertSender(allowedSenderUrls, allowedSenderPrefixes, event);
+      const parsed = z.string().min(1).safeParse(args[0]);
+      if (!parsed.success) {
+        throw new Error("resetLocalData expects the confirmation phrase.");
+      }
+      return flows.resetLocalData(parsed.data);
     },
   };
 }

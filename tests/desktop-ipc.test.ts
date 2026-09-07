@@ -11,9 +11,12 @@ describe("desktop restricted preload API", () => {
     expect([...EXPOSED_METHODS].sort()).toEqual([
       "approveRemoteMigration",
       "chooseLocal",
+      "getStorageStatus",
       "inspectRemote",
+      "resetLocalData",
       "restart",
       "revealLog",
+      "scheduleStorageChange",
     ]);
     const api = createExposedApi(async () => null);
     expect(Object.keys(api).sort()).toEqual([...EXPOSED_METHODS].sort());
@@ -43,6 +46,13 @@ describe("desktop IPC sender policy", () => {
         approveRemoteMigration: async () => ({ ok: true as const }),
         revealLog: async () => {},
         restart: async () => {},
+        getStorageStatus: async () => ({
+          active: { mode: "local" as const },
+          pending: null,
+          restartRequired: false,
+        }),
+        scheduleStorageChange: async () => ({ restartRequired: true as const }),
+        resetLocalData: async () => ({ backupPath: "/backups/x" }),
       },
     });
   }

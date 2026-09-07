@@ -34,6 +34,7 @@ import {
 import { ensureJwtKeys } from "./setup/keys";
 import { createPrismaRunner, type PrismaRunnerPaths } from "./setup/prisma-runner";
 import { migrateDatabase } from "./runtime/migrations";
+import { resetLocalData, scheduleStorageChange } from "./runtime/reset";
 import { validateRemoteDatabaseUrl } from "./settings/schema";
 import { createIpcHandlers } from "./ipc";
 
@@ -47,6 +48,7 @@ let ownedPostgres: OwnedProcess | null = null;
 let stopRuntime: StopRuntime | null = null;
 let logPath = "";
 let userDataDir = "";
+let currentDatabaseUrl = "";
 
 const approvalTokens = new Map<string, ApprovalToken>();
 
@@ -229,6 +231,7 @@ export function createMainWindow(initialPath = "/dashboard"): BrowserWindow {
     width: 1200,
     height: 800,
     webPreferences: {
+      preload: resolveResources().preloadEntry,
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
@@ -269,6 +272,7 @@ function registerIpc(res: ResourceLayout): void {
   ];
   const handlers = createIpcHandlers({
     allowedSenderUrls,
+    allowedSenderPrefixes: [`${APP_ORIGIN}/`],
     flows: {
       chooseLocal: async () => {
         if (!safeStorage.isEncryptionAvailable()) {
@@ -390,6 +394,55 @@ function registerIpc(res: ResourceLayout): void {
         app.relaunch();
         app.exit(0);
       },
+      getStorageStatus: async () => {
+        const current = loadSettings(userDataDir);
+        return {
+          active: { mode: current.active.mode },
+          pending: current.pending ? { mode: current.pending.mode } : null,
+          restartRequired: current.pending !== undefined,
+        };
+      },
+      scheduleStorageChange: async (request) => {
+        const schemaVersion = packagedSchemaVersion(res.migrationsDir);
+        if (request.mode === "remote" && !request.databaseUrl) {
+          throw new Error("A connection string is required for remote storage.");
+        }
+        return scheduleStorageChange(
+          request.mode === "remote"
+            ? { mode: "remote", databaseUrl: request.databaseUrl as string }
+            : { mode: "local" },
+          {
+            userDataDir,
+            schemaVersion,
+            runningDatabaseUrl: currentDatabaseUrl,
+            crypto: safeStorageAdapter,
+            testConnection: async (url: string) => {
+              const ok = await psqlProbe(res.psqlBin)(url);
+              if (!ok) throw new Error("Could not connect to the remote database.");
+            },
+          },
+        );
+      },
+      resetLocalData: async (phrase: string) => {
+        const current = loadSettings(userDataDir);
+        if (current.active.mode !== "local") {
+          throw new Error("Reset applies to local storage only.");
+        }
+        const result = await resetLocalData(phrase, {
+          dataDir: path.join(userDataDir, "db"),
+          stopDatabase: async () => {
+            if (ownedPostgres && stopRuntime) {
+              const owned = ownedPostgres;
+              ownedPostgres = null;
+              await stopOwnedProcess(owned, stopRuntime);
+            }
+          },
+        });
+        logger().write("database", `local data reset to backup ${result.backupPath}`);
+        app.relaunch();
+        app.exit(0);
+        return result;
+      },
     },
   });
   for (const [channel, handler] of Object.entries(handlers)) {
@@ -406,6 +459,7 @@ async function bootServer(
 ): Promise<{ bootstrapSecret: string }> {
   const keys = ensureJwtKeys(path.join(userDataDir, "keys"));
   const bootstrapSecret = randomBytes(32).toString("base64url");
+  currentDatabaseUrl = databaseUrl;
   runningServer = await startApplicationServer({
     serverEntry: res.serverEntry,
     databaseUrl,
@@ -475,6 +529,14 @@ async function startup(): Promise<void> {
   let settings: ReturnType<typeof loadSettings> | null = null;
   try {
     settings = loadSettings(userDataDir);
+    if (settings.pending) {
+      logger().write(
+        "setup",
+        `applying pending storage mode ${settings.pending.mode}`,
+      );
+      settings = { version: 1, active: settings.pending };
+      saveSettings(userDataDir, settings);
+    }
   } catch (error) {
     if (
       error instanceof Error &&
