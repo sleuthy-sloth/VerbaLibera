@@ -4,6 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = process.cwd();
+const MAIN_JS_PATH = path.join(ROOT, "desktop-dist/main.js");
+// desktop-dist/ is gitignored build output produced by `npm run desktop:compile`.
+// Clean Linux CI runners lack it, so the compiled-main assertion below only runs
+// when the artifact is present instead of failing with ENOENT.
 
 describe("desktop packaging configuration", () => {
   it("enables standalone Next output and arm64-only DMG packaging", async () => {
@@ -59,7 +63,9 @@ describe("desktop packaging configuration", () => {
     expect(packageJson.scripts?.["electron:make"]).toMatch(/--arch=arm64/);
   });
 
-  it("ships no auto-updater package, feed, or update channel", async () => {
+  it.skipIf(!fs.existsSync(MAIN_JS_PATH))(
+    "ships no auto-updater package, feed, or update channel",
+    async () => {
     const fs = await import("node:fs");
     const path = await import("node:path");
     const packageJson = JSON.parse(
@@ -78,5 +84,6 @@ describe("desktop packaging configuration", () => {
       "utf8",
     );
     expect(mainJs).not.toMatch(/autoUpdater|checkForUpdates|feedURL/);
-  });
+    },
+  );
 });

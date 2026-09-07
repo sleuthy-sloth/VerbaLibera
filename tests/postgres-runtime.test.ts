@@ -5,6 +5,14 @@ import path from "node:path";
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = path.join(ROOT, "desktop/release-manifest.json");
+const STAGED_BIN = path.join(ROOT, ".desktop-stage/postgres/bin");
+// .desktop-stage/postgres/ is gitignored output of `npm run postgres:prepare`,
+// which supports macOS (Apple Silicon) only. Clean Linux CI runners can never
+// produce it, so the staged-runtime assertion below only runs when the staged
+// executables are present.
+const HAS_STAGED_RUNTIME = ["postgres", "initdb", "pg_ctl", "psql"].every(
+  (exe) => fs.existsSync(path.join(STAGED_BIN, exe)),
+);
 
 interface ReleaseManifest {
   postgresql: {
@@ -47,7 +55,9 @@ describe("desktop PostgreSQL runtime", () => {
     });
   });
 
-  it("stages runtime executables, libraries, and catalog files", () => {
+  it.skipIf(!HAS_STAGED_RUNTIME)(
+    "stages runtime executables, libraries, and catalog files",
+    () => {
     const bin = path.join(ROOT, ".desktop-stage/postgres/bin");
     for (const exe of ["postgres", "initdb", "pg_ctl", "psql"]) {
       const file = path.join(bin, exe);
@@ -62,7 +72,8 @@ describe("desktop PostgreSQL runtime", () => {
     expect(fs.existsSync(copyright), "expected PostgreSQL COPYRIGHT").toBe(
       true,
     );
-  });
+    },
+  );
 
   it("documents the reproducible preparation scripts", () => {
     expect(

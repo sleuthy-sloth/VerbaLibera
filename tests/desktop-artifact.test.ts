@@ -21,6 +21,12 @@ function fixture(files: Record<string, string>): string {
   return dir;
 }
 
+// bakedDeveloperPath() only reports a path when its top three segments exist on
+// the current machine. This fixture names the author's macOS home, which is
+// absent on clean Linux CI runners, so the spec only runs where the probe path
+// exists instead of failing there.
+const HAS_DEV_HOME_PROBE = fs.existsSync("/Users/spkoehl/Documents");
+
 describe("desktop artifact audit", () => {
   it("rejects environment files, source maps, and voice/model payloads", () => {
     const failures = auditArtifactPaths([
@@ -37,11 +43,14 @@ describe("desktop artifact audit", () => {
     expect(failures.some((f) => f.startsWith("Resources/server/server.js"))).toBe(false);
   });
 
-  it("flags baked developer paths but ignores comment examples", () => {
-    expect(bakedDeveloperPath('root "/Users/spkoehl/Documents/ChatGPT/x"')).toBe(true);
-    expect(bakedDeveloperPath('// e.g. "/Users/foo/APP/.next/x"')).toBe(false);
-    expect(bakedDeveloperPath('r||"/Users/"+n')).toBe(false);
-  });
+  it.skipIf(!HAS_DEV_HOME_PROBE)(
+    "flags baked developer paths but ignores comment examples",
+    () => {
+      expect(bakedDeveloperPath('root "/Users/spkoehl/Documents/ChatGPT/x"')).toBe(true);
+      expect(bakedDeveloperPath('// e.g. "/Users/foo/APP/.next/x"')).toBe(false);
+      expect(bakedDeveloperPath('r||"/Users/"+n')).toBe(false);
+    },
+  );
 
   it("flags real credentials and live off-machine sinks", () => {
     const dir = fixture({
