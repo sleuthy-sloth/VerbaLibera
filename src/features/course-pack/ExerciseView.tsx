@@ -11,6 +11,7 @@ type InputProps = {
   disabled: boolean;
   onHint: () => void;
   pack: CoursePack;
+  resolveMedia: (url: string) => string;
 };
 function TextInput({ value, onChange, disabled }: InputProps) {
   return (
@@ -102,7 +103,7 @@ function ListeningInput(props: InputProps) {
         ref={ref}
         controls
         preload="none"
-        src={media?.url}
+        src={media ? props.resolveMedia(media.url) : undefined}
         onError={() => setUnavailable(true)}
         aria-label="Dictation audio"
       />
@@ -176,10 +177,12 @@ export function ExerciseView({
   exercise,
   pack,
   onSave,
+  resolveMedia = (url) => url,
 }: {
   exercise: Exercise;
   pack: CoursePack;
   onSave: (result: Evaluation, revealed: boolean) => Promise<void>;
+  resolveMedia?: (url: string) => string;
 }) {
   const [value, setValue] = useState(""),
     [result, setResult] = useState<Evaluation | null>(null),
@@ -206,6 +209,7 @@ export function ExerciseView({
         onChange={setValue}
         disabled={!!result}
         onHint={() => setRevealed(true)}
+        resolveMedia={resolveMedia}
       />
       <div className="study-actions">
         {!result ? (

@@ -5,7 +5,7 @@ import { AccountPractice, usePracticeAccount } from "./AccountPractice";
 import { synchronizePractice } from "./sync";
 import catalog from "./catalog.json";
 import { useEffect, useState } from "react";
-import { validatePack, type CoursePack, type Lesson } from "./schema";
+import type { CoursePack, Lesson } from "./schema";
 import {
   conceptEvidence,
   completedLessons,
@@ -14,16 +14,12 @@ import {
   mergeEvents,
   type PracticeEvent,
 } from "./progress";
-import {
-  readEvents,
-  storeEvents,
-  decodeBackup,
-  installPack,
-  installedPack,
-} from "./storage";
+import { decodeBackup } from "./storage";
 import { DialogueView } from "./DialogueView";
 import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
+import type { CourseEnvironment } from "./environment";
+import { createHostedEnvironment } from "./hosted-environment";
 
 type View = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
 // Per-language Quiet Ink banners. Plain <img>: this component is also bundled
@@ -34,13 +30,42 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
   spanish: "/brand/courses/spanish.jpg",
   portuguese: "/brand/courses/portuguese.jpg",
 };
-export function CourseWorkspace({ initialLanguage = "italian" }: { initialLanguage?: string }) {
+const HOSTED_ENVIRONMENT = createHostedEnvironment();
+
+export type CourseWorkspaceProps = {
+  initialLanguage?: string;
+  environment?: CourseEnvironment;
+};
+
+export function CourseWorkspace({
+  initialLanguage = "italian",
+  environment = HOSTED_ENVIRONMENT,
+}: CourseWorkspaceProps) {
+  return environment.capabilities.accounts ? (
+    <AccountScopedWorkspace
+      initialLanguage={initialLanguage}
+      environment={environment}
+    />
+  ) : (
+    <ScopedWorkspace
+      initialLanguage={initialLanguage}
+      scope={null}
+      selectScope={() => {}}
+      environment={environment}
+    />
+  );
+}
+
+function AccountScopedWorkspace({ initialLanguage, environment }: {
+  initialLanguage: string;
+  environment: CourseEnvironment;
+}) {
   const { scope, ready, select } = usePracticeAccount();
   if (!ready) return <main id="main-content" className="study"><p>Opening device practice…</p></main>;
-  return <ScopedWorkspace key={scope ?? "guest"} initialLanguage={initialLanguage} scope={scope} selectScope={select} />;
+  return <ScopedWorkspace key={scope ?? "guest"} initialLanguage={initialLanguage} scope={scope} selectScope={select} environment={environment} />;
 }
-function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
-  initialLanguage: string; scope: string | null; selectScope: (scope: string | null) => void;
+function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
+  initialLanguage: string; scope: string | null; selectScope: (scope: string | null) => void; environment: CourseEnvironment;
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
   const [syncStatus, setSyncStatus] = useState("");
@@ -60,25 +85,18 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     [downloaded, setDownloaded] = useState(false),
     [installing, setInstalling] = useState(false),
     [storageReady, setStorageReady] = useState(false);
+  const capabilities = environment.capabilities;
   useEffect(() => {
     let active = true;
     Promise.all([
-      fetch(`/packs/${language}.json`)
-        .then((r) => {
-          if (!r.ok)
-            throw new Error(
-              "This course is not downloaded. Connect once and download it for offline study.",
-            );
-          return r.json();
-        })
-        .then(validatePack),
-      readEvents(scope)
+      environment.loadPack(language),
+      environment.practice.read(scope)
         .then((events) => ({ events, error: null as string | null }))
         .catch((error) => ({
           events: [] as PracticeEvent[],
           error: String(error.message),
         })),
-      installedPack(language).catch(() => false),
+      environment.isInstalled?.(language).catch(() => false) ?? false,
     ])
       .then(([p, s, download]) => {
         if (active) {
@@ -95,9 +113,9 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     return () => {
       active = false;
     };
-  }, [language, scope]);
+  }, [environment, language, scope]);
   useEffect(() => {
-    if (!scope || !storageReady) return;
+    if (!capabilities.synchronization || !scope || !storageReady) return;
     const controller = new AbortController();
     const run = async () => {
       if (!navigator.onLine) { setSyncStatus("Saved locally. Waiting for a connection to sync."); return; }
@@ -113,19 +131,21 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     const reconnect = () => setSyncRevision(n => n + 1);
     window.addEventListener("online", reconnect);
     return () => { clearTimeout(timer); controller.abort(); window.removeEventListener("online", reconnect); };
-  }, [scope, storageReady, syncRevision]);
+  }, [capabilities.synchronization, scope, storageReady, syncRevision]);
   useEffect(() => {
     if (lessonId && !session.length)
       document.querySelector<HTMLElement>(".study-lesson h2")?.focus();
   }, [lessonId, session]);
   const changeLanguage = (next: string) => {
-    history.replaceState(
-      null,
-      "",
-      location.pathname === "/study.html"
-        ? `/study.html?language=${next}`
-        : `/courses/${next}`,
-    );
+    if (capabilities.hostedNavigation) {
+      history.replaceState(
+        null,
+        "",
+        location.pathname === "/study.html"
+          ? `/study.html?language=${next}`
+          : `/courses/${next}`,
+      );
+    }
     setPack(null);
     setStorageReady(false);
     setLanguage(next);
@@ -146,7 +166,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         {error ? (
           <button onClick={() => location.reload()}>Try again</button>
         ) : null}
-        <a href="/dashboard">Daily path</a>
+        {capabilities.hostedNavigation ? <a href="/dashboard">Daily path</a> : null}
       </main>
     );
   if (pack.status === "coming-soon")
@@ -160,11 +180,9 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         <p>
           {pack.title.replace(/ foundations$/, "")} lessons are being authored
           now — this page fills in as units land. Meanwhile,{" "}
-          <a href="/courses/french">French foundations</a> and{" "}
-          <a href="/courses/italian">Italian foundations</a> are ready to
-          study.
+          {capabilities.hostedNavigation ? <><a href="/courses/french">French foundations</a> and{" "}<a href="/courses/italian">Italian foundations</a></> : <>French and Italian foundations</>} are ready to study.
         </p>
-        <a href="/dashboard">← Daily path</a>
+        {capabilities.hostedNavigation ? <a href="/dashboard">← Daily path</a> : null}
       </main>
     );
   const summary = conceptEvidence(pack, events);
@@ -194,11 +212,11 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
     const model = pack.media.find((m) =>
       l.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
     );
-    if (model) void new Audio(model.url).play().catch(() => {});
+    if (model) void new Audio(environment.resolveMedia(model.url)).play().catch(() => {});
     // Remember what just played so the first practice step can name it and
     // offer a replay: otherwise the learner hears a sentence, then faces a
     // multiple-choice question with no idea the two are connected.
-    setHeard(model ? { url: model.url, transcript: model.transcript } : null);
+    setHeard(model ? { url: environment.resolveMedia(model.url), transcript: model.transcript } : null);
   };
   const save = async (result: Evaluation, revealed: boolean) => {
     if (!activeExercise) return;
@@ -211,7 +229,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
       correct: result.accepted,
       revealed,
     };
-    await storeEvents([event], scope);
+    await environment.practice.write([event], scope);
     setEvents((old) => mergeEvents(old, [event]));
     setStep((old) => old + 1);
     if (scope) { setSyncStatus("Saved locally. Waiting to sync."); setSyncRevision(n => n + 1); }
@@ -233,7 +251,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
   return (
     <main id="main-content" className="study">
       <header className="study-header">
-        <a href="/dashboard">← Daily path</a>
+        {capabilities.hostedNavigation ? <a href="/dashboard">← Daily path</a> : null}
         <label>
           Foundation language
           <select
@@ -251,7 +269,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
       <p className="study-eyebrow">VerbaLibera · A1 course packs</p>
       <h1>{pack.title}</h1>
       {BANNER_BY_LANGUAGE[language] ? (
-        <img className="course-banner" src={BANNER_BY_LANGUAGE[language]} alt="" />
+        <img className="course-banner" src={environment.resolveMedia(BANNER_BY_LANGUAGE[language])} alt="" />
       ) : null}
       <p className="study-lede">
         A little explanation. A worked example. Then make the language your own.
@@ -261,7 +279,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         {completed.size}/{pack.lessons.length} lessons practised successfully.
         {scope ? " Account practice is synchronized when connected." : " Device practice is separate from account progress."}
       </p>
-      <AccountPractice scope={scope} select={selectScope} status={syncStatus} retry={() => setSyncRevision(n => n + 1)} />
+      {capabilities.accounts ? <AccountPractice scope={scope} select={selectScope} status={syncStatus} retry={() => setSyncRevision(n => n + 1)} /> : null}
       <nav className="study-tabs" aria-label="Course workspace">
         {(
           ["Course", "Review", "Vocabulary", "Grammar", "Dialogues"] as const
@@ -306,6 +324,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
             exercise={activeExercise}
             pack={pack}
             onSave={save}
+            resolveMedia={environment.resolveMedia}
           />
         </>
       ) : session.length > 0 ? (
@@ -360,7 +379,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
                     <audio
                       controls
                       preload="none"
-                      src={m.url}
+                      src={environment.resolveMedia(m.url)}
                       aria-label="Model audio"
                     />
                   </div>
@@ -569,20 +588,21 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
         </section>
       )}
       <footer className="study-storage">
-        <h2>Keep learning offline</h2>
-        <p>
+        <h2>{capabilities.offlineInstall ? "Keep learning offline" : "Keep a practice backup"}</h2>
+        {capabilities.offlineInstall ? <p>
           Download this course’s text, practice tools and available audio.
           Guest practice stays in this browser. Selected account practice syncs
           when connected. Clearing browser data removes unsynchronized practice; keep a backup.
-        </p>
+        </p> : <p>Practice stays in this browser. Export a backup so you can restore it later.</p>}
         <div className="study-actions">
-          <button
+          {capabilities.offlineInstall ? <button
             disabled={installing}
             onClick={async () => {
               setInstalling(true);
               setMessage("");
               try {
-                await installPack(pack, language);
+                if (!environment.install) throw new Error("Offline installation is unavailable.");
+                await environment.install(pack, language);
                 setDownloaded(true);
                 setMessage(
                   "Downloaded. You can open offline study without a connection.",
@@ -595,14 +615,14 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
             }}
           >
             {installing ? "Downloading…" : "Download for offline study"}
-          </button>
-          {downloaded ? (
+          </button> : null}
+          {capabilities.offlineInstall && downloaded ? (
             <a href={`/study.html?language=${language}`}>Open offline study</a>
           ) : null}
           <button
             onClick={async () => {
               try {
-                const all = await readEvents(scope),
+                const all = await environment.practice.read(scope),
                   url = URL.createObjectURL(
                     new Blob(
                       [JSON.stringify({ format: 1, events: all }, null, 2)],
@@ -631,8 +651,8 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope }: {
                 if (!file) return;
                 try {
                   const incoming = decodeBackup(await file.text());
-                  await storeEvents(incoming, scope);
-                  setEvents(await readEvents(scope));
+                  await environment.practice.write(incoming, scope);
+                  setEvents(await environment.practice.read(scope));
                   setSyncRevision(n => n + 1);
                   setMessage(
                     "Backup merged. Duplicate practice was counted once.",
