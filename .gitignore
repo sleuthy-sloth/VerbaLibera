@@ -28,6 +28,10 @@ __pycache__/
 /build
 /dist
 
+# electron desktop packaging (generated)
+/desktop-dist/
+/.desktop-stage/
+
 # misc
 .DS_Store
 *.pem

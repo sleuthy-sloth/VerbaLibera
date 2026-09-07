@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "desktop-dist/main.js",
   "scripts": {
+    "desktop:compile": "tsc -p desktop/tsconfig.json",
+    "desktop:stage-next": "tsx scripts/desktop/stage-next.ts",
+    "electron:dev": "npm run desktop:compile && electron .",
+    "electron:package": "electron-forge package --arch=arm64",
+    "electron:make": "electron-forge make --arch=arm64",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -46,6 +52,9 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@electron-forge/cli": "7.11.2",
+    "@electron-forge/maker-dmg": "7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "7.11.2",
     "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
@@ -57,6 +66,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.1",
     "axe-core": "^4.13.0",
+    "electron": "44.2.0",
     "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
