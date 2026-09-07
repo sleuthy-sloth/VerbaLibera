@@ -18,6 +18,10 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     "services/voice/.venv/**",
     "services/voice/.pilot-venv/**",
+    // Generated desktop/packaging output (vendored third-party code).
+    ".desktop-stage/**",
+    "desktop-dist/**",
+    "dist/**",
   ]),
 ]);
 

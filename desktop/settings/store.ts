@@ -33,10 +33,7 @@ export function saveSettings(dir: string, settings: DesktopSettings): string {
 }
 
 /** Loads and strictly validates settings; throws on corrupt/unknown content. */
-export function loadSettings(
-  dir: string,
-  _crypto?: EncryptionAdapter,
-): DesktopSettings {
+export function loadSettings(dir: string): DesktopSettings {
   const file = settingsFile(dir);
   let raw: string;
   try {

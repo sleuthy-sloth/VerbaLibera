@@ -13,12 +13,6 @@ function tmpDir(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-settings-"));
 }
 
-const fakeCrypto = {
-  isEncryptionAvailable: () => true,
-  encryptString: (plain: string) => `enc:${plain}`,
-  decryptString: (cipher: string) => cipher.replace(/^enc:/, ""),
-};
-
 describe("desktop settings store", () => {
   it("round-trips local settings with restricted file permissions", () => {
     const dir = tmpDir();
@@ -38,9 +32,8 @@ describe("desktop settings store", () => {
       version: 1,
       active: {
         mode: "remote",
-        encryptedDatabaseUrl: fakeCrypto.encryptString(
-          "postgresql://u:pw@db.example.com/app?sslmode=require",
-        ),
+        encryptedDatabaseUrl:
+          "enc:postgresql://u:pw@db.example.com/app?sslmode=require",
         schemaVersion: "20260906000002",
       },
     };
@@ -49,7 +42,7 @@ describe("desktop settings store", () => {
     // The fake adapter only tags the value; production uses safeStorage.
     // The store contract is: bytes on disk equal the adapter output exactly.
     expect(raw).toMatch(/enc:postgresql:\/\/u:pw@/);
-    expect(loadSettings(dir, fakeCrypto)).toEqual(settings);
+    expect(loadSettings(dir)).toEqual(settings);
   });
 
   it("rejects corrupt JSON and unknown keys", () => {
