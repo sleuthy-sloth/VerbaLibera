@@ -6,6 +6,7 @@
 // packaged compatibility version is rejected.
 import fs from "node:fs";
 import path from "node:path";
+import { desktopFailure } from "./errors";
 
 export interface MigrationRunner {
   deploy: (databaseUrl: string) => Promise<void>;
@@ -19,6 +20,9 @@ export interface MigrateOptions {
   dataDir: string;
   appVersion: string;
   packagedSchemaVersion: string;
+  /** Packaged migration directory (ResourceLayout.migrationsDir). Never cwd:
+   * Finder launches must not depend on the repository directory. */
+  migrationsDir: string;
   approved?: boolean;
   clock?: () => Date;
   runner: MigrationRunner;
@@ -30,11 +34,10 @@ export interface ApprovalRequiredError extends Error {
   pending: string[];
 }
 
-function listAvailableMigrations(): string[] {
-  const dir = path.join(process.cwd(), "prisma/migrations");
-  if (!fs.existsSync(dir)) return [];
+export function listAvailableMigrations(migrationsDir: string): string[] {
+  if (!fs.existsSync(migrationsDir)) return [];
   return fs
-    .readdirSync(dir, { withFileTypes: true })
+    .readdirSync(migrationsDir, { withFileTypes: true })
     .filter((e) => e.isDirectory())
     .map((e) => e.name)
     .sort();
@@ -75,10 +78,46 @@ export function assertCompatibleSchema(
   packagedSchemaVersion: string,
 ): void {
   if (compareSchemaVersions(storedSchemaVersion, packagedSchemaVersion) > 0) {
-    throw new Error(
+    throw desktopFailure(
+      "SCHEMA_TOO_NEW",
       `Stored schema ${storedSchemaVersion} is newer than packaged ${packagedSchemaVersion}; refusing downgrade.`,
     );
   }
+}
+
+export interface StartupSchemaCheck {
+  appVersion: string;
+  /** Migration names recorded as applied in the database. */
+  applied: string[];
+  /** Packaged migration directory (ResourceLayout.migrationsDir). */
+  migrationsDir: string;
+  packagedSchemaVersion: string;
+}
+
+/**
+ * Pre-boot schema gate for ordinary startup (both modes). Rejects stored
+ * schemas the packaged app cannot verify — unknown migration names or
+ * anything newer than packaged — before the server starts. Returns pending
+ * names so the caller can route to explicit approval. Never migrates.
+ */
+export function checkStartupSchema(check: StartupSchemaCheck): {
+  pending: string[];
+} {
+  const available = listAvailableMigrations(check.migrationsDir);
+  const known = new Set(available);
+  const unknown = check.applied.filter((m) => !known.has(m));
+  if (unknown.length > 0) {
+    throw desktopFailure(
+      "SCHEMA_TOO_NEW",
+      `Stored schema has migrations this app does not know: ${unknown.join(", ")}; refusing to start.`,
+    );
+  }
+  const stored =
+    check.applied.length > 0 ? [...check.applied].sort().at(-1)! : "none";
+  if (stored !== "none") {
+    assertCompatibleSchema(check.appVersion, stored, check.packagedSchemaVersion);
+  }
+  return { pending: pendingMigrations(available, check.applied) };
 }
 
 export async function migrateDatabase(options: MigrateOptions): Promise<{
@@ -88,7 +127,10 @@ export async function migrateDatabase(options: MigrateOptions): Promise<{
   const clock = options.clock ?? (() => new Date());
   const backupDir = backupControlMetadata(options.dataDir, clock);
   const applied = await options.runner.listApplied(options.databaseUrl);
-  const pending = pendingMigrations(listAvailableMigrations(), applied);
+  const pending = pendingMigrations(
+    listAvailableMigrations(options.migrationsDir),
+    applied,
+  );
   if (options.mode === "remote" && pending.length > 0 && !options.approved) {
     const error = new Error(
       `Remote migration needs approval for: ${pending.join(", ")}`,

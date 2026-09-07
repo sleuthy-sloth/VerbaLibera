@@ -328,6 +328,7 @@ function registerIpc(res: ResourceLayout): void {
               dataDir,
               appVersion: app.getVersion(),
               packagedSchemaVersion: schemaVersion,
+              migrationsDir: res.migrationsDir,
               runner,
               onStage: (stage) => logger().write("migration", `local ${stage} started`),
             });
@@ -355,14 +356,13 @@ function registerIpc(res: ResourceLayout): void {
           testConnection: async () => {},
           listPending: async (candidate: string) => {
             const applied = await runner.listApplied(candidate);
-            const { pendingMigrations } = await import("./runtime/migrations");
-            const fs = await import("node:fs");
-            const available = fs
-              .readdirSync(res.migrationsDir, { withFileTypes: true })
-              .filter((e) => e.isDirectory())
-              .map((e) => e.name)
-              .sort();
-            return pendingMigrations(available, applied);
+            const { pendingMigrations, listAvailableMigrations } = await import(
+              "./runtime/migrations"
+            );
+            return pendingMigrations(
+              listAvailableMigrations(res.migrationsDir),
+              applied,
+            );
           },
         });
       },
@@ -386,6 +386,7 @@ function registerIpc(res: ResourceLayout): void {
               dataDir: path.join(userDataDir, "db"),
               appVersion: app.getVersion(),
               packagedSchemaVersion: schemaVersion,
+              migrationsDir: res.migrationsDir,
               approved: true,
               runner,
             });
@@ -607,6 +608,7 @@ async function bootChoice(
       dataDir: owned.dataDir,
       appVersion: app.getVersion(),
       packagedSchemaVersion: schemaVersion,
+      migrationsDir: res.migrationsDir,
       runner,
     });
     const { bootstrapSecret } = await bootServer(res, owned.databaseUrl, "local");
@@ -617,14 +619,17 @@ async function bootChoice(
     );
     const runner = createPrismaRunner(res.prisma);
     const applied = await runner.listApplied(url);
-    const { pendingMigrations } = await import("./runtime/migrations");
-    const fs = await import("node:fs");
-    const available = fs
-      .readdirSync(res.migrationsDir, { withFileTypes: true })
-      .filter((e) => e.isDirectory())
-      .map((e) => e.name)
-      .sort();
-    if (pendingMigrations(available, applied).length > 0) {
+    // Reject stored schemas this package cannot verify (unknown or newer
+    // migrations) before the server starts; route unapplied packaged
+    // migrations to explicit approval. Never migrates here.
+    const { checkStartupSchema } = await import("./runtime/migrations");
+    const startup = checkStartupSchema({
+      appVersion: app.getVersion(),
+      applied,
+      migrationsDir: res.migrationsDir,
+      packagedSchemaVersion: packagedSchemaVersion(res.migrationsDir),
+    });
+    if (startup.pending.length > 0) {
       setupWindow = secureWindow(res.setupHtml);
       return;
     }
