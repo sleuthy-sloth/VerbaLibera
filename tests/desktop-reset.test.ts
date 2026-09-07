@@ -78,7 +78,9 @@ describe("desktop storage-mode switching", () => {
 
 describe("desktop recoverable reset", () => {
   it("requires the exact reset phrase and moves data to a backup", async () => {
-    const dataDir = tmpDir("verbalibera-data-");
+    const parent = tmpDir("verbalibera-reset-");
+    const dataDir = path.join(parent, "db");
+    fs.mkdirSync(dataDir, { recursive: true });
     fs.writeFileSync(path.join(dataDir, "PG_VERSION"), "18\n");
     let stopped = false;
     const context = {
