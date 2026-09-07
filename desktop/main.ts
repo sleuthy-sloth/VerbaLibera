@@ -33,6 +33,10 @@ import { ensureJwtKeys } from "./setup/keys";
 import { createPrismaRunner, type PrismaRunnerPaths } from "./setup/prisma-runner";
 import { migrateDatabase } from "./runtime/migrations";
 import { resetLocalData, scheduleStorageChange } from "./runtime/reset";
+import {
+  ensureLocalSecret,
+  activatedSettings,
+} from "./runtime/storage-transition";
 import { validateRemoteDatabaseUrl } from "./settings/schema";
 import { createIpcHandlers } from "./ipc";
 
@@ -574,6 +578,61 @@ async function probeOccupant(): Promise<{
   }
 }
 
+/** Boots one storage choice: local cluster or user-controlled remote database. */
+async function bootChoice(
+  choice: NonNullable<ReturnType<typeof loadSettings>>["active"],
+  res: ResourceLayout,
+): Promise<void> {
+  if (choice.mode === "local") {
+    const schemaVersion = packagedSchemaVersion(res.migrationsDir);
+    const password = readLocalSecret();
+    const runner = createPrismaRunner(res.prisma);
+    const owned = await startLocalPostgres({
+      runtimeBinDir: res.postgresBinDir,
+      dataRoot: path.join(userDataDir, "db"),
+      password,
+      spawn: awaitSpawn,
+      randomBytes: (n: number) => randomBytes(n),
+      allocPort,
+      probe: psqlProbe(res.psqlBin),
+      sleep,
+    });
+    services.attachDatabase(owned, {
+      spawn: awaitSpawn,
+      runtimeBinDir: res.postgresBinDir,
+    });
+    await migrateDatabase({
+      mode: "local",
+      databaseUrl: owned.databaseUrl,
+      dataDir: owned.dataDir,
+      appVersion: app.getVersion(),
+      packagedSchemaVersion: schemaVersion,
+      runner,
+    });
+    const { bootstrapSecret } = await bootServer(res, owned.databaseUrl, "local");
+    await openMainWindow("/desktop/profiles", bootstrapSecret);
+  } else {
+    const url = safeStorageAdapter.decryptString(
+      choice.encryptedDatabaseUrl,
+    );
+    const runner = createPrismaRunner(res.prisma);
+    const applied = await runner.listApplied(url);
+    const { pendingMigrations } = await import("./runtime/migrations");
+    const fs = await import("node:fs");
+    const available = fs
+      .readdirSync(res.migrationsDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => e.name)
+      .sort();
+    if (pendingMigrations(available, applied).length > 0) {
+      setupWindow = secureWindow(res.setupHtml);
+      return;
+    }
+    await bootServer(res, url, "remote");
+    createMainWindow();
+  }
+}
+
 async function startup(): Promise<void> {
   userDataDir = app.getPath("userData");
   logPath = path.join(userDataDir, "logs", "desktop.log");
@@ -582,14 +641,6 @@ async function startup(): Promise<void> {
   let settings: ReturnType<typeof loadSettings> | null = null;
   try {
     settings = loadSettings(userDataDir);
-    if (settings.pending) {
-      logger().write(
-        "setup",
-        `applying pending storage mode ${settings.pending.mode}`,
-      );
-      settings = { version: 1, active: settings.pending };
-      saveSettings(userDataDir, settings);
-    }
   } catch (error) {
     if (
       error instanceof Error &&
@@ -612,53 +663,40 @@ async function startup(): Promise<void> {
       );
       return;
     }
-    if (settings.active.mode === "local") {
-      const schemaVersion = packagedSchemaVersion(res.migrationsDir);
-      const password = readLocalSecret();
-      const runner = createPrismaRunner(res.prisma);
-      const owned = await startLocalPostgres({
-        runtimeBinDir: res.postgresBinDir,
-        dataRoot: path.join(userDataDir, "db"),
-        password,
-        spawn: awaitSpawn,
-        randomBytes: (n: number) => randomBytes(n),
-        allocPort,
-        probe: psqlProbe(res.psqlBin),
-        sleep,
-      });
-      services.attachDatabase(owned, {
-        spawn: awaitSpawn,
-        runtimeBinDir: res.postgresBinDir,
-      });
-      await migrateDatabase({
-        mode: "local",
-        databaseUrl: owned.databaseUrl,
-        dataDir: owned.dataDir,
-        appVersion: app.getVersion(),
-        packagedSchemaVersion: schemaVersion,
-        runner,
-      });
-      const { bootstrapSecret } = await bootServer(res, owned.databaseUrl, "local");
-      await openMainWindow("/desktop/profiles", bootstrapSecret);
-    } else {
-      const url = safeStorageAdapter.decryptString(
-        settings.active.encryptedDatabaseUrl,
-      );
-      const runner = createPrismaRunner(res.prisma);
-      const applied = await runner.listApplied(url);
-      const { pendingMigrations } = await import("./runtime/migrations");
-      const fs = await import("node:fs");
-      const available = fs
-        .readdirSync(res.migrationsDir, { withFileTypes: true })
-        .filter((e) => e.isDirectory())
-        .map((e) => e.name)
-        .sort();
-      if (pendingMigrations(available, applied).length > 0) {
-        setupWindow = secureWindow(res.setupHtml);
-        return;
+    // A scheduled mode change boots first and is persisted only after it
+    // succeeds. A failed activation keeps the previous working
+    // configuration: the app falls back to it instead of recovery, with
+    // the pending request retained for a later retry. Nothing is merged
+    // between stores on any path.
+    const target = settings.pending ?? settings.active;
+    try {
+      if (settings.pending?.mode === "local") {
+        // Remote-first installs never created a local database secret;
+        // without it the local branch would enter recovery instead of
+        // first-time initialization.
+        ensureLocalSecret({
+          secretMissing: () => !fs.existsSync(localSecretPath()),
+          generatePassword: () => randomBytes(32).toString("base64url"),
+          savePassword: (password) => saveLocalSecret(password),
+          log: (message) => logger().write("setup", message),
+        });
       }
-      await bootServer(res, url, "remote");
-      createMainWindow();
+      await bootChoice(target, res);
+      if (settings.pending) {
+        saveSettings(
+          userDataDir,
+          activatedSettings(settings, packagedSchemaVersion(res.migrationsDir)),
+        );
+      }
+    } catch (error) {
+      if (!settings.pending) throw error;
+      logger().write(
+        "setup",
+        `pending storage mode ${settings.pending.mode} failed (${
+          error instanceof Error ? error.message : String(error)
+        }); staying on ${settings.active.mode}`,
+      );
+      await bootChoice(settings.active, res);
     }
   } catch (error) {
     const code =

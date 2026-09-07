@@ -57,11 +57,15 @@ export default async function proxy(request: NextRequest) {
   const method = request.method;
 
   // Desktop-only surfaces exist only in local desktop mode. The staged
-  // server always binds loopback-only; this keeps the same URLs dead in
-  // hosted and remote modes.
+  // server always binds loopback-only; this keeps the same URLs dead when
+  // hosted. The liveness probe additionally answers in remote mode: the
+  // supervisor gates both local and remote boots on it.
   const isDesktopApi = pathname === '/api/desktop' || pathname.startsWith('/api/desktop/');
   const isDesktopPage = pathname === '/desktop' || pathname.startsWith('/desktop/');
-  if ((isDesktopApi || isDesktopPage) && process.env.VERBALIBERA_DESKTOP_MODE !== 'local') {
+  const mode = process.env.VERBALIBERA_DESKTOP_MODE;
+  const isSupervisorProbe =
+    pathname === '/api/desktop/health' && (mode === 'local' || mode === 'remote');
+  if ((isDesktopApi || isDesktopPage) && mode !== 'local' && !isSupervisorProbe) {
     if (isDesktopApi) {
       return NextResponse.json({ status: 'not_found' }, { status: 404, headers: { 'Cache-Control': 'no-store' } });
     }

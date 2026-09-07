@@ -71,6 +71,26 @@ describe('proxy guard', () => {
       expect(response.status).toBe(404);
     });
 
+    it('answers the supervisor health probe in remote mode but keeps other desktop surfaces closed', async () => {
+      process.env.VERBALIBERA_DESKTOP_MODE = 'remote';
+      try {
+        const health = await proxy(
+          new NextRequest('http://localhost/api/desktop/health'),
+        );
+        expect(health.status).toBe(200);
+        const profiles = await proxy(
+          new NextRequest('http://localhost/api/desktop/profiles'),
+        );
+        expect(profiles.status).toBe(404);
+        const page = await proxy(
+          new NextRequest('http://localhost/desktop/profiles'),
+        );
+        expect(page.status).toBe(307);
+      } finally {
+        delete process.env.VERBALIBERA_DESKTOP_MODE;
+      }
+    });
+
     it('redirects desktop pages outside local desktop mode', async () => {
       const response = await proxy(
         new NextRequest('http://localhost/desktop/profiles'),

@@ -48,7 +48,7 @@ On first launch, choose where your data lives:
 - **Local on this Mac** — a private PostgreSQL database inside the app's own data folder. Pick a profile name on the profile screen; profiles never leave your Mac. No passkey is needed for local data.
 - **My PostgreSQL server** — a database you control. It must be a dedicated database reachable over TLS (`sslmode=require` or stronger for non-loopback hosts). The app shows the exact pending migrations and applies them only after you approve. Passkey accounts work as on the hosted app.
 
-Switching storage later (Desktop → storage settings in the app) takes effect on restart and never merges the two stores. Before leaving local storage, use **Export practice backup** in the course workspace; import merges it back without double-counting.
+Switching storage later (Desktop → storage settings in the app) takes effect on restart and never merges the two stores. The requested mode is trial-booted first and becomes active only after it starts successfully; if the new store fails to start, the app keeps running on the previous working configuration with the request retained for a later retry. Switching from a remote-first install to local creates the local database and its secret automatically. Before leaving local storage, use **Export practice backup** in the course workspace; import merges it back without double-counting.
 
 Local data and logs live under the app's macOS user-data directory (`~/Library/Application Support/VerbaLibera/`): `db/` (database), `settings.json`, `local-db.json` (keychain-encrypted database secret), `keys/` (per-install session keys), `logs/desktop.log`. **Reset local data** (typed confirmation) moves the whole `db/` folder to a dated `backups/` folder instead of deleting it. Installing a newer DMG preserves this directory; downgrades to an older schema version are refused with a recovery message. Uninstalling deletes the app but leaves user data behind — remove the folder above to erase everything.
 
@@ -241,7 +241,7 @@ The optional voice companion runs locally and is called only through server-only
 
 ## Status and roadmap
 
-VerbaLibera is in active development. Next priorities are native-speaker editorial/audio review, complete A1 coverage, foundation progress synchronization, and broader listening coverage. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VerbaLibera is in active development. Desktop lifecycle repairs have landed for remote-mode passkey origin configuration, single-path shutdown/restart supervision, and safe storage-mode transitions (trial-boot with fallback, remote-first local initialization). Next priorities are desktop migration correctness (explicit packaged migration directory, newer-schema rejection, unrelated-directory launch), release-artifact acceptance against the shipped DMG/portable builds, native-speaker editorial/audio review, complete A1 coverage, foundation progress synchronization, and broader listening coverage. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 
