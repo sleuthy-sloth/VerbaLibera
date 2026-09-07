@@ -37,6 +37,41 @@ npm run test:e2e:portable
 
 The output is written to `dist/portable/`. The Electron full-app edition is documented when its macOS package is built and verified.
 
+### Desktop app edition (macOS, Apple Silicon)
+
+`VerbaLibera-mac-arm64.dmg` is the complete VerbaLibera application for Apple Silicon Macs: the full course workspace plus dashboard, accounts (passkeys in remote mode, local profiles in local mode), placement, and study plans. It needs no server, Node, Python, Docker, Homebrew, account, or internet connection after installation.
+
+The first release is **unsigned**, so macOS Gatekeeper shows a warning on first open. Right-click (or Control-click) the app and choose **Open**, then confirm. Later releases may add Developer ID signing without changing the app.
+
+On first launch, choose where your data lives:
+
+- **Local on this Mac** — a private PostgreSQL database inside the app's own data folder. Pick a profile name on the profile screen; profiles never leave your Mac. No passkey is needed for local data.
+- **My PostgreSQL server** — a database you control. It must be a dedicated database reachable over TLS (`sslmode=require` or stronger for non-loopback hosts). The app shows the exact pending migrations and applies them only after you approve. Passkey accounts work as on the hosted app.
+
+Switching storage later (Desktop → storage settings in the app) takes effect on restart and never merges the two stores. Before leaving local storage, use **Export practice backup** in the course workspace; import merges it back without double-counting.
+
+Local data and logs live under the app's macOS user-data directory (`~/Library/Application Support/VerbaLibera/`): `db/` (database), `settings.json`, `local-db.json` (keychain-encrypted database secret), `keys/` (per-install session keys), `logs/desktop.log`. **Reset local data** (typed confirmation) moves the whole `db/` folder to a dated `backups/` folder instead of deleting it. Installing a newer DMG preserves this directory; downgrades to an older schema version are refused with a recovery message. Uninstalling deletes the app but leaves user data behind — remove the folder above to erase everything.
+
+The desktop app bundles no speech transcription, generated speech, translation, or language-model runtime; grading is the same deterministic engine as the hosted app. It makes no network request outside loopback in local mode.
+
+Verify release downloads from Terminal in their download folder:
+
+```bash
+shasum -a 256 -c VerbaLibera-mac-arm64.dmg.sha256
+shasum -a 256 -c VerbaLibera-Portable.html.sha256
+```
+
+To build the same packages from this checkout on an Apple Silicon Mac with Xcode command line tools:
+
+```bash
+npm ci
+npm run portable:build && npm run portable:verify
+npm run postgres:prepare && npm run postgres:verify
+npm run electron:make && npm run electron:verify
+```
+
+The outputs land in `dist/portable/` and `dist/electron/` with `.sha256` manifests. Tagged `v*` releases attach all four files to the GitHub release automatically (`.github/workflows/macos-release.yml`).
+
 ![Dashboard on desktop](docs/screenshots/release/home-1280.png)
 
 ![Session on desktop](docs/screenshots/release/lesson-1280.png)

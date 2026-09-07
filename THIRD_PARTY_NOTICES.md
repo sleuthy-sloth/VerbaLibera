@@ -14,11 +14,12 @@ Prerecorded VerbaLibera course audio and original brand artwork are covered by t
 
 ## Electron edition
 
-The planned full macOS package adds these redistributable runtimes:
+The macOS package adds these redistributable runtimes, built from the pinned sources in `desktop/release-manifest.json`:
 
 - Electron — MIT License.
 - Chromium — BSD-style and component-specific open-source licenses distributed with Electron.
 - Node.js — MIT License and bundled third-party notices distributed with Node.js/Electron.
 - PostgreSQL — PostgreSQL License, Copyright PostgreSQL Global Development Group.
+- OpenSSL — Apache License 2.0, Copyright the OpenSSL Project (bundled for PostgreSQL TLS; see the pinned source above).
 
 The Electron release process must copy the complete runtime license files into the application resources. This notice is a summary and does not replace those license texts.
