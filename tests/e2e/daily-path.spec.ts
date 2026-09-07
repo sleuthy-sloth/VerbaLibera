@@ -18,38 +18,28 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
 
   await assertNoHorizontalOverflow(page);
 
-  const sessionLink = page.getByRole('link', { name: /start 8-minute session/i });
-  await expect(sessionLink).toBeVisible();
-
   await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
 
-  // After switching courses, the same CTA re-renders pointing at the Italian route.
-  const italianSessionLink = page.getByRole('link', { name: /start 8-minute session/i });
-  await expect(italianSessionLink).toBeVisible();
-  await italianSessionLink.click();
+  // Beginner entry is the foundation course from Lesson 0.
+  const startLink = page.getByRole('link', { name: 'Start learning', exact: true });
+  await expect(startLink).toBeVisible();
+  await startLink.click();
 
-  // Step 1 teaches the greeting up front: model shown, nothing to reveal yet.
-  await expect(page.getByRole('heading', { level: 2, name: /greeting politely/i })).toBeVisible();
-  await expect(page.getByRole('button', { name: /reveal model answer/i })).toHaveCount(0);
-  await page.getByRole('button', { name: 'Continue' }).click();
-
-  // Step 2 reviews ordering through reveal.
-  await expect(page.getByRole('heading', { level: 2, name: /greeting politely/i })).toBeVisible();
-  await expect(page.getByRole('button', { name: /reveal model answer/i })).toBeVisible();
+  await expect(page).toHaveURL(/\/courses\/italian\?start=1/);
+  await expect(page.getByRole('heading', { name: 'First words' })).toBeVisible();
 
   await assertNoHorizontalOverflow(page);
 });
 
-test('French session path renders the guided practice heading', async ({ page }) => {
+test('French beginner entry opens Lesson 0', async ({ page }) => {
   await page.goto('/dashboard');
 
-  const sessionLink = page.getByRole('link', { name: /start 8-minute session/i });
-  await expect(sessionLink).toBeVisible();
-  await sessionLink.click();
+  const startLink = page.getByRole('link', { name: 'Start learning', exact: true });
+  await expect(startLink).toBeVisible();
+  await startLink.click();
 
-  await expect(
-    page.getByRole('heading', { level: 1, name: /practice one useful pattern/i }),
-  ).toBeVisible();
+  await expect(page).toHaveURL(/\/courses\/french\?start=1/);
+  await expect(page.getByRole('heading', { name: 'First words' })).toBeVisible();
 
   await assertNoHorizontalOverflow(page);
 });

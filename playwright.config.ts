@@ -2,6 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
+  // Electron specs need the macOS binary + a display server; they run only
+  // under playwright.electron.config.ts, never in browser projects.
+  testIgnore: /electron-.*\.spec\.ts/,
   use: {
     baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:3100',
     trace: 'on-first-retry',

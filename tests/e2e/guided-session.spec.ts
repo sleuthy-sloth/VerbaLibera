@@ -26,9 +26,9 @@ async function assertActionWithinViewport(
 }
 
 test('Italian travel session teaches the pattern before testing it', async ({ page }) => {
-  await page.goto('/dashboard');
-  await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
-  await page.getByRole('link', { name: /start 8-minute session/i }).click();
+  // Travel sessions live at their own route; the dashboard now sends new
+  // learners to the foundation course first.
+  await page.goto('/learn/english-to-italian');
 
   await expect(page).toHaveURL(/\/learn\/english-to-italian$/);
   // Step 1 teaches: the model dialogue is shown, no reveal needed.

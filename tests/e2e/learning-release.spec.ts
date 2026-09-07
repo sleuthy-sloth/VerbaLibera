@@ -20,8 +20,10 @@ test('Italian assessment can be skipped question by question and opens its recom
   for (let i = 0; i < 15; i++) await page.getByRole('button', { name: 'I don’t know yet' }).click();
   await expect(page.getByText('Starting at the beginning', { exact: false })).toBeVisible();
   await page.getByRole('link', { name: /start learning/i }).click();
-  await expect(page).toHaveURL(/concept=it-greet-politely/);
-  await expect(page.getByText('vorrei', { exact: true })).toBeVisible();
+  // Placement recommendations now enter the foundation course at Lesson 0.
+  await expect(page).toHaveURL(/\/courses\/italian\?start=1/);
+  await expect(page.getByRole('heading', { name: 'First words' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Begin practice' })).toBeVisible();
 });
 
 test('real passkey registration, review persistence, and sign-in against Postgres', async ({ page, context }) => {
