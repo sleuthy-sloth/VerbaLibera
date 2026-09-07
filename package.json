@@ -27,7 +27,9 @@
     "prebuild": "npm run content:build",
     "predev": "npm run content:build",
     "test:e2e:webkit": "playwright test --config playwright.mobile.config.ts",
-    "portable:build": "tsx scripts/portable/build.ts"
+    "portable:build": "tsx scripts/portable/build.ts",
+    "portable:verify": "tsx scripts/portable/verify.ts",
+    "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

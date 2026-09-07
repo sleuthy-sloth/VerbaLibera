@@ -17,6 +17,10 @@ import {
   collectPortableContent,
 } from "../scripts/portable/content";
 import { buildPortableHtml } from "../scripts/portable/build";
+import {
+  auditPortableHtml,
+  verifyPortableArtifact,
+} from "../scripts/portable/verify";
 
 const temporaryRoots: string[] = [];
 
@@ -87,5 +91,27 @@ describe("portable HTML build", () => {
     expect(html).not.toMatch(/<script[^>]+src=/i);
     expect(html).not.toMatch(/<link[^>]+href=/i);
     expect(html).not.toContain("/api/course-progress");
+    expect(() => auditPortableHtml(html)).not.toThrow();
+  });
+
+  it("rejects executable external resources", () => {
+    expect(() =>
+      auditPortableHtml(
+        '<!doctype html><meta http-equiv="Content-Security-Policy" content="connect-src \'none\'"><script src="https://evil.example/app.js"></script>',
+      ),
+    ).toThrow(/external/i);
+  });
+
+  it("writes a conventional checksum for the exact artifact bytes", () => {
+    const root = mkdtempSync(join(tmpdir(), "verbalibera-checksum-"));
+    temporaryRoots.push(root);
+    const artifact = join(root, "VerbaLibera-Portable.html");
+    writeFileSync(artifact, "portable bytes");
+
+    const digest = verifyPortableArtifact(artifact, { audit: false });
+
+    expect(
+      readFileSync(`${artifact}.sha256`, "utf8"),
+    ).toBe(`${digest}  VerbaLibera-Portable.html\n`);
   });
 });
