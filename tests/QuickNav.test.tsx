@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { QuickNav } from '@/components/nav/QuickNav';
 
@@ -41,10 +41,12 @@ describe('QuickNav', () => {
     await pathname('/dashboard');
     render(<QuickNav />);
 
-    expect(await screen.findByRole('link', { name: 'Resume practice' })).toHaveAttribute(
-      'href',
-      '/learn/english-to-italian',
-    );
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: 'Resume practice' })).toHaveAttribute(
+        'href',
+        '/learn/english-to-italian',
+      );
+    });
   });
 
   it('marks Practice active inside lessons and courses', async () => {

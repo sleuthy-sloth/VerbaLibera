@@ -37,7 +37,7 @@ describe('scorePlacement', () => {
       'it-negation-foundation',
     );
     const empty: Record<string, string> = {};
-    expect(scorePlacement(italianPlacementItems, empty, 'english-to-spanish').foundationLessonId).toBeNull();
+    expect(scorePlacement(italianPlacementItems, empty, 'english-to-klingon').foundationLessonId).toBeNull();
   });
   it('covers 15 items across A1, A2, B1', () => {
     expect(frenchPlacementItems).toHaveLength(15);

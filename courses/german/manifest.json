@@ -1,1 +1,258 @@
-{"attribution": "Original VerbaLibera authoring, 2026. MIT. Course announced before lessons are authored; nothing below is taught yet.", "concepts": [], "description": "Structured A1 German foundations, taught the VerbaLibera way: notice, build, vary, use. Lessons are being authored now — nothing to study here yet.", "dialogues": [], "id": "de-foundations", "language": "de", "lessons": [], "media": [], "schemaVersion": 1, "sourceLanguage": "en", "status": "coming-soon", "title": "German foundations", "units": [], "version": "0.1.0", "vocabulary": []}
+{
+  "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
+  "concepts": [
+    {
+      "id": "de-first-words-concept",
+      "title": "First words and greetings",
+      "explanation": "German uses the Latin alphabet, and thousands of everyday words came into German and English from Latin — directly, and through French — Nation, Information, Restaurant, Kaffee. You can already recognize them before you speak a word of German. The words below are the first ones to say out loud: hallo opens almost every conversation, danke answers kindness, ja and nein steer it.",
+      "examples": [
+        {
+          "target": "Hallo.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Danke.",
+          "meaning": "Thank you."
+        }
+      ],
+      "commonError": "Say hallo the moment you arrive — Germans notice silence more than accent. Save tschüss (goodbye) for leaving."
+    }
+  ],
+  "description": "Structured A1 German foundations, taught the VerbaLibera way: notice, build, vary, use. Opens with a words-first lesson — more units being authored.",
+  "dialogues": [],
+  "id": "de-foundations",
+  "language": "de",
+  "lessons": [
+    {
+      "id": "de-first-words-foundation",
+      "unitId": "de-unit-1",
+      "title": "First words",
+      "objective": "Recognize and say your first German words — greetings and Latin-shared words — before building any sentences.",
+      "cefr": "A1",
+      "prerequisites": [],
+      "conceptIds": [
+        "de-first-words-concept"
+      ],
+      "vocabulary": [
+        "de-first-words-word-1",
+        "de-first-words-word-2",
+        "de-first-words-word-3",
+        "de-first-words-word-4",
+        "de-first-words-word-5",
+        "de-first-words-word-6"
+      ],
+      "explanation": "You already know hundreds of German words: Nation, Information, Restaurant. They came into English and German from Latin, the common root of the Romance languages — French, Italian, Spanish and Portuguese — which is why German shares so many recognizable words with them. Today you only say a few out loud: hallo, danke, ja, nein. No sentences yet — those come next.",
+      "examples": [
+        {
+          "target": "Hallo.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Danke.",
+          "meaning": "Thank you."
+        },
+        {
+          "target": "Ja.",
+          "meaning": "Yes."
+        },
+        {
+          "target": "Nein.",
+          "meaning": "No."
+        }
+      ],
+      "culturalNote": "German capitalizes every noun — Nation, Kaffee. The capital letter is part of the spelling.",
+      "exercises": [
+        {
+          "id": "de-first-words-foundation-meet",
+          "conceptId": "de-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You already know this word — it opens almost every conversation in Germany. «Hallo» — what does it mean?",
+          "answers": [
+            "Hello."
+          ],
+          "options": [
+            "Hello.",
+            "Thank you.",
+            "Yes.",
+            "Goodbye."
+          ],
+          "explanation": "Hallo. is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "vocabulary": [
+            "de-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-think-first",
+          "conceptId": "de-first-words-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 5,
+          "prompt": "Think: you walk into a bakery in Berlin. One word greets the baker before anything else. Say it in your head — then write it.",
+          "answers": [
+            "Hallo."
+          ],
+          "explanation": "Hallo. One word, said first, opens the conversation.",
+          "vocabulary": [
+            "de-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-notice-latin",
+          "conceptId": "de-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Nation, Information, Restaurant — spelled almost the same in English and German. Why do you already recognize them?",
+          "answers": [
+            "German and English share thousands of words from Latin."
+          ],
+          "options": [
+            "German and English share thousands of words from Latin.",
+            "German borrowed its everyday words from modern English.",
+            "The shared spellings are coincidences."
+          ],
+          "explanation": "Both languages inherited these words from Latin — the common root of the Romance languages. Recognition comes before production.",
+          "vocabulary": [
+            "de-first-words-word-5"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-meaning",
+          "conceptId": "de-first-words-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Danke.",
+          "answers": [
+            "Thank you."
+          ],
+          "explanation": "Danke is thank you — the second word to say out loud.",
+          "vocabulary": [
+            "de-first-words-word-2"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-cloze",
+          "conceptId": "de-first-words-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the first word you say when you arrive: ___allo.",
+          "answers": [
+            "Hallo."
+          ],
+          "explanation": "Hallo. — said before everything else.",
+          "vocabulary": [
+            "de-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-read",
+          "conceptId": "de-first-words-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. How many times do you read the word for thank you?",
+          "passage": "— Hallo ! — Hallo. — Danke ? — Ja, danke. — Nein, danke.",
+          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "answers": [
+            "Three times."
+          ],
+          "explanation": "Every word on this page is one you already learned.",
+          "vocabulary": [
+            "de-first-words-word-1",
+            "de-first-words-word-2",
+            "de-first-words-word-3",
+            "de-first-words-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-first-words-foundation-listen-model",
+          "conceptId": "de-first-words-concept",
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "de-first-words-foundation-model",
+          "prompt": "Listen and write the model: first words.",
+          "answers": [
+            "Hallo, danke."
+          ],
+          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "vocabulary": [
+            "de-first-words-word-1",
+            "de-first-words-word-2"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
+    }
+  ],
+  "media": [
+    {
+      "id": "de-first-words-foundation-model",
+      "url": "/audio/german-foundations/de-first-words-foundation-model.wav",
+      "sha256": "2976b114caf440669c03a4eac331819573d87bf77489fdef1b40b881429aee25",
+      "transcript": "Hallo, danke.",
+      "attribution": "Original lesson text; Piper 1.8.0 / de_DE-thorsten-medium; generated locally 2026-09-06. Native-speaker prosody review pending."
+    }
+  ],
+  "schemaVersion": 1,
+  "sourceLanguage": "en",
+  "status": "active",
+  "title": "German foundations",
+  "units": [
+    {
+      "id": "de-unit-1",
+      "title": "Meeting people",
+      "objective": "Introduce yourself and your family."
+    }
+  ],
+  "version": "0.1.0",
+  "vocabulary": [
+    {
+      "id": "de-first-words-word-1",
+      "word": "hallo",
+      "meaning": "hello",
+      "partOfSpeech": "word or expression",
+      "example": "Hallo."
+    },
+    {
+      "id": "de-first-words-word-2",
+      "word": "danke",
+      "meaning": "thank you",
+      "partOfSpeech": "word or expression",
+      "example": "Danke."
+    },
+    {
+      "id": "de-first-words-word-3",
+      "word": "ja",
+      "meaning": "yes",
+      "partOfSpeech": "word or expression",
+      "example": "Ja."
+    },
+    {
+      "id": "de-first-words-word-4",
+      "word": "nein",
+      "meaning": "no",
+      "partOfSpeech": "word or expression",
+      "example": "Nein."
+    },
+    {
+      "id": "de-first-words-word-5",
+      "word": "Nation",
+      "meaning": "nation",
+      "partOfSpeech": "word or expression",
+      "example": "Nation."
+    },
+    {
+      "id": "de-first-words-word-6",
+      "word": "Kaffee",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Kaffee."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/spanish-foundations.json",
+  "languages": [
+    "es"
+  ],
+  "voices": [
+    "es:ef_dora"
+  ],
+  "clips": [
+    {
+      "id": "es-first-words-foundation-model",
+      "filename": "es-first-words-foundation-model.wav",
+      "language": "es",
+      "voice": "ef_dora",
+      "text_sha256": "b6a84a00916ec163fd35853db7c265c44b4f8f82368771a6b4a8b63a673dd6e0",
+      "audio_sha256": "834a7c9258aec46e50cfaa76f9ed28ea808095f610588babeb28fd8811749341",
+      "content_type": "audio/wav",
+      "bytes": 62444
+    }
+  ]
+}

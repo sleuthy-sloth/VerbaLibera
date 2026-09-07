@@ -1,0 +1,11 @@
+{
+  "clips": [
+    {
+      "id": "es-first-words-foundation-model",
+      "text": "Hola, gracias.",
+      "language": "es",
+      "voice": "ef_dora",
+      "filename": "es-first-words-foundation-model.wav"
+    }
+  ]
+}

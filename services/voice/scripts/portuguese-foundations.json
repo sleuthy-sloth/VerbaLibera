@@ -1,0 +1,11 @@
+{
+  "clips": [
+    {
+      "id": "pt-first-words-foundation-model",
+      "text": "Olá, obrigada.",
+      "language": "pt",
+      "voice": "pf_dora",
+      "filename": "pt-first-words-foundation-model.wav"
+    }
+  ]
+}

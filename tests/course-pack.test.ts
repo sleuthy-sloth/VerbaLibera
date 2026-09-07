@@ -259,18 +259,41 @@ it('accepts ordinary numeric notation in listening answers without changing mean
     expect(evaluateAnswer(answer, pack.lessons.flatMap(l => l.exercises).find(e => e.id === id)!).accepted).toBe(true);
   }
 });
-describe('coming-soon packs', () => {
+describe('new foundation packs', () => {
   const readGerman = () =>
     JSON.parse(readFileSync('courses/german/manifest.json', 'utf8'));
-  it('validates the empty German announcement pack', () => {
-    const pack = validatePack(readGerman());
-    expect(pack.status).toBe('coming-soon');
-    expect(pack.language).toBe('de');
-    expect(pack.lessons).toHaveLength(0);
+  it.each(['german', 'spanish', 'portuguese'])('validates the active %s words-first pack', (language) => {
+    const pack = validatePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
+    expect(pack.status).toBe('active');
+    expect(pack.lessons).toHaveLength(1);
+    expect(pack.lessons[0].title).toBe('First words');
+    expect(pack.lessons[0].exercises.some((exercise) =>
+      exercise.kind === 'dictation' && pack.media.some((media) => media.id === exercise.audioId),
+    )).toBe(true);
   });
-  it('rejects content smuggled into a coming-soon pack', () => {
+
+  it('keeps the Portuguese thank-you exercise internally consistent', () => {
+    const pack = validatePack(JSON.parse(readFileSync('courses/portuguese/manifest.json', 'utf8')));
+    const exercise = pack.lessons[0].exercises.find(({ id }) => id === 'pt-first-words-foundation-meaning');
+    expect(exercise?.prompt).toBe('Give the English meaning: Obrigado.');
+    expect(exercise?.answers).toEqual(['Thank you.']);
+    expect(exercise?.vocabulary).toEqual(['pt-first-words-word-2']);
+  });
+
+  it('models feminine Portuguese thanks while accepting either speaker form', () => {
+    const pack = validatePack(JSON.parse(readFileSync('courses/portuguese/manifest.json', 'utf8')));
+    const exercise = pack.lessons[0].exercises.find(({ id }) => id === 'pt-first-words-foundation-listen-model');
+    expect(exercise?.kind).toBe('dictation');
+    if (!exercise || exercise.kind !== 'dictation') throw new Error('Portuguese model exercise must be dictation.');
+    const media = pack.media.find(({ id }) => id === exercise.audioId)!;
+    expect(media.transcript).toBe('Olá, obrigada.');
+    expect(evaluateAnswer(media.transcript, exercise).accepted).toBe(true);
+    expect(evaluateAnswer('Olá, obrigado.', exercise).accepted).toBe(true);
+  });
+
+  it('rejects authored content in a coming-soon pack', () => {
     const raw = readGerman();
-    raw.units = [{ id: 'de-unit-1', title: 'Planned', objective: 'Not yet.' }];
+    raw.status = 'coming-soon';
     expect(() => validatePack(raw)).toThrow(/coming-soon/);
   });
   it('rejects an active pack with no lessons', () => {

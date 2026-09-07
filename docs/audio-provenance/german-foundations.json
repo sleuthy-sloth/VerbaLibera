@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "piper@1.8.0",
+  "manifest": "services/voice/scripts/german-foundations.json",
+  "languages": [
+    "de"
+  ],
+  "voices": [
+    "de:de_DE-thorsten-medium"
+  ],
+  "clips": [
+    {
+      "id": "de-first-words-foundation-model",
+      "filename": "de-first-words-foundation-model.wav",
+      "language": "de",
+      "voice": "de_DE-thorsten-medium",
+      "text_sha256": "391f61108eac97364dac67ee00c169c0347608fa7d28a122b44e75e9d776d275",
+      "audio_sha256": "2976b114caf440669c03a4eac331819573d87bf77489fdef1b40b881429aee25",
+      "content_type": "audio/wav",
+      "bytes": 63052
+    }
+  ]
+}

@@ -18,7 +18,15 @@ describe('foundation entry', () => {
   });
 
   it('returns null for courses without foundation packs', () => {
-    expect(foundationEntryLesson('english-to-spanish', 'A1', 'es-place-1')).toBeNull();
+    expect(foundationEntryLesson('english-to-klingon', 'A1', 'xx-place-1')).toBeNull();
+  });
+
+  it('starts single-lesson packs at first words whatever A1 item is missed', () => {
+    expect(foundationEntryLesson('english-to-spanish', 'A1', 'es-greet-politely-placement')).toBe('es-first-words-foundation');
+    expect(foundationEntryLesson('english-to-spanish', 'A1', 'es-ordering-politely-placement')).toBe('es-first-words-foundation');
+    expect(foundationEntryLesson('english-to-spanish', 'A2')).toBe('es-first-words-foundation');
+    expect(foundationEntryLesson('english-to-portuguese', 'A1', 'pt-greet-politely-placement')).toBe('pt-first-words-foundation');
+    expect(foundationEntryLesson('english-to-portuguese', 'B1')).toBe('pt-first-words-foundation');
   });
 
   it.each(['italian', 'french'] as const)('every %s mapped id exists in the manifest', (language) => {

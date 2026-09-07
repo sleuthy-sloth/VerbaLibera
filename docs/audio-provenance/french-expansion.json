@@ -1,5 +1,14 @@
 {
   "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/french-expansion.json",
+  "languages": [
+    "fr"
+  ],
+  "voices": [
+    "fr:ff_siwis"
+  ],
   "clips": [
     {
       "id": "fr-ask-directions-prompt",

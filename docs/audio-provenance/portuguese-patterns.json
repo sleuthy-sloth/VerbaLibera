@@ -1,5 +1,14 @@
 {
   "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/portuguese-patterns.json",
+  "languages": [
+    "pt"
+  ],
+  "voices": [
+    "pt:pf_dora"
+  ],
   "clips": [
     {
       "id": "pt-greet-politely-prompt",

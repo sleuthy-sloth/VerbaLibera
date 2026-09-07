@@ -27,6 +27,22 @@ const ENTRY: Record<string, { items: Record<string, string>; A2: string; B1: str
     A2: 'fr-negation-foundation',
     B1: 'fr-days-foundation',
   },
+  // Single-lesson packs: every A1 miss starts at the beginning, and A2/B1
+  // revisit it, until Unit 1 lands with pattern units to reteach.
+  'english-to-spanish': {
+    items: {
+      'es-greet-politely-placement': 'es-first-words-foundation',
+    },
+    A2: 'es-first-words-foundation',
+    B1: 'es-first-words-foundation',
+  },
+  'english-to-portuguese': {
+    items: {
+      'pt-greet-politely-placement': 'pt-first-words-foundation',
+    },
+    A2: 'pt-first-words-foundation',
+    B1: 'pt-first-words-foundation',
+  },
 };
 
 export function foundationEntryLesson(

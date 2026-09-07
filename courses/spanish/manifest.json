@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "id": "es-foundations",
+  "version": "0.1.0",
+  "language": "es",
+  "status": "active",
+  "title": "Spanish foundations",
+  "sourceLanguage": "en",
+  "description": "First words of structured A1 Spanish foundations — greetings and Latin-shared words in one words-first lesson. More units being authored.",
+  "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
+  "units": [
+    {
+      "id": "es-unit-1",
+      "title": "Meeting people",
+      "objective": "Introduce yourself and your family."
+    }
+  ],
+  "concepts": [
+    {
+      "id": "es-first-words-concept",
+      "title": "First words and greetings",
+      "explanation": "Spanish grew from Latin in Iberia, and thousands of everyday words came into both Spanish and English from Latin — nación, información, restaurante, café. You can already recognize them before you speak a word of Spanish. The words below are the first ones to say out loud: hola opens almost every conversation, gracias answers kindness, sí and no steer it.",
+      "examples": [
+        {
+          "target": "Hola.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Gracias.",
+          "meaning": "Thank you."
+        }
+      ],
+      "commonError": "Say hola the moment you arrive. Save adiós for leaving."
+    }
+  ],
+  "vocabulary": [
+    {
+      "id": "es-first-words-word-1",
+      "word": "hola",
+      "meaning": "hello",
+      "partOfSpeech": "word or expression",
+      "example": "Hola."
+    },
+    {
+      "id": "es-first-words-word-2",
+      "word": "gracias",
+      "meaning": "thank you",
+      "partOfSpeech": "word or expression",
+      "example": "Gracias."
+    },
+    {
+      "id": "es-first-words-word-3",
+      "word": "sí",
+      "meaning": "yes",
+      "partOfSpeech": "word or expression",
+      "example": "Sí."
+    },
+    {
+      "id": "es-first-words-word-4",
+      "word": "no",
+      "meaning": "no",
+      "partOfSpeech": "word or expression",
+      "example": "No."
+    },
+    {
+      "id": "es-first-words-word-5",
+      "word": "nación",
+      "meaning": "nation",
+      "partOfSpeech": "word or expression",
+      "example": "Nación."
+    },
+    {
+      "id": "es-first-words-word-6",
+      "word": "café",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Café."
+    }
+  ],
+  "media": [
+    {
+      "id": "es-first-words-foundation-model",
+      "url": "/audio/spanish-foundations/es-first-words-foundation-model.wav",
+      "sha256": "834a7c9258aec46e50cfaa76f9ed28ea808095f610588babeb28fd8811749341",
+      "transcript": "Hola, gracias.",
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, ef_dora; generated locally 2026-09-06. Native-speaker prosody review pending."
+    }
+  ],
+  "lessons": [
+    {
+      "id": "es-first-words-foundation",
+      "unitId": "es-unit-1",
+      "title": "First words",
+      "objective": "Recognize and say your first Spanish words — greetings and Latin-shared words — before building any sentences.",
+      "cefr": "A1",
+      "prerequisites": [],
+      "conceptIds": [
+        "es-first-words-concept"
+      ],
+      "vocabulary": [
+        "es-first-words-word-1",
+        "es-first-words-word-2",
+        "es-first-words-word-3",
+        "es-first-words-word-4",
+        "es-first-words-word-5",
+        "es-first-words-word-6"
+      ],
+      "explanation": "You already know hundreds of Spanish words: nación, información, restaurante. They came into English and Spanish from Latin, the common root of Spanish, French, Italian and Portuguese — which is why the Romance languages resemble each other. Today you only say a few out loud: hola, gracias, sí, no. No sentences yet — those come next.",
+      "examples": [
+        {
+          "target": "Hola.",
+          "meaning": "Hello."
+        },
+        {
+          "target": "Gracias.",
+          "meaning": "Thank you."
+        },
+        {
+          "target": "Sí.",
+          "meaning": "Yes."
+        },
+        {
+          "target": "No.",
+          "meaning": "No."
+        }
+      ],
+      "culturalNote": "Hola works everywhere, all day. Gracias answers everything from gifts to directions.",
+      "exercises": [
+        {
+          "id": "es-first-words-foundation-meet",
+          "conceptId": "es-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You already know this word — friends say it a dozen times a day in Spain. «Hola» — what does it mean?",
+          "answers": [
+            "Hello."
+          ],
+          "options": [
+            "Hello.",
+            "Thank you.",
+            "Yes.",
+            "Goodbye."
+          ],
+          "explanation": "Hola. is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "vocabulary": [
+            "es-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-think-first",
+          "conceptId": "es-first-words-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 5,
+          "prompt": "Think: you meet a friend in Madrid. One word greets them before anything else. Say it in your head — then write it.",
+          "answers": [
+            "Hola."
+          ],
+          "explanation": "Hola. One word, said first, opens the conversation.",
+          "vocabulary": [
+            "es-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-notice-latin",
+          "conceptId": "es-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Nación, información, restaurante — spelled almost the same in English and Spanish. Why do you already recognize them?",
+          "answers": [
+            "Spanish and English share thousands of words from Latin."
+          ],
+          "options": [
+            "Spanish and English share thousands of words from Latin.",
+            "Spanish borrowed its everyday words from modern English.",
+            "The shared spellings are coincidences."
+          ],
+          "explanation": "Both languages inherited these words from Latin — the common root of the Romance languages. Recognition comes before production.",
+          "vocabulary": [
+            "es-first-words-word-5"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-meaning",
+          "conceptId": "es-first-words-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Gracias.",
+          "answers": [
+            "Thank you."
+          ],
+          "explanation": "Gracias is thank you — the second word to say out loud.",
+          "vocabulary": [
+            "es-first-words-word-2"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-cloze",
+          "conceptId": "es-first-words-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the first word you say to a friend: ___la.",
+          "answers": [
+            "Hola."
+          ],
+          "explanation": "Hola. — said before everything else.",
+          "vocabulary": [
+            "es-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-read",
+          "conceptId": "es-first-words-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. How many times do you read the word for thank you?",
+          "passage": "— Hola ! — Hola. — Gracias ? — Sí, gracias. — No, gracias.",
+          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "answers": [
+            "Three times."
+          ],
+          "explanation": "Every word on this page is one you already learned.",
+          "vocabulary": [
+            "es-first-words-word-1",
+            "es-first-words-word-2",
+            "es-first-words-word-3",
+            "es-first-words-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-listen-model",
+          "conceptId": "es-first-words-concept",
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "es-first-words-foundation-model",
+          "prompt": "Listen and write the model: first words.",
+          "answers": [
+            "Hola, gracias."
+          ],
+          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "vocabulary": [
+            "es-first-words-word-1",
+            "es-first-words-word-2"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
+    }
+  ],
+  "dialogues": []
+}

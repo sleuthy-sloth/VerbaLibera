@@ -124,3 +124,96 @@ def test_reconcile_refuses_missing_wav(tmp_path, monkeypatch, capsys):
     captured = capsys.readouterr()
     assert rc == 1
     assert "missing WAV" in captured.err
+
+
+def test_reconcile_creates_configured_provenance_file(tmp_path, monkeypatch):
+    """A newly configured source must not be skipped just because its output is absent."""
+    mod = _load()
+    audio_dir = tmp_path / "public" / "audio" / "german-foundations"
+    audio_dir.mkdir(parents=True)
+    (audio_dir / "de-first-words.wav").write_bytes(b"wav-bytes")
+    manifest = tmp_path / "services" / "voice" / "scripts" / "german-foundations.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        json.dumps(
+            {
+                "clips": [
+                    {
+                        "id": "de-first-words",
+                        "text": "Hallo, danke.",
+                        "language": "de",
+                        "voice": "de_DE-thorsten-medium",
+                        "filename": "de-first-words.wav",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    prov_path = tmp_path / "docs" / "audio-provenance" / "german-foundations.json"
+
+    monkeypatch.setattr(mod, "ROOT", tmp_path)
+    monkeypatch.setattr(mod, "AUDIO_DIR", tmp_path / "public" / "audio")
+    monkeypatch.setattr(
+        mod,
+        "PROVENANCE_SOURCES",
+        [
+            {
+                "path": prov_path,
+                "manifest": manifest,
+                "audio_subdir": "german-foundations",
+                "model": "piper@1.8.0",
+            }
+        ],
+    )
+
+    assert mod.main() == 0
+    written = json.loads(prov_path.read_text(encoding="utf-8"))
+    assert written["model"] == "piper@1.8.0"
+    assert written["manifest"] == "services/voice/scripts/german-foundations.json"
+    assert written["clips"][0]["audio_sha256"] == mod.sha256_bytes(b"wav-bytes")
+
+
+def test_reconcile_repairs_incomplete_top_level_metadata(tmp_path, monkeypatch):
+    """Matching clip hashes must not hide missing canonical source metadata."""
+    mod = _load()
+    audio_dir = tmp_path / "public" / "audio" / "spanish-foundations"
+    audio_dir.mkdir(parents=True)
+    wav = b"wav-bytes"
+    (audio_dir / "es-first-words.wav").write_bytes(wav)
+    manifest = tmp_path / "services" / "voice" / "scripts" / "spanish-foundations.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text(
+        json.dumps(
+            {
+                "clips": [
+                    {
+                        "id": "es-first-words",
+                        "text": "Hola, gracias.",
+                        "language": "es",
+                        "voice": "ef_dora",
+                        "filename": "es-first-words.wav",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    prov_path = tmp_path / "docs" / "audio-provenance" / "spanish-foundations.json"
+    prov_path.parent.mkdir(parents=True)
+    source = {
+        "path": prov_path,
+        "manifest": manifest,
+        "audio_subdir": "spanish-foundations",
+    }
+    monkeypatch.setattr(mod, "ROOT", tmp_path)
+    monkeypatch.setattr(mod, "AUDIO_DIR", tmp_path / "public" / "audio")
+    monkeypatch.setattr(mod, "PROVENANCE_SOURCES", [source])
+    canonical = mod.build_provenance(source)
+    prov_path.write_text(json.dumps({"schema_version": 1, "clips": canonical["clips"]}))
+
+    assert mod.main() == 0
+    written = json.loads(prov_path.read_text(encoding="utf-8"))
+    assert written["model"] == "kokoro@0.9.4"
+    assert written["languages"] == ["es"]
+    assert written["voices"] == ["es:ef_dora"]

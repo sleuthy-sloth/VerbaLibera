@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-09-03",
+  "model": "kokoro@0.9.4",
+  "manifest": "services/voice/scripts/portuguese-foundations.json",
+  "languages": [
+    "pt"
+  ],
+  "voices": [
+    "pt:pf_dora"
+  ],
+  "clips": [
+    {
+      "id": "pt-first-words-foundation-model",
+      "filename": "pt-first-words-foundation-model.wav",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text_sha256": "3ad0d1d03b5f9cc140e61bfe9d3b045f588c5c1e16fc674e851c56d98efa4011",
+      "audio_sha256": "ae6c966c672e944160012ee97c6215a1030a490bcde81ccb3c5cc03fc41d0538",
+      "content_type": "audio/wav",
+      "bytes": 64844
+    }
+  ]
+}

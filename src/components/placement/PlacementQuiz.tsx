@@ -50,6 +50,8 @@ const FOUNDATION_LESSONS: Record<string, { language: string; title: string }> = 
   'fr-requests-foundation': { language: 'french', title: 'Can I? Modal requests' },
   'fr-negation-foundation': { language: 'french', title: 'Making a negative' },
   'fr-days-foundation': { language: 'french', title: 'Days, months and dates' },
+  'es-first-words-foundation': { language: 'spanish', title: 'First words' },
+  'pt-first-words-foundation': { language: 'portuguese', title: 'First words' },
 };
 export function PlacementQuiz({ courseSlug, userId = null }: Readonly<{ courseSlug: string; userId?: string | null }>) {
   const items = placementItemsFor(courseSlug);

@@ -1,0 +1,11 @@
+{
+  "clips": [
+    {
+      "id": "de-first-words-foundation-model",
+      "text": "Hallo, danke.",
+      "language": "de",
+      "voice": "de_DE-thorsten-medium",
+      "filename": "de-first-words-foundation-model.wav"
+    }
+  ]
+}

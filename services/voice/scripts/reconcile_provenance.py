@@ -61,6 +61,22 @@ PROVENANCE_SOURCES = [
         "manifest": ROOT / "services/voice/scripts/portuguese-patterns.json",
         "audio_subdir": "portuguese",
     },
+    {
+        "path": PROV_DIR / "spanish-foundations.json",
+        "manifest": ROOT / "services/voice/scripts/spanish-foundations.json",
+        "audio_subdir": "spanish-foundations",
+    },
+    {
+        "path": PROV_DIR / "portuguese-foundations.json",
+        "manifest": ROOT / "services/voice/scripts/portuguese-foundations.json",
+        "audio_subdir": "portuguese-foundations",
+    },
+    {
+        "path": PROV_DIR / "german-foundations.json",
+        "manifest": ROOT / "services/voice/scripts/german-foundations.json",
+        "audio_subdir": "german-foundations",
+        "model": "piper@1.8.0",
+    },
 ]
 
 
@@ -117,7 +133,7 @@ def build_provenance(source: dict[str, object]) -> dict[str, object]:
     return {
         "schema_version": SCHEMA_VERSION,
         "exported_at": source.get("exported_at", EXPORTED_AT),
-        "model": MODEL,
+        "model": source.get("model", MODEL),
         "manifest": manifest_rel,
         "languages": sorted({e["language"] for e in entries}),
         "voices": sorted({f"{e['language']}:{e['voice']}" for e in entries}),
@@ -129,19 +145,17 @@ def main() -> int:
     failures = 0
     for source in PROVENANCE_SOURCES:
         path: Path = source["path"]  # type: ignore[assignment]
-        if not path.exists():
-            print(f"skip (no file): {path.name}")
-            continue
         try:
             prov = build_provenance(source)
         except SystemExit as exc:
             print(f"FAIL {path.name}: {exc}", file=sys.stderr)
             failures += 1
             continue
-        existing = json.loads(path.read_text(encoding="utf-8"))
-        if existing.get("clips") == prov["clips"]:
+        existing = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+        if existing == prov:
             print(f"ok   {path.name} ({len(prov['clips'])} clips verified)")
         else:
+            path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(json.dumps(prov, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             print(f"fix  {path.name} ({len(prov['clips'])} clips reconciled from disk)")
     return 1 if failures else 0
