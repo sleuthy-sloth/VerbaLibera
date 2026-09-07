@@ -35,7 +35,9 @@
     "test:e2e:webkit": "playwright test --config playwright.mobile.config.ts",
     "portable:build": "tsx scripts/portable/build.ts",
     "portable:verify": "tsx scripts/portable/verify.ts",
-    "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts"
+    "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts",
+    "postgres:prepare": "bash scripts/desktop/prepare-postgres.sh",
+    "postgres:verify": "tsx scripts/desktop/verify-postgres.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
