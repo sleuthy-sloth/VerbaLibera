@@ -62,6 +62,7 @@ export async function startApplicationServer(
     ) as DesktopFailure;
   }
 
+  const appUrl = new URL(APP_ORIGIN);
   const env: Record<string, string> = {
     HOSTNAME: "127.0.0.1",
     PORT: String(APP_PORT),
@@ -73,6 +74,10 @@ export async function startApplicationServer(
     CONTENT_VERSION: context.appVersion,
     AUTH_JWT_PRIVATE_KEY_PATH: context.jwtPrivateKeyPath,
     AUTH_JWT_PUBLIC_KEY_PATH: context.jwtPublicKeyPath,
+    // The renderer runs at the fixed loopback origin, so the child server
+    // must verify passkeys against it — never the localhost:3000 default.
+    WEBAUTHN_RP_ID: appUrl.hostname,
+    WEBAUTHN_ORIGIN: appUrl.origin,
   };
   const launched = await context.launch(context.serverEntry, env);
   try {

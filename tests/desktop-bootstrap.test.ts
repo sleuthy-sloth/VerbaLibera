@@ -198,11 +198,31 @@ describe("desktop cookie security", () => {
 
 describe("desktop health", () => {
   it("reports the install identity and app version in desktop mode", async () => {
+    delete process.env.WEBAUTHN_RP_ID;
+    delete process.env.WEBAUTHN_ORIGIN;
     const response = await healthGet();
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
       identity: "install-1",
       version: "0.1.0",
+      webauthn: { rpID: "localhost", origin: "http://localhost:3000" },
     });
+  });
+
+  it("echoes the fixed-origin WebAuthn values the child server verifies against", async () => {
+    process.env.WEBAUTHN_RP_ID = "127.0.0.1";
+    process.env.WEBAUTHN_ORIGIN = "http://127.0.0.1:43127";
+    try {
+      const response = await healthGet();
+      expect(response.status).toBe(200);
+      expect(await response.json()).toEqual({
+        identity: "install-1",
+        version: "0.1.0",
+        webauthn: { rpID: "127.0.0.1", origin: "http://127.0.0.1:43127" },
+      });
+    } finally {
+      delete process.env.WEBAUTHN_RP_ID;
+      delete process.env.WEBAUTHN_ORIGIN;
+    }
   });
 });

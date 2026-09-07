@@ -7,6 +7,8 @@ import { desktopFailure } from "./errors";
 export interface HealthSnapshot {
   identity: string;
   version: string;
+  /** Echoed ceremony values; the supervisor gate verifies identity/version only. */
+  webauthn?: { rpID: string; origin: string };
 }
 
 export interface HealthGate {

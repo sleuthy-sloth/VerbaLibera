@@ -74,6 +74,30 @@ describe("desktop application server", () => {
     expect(env.VERBALIBERA_BOOTSTRAP_SECRET).toBe("test-bootstrap-secret");
   });
 
+  it("passes the fixed-origin WebAuthn configuration to the child server", async () => {
+    const launch = vi.fn(async () => ({
+      pid: 4444,
+      kill: () => {},
+      exited: new Promise<number>(() => {}),
+    }));
+    const seen: Array<{ identity: string; version: string } | null> = [
+      null,
+      { identity: "test-install-identity", version: "0.1.0" },
+    ];
+    await startApplicationServer(
+      baseContext({
+        launch,
+        fetchHealth: async () => seen.shift() ?? null,
+      }),
+    );
+    const launchCalls = launch.mock.calls as unknown as Array<
+      [string, Record<string, string>]
+    >;
+    const [, env] = launchCalls[0];
+    expect(env.WEBAUTHN_RP_ID).toBe("127.0.0.1");
+    expect(env.WEBAUTHN_ORIGIN).toBe("http://127.0.0.1:43127");
+  });
+
   it("never falls back to a different application port", async () => {
     const launch = vi.fn(async () => ({
       pid: 3333,

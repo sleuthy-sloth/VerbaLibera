@@ -21,7 +21,9 @@ export type WebAuthnCredentialDescriptor = {
   transports?: AuthenticatorTransportFuture[];
 };
 
-function getRpConfig() {
+/** Relying-party configuration; exported so the desktop health probe can
+ * echo the exact values the child server verifies against. */
+export function getRpConfig() {
   const rpID = process.env.WEBAUTHN_RP_ID ?? 'localhost';
   const rpName = process.env.WEBAUTHN_RP_NAME ?? 'VerbaLibera';
   const origin = process.env.WEBAUTHN_ORIGIN ?? `http://${rpID}:3000`;
