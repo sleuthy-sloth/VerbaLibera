@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import {
   copyFileSync,
   mkdirSync,
@@ -14,6 +16,7 @@ import {
   assertPortableAssetPath,
   collectPortableContent,
 } from "../scripts/portable/content";
+import { buildPortableHtml } from "../scripts/portable/build";
 
 const temporaryRoots: string[] = [];
 
@@ -70,5 +73,19 @@ describe("portable content collection", () => {
     );
 
     expect(() => collectPortableContent(root)).toThrow(/digest/i);
+  });
+});
+
+describe("portable HTML build", () => {
+  it("inlines code, styles, five courses, and restrictive network policy", async () => {
+    const html = await buildPortableHtml(process.cwd());
+
+    expect(html).toMatch(/^<!doctype html>/);
+    expect(html).toContain("connect-src 'none'");
+    expect(html).toContain("Italian foundations");
+    expect(html).toContain("German foundations");
+    expect(html).not.toMatch(/<script[^>]+src=/i);
+    expect(html).not.toMatch(/<link[^>]+href=/i);
+    expect(html).not.toContain("/api/course-progress");
   });
 });

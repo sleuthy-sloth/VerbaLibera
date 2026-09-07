@@ -1,10 +1,8 @@
 "use client";
 /* eslint-disable @next/next/no-html-link-for-pages -- Also bundled outside Next for offline cold starts. */
 /* Public offline entry shares this component. Keep Next/account imports out. */
-import { AccountPractice, usePracticeAccount } from "./AccountPractice";
-import { synchronizePractice } from "./sync";
 import catalog from "./catalog.json";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { CoursePack, Lesson } from "./schema";
 import {
   conceptEvidence,
@@ -19,7 +17,6 @@ import { DialogueView } from "./DialogueView";
 import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
 import type { CourseEnvironment } from "./environment";
-import { createHostedEnvironment } from "./hosted-environment";
 
 type View = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
 // Per-language Quiet Ink banners. Plain <img>: this component is also bundled
@@ -30,42 +27,28 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
   spanish: "/brand/courses/spanish.jpg",
   portuguese: "/brand/courses/portuguese.jpg",
 };
-const HOSTED_ENVIRONMENT = createHostedEnvironment();
-
 export type CourseWorkspaceProps = {
   initialLanguage?: string;
-  environment?: CourseEnvironment;
+  environment: CourseEnvironment;
+  scope?: string | null;
+  synchronize?: (scope: string, signal?: AbortSignal) => Promise<PracticeEvent[]>;
+  renderAccountPractice?: (props: {
+    status: string;
+    retry: () => void;
+  }) => ReactNode;
 };
 
 export function CourseWorkspace({
   initialLanguage = "italian",
-  environment = HOSTED_ENVIRONMENT,
+  environment,
+  scope = null,
+  synchronize,
+  renderAccountPractice,
 }: CourseWorkspaceProps) {
-  return environment.capabilities.accounts ? (
-    <AccountScopedWorkspace
-      initialLanguage={initialLanguage}
-      environment={environment}
-    />
-  ) : (
-    <ScopedWorkspace
-      initialLanguage={initialLanguage}
-      scope={null}
-      selectScope={() => {}}
-      environment={environment}
-    />
-  );
+  return <ScopedWorkspace initialLanguage={initialLanguage} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
 }
-
-function AccountScopedWorkspace({ initialLanguage, environment }: {
-  initialLanguage: string;
-  environment: CourseEnvironment;
-}) {
-  const { scope, ready, select } = usePracticeAccount();
-  if (!ready) return <main id="main-content" className="study"><p>Opening device practice…</p></main>;
-  return <ScopedWorkspace key={scope ?? "guest"} initialLanguage={initialLanguage} scope={scope} selectScope={select} environment={environment} />;
-}
-function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
-  initialLanguage: string; scope: string | null; selectScope: (scope: string | null) => void; environment: CourseEnvironment;
+function ScopedWorkspace({ initialLanguage, scope, environment, synchronize, renderAccountPractice }: {
+  initialLanguage: string; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
   const [syncStatus, setSyncStatus] = useState("");
@@ -85,7 +68,14 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
     [downloaded, setDownloaded] = useState(false),
     [installing, setInstalling] = useState(false),
     [storageReady, setStorageReady] = useState(false);
+  const [durability, setDurability] = useState(
+    environment.practice.getDurability(),
+  );
   const capabilities = environment.capabilities;
+  useEffect(
+    () => environment.practice.subscribeDurability(setDurability),
+    [environment],
+  );
   useEffect(() => {
     let active = true;
     Promise.all([
@@ -121,7 +111,8 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
       if (!navigator.onLine) { setSyncStatus("Saved locally. Waiting for a connection to sync."); return; }
       setSyncStatus("Synchronizing account practice…");
       try {
-        const synced = await synchronizePractice(scope, controller.signal);
+        if (!synchronize) return;
+        const synced = await synchronize(scope, controller.signal);
         if (!controller.signal.aborted) { setEvents(old => mergeEvents(old, synced)); setSyncStatus("Account practice synchronized."); }
       } catch (e) {
         if (!controller.signal.aborted) setSyncStatus(e instanceof Error ? e.message : "Sync failed. Local practice is safe.");
@@ -131,7 +122,7 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
     const reconnect = () => setSyncRevision(n => n + 1);
     window.addEventListener("online", reconnect);
     return () => { clearTimeout(timer); controller.abort(); window.removeEventListener("online", reconnect); };
-  }, [capabilities.synchronization, scope, storageReady, syncRevision]);
+  }, [capabilities.synchronization, scope, storageReady, syncRevision, synchronize]);
   useEffect(() => {
     if (lessonId && !session.length)
       document.querySelector<HTMLElement>(".study-lesson h2")?.focus();
@@ -268,6 +259,12 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
       </header>
       <p className="study-eyebrow">VerbaLibera · A1 course packs</p>
       <h1>{pack.title}</h1>
+      {durability === "temporary" ? (
+        <p role="alert">
+          Progress is temporary in this browser. Export a backup before
+          closing this file.
+        </p>
+      ) : null}
       {BANNER_BY_LANGUAGE[language] ? (
         <img className="course-banner" src={environment.resolveMedia(BANNER_BY_LANGUAGE[language])} alt="" />
       ) : null}
@@ -279,7 +276,12 @@ function ScopedWorkspace({ initialLanguage, scope, selectScope, environment }: {
         {completed.size}/{pack.lessons.length} lessons practised successfully.
         {scope ? " Account practice is synchronized when connected." : " Device practice is separate from account progress."}
       </p>
-      {capabilities.accounts ? <AccountPractice scope={scope} select={selectScope} status={syncStatus} retry={() => setSyncRevision(n => n + 1)} /> : null}
+      {capabilities.accounts && renderAccountPractice
+        ? renderAccountPractice({
+            status: syncStatus,
+            retry: () => setSyncRevision((n) => n + 1),
+          })
+        : null}
       <nav className="study-tabs" aria-label="Course workspace">
         {(
           ["Course", "Review", "Vocabulary", "Grammar", "Dialogues"] as const
