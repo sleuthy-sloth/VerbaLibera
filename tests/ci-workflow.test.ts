@@ -119,4 +119,13 @@ describe("CI workflow", () => {
     );
     expect(hasBareInstall, "should use 'npm ci' not 'npm install'").toBe(false);
   });
+
+  it("builds, verifies, browser-tests, and uploads the portable artifact", () => {
+    const content = readWorkflow();
+    expect(content).toMatch(/npm run portable:build/);
+    expect(content).toMatch(/npm run portable:verify/);
+    expect(content).toMatch(/playwright\.portable\.config\.ts/);
+    expect(content).toMatch(/dist\/portable\/VerbaLibera-Portable\.html/);
+    expect(content).toMatch(/dist\/portable\/VerbaLibera-Portable\.html\.sha256/);
+  });
 });

@@ -10,6 +10,33 @@ Hosted release (may differ from this checkout): [verbalibera.vercel.app](https:/
 
 Language learning through practical sentence construction. VerbaLibera introduces a useful pattern, asks you to produce it, then lets you reveal and compare a model answer—without timers or punitive progress mechanics.
 
+## Downloadable editions
+
+### Portable course edition
+
+`VerbaLibera-Portable.html` is one self-contained file for learners who want the course workspace without relying on a VerbaLibera server. Download it, keep it anywhere on your Mac, and double-click it to open in Safari or Chrome. It includes the French, German, Italian, Portuguese, and Spanish foundation packs, deterministic typed grading, review scheduling, dialogues, reference material, and every prerecorded audio file those packs use.
+
+The portable file deliberately does not include accounts, synchronization, the dashboard, placement and study-plan persistence, travel-course pages, service-worker installation, microphone transcription, generated speech, or semantic AI grading. It makes no network request. Practice progress belongs to the browser's storage for that local file. If the browser cannot provide durable IndexedDB storage, VerbaLibera displays a persistent warning and keeps progress only until that page closes.
+
+Use **Export practice backup** regularly, especially before moving the HTML file, clearing browser data, or changing browsers. **Import practice backup** merges that format back without double-counting event IDs. A successful save is reported only after the browser storage transaction completes.
+
+Release downloads include `VerbaLibera-Portable.html.sha256`. Verify both files from Terminal in their download folder:
+
+```bash
+shasum -a 256 -c VerbaLibera-Portable.html.sha256
+```
+
+To build the same artifact from this checkout:
+
+```bash
+npm ci
+npm run portable:build
+npm run portable:verify
+npm run test:e2e:portable
+```
+
+The output is written to `dist/portable/`. The Electron full-app edition is documented when its macOS package is built and verified.
+
 ![Dashboard on desktop](docs/screenshots/release/home-1280.png)
 
 ![Session on desktop](docs/screenshots/release/lesson-1280.png)
@@ -22,7 +49,7 @@ The screenshots show the live app running locally with the Quiet Ink interface �
 
 ## Structured foundation courses
 
-This checkout adds `/courses/italian` and `/courses/french`: 50 original A1 foundation lessons, 401 exercises, 204 vocabulary/expression records, 50 short readings and four scripted conversations. French and Italian both open with a words-first lesson (greetings and Latin-shared words) before any sentence building. Each lesson teaches a pattern before asking you to use it: the lesson page shows aim, explanation, worked examples and a word list, practice opens on a zero-recall meet-the-word choice, and the lesson model autoplays when practice begins so the learner hears the pattern first. Grammar references and vocabulary views are linked to practice evidence. These are partial A1 courses, not full CEFR programs or certifications; native-speaker editorial review remains open.
+This checkout includes foundation packs for French, German, Italian, Portuguese, and Spanish. French and Italian contain the broadest curricula; German, Portuguese, and Spanish currently begin with a compact first-words foundation. French and Italian both open with a words-first lesson (greetings and Latin-shared words) before any sentence building. Each lesson teaches a pattern before asking you to use it: the lesson page shows aim, explanation, worked examples and a word list, practice opens on a zero-recall meet-the-word choice, and the lesson model autoplays when practice begins so the learner hears the pattern first. Grammar references and vocabulary views are linked to practice evidence. These are partial A1 courses, not full CEFR programs or certifications; native-speaker editorial review remains open.
 
 Open **New: structured A1 foundations with offline study** from the Italian/French lesson index. Use **Download for offline study**, then open/bookmark the provided offline-study link. The shared offline workspace supports teaching, local grading, downloaded audio and durable device practice without a connection. Every foundation lesson now has a prerecorded model and optional dictation with slow replay. French lesson 1 also ships a 2-minute audio-only Thinking Method track (bottom **Listen** tab): an English teacher guide with think-pauses and French reveals, for walks and screen-off study — finishing a track logs it heard, never mastered. The 52 local Kokoro recordings passed waveform checks and transcription pre-screening; native-speaker prosody review remains open. Listening practice does not reset completed text lessons. The Quiet Ink interface ships original brand artwork: logo mark and lockup, hero banner, per-language course banners and a day-zero journal illustration (`public/brand/`).
 
@@ -155,7 +182,10 @@ Open [http://localhost:3000](http://localhost:3000).
 npm run test          # Vitest unit and component tests
 npm run test:e2e      # Chromium browser tests
 npm run test:e2e:webkit # WebKit foundation UI checks (offline automation excluded)
+npm run test:e2e:portable # Chromium + WebKit tests against the single local HTML file
 npm run content:validate # Course contracts, graph and media hashes
+npm run portable:build # Build dist/portable/VerbaLibera-Portable.html
+npm run portable:verify # Audit the artifact and write/verify its SHA-256 manifest
 npm run lint          # ESLint
 npm run typecheck     # TypeScript, no emit
 npm run build         # Next production build

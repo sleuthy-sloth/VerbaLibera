@@ -70,6 +70,12 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Build portable edition
+        run: npm run portable:build
+
+      - name: Verify portable edition
+        run: npm run portable:verify
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
@@ -77,6 +83,18 @@ jobs:
         # Serial workers: parallel workers flake under dev-server compile
         # contention (hydration/timeout failures that move between runs).
         run: npx playwright test --project=chromium --workers=1
+
+      - name: Portable file test (Chromium and WebKit)
+        run: npx playwright test --config playwright.portable.config.ts
+
+      - name: Upload portable edition
+        uses: actions/upload-artifact@v4
+        with:
+          name: VerbaLibera-Portable
+          path: |
+            dist/portable/VerbaLibera-Portable.html
+            dist/portable/VerbaLibera-Portable.html.sha256
+          if-no-files-found: error
 
       - name: Dump e2e failure snapshots
         if: failure()
