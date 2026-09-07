@@ -174,15 +174,11 @@ git commit -m "refactor: make course workspace environment aware"
 
 **Files:**
 - Create: `scripts/portable/content.ts`
-- Create: `scripts/portable/build.ts`
-- Create: `src/features/course-pack/portable-content.d.ts`
-- Modify: `package.json`
-- Modify: `.gitignore`
 - Test: `tests/portable-builder.test.ts`
 
 **Interfaces:**
 - Consumes: the five `courses/*/manifest.json` files and files under `public/` referenced by pack media and banner mappings.
-- Produces: `collectPortableContent(root): PortableContent`, `buildPortableHtml(content): Promise<string>`, and `npm run portable:build`.
+- Produces: `collectPortableContent(root): PortableContent` and `assertPortableAssetPath(value): void`.
 
 - [ ] **Step 1: Write failing compiler validation tests**
 
@@ -225,28 +221,18 @@ export function assertPortableAssetPath(value: string): void {
 }
 ```
 
-Sort languages and asset keys, validate every pack with `validatePack`, reject duplicate IDs, hash bytes with SHA-256, include all course banners, and fail on a manifest mismatch. Use an esbuild virtual module named `virtual:portable-content` so no generated source file is committed.
+Sort languages and asset keys, validate every pack with `validatePack`, reject duplicate IDs, hash bytes with SHA-256, include all course banners referenced by the workspace, and fail on a manifest mismatch.
 
-- [ ] **Step 4: Assemble one CSP-protected HTML string**
+- [ ] **Step 4: Run content compiler tests**
 
-Bundle the portable entry to memory, inline `study.css`, embed the virtual module data in the bundle, and produce this document shape:
+Run: `npx vitest run tests/portable-builder.test.ts`
 
-```html
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src blob: data:; media-src blob: data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>VerbaLibera Portable</title><style>/* bundled CSS */</style></head><body><div id="study-root"><p>Opening your courses…</p></div><script>/* bundled JS */</script></body></html>
-```
+Expected: PASS.
 
-Add scripts `portable:build`, `portable:verify`, and ignore `dist/`.
-
-- [ ] **Step 5: Run builder tests and build the artifact**
-
-Run: `npx vitest run tests/portable-builder.test.ts && npm run portable:build`
-
-Expected: PASS and `dist/portable/VerbaLibera-Portable.html` exists.
-
-- [ ] **Step 6: Commit the compiler**
+- [ ] **Step 5: Commit the compiler**
 
 ```bash
-git add scripts/portable src/features/course-pack/portable-content.d.ts package.json package-lock.json .gitignore tests/portable-builder.test.ts
+git add scripts/portable/content.ts tests/portable-builder.test.ts
 git commit -m "build: compile portable course content"
 ```
 
@@ -255,7 +241,11 @@ git commit -m "build: compile portable course content"
 **Files:**
 - Create: `src/features/course-pack/portable-environment.ts`
 - Create: `src/features/course-pack/portable-entry.tsx`
+- Create: `src/features/course-pack/portable-content.d.ts`
+- Create: `scripts/portable/build.ts`
 - Modify: `src/features/course-pack/CourseWorkspace.tsx`
+- Modify: `package.json`
+- Modify: `.gitignore`
 - Test: `tests/portable-environment.test.ts`
 - Test: `tests/course-storage.test.ts`
 
@@ -309,16 +299,26 @@ The IndexedDB probe must create, write, read, and delete a sentinel in one dedic
 
 In `portable-entry.tsx`, import `virtual:portable-content`, await `createPortableEnvironment`, choose a catalog-valid language from the query string, and mount `CourseWorkspace`. Add `role="alert"` copy: `Progress is temporary in this browser. Export a backup before closing this file.` whenever durability is temporary.
 
-- [ ] **Step 5: Run runtime, workspace, and grading regressions**
+- [ ] **Step 5: Assemble the single CSP-protected artifact**
 
-Run: `npx vitest run tests/portable-environment.test.ts tests/course-environment.test.ts tests/course-storage.test.ts tests/course-pack.test.ts tests/answer-checking.test.ts`
+Use an esbuild virtual module named `virtual:portable-content`, bundle `portable-entry.tsx` to memory, inline `study.css`, and embed both into this document shape:
 
-Expected: PASS.
+```html
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src blob: data:; media-src blob: data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>VerbaLibera Portable</title><style>/* bundled CSS */</style></head><body><div id="study-root"><p>Opening your courses…</p></div><script>/* bundled JS */</script></body></html>
+```
 
-- [ ] **Step 6: Commit the portable runtime**
+Add `portable:build` to `package.json`, ignore `dist/`, and build `dist/portable/VerbaLibera-Portable.html` deterministically.
+
+- [ ] **Step 6: Run runtime, workspace, grading, and artifact regressions**
+
+Run: `npx vitest run tests/portable-environment.test.ts tests/course-environment.test.ts tests/course-storage.test.ts tests/course-pack.test.ts tests/answer-checking.test.ts tests/portable-builder.test.ts && npm run portable:build`
+
+Expected: PASS and `dist/portable/VerbaLibera-Portable.html` exists.
+
+- [ ] **Step 7: Commit the portable runtime**
 
 ```bash
-git add src/features/course-pack/portable-environment.ts src/features/course-pack/portable-entry.tsx src/features/course-pack/CourseWorkspace.tsx tests/portable-environment.test.ts tests/course-storage.test.ts
+git add src/features/course-pack/portable-environment.ts src/features/course-pack/portable-entry.tsx src/features/course-pack/portable-content.d.ts src/features/course-pack/CourseWorkspace.tsx scripts/portable/build.ts package.json package-lock.json .gitignore tests/portable-environment.test.ts tests/course-storage.test.ts
 git commit -m "feat: run course workspace from one portable file"
 ```
 
