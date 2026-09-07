@@ -99,7 +99,19 @@ export async function startLocalPostgres(
     dataDir,
     port,
     password,
-    kill: () => {},
+    kill: () => {
+      // pg_ctl exits after forking, so this is the only handle on the real
+      // postmaster. A no-op here used to leave the cluster running after a
+      // failed `pg_ctl stop`.
+      if (pid > 0) {
+        const signal = context.signal ?? ((target, sig) => process.kill(target, sig));
+        try {
+          signal(pid, "SIGTERM");
+        } catch {
+          // Already stopped.
+        }
+      }
+    },
   };
 }
 

@@ -99,6 +99,37 @@ describe("desktop local PostgreSQL lifecycle", () => {
     expect(stop?.cmd.endsWith("pg_ctl")).toBe(true);
     expect(killed).toBe(false);
   });
+
+  it("kill signals the real postmaster instead of being a no-op", async () => {
+    const calls: SpawnCall[] = [];
+    const dataRoot = tmpDir();
+    fs.mkdirSync(path.join(dataRoot, "pgdata"), { recursive: true });
+    fs.writeFileSync(path.join(dataRoot, "pgdata", "PG_VERSION"), "18\n");
+    fs.writeFileSync(path.join(dataRoot, "pgdata", "postmaster.pid"), "98765\n");
+    const signals: Array<{ pid: number; signal: NodeJS.Signals }> = [];
+    const context = fakeContext(dataRoot, calls);
+    context.signal = (pid, signal) => {
+      signals.push({ pid, signal });
+    };
+    const owned = await startLocalPostgres(context);
+    expect(owned.pid).toBe(98765);
+    owned.kill();
+    expect(signals).toEqual([{ pid: 98765, signal: "SIGTERM" }]);
+  });
+
+  it("kill tolerates an already-stopped postmaster", async () => {
+    const calls: SpawnCall[] = [];
+    const dataRoot = tmpDir();
+    fs.mkdirSync(path.join(dataRoot, "pgdata"), { recursive: true });
+    fs.writeFileSync(path.join(dataRoot, "pgdata", "PG_VERSION"), "18\n");
+    fs.writeFileSync(path.join(dataRoot, "pgdata", "postmaster.pid"), "98765\n");
+    const context = fakeContext(dataRoot, calls);
+    context.signal = () => {
+      throw new Error("ESRCH");
+    };
+    const owned = await startLocalPostgres(context);
+    expect(() => owned.kill()).not.toThrow();
+  });
 });
 
 describe("desktop process identity", () => {

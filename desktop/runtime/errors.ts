@@ -14,6 +14,7 @@ export type DesktopFailureCode =
   | "REMOTE_UNREACHABLE"
   | "SETTINGS_CORRUPT"
   | "SCHEMA_TOO_NEW"
+  | "SERVER_CRASHED"
   | "ENCRYPTION_UNAVAILABLE";
 
 export interface DesktopFailure extends Error {

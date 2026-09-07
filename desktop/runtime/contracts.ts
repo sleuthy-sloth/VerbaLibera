@@ -41,6 +41,12 @@ export interface PostgresContext {
   /** Credentialed readiness probe (`SELECT 1`); true when serving. */
   probe: (databaseUrl: string) => Promise<boolean>;
   sleep: (ms: number) => Promise<void>;
+  /**
+   * Signal the postmaster when graceful `pg_ctl stop` fails. Defaults to
+   * `process.kill`; inject a spy in tests. Never targets another program:
+   * callers pass only the PID read from this cluster's postmaster.pid.
+   */
+  signal?: (pid: number, signal: NodeJS.Signals) => void;
 }
 
 export interface ProcessRecord {

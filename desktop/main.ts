@@ -13,14 +13,12 @@ import { APP_ORIGIN } from "./security/urls";
 import {
   startApplicationServer,
   healthUrl,
-  type RunningServer,
 } from "./runtime/server";
 import {
   startLocalPostgres,
-  stopOwnedProcess,
-  type StopRuntime,
 } from "./runtime/postgres";
-import type { OwnedProcess, SpawnFn } from "./runtime/contracts";
+import { ServiceLifecycle } from "./runtime/lifecycle";
+import type { SpawnFn } from "./runtime/contracts";
 import { desktopFailure, type DesktopFailureCode } from "./runtime/errors";
 import { createLogger } from "./runtime/logger";
 import { loadSettings, saveSettings } from "./settings/store";
@@ -43,9 +41,6 @@ const SCHEMA_VERSION_FALLBACK = "20260906000002";
 let mainWindow: BrowserWindow | null = null;
 let setupWindow: BrowserWindow | null = null;
 let recoveryWindow: BrowserWindow | null = null;
-let runningServer: RunningServer | null = null;
-let ownedPostgres: OwnedProcess | null = null;
-let stopRuntime: StopRuntime | null = null;
 let logPath = "";
 let userDataDir = "";
 let currentDatabaseUrl = "";
@@ -214,6 +209,11 @@ const sleep = (ms: number) =>
     setTimeout(done, ms);
   });
 
+// Single owner of the Next.js child server and the owned PostgreSQL
+// cluster. Restart, reset, and quit all stop services through this path,
+// so no flow can orphan a listener on the fixed application port.
+const services = new ServiceLifecycle({ sleep });
+
 function secureWindow(file: string, hash?: string): BrowserWindow {
   const window = new BrowserWindow({
     width: 720,
@@ -309,8 +309,10 @@ function registerIpc(res: ResourceLayout): void {
               probe: psqlProbe(res.psqlBin),
               sleep,
             });
-            ownedPostgres = owned;
-            stopRuntime = { spawn: awaitSpawn, runtimeBinDir: res.postgresBinDir };
+            services.attachDatabase(owned, {
+              spawn: awaitSpawn,
+              runtimeBinDir: res.postgresBinDir,
+            });
             saveLocalSecret(password);
             return { databaseUrl: owned.databaseUrl, dataDir: owned.dataDir };
           },
@@ -405,6 +407,9 @@ function registerIpc(res: ResourceLayout): void {
         shell.showItemInFolder(logPath || path.join(userDataDir, "logs"));
       },
       restart: async () => {
+        // Stop owned services first: relaunching over a live child orphans
+        // a listener on the fixed application port.
+        await shutdown();
         app.relaunch();
         app.exit(0);
       },
@@ -442,17 +447,15 @@ function registerIpc(res: ResourceLayout): void {
         if (current.active.mode !== "local") {
           throw new Error("Reset applies to local storage only.");
         }
+        // Stop the server before wiping its database, then the database
+        // itself — both through the shared lifecycle, never a partial stop.
+        await services.stopServer();
         const result = await resetLocalData(phrase, {
           dataDir: path.join(userDataDir, "db"),
-          stopDatabase: async () => {
-            if (ownedPostgres && stopRuntime) {
-              const owned = ownedPostgres;
-              ownedPostgres = null;
-              await stopOwnedProcess(owned, stopRuntime);
-            }
-          },
+          stopDatabase: () => services.stopDatabase(),
         });
         logger().write("database", `local data reset to backup ${result.backupPath}`);
+        await shutdown();
         app.relaunch();
         app.exit(0);
         return result;
@@ -474,7 +477,7 @@ async function bootServer(
   const keys = ensureJwtKeys(path.join(userDataDir, "keys"));
   const bootstrapSecret = randomBytes(32).toString("base64url");
   currentDatabaseUrl = databaseUrl;
-  runningServer = await startApplicationServer({
+  const started = await startApplicationServer({
     serverEntry: res.serverEntry,
     databaseUrl,
     desktopMode: mode,
@@ -518,6 +521,20 @@ async function bootServer(
       }
     },
     sleep,
+  });
+  services.attachServer(started);
+  // Post-health crash supervision (R5): a server that dies after passing
+  // the health gate leaves the learner window stranded. Normal shutdown
+  // detaches first, so only an unexpected exit reaches recovery here.
+  const watched = started;
+  void watched.exited.then(() => {
+    if (services.currentServer === watched) {
+      services.attachServer(null);
+      showRecovery(
+        "SERVER_CRASHED",
+        "The application server stopped unexpectedly. Your data is safe — restart VerbaLibera to continue.",
+      );
+    }
   });
   return { bootstrapSecret };
 }
@@ -609,8 +626,10 @@ async function startup(): Promise<void> {
         probe: psqlProbe(res.psqlBin),
         sleep,
       });
-      ownedPostgres = owned;
-      stopRuntime = { spawn: awaitSpawn, runtimeBinDir: res.postgresBinDir };
+      services.attachDatabase(owned, {
+        spawn: awaitSpawn,
+        runtimeBinDir: res.postgresBinDir,
+      });
       await migrateDatabase({
         mode: "local",
         databaseUrl: owned.databaseUrl,
@@ -667,27 +686,7 @@ async function shutdown(): Promise<void> {
     }
   }
   mainWindow = setupWindow = recoveryWindow = null;
-  if (runningServer) {
-    const server = runningServer;
-    runningServer = null;
-    server.kill();
-    const force = setTimeout(() => {
-      try {
-        process.kill(server.pid, "SIGKILL");
-      } catch {
-        // already gone
-      }
-    }, 5000);
-    await Promise.race([server.exited, sleep(5100)]);
-    clearTimeout(force);
-  }
-  if (ownedPostgres && stopRuntime) {
-    const owned = ownedPostgres;
-    const runtime = stopRuntime;
-    ownedPostgres = null;
-    stopRuntime = null;
-    await stopOwnedProcess(owned, runtime).catch(() => owned.kill());
-  }
+  await services.shutdown();
 }
 
 const gotLock = app.requestSingleInstanceLock();
