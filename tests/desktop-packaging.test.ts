@@ -2,6 +2,7 @@
 import { describe, it, expect } from "vitest";
 import { createRequire } from "node:module";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 const ROOT = process.cwd();
@@ -65,6 +66,58 @@ describe("desktop packaging configuration", () => {
     expect(packageJson.scripts?.["electron:verify"]).toMatch(/verify-artifact/);
     expect(packageJson.scripts?.["electron:make"]).toMatch(/--arch=arm64/);
   });
+
+  it("keeps build-only runners out of production dependencies", () => {
+    // Regression: `tsx` lived in dependencies and shipped its universal
+    // fsevents binary inside the app, failing the arm64-only artifact audit.
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(ROOT, "package.json"), "utf8"),
+    ) as { dependencies?: Record<string, string>; devDependencies?: Record<string, string> };
+    expect(pkg.dependencies ?? {}).not.toHaveProperty("tsx");
+    expect(pkg.devDependencies ?? {}).toHaveProperty("tsx");
+  });
+
+  it.skipIf(!fs.existsSync(STAGED_CLI_ENTRY))(
+    "staged prisma config resolves `prisma/config` without repo node_modules",
+    () => {
+      // Regression: packaged first runs crashed with
+      // `Cannot find module 'prisma/config'` because Node resolves the
+      // specifier from the staged config file, which ships with no
+      // node_modules of its own. In-repo runs masked it via upward
+      // resolution into the repo's node_modules, so this test replays an
+      // install-isolated jail under tmpdir (whose ancestors carry no
+      // prisma) with only the staged server tree + CLI symlinked in.
+      const jail = fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-prisma-jail-"));
+      // Mirror the shipped layout exactly: <stage>/server + <stage>/prisma-cli
+      // as siblings (the shim's relative require depends on that depth).
+      const stageDir = path.join(jail, "stage");
+      const serverDir = path.join(ROOT, ".desktop-stage/server");
+      const jailServer = path.join(stageDir, "server");
+      // Only what config resolution touches (never the whole .next tree).
+      for (const rel of ["prisma.config.ts", "prisma", "node_modules"]) {
+        fs.cpSync(path.join(serverDir, rel), path.join(jailServer, rel), {
+          recursive: true,
+        });
+      }
+      fs.symlinkSync(
+        path.join(ROOT, ".desktop-stage/prisma-cli"),
+        path.join(stageDir, "prisma-cli"),
+      );
+      const requireFromJail = createRequire(
+        path.join(stageDir, "server", "prisma.config.ts"),
+      );
+      // Must resolve at all: without the staged shim this throws
+      // MODULE_NOT_FOUND (the jail's ancestors carry no prisma). The target
+      // realpaths out of the jail only because the test symlinks the CLI;
+      // the shipped app carries real directories.
+      const resolved = requireFromJail.resolve("prisma/config");
+      expect(resolved.endsWith("prisma/config.js")).toBe(true);
+      const configModule = requireFromJail("prisma/config") as {
+        defineConfig?: unknown;
+      };
+      expect(typeof configModule.defineConfig).toBe("function");
+    },
+  );
 
   it.skipIf(!fs.existsSync(STAGED_CLI_ENTRY))(
     "staged Prisma CLI resolves its dependency closure",

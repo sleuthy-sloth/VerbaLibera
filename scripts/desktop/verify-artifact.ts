@@ -46,10 +46,12 @@ const CONTENT_FAILURE_PATTERNS: Array<{
   {
     pattern: /(src|poster|action)=["']https?:\/\/(?!127\.0\.0\.1|localhost)/i,
     reason: "off-machine resource reference",
+    skipVendored: true,
   },
   {
     pattern: /<link[^>]*href=["']https?:\/\/(?!127\.0\.0\.1|localhost)/i,
     reason: "off-machine resource reference",
+    skipVendored: true,
   },
 ];
 

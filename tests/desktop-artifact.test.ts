@@ -12,6 +12,7 @@ import {
   collectArtifactPaths,
   writeBuildInfo,
 } from "../scripts/desktop/verify-artifact";
+import { neutralizeStagedRepoPaths } from "../scripts/desktop/stage-next";
 
 function fixture(files: Record<string, string>): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-audit-"));
@@ -75,6 +76,34 @@ describe("desktop artifact audit", () => {
     const dir = fixture({ "app/main.js": "sandbox: false\n" });
     const failures = auditShippedApp(dir, path.join(dir, "app/main.js"));
     expect(failures.join("\n")).toMatch(/renderer policy/);
+  });
+
+  it("neutralizes staged build-machine roots in Next output", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-neutral-"));
+    const nextDir = path.join(dir, ".next/server");
+    fs.mkdirSync(nextDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(nextDir, "chunk.js"),
+      'sources:["/repo-root/src/app/layout"]',
+    );
+    fs.writeFileSync(
+      path.join(nextDir, "next-font-manifest.json"),
+      JSON.stringify({ app: [["/repo-root/src/app/layout"]] }),
+    );
+    fs.writeFileSync(
+      path.join(nextDir, "required-server-files.json"),
+      JSON.stringify({ files: ["/repo-root/keep"] }),
+    );
+    expect(neutralizeStagedRepoPaths(dir, "/repo-root")).toBe(2);
+    expect(fs.readFileSync(path.join(nextDir, "chunk.js"), "utf8")).not.toContain(
+      "/repo-root",
+    );
+    expect(
+      JSON.parse(fs.readFileSync(path.join(nextDir, "next-font-manifest.json"), "utf8")),
+    ).toEqual({ app: [["/verbalibera-build-root/src/app/layout"]] });
+    expect(
+      fs.readFileSync(path.join(nextDir, "required-server-files.json"), "utf8"),
+    ).toContain("/repo-root");
   });
 
   it("ties the DMG checksum to the source revision", () => {

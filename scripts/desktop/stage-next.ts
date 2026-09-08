@@ -75,9 +75,11 @@ export async function stageNextServer(root: string = process.cwd()): Promise<str
   }
   const stagedConfig = path.join(stageRoot, "prisma.config.ts");
   if (fs.existsSync(stagedConfig)) stripStagedDotenvImport(stagedConfig);
+  stagePrismaConfigShim(stageRoot);
   neutralizeBuildMachineRoot(serverEntry, repoRoot);
   neutralizeRequiredServerFiles(path.join(stageRoot, ".next/required-server-files.json"), repoRoot);
   stripSourceMaps(stageRoot);
+  neutralizeStagedRepoPaths(stageRoot, repoRoot);
   stagePrismaCli(repoRoot);
   await buildSeedBundle(repoRoot);
   return stageRoot;
@@ -98,6 +100,52 @@ export function stripSourceMaps(stageRoot: string): number {
   }
   walk(stageRoot);
   return removed;
+}
+
+/**
+ * Replaces remaining build-machine checkout roots inside staged Next.js
+ * output (font-manifest importer paths, chunk debug sources) with a stable
+ * placeholder. These strings are inert metadata — stack-trace sources and
+ * font bookkeeping — never load paths, so rewriting them cannot change
+ * runtime file resolution. Structured manifests that must stay parseable
+ * (required-server-files.json, *.nft.json) are excluded; they are covered
+ * by their own key-scoped neutralization. Returns files rewritten.
+ */
+const NEUTRAL_BUILD_ROOT = "/verbalibera-build-root";
+
+export function neutralizeStagedRepoPaths(
+  stageRoot: string,
+  repoRoot: string,
+): number {
+  let rewritten = 0;
+  function walk(dir: string): void {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(full);
+        continue;
+      }
+      if (!entry.isFile()) continue;
+      const base = path.basename(full);
+      if (
+        !full.endsWith(".js") &&
+        !base.startsWith("next-font-manifest")
+      ) {
+        continue;
+      }
+      let content: string;
+      try {
+        content = fs.readFileSync(full, "utf8");
+      } catch {
+        continue;
+      }
+      if (!content.includes(repoRoot)) continue;
+      fs.writeFileSync(full, content.split(repoRoot).join(NEUTRAL_BUILD_ROOT));
+      rewritten += 1;
+    }
+  }
+  walk(path.join(stageRoot, ".next"));
+  return rewritten;
 }
 
 /**
@@ -129,6 +177,28 @@ function stripStagedDotenvImport(stagedConfigPath: string): void {
     fs.writeFileSync(stagedConfigPath, kept.join("\n"));
   }
 }
+/**
+ * The staged prisma.config.ts imports `prisma/config`, but the staged server
+ * dir has no node_modules of its own — and Node resolves the specifier from
+ * the config file, not from the CLI entry. Without this shim a packaged
+ * launch crashes with `Cannot find module 'prisma/config'` (masked in-repo
+ * because resolution walks up to the repo's node_modules). The shim
+ * re-exports the staged CLI's real `prisma/config` via a relative require,
+ * so its own `@prisma/*` deps keep resolving inside prisma-cli/node_modules.
+ */
+function stagePrismaConfigShim(stageRoot: string): void {
+  const shimDir = path.join(stageRoot, "node_modules", "prisma");
+  fs.mkdirSync(shimDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(shimDir, "package.json"),
+    JSON.stringify({ name: "prisma", exports: { "./config": "./config.js" } }),
+  );
+  fs.writeFileSync(
+    path.join(shimDir, "config.js"),
+    'module.exports = require("../../../prisma-cli/node_modules/prisma/config.js");\n',
+  );
+}
+
 /**
  * Copies the transitive third-party dependencies (e.g. `effect`, required
  * by `@prisma/config`) of the staged packages from the repo's node_modules.
