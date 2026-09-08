@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   description: "A focused daily path for practical language patterns.",
   metadataBase: new URL("https://verbalibera.vercel.app"),
   icons: { apple: "/apple-touch-icon.png" },
+  appleWebApp: {
+    capable: true,
+    title: "VerbaLibera",
+    statusBarStyle: "default",
+  },
   openGraph: {
     title: "VerbaLibera · An offline language course that respects you",
     description: "Structured Italian and French A1 lessons with hear-it-first audio. No signup, no AI chatbot, works offline.",
