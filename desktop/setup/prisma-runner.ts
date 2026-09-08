@@ -9,6 +9,12 @@ export interface PackagedCommand {
   bin: string;
   args: string[];
   env?: Record<string, string>;
+  /**
+   * Working directory for config-relative resolution (Prisma reads
+   * prisma.config.ts and prisma/ relative to cwd). The staged server dir,
+   * so Finder launches never depend on the launch directory.
+   */
+  cwd?: string;
 }
 
 export interface PrismaRunnerPaths {
@@ -25,6 +31,7 @@ export function runChild(
   args: string[],
   databaseUrl: string,
   extraEnv: Record<string, string> = {},
+  cwd?: string,
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
     const child = spawn(bin, args, {
@@ -41,6 +48,7 @@ export function runChild(
       // inherited pipe that nobody writes to.
       stdio: ["ignore", "pipe", "pipe"],
       timeout: 180_000,
+      ...(cwd === undefined ? {} : { cwd }),
     });
     let stdout = "";
     let stderr = "";
@@ -68,10 +76,10 @@ export function runChild(
 export function createPrismaRunner(paths: PrismaRunnerPaths): MigrationRunner {
   return {
     deploy: async (databaseUrl: string) => {
-      await runChild(paths.migrate.bin, [...paths.migrate.args, "deploy"], databaseUrl, paths.migrate.env);
+      await runChild(paths.migrate.bin, [...paths.migrate.args, "deploy"], databaseUrl, paths.migrate.env, paths.migrate.cwd);
     },
     seed: async (databaseUrl: string) => {
-      await runChild(paths.seed.bin, paths.seed.args, databaseUrl, paths.seed.env);
+      await runChild(paths.seed.bin, paths.seed.args, databaseUrl, paths.seed.env, paths.seed.cwd);
     },
     listApplied: async (databaseUrl: string) => {
       try {

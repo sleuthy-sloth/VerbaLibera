@@ -1,10 +1,13 @@
 // @vitest-environment node
 import { describe, it, expect } from "vitest";
+import { createRequire } from "node:module";
 import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = process.cwd();
 const MAIN_JS_PATH = path.join(ROOT, "desktop-dist/main.js");
+const STAGED_MODULES = path.join(ROOT, ".desktop-stage/prisma-cli/node_modules");
+const STAGED_CLI_ENTRY = path.join(STAGED_MODULES, "prisma/build/index.js");
 // desktop-dist/ is gitignored build output produced by `npm run desktop:compile`.
 // Clean Linux CI runners lack it, so the compiled-main assertion below only runs
 // when the artifact is present instead of failing with ENOENT.
@@ -62,6 +65,45 @@ describe("desktop packaging configuration", () => {
     expect(packageJson.scripts?.["electron:verify"]).toMatch(/verify-artifact/);
     expect(packageJson.scripts?.["electron:make"]).toMatch(/--arch=arm64/);
   });
+
+  it.skipIf(!fs.existsSync(STAGED_CLI_ENTRY))(
+    "staged Prisma CLI resolves its dependency closure",
+    () => {
+      // Regression: the staged CLI crashed with MODULE_NOT_FOUND (`effect`,
+      // required by `@prisma/config`) on first packaged launch. Pin
+      // resolvability of the known third-party dep from the staged tree.
+      // (A blind loop over all manifest deps over-asserts: ESM-only packages
+      // like `@prisma/studio-core` are never loaded by `migrate deploy`.)
+      const requireFromConfig = createRequire(
+        path.join(STAGED_MODULES, "@prisma/config/package.json"),
+      );
+      expect(() => requireFromConfig.resolve("effect")).not.toThrow();
+    },
+  );
+
+  it.skipIf(!fs.existsSync(STAGED_CLI_ENTRY))(
+    "staged server carries its Prisma config and schema",
+    () => {
+      // migrate deploy resolves prisma.config.ts and prisma/ relative to its
+      // working directory; without these staged files packaged launches fail
+      // from any directory without the repo checked out (e.g. Finder).
+      const serverDir = path.join(ROOT, ".desktop-stage/server");
+      expect(fs.existsSync(path.join(serverDir, "prisma.config.ts"))).toBe(true);
+      expect(fs.existsSync(path.join(serverDir, "prisma/schema.prisma"))).toBe(
+        true,
+      );
+      expect(
+        fs.existsSync(path.join(serverDir, "prisma/migrations")),
+      ).toBe(true);
+      // The staged config must not require dev-only packages: DATABASE_URL
+      // always arrives via the child environment and no .env is staged.
+      const stagedConfig = fs.readFileSync(
+        path.join(serverDir, "prisma.config.ts"),
+        "utf8",
+      );
+      expect(stagedConfig).not.toContain("dotenv/config");
+    },
+  );
 
   it.skipIf(!fs.existsSync(MAIN_JS_PATH))(
     "ships no auto-updater package, feed, or update channel",

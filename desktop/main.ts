@@ -97,10 +97,12 @@ function resolveResources(): ResourceLayout {
             path.join(resources, "prisma-cli/node_modules/prisma/build/index.js"),
             "migrate",
           ],
+          cwd: path.join(resources, "server"),
         },
         seed: {
           bin: nodeBin,
           args: [path.join(resources, "server/seed.mjs")],
+          cwd: path.join(resources, "server"),
         },
         psqlBin: path.join(resources, "postgres/bin/psql"),
       },
@@ -120,10 +122,12 @@ function resolveResources(): ResourceLayout {
       migrate: {
         bin: process.execPath,
         args: [path.join(repoRoot, "node_modules/prisma/build/index.js"), "migrate"],
+        cwd: path.join(repoRoot, ".desktop-stage/server"),
       },
       seed: {
         bin: process.execPath,
         args: [path.join(repoRoot, ".desktop-stage/server/seed.mjs")],
+        cwd: path.join(repoRoot, ".desktop-stage/server"),
       },
       psqlBin: path.join(repoRoot, ".desktop-stage/postgres/bin/psql"),
     },

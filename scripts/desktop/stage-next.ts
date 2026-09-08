@@ -14,6 +14,10 @@ const COPY_TREES: Array<{ from: string; to: string }> = [
   { from: ".next/static", to: ".next/static" },
   { from: "public", to: "public" },
   { from: "prisma/migrations", to: "prisma/migrations" },
+  // migrate deploy resolves prisma.config.ts and prisma/ relative to its
+  // working directory; stage both so packaged runs never depend on cwd.
+  { from: "prisma.config.ts", to: "prisma.config.ts" },
+  { from: "prisma/schema.prisma", to: "prisma/schema.prisma" },
   { from: "public/packs", to: "public/packs" },
 ];
 
@@ -25,6 +29,16 @@ function assertInsideRepo(root: string, candidate: string): void {
 }
 
 function rejectExternalSymlinks(dir: string, sourceRoot: string): void {
+  const stat = fs.lstatSync(dir);
+  if (!stat.isDirectory()) {
+    if (stat.isSymbolicLink()) {
+      const resolved = path.resolve(path.dirname(dir), fs.readlinkSync(dir));
+      if (resolved !== sourceRoot && !resolved.startsWith(sourceRoot + path.sep)) {
+        throw new Error(`Refusing to stage external symlink: ${dir}`);
+      }
+    }
+    return;
+  }
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     const stat = fs.lstatSync(full);
@@ -59,6 +73,8 @@ export async function stageNextServer(root: string = process.cwd()): Promise<str
       `Standalone server entry missing at ${serverEntry}; run 'npm run build' first.`,
     );
   }
+  const stagedConfig = path.join(stageRoot, "prisma.config.ts");
+  if (fs.existsSync(stagedConfig)) stripStagedDotenvImport(stagedConfig);
   neutralizeBuildMachineRoot(serverEntry, repoRoot);
   neutralizeRequiredServerFiles(path.join(stageRoot, ".next/required-server-files.json"), repoRoot);
   stripSourceMaps(stageRoot);
@@ -99,6 +115,58 @@ const PRISMA_SCOPED_ALLOWLIST = [
   "driver-adapter-utils",
 ];
 
+/**
+ * The staged prisma.config.ts runs with DATABASE_URL from the child
+ * environment and no .env file is ever staged, so its `dotenv/config`
+ * import is dead weight that would crash packaged migrate runs
+ * (dotenv is a dev-only package). Strip that line from the staged copy;
+ * the repository config is untouched.
+ */
+function stripStagedDotenvImport(stagedConfigPath: string): void {
+  const lines = fs.readFileSync(stagedConfigPath, "utf8").split("\n");
+  const kept = lines.filter((line) => !line.includes("dotenv/config"));
+  if (kept.length !== lines.length) {
+    fs.writeFileSync(stagedConfigPath, kept.join("\n"));
+  }
+}
+/**
+ * Copies the transitive third-party dependencies (e.g. `effect`, required
+ * by `@prisma/config`) of the staged packages from the repo's node_modules.
+ * Without this the staged CLI crashes with MODULE_NOT_FOUND on first run.
+ */
+function stagePrismaCliThirdPartyDeps(
+  repoRoot: string,
+  destModules: string,
+): void {
+  const queue: string[] = ["prisma"];
+  const staged = new Set<string>(["prisma"]);
+  for (const pkg of PRISMA_SCOPED_ALLOWLIST) {
+    staged.add(`@prisma/${pkg}`);
+    queue.push(`@prisma/${pkg}`);
+  }
+  while (queue.length > 0) {
+    const name = queue.pop()!;
+    const manifestPath = path.join(destModules, name, "package.json");
+    let manifest: { dependencies?: Record<string, string> };
+    try {
+      manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    } catch {
+      continue;
+    }
+    for (const dep of Object.keys(manifest.dependencies ?? {})) {
+      if (staged.has(dep)) continue;
+      const source = path.join(repoRoot, "node_modules", dep);
+      if (!fs.existsSync(source)) continue;
+      staged.add(dep);
+      fs.cpSync(path.join(source), path.join(destModules, dep), {
+        recursive: true,
+        filter: (entry) => !entry.endsWith(".map"),
+      });
+      queue.push(dep);
+    }
+  }
+}
+
 export function stagePrismaCli(repoRoot: string): string {
   const dest = path.join(repoRoot, PRISMA_CLI_STAGE_DIR);
   fs.rmSync(dest, { recursive: true, force: true });
@@ -124,6 +192,7 @@ export function stagePrismaCli(repoRoot: string): string {
   if (!fs.existsSync(cliEntry)) {
     throw new Error(`Staged Prisma CLI entry missing at ${cliEntry}.`);
   }
+  stagePrismaCliThirdPartyDeps(repoRoot, destModules);
   return dest;
 }
 
