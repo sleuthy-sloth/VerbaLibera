@@ -39,4 +39,12 @@ describe("macOS release workflow", () => {
     expect(workflow).toMatch(/workflow_dispatch/);
     expect(workflow).not.toMatch(/APPLE_ID|CSC_LINK|notar/i);
   });
+
+  it("declares release permissions and create-or-upload publication", () => {
+    const workflow = readWorkflow();
+    expect(workflow).toMatch(/permissions:\s*\n\s*contents:\s*write/);
+    expect(workflow).toMatch(/gh release view/);
+    expect(workflow).toMatch(/gh release create/);
+    expect(workflow).toMatch(/--clobber/);
+  });
 });
