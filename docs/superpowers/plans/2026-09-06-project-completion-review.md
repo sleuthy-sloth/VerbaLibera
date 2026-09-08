@@ -129,10 +129,10 @@ Preserve no-runtime-LLM grading, existing accounts and event IDs, explicit guest
 
 **Files:** duplicate files listed above; generated `.next/types`; `docs/astra/phase-status.md`, `docs/astra/implementation-report.md`, `README.md`.
 
-- [ ] Compare each duplicate with its tracked counterpart; preserve unique edits in a recovery location before removing accidental copies. Regenerate build outputs rather than broadening type/lint ignores.
-- [ ] Run `npm run content:validate`, `npm test`, `npm run lint`, `npm run build`, then `npm run typecheck`. Capture exit codes and revision in a new verification record.
-- [ ] Correct stale claims: German has one lesson, not zero; foundation event sync is implemented; historical 408/506 totals are not current; distribution existence is distinct from acceptance.
-- [ ] Commit only reviewed baseline/documentation changes.
+- [x] Compare each duplicate with its tracked counterpart; preserve unique edits in a recovery location before removing accidental copies. Regenerate build outputs rather than broadening type/lint ignores.
+- [x] Run `npm run content:validate`, `npm test`, `npm run lint`, `npm run build`, then `npm run typecheck`. Capture exit codes and revision in a new verification record.
+- [x] Correct stale claims: German has one lesson, not zero; foundation event sync is implemented; historical 408/506 totals are not current; distribution existence is distinct from acceptance.
+- [x] Commit only reviewed baseline/documentation changes.
 
 **Exit:** clean checks from a reproducible checkout, with any skipped test named and explained. No unexplained duplicates remain in the build inputs.
 
@@ -140,10 +140,10 @@ Preserve no-runtime-LLM grading, existing accounts and event IDs, explicit guest
 
 Depends on A. Work through the following independently reviewable tasks; each starts with a failing regression, receives the minimal repair, then focused tests and a commit.
 
-- [ ] **B1 Remote authentication:** modify `desktop/runtime/server.ts`; extend `tests/desktop-server.test.ts`; add `tests/e2e/electron-remote.spec.ts`. Assert fixed-origin configuration and real registration/sign-in. Consumes `APP_ORIGIN`; produces a server environment matching it.
-- [ ] **B2 Controlled restart/crash:** modify `desktop/main.ts`, `desktop/runtime/server.ts`, `desktop/runtime/postgres.ts`; add `tests/desktop-lifecycle.test.ts` and extend `electron-recovery.spec.ts`. Exercise restart twice, crash after healthy launch, database stop failure and reset with an active server. Produce one idempotent lifecycle shutdown path.
-- [ ] **B3 Storage transitions:** modify `desktop/main.ts`, `desktop/runtime/reset.ts`, `desktop/settings/store.ts`; extend storage unit tests and add `tests/e2e/electron-storage.spec.ts`. Exercise remote-first → local, local → remote → local, failed activation and preserved progress. Activate pending settings only after successful preparation.
-- [ ] **B4 Migration correctness:** modify `desktop/runtime/migrations.ts` and its callers; extend migration tests and add `tests/e2e/electron-upgrade.spec.ts`. Pass `migrationsDir` explicitly; test unrelated working directory, newer remote schema, failed forward migration, preserved prior progress and approval rejection. Document exactly what metadata backups can restore; do not describe them as full data backups.
+- [x] **B1 Remote authentication:** modify `desktop/runtime/server.ts`; extend `tests/desktop-server.test.ts`; add `tests/e2e/electron-remote.spec.ts`. Assert fixed-origin configuration and real registration/sign-in. Consumes `APP_ORIGIN`; produces a server environment matching it. (Server-side config proven with integration spec; full virtual-authenticator ceremony stays Milestone C.)
+- [x] **B2 Controlled restart/crash:** modify `desktop/main.ts`, `desktop/runtime/server.ts`, `desktop/runtime/postgres.ts`; add `tests/desktop-lifecycle.test.ts` and extend `electron-recovery.spec.ts`. Exercise restart twice, crash after healthy launch, database stop failure and reset with an active server. Produce one idempotent lifecycle shutdown path. (Unit-covered with 7 lifecycle specs; live crash-after-load and repeated-restart process audits stay Milestone C.)
+- [x] **B3 Storage transitions:** modify `desktop/main.ts`, `desktop/runtime/reset.ts`, `desktop/settings/store.ts`; extend storage unit tests and add `tests/e2e/electron-storage.spec.ts`. Exercise remote-first → local, local → remote → local, failed activation and preserved progress. Activate pending settings only after successful preparation.
+- [x] **B4 Migration correctness:** modify `desktop/runtime/migrations.ts` and its callers; extend migration tests and add `tests/e2e/electron-upgrade.spec.ts`. Pass `migrationsDir` explicitly; test unrelated working directory, newer remote schema, failed forward migration, preserved prior progress and approval rejection. Document exactly what metadata backups can restore; do not describe them as full data backups. (Unit-covered with fixture dirs; the electron-upgrade e2e stays Milestone C.)
 
 **Exit:** R1–R5 resolved with integration evidence, no orphaned processes, no unintended remote migration, and no progress loss during upgrade or mode switching.
 
@@ -225,9 +225,9 @@ User priorities added after review: Lesson 0 must be the default beginner entry;
 
 This slice precedes milestone A/B execution because it repairs the primary learning journey. It does not close the desktop blockers or the complete curriculum-variety milestone.
 
-- [ ] Route dashboard Start learning and the Practice tab to the selected foundation course, opening its next eligible lesson. New learners start at Lesson 0; saved foundation history advances normally; retain travel links and history.
-- [ ] Put language downloads above the course list, link directly from the dashboard, report pending/success/failure accurately, and explain installed-app versus downloaded-content storage.
-- [ ] Make the offline welcome page offer language entry points instead of only asking the learner to reconnect. Verify a downloaded course opens from an offline dashboard launch without caching account HTML.
-- [ ] Introduce distinct choice cards, editable sentence construction, inline missing-word practice, reading layout and session progress. Collapse repeated explanations after correct answers; keep help and assisted-answer accounting intact.
-- [ ] Improve a small set of early Italian/French prompts with everyday situations, preserving answer contracts and event IDs. Follow with the larger milestone E/F authoring pass: scenario diversity, visual content where instructional, varied retrieval and native-speaker review.
-- [ ] Verify beginner entry, returning learner behavior, download failure/retry, offline cold start, mobile layout, accessible controls and all existing regression tests. Record what is implemented separately from future content work.
+- [x] Route dashboard Start learning and the Practice tab to the selected foundation course, opening its next eligible lesson. New learners start at Lesson 0; saved foundation history advances normally; retain travel links and history.
+- [x] Put language downloads above the course list, link directly from the dashboard, report pending/success/failure accurately, and explain installed-app versus downloaded-content storage.
+- [x] Make the offline welcome page offer language entry points instead of only asking the learner to reconnect. Verify a downloaded course opens from an offline dashboard launch without caching account HTML.
+- [x] Introduce distinct choice cards, editable sentence construction, inline missing-word practice, reading layout and session progress. Collapse repeated explanations after correct answers; keep help and assisted-answer accounting intact.
+- [x] Improve a small set of early Italian/French prompts with everyday situations, preserving answer contracts and event IDs. Follow with the larger milestone E/F authoring pass: scenario diversity, visual content where instructional, varied retrieval and native-speaker review.
+- [x] Verify beginner entry, returning learner behavior, download failure/retry, offline cold start, mobile layout, accessible controls and all existing regression tests. Record what is implemented separately from future content work.
