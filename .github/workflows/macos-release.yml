@@ -24,7 +24,7 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: XCode command line tools check
-        run: xcode-select -p && otool -V
+        run: xcode-select -p && otool --version
 
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
