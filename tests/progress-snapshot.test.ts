@@ -216,8 +216,10 @@ describe('study-plan driven signed-in session', () => {
 
   it('advances the plan position past completed plan drills', async () => {
     const firstDrill = plan.weeks.flatMap((week) => week.items).find((item) => item.mode === 'drill')!;
+    // Relative due date: a hardcoded date rots at UTC midnight (observed Sep 8).
+    const dueAt = new Date(Date.now() + 2 * 86400000);
     (prisma.userProgress.findMany as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([
-      { drillItemId: firstDrill.drillId!, lastQuality: 4, dueAt: new Date('2026-09-08T00:00:00Z') },
+      { drillItemId: firstDrill.drillId!, lastQuality: 4, dueAt },
     ]);
     (prisma.studyPlan.findMany as unknown as ReturnType<typeof vi.fn>).mockResolvedValue([
       { courseSlug: 'english-to-french', planJson: plan },
