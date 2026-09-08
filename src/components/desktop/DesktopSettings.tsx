@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import type { RendererApi, StorageStatus } from "../../../desktop/preload-api";
+import styles from "./desktop-panels.module.css";
 
 function api(): RendererApi | null {
   if (typeof window === "undefined") return null;
@@ -86,8 +87,8 @@ export default function DesktopSettings() {
     status?.active.mode === "local" && status?.pending?.mode === "remote";
 
   return (
-    <div>
-      <section>
+    <div className={styles.page}>
+      <section className={styles.card}>
         <h2>Storage</h2>
         {status ? (
           <p>
@@ -106,7 +107,7 @@ export default function DesktopSettings() {
             copy your progress.
           </p>
         ) : null}
-        <div>
+        <div className={styles.field}>
           <label htmlFor="desktop-remote-url">PostgreSQL connection string</label>
           <input
             id="desktop-remote-url"
@@ -117,47 +118,77 @@ export default function DesktopSettings() {
             placeholder="postgresql://USER@HOST:5432/DBNAME?sslmode=require (password + TLS required)"
             onChange={(event) => setRemoteUrl(event.target.value)}
           />
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.primaryBtn}
+              disabled={busy || !remoteUrl.trim()}
+              onClick={() => void schedule("remote")}
+            >
+              Switch to my server on restart
+            </button>
+          </div>
+        </div>
+        <div className={styles.actions}>
           <button
             type="button"
-            disabled={busy || !remoteUrl.trim()}
-            onClick={() => void schedule("remote")}
+            className={styles.ghostBtn}
+            disabled={busy}
+            onClick={() => void schedule("local")}
           >
-            Switch to my server on restart
-          </button>
-        </div>
-        <div>
-          <button type="button" disabled={busy} onClick={() => void schedule("local")}>
             Switch to local storage on restart
           </button>
           {status?.restartRequired ? (
-            <button type="button" disabled={busy} onClick={() => void restart()}>
+            <button
+              type="button"
+              className={styles.ghostBtn}
+              disabled={busy}
+              onClick={() => void restart()}
+            >
               Restart now
             </button>
           ) : null}
         </div>
       </section>
-      <section>
+      <section className={styles.card}>
         <h2>Reset local data</h2>
         <p>
           Moves the entire local database to a dated backup folder. This
           cannot be undone from the app.
         </p>
-        <label htmlFor="desktop-reset-phrase">
-          Type RESET LOCAL DATA to confirm
-        </label>
-        <input
-          id="desktop-reset-phrase"
-          type="text"
-          value={phrase}
-          autoComplete="off"
-          onChange={(event) => setPhrase(event.target.value)}
-        />
-        <button type="button" disabled={busy || !phrase} onClick={() => void reset()}>
-          Reset local data
-        </button>
+        <div className={styles.field}>
+          <label htmlFor="desktop-reset-phrase">
+            Type RESET LOCAL DATA to confirm
+          </label>
+          <input
+            id="desktop-reset-phrase"
+            type="text"
+            value={phrase}
+            autoComplete="off"
+            onChange={(event) => setPhrase(event.target.value)}
+          />
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.primaryBtn}
+              disabled={busy || !phrase}
+              onClick={() => void reset()}
+            >
+              Reset local data
+            </button>
+          </div>
+        </div>
       </section>
-      {message ? <p role="status">{message}</p> : null}
-      {error ? <p role="alert">{error}</p> : null}
+      {message ? (
+        <p role="status" className={styles.status}>
+          {message}
+        </p>
+      ) : null}
+      {error ? (
+        <p role="alert" className={styles.alert}>
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

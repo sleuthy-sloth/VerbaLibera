@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import styles from "./desktop-panels.module.css";
 
 export interface DesktopProfileSummary {
   id: string;
@@ -90,15 +91,16 @@ export default function DesktopProfilePicker({
   }
 
   return (
-    <div>
+    <div className={styles.page}>
       {profiles.length === 0 ? (
-        <p>No local profiles yet. Create one to begin.</p>
+        <p className={styles.lede}>No local profiles yet. Create one to begin.</p>
       ) : (
-        <ul>
+        <ul className={styles.profileList}>
           {profiles.map((profile) => (
             <li key={profile.id}>
               <button
                 type="button"
+                className={styles.ghostBtn}
                 disabled={busy}
                 onClick={() => void select(profile.id)}
               >
@@ -109,6 +111,7 @@ export default function DesktopProfilePicker({
         </ul>
       )}
       <form
+        className={`${styles.card} ${styles.field}`}
         onSubmit={(event) => {
           event.preventDefault();
           void create();
@@ -122,11 +125,21 @@ export default function DesktopProfilePicker({
           maxLength={40}
           onChange={(event) => setName(event.target.value)}
         />
-        <button type="submit" disabled={busy || !name.trim()}>
-          Create profile
-        </button>
+        <div className={styles.actions}>
+          <button
+            type="submit"
+            className={styles.primaryBtn}
+            disabled={busy || !name.trim()}
+          >
+            Create profile
+          </button>
+        </div>
       </form>
-      {error ? <p role="alert">{error}</p> : null}
+      {error ? (
+        <p role="alert" className={styles.alert}>
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

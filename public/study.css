@@ -57,11 +57,12 @@
 .study select,
 .study-import {
   min-height: 46px;
-  padding: 10px 15px;
+  padding: 10px 18px;
   border: 1px solid #899b95;
-  background: transparent;
+  background: #fffdfa;
   color: var(--ink);
-  border-radius: 3px;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px color-mix(in srgb, #222e2c 10%, transparent);
 }
 .study button {
   cursor: pointer;
@@ -80,9 +81,12 @@
   outline-offset: 4px;
 }
 .study .study-primary {
-  background: var(--accent);
+  background: linear-gradient(to bottom, #1e7a70, var(--accent));
   color: white;
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 55%, #ffffff);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 35%),
+    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
 }
 .study-header,
 .study-actions {
@@ -107,9 +111,9 @@
 .study input:not([type="radio"]):not([type="file"]) {
   display: block;
   width: 100%;
-  padding: 12px;
+  padding: 12px 16px;
   border: 1px solid #899b95;
-  border-radius: 3px;
+  border-radius: 14px;
   background: #fffdfa;
   color: var(--ink);
 }
@@ -150,9 +154,15 @@
 .study-listen-first {
   padding: 12px 16px;
   margin: 12px 0;
+  border: 1px solid rgb(255 255 255 / 55%);
   border-left: 4px solid var(--accent, #2e7d5b);
-  background: #eef4ef;
-  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, #eef4ef 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  border-radius: 0 20px 20px 0;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 65%),
+    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
 }
 .study-listen-first p {
   margin: 0 0 8px;
@@ -168,8 +178,10 @@
   padding: 12px 16px;
   margin: 12px 0;
   border: 1px dashed var(--accent, #2e7d5b);
-  border-radius: 8px;
-  background: #f4f8f4;
+  border-radius: 20px;
+  background: color-mix(in srgb, #f4f8f4 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
 }
 .study-think-gate p {
   margin: 0 0 8px;
@@ -180,7 +192,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  background: #e5ece5;
+  background: color-mix(in srgb, #e5ece5 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 65%),
+    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
 }
 .study-lessons {
   padding: 0;
@@ -222,9 +241,16 @@
   margin: 0;
 }
 .study-feedback {
-  padding: 20px;
+  padding: 20px 24px;
   margin: 24px 0;
-  background: #e5ece5;
+  background: color-mix(in srgb, #e5ece5 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 65%),
+    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
 }
 .study-feedback strong {
   text-transform: capitalize;
@@ -348,16 +374,25 @@ body:has(#study-root) {
   font: inherit;
   color: var(--accent);
   display: inline;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 /* Activity forms are different tools: choices, movable words, a sentence gap,
    and a reading passage. Keep the surrounding Quiet Ink canvas restrained. */
 .study-download {
   scroll-margin-top: 24px;
-  border: 1px solid #899b95;
+  border: 1px solid rgb(255 255 255 / 55%);
   border-left: 5px solid var(--accent);
-  padding: 20px;
-  background: #edf3ef;
+  padding: 20px 24px;
+  background: color-mix(in srgb, #edf3ef 85%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  border-radius: 0 20px 20px 0;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 65%),
+    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
 }
 .study .study-download h2 { font-size: 24px; margin-top: 0; }
 .study-download-heading { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
@@ -370,13 +405,13 @@ body:has(#study-root) {
 .study .practice-panel { border-top: 3px solid var(--accent); padding-top: 12px; }
 .study .practice-panel h2 { max-width: 32ch; }
 .study .practice-panel fieldset { border: 0; padding: 0; }
-.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border: 1px solid #899b95; background: #fffdfa; cursor: pointer; }
+.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border: 1px solid #899b95; border-radius: 16px; background: #fffdfa; cursor: pointer; box-shadow: 0 2px 12px color-mix(in srgb, #222e2c 10%, transparent); }
 .study .study-choice:has(:checked) { border-color: var(--accent); background: #dfebe4; box-shadow: inset 4px 0 var(--accent); }
 .study .study-choice input { margin: 0; accent-color: var(--accent); }
-.study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: #e7eef4; border-bottom: 2px solid #426886; }
+.study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: color-mix(in srgb, #e7eef4 82%, transparent); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); border: 1px solid rgb(255 255 255 / 55%); border-bottom: 2px solid #426886; border-radius: 20px; }
 .study .sentence-workbench button { background: #fffdfa; border-color: #426886; }
 .study .word-bank button { border-radius: 24px; background: #fffdfa; padding-inline: 18px; }
-.study-cloze-sentence { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; padding: 20px; font: 28px/1.6 Georgia, serif; background: #f4ecdc; }
+.study-cloze-sentence { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; padding: 20px 24px; font: 28px/1.6 Georgia, serif; background: color-mix(in srgb, #f4ecdc 85%, transparent); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); border: 1px solid rgb(255 255 255 / 55%); border-radius: 20px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%), 0 2px 12px color-mix(in srgb, #222e2c 12%, transparent); }
 .study .study-cloze-sentence input { display: inline-block; width: 8ch; min-width: 100px; flex: 0 1 180px; border: 0; border-bottom: 2px solid #805c29; border-radius: 0; padding: 6px; }
 .study .activity-reading blockquote { background: #fffdfa; padding: 24px; line-height: 1.8; }
 @media (max-width: 600px) {

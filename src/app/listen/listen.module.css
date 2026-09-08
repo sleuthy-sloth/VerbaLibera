@@ -29,8 +29,14 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid #c2cbc5;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 16px;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight);
 }
 .list li span:last-child {
   font-size: 14px;

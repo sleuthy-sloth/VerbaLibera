@@ -4,16 +4,19 @@
   left: 50%;
   z-index: 100;
   max-width: min(90vw, 400px);
-  padding: 0.85rem 1.1rem;
-  border-radius: 0.5rem;
-  background: var(--ink);
+  padding: 0.85rem 1.25rem;
+  border: 1px solid color-mix(in srgb, #ffffff 28%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   color: var(--canvas);
   font-family: var(--font-utility);
   font-size: 0.85rem;
   font-weight: 600;
   line-height: 1.4;
   text-align: center;
-  box-shadow: 0 4px 24px color-mix(in srgb, var(--ink) 20%, transparent);
+  box-shadow: var(--glass-highlight), 0 4px 24px color-mix(in srgb, var(--ink) 20%, transparent);
   transform: translateX(-50%);
   animation: slideIn 220ms ease;
 }
@@ -33,5 +36,12 @@
   .toast {
     animation: none;
     transition: none;
+  }
+}
+
+/* On mobile the floating tab capsule owns the bottom edge: lift toasts above it. */
+@media (max-width: 767px) {
+  .toast {
+    bottom: calc(92px + env(safe-area-inset-bottom));
   }
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Instrument_Sans, Newsreader } from "next/font/google";
 import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
 import { QuickNav } from "@/components/nav/QuickNav";
@@ -20,6 +20,14 @@ const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
 });
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // Notched iPhones need this for env(safe-area-inset-*) to resolve;
+  // without it the floating tab capsule can sit under the home indicator.
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   title: "VerbaLibera · Daily practice path",
   description: "A focused daily path for practical language patterns.",

@@ -15,6 +15,18 @@
   --font-display: var(--font-newsreader);
   --font-body: var(--font-instrument-sans);
   --font-utility: var(--font-ibm-plex-mono);
+  /* Liquid Glass material tokens: frosted translucent surfaces with a
+   * hairline edge, inner top highlight, and soft elevation. Components
+   * consume these so the glass recipe stays identical everywhere. */
+  --glass-fill: color-mix(in srgb, var(--surface) 62%, transparent);
+  --glass-fill-strong: color-mix(in srgb, var(--surface) 78%, transparent);
+  --glass-edge: color-mix(in srgb, #ffffff 55%, transparent);
+  --glass-blur: blur(22px) saturate(1.8);
+  --glass-highlight: inset 0 1px 0 color-mix(in srgb, #ffffff 65%, transparent);
+  --glass-shadow: 0 8px 28px color-mix(in srgb, var(--ink) 16%, transparent);
+  --glass-shadow-sm: 0 2px 12px color-mix(in srgb, var(--ink) 12%, transparent);
+  --radius-glass: 20px;
+  --radius-pill: 999px;
 }
 
 @theme inline {

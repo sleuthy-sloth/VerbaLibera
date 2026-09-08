@@ -1,0 +1,145 @@
+/* Desktop app panels (profiles, storage settings): Quiet Ink canvas with
+ * Liquid Glass cards. Class names are styling-only hooks — ids, labels,
+ * and copy are the stable e2e contract and stay untouched. */
+.page {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  color: var(--ink);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.9rem, 6vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.lede {
+  margin: 0;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+  line-height: 1.6;
+}
+
+.card {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-glass);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.card p {
+  margin: 0;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.7rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.primaryBtn,
+.ghostBtn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.3rem;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  border: 1px solid color-mix(in srgb, var(--accent-strong) 55%, #ffffff);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
+  color: var(--canvas);
+}
+
+.ghostBtn {
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  color: var(--accent-strong);
+}
+
+.primaryBtn:disabled,
+.ghostBtn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.profileList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.profileList .ghostBtn {
+  width: 100%;
+}
+
+.alert {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
+  border-left: 3px solid #9a342e;
+  background: color-mix(in srgb, #f7e9e7 85%, transparent);
+  line-height: 1.5;
+}
+
+.status {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  line-height: 1.5;
+}

@@ -95,8 +95,13 @@
 .activeStep {
   position: relative;
   display: grid;
-  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-  background: var(--surface);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-glass);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
+  overflow: hidden;
 }
 
 .stepContext {
@@ -198,7 +203,7 @@
 
 .actionDock {
   position: sticky;
-  bottom: calc(56px + env(safe-area-inset-bottom));
+  bottom: calc(76px + env(safe-area-inset-bottom));
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
@@ -216,8 +221,12 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 0.8rem 1.2rem;
-  border: 1px solid var(--accent-strong);
-  background: var(--surface);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-pill);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
   color: var(--accent-strong);
   font: 700 0.8rem/1.2 var(--font-utility);
   letter-spacing: 0.04em;
@@ -231,8 +240,9 @@
 }
 
 .actionDock button.primaryAction {
-  border: 1px solid var(--accent-strong);
-  background: var(--accent-strong);
+  border: 1px solid color-mix(in srgb, var(--accent-strong) 55%, #ffffff);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
   color: var(--canvas);
   font: inherit;
   font-weight: 800;
@@ -251,9 +261,11 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 0.8rem 1.2rem;
-  border: 1px solid var(--accent-strong);
-  background: var(--accent-strong);
+  padding: 0.8rem 1.4rem;
+  border: 1px solid color-mix(in srgb, var(--accent-strong) 55%, #ffffff);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
   color: var(--canvas);
   font: inherit;
   font-weight: 800;
@@ -264,8 +276,12 @@
 
 .completion {
   padding: clamp(2rem, 7vw, 5rem);
-  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-  background: var(--surface);
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius-glass);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
 }
 
 @keyframes completionCheckIn {
@@ -398,7 +414,7 @@
   min-height: 44px;
   padding: 0.75rem 1rem;
   border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-  border-radius: 0;
+  border-radius: 14px;
   background: var(--surface);
   color: var(--ink);
   font: inherit;
@@ -416,6 +432,7 @@
   max-width: 680px;
   margin: 0.75rem 0 0;
   padding: 0.8rem 1rem;
+  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
   line-height: 1.5;
 }
 
@@ -458,12 +475,13 @@
   min-height: 52px;
   padding: 0.75rem;
   border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-  border-radius: 0;
+  border-radius: 16px;
   background: var(--surface);
   color: var(--ink);
   font: inherit;
   cursor: pointer;
   transition: background 160ms ease;
+  overflow: hidden;
 }
 
 .pictureChoice:hover {
@@ -481,6 +499,7 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   display: block;
+  border-radius: 10px;
 }
 
 .pictureChoice[data-selected][data-correct] {
@@ -518,8 +537,9 @@
   min-height: 52px;
   padding: 0.65rem 1rem;
   border: 1px solid var(--accent-strong);
-  border-radius: 0;
+  border-radius: var(--radius-pill);
   background: var(--surface);
+  box-shadow: var(--glass-shadow-sm);
   color: var(--accent-strong);
   font: inherit;
   font-weight: 700;
