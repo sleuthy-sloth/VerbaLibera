@@ -7,8 +7,10 @@ import {
   auditArtifactContent,
   auditArtifactPaths,
   auditSandboxPreferences,
+  auditShippedApp,
   bakedDeveloperPath,
   collectArtifactPaths,
+  writeBuildInfo,
 } from "../scripts/desktop/verify-artifact";
 
 function fixture(files: Record<string, string>): string {
@@ -20,12 +22,6 @@ function fixture(files: Record<string, string>): string {
   }
   return dir;
 }
-
-// bakedDeveloperPath() only reports a path when its top three segments exist on
-// the current machine. This fixture names the author's macOS home, which is
-// absent on clean Linux CI runners, so the spec only runs where the probe path
-// exists instead of failing there.
-const HAS_DEV_HOME_PROBE = fs.existsSync("/Users/spkoehl/Documents");
 
 describe("desktop artifact audit", () => {
   it("rejects environment files, source maps, and voice/model payloads", () => {
@@ -43,14 +39,60 @@ describe("desktop artifact audit", () => {
     expect(failures.some((f) => f.startsWith("Resources/server/server.js"))).toBe(false);
   });
 
-  it.skipIf(!HAS_DEV_HOME_PROBE)(
-    "flags baked developer paths but ignores comment examples",
-    () => {
-      expect(bakedDeveloperPath('root "/Users/spkoehl/Documents/ChatGPT/x"')).toBe(true);
-      expect(bakedDeveloperPath('// e.g. "/Users/foo/APP/.next/x"')).toBe(false);
-      expect(bakedDeveloperPath('r||"/Users/"+n')).toBe(false);
-    },
-  );
+  it("flags baked developer paths but ignores comment examples", () => {
+    expect(bakedDeveloperPath('root "/Users/spkoehl/Documents/ChatGPT/x"')).toBe(true);
+    expect(bakedDeveloperPath('// e.g. "/Users/foo/APP/.next/x"')).toBe(false);
+    expect(bakedDeveloperPath('r||"/Users/"+n')).toBe(false);
+  });
+
+  it("flags realistic unknown-builder paths without probing the disk", () => {
+    expect(
+      bakedDeveloperPath('built in "/Users/jdoe/Projects/vl/.next/server"'),
+    ).toBe(true);
+    expect(
+      bakedDeveloperPath('prefix "/home/buildagent/work/vl/output" suffix'),
+    ).toBe(true);
+    expect(bakedDeveloperPath('see "/Users/example/docs" for details')).toBe(
+      false,
+    );
+  });
+
+  it("audits shipped app contents across paths, content, and binaries", () => {
+    const dir = fixture({
+      "server/server.js": "ok",
+      ".env": "KEY=val",
+      "app/main.js":
+        "sandbox: true\ncontextIsolation: true\nnodeIntegration: false\n",
+      "app/creds.js": 'const url = "postgresql://u:***@host/db";',
+    });
+    const failures = auditShippedApp(dir, path.join(dir, "app/main.js"));
+    expect(failures.join("\n")).toMatch(/environment file/);
+    expect(failures.join("\n")).toMatch(/embedded database credential/);
+    expect(failures.join("\n")).not.toMatch(/renderer policy/);
+  });
+
+  it("reports a shipped main process that lost the sandbox policy", () => {
+    const dir = fixture({ "app/main.js": "sandbox: false\n" });
+    const failures = auditShippedApp(dir, path.join(dir, "app/main.js"));
+    expect(failures.join("\n")).toMatch(/renderer policy/);
+  });
+
+  it("ties the DMG checksum to the source revision", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "verbalibera-buildinfo-"));
+    const written = writeBuildInfo(dir, {
+      dmg: "VerbaLibera-mac-arm64.dmg",
+      sha: "abc123  VerbaLibera-mac-arm64.dmg",
+    });
+    expect(written).toBe(path.join(dir, "BUILD-INFO.json"));
+    const info = JSON.parse(fs.readFileSync(written, "utf8")) as Record<
+      string,
+      string
+    >;
+    expect(info.dmg).toBe("VerbaLibera-mac-arm64.dmg");
+    expect(info.sha).toBe("abc123  VerbaLibera-mac-arm64.dmg");
+    expect(info.revision).toMatch(/^[0-9a-f]{40}$|^unknown$/);
+    expect(Number.isNaN(Date.parse(info.builtAt))).toBe(false);
+  });
 
   it("flags real credentials and live off-machine sinks", () => {
     const dir = fixture({

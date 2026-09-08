@@ -64,16 +64,47 @@ const AUDITED_TEXT_EXTENSIONS = new Set([
 ]);
 
 /**
- * A developer path only fails the audit when it names a directory that
- * exists on this machine (a real baked build path). Comment examples
- * ("/Users/foo/...") and runtime home-directory construction
- * (`"/Users/"+name`) name nothing on disk and are ignored.
+ * A developer path fails the audit when it names a directory that exists on
+ * this machine (a real baked build path) — or when it is structurally
+ * realistic (a home root plus at least two non-placeholder segments), so a
+ * path leaked by another builder fails even where it names nothing on the
+ * verifier's disk. Comment examples ("/Users/foo/...") and runtime
+ * home-directory construction (`"/Users/"+name`) name nothing either way.
  */
+const PLACEHOLDER_SEGMENTS = new Set([
+  "foo",
+  "bar",
+  "example",
+  "examples",
+  "user",
+  "username",
+  "name",
+  "path",
+  "to",
+  "app",
+  "your",
+  "my",
+  "someone",
+  "sample",
+  "test",
+  "domain",
+  "host",
+]);
+
 export function bakedDeveloperPath(content: string): boolean {
-  const matches = content.match(/\/Users\/[^/"'\s+]+(?:\/[^/"'\s+]+)?/g) ?? [];
+  const matches =
+    content.match(/\/(?:Users|home)\/[^/"'\s+]+(?:\/[^/"'\s+]+)?/g) ?? [];
   return matches.some((candidate) => {
+    const segments = candidate.split("/").filter(Boolean);
+    if (
+      segments.length >= 3 &&
+      !segments
+        .slice(1, 4)
+        .some((segment) => PLACEHOLDER_SEGMENTS.has(segment.toLowerCase()))
+    ) {
+      return true;
+    }
     try {
-      const segments = candidate.split("/").filter(Boolean);
       const probe = `/${segments.slice(0, 3).join("/")}`;
       return fs.existsSync(probe);
     } catch {
@@ -189,12 +220,63 @@ export function auditStagedTree(root: string): string[] {
   ];
 }
 
+/**
+ * Full shipped-app audit over an installed/copied application tree:
+ * file names, file contents, and Mach-O architectures, plus the renderer
+ * sandbox policy of the given compiled main process. Used for the mounted
+ * DMG (where the Electron main is already packed into app.asar, so the
+ * sandbox gate stays a pre-pack check on desktop-dist/main.js).
+ */
+export function auditShippedApp(
+  contentsDir: string,
+  mainJsPath: string,
+): string[] {
+  const paths = collectArtifactPaths(contentsDir);
+  return [
+    ...auditArtifactPaths(paths),
+    ...auditArtifactContent(contentsDir, paths),
+    ...auditMachOArch(contentsDir, paths),
+    ...auditSandboxPreferences(mainJsPath),
+  ];
+}
+
 export function writeChecksum(file: string): string {
   const hash = createHash("sha256");
   hash.update(fs.readFileSync(file));
   const out = `${hash.digest("hex")}  ${path.basename(file)}\n`;
   fs.writeFileSync(`${file}.sha256`, out);
   return out.trim();
+}
+
+export interface BuildInfo {
+  dmg: string;
+  sha: string;
+  revision: string;
+  builtAt: string;
+}
+
+/** Ties a DMG checksum to the exact source revision that produced it. */
+export function writeBuildInfo(
+  destDir: string,
+  artifact: { dmg: string; sha: string },
+): string {
+  let revision = "unknown";
+  try {
+    revision = execFileSync("git", ["rev-parse", "HEAD"], {
+      encoding: "utf8",
+    }).trim();
+  } catch {
+    // Source tarballs and Finder-launched builds may lack git metadata.
+  }
+  const info: BuildInfo = {
+    dmg: artifact.dmg,
+    sha: artifact.sha,
+    revision,
+    builtAt: new Date().toISOString(),
+  };
+  const file = path.join(destDir, "BUILD-INFO.json");
+  fs.writeFileSync(file, `${JSON.stringify(info, null, 2)}\n`);
+  return file;
 }
 
 function newestDmg(makeDir: string): string {
@@ -223,6 +305,7 @@ export function normalizeDmg(root: string = process.cwd()): { dmg: string; sha: 
   const dest = path.join(destDir, EXPECTED_DMG);
   fs.copyFileSync(source, dest);
   const sha = writeChecksum(dest);
+  writeBuildInfo(destDir, { dmg: EXPECTED_DMG, sha });
   console.log(`electron:verify: ${dest}`);
   console.log(`electron:verify: ${sha}`);
   return { dmg: dest, sha };
@@ -251,10 +334,15 @@ export function auditMountedDmg(dmg: string): string[] {
     }
     const resources = path.join(contents, "Resources");
     if (fs.existsSync(resources)) {
-      const paths = collectArtifactPaths(resources).map((p) =>
-        path.join("Resources", p),
+      const shipped = auditShippedApp(
+        resources,
+        path.join(resources, "app", "main.js"),
       );
-      failures.push(...auditArtifactPaths(paths));
+      failures.push(
+        ...shipped
+          .filter((failure) => !failure.includes("missing compiled main process"))
+          .map((failure) => `Resources/${failure}`),
+      );
     }
     return failures;
   } finally {
