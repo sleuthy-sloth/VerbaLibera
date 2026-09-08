@@ -1,6 +1,7 @@
 # VerbaLibera
 
 [![CI](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml/badge.svg)](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml)
+[![GitHub release](https://img.shields.io/github/v/release/sleuthy-sloth/VerbaLibera)](https://github.com/sleuthy-sloth/VerbaLibera/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
 [![Live demo](https://img.shields.io/badge/demo-live-teal)](https://verbalibera.vercel.app)
 [![Offline PWA](https://img.shields.io/badge/offline-PWA-teal)](public/sw.js)
@@ -35,7 +36,7 @@ npm run portable:verify
 npm run test:e2e:portable
 ```
 
-The output is written to `dist/portable/`. The Electron full-app edition is documented when its macOS package is built and verified.
+The output is written to `dist/portable/`. The Electron full-app edition is documented in [Desktop app edition](#desktop-app-edition-macos-apple-silicon) below.
 
 ### Desktop app edition (macOS, Apple Silicon)
 
@@ -53,6 +54,8 @@ Switching storage later (Desktop → storage settings in the app) takes effect o
 Local data and logs live under the app's macOS user-data directory (`~/Library/Application Support/VerbaLibera/`): `db/` (database), `settings.json`, `local-db.json` (keychain-encrypted database secret), `keys/` (per-install session keys), `logs/desktop.log`. **Reset local data** (typed confirmation) moves the whole `db/` folder to a dated `backups/` folder instead of deleting it. Installing a newer DMG preserves this directory; downgrades to an older schema version are refused with a recovery message. Uninstalling deletes the app but leaves user data behind — remove the folder above to erase everything.
 
 The desktop app bundles no speech transcription, generated speech, translation, or language-model runtime; grading is the same deterministic engine as the hosted app. It makes no network request outside loopback in local mode.
+
+Installed first-run acceptance — fresh local database migrate plus seed, two-profile isolation, Lesson 0 with servable model audio, quit/relaunch recovery — is covered by `tests/e2e/electron-installed.spec.ts`, run against the shipped DMG from an unrelated working directory.
 
 Verify release downloads from Terminal in their download folder:
 
@@ -86,7 +89,7 @@ The screenshots show the live app running locally with the Quiet Ink interface �
 
 This checkout includes foundation packs for French, German, Italian, Portuguese, and Spanish. French and Italian contain the broadest curricula; German, Portuguese, and Spanish currently begin with a compact first-words foundation. French and Italian both open with a words-first lesson (greetings and Latin-shared words) before any sentence building. Each lesson teaches a pattern before asking you to use it: the lesson page shows aim, explanation, worked examples and a word list, practice opens on a zero-recall meet-the-word choice, and the lesson model autoplays when practice begins so the learner hears the pattern first. Grammar references and vocabulary views are linked to practice evidence. These are partial A1 courses, not full CEFR programs or certifications; native-speaker editorial review remains open.
 
-Open **New: structured A1 foundations with offline study** from the Italian/French lesson index. Use **Download for offline study**, then open/bookmark the provided offline-study link. The shared offline workspace supports teaching, local grading, downloaded audio and durable device practice without a connection. Every foundation lesson now has a prerecorded model and optional dictation with slow replay. French lesson 1 also ships a 2-minute audio-only Thinking Method track (bottom **Listen** tab): an English teacher guide with think-pauses and French reveals, for walks and screen-off study — finishing a track logs it heard, never mastered. The 52 local Kokoro recordings passed waveform checks and transcription pre-screening; native-speaker prosody review remains open. Listening practice does not reset completed text lessons. The Quiet Ink interface ships original brand artwork: logo mark and lockup, hero banner, per-language course banners and a day-zero journal illustration (`public/brand/`).
+Open **New: structured A1 foundations with offline study** from the Italian/French lesson index. Use **Download for offline study**, then open/bookmark the provided offline-study link. The shared offline workspace supports teaching, local grading, downloaded audio and durable device practice without a connection. Every foundation lesson now has a prerecorded model and optional dictation with slow replay. French lesson 1 also ships a 2-minute audio-only Thinking Method track (bottom **Listen** tab): an English teacher guide with think-pauses and French reveals, for walks and screen-off study — finishing a track logs it heard, never mastered. The 53 local Kokoro recordings passed waveform checks and transcription pre-screening; native-speaker prosody review remains open. Listening practice does not reset completed text lessons. The Quiet Ink interface ships original brand artwork: logo mark and lockup, hero banner, per-language course banners and a day-zero journal illustration (`public/brand/`).
 
 Foundation practice starts in a **device-local guest store**. Select **Use signed-in account** to use a separate account store that synchronizes reviews, derived lesson completion and concept evidence across devices. Offline work uploads automatically after reconnection; sync errors leave local practice intact. Guest history is never uploaded automatically: export/import provides an explicit transfer path. Foundation and travel-course projections remain separate. The old travel courses, passkeys, Anki export, prerecorded audio and optional voice tools remain available.
 
@@ -125,7 +128,7 @@ Working:
 
 - Four original A1 travel units (French, Italian, Spanish, Portuguese) with eight patterns each, every pattern carrying a substitution/transformation drill plus a picture-choice drill (22 CC0 photos, provenance in `docs/image-provenance.md`).
 - Responsive dashboard and step-specific guided sessions, including keyboard focus continuity and mobile/desktop browser coverage.
-- Model-audio playback for every authored pattern — 64 original Kokoro 0.9.4 WAVs committed with hashes and provenance (`ff_siwis` / `if_sara` / `ef_dora` / `pf_dora`), with honest text/reveal fallback when a clip is unavailable.
+- Model-audio playback for every authored pattern — original Kokoro 0.9.4 WAVs committed with hashes and provenance (`ff_siwis` / `if_sara` / `ef_dora` / `pf_dora`), with honest text/reveal fallback when a clip is unavailable.
 - Typed answer checking on drill steps with an honest three-state verdict — computed locally via the optional voice sidecar, with exact-match fallback when it is off.
 - Passkey accounts (WebAuthn, no passwords) with persisted progress — `GET /api/demo/progress` is account-scoped when signed in and `POST /api/progress/review` is idempotent via `ReviewLog`.
 - Truthful progress copy single-sourced in `src/lib/progress/copy.ts`: `dashboardBadgeCopy({ isPreview })` → `Preview progress` (signed-out preview) / `Saved to your account` (signed-in), `sessionCompletionCopy({ isPreview })` → `Nothing was saved.` (preview) / `Saved to your account.` (signed-in).
@@ -241,7 +244,9 @@ The optional voice companion runs locally and is called only through server-only
 
 ## Status and roadmap
 
-VerbaLibera is in active development. Desktop lifecycle repairs have landed for remote-mode passkey origin configuration, single-path shutdown/restart supervision, and safe storage-mode transitions (trial-boot with fallback, remote-first local initialization). Next priorities are desktop migration correctness (explicit packaged migration directory, newer-schema rejection, unrelated-directory launch), release-artifact acceptance against the shipped DMG/portable builds, native-speaker editorial/audio review, complete A1 coverage, foundation progress synchronization, and broader listening coverage. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+VerbaLibera is in active development. `v0.1.0` shipped September 7 with the portable edition and the unsigned Apple Silicon DMG. Since then, desktop first-run correctness has landed and is verified: packaged migration runs install-isolated (explicit packaged migration directory, staged Prisma CLI plus seed runtime, unrelated-directory launch), newer-schema downgrades are refused with recovery, and the shipped DMG passes installed first-run/isolation/lesson/recovery e2e plus a clean artifact audit. The tag-triggered release job publishes all four files with explicit permissions. The next tag ships these fixes.
+
+Next priorities per `docs/astra/phase-status.md`: deeper Italian/French A1 domains and varied retrieval, foundation placement and operational study preferences, curated conjugation references, broader listening forms and interference content — and physical-iPhone testing (Add to Home Screen, offline relaunch, lesson audio, background/foreground behavior), the last open verification. Language count stays put until the first two courses have adequate depth. Native-speaker editorial and prosody review remain open; corrections are welcome via the content-correction issue template. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
 
 A survey of public APIs worth trialing — dictionaries, translation, graded reading — is in [docs/public-api-options.md](docs/public-api-options.md). Nothing from that survey is integrated yet.
 
