@@ -3,10 +3,10 @@ import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { verifySessionToken } from '@/lib/auth/session';
 import { validateCsrfRequest } from '@/lib/auth/csrf';
 import { appendPractice, pullPractice } from '@/lib/course-progress';
-import { eventSchema, mergeEvents } from '@/features/course-pack/progress';
+import { learningEventSchema, mergeLearningEvents } from '@/features/course-pack/attempts';
 export const dynamic = 'force-dynamic';
 const reply = (body: unknown, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
-const batchSchema = z.object({ userId: z.string().min(1).max(100), events: z.array(eventSchema).max(100) });
+const batchSchema = z.object({ userId: z.string().min(1).max(100), events: z.array(learningEventSchema).max(100) });
 async function identity(request: Request) {
   const token = sessionTokenFromCookies(request.headers.get('cookie') ?? '');
   return token ? (await verifySessionToken(token))?.userId : null;
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
   finally { reader.releaseLock(); }
   if (body.userId !== userId) return reply({ error: 'The signed-in account changed. Local practice was not uploaded.' }, 409);
   try {
-    await appendPractice(userId, mergeEvents(body.events));
+    await appendPractice(userId, mergeLearningEvents(body.events));
     return reply({ userId, saved: true });
   } catch (error) {
     if (error instanceof Error && error.message.startsWith('Conflicting practice'))

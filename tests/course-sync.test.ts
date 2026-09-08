@@ -1,11 +1,11 @@
 import { beforeEach, expect, it, vi } from 'vitest';
-const local = vi.hoisted(() => ({ read: vi.fn(), store: vi.fn() }));
-vi.mock('@/features/course-pack/storage', () => ({ readEvents: local.read, storeEvents: local.store }));
+const local = vi.hoisted(() => ({ read: vi.fn(), store: vi.fn(), readLessons: vi.fn(), storeLessons: vi.fn() }));
+vi.mock('@/features/course-pack/storage', () => ({ readEvents: local.read, storeEvents: local.store, readLessonEvents: local.readLessons, storeLessonEvents: local.storeLessons }));
 import { synchronizePractice } from '@/features/course-pack/sync';
 const event = { id: 'remote', packId: 'it-foundations', version: '1.0.0', exerciseId: 'one', at: '2026-09-05T10:00:00.000Z', correct: true, revealed: false };
 const pending = { ...event, id: 'pending' };
 const fetchMock = vi.fn();
-beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal('fetch', fetchMock); local.read.mockResolvedValue([event, pending]); local.store.mockResolvedValue(undefined); });
+beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal('fetch', fetchMock); local.read.mockResolvedValue([event, pending]); local.store.mockResolvedValue(undefined); local.readLessons.mockResolvedValue([]); local.storeLessons.mockResolvedValue(undefined); });
 it('persists downloaded events before uploading only missing local events', async () => {
   fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event], nextCursor: null })).mockResolvedValueOnce(Response.json({ userId: 'a', saved: true }));
   await synchronizePractice('a');
