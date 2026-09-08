@@ -116,6 +116,13 @@ describe("desktop packaging configuration", () => {
         defineConfig?: unknown;
       };
       expect(typeof configModule.defineConfig).toBe("function");
+      // The seed bundle's externals must resolve from the staged server dir
+      // too (packaged first runs died in seed with ERR_MODULE_NOT_FOUND
+      // after migrate succeeded). Resolve-only: importing instantiates
+      // nothing and connects nowhere.
+      for (const spec of ["@prisma/client", "@prisma/adapter-pg", "pg"]) {
+        expect(() => requireFromJail.resolve(spec)).not.toThrow();
+      }
     },
   );
 

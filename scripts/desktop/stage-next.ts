@@ -81,6 +81,7 @@ export async function stageNextServer(root: string = process.cwd()): Promise<str
   stripSourceMaps(stageRoot);
   neutralizeStagedRepoPaths(stageRoot, repoRoot);
   stagePrismaCli(repoRoot);
+  stageSeedRuntimeDeps(repoRoot, stageRoot);
   await buildSeedBundle(repoRoot);
   return stageRoot;
 }
@@ -200,20 +201,19 @@ function stagePrismaConfigShim(stageRoot: string): void {
 }
 
 /**
- * Copies the transitive third-party dependencies (e.g. `effect`, required
- * by `@prisma/config`) of the staged packages from the repo's node_modules.
- * Without this the staged CLI crashes with MODULE_NOT_FOUND on first run.
+ * Copies the transitive `dependencies` closure of already-staged root
+ * packages from the repo's node_modules into destModules. Roots must be
+ * copied first; the walk then pulls whatever their manifests name.
+ * (Third-party deps like `effect`, required by `@prisma/config`, arrive
+ * this way — without them the staged CLI crashes MODULE_NOT_FOUND.)
  */
-function stagePrismaCliThirdPartyDeps(
+function copyStagedDependencyClosure(
   repoRoot: string,
   destModules: string,
+  roots: string[],
 ): void {
-  const queue: string[] = ["prisma"];
-  const staged = new Set<string>(["prisma"]);
-  for (const pkg of PRISMA_SCOPED_ALLOWLIST) {
-    staged.add(`@prisma/${pkg}`);
-    queue.push(`@prisma/${pkg}`);
-  }
+  const queue: string[] = [...roots];
+  const staged = new Set<string>(roots);
   while (queue.length > 0) {
     const name = queue.pop()!;
     const manifestPath = path.join(destModules, name, "package.json");
@@ -225,6 +225,8 @@ function stagePrismaCliThirdPartyDeps(
     }
     for (const dep of Object.keys(manifest.dependencies ?? {})) {
       if (staged.has(dep)) continue;
+      // Type-only packages never load at runtime; keep the shipped tree lean.
+      if (dep.startsWith("@types/")) continue;
       const source = path.join(repoRoot, "node_modules", dep);
       if (!fs.existsSync(source)) continue;
       staged.add(dep);
@@ -235,6 +237,43 @@ function stagePrismaCliThirdPartyDeps(
       queue.push(dep);
     }
   }
+}
+
+function stagePrismaCliThirdPartyDeps(
+  repoRoot: string,
+  destModules: string,
+): void {
+  const queue: string[] = ["prisma"];
+  const staged = new Set<string>(["prisma"]);
+  for (const pkg of PRISMA_SCOPED_ALLOWLIST) {
+    staged.add(`@prisma/${pkg}`);
+    queue.push(`@prisma/${pkg}`);
+  }
+  copyStagedDependencyClosure(repoRoot, destModules, queue);
+}
+
+/**
+ * The staged seed bundle marks `@prisma/client`, `@prisma/adapter-pg`, and
+ * `pg` external, so they must resolve from the staged server dir at seed
+ * time. Packaged first runs died here with ERR_MODULE_NOT_FOUND after
+ * migrate succeeded. Roots are copied from the repo; the closure walker
+ * pulls the rest (pg-protocol, postgres-array, driver-adapter-utils, ...).
+ */
+const SEED_RUNTIME_ROOTS = ["@prisma/client", "@prisma/adapter-pg", "pg"];
+
+function stageSeedRuntimeDeps(repoRoot: string, stageRoot: string): void {
+  const destModules = path.join(stageRoot, "node_modules");
+  for (const name of SEED_RUNTIME_ROOTS) {
+    const source = path.join(repoRoot, "node_modules", name);
+    if (!fs.existsSync(source)) {
+      throw new Error(`Seed runtime root missing: ${source}.`);
+    }
+    fs.cpSync(source, path.join(destModules, name), {
+      recursive: true,
+      filter: (entry) => !entry.endsWith(".map"),
+    });
+  }
+  copyStagedDependencyClosure(repoRoot, destModules, SEED_RUNTIME_ROOTS);
 }
 
 export function stagePrismaCli(repoRoot: string): string {
