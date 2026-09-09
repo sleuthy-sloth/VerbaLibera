@@ -34,6 +34,40 @@ export function normalizePack(raw: unknown): RuntimePack {
   );
 }
 
+// ---------------------------------------------------------------- v1 migration
+
+/**
+ * One-time v1→authored-v2 migration (variety rollout). Reuses `normalizePack`
+ * so the authored output carries exactly the conversion the boundary already
+ * validates; reshapes records to the authored array layout. Fails closed on
+ * anything the v2 schema rejects. Runtime parity (modulo `schemaVersion`)
+ * is pinned by tests/pack-migration-parity.test.ts.
+ */
+export function migratePackV1ToV2(raw: unknown): unknown {
+  const rt = normalizePack(raw);
+  if (rt.schemaVersion !== 1)
+    throw new Error("migratePackV1ToV2 expects a schemaVersion 1 pack");
+  return {
+    schemaVersion: 2,
+    id: rt.id,
+    version: rt.version,
+    language: rt.language,
+    status: rt.status,
+    title: rt.title,
+    sourceLanguage: rt.sourceLanguage,
+    description: rt.description,
+    attribution: rt.attribution,
+    units: rt.units,
+    concepts: rt.concepts,
+    vocabulary: rt.vocabulary,
+    media: rt.media,
+    stimuli: Object.values(rt.stimuli),
+    activities: Object.values(rt.activities),
+    lessons: rt.lessons,
+    dialogues: rt.dialogues,
+  };
+}
+
 // ---------------------------------------------------------------- v1 adapter
 
 const productionSkills = (exercise: Exercise): Skill[] =>
@@ -70,32 +104,38 @@ const slugifyOption = (packId: string, text: string): string => {
     .toLocaleLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  if (!/^[a-z]/.test(slug)) slug = `o-${slug}`;
+  if (!/^[a-z]/.test(slug) || slug.length < 2) slug = `o-${slug}`;
   if (!/^[a-z][a-z0-9-]{1,99}$/.test(slug))
     throw new Error(`${packId}: cannot slugify option ${JSON.stringify(text)}`);
   return slug;
 };
 
-/** Token-index permutation whose normalized join hits an accepted answer. */
+/** Token-index permutation whose normalized join hits an accepted answer.
+ * Tokens that normalize to nothing (bare punctuation such as `?`) are dropped:
+ * the old player absorbed them anywhere in the comparison, so their placement
+ * never tested anything. */
 const orderForTokens = (
   packId: string,
   where: string,
   tokens: string[],
   answers: readonly string[],
-): string[][] => {
+): { ids: string[]; texts: string[]; acceptedOrders: string[][] } => {
+  const kept = tokens.filter((t) => normalize(t) !== "");
+  if (kept.length < 2)
+    throw new Error(`${packId}: order exercise ${where} has fewer than two gradable tokens`);
   const targets = answers.map((a) => normalize(a));
-  const words = targets.map((t) => (t === "" ? [] : t.split(" ")));
-  const normTokens = tokens.map((t) => normalize(t));
-  const orders: string[][] = [];
-  for (const ws of words) {
-    if (ws.length !== tokens.length) continue;
+  const acceptedOrders: string[][] = [];
+  for (const target of targets) {
+    const ws = target === "" ? [] : target.split(" ");
+    if (ws.length !== kept.length) continue;
     // Bipartite match: token index -> word position (handles duplicate words).
-    const match = new Array<number>(tokens.length).fill(-1);
-    const used = new Array<boolean>(tokens.length).fill(false);
+    const match = new Array<number>(kept.length).fill(-1);
+    const used = new Array<boolean>(kept.length).fill(false);
+    const normKept = kept.map((t) => normalize(t));
     const assign = (wi: number): boolean => {
       if (wi === ws.length) return true;
-      for (let ti = 0; ti < tokens.length; ti++) {
-        if (used[ti] || normTokens[ti] !== ws[wi]) continue;
+      for (let ti = 0; ti < kept.length; ti++) {
+        if (used[ti] || normKept[ti] !== ws[wi]) continue;
         used[ti] = true;
         match[wi] = ti;
         if (assign(wi + 1)) return true;
@@ -104,13 +144,22 @@ const orderForTokens = (
       }
       return false;
     };
-    if (assign(0)) orders.push(match.map((ti) => `t${ti + 1}`));
+    if (assign(0)) {
+      const order = match.map((ti) => `t${ti + 1}`);
+      if (!acceptedOrders.some((o) => o.join() === order.join())) acceptedOrders.push(order);
+    }
   }
-  if (orders.length === 0)
+  if (acceptedOrders.length === 0)
     throw new Error(
       `${packId}: order exercise ${where} has no token permutation matching its answers`,
     );
-  return orders;
+  if (acceptedOrders.length > 8)
+    throw new Error(`${packId}: order exercise ${where} needs more than 8 accepted orders`);
+  return {
+    ids: kept.map((_, i) => `t${i + 1}`),
+    texts: kept,
+    acceptedOrders,
+  };
 };
 
 const answerSpecOf = (exercise: Exercise) => ({
@@ -169,16 +218,13 @@ export function convertExercise(
       return activity;
     }
     case "order": {
-      const tokens = exercise.tokens.map((text, i) => ({
-        id: `t${i + 1}`,
-        text,
-      }));
+      const laidOut = orderForTokens(packId, where, exercise.tokens, exercise.answers);
       const activity: OrderingActivity = {
         ...base,
         kind: "ordering",
         id: exercise.id,
-        tokens,
-        acceptedOrders: orderForTokens(packId, where, exercise.tokens, exercise.answers),
+        tokens: laidOut.ids.map((id, i) => ({ id, text: laidOut.texts[i] })),
+        acceptedOrders: laidOut.acceptedOrders,
       };
       return activity;
     }

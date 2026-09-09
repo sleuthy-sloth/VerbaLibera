@@ -5,7 +5,7 @@ import {
   mkdirSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
-import { validatePack } from "../src/features/course-pack/schema";
+import { normalizePack } from "../src/features/course-pack/normalize-pack";
 const languages = readdirSync("courses", { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
@@ -14,14 +14,17 @@ const catalog: { slug: string; title: string }[] = [];
 const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
-    pack = validatePack(JSON.parse(readFileSync(path, "utf8")));
+    source = readFileSync(path, "utf8"),
+    // Version dispatch: validates v1 or v2 and runs the full graph checks.
+    pack = normalizePack(JSON.parse(source));
   for (const media of pack.media) {
     const bytes = readFileSync(`public${media.url}`);
     if (createHash("sha256").update(bytes).digest("hex") !== media.sha256)
       throw new Error(`Invalid audio hash: ${media.url}`);
   }
   catalog.push({ slug: language, title: pack.title });
-  const exercises = pack.lessons.flatMap((l) => l.exercises),
+  // Retained v1 records keep kind/answer reporting stable across versions.
+  const exercises = pack.lessons.flatMap((l) => l.legacyExercises),
     kinds: Record<string, number> = {};
   for (const e of exercises) kinds[e.kind] = (kinds[e.kind] ?? 0) + 1;
   const answerSets = new Map<string, string[]>();
@@ -40,7 +43,7 @@ for (const language of languages) {
     kinds,
     audioClips: pack.media.length,
     lessonsWithAudio: pack.lessons.filter((l) =>
-      l.exercises.some((e) => e.kind === "dictation"),
+      l.legacyExercises.some((e) => e.kind === "dictation"),
     ).length,
     packBytes: Buffer.byteLength(JSON.stringify(pack)),
     answerCoverage: "100%",
@@ -62,7 +65,8 @@ for (const language of languages) {
   );
   if (command === "build") {
     mkdirSync("public/packs", { recursive: true });
-    writeFileSync(`public/packs/${language}.json`, JSON.stringify(pack));
+    // Ship the authored source: editions load it through normalizePack.
+    writeFileSync(`public/packs/${language}.json`, source);
     mkdirSync("docs/astra/reports", { recursive: true });
     writeFileSync(
       `docs/astra/reports/${language}.json`,
