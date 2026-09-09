@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { LISTEN_TRACKS } from "@/features/listen/tracks";
 import { listenedAt, markListened } from "@/features/listen/listened";
 import { ListenPlayer } from "@/components/listen/ListenPlayer";
-import marketScript from "../services/voice/scripts/italian-market-listen.json";
+import marketSections from "@/features/listen/generated/italian.json";
 
 describe("listen tracks", () => {
   it.each(["spanish", "portuguese", "german"])("%s has a long recording built from its displayed script", (language) => {
@@ -26,7 +26,12 @@ describe("listen tracks", () => {
   it("Italian read-along includes every authored spoken turn in order", () => {
     const track = LISTEN_TRACKS.find((item) => item.lessonId === "it-market-foundation")!;
     const displayed = track.sections.flatMap((section) => [section.teacher, section.target?.text ?? ""]).filter(Boolean).join(" ");
-    expect(displayed).toBe(marketScript.clips.map((clip) => clip.text).join(" "));
+    expect(displayed).toBe(
+      marketSections
+        .flatMap((section) => [section.teacher, section.target?.text ?? ""])
+        .filter(Boolean)
+        .join(" "),
+    );
   });
   it("every registered track ships a real audio file and a transcript", () => {
     // Break caught: a track entry points at audio that was never authored.
