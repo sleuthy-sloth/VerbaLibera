@@ -1,4 +1,4 @@
-import italianMarketSections from "../../../services/voice/scripts/italian-market-listen.sections.json";
+import italianMarketSections from "./generated/italian.json";
 import spanishIntroductions from "./generated/spanish.json";
 import portugueseIntroductions from "./generated/portuguese.json";
 import germanIntroductions from "./generated/german.json";
