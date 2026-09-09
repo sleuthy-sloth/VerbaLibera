@@ -99,3 +99,23 @@ Typecheck clean, eslint 0 errors (1 pre-existing `no-img` warning on the scene
 `<img>`, kept: portable/offline editions cannot rely on the Next image optimizer),
 `git diff --check` clean. Browser screenshots (390/1280) deferred to Task 7 — the
 player has no integrated route to photograph until workspace wiring lands.
+
+## Variety rollout (Hermes, 2026-09-08) — adapter, migration, pilots
+
+- Faithful v1->v2 boundary conversion (`convertExercise`): choice/selection,
+  order/ordering (accepted permutations derived from answers; absorbed
+  punctuation tokens dropped — placement never graded), cloze/cloze,
+  text kinds reuse AnswerSpec. Independent success on converted activities
+  keeps legacy credit. Fail-closed on unmappable content (caught real edges:
+  single-char option, six French punctuation orders). All 5 languages green.
+- `migratePackV1ToV2` + `scripts/migrate-pack-v1-v2.ts`; parity test pins
+  identical runtime output. `scripts/content.ts` and portable collection
+  version-dispatched; listen tab loads either version.
+- Italian migrated to v2; old-engine tests run against French v1.
+- Pilot 1 it-food-foundation (story, rev 2): 44-word café story + translation,
+  2 evidence questions, event ordering, polite-request transfer.
+- Pilot 2 it-requests-foundation (conversation, rev 2): barista dialogue with
+  a branched reply (spoiler turn removed after browser QA) + transfer.
+- Pilot 3 it-market-foundation (listening): pending ~10-min Al mercato track
+  (OpenCode: script+synthesis+QA); lesson activities + Listen tab wire on return.
+- Full suite 760 passed / 1 skipped; typecheck clean; content 100%.

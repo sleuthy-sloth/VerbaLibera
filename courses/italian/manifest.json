@@ -2014,8 +2014,8 @@
     {
       "kind": "text",
       "id": "it-food-story",
-      "body": "Marco entra in un bar a Roma. — Prendo un caffè, per favore, — dice Marco. Il barista sorride. — Subito! — Anna prende un tè caldo con il limone. Marco paga due euro. — Grazie! A domani! — dice Marco. Il caffè è buono e caldo.",
-      "translation": "Marco walks into a bar in Rome. \"I'll have a coffee, please,\" says Marco. The barista smiles. \"Right away!\" Anna has a hot tea with lemon. Marco pays two euros. \"Thanks! See you tomorrow!\" says Marco. The coffee is good and hot."
+      "body": "Marco entra in un bar a Roma. — Prendo un caffè, per favore, — dice Marco. Il barista sorride. — Subito! — Anna prende un tè caldo con il limone. Marco paga due euro. — Grazie! A domani! — dice Marco. Il tè costa un euro e cinquanta. Il caffè è buono e caldo.",
+      "translation": "Marco walks into a bar in Rome. \"I'll have a coffee, please,\" says Marco. The barista smiles. \"Right away!\" Anna has a hot tea with lemon. Marco pays two euros. \"Thanks! See you tomorrow!\" says Marco. The tea costs one euro fifty. The coffee is good and hot."
     },
     {
       "kind": "dialogue",
