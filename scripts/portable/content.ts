@@ -33,6 +33,9 @@ const MIME_BY_EXTENSION: Record<string, string> = {
   ".jpeg": "image/jpeg",
   ".png": "image/png",
   ".wav": "audio/wav",
+  ".mp3": "audio/mpeg",
+  ".m4a": "audio/mp4",
+  ".ogg": "audio/ogg",
 };
 
 export function assertPortableAssetPath(value: string): void {

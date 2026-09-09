@@ -1366,6 +1366,14 @@
       "transcript": "Ciao, grazie.",
       "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, if_sara; generated locally 2026-09-06. Native-speaker prosody review pending.",
       "kind": "audio"
+    },
+    {
+      "kind": "audio",
+      "id": "it-market-listen-audio",
+      "url": "/audio/italian-foundations/it-market-listen.mp3",
+      "sha256": "3f42797cfd56ce42c3ba370b9f2ae16643ea58c15c8c01652542a9371488f639",
+      "transcript": "Ascolto lungo: Al mercato.",
+      "attribution": "Original VerbaLibera Kokoro 0.9.4 audio; see docs/audio-provenance/italian-market-listen.json. Native-speaker prosody review remains open."
     }
   ],
   "stimuli": [
@@ -2037,6 +2045,11 @@
           "meaning": "Right away. Are you having a pastry too?"
         }
       ]
+    },
+    {
+      "kind": "audio",
+      "id": "it-market-listen-stim",
+      "mediaId": "it-market-listen-audio"
     }
   ],
   "activities": [
@@ -10485,6 +10498,215 @@
         "allowTypo": true,
         "errors": []
       }
+    },
+    {
+      "kind": "selection",
+      "id": "it-market-listen-gist",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "listening",
+        "vocabulary"
+      ],
+      "stimulusId": "it-market-listen-stim",
+      "prompt": "Dove compra Elena la frutta?",
+      "hints": [],
+      "feedback": "Elena compra la frutta al mercato.",
+      "evidenceKey": "ev-market-gist",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "options": [
+        {
+          "id": "mkt",
+          "text": "Al mercato"
+        },
+        {
+          "id": "sup",
+          "text": "Al supermercato"
+        }
+      ],
+      "acceptedIds": [
+        "mkt"
+      ],
+      "multiple": false
+    },
+    {
+      "kind": "selection",
+      "id": "it-market-listen-prosciutto",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "listening",
+        "vocabulary"
+      ],
+      "stimulusId": "it-market-listen-stim",
+      "prompt": "Quanto prosciutto prende Elena?",
+      "hints": [],
+      "feedback": "Elena prende due etti di prosciutto.",
+      "evidenceKey": "ev-market-prosciutto",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "options": [
+        {
+          "id": "chilo",
+          "text": "Un chilo"
+        },
+        {
+          "id": "etti",
+          "text": "Due etti"
+        }
+      ],
+      "acceptedIds": [
+        "etti"
+      ],
+      "multiple": false
+    },
+    {
+      "kind": "selection",
+      "id": "it-market-listen-pesche",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "listening",
+        "vocabulary"
+      ],
+      "stimulusId": "it-market-listen-stim",
+      "prompt": "Quanto costano le pesche?",
+      "hints": [],
+      "feedback": "Le pesche costano cinque euro e cinquanta.",
+      "evidenceKey": "ev-market-pesche",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "options": [
+        {
+          "id": "tre",
+          "text": "Tre euro"
+        },
+        {
+          "id": "cinq",
+          "text": "Cinque euro e cinquanta"
+        }
+      ],
+      "acceptedIds": [
+        "cinq"
+      ],
+      "multiple": false
+    },
+    {
+      "kind": "selection",
+      "id": "it-market-listen-ordine",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "listening",
+        "vocabulary"
+      ],
+      "stimulusId": "it-market-listen-stim",
+      "prompt": "Cosa dice Elena per ordinare le mele?",
+      "hints": [],
+      "feedback": "Elena ordina con una richiesta cortese: vorrei un chilo di mele, per favore.",
+      "evidenceKey": "ev-market-ordine",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "options": [
+        {
+          "id": "buong",
+          "text": "Buongiorno"
+        },
+        {
+          "id": "vorrei",
+          "text": "Vorrei un chilo di mele, per favore"
+        },
+        {
+          "id": "quanto",
+          "text": "Quanto costa?"
+        }
+      ],
+      "acceptedIds": [
+        "vorrei"
+      ],
+      "multiple": false
+    },
+    {
+      "kind": "selection",
+      "id": "it-market-listen-grazie",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "listening",
+        "vocabulary"
+      ],
+      "stimulusId": "it-market-listen-stim",
+      "prompt": "Come chiude Elena dopo la vendita?",
+      "hints": [],
+      "feedback": "Elena ringrazia e saluta: grazie mille, arrivederci.",
+      "evidenceKey": "ev-market-grazie",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "options": [
+        {
+          "id": "grazie",
+          "text": "Grazie mille, arrivederci"
+        },
+        {
+          "id": "ciao",
+          "text": "Ciao!"
+        }
+      ],
+      "acceptedIds": [
+        "grazie"
+      ],
+      "multiple": false
     }
   ],
   "lessons": [
@@ -16488,9 +16710,9 @@
       "unitId": "it-unit-5",
       "title": "At the market: prices",
       "objective": "Ask prices and understand a market price list.",
-      "family": "discovery",
-      "revision": 1,
-      "estimatedMinutes": 8,
+      "family": "listening",
+      "revision": 2,
+      "estimatedMinutes": 20,
       "entryStepId": "it-market-foundation-step-intro",
       "steps": [
         {
@@ -16498,7 +16720,47 @@
           "purpose": "notice",
           "activityId": "it-market-foundation-intro",
           "required": true,
-          "nextStepId": "it-market-foundation-step-it-market-foundation-meet"
+          "nextStepId": "it-market-foundation-step-listen-gist"
+        },
+        {
+          "id": "it-market-foundation-step-listen-gist",
+          "purpose": "practice",
+          "activityId": "it-market-listen-gist",
+          "required": true,
+          "nextStepId": "it-market-foundation-step-listen-prosciutto",
+          "branches": {}
+        },
+        {
+          "id": "it-market-foundation-step-listen-prosciutto",
+          "purpose": "practice",
+          "activityId": "it-market-listen-prosciutto",
+          "required": true,
+          "nextStepId": "it-market-foundation-step-listen-pesche",
+          "branches": {}
+        },
+        {
+          "id": "it-market-foundation-step-listen-pesche",
+          "purpose": "practice",
+          "activityId": "it-market-listen-pesche",
+          "required": true,
+          "nextStepId": "it-market-foundation-step-listen-ordine",
+          "branches": {}
+        },
+        {
+          "id": "it-market-foundation-step-listen-ordine",
+          "purpose": "practice",
+          "activityId": "it-market-listen-ordine",
+          "required": true,
+          "nextStepId": "it-market-foundation-step-listen-grazie",
+          "branches": {}
+        },
+        {
+          "id": "it-market-foundation-step-listen-grazie",
+          "purpose": "practice",
+          "activityId": "it-market-listen-grazie",
+          "required": true,
+          "nextStepId": "it-market-foundation-step-it-market-foundation-meet",
+          "branches": {}
         },
         {
           "id": "it-market-foundation-step-it-market-foundation-meet",

@@ -41,7 +41,7 @@ describe("portable content collection", () => {
       "portuguese",
       "spanish",
     ]);
-    expect(Object.keys(content.assets)).toHaveLength(59);
+    expect(Object.keys(content.assets)).toHaveLength(60);
   });
 
   it.each([
