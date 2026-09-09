@@ -67,7 +67,8 @@ export function openSupport(pack: RuntimePack, state: LessonSession): LessonSess
   const step = lesson.steps.find((s) => s.id === state.activeStepId);
   if (!step?.supportActivityId)
     throw new Error(`Step ${state.activeStepId} has no support activity`);
-  return { ...state, activeSupportActivityId: step.supportActivityId };
+  return { ...state, activeSupportActivityId: step.supportActivityId,
+    accumulatedAssistance: [...new Set([...state.accumulatedAssistance, "hint" as const])] };
 }
 
 export function submitResponse(
@@ -92,9 +93,8 @@ export function submitResponse(
     return {
       ...state,
       activeSupportActivityId: null,
-      draftResponse: response,
       accumulatedAssistance: merged,
-      currentEvaluation: evaluation,
+      currentEvaluation: null,
     };
   }
 
@@ -104,7 +104,7 @@ export function submitResponse(
     evaluation.outcome === "self-assessed";
   const completedStepIds = completed
     ? [...new Set([...state.completedStepIds, step.id])]
-    : state.completedStepIds;
+    : state.completedStepIds.filter((id) => id !== step.id);
 
   // Record the chosen branch once a dialogue reply is submitted; the step
   // completes only on an accepted reply, so the recorded branch is valid.
@@ -156,6 +156,9 @@ export function advanceLesson(
   return {
     ...state,
     activeStepId: next,
+    // Shared reference reveals may remain visible; an earlier activity's
+    // hint/model must not taint an unrelated independent transfer forever.
+    accumulatedAssistance: state.accumulatedAssistance.filter(kind => kind === "translation" || kind === "transcript"),
     visitedStepIds: [...state.visitedStepIds, next],
     draftResponse: null,
     currentEvaluation: null,

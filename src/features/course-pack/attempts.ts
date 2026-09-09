@@ -4,11 +4,11 @@ import {
   type Evidence,
   type PracticeEvent,
 } from "./progress";
+import { evaluateActivity } from "./activity-evaluation";
 import { scheduleReview } from "../srs/scheduler";
 import { startLesson, type LessonSession } from "./lesson-session";
 import type {
   Assistance,
-  Response,
   RuntimePack,
   Skill,
   Step,
@@ -81,12 +81,15 @@ export type StepCompletion = z.infer<typeof stepCompletionSchema>;
 
 export type LearningEvent = PracticeEvent | ActivityAttempt | StepCompletion;
 
-/** Union parse for envelopes and server payloads (explicit version errors live in `parseLearningEvent`). */
-export const learningEventSchema = z.union([
-  eventSchema,
-  activityAttemptSchema,
-  stepCompletionSchema,
-]);
+/** Dispatch before parsing so a hybrid cannot silently lose its version. */
+export const learningEventSchema = z.unknown().transform((raw, ctx): LearningEvent => {
+  try {
+    return parseLearningEvent(raw);
+  } catch (error) {
+    ctx.addIssue({ code: "custom", message: error instanceof Error ? error.message : "Invalid learning event" });
+    return z.NEVER;
+  }
+});
 
 /** V1 rows carry no `type` discriminator; read it tolerantly. */
 const eventType = (event: LearningEvent): string | undefined =>
@@ -105,6 +108,8 @@ export function parseLearningEvent(raw: unknown): LearningEvent {
       `Unknown lesson event type ${JSON.stringify(versioned.type)}. Update the app to import or sync this practice.`,
     );
   }
+  if (raw && typeof raw === "object" && "type" in raw)
+    throw new Error("Lesson event type requires event version 2. Import was not applied.");
   return eventSchema.parse(raw);
 }
 
@@ -165,34 +170,58 @@ export function projectLessonEvidence(
   const lessons = new Map(pack.lessons.map((l) => [l.id, l]));
   const quarantined: string[] = [];
 
-  // A graded step completion must reference its matching attempt.
+  const validAttempts = new Map<string, ActivityAttempt>();
+  for (const attempt of attempts) {
+    const lesson = lessons.get(attempt.lessonId);
+    const step = lesson?.steps.find((s) => s.id === attempt.stepId);
+    const activity = pack.activities[attempt.activityId];
+    if (!lesson || !step || !activity || step.activityId !== attempt.activityId ||
+        lesson.revision !== attempt.lessonRevision || activity.revision !== attempt.activityRevision ||
+        attempt.evidenceKey !== ("evidenceKey" in activity ? activity.evidenceKey : undefined)) {
+      quarantined.push(attempt.id);
+      continue;
+    }
+    const evaluation = evaluateActivity(activity, attempt.response, attempt.assistance);
+    if (attempt.evaluation.outcome !== "blocked" &&
+        (evaluation.outcome !== attempt.evaluation.outcome || evaluation.independent !== attempt.evaluation.independent)) {
+      quarantined.push(attempt.id);
+      continue;
+    }
+    validAttempts.set(attempt.id, attempt);
+  }
   const attemptsById = new Map(attempts.map((a) => [a.id, a]));
+  const validCompletions: StepCompletion[] = [];
   for (const completion of completions) {
     const lesson = lessons.get(completion.lessonId);
-    if (!lesson || lesson.revision !== completion.lessonRevision) continue;
-    const step = lesson.steps.find((s) => s.id === completion.stepId);
-    if (!step) continue;
-    const activity = pack.activities[step.activityId];
-    if (!activity || activity.kind === "information" || activity.kind === "self-compare")
+    const step = lesson?.steps.find((s) => s.id === completion.stepId);
+    if (!lesson || lesson.revision !== completion.lessonRevision || !step) {
+      quarantined.push(completion.id);
       continue;
-    const attempt = completion.attemptId
-      ? attemptsById.get(completion.attemptId)
-      : undefined;
-    if (
-      !attempt ||
-      attempt.lessonId !== completion.lessonId ||
-      attempt.stepId !== completion.stepId ||
-      attempt.activityId !== step.activityId ||
-      attempt.lessonRevision !== completion.lessonRevision
-    )
-      throw new Error(
-        `Step completion ${completion.id} has no matching attempt. Import was not applied.`,
-      );
+    }
+    const activity = pack.activities[step.activityId];
+    const attempt = completion.attemptId ? attemptsById.get(completion.attemptId) : undefined;
+    if (activity.kind !== "information" && activity.kind !== "self-compare" &&
+        (!attempt || attempt.lessonId !== completion.lessonId || attempt.stepId !== completion.stepId ||
+         attempt.activityId !== step.activityId || attempt.lessonRevision !== completion.lessonRevision))
+      throw new Error(`Step completion ${completion.id} has no matching attempt. Import was not applied.`);
+    const branches = Object.keys(step.branches ?? {});
+    if ((completion.attemptId && !attempt) ||
+        (attempt && (attempt.lessonId !== completion.lessonId || attempt.stepId !== completion.stepId ||
+          attempt.activityId !== step.activityId || !validAttempts.has(attempt.id) || attempt.at > completion.at ||
+          !["correct", "ungraded", "self-assessed"].includes(attempt.evaluation.outcome))) ||
+        (branches.length > 0 && (!completion.selectedBranchId ||
+          !branches.includes(completion.selectedBranchId) || attempt?.response.kind !== "selection" ||
+          attempt.response.ids.length !== 1 || attempt.response.ids[0] !== completion.selectedBranchId)) ||
+        (branches.length === 0 && completion.selectedBranchId !== undefined)) {
+      quarantined.push(completion.id);
+      continue;
+    }
+    validCompletions.push(completion);
   }
 
   // Participation: walk the chosen path; every required step must be done.
   const completedByLesson = new Map<string, Set<string>>();
-  for (const completion of completions) {
+  for (const completion of validCompletions) {
     const lesson = lessons.get(completion.lessonId);
     if (!lesson || lesson.revision !== completion.lessonRevision) {
       quarantined.push(completion.id);
@@ -209,18 +238,20 @@ export function projectLessonEvidence(
     const trail: string[] = [];
     let current: string | null = lesson.entryStepId;
     const seen = new Set<string>();
+    let resolvedPath = true;
     while (current && !seen.has(current)) {
       seen.add(current);
       trail.push(current);
       const step: Step = steps.get(current)!;
       const branchKeys = Object.keys(step.branches ?? {});
       if (branchKeys.length > 0) {
-        const completion = completions.find(
+        const completion = [...validCompletions].reverse().find(
           (c) =>
             c.lessonId === lesson.id &&
             c.stepId === current &&
             c.lessonRevision === lesson.revision,
         );
+        if (!completion?.selectedBranchId) resolvedPath = false;
         current =
           completion?.selectedBranchId &&
           step.branches![completion.selectedBranchId] !== undefined
@@ -230,24 +261,30 @@ export function projectLessonEvidence(
         current = step.nextStepId;
       }
     }
-    if (trail.every((stepId) => !steps.get(stepId)!.required || done.has(stepId)))
+    if (resolvedPath && current === null && trail.every((stepId) => !steps.get(stepId)!.required || done.has(stepId)))
       participationCompleted.push(lesson.id);
   }
 
-  // Legacy credit: v1 success on every required exercise of the policy.
+  // Legacy credit preserves the required exercise policy across both event formats.
   const successByExercise = new Map<string, boolean>();
   for (const event of v1) {
     if (event.correct && !event.revealed) successByExercise.set(event.exerciseId, true);
     else if (!successByExercise.has(event.exerciseId))
       successByExercise.set(event.exerciseId, false);
   }
+  for (const attempt of validAttempts.values()) {
+    const activity = pack.activities[attempt.activityId];
+    if (activity.kind === "legacy" && activity.exercise.id === activity.exerciseId &&
+        pack.exercisesById[activity.exerciseId] &&
+        attempt.evaluation.outcome === "correct" && attempt.evaluation.independent)
+      successByExercise.set(activity.exerciseId, true);
+  }
   const legacyCredits: string[] = [];
   for (const lesson of pack.lessons) {
-    if (lesson.completionPolicy.kind !== "legacy-success") continue;
-    if (
-      lesson.completionPolicy.exerciseIds.length > 0 &&
-      lesson.completionPolicy.exerciseIds.every((id) => successByExercise.get(id))
-    )
+    const legacyIds = lesson.legacyCompletionExerciseIds ??
+      (lesson.completionPolicy.kind === "legacy-success" ? lesson.completionPolicy.exerciseIds : []);
+    if (legacyIds.length > 0 &&
+        legacyIds.every((id) => successByExercise.get(id)))
       legacyCredits.push(lesson.id);
   }
 
@@ -259,17 +296,8 @@ export function projectLessonEvidence(
     ),
   ) as Record<Skill, { independent: number; assisted: number }>;
   for (const attempt of attempts) {
-    const lesson = lessons.get(attempt.lessonId);
+    if (!validAttempts.has(attempt.id)) continue;
     const activity = pack.activities[attempt.activityId];
-    if (
-      !lesson ||
-      !activity ||
-      lesson.revision !== attempt.lessonRevision ||
-      ("revision" in activity && activity.revision !== attempt.activityRevision)
-    ) {
-      quarantined.push(attempt.id);
-      continue;
-    }
     if (attempt.evaluation.outcome === "correct" && "skills" in activity) {
       for (const skill of activity.skills) {
         if (attempt.evaluation.independent) skillCounts[skill].independent += 1;
@@ -378,10 +406,12 @@ export function resumeSession(
       kind: "restart",
       explanation: "That path through the lesson changed. This lesson restarts; your attempts and completion credits are preserved.",
     };
+  const quarantined = new Set(projectLessonEvidence(pack, events).quarantined);
   const completedStepIds = mergeLearningEvents(events)
     .filter((e): e is StepCompletion => {
       const candidate = e as Partial<StepCompletion> & { type?: unknown };
       return (
+        !quarantined.has(e.id) &&
         e.packId === pack.id &&
         candidate.type === "step-completed" &&
         candidate.lessonId === lesson.id &&

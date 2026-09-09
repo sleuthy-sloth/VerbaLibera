@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import { validatePack } from "@/features/course-pack/schema";
+import { validateV2Pack } from "@/features/course-pack/schema-v2";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import {
   makePilotPack,
@@ -75,4 +77,31 @@ describe("lesson normalize", () => {
     (raw as Record<string, unknown>).status = "coming-soon";
     expect(() => normalizePack(raw)).toThrow(/coming-soon/i);
   });
+});
+
+
+it("preserves explicit old completion requirements when the v2 policy changes", () => {
+  const raw = validateV2Pack(makePilotPack());
+  const old = validatePack(makeLegacyRawPack()).lessons[0].exercises[0];
+  Object.assign(raw.lessons[0], {legacyExercises: [old], legacyCompletionExerciseIds: [old.id]});
+  expect(normalizePack(raw).lessons[0].legacyCompletionExerciseIds).toEqual([old.id]);
+});
+it("rejects a migration that omits old completion requirements", () => {
+  const raw = validateV2Pack(makePilotPack());
+  Object.assign(raw.lessons[0], {legacyExercises: [validatePack(makeLegacyRawPack()).lessons[0].exercises[0]]});
+  expect(() => normalizePack(raw)).toThrow(/legacy completion/i);
+});
+it("rejects completion credit for an exercise outside that lesson", () => {
+  const raw = validateV2Pack(makePilotPack());
+  Object.assign(raw.lessons[0], {legacyCompletionExerciseIds: ['unknown-exercise']});
+  expect(() => normalizePack(raw)).toThrow(/legacy completion/i);
+});
+it('rejects conflicting legacy completion contracts', () => {
+  const raw = validateV2Pack(makePilotPack());
+  const old = validatePack(makeLegacyRawPack()).lessons[0].exercises.slice(0, 2);
+  Object.assign(raw.lessons[0], { legacyExercises: old,
+    legacyCompletionExerciseIds: [old[0].id],
+    completionPolicy: {kind: 'legacy-success', exerciseIds: old.map(e => e.id)},
+  });
+  expect(() => normalizePack(raw)).toThrow(/legacy completion/i);
 });

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  learningEventSchema,
   mergeLearningEvents,
   parseLearningEvent,
   projectLessonEvidence,
@@ -60,6 +61,57 @@ const v1event = (over: Record<string, unknown> = {}) => ({
 });
 
 describe("lesson attempts", () => {
+  it("never parses a versioned hybrid as a legacy event", () => {
+    expect(learningEventSchema.safeParse({ ...v1event(), eventVersion: 3 }).success).toBe(false);
+    expect(learningEventSchema.safeParse({ ...v1event(), type: "attempt" }).success).toBe(false);
+    expect(learningEventSchema.safeParse({ ...v1event(), eventVersion: 2, type: "nap" }).success).toBe(false);
+  });
+
+  it("quarantines mismatched targets and fabricated assessment claims", () => {
+    for (const overrides of [
+      { stepId: "retired" }, { evidenceKey: "other-target" },
+      { assistance: ["model"] as ActivityAttempt["assistance"] },
+      { response: { kind: "selection" as const, ids: ["un-te"] } },
+    ]) {
+      const result = projectLessonEvidence(pilot(), [attempt(overrides)]);
+      expect(result.quarantined).toContain("att-1");
+      expect(result.evidence).toEqual({});
+    }
+  });
+
+  it("does not accept a completion backed by an incorrect or retired attempt", () => {
+    for (const candidate of [
+      attempt({ activityRevision: 2 }),
+      attempt({ response: { kind: "selection", ids: ["un-te"] },
+        evaluation: { outcome: "incorrect", independent: false, feedback: "Try again." } }),
+    ]) {
+      expect(projectLessonEvidence(pilot(), [candidate, completion()]).quarantined).toContain("cmp-1");
+    }
+  });
+
+  it("does not truncate a conversation into completion when its branch is missing", () => {
+    const pack = pilot();
+    const lesson = pack.lessons.find((l) => l.id === "it-cafe-conversation")!;
+    lesson.steps.find((s) => s.id === "cv-s2")!.required = false;
+    const result = projectLessonEvidence(pack, [completion({
+      lessonId: lesson.id, stepId: "cv-s1", attemptId: undefined,
+    })]);
+    expect(result.participationCompleted).not.toContain(lesson.id);
+  });
+
+  it("rejects a branch completion that does not match the submitted reply", () => {
+    const pack = pilot();
+    const activityId = pack.lessons.find((l) => l.id === "it-cafe-conversation")!.steps.find((s) => s.id === "cv-s2")!.activityId;
+    const activity = pack.activities[activityId];
+    const candidate = attempt({ lessonId: "it-cafe-conversation", stepId: "cv-s2", activityId,
+      evidenceKey: "evidenceKey" in activity ? activity.evidenceKey : undefined,
+      response: { kind: "selection", ids: ["r-formal"] } });
+    const result = projectLessonEvidence(pack, [candidate, completion({
+      lessonId: candidate.lessonId, stepId: candidate.stepId, selectedBranchId: "r-casual",
+    })]);
+    expect(result.quarantined).toContain("cmp-1");
+  });
+
   it("preserves v1 imports byte-for-byte at object level", () => {
     const event = v1event();
     expect(mergeLearningEvents([event])).toEqual([event]);
@@ -165,6 +217,36 @@ describe("lesson attempts", () => {
       { ...v1event(), packId: "lg-legacy", id: "v1-4", exerciseId: "lg-ex-dictation" },
     ]);
     expect(credited.legacyCredits).toContain("lg-lesson");
+  });
+
+  it("credits validated independent legacy attempts through the v2 engine", () => {
+    const pack = normalizePack(makeLegacyRawPack());
+    const lesson = pack.lessons[0];
+    const events = lesson.steps.flatMap((step): ActivityAttempt[] => {
+      const activity = pack.activities[step.activityId];
+      if (activity.kind !== "legacy") return [];
+      return [attempt({ id: `attempt-${activity.id}`, packId: pack.id, packVersion: pack.version,
+        lessonId: lesson.id, stepId: step.id, activityId: activity.id, evidenceKey: activity.evidenceKey,
+        response: { kind: "text", text: activity.exercise.answers[0] } })];
+    });
+    expect(projectLessonEvidence(pack, events).legacyCredits).toContain(lesson.id);
+    for (const changed of [
+      { assistance: ["model"] as ActivityAttempt["assistance"], evaluation: { outcome: "correct" as const, independent: false, feedback: "Shown" } },
+      { evidenceKey: "unrelated-evidence" },
+      { activityRevision: 99 },
+    ]) {
+      expect(projectLessonEvidence(pack, [{ ...events[0], ...changed }, ...events.slice(1)]).legacyCredits).not.toContain(lesson.id);
+    }
+    expect(projectLessonEvidence(pack, []).legacyCredits).toEqual([]);
+  });
+
+  it("keeps legacy completion when a lesson migrates to an evidence policy", () => {
+    const pack = normalizePack(makeLegacyRawPack());
+    const ids = pack.lessons[0].legacyCompletionExerciseIds;
+    pack.lessons[0].completionPolicy = { kind: "evidence", targets: [{ evidenceKey: "new-target", successes: 1 }] };
+    const events = ids.map((exerciseId, i) => v1event({ packId: pack.id, exerciseId, id: `old-${i}` }));
+    expect(projectLessonEvidence(pack, events).legacyCredits).toContain("lg-lesson");
+    expect(projectLessonEvidence(pack, events.slice(1)).legacyCredits).not.toContain("lg-lesson");
   });
 
   it("resumes a compatible checkpoint and restarts on drift", () => {

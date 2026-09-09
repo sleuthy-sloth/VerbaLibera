@@ -13,6 +13,8 @@ import {
   mergeEvents,
   type PracticeEvent,
 } from "./progress";
+import type { RuntimePack } from "./lesson-runtime";
+import { RuntimeCourseWorkspace } from "./RuntimeCourseWorkspace";
 import { decodeBackup } from "./storage";
 import { DialogueView } from "./DialogueView";
 import { ExerciseView } from "./ExerciseView";
@@ -54,6 +56,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   initialLanguage: string; startNextLesson: boolean; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
+  const [runtimePack, setRuntimePack] = useState<RuntimePack | null>(null);
   const [syncStatus, setSyncStatus] = useState("");
   const [language, setLanguage] = useState(initialLanguage),
     [pack, setPack] = useState<CoursePack | null>(null),
@@ -80,7 +83,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   useEffect(() => {
     let active = true;
     Promise.all([
-      environment.loadPack(language),
+      environment.loadCourse ? environment.loadCourse(language) : environment.loadPack(language),
       environment.practice.read(scope)
         .then((events) => ({ events, error: null as string | null }))
         .catch((error) => ({
@@ -90,6 +93,12 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
     ])
       .then(([p, s]) => {
         if (active) {
+          if ("activities" in p) {
+            setRuntimePack(p);
+            setStorageReady(!s.error);
+            if (s.error) setError(s.error);
+            return;
+          }
           setPack(p);
           setEvents(s.events);
           if (s.error) setError(s.error + " You can still read the lessons.");
@@ -141,6 +150,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
       );
     }
     setPack(null);
+    setRuntimePack(null);
     setStorageReady(false);
     setLanguage(next);
     setLessonId("");
@@ -152,6 +162,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
     setError("");
     setQuery("");
   };
+  if (runtimePack) return <RuntimeCourseWorkspace key={`${runtimePack.id}:${scope ?? "guest"}`} pack={runtimePack} environment={environment} scope={scope} language={language} onLanguageChange={changeLanguage} onProgressChanged={() => setSyncRevision(n => n + 1)} accountControls={renderAccountPractice?.({status: syncStatus, retry: () => setSyncRevision(n => n + 1)})} />;
   if (!pack)
     return (
       <main id="main-content" className="study">
@@ -604,10 +615,12 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
           <button
             onClick={async () => {
               try {
-                const all = await environment.practice.read(scope),
-                  url = URL.createObjectURL(
+                const backup = environment.backup
+                  ? await environment.backup.export()
+                  : { format: 1, events: await environment.practice.read(scope) };
+                const url = URL.createObjectURL(
                     new Blob(
-                      [JSON.stringify({ format: 1, events: all }, null, 2)],
+                      [JSON.stringify(backup, null, 2)],
                       { type: "application/json" },
                     ),
                   );
@@ -632,8 +645,9 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
                 const file = e.target.files?.[0];
                 if (!file) return;
                 try {
-                  const incoming = decodeBackup(await file.text());
-                  await environment.practice.write(incoming, scope);
+                  const raw = await file.text();
+                  if (environment.backup) await environment.backup.import(raw);
+                  else await environment.practice.write(decodeBackup(raw), scope);
                   setEvents(await environment.practice.read(scope));
                   setSyncRevision(n => n + 1);
                   setMessage(

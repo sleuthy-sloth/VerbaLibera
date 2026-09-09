@@ -1,5 +1,6 @@
 import type { PracticeEvent } from "./progress";
-import type { LearningEvent, LessonCheckpoint } from "./attempts";
+import { mergeLearningEvents, lessonCheckpointSchema, type LearningEvent, type LessonCheckpoint } from "./attempts";
+import type { RuntimePack } from "./lesson-runtime";
 import type { CoursePack } from "./schema";
 
 export type PracticeDurability = "durable" | "temporary";
@@ -25,7 +26,10 @@ export interface CourseEnvironment {
   practice: PracticeStore;
   /** V2 lesson events + checkpoints. Absent until the edition wires Task 4; LessonPlayer uses a test adapter meanwhile. */
   lessonPractice?: LessonPracticeStore;
+  /** Bound to the same account/profile as lessonPractice. */
+  backup?: { export(): Promise<unknown>; import(raw: string): Promise<void> };
   loadPack(language: string): Promise<CoursePack>;
+  loadCourse?(language: string): Promise<CoursePack | RuntimePack>;
   resolveMedia(url: string): string;
   install?(pack: CoursePack, language: string): Promise<void>;
   isInstalled?(language: string): Promise<boolean>;
@@ -41,20 +45,21 @@ export interface LessonPracticeStore {
 export function createMemoryLessonPractice(
   initial: LearningEvent[] = [],
 ): LessonPracticeStore {
-  let events = [...initial];
+  let events = structuredClone(mergeLearningEvents(initial));
   const checkpoints = new Map<string, LessonCheckpoint>();
   return {
     async readLessons() {
-      return [...events];
+      return structuredClone(events);
     },
     async writeLessons(incoming) {
-      events = [...events, ...incoming];
+      events = structuredClone(mergeLearningEvents(events, incoming));
     },
     async readCheckpoint(packId, lessonId) {
-      return checkpoints.get(`${packId}/${lessonId}`) ?? null;
+      return structuredClone(checkpoints.get(`${packId}/${lessonId}`) ?? null);
     },
     async writeCheckpoint(checkpoint) {
-      checkpoints.set(`${checkpoint.packId}/${checkpoint.lessonId}`, checkpoint);
+      const parsed = lessonCheckpointSchema.parse(checkpoint);
+      checkpoints.set(`${parsed.packId}/${parsed.lessonId}`, structuredClone(parsed));
     },
   };
 }

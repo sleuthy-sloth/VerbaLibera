@@ -3,7 +3,6 @@ import {
   readFileSync,
   writeFileSync,
   mkdirSync,
-  copyFileSync,
 } from "node:fs";
 import { createHash } from "node:crypto";
 import { validatePack } from "../src/features/course-pack/schema";
@@ -88,7 +87,8 @@ if (command === "build") {
     define: { "process.env.NODE_ENV": '"production"' },
     legalComments: "eof",
   });
-  copyFileSync("src/features/course-pack/study.css", "public/study.css");
+  const playerStyles = readFileSync("public/study.css", "utf8");
+  writeFileSync("public/study.css", readFileSync("src/features/course-pack/study.css", "utf8") + "\n" + playerStyles);
   writeFileSync(
     "public/study.html",
     '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f3ee"><title>VerbaLibera · Offline study</title><link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="/study.css"></head><body><div id="study-root"><p>Opening your course. If it is not downloaded, connect once to install it.</p></div><script src="/study.js" defer></script></body></html>',

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { csrfHeaders } from '../../lib/auth/cookies';
-import { eventSchema, mergeEvents, type PracticeEvent } from './progress';
+import { mergeEvents, type PracticeEvent } from './progress';
 import { learningEventSchema, mergeLearningEvents, type LearningEvent } from './attempts';
 import { readEvents, storeEvents, readLessonEvents, storeLessonEvents } from './storage';
-const pageSchema = z.object({ userId: z.string(), events: z.array(eventSchema).max(500), lessonEvents: z.array(learningEventSchema).max(500).default([]), nextCursor: z.string().regex(/^\d{1,18}$/).nullable() });
+const pageSchema = z.object({ userId: z.string(), events: z.array(learningEventSchema).max(500), lessonEvents: z.array(learningEventSchema).max(500).default([]), nextCursor: z.string().regex(/^\d{1,18}$/).nullable() });
 async function responseJson(response: Response) {
   const body = await response.json();
   if (!response.ok) throw new Error(typeof body.error === 'string' ? body.error : 'Synchronization failed. Local practice is safe.');
@@ -32,10 +32,15 @@ export async function synchronizePractice(userId: string, signal?: AbortSignal) 
     const page = pageSchema.parse(await responseJson(response));
     if (page.userId !== userId) throw new Error('The signed-in account changed. Local practice was not uploaded.');
     if (page.nextCursor && BigInt(page.nextCursor) <= BigInt(after)) throw new Error('Invalid synchronization cursor. Retry later.');
-    await storeEvents(page.events, userId);
-    await storeLessonEvents(page.lessonEvents, userId);
-    remote.push(...page.events);
-    remoteLessons.push(...page.lessonEvents);
+    // The server paginates one ordered stream containing both event versions.
+    // Parse the entire page before any write; never strip a v2 row into v1.
+    const allEvents = mergeLearningEvents(page.events, page.lessonEvents);
+    const legacy = allEvents.filter((event): event is PracticeEvent => !('eventVersion' in event));
+    const lessonEvents = allEvents.filter(event => 'eventVersion' in event);
+    await storeEvents(legacy, userId);
+    await storeLessonEvents(lessonEvents, userId);
+    remote.push(...legacy);
+    remoteLessons.push(...lessonEvents);
     if (!page.nextCursor) break;
     after = page.nextCursor;
   } while (!signal?.aborted);

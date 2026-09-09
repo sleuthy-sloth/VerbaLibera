@@ -1,11 +1,10 @@
 "use client";
 
+import { useMemo } from "react";
 import { AccountPractice, usePracticeAccount } from "./AccountPractice";
 import { CourseWorkspace } from "./CourseWorkspace";
 import { createHostedEnvironment } from "./hosted-environment";
 import { synchronizePractice } from "./sync";
-
-const HOSTED_ENVIRONMENT = createHostedEnvironment();
 
 export function HostedCourseWorkspace({
   initialLanguage = "italian",
@@ -15,6 +14,7 @@ export function HostedCourseWorkspace({
   startNextLesson?: boolean;
 }) {
   const { scope, ready, select } = usePracticeAccount();
+  const environment = useMemo(() => createHostedEnvironment(scope), [scope]);
   if (!ready) {
     return (
       <main id="main-content" className="study">
@@ -27,7 +27,7 @@ export function HostedCourseWorkspace({
       key={scope ?? "guest"}
       initialLanguage={initialLanguage}
       startNextLesson={startNextLesson}
-      environment={HOSTED_ENVIRONMENT}
+      environment={environment}
       scope={scope}
       synchronize={synchronizePractice}
       renderAccountPractice={({ status, retry }) => (

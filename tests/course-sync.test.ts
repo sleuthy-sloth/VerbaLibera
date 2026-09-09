@@ -38,3 +38,36 @@ it('walks every page and does not duplicate already synchronized events', async 
   expect(fetchMock).toHaveBeenCalledTimes(2);
   expect(fetchMock.mock.calls[1][0]).toContain('after=500');
 });
+
+const lessonAttempt = {
+  eventVersion: 2, type: 'attempt', id: 'lesson-remote', packId: 'it-foundations',
+  packVersion: '1.0.0', lessonId: 'it-cafe-story', lessonRevision: 1,
+  stepId: 'story-answer', activityId: 'story-choice', activityRevision: 1,
+  evidenceKey: 'story-evidence', response: { kind: 'selection', ids: ['coffee'] },
+  assistance: [], evaluation: { outcome: 'correct', independent: true, feedback: 'Correct.' },
+  at: event.at,
+};
+it('routes the server mixed event stream into its corresponding local stores', async () => {
+  local.read.mockResolvedValue([event]);
+  local.readLessons.mockResolvedValue([lessonAttempt]);
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event, lessonAttempt], nextCursor: null }));
+  await synchronizePractice('a');
+  expect(local.store).toHaveBeenCalledWith([event], 'a');
+  expect(local.storeLessons).toHaveBeenCalledWith([lessonAttempt], 'a');
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+});
+it('rejects unsupported versioned events before persisting either part of the page', async () => {
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event, { ...event, eventVersion: 3 }], nextCursor: null }));
+  await expect(synchronizePractice('a')).rejects.toThrow();
+  expect(local.store).not.toHaveBeenCalled();
+  expect(local.storeLessons).not.toHaveBeenCalled();
+});
+it('does not upload an empty event batch after a mixed remote page', async () => {
+  local.read.mockResolvedValue([]);
+  local.readLessons.mockResolvedValue([lessonAttempt]);
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [lessonAttempt], nextCursor: '500' }))
+    .mockResolvedValueOnce(Response.json({ userId: 'a', events: [], nextCursor: null }));
+  await synchronizePractice('a');
+  expect(fetchMock).toHaveBeenCalledTimes(2);
+  expect(fetchMock.mock.calls[1][0]).toContain('after=500');
+});

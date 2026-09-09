@@ -25,7 +25,7 @@ const samePairs = (
 ): boolean => {
   if (a.length !== b.length) return false;
   const key = (p: { leftId: string; rightId: string }) =>
-    `${p.leftId}|${p.rightId}`;
+    JSON.stringify([p.leftId, p.rightId]);
   return sameSet(a.map(key), b.map(key));
 };
 
@@ -41,6 +41,7 @@ export function evaluateActivity(
   assistance: Assistance[],
 ): Evaluation {
   const tainted =
+    assistance.includes("model") ||
     "assistanceAffectsEvidence" in activity &&
     assistance.some((kind) =>
       activity.assistanceAffectsEvidence.includes(kind),
@@ -140,7 +141,7 @@ export function evaluateActivity(
       const right = new Set(activity.right.map((o) => o.id));
       if (
         response.pairs.some((p) => !left.has(p.leftId) || !right.has(p.rightId)) ||
-        new Set(response.pairs.map((p) => `${p.leftId}|${p.rightId}`)).size !==
+        new Set(response.pairs.map((p) => JSON.stringify([p.leftId, p.rightId]))).size !==
           response.pairs.length
       )
         return retry("Each pairing must use listed items exactly once.");

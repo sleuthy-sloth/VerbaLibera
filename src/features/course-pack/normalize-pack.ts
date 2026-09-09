@@ -138,6 +138,7 @@ function adaptV1(
       conceptIds: [...lesson.conceptIds],
       vocabulary: [...lesson.vocabulary],
       legacyExercises: [...lesson.exercises],
+      legacyCompletionExerciseIds: required.map((exercise) => exercise.id),
     };
   });
   return {
@@ -201,8 +202,8 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
   const concepts = unique(pack.concepts.map((c) => c.id), "concept");
   const vocabulary = unique(pack.vocabulary.map((v) => v.id), "vocabulary");
   const mediaIds = unique(pack.media.map((m) => m.id), "media");
-  const stimulusIds = unique(pack.stimuli.map((s) => s.id), "stimulus");
-  const activityIds = unique(pack.activities.map((a) => a.id), "activity");
+  unique(pack.stimuli.map((s) => s.id), "stimulus");
+  unique(pack.activities.map((a) => a.id), "activity");
   const lessonIds = unique(pack.lessons.map((l) => l.id), "lesson");
   const conceptRefs = (values: string[], where: string) => {
     for (const c of values) if (!concepts.has(c)) fail(`unknown concept ${c} in ${where}`);
@@ -213,16 +214,16 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
 
   const mediaById = new Map(pack.media.map((m) => [m.id, m]));
   const usedMedia = new Set<string>();
-  const useMedia = (mediaId: string, kind: "audio" | "image", where: string) => {
+  const validateMediaReference = (mediaId: string, kind: "audio" | "image", where: string) => {
     const asset = need(mediaById.get(mediaId), `unknown media ${mediaId} in ${where}`);
     if (asset.kind !== kind)
       fail(`media ${mediaId} in ${where} is ${asset.kind}, expected ${kind}`);
     usedMedia.add(mediaId);
   };
   for (const stimulus of pack.stimuli) {
-    if (stimulus.kind === "audio") useMedia(stimulus.mediaId, "audio", `stimulus ${stimulus.id}`);
+    if (stimulus.kind === "audio") validateMediaReference(stimulus.mediaId, "audio", `stimulus ${stimulus.id}`);
     if (stimulus.kind === "scene") {
-      useMedia(stimulus.mediaId, "image", `stimulus ${stimulus.id}`);
+      validateMediaReference(stimulus.mediaId, "image", `stimulus ${stimulus.id}`);
       unique(stimulus.regions.map((r) => r.id), `scene region in ${stimulus.id}`);
       for (const r of stimulus.regions) {
         if (
@@ -235,13 +236,13 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
     }
     if (stimulus.kind === "dialogue")
       for (const turn of stimulus.turns)
-        if (turn.mediaId) useMedia(turn.mediaId, "audio", `stimulus ${stimulus.id}`);
+        if (turn.mediaId) validateMediaReference(turn.mediaId, "audio", `stimulus ${stimulus.id}`);
   }
 
   const activitiesById = new Map(pack.activities.map((a) => [a.id, a]));
   const stimuliById = new Map(pack.stimuli.map((s) => [s.id, s]));
   const usedStimuli = new Set<string>();
-  const useStimulus = (stimulusId: string, where: string) => {
+  const validateStimulusReference = (stimulusId: string, where: string) => {
     if (!stimuliById.has(stimulusId)) fail(`unknown stimulus ${stimulusId} in ${where}`);
     usedStimuli.add(stimulusId);
   };
@@ -267,15 +268,15 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
       vocabRefs(activity.vocabulary, where);
       if (!activity.assistanceAffectsEvidence.includes("model"))
         fail(`model reveal must affect evidence in ${where}`);
-      if (activity.stimulusId) useStimulus(activity.stimulusId, where);
+      if (activity.stimulusId) validateStimulusReference(activity.stimulusId, where);
     } else if (activity.kind === "self-compare") {
       conceptRefs(activity.conceptIds, where);
       vocabRefs(activity.vocabulary, where);
-      if (activity.stimulusId) useStimulus(activity.stimulusId, where);
+      if (activity.stimulusId) validateStimulusReference(activity.stimulusId, where);
       if (activity.modelAudioId)
-        useMedia(activity.modelAudioId, "audio", where);
+        validateMediaReference(activity.modelAudioId, "audio", where);
     } else if (activity.stimulusId) {
-      useStimulus(activity.stimulusId, where);
+      validateStimulusReference(activity.stimulusId, where);
     }
     switch (activity.kind) {
       case "legacy":
@@ -377,6 +378,21 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
 
   const runtimeLessons: RuntimeLesson[] = pack.lessons.map((lesson) => {
     const where = `lesson ${lesson.id}`;
+    const legacyCompletionExerciseIds = lesson.legacyCompletionExerciseIds ??
+      (lesson.completionPolicy.kind === "legacy-success"
+        ? lesson.completionPolicy.exerciseIds : []);
+    if (lesson.legacyExercises.length && !legacyCompletionExerciseIds.length)
+      fail(`missing legacy completion requirements in ${where}`);
+    unique(legacyCompletionExerciseIds, `legacy completion exercise in ${where}`);
+    if (lesson.completionPolicy.kind === "legacy-success") {
+      const policyIds = unique(lesson.completionPolicy.exerciseIds, `legacy completion policy in ${where}`);
+      if (policyIds.size !== legacyCompletionExerciseIds.length ||
+          legacyCompletionExerciseIds.some((exerciseId) => !policyIds.has(exerciseId)))
+        fail(`conflicting legacy completion requirements in ${where}`);
+    }
+    for (const exerciseId of legacyCompletionExerciseIds)
+      if (!lesson.legacyExercises.some((exercise) => exercise.id === exerciseId))
+        fail(`unknown legacy completion exercise ${exerciseId} in ${where}`);
     if (!units.has(lesson.unitId)) fail(`unknown unit in ${where}`);
     conceptRefs(lesson.conceptIds, where);
     vocabRefs(lesson.vocabulary, where);
@@ -496,6 +512,7 @@ function adaptV2(pack: AuthoredV2Pack): RuntimePack {
       conceptIds: [...lesson.conceptIds],
       vocabulary: [...lesson.vocabulary],
       legacyExercises: lesson.legacyExercises.map((e) => ({ ...e })),
+      legacyCompletionExerciseIds: [...legacyCompletionExerciseIds],
     };
   });
 

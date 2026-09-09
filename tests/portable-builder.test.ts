@@ -88,6 +88,8 @@ describe("portable HTML build", () => {
     expect(html).toContain("connect-src 'none'");
     expect(html).toContain("Italian foundations");
     expect(html).toContain("German foundations");
+    expect(html).toContain(".lesson-player");
+    expect(html).toContain(".lp-layout");
     expect(html).not.toMatch(/<script[^>]+src=/i);
     expect(html).not.toMatch(/<link[^>]+href=/i);
     expect(html).not.toContain("/api/course-progress");

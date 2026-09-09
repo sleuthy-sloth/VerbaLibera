@@ -251,6 +251,8 @@ export type RuntimeLesson = {
   vocabulary: string[];
   /** Retained v1 exercise collection (also embedded per legacy activity). */
   legacyExercises: Exercise[];
+  /** Required v1 IDs retained independently of the new completion policy. */
+  legacyCompletionExerciseIds: string[];
 };
 
 export type RuntimePack = {

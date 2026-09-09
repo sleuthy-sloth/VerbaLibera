@@ -1,3 +1,5 @@
+import { importBackupDatabase } from "./backup-database";
+import { decodeBackupEnvelope, encodeBackup } from "./storage";
 import type {
   CourseEnvironment,
   LessonPracticeStore,
@@ -12,6 +14,7 @@ import {
   type LessonCheckpoint,
 } from "./attempts";
 import { mergeEvents, type PracticeEvent } from "./progress";
+import { normalizePack } from "./normalize-pack";
 import { validatePack } from "./schema";
 import type { PortableContent } from "../../../scripts/portable/content";
 
@@ -177,7 +180,8 @@ async function readLessonDurable(factory: IDBFactory): Promise<LearningEvent[]> 
           reject(error);
         }
       };
-      transaction.onerror = () => reject(transaction.error ?? new Error("Could not read portable lesson practice."));
+      transaction.onabort = () => reject(transaction.error ?? new Error("Could not read portable lesson practice."));
+      transaction.onerror = () => {};
     } catch (error) {
       reject(error);
     }
@@ -215,35 +219,12 @@ async function writeLessonDurable(
 }
 
 function durableLessonStore(factory: IDBFactory): LessonPracticeStore {
-  const memory = createMemoryLessonPractice();
-  let durable = true;
+  // Once persistence is established, errors must remain visible to callers.
+  // Switching to memory here would hide saved history and accept failed retries.
   return {
-    async readLessons() {
-      if (!durable) return memory.readLessons();
-      try {
-        return await readLessonDurable(factory);
-      } catch {
-        durable = false;
-        return memory.readLessons();
-      }
-    },
-    async writeLessons(incoming) {
-      const validated = mergeLearningEvents(incoming);
-      if (!durable) return memory.writeLessons(validated);
-      try {
-        const existing = await readLessonDurable(factory);
-        mergeLearningEvents(existing, validated);
-        await writeLessonDurable(factory, validated);
-      } catch (error) {
-        durable = false;
-        await memory.writeLessons(validated);
-        throw error instanceof Error
-          ? error
-          : new Error("Portable lesson practice was not saved.");
-      }
-    },
+    readLessons: () => readLessonDurable(factory),
+    writeLessons: (incoming) => writeLessonDurable(factory, incoming),
     async readCheckpoint(packId, lessonId) {
-      if (!durable) return memory.readCheckpoint(packId, lessonId);
       const db = await openDatabase(factory);
       try {
         return await new Promise<LessonCheckpoint | null>((resolve, reject) => {
@@ -258,7 +239,8 @@ function durableLessonStore(factory: IDBFactory): LessonPracticeStore {
               reject(e);
             }
           };
-          transaction.onerror = () => reject(transaction.error ?? new Error("Could not read portable checkpoint."));
+          transaction.onabort = () => reject(transaction.error ?? new Error("Could not read portable checkpoint."));
+          transaction.onerror = () => {};
         });
       } finally {
         db.close();
@@ -266,7 +248,6 @@ function durableLessonStore(factory: IDBFactory): LessonPracticeStore {
     },
     async writeCheckpoint(checkpoint) {
       const parsed = lessonCheckpointSchema.parse(checkpoint);
-      if (!durable) return memory.writeCheckpoint(parsed);
       const db = await openDatabase(factory);
       try {
         await new Promise<void>((resolve, reject) => {
@@ -276,10 +257,8 @@ function durableLessonStore(factory: IDBFactory): LessonPracticeStore {
           transaction.onabort = () => reject(transaction.error ?? new Error("Portable checkpoint was not saved."));
           transaction.onerror = () => {};
         });
-      } catch (error) {
-        durable = false;
-        await memory.writeCheckpoint(parsed);
-        throw error instanceof Error ? error : new Error("Portable checkpoint was not saved.");
+      } finally {
+        db.close();
       }
     },
   };
@@ -313,7 +292,9 @@ export async function createPortableEnvironment(
   },
 ): Promise<CourseEnvironment> {
   const practice = await probePortableStore(options);
-  const lessonPractice = await probeLessonPractice(options);
+  const initiallyDurable = practice.getDurability() === "durable" && !!options.indexedDB;
+  const lessonPractice = initiallyDurable
+    ? durableLessonStore(options.indexedDB!) : createMemoryLessonPractice();
   const mediaUrls = new Map(
     Object.entries(content.assets).map(([path, asset]) => [
       path,
@@ -332,6 +313,31 @@ export async function createPortableEnvironment(
     },
     practice,
     lessonPractice,
+    backup: {
+      async export() { return encodeBackup(await practice.read(), await lessonPractice.readLessons()); },
+      async import(raw) {
+        const incoming = decodeBackupEnvelope(raw);
+        if (initiallyDurable) {
+          if (practice.getDurability() !== "durable")
+            throw new Error("Storage became unavailable. Export your practice, then reopen before importing.");
+          await importBackupDatabase(() => openDatabase(options.indexedDB!), incoming);
+        } else {
+          // Both stores are memory-only here. Validate the whole merge before
+          // either synchronous memory mutation, preserving atomic conflicts.
+          const legacy = await practice.read(), lessons = await lessonPractice.readLessons();
+          mergeLearningEvents(legacy, lessons, incoming.events, incoming.lessonEvents);
+          const nextLegacy = mergeEvents(legacy, incoming.events);
+          const nextLessons = mergeLearningEvents(lessons, incoming.lessonEvents);
+          await practice.write(nextLegacy);
+          await lessonPractice.writeLessons(nextLessons);
+        }
+      },
+    },
+    async loadCourse(language) {
+      const raw = structuredClone(content.packs[language]);
+      if (!raw) throw new Error(`Course is not embedded: ${language}`);
+      return (raw as {schemaVersion: number}).schemaVersion === 2 ? normalizePack(raw) : validatePack(raw);
+    },
     async loadPack(language) {
       const pack = content.packs[language];
       if (!pack) throw new Error(`Course is not embedded: ${language}`);

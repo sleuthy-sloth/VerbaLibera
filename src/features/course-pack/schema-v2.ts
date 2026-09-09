@@ -306,6 +306,7 @@ const lessonSchemaV2 = z.object({
   vocabulary: z.array(id).max(10),
   /** Legacy exercises retained for migration (full v1 exercise records, validated by the v1 schema); may be unused by the v2 sequence. */
   legacyExercises: z.array(exerciseSchema).default([]),
+  legacyCompletionExerciseIds: z.array(id).max(1000).optional(),
 });
 
 export const packSchemaV2 = z.object({

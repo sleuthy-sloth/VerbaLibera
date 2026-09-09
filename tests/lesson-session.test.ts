@@ -12,6 +12,24 @@ import { makePilotPack } from "./fixtures/lesson-variety";
 const pilot = () => normalizePack(makePilotPack());
 
 describe("lesson session", () => {
+  it("does not advance using stale success after a wrong retry", () => {
+    const pack = pilot();
+    let state = advanceLesson(pack, submitResponse(pack, startLesson(pack, "it-cafe-story"), { kind: "continue" }, []));
+    state = submitResponse(pack, state, { kind: "selection", ids: ["un-caffe"] }, []);
+    state = submitResponse(pack, state, { kind: "selection", ids: ["un-te"] }, []);
+    expect(() => advanceLesson(pack, state)).toThrow(/not complete/i);
+  });
+
+  it("support cannot supply the main step evaluation", () => {
+    const pack = pilot();
+    let state = advanceLesson(pack, submitResponse(pack, startLesson(pack, "it-cafe-conversation"), { kind: "continue" }, []));
+    state = openSupport(pack, state);
+    state = submitResponse(pack, state, { kind: "continue" }, []);
+    expect(state.currentEvaluation).toBeNull();
+    expect(state.accumulatedAssistance).toContain("hint");
+    expect(() => advanceLesson(pack, state)).toThrow();
+  });
+
   it("starts at the authored entry step", () => {
     const pack = pilot();
     const state = startLesson(pack, "it-cafe-story");
@@ -142,4 +160,14 @@ describe("lesson session", () => {
     const pack = pilot();
     expect(() => startLesson(pack, "nope")).toThrow(/unknown lesson/i);
   });
+});
+
+it('keeps shared reference assistance but clears a previous activity model on advance', () => {
+  const pack = normalizePack(makePilotPack());
+  let state = startLesson(pack, 'it-cafe-story');
+  state = submitResponse(pack, state, {kind:'continue'}, ['translation']);
+  state = advanceLesson(pack, state);
+  state = submitResponse(pack, state, {kind:'selection',ids:['un-caffe']}, ['model']);
+  state = advanceLesson(pack, state);
+  expect(state.accumulatedAssistance).toEqual(['translation']);
 });

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { eventSchema, mergeEvents, type PracticeEvent } from "./progress";
+import { importBackupDatabase } from "./backup-database";
+import { mergeEvents, type PracticeEvent } from "./progress";
 import {
   learningEventSchema,
   lessonCheckpointSchema,
@@ -10,18 +11,25 @@ import {
 import type { CoursePack } from "./schema";
 const DB = "verbalibera-course-practice";
 const DB_VERSION = 2;
+const legacyBackupEventSchema = learningEventSchema.transform((event, ctx): PracticeEvent => {
+  if ("eventVersion" in event) {
+    ctx.addIssue({ code: "custom", message: "Versioned lesson events belong in the lessonEvents backup array." });
+    return z.NEVER;
+  }
+  return event;
+});
 export function decodeBackup(raw: string): PracticeEvent[] {
   if (raw.length > 10_000_000) throw new Error("Backup is too large.");
   const parsed = z
-    .object({ format: z.literal(1), events: z.array(eventSchema).max(25000) })
+    .object({ format: z.literal(1), events: z.array(legacyBackupEventSchema).max(25000) })
     .parse(JSON.parse(raw));
   return mergeEvents(parsed.events);
 }
 const backupEnvelopeSchema = z.discriminatedUnion("format", [
-  z.object({ format: z.literal(1), events: z.array(eventSchema).max(25000) }),
+  z.object({ format: z.literal(1), events: z.array(legacyBackupEventSchema).max(25000) }),
   z.object({
     format: z.literal(2),
-    events: z.array(eventSchema).max(25000),
+    events: z.array(legacyBackupEventSchema).max(25000),
     lessonEvents: z.array(learningEventSchema).max(25000),
   }),
 ]);
@@ -309,4 +317,9 @@ export async function installedPack(language: string): Promise<boolean> {
         return true;
     }
   return false;
+}
+
+export async function importPracticeBackup(raw: string, scope?: string | null): Promise<void> {
+  const incoming = decodeBackupEnvelope(raw);
+  await importBackupDatabase(() => database(scope), incoming);
 }

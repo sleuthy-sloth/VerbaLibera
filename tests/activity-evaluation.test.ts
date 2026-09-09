@@ -3,6 +3,7 @@ import { evaluateActivity } from "@/features/course-pack/activity-evaluation";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import type {
   ClozeActivity,
+  MatchingActivity,
   OrderingActivity,
 } from "@/features/course-pack/lesson-runtime";
 import { makePilotPack } from "./fixtures/lesson-variety";
@@ -10,6 +11,25 @@ import { makePilotPack } from "./fixtures/lesson-variety";
 const pilot = () => normalizePack(makePilotPack());
 
 describe("activity evaluation", () => {
+  it("always treats model reveal as assistance even if a runtime policy omits it", () => {
+    const pack = pilot();
+    const activity = pack.activities["it-cafe-order-text"];
+    if (activity.kind !== "text") throw new Error("Expected text fixture");
+    expect(evaluateActivity({ ...activity, assistanceAffectsEvidence: [] },
+      { kind: "text", text: "Un caffè, per favore." }, ["model"]).independent).toBe(false);
+  });
+
+  it("compares matching IDs without delimiter collisions", () => {
+    const source = pilot().activities["it-cafe-order-text"];
+    if (source.kind !== "text") throw new Error("Expected graded fixture");
+    const activity: MatchingActivity = { ...source, kind: "matching",
+      left: [{ id: "a|b", text: "first" }, { id: "a", text: "second" }],
+      right: [{ id: "c", text: "first" }, { id: "b|c", text: "second" }],
+      acceptedPairs: [{ leftId: "a|b", rightId: "c" }, { leftId: "a", rightId: "b|c" }],
+    };
+    expect(evaluateActivity(activity, { kind: "matching", pairs: activity.acceptedPairs }, []).outcome).toBe("correct");
+  });
+
   it("does not credit a revealed answer independently", () => {
     const pack = pilot();
     const activity = pack.activities["it-cafe-order-text"];
