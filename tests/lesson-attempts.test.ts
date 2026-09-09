@@ -219,16 +219,29 @@ describe("lesson attempts", () => {
     expect(credited.legacyCredits).toContain("lg-lesson");
   });
 
-  it("credits validated independent legacy attempts through the v2 engine", () => {
+  it("credits validated independent converted attempts through the v2 engine", () => {
     const pack = normalizePack(makeLegacyRawPack());
     const lesson = pack.lessons[0];
+    const responseFor = (activityId: string): ActivityAttempt["response"] => {
+      const activity = pack.activities[activityId];
+      if (activity.kind === "selection" && !activity.multiple)
+        return { kind: "selection", ids: activity.acceptedIds };
+      if (activity.kind === "ordering")
+        return { kind: "ordering", ids: activity.acceptedOrders[0] };
+      if (activity.kind === "cloze")
+        return { kind: "cloze", values: { b1: "Un caffè" } };
+      return { kind: "text", text: "Un caffè" };
+    };
     const events = lesson.steps.flatMap((step): ActivityAttempt[] => {
       const activity = pack.activities[step.activityId];
-      if (activity.kind !== "legacy") return [];
+      if (activity.kind === "information" || activity.kind === "legacy") return [];
       return [attempt({ id: `attempt-${activity.id}`, packId: pack.id, packVersion: pack.version,
-        lessonId: lesson.id, stepId: step.id, activityId: activity.id, evidenceKey: activity.evidenceKey,
-        response: { kind: "text", text: activity.exercise.answers[0] } })];
+        lessonId: lesson.id, lessonRevision: lesson.revision, stepId: step.id,
+        activityId: activity.id, activityRevision: 1,
+        evidenceKey: "evidenceKey" in activity ? activity.evidenceKey : activity.id,
+        response: responseFor(activity.id) })];
     });
+    expect(events.length).toBeGreaterThan(0);
     expect(projectLessonEvidence(pack, events).legacyCredits).toContain(lesson.id);
     for (const changed of [
       { assistance: ["model"] as ActivityAttempt["assistance"], evaluation: { outcome: "correct" as const, independent: false, feedback: "Shown" } },

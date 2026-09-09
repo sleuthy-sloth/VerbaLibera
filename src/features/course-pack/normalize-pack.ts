@@ -1,16 +1,21 @@
 import type { Exercise } from "./schema";
 import { validatePack } from "./schema";
+import { normalize } from "./answer";
 import type { AuthoredV2Activity, AuthoredV2Pack } from "./schema-v2";
 import { validateV2Pack } from "./schema-v2";
 import type {
   Activity,
+  ClozeActivity,
   InformationActivity,
   LegacyActivity,
   MediaAsset,
+  OrderingActivity,
   RuntimeLesson,
   RuntimePack,
+  SelectionActivity,
   Skill,
   Stimulus,
+  TextActivity,
 } from "./lesson-runtime";
 
 /**
@@ -49,6 +54,198 @@ const legacyAssistance = (
       ? ["hint", "model"]
       : ["translation", "model"];
 
+/**
+ * Faithful v1→v2 exercise conversion (variety rollout). The old player graded
+ * every kind by reducing the learner's response to one string checked with
+ * `evaluateAnswer`, so each mapping below preserves exactly that contract:
+ * choice compares the chosen option text, order compares the joined tokens,
+ * cloze compares the blank fill, and the text kinds reuse the full AnswerSpec.
+ * Anything unmappable fails closed here so content:validate pinpoints the
+ * exercise instead of shipping a silently easier drill.
+ */
+const slugifyOption = (packId: string, text: string): string => {
+  let slug = text
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLocaleLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  if (!/^[a-z]/.test(slug)) slug = `o-${slug}`;
+  if (!/^[a-z][a-z0-9-]{1,99}$/.test(slug))
+    throw new Error(`${packId}: cannot slugify option ${JSON.stringify(text)}`);
+  return slug;
+};
+
+/** Token-index permutation whose normalized join hits an accepted answer. */
+const orderForTokens = (
+  packId: string,
+  where: string,
+  tokens: string[],
+  answers: readonly string[],
+): string[][] => {
+  const targets = answers.map((a) => normalize(a));
+  const words = targets.map((t) => (t === "" ? [] : t.split(" ")));
+  const normTokens = tokens.map((t) => normalize(t));
+  const orders: string[][] = [];
+  for (const ws of words) {
+    if (ws.length !== tokens.length) continue;
+    // Bipartite match: token index -> word position (handles duplicate words).
+    const match = new Array<number>(tokens.length).fill(-1);
+    const used = new Array<boolean>(tokens.length).fill(false);
+    const assign = (wi: number): boolean => {
+      if (wi === ws.length) return true;
+      for (let ti = 0; ti < tokens.length; ti++) {
+        if (used[ti] || normTokens[ti] !== ws[wi]) continue;
+        used[ti] = true;
+        match[wi] = ti;
+        if (assign(wi + 1)) return true;
+        used[ti] = false;
+        match[wi] = -1;
+      }
+      return false;
+    };
+    if (assign(0)) orders.push(match.map((ti) => `t${ti + 1}`));
+  }
+  if (orders.length === 0)
+    throw new Error(
+      `${packId}: order exercise ${where} has no token permutation matching its answers`,
+    );
+  return orders;
+};
+
+const answerSpecOf = (exercise: Exercise) => ({
+  answers: [...exercise.answers],
+  allowTypo: exercise.allowTypo,
+  errors: exercise.errors.map((e) => ({ ...e })),
+});
+
+export function convertExercise(
+  packId: string,
+  exercise: Exercise,
+  mediaIds: Set<string>,
+  stimuli: Record<string, Stimulus>,
+): Activity {
+  const where = `exercise ${exercise.id}`;
+  const base = {
+    revision: 1,
+    conceptIds: [exercise.conceptId],
+    vocabulary: [...exercise.vocabulary],
+    skills: productionSkills(exercise),
+    prompt: exercise.prompt,
+    hints: [] as string[],
+    feedback: exercise.explanation,
+    evidenceKey: exercise.id,
+    assistanceAffectsEvidence: legacyAssistance(exercise),
+  };
+  switch (exercise.kind) {
+    case "choice": {
+      const options = exercise.options.map((text) => ({
+        id: slugifyOption(packId, text),
+        text,
+      }));
+      const ids = new Set<string>();
+      for (const o of options) {
+        if (ids.has(o.id))
+          throw new Error(`${packId}: duplicate choice option ${JSON.stringify(o.text)} in ${where}`);
+        ids.add(o.id);
+      }
+      const acceptedIds = options
+        .filter((o) =>
+          exercise.answers.some((a) => normalize(a) === normalize(o.text)),
+        )
+        .map((o) => o.id);
+      if (acceptedIds.length !== 1)
+        throw new Error(
+          `${packId}: choice ${where} needs exactly one option matching its answers`,
+        );
+      const activity: SelectionActivity = {
+        ...base,
+        kind: "selection",
+        id: exercise.id,
+        options,
+        acceptedIds,
+        multiple: false,
+      };
+      return activity;
+    }
+    case "order": {
+      const tokens = exercise.tokens.map((text, i) => ({
+        id: `t${i + 1}`,
+        text,
+      }));
+      const activity: OrderingActivity = {
+        ...base,
+        kind: "ordering",
+        id: exercise.id,
+        tokens,
+        acceptedOrders: orderForTokens(packId, where, exercise.tokens, exercise.answers),
+      };
+      return activity;
+    }
+    case "cloze": {
+      const marker = exercise.prompt.indexOf("___");
+      if (marker < 0 || exercise.prompt.indexOf("___", marker + 3) >= 0)
+        throw new Error(`${packId}: cloze ${where} needs exactly one ___ blank`);
+      const before = exercise.prompt.slice(0, marker).replace(/^Complete:\s*/i, "");
+      const after = exercise.prompt.slice(marker + 3);
+      const segments: ClozeActivity["segments"] = [];
+      if (before !== "") segments.push({ kind: "text", text: before });
+      segments.push({ kind: "blank", name: "b1", label: "Missing word" });
+      if (after !== "") segments.push({ kind: "text", text: after });
+      const activity: ClozeActivity = {
+        ...base,
+        kind: "cloze",
+        id: exercise.id,
+        segments,
+        blanks: { b1: answerSpecOf(exercise) },
+      };
+      return activity;
+    }
+    case "dictation": {
+      if (!mediaIds.has(exercise.audioId))
+        throw new Error(`${packId}: dictation ${where} references unknown audio ${exercise.audioId}`);
+      const stimulusId = `${exercise.id}-audio`;
+      stimuli[stimulusId] = { kind: "audio", id: stimulusId, mediaId: exercise.audioId };
+      const activity: TextActivity = {
+        ...base,
+        kind: "text",
+        id: exercise.id,
+        stimulusId,
+        answer: answerSpecOf(exercise),
+      };
+      return activity;
+    }
+    case "reading": {
+      const stimulusId = `${exercise.id}-passage`;
+      stimuli[stimulusId] = {
+        kind: "text",
+        id: stimulusId,
+        body: exercise.passage,
+        translation: exercise.translation,
+      };
+      const activity: TextActivity = {
+        ...base,
+        kind: "text",
+        id: exercise.id,
+        stimulusId,
+        answer: answerSpecOf(exercise),
+      };
+      return activity;
+    }
+    case "translate":
+    case "think":
+    case "transform": {
+      const activity: TextActivity = {
+        ...base,
+        kind: "text",
+        id: exercise.id,
+        answer: answerSpecOf(exercise),
+      };
+      return activity;
+    }
+  }
+}
+
 function adaptV1(
   pack: ReturnType<typeof validatePack>,
 ): RuntimePack {
@@ -79,21 +276,12 @@ function adaptV1(
     activities[infoId] = info;
     for (const exercise of lesson.exercises) {
       exercisesById[exercise.id] = exercise;
-      activities[exercise.id] = {
-        kind: "legacy",
-        id: exercise.id,
-        revision: 1,
-        conceptIds: [exercise.conceptId],
-        vocabulary: [...exercise.vocabulary],
-        skills: productionSkills(exercise),
-        prompt: exercise.prompt,
-        hints: [],
-        feedback: exercise.explanation,
-        evidenceKey: exercise.id,
-        assistanceAffectsEvidence: legacyAssistance(exercise),
-        exerciseId: exercise.id,
+      activities[exercise.id] = convertExercise(
+        pack.id,
         exercise,
-      };
+        new Set(pack.media.map((m) => m.id)),
+        stimuli,
+      );
     }
     const steps: RuntimeLesson["steps"] = [
       {

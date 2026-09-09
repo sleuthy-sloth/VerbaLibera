@@ -274,10 +274,26 @@ export function projectLessonEvidence(
   }
   for (const attempt of validAttempts.values()) {
     const activity = pack.activities[attempt.activityId];
-    if (activity.kind === "legacy" && activity.exercise.id === activity.exerciseId &&
-        pack.exercisesById[activity.exerciseId] &&
-        attempt.evaluation.outcome === "correct" && attempt.evaluation.independent)
-      successByExercise.set(activity.exerciseId, true);
+    if (
+      attempt.evaluation.outcome === "correct" &&
+      attempt.evaluation.independent
+    ) {
+      if (
+        activity.kind === "legacy" &&
+        activity.exercise.id === activity.exerciseId &&
+        pack.exercisesById[activity.exerciseId]
+      )
+        successByExercise.set(activity.exerciseId, true);
+      // Converted v1 exercises keep their exercise id as the activity id, so
+      // independent success on the converted activity preserves legacy credit
+      // exactly like the old player did (variety rollout).
+      else if (
+        activity.kind !== "legacy" &&
+        activity.kind !== "information" &&
+        pack.exercisesById[attempt.activityId]
+      )
+        successByExercise.set(attempt.activityId, true);
+    }
   }
   const legacyCredits: string[] = [];
   for (const lesson of pack.lessons) {

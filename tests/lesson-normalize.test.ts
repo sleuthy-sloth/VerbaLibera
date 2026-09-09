@@ -19,7 +19,7 @@ describe("lesson normalize", () => {
     );
   });
 
-  it("adapts every v1 lesson to an intro step plus legacy activities", () => {
+  it("adapts every v1 lesson to an intro step plus faithful activities", () => {
     const pack = normalizePack(makeLegacyRawPack());
     const lesson = pack.lessons[0];
     expect(lesson.family).toBe("discovery");
@@ -32,11 +32,36 @@ describe("lesson normalize", () => {
       exerciseIds: ["lg-ex-meet", "lg-ex-translate", "lg-ex-order", "lg-ex-dictation"],
     });
     expect(lesson.prerequisites).toEqual([]);
-    const legacy = pack.activities["lg-ex-meet"];
-    expect(legacy.kind).toBe("legacy");
-    if (legacy.kind === "legacy") {
-      expect(legacy.exercise.id).toBe("lg-ex-meet");
-      expect(legacy.evidenceKey).toBe("lg-ex-meet");
+    // choice keeps its identity and compares the chosen option text.
+    const meet = pack.activities["lg-ex-meet"];
+    expect(meet.kind).toBe("selection");
+    if (meet.kind === "selection") {
+      expect(meet.options).toEqual([
+        { id: "caffe", text: "caffè" },
+        { id: "te", text: "tè" },
+      ]);
+      expect(meet.acceptedIds).toEqual(["caffe"]);
+      expect(meet.multiple).toBe(false);
+      expect(meet.evidenceKey).toBe("lg-ex-meet");
+    }
+    // translate reuses the full answer contract.
+    const tr = pack.activities["lg-ex-translate"];
+    expect(tr.kind).toBe("text");
+    if (tr.kind === "text") expect(tr.answer.answers).toEqual(["Un caffè"]);
+    // order derives the accepted token permutation from its answers.
+    const ord = pack.activities["lg-ex-order"];
+    expect(ord.kind).toBe("ordering");
+    if (ord.kind === "ordering")
+      expect(ord.acceptedOrders).toEqual([["t1", "t2", "t3", "t4"]]);
+    // dictation keeps its audio behind a stimulus reference.
+    const dic = pack.activities["lg-ex-dictation"];
+    expect(dic.kind).toBe("text");
+    if (dic.kind === "text") {
+      expect(dic.stimulusId).toBe("lg-ex-dictation-audio");
+      expect(pack.stimuli["lg-ex-dictation-audio"]).toMatchObject({
+        kind: "audio",
+        mediaId: "aud-basic",
+      });
     }
   });
 
