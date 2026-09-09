@@ -1,0 +1,68 @@
+diff --git a/scripts/content.ts b/scripts/content.ts
+index f64834b..d82da2c 100644
+--- a/scripts/content.ts
++++ b/scripts/content.ts
+@@ -30,23 +30,26 @@ for (const language of languages) {
+     const key = e.answers.slice().sort().join("|");
+     answerSets.set(key, [...(answerSets.get(key) ?? []), e.id]);
+   }
+-  const report = {
+-    id: pack.id,
+-    version: pack.version,
+-    level: "A1 foundations (partial syllabus)",
+-    lessons: pack.lessons.length,
+-    concepts: pack.concepts.length,
+-    vocabulary: pack.vocabulary.length,
+-    exercises: exercises.length,
+-    kinds,
+-    audioClips: pack.media.length,
+-    lessonsWithAudio: pack.lessons.filter((l) =>
+-      l.exercises.some((e) => e.kind === "dictation"),
+-    ).length,
+-    packBytes: Buffer.byteLength(JSON.stringify(pack)),
+-    answerCoverage: "100%",
+-    note: "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review.",
+-  };
++    const shapes: Record<string, number> = {};
++    for (const l of pack.lessons) shapes[l.shape ?? "discover"] = (shapes[l.shape ?? "discover"] ?? 0) + 1;
++    const report = {
++      id: pack.id,
++      version: pack.version,
++      level: "A1 foundations (partial syllabus)",
++      lessons: pack.lessons.length,
++      concepts: pack.concepts.length,
++      vocabulary: pack.vocabulary.length,
++      exercises: exercises.length,
++      kinds,
++      shapes,
++      audioClips: pack.media.length,
++      lessonsWithAudio: pack.lessons.filter((l) =>
++        l.exercises.some((e) => e.kind === "dictation"),
++      ).length,
++      packBytes: Buffer.byteLength(JSON.stringify(pack)),
++      answerCoverage: "100%",
++      note: "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review.",
++    };
+   console.log(
+     JSON.stringify(
+       command === "duplicates"
+diff --git a/src/features/course-pack/schema.ts b/src/features/course-pack/schema.ts
+index f60d9e6..81b60f3 100644
+--- a/src/features/course-pack/schema.ts
++++ b/src/features/course-pack/schema.ts
+@@ -80,6 +80,7 @@ export const exerciseSchema = z.discriminatedUnion("kind", [
+     translation: text,
+   }),
+ ]);
++const shapeEnum = z.enum(["discover", "story-first", "dialogue-first", "listen-first", "spiral", "cold-open"]);
+ const lessonSchema = z.object({
+   id,
+   unitId: id,
+@@ -97,6 +98,7 @@ const lessonSchema = z.object({
+   culturalNote: text.optional(),
+   exercises: z.array(exerciseSchema).min(4),
+   optionalExerciseIds: z.array(id).default([]),
++  shape: shapeEnum.optional().default("discover"),
+ });
+ export const packSchema = z.object({
+   schemaVersion: z.literal(1),

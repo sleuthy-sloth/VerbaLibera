@@ -26,7 +26,7 @@ it("keeps a discoverable installation when two tabs download concurrently", asyn
   const { readFileSync } = await import("node:fs");
   const pack = {
     ...validatePack(
-      JSON.parse(readFileSync("courses/italian/manifest.json", "utf8")),
+      JSON.parse(readFileSync("courses/french/manifest.json", "utf8")),
     ),
     media: [],
   };
@@ -65,13 +65,13 @@ it("keeps a discoverable installation when two tabs download concurrently", asyn
     .mockReturnValueOnce(1)
     .mockReturnValueOnce(2);
   try {
-    const first = installPack(pack, "italian"),
-      second = installPack(pack, "italian");
+    const first = installPack(pack, "french"),
+      second = installPack(pack, "french");
     await first;
     release();
     await second;
     const installed = [...stores.values()].filter(
-      (c) => c.has("/__course_pack_ready__") && c.has("/packs/italian.json"),
+      (c) => c.has("/__course_pack_ready__") && c.has("/packs/french.json"),
     );
     expect(installed.length).toBeGreaterThan(0);
   } finally {

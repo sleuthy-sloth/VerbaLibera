@@ -10,7 +10,7 @@ import { createHostedEnvironment } from "@/features/course-pack/hosted-environme
 import { validatePack } from "@/features/course-pack/schema";
 
 const italian = validatePack(
-  JSON.parse(readFileSync("courses/italian/manifest.json", "utf8")),
+  JSON.parse(readFileSync("courses/french/manifest.json", "utf8")),
 );
 
 function portableFixtureEnvironment(
@@ -53,7 +53,7 @@ describe("portable course environment", () => {
       }),
     );
 
-    await screen.findByRole("heading", { name: "Italian foundations" });
+    await screen.findByRole("heading", { name: "French foundations" });
     expect(screen.queryByRole("region", { name: "Practice account" })).toBeNull();
     expect(screen.queryByRole("button", { name: /Download/i })).toBeNull();
     expect(screen.queryByRole("link", { name: /Daily path/i })).toBeNull();

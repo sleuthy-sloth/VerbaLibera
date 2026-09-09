@@ -1,11 +1,11 @@
 import { beforeEach, expect, it, vi } from 'vitest';
-const local = vi.hoisted(() => ({ read: vi.fn(), store: vi.fn() }));
-vi.mock('@/features/course-pack/storage', () => ({ readEvents: local.read, storeEvents: local.store }));
+const local = vi.hoisted(() => ({ read: vi.fn(), store: vi.fn(), readLessons: vi.fn(), storeLessons: vi.fn() }));
+vi.mock('@/features/course-pack/storage', () => ({ readEvents: local.read, storeEvents: local.store, readLessonEvents: local.readLessons, storeLessonEvents: local.storeLessons }));
 import { synchronizePractice } from '@/features/course-pack/sync';
 const event = { id: 'remote', packId: 'it-foundations', version: '1.0.0', exerciseId: 'one', at: '2026-09-05T10:00:00.000Z', correct: true, revealed: false };
 const pending = { ...event, id: 'pending' };
 const fetchMock = vi.fn();
-beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal('fetch', fetchMock); local.read.mockResolvedValue([event, pending]); local.store.mockResolvedValue(undefined); });
+beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal('fetch', fetchMock); local.read.mockResolvedValue([event, pending]); local.store.mockResolvedValue(undefined); local.readLessons.mockResolvedValue([]); local.storeLessons.mockResolvedValue(undefined); });
 it('persists downloaded events before uploading only missing local events', async () => {
   fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event], nextCursor: null })).mockResolvedValueOnce(Response.json({ userId: 'a', saved: true }));
   await synchronizePractice('a');
@@ -34,6 +34,39 @@ it('retries an interrupted upload with identical mutation IDs', async () => {
 });
 it('walks every page and does not duplicate already synchronized events', async () => {
   fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event], nextCursor: '500' })).mockResolvedValueOnce(Response.json({ userId: 'a', events: [pending], nextCursor: null }));
+  await synchronizePractice('a');
+  expect(fetchMock).toHaveBeenCalledTimes(2);
+  expect(fetchMock.mock.calls[1][0]).toContain('after=500');
+});
+
+const lessonAttempt = {
+  eventVersion: 2, type: 'attempt', id: 'lesson-remote', packId: 'it-foundations',
+  packVersion: '1.0.0', lessonId: 'it-cafe-story', lessonRevision: 1,
+  stepId: 'story-answer', activityId: 'story-choice', activityRevision: 1,
+  evidenceKey: 'story-evidence', response: { kind: 'selection', ids: ['coffee'] },
+  assistance: [], evaluation: { outcome: 'correct', independent: true, feedback: 'Correct.' },
+  at: event.at,
+};
+it('routes the server mixed event stream into its corresponding local stores', async () => {
+  local.read.mockResolvedValue([event]);
+  local.readLessons.mockResolvedValue([lessonAttempt]);
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event, lessonAttempt], nextCursor: null }));
+  await synchronizePractice('a');
+  expect(local.store).toHaveBeenCalledWith([event], 'a');
+  expect(local.storeLessons).toHaveBeenCalledWith([lessonAttempt], 'a');
+  expect(fetchMock).toHaveBeenCalledTimes(1);
+});
+it('rejects unsupported versioned events before persisting either part of the page', async () => {
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [event, { ...event, eventVersion: 3 }], nextCursor: null }));
+  await expect(synchronizePractice('a')).rejects.toThrow();
+  expect(local.store).not.toHaveBeenCalled();
+  expect(local.storeLessons).not.toHaveBeenCalled();
+});
+it('does not upload an empty event batch after a mixed remote page', async () => {
+  local.read.mockResolvedValue([]);
+  local.readLessons.mockResolvedValue([lessonAttempt]);
+  fetchMock.mockResolvedValueOnce(Response.json({ userId: 'a', events: [lessonAttempt], nextCursor: '500' }))
+    .mockResolvedValueOnce(Response.json({ userId: 'a', events: [], nextCursor: null }));
   await synchronizePractice('a');
   expect(fetchMock).toHaveBeenCalledTimes(2);
   expect(fetchMock.mock.calls[1][0]).toContain('after=500');

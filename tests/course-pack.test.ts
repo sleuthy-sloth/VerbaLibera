@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { validatePack } from "@/features/course-pack/schema";
+import { normalizePack } from "@/features/course-pack/normalize-pack";
 import { evaluateAnswer } from "@/features/course-pack/answer";
 import {
   completedLessons,
@@ -10,16 +11,18 @@ import {
 } from "@/features/course-pack/progress";
 
 const readPack = () =>
-  JSON.parse(readFileSync("courses/italian/manifest.json", "utf8"));
+  JSON.parse(readFileSync("courses/french/manifest.json", "utf8"));
 describe("course packs", () => {
   it.each(["italian", "french"])(
     "validates original %s foundation content",
     (language) => {
-      const pack = validatePack(
+      const pack = normalizePack(
         JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
       );
       expect(pack.lessons.length).toBeGreaterThanOrEqual(16);
-      expect(pack.lessons.every((l) => l.exercises.length >= 4)).toBe(true);
+      expect(
+        pack.lessons.every((l) => l.legacyExercises.length >= 4),
+      ).toBe(true);
     },
   );
   it.each(["italian", "french"])(
@@ -27,11 +30,11 @@ describe("course packs", () => {
     (language) => {
       // Break caught: day-zero learners met full-sentence production as the
       // first practice step. The meet-word choice must stay first.
-      const p = validatePack(
+      const p = normalizePack(
         JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
       );
       for (const lesson of p.lessons) {
-        const first = lesson.exercises[0];
+        const first = lesson.legacyExercises[0];
         expect(first.kind).toBe("choice");
         expect(first.mode).toBe("recognition");
         expect(first.id.endsWith("-meet")).toBe(true);
@@ -192,11 +195,11 @@ it("daily selection advances past successful items and recovered mistakes", () =
 it.each([["italian", "it-identity-foundation"], ["french", "fr-identity-foundation"]])(
   "accepts ordinary English recognition without editorial parentheticals (%s)",
   (language, lessonId) => {
-    const p = validatePack(
+    const p = normalizePack(
       JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")),
     );
     const lesson = p.lessons.find((l) => l.id === lessonId)!;
-    const e = lesson.exercises.find((e) => e.mode === "recognition" && e.kind === "translate")!;
+    const e = lesson.legacyExercises.find((e) => e.mode === "recognition" && e.kind === "translate")!;
     expect(
       evaluateAnswer(
         language === "italian" ? "I am Italian." : "I am French.",
@@ -244,9 +247,9 @@ it('optional listening does not relock previously completed text lessons', () =>
   expect(completedLessons(pack, events).has(pack.lessons[0].id)).toBe(true);
 });
 it('every foundation lesson supplies a real model recording for listening', () => {
-  for (const raw of [readPack(), JSON.parse(readFileSync("courses/french/manifest.json", "utf8"))]) {
-    const pack = validatePack(raw);
-    expect(pack.lessons.every(l => l.exercises.some(e => e.kind === 'dictation' && pack.media.some(m => m.id === e.audioId)))).toBe(true);
+  for (const language of ["italian", "french"]) {
+    const pack = normalizePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, "utf8")));
+    expect(pack.lessons.every(l => l.legacyExercises.some(e => e.kind === 'dictation' && pack.media.some(m => m.id === (e as { audioId?: string }).audioId)))).toBe(true);
   }
 });
 it('accepts ordinary numeric notation in listening answers without changing meaning', () => {
@@ -255,8 +258,8 @@ it('accepts ordinary numeric notation in listening answers without changing mean
     ['italian', 'it-reflexive-foundation-listen-model', 'Mi alzo alle 7.'],
     ['french', 'fr-numbers-foundation-listen-model', 'J’ai 30 ans.'],
   ]) {
-    const pack = validatePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
-    expect(evaluateAnswer(answer, pack.lessons.flatMap(l => l.exercises).find(e => e.id === id)!).accepted).toBe(true);
+    const pack = normalizePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
+    expect(evaluateAnswer(answer, pack.lessons.flatMap(l => l.legacyExercises).find(e => e.id === id)!).accepted).toBe(true);
   }
 });
 describe('new foundation packs', () => {

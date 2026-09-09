@@ -15,9 +15,9 @@
     "dictation": 26,
     "order": 24
   },
-  "audioClips": 26,
+  "audioClips": 27,
   "lessonsWithAudio": 25,
-  "packBytes": 178230,
+  "packBytes": 552654,
   "answerCoverage": "100%",
   "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
 }

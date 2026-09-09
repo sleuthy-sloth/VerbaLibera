@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import catalog from "@/features/course-pack/catalog.json";
-import { validatePack } from "@/features/course-pack/schema";
+import { normalizePack } from "@/features/course-pack/normalize-pack";
 import { trackForLesson } from "@/features/listen/tracks";
 import { listenedAt } from "@/features/listen/listened";
 import { ListenPlayer } from "@/components/listen/ListenPlayer";
@@ -39,7 +39,7 @@ export default function ListenPage() {
         if (!r.ok) throw new Error("Course pack is not downloaded yet.");
         return r.json();
       })
-      .then(validatePack)
+      .then(normalizePack)
       .then((pack) => {
         if (!active) return;
         setError("");
