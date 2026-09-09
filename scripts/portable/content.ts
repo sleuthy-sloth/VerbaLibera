@@ -6,7 +6,9 @@ import {
 } from "node:fs";
 import { extname, join } from "node:path";
 
-import { validatePack, type CoursePack } from "../../src/features/course-pack/schema";
+import { normalizePack } from "../../src/features/course-pack/normalize-pack";
+import type { RuntimePack } from "../../src/features/course-pack/lesson-runtime";
+import type { CoursePack } from "../../src/features/course-pack/schema";
 
 export type EmbeddedAsset = {
   mime: string;
@@ -15,7 +17,7 @@ export type EmbeddedAsset = {
 };
 
 export type PortableContent = {
-  packs: Record<string, CoursePack>;
+  packs: Record<string, RuntimePack | CoursePack>;
   assets: Record<string, EmbeddedAsset>;
 };
 
@@ -62,13 +64,13 @@ export function collectPortableContent(root: string): PortableContent {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort();
-  const packs: Record<string, CoursePack> = {};
+  const packs: Record<string, RuntimePack> = {};
   const assets: Record<string, EmbeddedAsset> = {};
   const packIds = new Set<string>();
   const mediaIds = new Set<string>();
 
   for (const language of languages) {
-    const pack = validatePack(
+    const pack = normalizePack(
       JSON.parse(
         readFileSync(join(coursesRoot, language, "manifest.json"), "utf8"),
       ),

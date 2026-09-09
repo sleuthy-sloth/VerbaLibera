@@ -7,7 +7,7 @@ import type { CourseEnvironment } from '@/features/course-pack/environment';
 import { validatePack } from '@/features/course-pack/schema';
 import type { PracticeEvent } from '@/features/course-pack/progress';
 
-const pack = validatePack(JSON.parse(readFileSync('courses/italian/manifest.json', 'utf8')));
+const pack = validatePack(JSON.parse(readFileSync('courses/french/manifest.json', 'utf8')));
 function environment(events: PracticeEvent[] = [], install = async () => {}): CourseEnvironment {
   return {
     capabilities: { accounts: false, synchronization: false, offlineInstall: true, hostedNavigation: false },
@@ -39,19 +39,19 @@ describe('foundation entry', () => {
     let finish!: () => void;
     const install = () => new Promise<void>(resolve => { finish = resolve; });
     const user = userEvent.setup();
-    render(<CourseWorkspace environment={environment([], install)} />);
-    const panel = await screen.findByRole('region', { name: /Download Italian/i });
+    render(<CourseWorkspace environment={environment([], install)} initialLanguage="french" />);
+    const panel = await screen.findByRole('region', { name: /Download French/i });
     await user.click(within(panel).getByRole('button', { name: 'Download for offline study' }));
     expect(within(panel).getByRole('button', { name: /Downloading/ })).toBeDisabled();
     expect(within(panel).queryByRole('link', { name: 'Open offline study' })).toBeNull();
     await act(async () => finish());
-    expect(within(panel).getByRole('link', { name: 'Open offline study' })).toHaveAttribute('href', '/study.html?language=italian');
+    expect(within(panel).getByRole('link', { name: 'Open offline study' })).toHaveAttribute('href', '/study.html?language=french');
   });
 
   it('keeps a failed download retryable without claiming it is ready', async () => {
     const user = userEvent.setup();
     render(<CourseWorkspace environment={environment([], async () => { throw new Error('Connection lost. Retry when connected.'); })} />);
-    const panel = await screen.findByRole('region', { name: /Download Italian/i });
+    const panel = await screen.findByRole('region', { name: /Download French/i });
     await user.click(within(panel).getByRole('button', { name: 'Download for offline study' }));
     expect(await within(panel).findByRole('alert')).toHaveTextContent('Connection lost');
     expect(within(panel).getByRole('button', { name: 'Download for offline study' })).toBeEnabled();
