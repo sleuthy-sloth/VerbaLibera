@@ -315,7 +315,7 @@
           "conceptId": "pt-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say to a friend: ___lá.",
+          "prompt": "Complete the first word you say to a friend: ___",
           "answers": [
             "Olá."
           ],
