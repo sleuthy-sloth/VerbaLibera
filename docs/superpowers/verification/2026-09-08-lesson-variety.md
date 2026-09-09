@@ -59,3 +59,43 @@ DISPATCHED 2026-09-08 against `@8c4a282`, background (`/tmp/lesson-variety-waveB
 - New listening targets ~10-minute multi-concept tracks via the voice-sidecar workflow.
 - Open: Liquid Glass preference vs Quiet Ink constraint (resolve before Task 5/10).
 - FreeLingo-style assessment + multi-week plans are out of scope.
+
+## Wave B takeover (Hermes, 2026-09-08) — Tasks 5–6 received from OpenCode
+
+OpenCode idle ~45 min at takeover; its Wave B tree already resolved Codex's 3 lint
+errors and most P1s. Verified each Codex finding against the final files:
+
+- Assistance leakage: no product bug. Engine merges `accumulatedAssistance` on
+  submit and `advanceLesson` preserves translation/transcript taint; reload
+  rehydrates via `resumeSession` from checkpoint assistance. Covered by
+  `LessonPlayer.test.tsx` "keeps a revealed story assisted on the next
+  question and after reopening" (assisted attempt + `independent:false`).
+- Async races: `LessonPlayer` remounts by generation on pack/environment/lesson
+  change; `HostedCourseWorkspace` keys the runtime route per pack+scope;
+  mount/checkpoint effects carry cancel guards. Covered by "hides previous
+  account lesson while replacement store loads".
+- Checkpoints: `handleBack` awaits the write and stays with retry copy on
+  failure; checkpoints serialize through a write queue; retry re-sends identical
+  event IDs. Covered by checkpoint-failure and retry-same-IDs tests.
+- Audio credit: submit blocked + primary disabled + alert + retry control while
+  `audioUnavailable`; no listening evidence without playable audio. Covered by
+  "blocks listening grading after an audio failure". A labeled non-audio
+  alternate remains future work (blocked-with-retry is the honest path).
+- P2 resume-from-events: implemented in the mount path (quarantine-aware trail
+  rebuild + post-submit screen reconstruction). Covered by "recovers committed
+  steps when the checkpoint is missing".
+- P2 self-compare: reveal-gated model + self-rating workflow with `model` taint;
+  no longer a bare enabled action.
+- Registry is exhaustive (`never` guard); legacy renders an explicit
+  not-yet-supported note, scene without media falls back to its text alternative.
+
+Added `tests/a11y-lesson-player.test.tsx`: axe with full rules on story initial +
+post-feedback, conversation, and listening states — 4/4 pass, no disables.
+Fixed a timing race in `RuntimeCourseWorkspace.test.tsx` (asserted enabled before
+async evidence load; now `waitFor`).
+
+Full suite at commit: 110 files passed, 1 skipped; 758 tests passed, 1 skipped.
+Typecheck clean, eslint 0 errors (1 pre-existing `no-img` warning on the scene
+`<img>`, kept: portable/offline editions cannot rely on the Next image optimizer),
+`git diff --check` clean. Browser screenshots (390/1280) deferred to Task 7 — the
+player has no integrated route to photograph until workspace wiring lands.
