@@ -186,7 +186,7 @@
           "conceptId": "de-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say when you arrive: ___allo.",
+          "prompt": "Complete the first word you say when you arrive: ___",
           "answers": [
             "Hallo."
           ],
