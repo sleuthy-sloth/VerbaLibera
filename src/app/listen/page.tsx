@@ -66,8 +66,8 @@ export default function ListenPage() {
       <h1>Listen</h1>
       <p className={styles.lede}>
         A teacher guides each lesson by ear: predict answers aloud, then hear
-        the reveal. Made for walks — download the course once, then press play
-        and put the phone away.
+        the reveal. Save a recording with its “Save audio” link to listen
+        offline in your audio player, or press play here while connected.
       </p>
       <label className={styles.label}>
         Course
@@ -95,7 +95,7 @@ export default function ListenPage() {
                 ) : (
                   <span>{l.title}</span>
                 )}
-                <span>{has ? (heard ? "Listened" : "Ready") : "Audio being authored"}</span>
+                <span>{has ? (heard ? "Listened" : trackForLesson(l.id)?.reviewPending ? "Preview" : "Ready") : "Audio being authored"}</span>
               </li>
             );
           })}

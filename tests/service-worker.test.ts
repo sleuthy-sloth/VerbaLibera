@@ -235,3 +235,29 @@ it('serves the cached course banner when the downloaded lesson is offline', asyn
   expect(event.respondWith).toHaveBeenCalledTimes(1);
   await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(banner);
 });
+
+it.each([
+  { status: 200, stored: true },
+  { status: 206, stored: false },
+])('returns audio HTTP $status while caching only complete responses', async ({ status, stored }) => {
+  const { handlers, networkFetch, cachePut } = await evaluateWorker();
+  const response = new Response('audio bytes', {
+    status,
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      ...(status === 206 ? { 'Content-Range': 'bytes 0-10/100' } : {}),
+    },
+  });
+  networkFetch.mockResolvedValue(response);
+  const event = {
+    request: {
+      method: 'GET', mode: 'cors',
+      url: 'https://verbalibera.test/audio/italian-foundations/it-market-listen.mp3',
+    },
+    respondWith: vi.fn(), waitUntil: vi.fn(),
+  };
+  handlers.get('fetch')?.(event as never);
+  await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(response);
+  await Promise.all(event.waitUntil.mock.calls.map(([pending]) => pending));
+  expect(cachePut).toHaveBeenCalledTimes(stored ? 1 : 0);
+});

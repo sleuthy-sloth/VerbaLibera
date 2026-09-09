@@ -21,9 +21,23 @@ async function completeL0(page: Page, answers: L0Answers) {
   await page
     .getByRole("button", { name: "Begin practice", exact: true })
     .click();
+  // Italian's authored-v2 pilot begins with an information step and uses the
+  // runtime player's concise controls. French remains on the legacy player.
+  // The Italian course uses the v2 runtime player. Use the route rather than
+  // a one-shot visibility probe, since the player can still be mounting after
+  // the preceding click on a slower browser.
+  const runtimePlayer = new URL(page.url()).pathname === "/courses/italian";
+  if (runtimePlayer) {
+    // Information steps save before continuing straight to the first
+    // practice activity.
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+    await expect(
+      page.getByRole("radio", { name: answers.meet, exact: true }),
+    ).toBeVisible();
+  }
   const check = async () => {
     await page
-      .getByRole("button", { name: "Check answer", exact: true })
+      .getByRole("button", { name: runtimePlayer ? "Check" : "Check answer", exact: true })
       .click();
     // Scope to the exercise feedback: account scope adds a second
     // "Saved locally…" status that breaks an unscoped role query.
@@ -31,7 +45,7 @@ async function completeL0(page: Page, answers: L0Answers) {
       page.getByRole("status").filter({ hasText: "correct" }),
     ).toBeVisible();
     await page
-      .getByRole("button", { name: "Save and continue", exact: true })
+      .getByRole("button", { name: runtimePlayer ? "Next step" : "Save and continue", exact: true })
       .click();
   };
   const choose = async (name: string) => {
@@ -39,7 +53,7 @@ async function completeL0(page: Page, answers: L0Answers) {
     await check();
   };
   const type = async (text: string, thinkFirst: boolean) => {
-    if (thinkFirst)
+    if (thinkFirst && !runtimePlayer)
       await page
         .getByRole("button", { name: /i've thought about it/i })
         .click();
@@ -52,12 +66,16 @@ async function completeL0(page: Page, answers: L0Answers) {
   await type(answers.meaning, false);
   await type(answers.cloze, false);
   await type(answers.reading, false);
-  await type(answers.dictation, false);
+  if (runtimePlayer) {
+    await page.getByLabel(/^(Your answer|Missing word)$/).fill(answers.dictation);
+    await page.getByRole("button", { name: "Check", exact: true }).click();
+    await page.getByRole("button", { name: "Finish lesson", exact: true }).click();
+  } else await type(answers.dictation, false);
   await expect(
-    page.getByRole("heading", { name: "Practice complete", exact: true }),
+    page.getByRole("heading", { name: runtimePlayer ? "Lesson complete" : "Practice complete", exact: true }),
   ).toBeVisible();
   await page
-    .getByRole("button", { name: "Back to course", exact: true })
+    .getByRole("button", { name: runtimePlayer ? "Back to lessons" : "Back to course", exact: true })
     .click();
 }
 

@@ -36,7 +36,6 @@ it('keeps a revealed story assisted on the next question and after reopening',as
  const view=render(<LessonPlayer pack={pack} lessonId="it-cafe-story" environment={environment} onExit={()=>{}}/>);
  await userEvent.click(await screen.findByRole('button',{name:'Show translation'}));
  await userEvent.click(screen.getByRole('button',{name:'Continue'}));
- await userEvent.click(await screen.findByRole('button',{name:'Next step'}));
  await userEvent.click(await screen.findByRole('radio',{name:'Un caffè'}));
  await userEvent.click(screen.getByRole('button',{name:'Check'}));
  await screen.findByText(/Saved as assisted practice/);
@@ -62,7 +61,7 @@ it('recovers committed steps when the checkpoint is missing',async()=>{
  const environment=env();
  const view=render(<LessonPlayer pack={pack} lessonId="it-cafe-story" environment={environment} onExit={()=>{}}/>);
  await userEvent.click(await screen.findByRole('button',{name:'Continue'}));
- await screen.findByRole('button',{name:'Next step'});
+ await screen.findByRole('radio',{name:'Un caffè'});
  view.unmount();
  vi.spyOn(environment.lessonPractice!,'readCheckpoint').mockResolvedValue(null);
  render(<LessonPlayer pack={pack} lessonId="it-cafe-story" environment={environment} onExit={()=>{}}/>);

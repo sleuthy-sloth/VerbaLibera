@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "id": "pt-foundations",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "language": "pt",
   "status": "active",
   "title": "Portuguese foundations",
   "sourceLanguage": "en",
-  "description": "First words of structured A1 Portuguese foundations — greetings and Latin-shared words in one words-first lesson. More units being authored.",
+  "description": "Four A1 Brazilian Portuguese lessons: first words, introductions, polite café requests, and numbers for everyday quantities. Native-speaker editorial review remains open.",
   "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
   "units": [
     {
       "id": "pt-unit-1",
       "title": "Meeting people",
       "objective": "Introduce yourself and your family."
+    },
+    {
+      "id": "pt-unit-2",
+      "title": "Getting around",
+      "objective": "Understand prices and quantities in everyday errands."
     }
   ],
   "concepts": [
@@ -31,6 +36,53 @@
         }
       ],
       "commonError": "Say olá the moment you arrive. Men say obrigado and women say obrigada; day-zero learners are understood either way."
+    },
+    {
+      "id": "pt-introductions-concept",
+      "title": "Introducing yourself",
+      "explanation": "This course practices Brazilian Portuguese. Meu nome é introduces your name: Meu nome é Ana. Sou means I am and also works for an introduction: Sou Ana. Learn Qual é o seu nome? as a complete question for asking a name. Prazer is a short, friendly response when you meet someone.",
+      "examples": [
+        {
+          "target": "Meu nome é Ana.",
+          "meaning": "My name is Ana."
+        },
+        {
+          "target": "Qual é o seu nome?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Prazer.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "commonError": "Keep é in Meu nome é Ana. The accent belongs to the word é (is); e without an accent means and."
+    },
+    {
+      "id": "pt-cafe-requests-concept",
+      "title": "Polite café requests",
+      "explanation": "Eu gostaria de means I would like. Keep de before the item: Eu gostaria de um café, por favor. Both café and chá take um in these requests. You can omit eu because gostaria supplies enough context: Gostaria de um café, por favor. A short Um café, por favor also works. Obrigado or obrigada expresses thanks; use the form that fits how you refer to yourself.",
+      "examples": [
+        {
+          "target": "Eu gostaria de um café, por favor.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Eu gostaria de um chá, por favor.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Um café, por favor.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "commonError": "Keep de after gostaria: gostaria de um café. Chá means tea and keeps its accent."
+    },
+    {
+      "id": "pt-numbers-quantities-concept",
+      "title": "Numbers and quantities",
+      "explanation": "Learn Brazilian Portuguese numbers as two short runs, then use quanto custa to ask the price of one thing. Use dois with masculine cafés and duas with feminine maçãs. The item tells you which form you need.",
+      "examples": [{ "target": "Um, dois, três, quatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }],
+      "commonError": "Use duas with maçãs and dois with cafés. Keep quanto custa as one learned price question."
     }
   ],
   "vocabulary": [
@@ -75,7 +127,67 @@
       "meaning": "coffee",
       "partOfSpeech": "word or expression",
       "example": "Café."
-    }
+    },
+    {
+      "id": "pt-introductions-word-1",
+      "word": "meu nome é",
+      "meaning": "my name is",
+      "partOfSpeech": "word or expression",
+      "example": "Meu nome é Ana."
+    },
+    {
+      "id": "pt-introductions-word-2",
+      "word": "sou",
+      "meaning": "I am",
+      "partOfSpeech": "word or expression",
+      "example": "Sou Ana."
+    },
+    {
+      "id": "pt-introductions-word-3",
+      "word": "Qual é o seu nome?",
+      "meaning": "What is your name?",
+      "partOfSpeech": "word or expression",
+      "example": "Qual é o seu nome?"
+    },
+    {
+      "id": "pt-introductions-word-4",
+      "word": "prazer",
+      "meaning": "nice to meet you",
+      "partOfSpeech": "word or expression",
+      "example": "Prazer."
+    },
+    {
+      "id": "pt-cafe-requests-word-1",
+      "word": "eu gostaria de",
+      "meaning": "I would like",
+      "partOfSpeech": "word or expression",
+      "example": "Eu gostaria de um café, por favor."
+    },
+    {
+      "id": "pt-cafe-requests-word-2",
+      "word": "um café",
+      "meaning": "a coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Um café, por favor."
+    },
+    {
+      "id": "pt-cafe-requests-word-3",
+      "word": "um chá",
+      "meaning": "a tea",
+      "partOfSpeech": "word or expression",
+      "example": "Um chá, por favor."
+    },
+    {
+      "id": "pt-cafe-requests-word-4",
+      "word": "por favor",
+      "meaning": "please",
+      "partOfSpeech": "word or expression",
+      "example": "Um café, por favor."
+    },
+    { "id": "pt-numbers-quantities-word-1", "word": "um, dois, três, quatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Um, dois, três, quatro, cinco." },
+    { "id": "pt-numbers-quantities-word-2", "word": "seis, sete, oito, nove, dez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, sete, oito, nove, dez." },
+    { "id": "pt-numbers-quantities-word-3", "word": "quanto custa?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "Quanto custa um café?" },
+    { "id": "pt-numbers-quantities-word-4", "word": "duas maçãs", "meaning": "two apples", "partOfSpeech": "noun phrase", "example": "Duas maçãs, por favor." }
   ],
   "media": [
     {
@@ -253,6 +365,369 @@
         }
       ],
       "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-introductions-foundation",
+      "unitId": "pt-unit-1",
+      "title": "Introducing yourself",
+      "objective": "Introduce yourself, ask a name, and respond to an introduction.",
+      "cefr": "A1",
+      "prerequisites": [
+        "pt-first-words-foundation"
+      ],
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "explanation": "This course practices Brazilian Portuguese. Meu nome é introduces your name: Meu nome é Ana. Sou means I am and also works for an introduction: Sou Ana. Learn Qual é o seu nome? as a complete question for asking a name. Prazer is a short, friendly response when you meet someone.",
+      "examples": [
+        {
+          "target": "Meu nome é Ana.",
+          "meaning": "My name is Ana."
+        },
+        {
+          "target": "Qual é o seu nome?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Prazer.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "culturalNote": "These examples use Brazilian Portuguese. Prazer is a common short greeting at an introduction. Obrigado and obrigada vary with the speaker, not with the person being thanked.",
+      "exercises": [
+        {
+          "id": "pt-introductions-foundation-notice",
+          "conceptId": "pt-introductions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which phrase asks another person their name in Brazilian Portuguese?",
+          "answers": [
+            "Qual é o seu nome?"
+          ],
+          "explanation": "Use the complete name question when meeting someone.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "options": [
+            "Meu nome é Ana.",
+            "Qual é o seu nome?",
+            "Prazer."
+          ]
+        },
+        {
+          "id": "pt-introductions-foundation-build",
+          "conceptId": "pt-introductions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to introduce Ana by name.",
+          "answers": [
+            "Meu nome é Ana."
+          ],
+          "explanation": "Keep é in Meu nome é Ana. The accent belongs to the word é (is); e without an accent means and.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "tokens": [
+            "Ana.",
+            "é",
+            "nome",
+            "Meu"
+          ]
+        },
+        {
+          "id": "pt-introductions-foundation-read",
+          "conceptId": "pt-introductions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the first meeting. Who gives their own name?",
+          "answers": [
+            "Ana",
+            "Ana."
+          ],
+          "explanation": "The person who uses the name phrase introduces themself.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "passage": "Ana: Olá. Meu nome é Ana.\nLeo: Olá. Prazer.",
+          "translation": "Ana: Hello. My name is Ana.\nLeo: Hello. Nice to meet you."
+        },
+        {
+          "id": "pt-introductions-foundation-reply",
+          "conceptId": "pt-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “Nice to meet you” using the short expression taught here.",
+          "answers": [
+            "Prazer."
+          ],
+          "explanation": "Use this short response after an introduction.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        },
+        {
+          "id": "pt-introductions-foundation-recall",
+          "conceptId": "pt-introductions-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Imagine meeting a new classmate. Introduce yourself as Ana, using the phrase that means “My name is”.",
+          "answers": [
+            "Meu nome é Ana."
+          ],
+          "explanation": "Keep é in Meu nome é Ana. The accent belongs to the word é (is); e without an accent means and.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "pt-introductions-foundation-ask",
+          "conceptId": "pt-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask a peer “What is your name?” using the complete question taught here.",
+          "answers": [
+            "Qual é o seu nome?"
+          ],
+          "explanation": "This is the name question from the lesson; recall it as a whole.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-cafe-requests-foundation",
+      "unitId": "pt-unit-1",
+      "title": "At the café",
+      "objective": "Choose a drink and make a polite café request from memory.",
+      "cefr": "A1",
+      "prerequisites": [
+        "pt-introductions-foundation"
+      ],
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "explanation": "Eu gostaria de means I would like. Keep de before the item: Eu gostaria de um café, por favor. Both café and chá take um in these requests. You can omit eu because gostaria supplies enough context: Gostaria de um café, por favor. A short Um café, por favor also works. Obrigado or obrigada expresses thanks; use the form that fits how you refer to yourself.",
+      "examples": [
+        {
+          "target": "Eu gostaria de um café, por favor.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Eu gostaria de um chá, por favor.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Um café, por favor.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "culturalNote": "These café requests use Brazilian Portuguese. The lessons accept both explicit eu and its omission in the full request.",
+      "exercises": [
+        {
+          "id": "pt-cafe-requests-foundation-choose",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You want tea. Which complete request matches your intention?",
+          "answers": [
+            "Eu gostaria de um chá, por favor."
+          ],
+          "explanation": "Change the drink while keeping the polite request frame.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "options": [
+            "Eu gostaria de um café, por favor.",
+            "Eu gostaria de um chá, por favor.",
+            "Meu nome é Ana."
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-build",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the full polite request for one coffee.",
+          "answers": [
+            "Eu gostaria de um café, por favor."
+          ],
+          "explanation": "Keep de after gostaria: gostaria de um café. Chá means tea and keeps its accent.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "tokens": [
+            "favor.",
+            "por",
+            "café,",
+            "um",
+            "de",
+            "gostaria",
+            "Eu"
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-read",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. Which drink does the customer request?",
+          "answers": [
+            "Tea.",
+            "Tea",
+            "A tea."
+          ],
+          "explanation": "The customer requests tea; the thanks closes the exchange.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "passage": "Customer: Olá. Um chá, por favor.\nServer: Um chá?\nCustomer: Sim. Obrigada.",
+          "translation": "Customer: Hello. A tea, please.\nServer: A tea?\nCustomer: Yes. Thank you."
+        },
+        {
+          "id": "pt-cafe-requests-foundation-vary",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “I would like a tea, please” using the full request frame.",
+          "answers": [
+            "Eu gostaria de um chá, por favor.",
+            "Gostaria de um chá, por favor."
+          ],
+          "explanation": "Keep de after gostaria: gostaria de um café. Chá means tea and keeps its accent.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-recall",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You arrive at a café and want coffee. Make the short request “A coffee, please”.",
+          "answers": [
+            "Um café, por favor."
+          ],
+          "explanation": "The short request still includes please.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "pt-cafe-requests-foundation-meaning",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning of this complete request: Eu gostaria de um café, por favor.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "This is a polite request, not a statement about having coffee.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-numbers-quantities-foundation", "unitId": "pt-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["pt-cafe-requests-foundation"], "conceptIds": ["pt-numbers-quantities-concept"], "vocabulary": ["pt-numbers-quantities-word-1", "pt-numbers-quantities-word-2", "pt-numbers-quantities-word-3", "pt-numbers-quantities-word-4"],
+      "explanation": "Count one through ten as two short runs. Then use quanto custa for a price and choose dois or duas from the noun that follows.", "examples": [{ "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }], "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
+      "exercises": [
+        { "id": "pt-numbers-quantities-foundation-meet", "conceptId": "pt-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Brazilian Portuguese number means three?", "answers": ["Três."], "options": ["Dois.", "Três.", "Seis.", "Dez."], "explanation": "Três is three.", "vocabulary": ["pt-numbers-quantities-word-1"], "reviewOf": ["pt-cafe-requests-foundation"] },
+        { "id": "pt-numbers-quantities-foundation-order", "conceptId": "pt-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["Quanto custa um café?"], "explanation": "Quanto custa asks what one thing costs.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["Quanto", "custa", "um", "café?"] },
+        { "id": "pt-numbers-quantities-foundation-quantity", "conceptId": "pt-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Brazilian Portuguese: Two apples, please.", "answers": ["Duas maçãs, por favor."], "explanation": "Maçãs is feminine, so use duas.", "vocabulary": ["pt-numbers-quantities-word-4", "pt-cafe-requests-word-4"], "reviewOf": [] },
+        { "id": "pt-numbers-quantities-foundation-think", "conceptId": "pt-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: you want one coffee. Ask its price, then write the question.", "answers": ["Quanto custa um café?"], "explanation": "The learned price question is Quanto custa, followed by the item.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [] }
+      ], "optionalExerciseIds": []
     }
   ],
   "dialogues": []

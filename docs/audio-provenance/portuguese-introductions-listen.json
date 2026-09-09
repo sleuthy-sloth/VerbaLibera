@@ -1,0 +1,797 @@
+{
+  "source": "services/voice/scripts/portuguese-introductions-listen.lesson.json",
+  "source_sha256": "92898a3b239d511a835e83714649ad34da041162f9926b2a7cb0ed31922f2b23",
+  "audioUrl": "/audio/portuguese-foundations/pt-introductions-foundation-listen.mp3",
+  "audio_sha256": "ba73e41e67ff1490e616f6f79f2a04bd7af0ed377d00bd1eca4c010fc59b592b",
+  "durationS": 624.27,
+  "engines": {
+    "kokoro": "0.9.4"
+  },
+  "review": "Machine-authored. Waveform and assembly checked; native-speaker editorial and prosody review open.",
+  "events": [
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Build a short introduction and make a first drink request. Listen to each new expression before trying it. During thinking pauses, speak aloud or answer silently. The following voice gives a model. Begin with hello.",
+      "text_sha256": "f59aa6461eba9ce6c066a534d8cafb5e8dce5ff0db8e8a37a24ee31f286dd02f",
+      "audio_sha256": "fdee330433aae8a3db425404f6e0866a2e49ec9200dddb4a5e606edd614b5d0b",
+      "cacheFile": "adf3c515cac562c6ad28ca0949a22362b2b174429a92a926224c8ad1dd8d57f1.wav",
+      "durationS": 15.025
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá.",
+      "text_sha256": "e5f95fd7da36518e4bbd8bf1d6b82a9771f4fe58e3b5d7d3317489ecafaf9427",
+      "audio_sha256": "80ab09816482c3ccd3e14cd204a9bf6fb070139716693b54090bac715e7aad70",
+      "cacheFile": "94a92599e2678ed9aa15c3a694694300bec726e158d702b8953f5b6bbde17706.wav",
+      "durationS": 0.85
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Picture someone looking up as you arrive. During the pause, say hello from memory. If nothing comes, listen to the model and try again. You only need a greeting, with no name or extra sentence.",
+      "text_sha256": "58a6053f24cd1b64e51588425123f5214d2c2f3c6265e91a7791ee16cf5506a2",
+      "audio_sha256": "7423a1db6716a7fce32feeb0fe3312e26c6f119821aad7094eca15852916b0c9",
+      "cacheFile": "ed5d7c256c124329a31466099275172cdaf01ebebed2e92cd57dd4101f9af8e9.wav",
+      "durationS": 13.075
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá.",
+      "text_sha256": "e5f95fd7da36518e4bbd8bf1d6b82a9771f4fe58e3b5d7d3317489ecafaf9427",
+      "audio_sha256": "80ab09816482c3ccd3e14cd204a9bf6fb070139716693b54090bac715e7aad70",
+      "cacheFile": "94a92599e2678ed9aa15c3a694694300bec726e158d702b8953f5b6bbde17706.wav",
+      "durationS": 0.85
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The next expression means my name is, followed by the name. Treat the opening as one useful block and put your own name after it. This track practices Brazilian usage. Our first example speaker is Ana.",
+      "text_sha256": "717d2b985ede89508415a2d6f7aadf36da96b64748ea3fa0167abe24e82f7999",
+      "audio_sha256": "7b085e535230b25b6a0f7135d6f2ef3e0a5a4fd9d641dd4fe1c83fd7c9157658",
+      "cacheFile": "4613db379208768b626646efebf9a465864e7736916c08fe02236abe67426409.wav",
+      "durationS": 14.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Meu nome é Ana.",
+      "text_sha256": "1c351fe1c68c092d4bb18836c3fa785224ddd487fff19427476f7e1106e62311",
+      "audio_sha256": "a340b75a13e7e288b38e0af0af7dc65967680196e56ef6f8f6c1a87427dd621f",
+      "cacheFile": "5d1b0137e8ec7ece678c7010eb20961b1fb0c50cffd9d219c52552f5e17b8de9.wav",
+      "durationS": 1.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Imagine that you are Ana. Tell a new acquaintance your name using the expression you just heard. Keep the opening together and finish with the name. Take your time; matching the recording speed is not the goal.",
+      "text_sha256": "0733d496a7271bd477501cb3deb3762720277166f209a102ac9567360b1fca21",
+      "audio_sha256": "34ce955387be9f3b227b5271169065972e7616e395fea5ddf89fe7440152f2a6",
+      "cacheFile": "2ea1b74b540f2deb85985a71db64cda1b0e93c68c88c2b2f81ce8726ea4d1aff.wav",
+      "durationS": 13.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Meu nome é Ana.",
+      "text_sha256": "1c351fe1c68c092d4bb18836c3fa785224ddd487fff19427476f7e1106e62311",
+      "audio_sha256": "a340b75a13e7e288b38e0af0af7dc65967680196e56ef6f8f6c1a87427dd621f",
+      "cacheFile": "5d1b0137e8ec7ece678c7010eb20961b1fb0c50cffd9d219c52552f5e17b8de9.wav",
+      "durationS": 1.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The same opening can introduce another person when that person is speaking. Listen to a second example name. The name changes while the introduction before it stays the same. You are learning a reusable pattern.",
+      "text_sha256": "cc46d4833a7199a75c478357874c13c26de72b1c258fa4fb4557eaea09b64fcb",
+      "audio_sha256": "e956ed599bd582bdddd47f2fbe75f742867dceed9f6387eee68f1c1d91ca3f70",
+      "cacheFile": "de4655f719a09b15d76ef700ad16671deb0de49d1463bd379438395519d1b6bc.wav",
+      "durationS": 14.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Meu nome é Lucas.",
+      "text_sha256": "ea3257645bb88c330b29778db606d19c304a7b90294fe8d8c2ced66a53ae295d",
+      "audio_sha256": "9315fb809180b6a23b69d9dbc15b9a67ba692447052a42857669ce678c67eb36",
+      "cacheFile": "fd14b96eb08fa432d07401d6464b9a89cbc2aacf8ef0160ccd30aa283c7fa833.wav",
+      "durationS": 1.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Take the role of the second speaker. Introduce yourself with that name, keeping the same opening from the first introduction. Separate the fixed block from the replaceable name in your mind, then combine them.",
+      "text_sha256": "785f5268adf6d44bdf98a3d50c637e0ca12e8125f20929ccba623d8fd6e250c9",
+      "audio_sha256": "538ef4a3265ee7c2953f5fb126b83ffb3908e620002264c87ca987d6b1c89093",
+      "cacheFile": "e2f35151c626a1ab45c66fd1d55fea7495413b6774219d26c7a1381ca7a671ac.wav",
+      "durationS": 13.5
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Meu nome é Lucas.",
+      "text_sha256": "ea3257645bb88c330b29778db606d19c304a7b90294fe8d8c2ced66a53ae295d",
+      "audio_sha256": "9315fb809180b6a23b69d9dbc15b9a67ba692447052a42857669ce678c67eb36",
+      "cacheFile": "fd14b96eb08fa432d07401d6464b9a89cbc2aacf8ef0160ccd30aa283c7fa833.wav",
+      "durationS": 1.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Switch back to Ana and use the name introduction again. This change of speaker helps you choose the name deliberately. If you used the previous name automatically, rebuild the introduction with the first name.",
+      "text_sha256": "c9c4222d8e326e6e4111957711bdffe18015a44141f5489c876f86381ddb462d",
+      "audio_sha256": "575c0f94b082fc333952b71b087fc9ff4b631ba7c108d75ab9575417a7c47840",
+      "cacheFile": "ba11b0da89872501db8291252445ea1a83477943c34db509c8b9c6ea4eac2032.wav",
+      "durationS": 13.875
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Meu nome é Ana.",
+      "text_sha256": "1c351fe1c68c092d4bb18836c3fa785224ddd487fff19427476f7e1106e62311",
+      "audio_sha256": "a340b75a13e7e288b38e0af0af7dc65967680196e56ef6f8f6c1a87427dd621f",
+      "cacheFile": "5d1b0137e8ec7ece678c7010eb20961b1fb0c50cffd9d219c52552f5e17b8de9.wav",
+      "durationS": 1.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The next expression means I am, followed by the name. It includes an explicit word for I. Keep those opening words together for now; this lesson is about identifying yourself, rather than every possible use of the verb.",
+      "text_sha256": "533ea488f4f51ff824b4b4760d8d4070d44ed926bb73c38b518fe198ee11b4eb",
+      "audio_sha256": "46dde70c4aa40df9aef4812d08606f92797ab55d5c1e09efa5dc43e6239acf0d",
+      "cacheFile": "e387d323c0b53098f80b9ded6bfdc6c25820bc2f014c56b4aa3069cdf74e9d7e.wav",
+      "durationS": 15.325
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu sou Ana.",
+      "text_sha256": "596047442d69a4456a303c82c1e4d79fc432d5db47997f5047569c50509e0876",
+      "audio_sha256": "6ba577d020f680705a841ab7201d96a5489b9f935bc7379251448c75991485ad",
+      "cacheFile": "d5e17d096fd0a5e2c2fa32c75fa42197f067e9604ebde08c7898efb1295c3e25.wav",
+      "durationS": 1.35
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Express I am Ana, using the newer block rather than the expression that tells someone your name. Keep your answer short. After the pause, compare your opening with the model to check which pattern you chose.",
+      "text_sha256": "844e7757eac88b8a1357bbffa95570240a736d591323aee817eb5771197cfdc0",
+      "audio_sha256": "1d4f5d61f658a1bfb58baa792e895328b277059f9718d68966b88458e9c445e2",
+      "cacheFile": "5a90f1027832d58b31943d57ed09dbc161fb64727b7715be6175284013569198.wav",
+      "durationS": 13.125
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu sou Ana.",
+      "text_sha256": "596047442d69a4456a303c82c1e4d79fc432d5db47997f5047569c50509e0876",
+      "audio_sha256": "6ba577d020f680705a841ab7201d96a5489b9f935bc7379251448c75991485ad",
+      "cacheFile": "d5e17d096fd0a5e2c2fa32c75fa42197f067e9604ebde08c7898efb1295c3e25.wav",
+      "durationS": 1.35
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Use the I am pattern with the second name you heard. You know both pieces, but this combination is new. Keep the opening and replace only the name. Listen afterward to check the combination.",
+      "text_sha256": "dd4bc621cf4276f41d4a0e6f5e6eabe2783a1a392351b7d5dd2b3678eeafa579",
+      "audio_sha256": "146d77ab059f5cc2314016044caa5e80f7752d10cda22ca26476f12182db64e2",
+      "cacheFile": "4ee61da3842f99ee545cf36b34a7b47744bf8a95bff6a2432a677cbcfcc566d5.wav",
+      "durationS": 12.95
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu sou Lucas.",
+      "text_sha256": "33b5beb47e5eddf47697e00939c135ed4963f7f4a66f7eee3c8e0ad726a6babb",
+      "audio_sha256": "abbbc21d0b0f74eb3f35dade52ef67ffdd514983c08c90b40d55a9e39918fb83",
+      "cacheFile": "bf847a63ad9ed4b6c8057449067dc86291c5cd8c88decdc3cc3d42b0b9728eb5.wav",
+      "durationS": 1.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "A greeting and introduction can sit together as two short sentences. Listen to hello followed by the first name introduction. No special joining word is needed; leave a small natural break between the two pieces.",
+      "text_sha256": "78d5cc1e5a377942f8231ec9e78ea472160bd2d38c318b91f4c503f7ac8c1883",
+      "audio_sha256": "b725af5134bb14e54c2a84f4b3ac8bc810e3a469ff41c5ac07e6094cfd22ddcd",
+      "cacheFile": "0a45a1a148112fbb20b4ede463254d449ebccc7251752181b8a9a7a3c73d223f.wav",
+      "durationS": 14.5
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Meu nome é Ana.",
+      "text_sha256": "90c3d5cf56369379f51c83fef58ed2c0f4d45abcd2ca7b752e3ec6068e700cb7",
+      "audio_sha256": "f0ae4f841478f01129ca1e1b37f943343bb0d3aeb79ed34d12593cef04375d1e",
+      "cacheFile": "4e37e8917f82b836981161890f52e831639a23c32c554e8b5d64eafad18c7890.wav",
+      "durationS": 1.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Imagine arriving at a small group. Greet them, then introduce yourself as Ana using the name expression. Retrieve the greeting first, then the introduction. You can pause between them and still communicate clearly.",
+      "text_sha256": "2c898eed49426da4d88040ffb23f4ed184729e4e292a5ea4d7c3339f15861bbd",
+      "audio_sha256": "14d7aa6f639577102571abafb76d99e31242ccff8fff21210f370172b19a9467",
+      "cacheFile": "12b0afa7dba6577f282185fd779ed3da6a28bc4dd4bc370ba8c4f5cac1af7a83.wav",
+      "durationS": 14.3
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Meu nome é Ana.",
+      "text_sha256": "90c3d5cf56369379f51c83fef58ed2c0f4d45abcd2ca7b752e3ec6068e700cb7",
+      "audio_sha256": "f0ae4f841478f01129ca1e1b37f943343bb0d3aeb79ed34d12593cef04375d1e",
+      "cacheFile": "4e37e8917f82b836981161890f52e831639a23c32c554e8b5d64eafad18c7890.wav",
+      "durationS": 1.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The model includes the small word meaning a before coffee. Keep those two words together as a request block. At a counter, this short expression identifies the drink you want without requiring a longer sentence.",
+      "text_sha256": "b365ada415efea3d105974975acd7217d484b387d5a35cecc22ddc7b2968d9d3",
+      "audio_sha256": "419c28ee59a483bb42535307763ccc0c5c70981e5c01e8708436e20117cb1c0b",
+      "cacheFile": "35b3d1b4547967d85ce403c7cf57f57082638d06fb6023ea66a34c61c2ab5cc0.wav",
+      "durationS": 14.425
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Um café.",
+      "text_sha256": "fb10a539403fb819678020560d830dc6babc7aa444a34cab46ac551d7fc1f075",
+      "audio_sha256": "2b3c505d183773debe28d05a51998a71f97eaa4e04c25b6d9c942511da0da7a6",
+      "cacheFile": "7b2600e596354ad1d25b497471cf6a94bf38892440360deee439ff1863ab1c04.wav",
+      "durationS": 1.2
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Imagine standing at a drinks counter. Ask for a coffee using the block you just heard. We will add please shortly; first remember the drink together with its small word, rather than the drink alone.",
+      "text_sha256": "2b1b477061d4be64f3ea0e0180453a43ae4fc5c3abf9fc234e56abf70aefc7f9",
+      "audio_sha256": "ed6be01760298a3a308fb662088d23207de3d80f1ce682736d88c2c78ba8cd96",
+      "cacheFile": "f0e134e9f85c7619e0c3df9f8c40159128a3891d09754257f3a183ddb3b4ee10.wav",
+      "durationS": 13.0
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Um café.",
+      "text_sha256": "fb10a539403fb819678020560d830dc6babc7aa444a34cab46ac551d7fc1f075",
+      "audio_sha256": "2b3c505d183773debe28d05a51998a71f97eaa4e04c25b6d9c942511da0da7a6",
+      "cacheFile": "7b2600e596354ad1d25b497471cf6a94bf38892440360deee439ff1863ab1c04.wav",
+      "durationS": 1.2
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Listen to the expression meaning please. Here it will come after the drink. First hear it alone so you can recognize it independently; the next example will attach it to the coffee request.",
+      "text_sha256": "f4609ed70f84325941377c63c4bf61c6a3dffb9e99a4e7f97fb398985dc14744",
+      "audio_sha256": "7a475706b6da488bb95035df1cf55d22522ba777592d8f4277c63fcf21414485",
+      "cacheFile": "94356a40e2125a780bc0e1c504ca7b51af769f9d7107b2126dfea1c48d43ebe1.wav",
+      "durationS": 12.325
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Por favor.",
+      "text_sha256": "a92f88ef3b4c8532c0bf899591ceab73b3705825b2784b62008b92463374ae73",
+      "audio_sha256": "f2f55e9b65fb7346c420d3f11ed6c6d0380d2f73bf7855b1320fdc51949d720f",
+      "cacheFile": "5871c3863cec57110b88cf2db3b3819e10da3e0ca237ba8660d81beeb9d2783e.wav",
+      "durationS": 1.125
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now hear a fuller polite request: I would like a coffee, please. The new opening means I would like. Learn it as one block before the coffee request you know. Listen first; you will try it next.",
+      "text_sha256": "ce7905a07f94a9935a378bdb530239dd12a4e74c823258ff01729ce0e291e5b7",
+      "audio_sha256": "775e2905122d558cd2e41fa8c5a682ec3d497e8b80bf9ae73e407b2557fb936b",
+      "cacheFile": "8f1cfd45a6fa605a2be3cda55f60b5b53d805f46fa8ffe6bf2a17f173c3f79ef.wav",
+      "durationS": 12.9
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu gostaria de um café, por favor.",
+      "text_sha256": "425cb285e7afa577740667fd4fb0cde7aa77ee5a6db1af956c88d1350e63e000",
+      "audio_sha256": "bbeb1b143537095d91d03097b5c324e8de52f03496a5bc5cf6f3f81e60d11af4",
+      "cacheFile": "8e3e46f424b9d0a767dfcc8630347c5116265308961bde98d0befbff73d8d66a.wav",
+      "durationS": 2.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Ask for a coffee using the fuller request: I would like a coffee, please. Retrieve the new opening, then the coffee block, then please. Say the complete request during the pause and compare it with the model.",
+      "text_sha256": "01473131babbf9ee00c0ce7193564da55e8eb68d5f50972d49d3f28772f8fa57",
+      "audio_sha256": "4addcbc403dc6a23b1f01993a30fd22a4868bf4ab7835d1b39ecea25c23716fe",
+      "cacheFile": "2e7a3ef427f3d658e9351c15cfc3016f01bd3a712245788d856607e559f8077e.wav",
+      "durationS": 13.575
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu gostaria de um café, por favor.",
+      "text_sha256": "425cb285e7afa577740667fd4fb0cde7aa77ee5a6db1af956c88d1350e63e000",
+      "audio_sha256": "bbeb1b143537095d91d03097b5c324e8de52f03496a5bc5cf6f3f81e60d11af4",
+      "cacheFile": "8e3e46f424b9d0a767dfcc8630347c5116265308961bde98d0befbff73d8d66a.wav",
+      "durationS": 2.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Your second drink is tea. Listen to a tea as a complete block, including its small word. It fills the same place as the coffee block in your request. First hear it separately before combining it with anything else.",
+      "text_sha256": "a7a0a648e1407da4c72ffcd4a3b703e03c1557029953a799442fa0483a8835cd",
+      "audio_sha256": "a24c765f279e484f97b9621c133aee429812f15f1154f2ed861f44b0f43b53aa",
+      "cacheFile": "ea9aba93ccac5fb8e2b528cab7f65a9df01892af07df35347f5b7d30508a6695.wav",
+      "durationS": 14.55
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Um chá.",
+      "text_sha256": "87d0c9cefcc69035c96a05d0b5a3e5d5bf252d71735593555164fa4a3293926d",
+      "audio_sha256": "5e2676e207c4ce62bda8712b957b85710ba200bbb741f5e0cf423896eff6c20b",
+      "cacheFile": "e433068481d0355b339385b091ea88269f18ce635dd21c9304efc25cdb6a2f4e.wav",
+      "durationS": 1.1
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Say I would like a tea, please. Keep the opening and politeness expression from the full coffee request, but insert the tea block you just heard. You know all the pieces; use the pause to combine them.",
+      "text_sha256": "ce101b625aeb6f2b5320cf0276c782433ccdf286922b9c1f1f26e9e9bb179ebe",
+      "audio_sha256": "1f1924beb2fc6e1b9f214f7e6180f1a9a064d37c9964d9c3483a3eee6f5c672f",
+      "cacheFile": "2225703609a1b3b21a656e171a739f2af74b7094572b66e02524a55fac7c9fc9.wav",
+      "durationS": 13.25
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu gostaria de um chá, por favor.",
+      "text_sha256": "3be67d0fe0adc12242cea949bc0a2407957f73f9bb73a1d4356ddeed2dcbe6c3",
+      "audio_sha256": "178d0e9f524b1af2936d082ee83f3bc6796a14886a7360284838eb89ba147494",
+      "cacheFile": "203718a58decd058653e22790635e03c2a5bb44a9fc1c556496569018809f6da.wav",
+      "durationS": 2.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Change your choice to coffee. Say I would like a coffee, please. Keep the opening and ending of the full request, changing only the drink block. Check that you included the small word with the drink when you switched.",
+      "text_sha256": "c51fd0806a63294c98fe9e3d7e8bd90cc356c39ee8d40e0afd140ff597b42d2b",
+      "audio_sha256": "eab0d30c9c06531f92883182a0e50e9369b709adc54ea65456090f8ff4af0eb5",
+      "cacheFile": "c3f7a239d17e0f873fa73bc22b812044f462d1d3242f7fccd7486fd9ead41468.wav",
+      "durationS": 13.775
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu gostaria de um café, por favor.",
+      "text_sha256": "425cb285e7afa577740667fd4fb0cde7aa77ee5a6db1af956c88d1350e63e000",
+      "audio_sha256": "bbeb1b143537095d91d03097b5c324e8de52f03496a5bc5cf6f3f81e60d11af4",
+      "cacheFile": "8e3e46f424b9d0a767dfcc8630347c5116265308961bde98d0befbff73d8d66a.wav",
+      "durationS": 2.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Our example speaker uses the feminine form of thank you. The next model demonstrates that form. A masculine form also exists; this track will teach it separately before asking you to choose between the two.",
+      "text_sha256": "639d7cc4de15e59b068947900a7569ef8d8a1355306502314717e95997025304",
+      "audio_sha256": "165585ed2524eecd685ab8b6b2c81b651467c5d75c681a4765c2fbfb34c9f979",
+      "cacheFile": "15cb18c5c8140388e7c13d4bcc2e4c8c22cff7a22d450646ef2ff018ae745cb1.wav",
+      "durationS": 14.175
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Obrigada.",
+      "text_sha256": "eccd2458038d8f077c6676e31bc0dd38d6af8ebf08d78225fc09521fef1f37c0",
+      "audio_sha256": "d89a0eaa90b05d326d369210b96bd42b9294f32116b383c13a2f142dbbb53e91",
+      "cacheFile": "a4efe40cbfc2b488b4cc687c04aa73102747792db12864535c765c7a3f5b704f.wav",
+      "durationS": 1.25
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Listen now to the masculine form of thank you. The choice reflects the speaker, not the person being thanked. Compare this model with the feminine form you just heard. In the remaining examples, return to Ana and use the feminine form already practiced.",
+      "text_sha256": "e091686c2dfc343d8eb278958685e54ea8c9f797d350ba4e0fa6265e06782fd9",
+      "audio_sha256": "c5af7bc803376916e593311392cfc159ce3b77ac9b6656086d64eba8afb946d0",
+      "cacheFile": "3a8454bc9f7692f1cbd95cff734ca1c312ac554c4d8838c9b0e9a66071abe9c8.wav",
+      "durationS": 16.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Obrigado.",
+      "text_sha256": "6dd61beab4018b20edda997b06ea61a37d0cdd87a44bb7aabdcfe5102403a34f",
+      "audio_sha256": "90161e48c2e89a4d38005a35a9b80905cd0ccf92a217c4e4a433f5b31b12e03d",
+      "cacheFile": "cfd0f8fecaadaeb17b3db22838793a82e3d265027af5a052625be6b32ac2fb04.wav",
+      "durationS": 1.2
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Listen to hello, a polite coffee request, and thank you. In conversation, the other person may speak or serve the drink between these parts. Here you are rehearsing only your own contributions.",
+      "text_sha256": "10f2879e8001743685a1a81baac55497f97991978d9368fddda45072e215b0dd",
+      "audio_sha256": "6f2b7996749dcf1f6b0f6816b535a41e393ceec5af8a381a33543db844891494",
+      "cacheFile": "02937b882bca01b73631cb2fb626f2d733c3d2f340c5234a72e2d68548da2aa1.wav",
+      "durationS": 13.225
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Eu gostaria de um café, por favor. Obrigada.",
+      "text_sha256": "0bdafec6e363a6a30c2cef919821a2d8d32ed2dd0a65657080e9dede124832c9",
+      "audio_sha256": "43e617751c4bb07eb5a5cc790fffad1dcacad7b1e8756d73d73237db012c5d42",
+      "cacheFile": "ad986426aa789b93315ac04ffedd0c83b257e549ebe2a1d3220b16718e6ed664.wav",
+      "durationS": 3.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Rehearse your side of a counter visit. Start with hello, request a coffee politely, then say thank you. Leave breaks between the three parts. Retrieve the expressions in a useful order without rushing.",
+      "text_sha256": "9f5e9b1ada7c13b9f0ed82e825da270047ebb0850b73e04398b82926111f6153",
+      "audio_sha256": "b15ddbb24c0a1983ed2ed96fd74dcb314eff0ac5b2f5ce921856ad6a18de7e09",
+      "cacheFile": "acbbe75223150965e36d487363754f27f99ed110ddb09fa2f1a66f15f9631ea1.wav",
+      "durationS": 13.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Eu gostaria de um café, por favor. Obrigada.",
+      "text_sha256": "0bdafec6e363a6a30c2cef919821a2d8d32ed2dd0a65657080e9dede124832c9",
+      "audio_sha256": "43e617751c4bb07eb5a5cc790fffad1dcacad7b1e8756d73d73237db012c5d42",
+      "cacheFile": "ad986426aa789b93315ac04ffedd0c83b257e549ebe2a1d3220b16718e6ed664.wav",
+      "durationS": 3.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Keep the greeting and thank you, but make the full polite request for tea. Use I would like, the tea block, and please. Build your three contributions, then listen for what changed in the model.",
+      "text_sha256": "c88ee212e9e9d0c2542de0359b8b6e504ab3c8f29f2a14853dd12379022b3bda",
+      "audio_sha256": "8f9285edf81d5423915a36c9523278c83b1754dd3471b57a5e5c4ec8c2986a1f",
+      "cacheFile": "1b69a044e1d6efba38fa8bfe3bbc9feb44e4fd30841044630e12c3350ece65de.wav",
+      "durationS": 12.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Eu gostaria de um chá, por favor. Obrigada.",
+      "text_sha256": "704de10ecce685d99b5437b484bba75a8841be680670af401b68e8ff14f68aad",
+      "audio_sha256": "2f95e8fa5e8e47d5aba9b4fdd9462d1efc0d9fd840800d1a87a12b9c746ccaa9",
+      "cacheFile": "595b15832529ba86be4956cf4deb1a8d88dbdeb4bd06c357f3564224c3d1376c.wav",
+      "durationS": 3.2
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Imagine meeting someone away from the counter. Say hello and introduce yourself as Ana with the name expression. Returning to an earlier pattern after another topic lets you retrieve it without copying the previous model.",
+      "text_sha256": "13050e580183bdf52e6e9719a3d6ba8bf8664df43b9e56b634ba44578f29a403",
+      "audio_sha256": "8063c4c8bd756d6152ac1e53e99c12b66f3349845caf53eccdadb6a7270e8b55",
+      "cacheFile": "11bf082e25ea8cb883e966f7fadc943c2bfba31bed29afd769333af0160128df.wav",
+      "durationS": 14.825
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Olá. Meu nome é Ana.",
+      "text_sha256": "90c3d5cf56369379f51c83fef58ed2c0f4d45abcd2ca7b752e3ec6068e700cb7",
+      "audio_sha256": "f0ae4f841478f01129ca1e1b37f943343bb0d3aeb79ed34d12593cef04375d1e",
+      "cacheFile": "4e37e8917f82b836981161890f52e831639a23c32c554e8b5d64eafad18c7890.wav",
+      "durationS": 1.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Say I am Ana with the second identity expression. Compare it with the name expression from the previous turn. They share a purpose, but have different openings. Choose the requested opening during the pause.",
+      "text_sha256": "a66100705a5c482d2dd5244323884bc531f27f08e44ecfb3e4428d214306c433",
+      "audio_sha256": "f32b3eb575281cffd68f67e20a2683d1934f03f2746e2d0ed8eeb28b2c54aaab",
+      "cacheFile": "cad632473502f716b3bf850b9316791ee210c91353e14279b5d344cee526f77b.wav",
+      "durationS": 13.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu sou Ana.",
+      "text_sha256": "596047442d69a4456a303c82c1e4d79fc432d5db47997f5047569c50509e0876",
+      "audio_sha256": "6ba577d020f680705a841ab7201d96a5489b9f935bc7379251448c75991485ad",
+      "cacheFile": "d5e17d096fd0a5e2c2fa32c75fa42197f067e9604ebde08c7898efb1295c3e25.wav",
+      "durationS": 1.35
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Finally, say I would like a tea, please. After the model, try the same full request with coffee independently. Replay sections that need practice; a slow successful retrieval is useful progress toward speaking without an immediate example.",
+      "text_sha256": "90d407fa47c97d5656f02304b70b9213b7c549587518a3168979d0f69fbaac6f",
+      "audio_sha256": "ae9080841db07086fbe671d7a3838f61498b019047ebcfdfc49483f9f2309a36",
+      "cacheFile": "0e0f739dac3c9daa636f0234112970c0f35600e0c45c36249644d9f885a96e96.wav",
+      "durationS": 16.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 8
+    },
+    {
+      "kind": "speech",
+      "language": "pt",
+      "voice": "pf_dora",
+      "text": "Eu gostaria de um chá, por favor.",
+      "text_sha256": "3be67d0fe0adc12242cea949bc0a2407957f73f9bb73a1d4356ddeed2dcbe6c3",
+      "audio_sha256": "178d0e9f524b1af2936d082ee83f3bc6796a14886a7360284838eb89ba147494",
+      "cacheFile": "203718a58decd058653e22790635e03c2a5bb44a9fc1c556496569018809f6da.wav",
+      "durationS": 2.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    }
+  ]
+}

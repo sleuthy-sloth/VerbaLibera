@@ -30,6 +30,7 @@ export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; cours
   return (
     <section aria-label={`Audio lesson: ${track.lessonTitle}`} className={styles.player}>
       <h2>{track.lessonTitle}</h2>
+      {track.reviewPending ? <p>Preview lesson · language and pronunciation review pending.</p> : null}
       <p className={styles.lede}>
         Listen and think — predict each answer aloud before the reveal. No
         typing, no score. About {Math.round(track.durationS / 60)} minutes.
@@ -48,6 +49,7 @@ export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; cours
         onEnded={() => setHeard(markListened(track.lessonId))}
         className={styles.audio}
       />
+      <p><a href={track.audioUrl} download>Save audio for offline listening</a></p>
       <details className={styles.transcript}>
         <summary>Read along (transcript)</summary>
         {track.sections.map((s) => (

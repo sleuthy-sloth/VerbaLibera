@@ -213,6 +213,32 @@
   gap: 12px;
   padding: 8px 0;
 }
+.study-path {
+  margin: 40px 0;
+  padding: clamp(18px, 4vw, 30px);
+  border: 1px solid #c2cbc5;
+  border-radius: 20px;
+  background: #fffdfa;
+}
+.study-path-heading {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: end;
+  flex-wrap: wrap;
+}
+.study-path-heading h2 { margin: 4px 0; }
+.study-path-progress { min-width: 180px; display: grid; gap: 2px; color: var(--muted); font-size: 13px; }
+.study-path-progress strong { color: var(--ink); font-size: 18px; }
+.study-path-progress progress { width: 100%; accent-color: var(--accent); }
+.study-path-unit { margin: 26px 0 0 !important; }
+.study-path-unit h3 { margin: 0; }
+.study-path-unit > p { color: var(--muted); font-size: 14px; }
+.study-path .study-lessons li { min-height: 62px; }
+.study-path-number { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #dce8e1; color: var(--accent); font-weight: bold; }
+.study-path .study-lessons li.is-next { border-left: 3px solid var(--accent); padding-left: 10px; background: #eff5f1; }
+.study-path .study-lessons li.is-complete .study-path-number { background: var(--accent); color: #fff; }
+.study-path .study-lessons li.is-locked { opacity: .72; }
 .study-lessons button {
   border: 0;
   flex: 1;
@@ -221,6 +247,10 @@
   font-size: 13px;
   color: var(--muted);
   white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .study-path .study-lessons li { align-items: flex-start; flex-wrap: wrap; }
+  .study-path .study-lessons li > span:last-child { width: calc(100% - 40px); margin-left: 40px; white-space: normal; }
 }
 .study-example {
   padding: 12px 20px;

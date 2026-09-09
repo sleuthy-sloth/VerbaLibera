@@ -750,6 +750,17 @@ function LessonPlayerSession({
       setSaveError(true);
       return;
     }
+    // A read-only introduction has no feedback screen for a learner to act
+    // on. Once its completion event is safely stored, take the same
+    // "Continue" action straight to the first practice step.
+    if (activity.kind === "information") {
+      try {
+        commit(advanceLesson(pack, next));
+      } catch (error) {
+        setEngineError(messageOf(error));
+      }
+      return;
+    }
     commit(next);
   }, [
     session,

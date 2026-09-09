@@ -24,7 +24,6 @@ it('story lesson has no axe violations on first render', { timeout: 20000 }, asy
 it('story lesson has no axe violations after feedback', { timeout: 20000 }, async () => {
   const { container } = render(<LessonPlayer pack={pack} lessonId="it-cafe-story" environment={env()} onExit={()=>{}}/>);
   await userEvent.click(await screen.findByRole('button', { name: 'Continue' }));
-  await userEvent.click(await screen.findByRole('button', { name: 'Next step' }));
   await userEvent.click(await screen.findByRole('radio', { name: 'Un caffè' }));
   await userEvent.click(screen.getByRole('button', { name: 'Check' }));
   await screen.findByText(/Saved as independent practice/);
