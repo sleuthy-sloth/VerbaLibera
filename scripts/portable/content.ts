@@ -6,9 +6,10 @@ import {
 } from "node:fs";
 import { extname, join } from "node:path";
 
-import { normalizePack } from "../../src/features/course-pack/normalize-pack";
-import type { RuntimePack } from "../../src/features/course-pack/lesson-runtime";
+import { validatePack } from "../../src/features/course-pack/schema";
 import type { CoursePack } from "../../src/features/course-pack/schema";
+import { validateV2Pack } from "../../src/features/course-pack/schema-v2";
+import type { AuthoredV2Pack } from "../../src/features/course-pack/schema-v2";
 
 export type EmbeddedAsset = {
   mime: string;
@@ -16,8 +17,13 @@ export type EmbeddedAsset = {
   base64: string;
 };
 
+/** Authored (array-shaped) pack source, not normalized runtime output: the
+ * portable environment re-validates/normalizes at load time and therefore
+ * needs the original schema layout. */
+export type PortablePack = CoursePack | AuthoredV2Pack;
+
 export type PortableContent = {
-  packs: Record<string, RuntimePack | CoursePack>;
+  packs: Record<string, PortablePack>;
   assets: Record<string, EmbeddedAsset>;
 };
 
@@ -67,17 +73,19 @@ export function collectPortableContent(root: string): PortableContent {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort();
-  const packs: Record<string, RuntimePack> = {};
+  const packs: Record<string, PortablePack> = {};
   const assets: Record<string, EmbeddedAsset> = {};
   const packIds = new Set<string>();
   const mediaIds = new Set<string>();
 
   for (const language of languages) {
-    const pack = normalizePack(
-      JSON.parse(
-        readFileSync(join(coursesRoot, language, "manifest.json"), "utf8"),
-      ),
-    );
+    const raw = JSON.parse(
+      readFileSync(join(coursesRoot, language, "manifest.json"), "utf8"),
+    ) as { schemaVersion?: unknown };
+    // Validate the authored shape per version; keep arrays so the loader can
+    // re-normalize later. Normalized runtime output is NOT portable input.
+    const pack: PortablePack =
+      raw.schemaVersion === 2 ? validateV2Pack(raw) : validatePack(raw);
     if (packIds.has(pack.id)) throw new Error(`Duplicate course ID: ${pack.id}`);
     packIds.add(pack.id);
     packs[language] = pack;

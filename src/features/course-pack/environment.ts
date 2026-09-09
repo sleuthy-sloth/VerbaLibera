@@ -21,6 +21,15 @@ export interface CourseCapabilities {
   hostedNavigation: boolean;
 }
 
+/** Minimal pack shape the offline install flow needs. Both authored
+ * `CoursePack` and normalized `RuntimePack` satisfy it structurally, so the
+ * v1 and v2 course paths share one install implementation. */
+export type OfflineInstallablePack = {
+  id: string;
+  version: string;
+  media: Array<{ url: string; sha256: string }>;
+};
+
 export interface CourseEnvironment {
   capabilities: CourseCapabilities;
   practice: PracticeStore;
@@ -31,7 +40,7 @@ export interface CourseEnvironment {
   loadPack(language: string): Promise<CoursePack>;
   loadCourse?(language: string): Promise<CoursePack | RuntimePack>;
   resolveMedia(url: string): string;
-  install?(pack: CoursePack, language: string): Promise<void>;
+  install?(pack: OfflineInstallablePack, language: string): Promise<void>;
   isInstalled?(language: string): Promise<boolean>;
 }
 

@@ -17,7 +17,7 @@ test('offline navigation shows a reconnect page and never cached account HTML', 
   await context.setOffline(false);
 });
 
-test('downloaded language can be opened from the PWA offline welcome page', async ({ page, context }) => {
+test('downloaded v2 language can be opened from the PWA offline welcome page', async ({ page, context }) => {
   await page.goto('/courses/italian#offline-download');
   await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Open offline study' })).toBeVisible({ timeout: 30000 });
@@ -27,6 +27,12 @@ test('downloaded language can be opened from the PWA offline welcome page', asyn
   await expect(page.getByRole('heading', { name: 'Your practice path is waiting.' })).toBeVisible();
   await page.getByRole('link', { name: 'Italian' }).click();
   await expect(page.getByRole('heading', { name: 'Italian foundations', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Open next lesson' }).click();
+  await expect(page.getByRole('navigation', { name: 'Course path' })).toBeVisible();
+  const firstLesson = page.getByRole('button', { name: 'First words', exact: true });
+  await expect(firstLesson).toBeEnabled();
+  await firstLesson.click();
+  await page.getByRole('button', { name: 'Begin practice' }).click();
+  // v2 lesson player opens offline; its model audio is part of the installed pack.
+  await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeVisible({ timeout: 15000 });
   await expect(page.getByRole('heading', { name: 'First words', exact: true })).toBeVisible();
 });

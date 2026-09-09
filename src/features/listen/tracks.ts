@@ -76,6 +76,7 @@ export const LISTEN_TRACKS: ListenTrack[] = [
     lessonTitle: "At the market: prices",
     audioUrl: "/audio/italian-foundations/it-market-listen.mp3",
     durationS: 450,
+    reviewPending: true,
     sections: italianMarketSections,
   },
   spanishIntroductions,

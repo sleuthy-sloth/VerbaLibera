@@ -4,6 +4,7 @@ import type { CourseEnvironment } from './environment';
 import type { RuntimePack } from './lesson-runtime';
 import { mergeLearningEvents, projectLessonEvidence, type LessonEvidence } from './attempts';
 import { LessonPlayer } from './LessonPlayer';
+import { OfflineDownload } from './OfflineDownload';
 import catalog from './catalog.json';
 
 export function RuntimeCourseWorkspace({pack,environment,scope,language,onLanguageChange,onProgressChanged,accountControls}: {
@@ -39,6 +40,7 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
    <label>Foundation language<select value={language} onChange={e=>onLanguageChange(e.target.value)}>{catalog.map(c=><option key={c.slug} value={c.slug}>{c.title}</option>)}</select></label>
   </header>
   <h1>{pack.title}</h1><p>{pack.description}</p>{accountControls}
+  {environment.capabilities.offlineInstall && <OfflineDownload key={language} pack={pack} language={language} environment={environment} />}
   {error && <p role="alert">{error}</p>}
   {!evidence && !error && <p role="status">Reading your saved practice…</p>}
   {selected ? (()=>{const lesson=pack.lessons.find(item=>item.id===selected); if(!lesson)return null; return <section className="study-lesson"><button type="button" onClick={()=>setSelected(null)}>← Course path</button><p className="study-eyebrow">{lesson.family} · about {lesson.estimatedMinutes} minutes</p><h2>{lesson.title}</h2><p>{lesson.objective}</p>{(lesson as typeof lesson & { explanation?: string }).explanation ? <p>{(lesson as typeof lesson & { explanation?: string }).explanation}</p> : null}{((lesson as typeof lesson & { examples?: {target:string;meaning:string}[] }).examples ?? []).map(example=><p className="study-example" key={example.target}><span lang={pack.language}>{example.target}</span> — {example.meaning}</p>)}<button type="button" className="study-primary" disabled={!eligible(lesson)||!environment.lessonPractice||!!error} onClick={()=>setActive(lesson.id)}>Begin practice</button></section>})() : <>
