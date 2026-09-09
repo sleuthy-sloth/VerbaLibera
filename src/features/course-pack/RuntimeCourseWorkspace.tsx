@@ -16,6 +16,8 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
  const [evidence,setEvidence]=useState<LessonEvidence|null>(null);
  const [error,setError]=useState('');
  const [revision,setRevision]=useState(0);
+ const [durability,setDurability]=useState(environment.practice.getDurability());
+ useEffect(()=>environment.practice.subscribeDurability(setDurability),[environment.practice]);
  useEffect(()=>{
   let current=true;
   Promise.all([environment.practice.read(scope),environment.lessonPractice?.readLessons() ?? Promise.resolve([])])
@@ -40,6 +42,9 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
    <label>Foundation language<select value={language} onChange={e=>onLanguageChange(e.target.value)}>{catalog.map(c=><option key={c.slug} value={c.slug}>{c.title}</option>)}</select></label>
   </header>
   <h1>{pack.title}</h1><p>{pack.description}</p>{accountControls}
+  {durability === "temporary" && (
+    <p role="alert">Progress is temporary in this browser. Export a backup before closing this file.</p>
+  )}
   {environment.capabilities.offlineInstall && <OfflineDownload key={language} pack={pack} language={language} environment={environment} />}
   {error && <p role="alert">{error}</p>}
   {!evidence && !error && <p role="status">Reading your saved practice…</p>}
