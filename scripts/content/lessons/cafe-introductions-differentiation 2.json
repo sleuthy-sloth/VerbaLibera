@@ -1,0 +1,1352 @@
+{
+  "_comment": "Differentiates the café-requests and introductions lessons across German, Spanish and Portuguese, which were one lesson with the language swapped. Each language now teaches what is distinctive about it — German's heißen and its verb-front questions, Spanish's reflexive llamarse, Portuguese's accented é; and German's object article einen, Spanish's softened quisiera, Portuguese's inseparable de — and the exercises are reordered so no two of the three languages share a kind sequence. This topic set spans two topics, so each manifest carries two entries: `concepts`/`lessons` hold one per topic. `concept`/`lesson` alias the café-requests entry, for an applier that reads a single entry per manifest.",
+  "courses/german/manifest.json": {
+    "concepts": [
+      {
+        "id": "de-cafe-requests-concept",
+        "explanation": "German requests a drink with Ich möchte, 'I would like'. Once the drink is what is being asked for, the article turns into einen: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns and keep their capitals."
+      },
+      {
+        "id": "de-introductions-concept",
+        "explanation": "German introduces you with heißen, 'to be called': Ich heiße Anna. The verb changes with the person — ich heiße, du heißt — and keeps its ß. A question simply moves the verb in front of the person: Wie heißt du? Ich bin Anna is the alternative, built on plain 'to be'."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "de-cafe-requests-foundation",
+        "objective": "Order a drink and meet the article that changes shape once the drink is the object: einen.",
+        "explanation": "Ich möchte is the polite 'I would like'. The small surprise is the article: German says ein Kaffee, but once the coffee is what you are ordering, the article becomes einen — Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine, and a masculine noun takes einen in the object position. Swap the drink and keep the form: einen Tee, bitte. Both drinks are nouns, so both keep their capital letter.",
+        "exercises": [
+          {
+            "id": "de-cafe-requests-foundation-choose",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Which request uses the article German gives a masculine drink when it is the thing being ordered?",
+            "answers": [
+              "Ich möchte einen Kaffee, bitte."
+            ],
+            "explanation": "Einen is the form a masculine noun takes as the object being ordered. Ein would leave the coffee standing as a bare subject.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "options": [
+              "Ich möchte einen Kaffee, bitte.",
+              "Ich möchte ein Kaffee, bitte.",
+              "Ich heiße Anna."
+            ]
+          },
+          {
+            "id": "de-cafe-requests-foundation-recall",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You are at the counter and coffee is what you want. Make the short request, keeping the article in its object form.",
+            "answers": [
+              "Einen Kaffee, bitte."
+            ],
+            "explanation": "Einen Kaffee, bitte — the object form einen survives even in the short request.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          },
+          {
+            "id": "de-cafe-requests-foundation-build",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The words are shuffled. Build the full polite request for one coffee.",
+            "answers": [
+              "Ich möchte einen Kaffee, bitte."
+            ],
+            "explanation": "The verb möchte comes second and the object einen Kaffee follows it; bitte closes the request.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "tokens": [
+              "bitte.",
+              "Kaffee,",
+              "einen",
+              "möchte",
+              "Ich"
+            ]
+          },
+          {
+            "id": "de-cafe-requests-foundation-vary",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Order a tea the same polite way, changing only the drink and keeping the object article.",
+            "answers": [
+              "Ich möchte einen Tee, bitte."
+            ],
+            "explanation": "Same frame, different drink: einen Tee. The article stays einen because Tee is masculine too.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ]
+          },
+          {
+            "id": "de-cafe-requests-foundation-meaning",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Ich möchte einen Kaffee, bitte.",
+            "answers": [
+              "I would like a coffee, please.",
+              "I’d like a coffee, please.",
+              "I'd like a coffee, please."
+            ],
+            "explanation": "A request, not a statement about possession: möchte is 'would like'.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ]
+          },
+          {
+            "id": "de-cafe-requests-foundation-read",
+            "conceptId": "de-cafe-requests-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the café exchange. Which word marks the drink as the thing being ordered?",
+            "answers": [
+              "einen"
+            ],
+            "explanation": "Einen is the object form of the article; the coffee is what is being requested.",
+            "vocabulary": [
+              "de-cafe-requests-word-1",
+              "de-cafe-requests-word-2",
+              "de-cafe-requests-word-3",
+              "de-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "passage": "— Guten Tag. Ich möchte einen Kaffee, bitte.\n— Sofort. Und etwas dazu?\n— Nein, danke.",
+            "translation": "— Good day. I would like a coffee, please.\n— Right away. And something with it?\n— No, thank you."
+          }
+        ]
+      },
+      {
+        "id": "de-introductions-foundation",
+        "objective": "Introduce yourself with the verb heißen, and ask a question by moving the verb in front of the person.",
+        "explanation": "German does not say 'my name is'. It uses heißen, which means 'to be called', so Ich heiße Anna is literally 'I am called Anna'. The verb changes shape with the person: ich heiße, but du heißt, and the ß stays in both. A statement puts the verb second (Ich heiße Anna); to ask, German moves the verb in front of the person behind a question word — Wie heißt du? Ich bin Anna is the other introduction, and there you use plain 'to be'.",
+        "exercises": [
+          {
+            "id": "de-introductions-foundation-notice",
+            "conceptId": "de-introductions-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "German has a verb that means 'to be called'. Which of these introduces you with that verb?",
+            "answers": [
+              "Ich heiße Anna."
+            ],
+            "explanation": "Ich heiße Anna is literally 'I am called Anna'. Ich bin Anna also gives a name, but it uses plain 'to be', and Wie heißt du? is the question, not an introduction.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "options": [
+              "Ich heiße Anna.",
+              "Ich bin Anna.",
+              "Wie heißt du?"
+            ]
+          },
+          {
+            "id": "de-introductions-foundation-recall",
+            "conceptId": "de-introductions-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You meet a neighbour and give your name with the verb that means 'to be called'.",
+            "answers": [
+              "Ich heiße Anna."
+            ],
+            "explanation": "Ich heiße, not Ich bin, when the verb 'to be called' carries the name.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          },
+          {
+            "id": "de-introductions-foundation-build",
+            "conceptId": "de-introductions-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The three words are out of order. Build the sentence in which Anna is called by name using heißen.",
+            "answers": [
+              "Ich heiße Anna."
+            ],
+            "explanation": "Use heiße with ich and heißt with du. The verb sits second, and Ich keeps its capital as it opens the sentence.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "tokens": [
+              "Anna.",
+              "heiße",
+              "Ich"
+            ]
+          },
+          {
+            "id": "de-introductions-foundation-reply",
+            "conceptId": "de-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Your new colleague has introduced himself. Answer with the short German phrase for 'Nice to meet you'.",
+            "answers": [
+              "Freut mich."
+            ],
+            "explanation": "Freut mich is the short reply German uses straight after an introduction.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ]
+          },
+          {
+            "id": "de-introductions-foundation-ask",
+            "conceptId": "de-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Learn a classmate's name by asking the question in which the verb comes before the person.",
+            "answers": [
+              "Wie heißt du?"
+            ],
+            "explanation": "German forms this question by putting heißt before du, with Wie in front — no extra helping word is needed.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ]
+          },
+          {
+            "id": "de-introductions-foundation-read",
+            "conceptId": "de-introductions-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the exchange. The first line puts the verb before the person to ask something. Whose name is being asked for?",
+            "answers": [
+              "Leo",
+              "Leo."
+            ],
+            "explanation": "The opening Wie heißt du? asks the second speaker, Leo, for his name, and he answers with the same verb.",
+            "vocabulary": [
+              "de-introductions-word-1",
+              "de-introductions-word-2",
+              "de-introductions-word-3",
+              "de-introductions-word-4"
+            ],
+            "reviewOf": [
+              "de-first-words-foundation"
+            ],
+            "passage": "— Wie heißt du?\n— Ich heiße Leo. Und du?\n— Ich heiße Anna.\n— Freut mich, Anna.",
+            "translation": "— What are you called?\n— I am called Leo. And you?\n— I am called Anna.\n— Nice to meet you, Anna."
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "de-cafe-requests-concept",
+      "explanation": "German requests a drink with Ich möchte, 'I would like'. Once the drink is what is being asked for, the article turns into einen: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns and keep their capitals."
+    },
+    "lesson": {
+      "id": "de-cafe-requests-foundation",
+      "objective": "Order a drink and meet the article that changes shape once the drink is the object: einen.",
+      "explanation": "Ich möchte is the polite 'I would like'. The small surprise is the article: German says ein Kaffee, but once the coffee is what you are ordering, the article becomes einen — Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine, and a masculine noun takes einen in the object position. Swap the drink and keep the form: einen Tee, bitte. Both drinks are nouns, so both keep their capital letter.",
+      "exercises": [
+        {
+          "id": "de-cafe-requests-foundation-choose",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which request uses the article German gives a masculine drink when it is the thing being ordered?",
+          "answers": [
+            "Ich möchte einen Kaffee, bitte."
+          ],
+          "explanation": "Einen is the form a masculine noun takes as the object being ordered. Ein would leave the coffee standing as a bare subject.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "options": [
+            "Ich möchte einen Kaffee, bitte.",
+            "Ich möchte ein Kaffee, bitte.",
+            "Ich heiße Anna."
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-recall",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You are at the counter and coffee is what you want. Make the short request, keeping the article in its object form.",
+          "answers": [
+            "Einen Kaffee, bitte."
+          ],
+          "explanation": "Einen Kaffee, bitte — the object form einen survives even in the short request.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "de-cafe-requests-foundation-build",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "The words are shuffled. Build the full polite request for one coffee.",
+          "answers": [
+            "Ich möchte einen Kaffee, bitte."
+          ],
+          "explanation": "The verb möchte comes second and the object einen Kaffee follows it; bitte closes the request.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "tokens": [
+            "bitte.",
+            "Kaffee,",
+            "einen",
+            "möchte",
+            "Ich"
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-vary",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Order a tea the same polite way, changing only the drink and keeping the object article.",
+          "answers": [
+            "Ich möchte einen Tee, bitte."
+          ],
+          "explanation": "Same frame, different drink: einen Tee. The article stays einen because Tee is masculine too.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-meaning",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Ich möchte einen Kaffee, bitte.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "A request, not a statement about possession: möchte is 'would like'.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-read",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. Which word marks the drink as the thing being ordered?",
+          "answers": [
+            "einen"
+          ],
+          "explanation": "Einen is the object form of the article; the coffee is what is being requested.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "passage": "— Guten Tag. Ich möchte einen Kaffee, bitte.\n— Sofort. Und etwas dazu?\n— Nein, danke.",
+          "translation": "— Good day. I would like a coffee, please.\n— Right away. And something with it?\n— No, thank you."
+        }
+      ]
+    }
+  },
+  "courses/spanish/manifest.json": {
+    "concepts": [
+      {
+        "id": "es-cafe-requests-concept",
+        "explanation": "For a polite café request Spanish uses quisiera, 'I would like', instead of the blunter quiero: Quisiera un café, por favor. The article stays un for either drink, and café and té keep their accents."
+      },
+      {
+        "id": "es-introductions-concept",
+        "explanation": "Spanish says Me llamo Ana, literally 'I call myself Ana'; the verb llamarse carries a pronoun that points back at the speaker. Asking the same question of someone else changes that pronoun to te: ¿Cómo te llamas? Soy Ana is the plain alternative, built on 'to be'."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "es-cafe-requests-foundation",
+        "objective": "Ask for a drink with the softened verb quisiera, and keep the accents on café and té.",
+        "explanation": "Quiero means 'I want', and in a café it can sound blunt. Spanish softens the same verb into quisiera, 'I would like', and that ending is the whole difference: Quisiera un café, por favor. The article un does not change with the drink — Quisiera un té, por favor — so only the noun moves. Keep the accents: café and té each carry one, and por favor is the phrase that turns the request into a courteous one.",
+        "exercises": [
+          {
+            "id": "es-cafe-requests-foundation-choose",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Quiero and quisiera are the same verb. Which request is the softened, polite one?",
+            "answers": [
+              "Quisiera un café, por favor."
+            ],
+            "explanation": "Quisiera gives the verb a conditional ending, and that is what makes the request courteous. Quiero is the blunt form.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "options": [
+              "Quisiera un café, por favor.",
+              "Quiero un café, por favor.",
+              "Me llamo Ana."
+            ]
+          },
+          {
+            "id": "es-cafe-requests-foundation-vary",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Ask for tea politely, using the softened verb rather than quiero.",
+            "answers": [
+              "Quisiera un té, por favor."
+            ],
+            "explanation": "Same polite frame, tea instead of coffee: Quisiera un té, por favor, with the accent on té.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ]
+          },
+          {
+            "id": "es-cafe-requests-foundation-read",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the café exchange. How many drinks does the customer order?",
+            "answers": [
+              "Two.",
+              "2."
+            ],
+            "explanation": "The customer asks for a té and then adds un café, so two drinks in all.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "passage": "— ¡Buenas! Quisiera un té, por favor.\n— ¿Un té?\n— Sí, y un café también. Gracias.",
+            "translation": "— Hello! I would like a tea, please.\n— A tea?\n— Yes, and a coffee too. Thank you."
+          },
+          {
+            "id": "es-cafe-requests-foundation-meaning",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "What does this café line mean in English: Quisiera un café, por favor.",
+            "answers": [
+              "I would like a coffee, please.",
+              "I’d like a coffee, please.",
+              "I'd like a coffee, please."
+            ],
+            "explanation": "Quisiera is 'I would like', and por favor supplies the 'please'.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ]
+          },
+          {
+            "id": "es-cafe-requests-foundation-build",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Put the words in order to build the polite request for one coffee.",
+            "answers": [
+              "Quisiera un café, por favor."
+            ],
+            "explanation": "Quisiera opens it, the drink follows with un, and por favor finishes the request.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "tokens": [
+              "favor.",
+              "por",
+              "café,",
+              "un",
+              "Quisiera"
+            ]
+          },
+          {
+            "id": "es-cafe-requests-foundation-recall",
+            "conceptId": "es-cafe-requests-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You reach the counter and want a coffee. Make the short polite request, without the verb.",
+            "answers": [
+              "Un café, por favor."
+            ],
+            "explanation": "Un café, por favor — the short request drops quisiera but keeps por favor.",
+            "vocabulary": [
+              "es-cafe-requests-word-1",
+              "es-cafe-requests-word-2",
+              "es-cafe-requests-word-3",
+              "es-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          }
+        ]
+      },
+      {
+        "id": "es-introductions-foundation",
+        "objective": "Introduce yourself with the reflexive verb llamarse and ask a name with the pronoun that travels with it.",
+        "explanation": "Spanish does not say 'my name is'. It says Me llamo Ana, literally 'I call myself Ana' — the small me is part of the verb llamarse and points back at the speaker. Turn the same verb on the person in front of you and that me becomes te: ¿Cómo te llamas? Soy Ana is the other introduction, and that one uses plain 'to be'. The pronoun, not the verb, is what changes.",
+        "exercises": [
+          {
+            "id": "es-introductions-foundation-notice",
+            "conceptId": "es-introductions-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Me llamo Ana and Soy Ana both give a name. Which one uses the verb that literally means 'I call myself'?",
+            "answers": [
+              "Me llamo Ana."
+            ],
+            "explanation": "Me llamo Ana is the reflexive form — 'I call myself Ana'. Soy Ana uses ser ('to be'), and ¿Cómo te llamas? is the question.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "options": [
+              "Me llamo Ana.",
+              "Soy Ana.",
+              "¿Cómo te llamas?"
+            ]
+          },
+          {
+            "id": "es-introductions-foundation-ask",
+            "conceptId": "es-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Ask a classmate their name with the question whose pronoun changes to te.",
+            "answers": [
+              "¿Cómo te llamas?"
+            ],
+            "explanation": "The verb is the same one as in Me llamo, but the pronoun turns into te when it points at the person you are speaking to.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ]
+          },
+          {
+            "id": "es-introductions-foundation-read",
+            "conceptId": "es-introductions-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the exchange. Which short word tells you the first speaker is talking about herself?",
+            "answers": [
+              "me"
+            ],
+            "explanation": "Me is the reflexive pronoun: it turns the verb llamarse back on the person speaking. The other introduction uses soy instead.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "passage": "— ¡Hola! Me llamo Ana.\n— Mucho gusto, Ana. Soy Leo.\n— Encantada, Leo.",
+            "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
+          },
+          {
+            "id": "es-introductions-foundation-reply",
+            "conceptId": "es-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "A neighbour introduces herself to you. Give the two-word Spanish reply that closes an introduction.",
+            "answers": [
+              "Mucho gusto."
+            ],
+            "explanation": "Mucho gusto closes an introduction, and the sentence needs no pronoun.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ]
+          },
+          {
+            "id": "es-introductions-foundation-build",
+            "conceptId": "es-introductions-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The words are jumbled. Build the reflexive sentence that gives Ana's name.",
+            "answers": [
+              "Me llamo Ana."
+            ],
+            "explanation": "Me llamo Ana puts the reflexive pronoun first, then the verb, then the name.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "tokens": [
+              "Ana.",
+              "llamo",
+              "Me"
+            ]
+          },
+          {
+            "id": "es-introductions-foundation-recall",
+            "conceptId": "es-introductions-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "A classmate has introduced herself. Introduce yourself the same way, as Ana, using the verb that needs a pronoun.",
+            "answers": [
+              "Me llamo Ana."
+            ],
+            "explanation": "Say the whole reflexive phrase; leaving out me would leave the verb belonging to nobody.",
+            "vocabulary": [
+              "es-introductions-word-1",
+              "es-introductions-word-2",
+              "es-introductions-word-3",
+              "es-introductions-word-4"
+            ],
+            "reviewOf": [
+              "es-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "es-cafe-requests-concept",
+      "explanation": "For a polite café request Spanish uses quisiera, 'I would like', instead of the blunter quiero: Quisiera un café, por favor. The article stays un for either drink, and café and té keep their accents."
+    },
+    "lesson": {
+      "id": "es-cafe-requests-foundation",
+      "objective": "Ask for a drink with the softened verb quisiera, and keep the accents on café and té.",
+      "explanation": "Quiero means 'I want', and in a café it can sound blunt. Spanish softens the same verb into quisiera, 'I would like', and that ending is the whole difference: Quisiera un café, por favor. The article un does not change with the drink — Quisiera un té, por favor — so only the noun moves. Keep the accents: café and té each carry one, and por favor is the phrase that turns the request into a courteous one.",
+      "exercises": [
+        {
+          "id": "es-cafe-requests-foundation-choose",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Quiero and quisiera are the same verb. Which request is the softened, polite one?",
+          "answers": [
+            "Quisiera un café, por favor."
+          ],
+          "explanation": "Quisiera gives the verb a conditional ending, and that is what makes the request courteous. Quiero is the blunt form.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "options": [
+            "Quisiera un café, por favor.",
+            "Quiero un café, por favor.",
+            "Me llamo Ana."
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-vary",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for tea politely, using the softened verb rather than quiero.",
+          "answers": [
+            "Quisiera un té, por favor."
+          ],
+          "explanation": "Same polite frame, tea instead of coffee: Quisiera un té, por favor, with the accent on té.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-read",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. How many drinks does the customer order?",
+          "answers": [
+            "Two.",
+            "2."
+          ],
+          "explanation": "The customer asks for a té and then adds un café, so two drinks in all.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "passage": "— ¡Buenas! Quisiera un té, por favor.\n— ¿Un té?\n— Sí, y un café también. Gracias.",
+          "translation": "— Hello! I would like a tea, please.\n— A tea?\n— Yes, and a coffee too. Thank you."
+        },
+        {
+          "id": "es-cafe-requests-foundation-meaning",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "What does this café line mean in English: Quisiera un café, por favor.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "Quisiera is 'I would like', and por favor supplies the 'please'.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-build",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to build the polite request for one coffee.",
+          "answers": [
+            "Quisiera un café, por favor."
+          ],
+          "explanation": "Quisiera opens it, the drink follows with un, and por favor finishes the request.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "tokens": [
+            "favor.",
+            "por",
+            "café,",
+            "un",
+            "Quisiera"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-recall",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You reach the counter and want a coffee. Make the short polite request, without the verb.",
+          "answers": [
+            "Un café, por favor."
+          ],
+          "explanation": "Un café, por favor — the short request drops quisiera but keeps por favor.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        }
+      ]
+    }
+  },
+  "courses/portuguese/manifest.json": {
+    "concepts": [
+      {
+        "id": "pt-cafe-requests-concept",
+        "explanation": "Portuguese asks politely with Eu gostaria de, and de must stay between the verb and the drink: gostaria de um café. The eu is optional because the verb already carries the person. Thanks agrees with the speaker — obrigado for a man, obrigada for a woman."
+      },
+      {
+        "id": "pt-introductions-concept",
+        "explanation": "Portuguese says Meu nome é Ana. The é is a word in its own right: é means 'is', and dropping the accent leaves e, 'and'. Sou Ana is the other introduction and needs no eu, because the verb already carries the person."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "pt-cafe-requests-foundation",
+        "objective": "Order with gostaria de, keeping the word that joins the verb to the drink, and match your thanks to who is speaking.",
+        "explanation": "The polite request is Eu gostaria de — 'I would like'. What learners drop is the de: it holds the verb and the drink together, and it stays whatever the drink is. Eu gostaria de um café, por favor, and equally Eu gostaria de um chá, por favor. Because gostaria already says who is speaking, Brazilian Portuguese usually lets the eu go without changing the meaning. Thanks is the last thing to get right: a man says obrigado, a woman says obrigada, because the word agrees with the speaker.",
+        "exercises": [
+          {
+            "id": "pt-cafe-requests-foundation-choose",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Only one of these keeps the little word that joins gostaria to the drink. Which is it?",
+            "answers": [
+              "Eu gostaria de um café, por favor."
+            ],
+            "explanation": "De belongs between gostaria and the drink; without it the request loses the link. Meu nome é Ana is an introduction, not a request.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "options": [
+              "Eu gostaria de um café, por favor.",
+              "Eu gostaria um café, por favor.",
+              "Meu nome é Ana."
+            ]
+          },
+          {
+            "id": "pt-cafe-requests-foundation-build",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The words are out of order. Build the polite request for one coffee with gostaria de.",
+            "answers": [
+              "Eu gostaria de um café, por favor."
+            ],
+            "explanation": "Gostaria and the drink are held together by de, and por favor closes the request.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "tokens": [
+              "favor.",
+              "por",
+              "café,",
+              "um",
+              "de",
+              "gostaria",
+              "Eu"
+            ]
+          },
+          {
+            "id": "pt-cafe-requests-foundation-vary",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Ask for tea politely, keeping the word that joins gostaria to the drink.",
+            "answers": [
+              "Eu gostaria de um chá, por favor.",
+              "Gostaria de um chá, por favor."
+            ],
+            "explanation": "Swap the drink but keep de: gostaria de um chá. Chá keeps its accent.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ]
+          },
+          {
+            "id": "pt-cafe-requests-foundation-recall",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "At the counter you want a coffee. Make the short request, with no verb in it.",
+            "answers": [
+              "Um café, por favor."
+            ],
+            "explanation": "Um café, por favor — the short request keeps por favor and drops gostaria.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          },
+          {
+            "id": "pt-cafe-requests-foundation-read",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the café exchange. The customer thanks the server. Which form of thanks tells you the customer is a woman?",
+            "answers": [
+              "Obrigada."
+            ],
+            "explanation": "Obrigada, not obrigado: the word agrees with the person speaking, and this speaker is a woman.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "passage": "— Olá. Eu gostaria de um chá, por favor.\n— Um chá?\n— Sim. Obrigada!",
+            "translation": "— Hello. I would like a tea, please.\n— A tea?\n— Yes. Thank you!"
+          },
+          {
+            "id": "pt-cafe-requests-foundation-meaning",
+            "conceptId": "pt-cafe-requests-concept",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Eu gostaria de um café, por favor.",
+            "answers": [
+              "I would like a coffee, please.",
+              "I’d like a coffee, please.",
+              "I'd like a coffee, please."
+            ],
+            "explanation": "Gostaria de is 'I would like', and por favor is 'please'.",
+            "vocabulary": [
+              "pt-cafe-requests-word-1",
+              "pt-cafe-requests-word-2",
+              "pt-cafe-requests-word-3",
+              "pt-cafe-requests-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pt-introductions-foundation",
+        "objective": "Introduce yourself as Ana and keep the accent that separates é ('is') from e ('and').",
+        "explanation": "Portuguese introduces you with Meu nome é Ana — 'my name is Ana' — and the little word é carries an accent that matters: é means 'is', while e without the accent means 'and', so Meu nome e Ana would read as 'my name and Ana'. The other introduction is Sou Ana, built on 'to be'. Brazilian Portuguese also lets the subject pronoun go, which is why Sou Ana already says 'I am' with no eu in front of it.",
+        "exercises": [
+          {
+            "id": "pt-introductions-foundation-notice",
+            "conceptId": "pt-introductions-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Which question would you ask a new neighbour to learn their name in Brazilian Portuguese?",
+            "answers": [
+              "Qual é o seu nome?"
+            ],
+            "explanation": "Qual é o seu nome? is the complete question. Meu nome é Ana answers it, and Prazer is what you say on meeting.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "options": [
+              "Qual é o seu nome?",
+              "Meu nome é Ana.",
+              "Prazer."
+            ]
+          },
+          {
+            "id": "pt-introductions-foundation-build",
+            "conceptId": "pt-introductions-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Put the words back in order to give your name with Meu nome é.",
+            "answers": [
+              "Meu nome é Ana."
+            ],
+            "explanation": "Keep the accent on é; it is the verb 'is', and the sentence reads as nonsense without it.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "tokens": [
+              "Ana.",
+              "é",
+              "nome",
+              "Meu"
+            ]
+          },
+          {
+            "id": "pt-introductions-foundation-ask",
+            "conceptId": "pt-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Ask a neighbour's name using the full question taught here.",
+            "answers": [
+              "Qual é o seu nome?"
+            ],
+            "explanation": "This is the complete question, and the accent on é stays in place.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ]
+          },
+          {
+            "id": "pt-introductions-foundation-recall",
+            "conceptId": "pt-introductions-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "Give your name as Ana with the phrase 'my name is', keeping the accent on the word for 'is'.",
+            "answers": [
+              "Meu nome é Ana."
+            ],
+            "explanation": "Meu nome é Ana — the accented é is 'is'. Without the accent the word turns into 'and'.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "thinkSeconds": 8
+          },
+          {
+            "id": "pt-introductions-foundation-read",
+            "conceptId": "pt-introductions-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the exchange. One speaker introduces themselves with no word for 'I' at all. Who is it?",
+            "answers": [
+              "Leo",
+              "Leo."
+            ],
+            "explanation": "Sou Leo says 'I am Leo' with no eu; Portuguese does not need the pronoun.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ],
+            "passage": "— Olá! Meu nome é Ana.\n— Prazer, Ana. Sou Leo.\n— Prazer, Leo.",
+            "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
+          },
+          {
+            "id": "pt-introductions-foundation-reply",
+            "conceptId": "pt-introductions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "You have just been introduced to someone. Give the short Portuguese word meaning 'Nice to meet you'.",
+            "answers": [
+              "Prazer."
+            ],
+            "explanation": "Prazer on its own is the friendly reply at an introduction.",
+            "vocabulary": [
+              "pt-introductions-word-1",
+              "pt-introductions-word-2",
+              "pt-introductions-word-3",
+              "pt-introductions-word-4"
+            ],
+            "reviewOf": [
+              "pt-first-words-foundation"
+            ]
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "pt-cafe-requests-concept",
+      "explanation": "Portuguese asks politely with Eu gostaria de, and de must stay between the verb and the drink: gostaria de um café. The eu is optional because the verb already carries the person. Thanks agrees with the speaker — obrigado for a man, obrigada for a woman."
+    },
+    "lesson": {
+      "id": "pt-cafe-requests-foundation",
+      "objective": "Order with gostaria de, keeping the word that joins the verb to the drink, and match your thanks to who is speaking.",
+      "explanation": "The polite request is Eu gostaria de — 'I would like'. What learners drop is the de: it holds the verb and the drink together, and it stays whatever the drink is. Eu gostaria de um café, por favor, and equally Eu gostaria de um chá, por favor. Because gostaria already says who is speaking, Brazilian Portuguese usually lets the eu go without changing the meaning. Thanks is the last thing to get right: a man says obrigado, a woman says obrigada, because the word agrees with the speaker.",
+      "exercises": [
+        {
+          "id": "pt-cafe-requests-foundation-choose",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Only one of these keeps the little word that joins gostaria to the drink. Which is it?",
+          "answers": [
+            "Eu gostaria de um café, por favor."
+          ],
+          "explanation": "De belongs between gostaria and the drink; without it the request loses the link. Meu nome é Ana is an introduction, not a request.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "options": [
+            "Eu gostaria de um café, por favor.",
+            "Eu gostaria um café, por favor.",
+            "Meu nome é Ana."
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-build",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "The words are out of order. Build the polite request for one coffee with gostaria de.",
+          "answers": [
+            "Eu gostaria de um café, por favor."
+          ],
+          "explanation": "Gostaria and the drink are held together by de, and por favor closes the request.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "tokens": [
+            "favor.",
+            "por",
+            "café,",
+            "um",
+            "de",
+            "gostaria",
+            "Eu"
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-vary",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for tea politely, keeping the word that joins gostaria to the drink.",
+          "answers": [
+            "Eu gostaria de um chá, por favor.",
+            "Gostaria de um chá, por favor."
+          ],
+          "explanation": "Swap the drink but keep de: gostaria de um chá. Chá keeps its accent.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        },
+        {
+          "id": "pt-cafe-requests-foundation-recall",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "At the counter you want a coffee. Make the short request, with no verb in it.",
+          "answers": [
+            "Um café, por favor."
+          ],
+          "explanation": "Um café, por favor — the short request keeps por favor and drops gostaria.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "pt-cafe-requests-foundation-read",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. The customer thanks the server. Which form of thanks tells you the customer is a woman?",
+          "answers": [
+            "Obrigada."
+          ],
+          "explanation": "Obrigada, not obrigado: the word agrees with the person speaking, and this speaker is a woman.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "passage": "— Olá. Eu gostaria de um chá, por favor.\n— Um chá?\n— Sim. Obrigada!",
+          "translation": "— Hello. I would like a tea, please.\n— A tea?\n— Yes. Thank you!"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-meaning",
+          "conceptId": "pt-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Eu gostaria de um café, por favor.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "Gostaria de is 'I would like', and por favor is 'please'.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ]
+        }
+      ]
+    }
+  }
+}

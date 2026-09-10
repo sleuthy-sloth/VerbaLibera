@@ -67,8 +67,9 @@ lesson already teaches, and the answer must be CORRECT French. Safe patterns:
   mechanically: `je travaille` -> `tu travailles` gains an `s`)
 - make it a question with `Est-ce que`
 - make it plural, or change a possessive
-- make it negative ONLY for lessons at or after the point negation is taught
-  (the lesson before `fr-negation-foundation` in course order)
+- make it negative ONLY from L10 onward. Negation is taught AT L9
+  (`fr-negation-foundation`), so lessons L2 to L9 must not use it: a learner
+  cannot transform into a structure they have not met.
 
 Shape:
 ```json
