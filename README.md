@@ -60,6 +60,8 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 cp .env.example .env
 docker compose up --build
+# first run only — apply schema migrations:
+docker compose run --rm app npx prisma migrate deploy
 ```
 
 ### Tests
