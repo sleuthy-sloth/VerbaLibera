@@ -11240,19 +11240,19 @@
           "purpose": "practice",
           "activityId": "it-people-foundation-meaning",
           "required": true,
-          "nextStepId": "it-people-foundation-step-it-people-foundation-order"
-        },
-        {
-          "id": "it-people-foundation-step-it-people-foundation-order",
-          "purpose": "practice",
-          "activityId": "it-people-foundation-order",
-          "required": true,
           "nextStepId": "it-people-foundation-step-it-people-foundation-cloze"
         },
         {
           "id": "it-people-foundation-step-it-people-foundation-cloze",
           "purpose": "practice",
           "activityId": "it-people-foundation-cloze",
+          "required": true,
+          "nextStepId": "it-people-foundation-step-it-people-foundation-order"
+        },
+        {
+          "id": "it-people-foundation-step-it-people-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-people-foundation-order",
           "required": true,
           "nextStepId": "it-people-foundation-step-it-people-foundation-produce"
         },
@@ -11363,6 +11363,26 @@
         },
         {
           "answers": [
+            "sei"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-people-foundation-cloze",
+          "conceptId": "it-people-concept",
+          "prompt": "Complete: Tu ___ Marco.",
+          "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+          "vocabulary": [
+            "it-people-word-1",
+            "it-people-word-2",
+            "it-people-word-3",
+            "it-people-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Lei è italiana."
           ],
           "allowTypo": false,
@@ -11385,26 +11405,6 @@
             "è",
             "Lei"
           ]
-        },
-        {
-          "answers": [
-            "sei"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-people-foundation-cloze",
-          "conceptId": "it-people-concept",
-          "prompt": "Complete: Tu ___ Marco.",
-          "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
-          "vocabulary": [
-            "it-people-word-1",
-            "it-people-word-2",
-            "it-people-word-3",
-            "it-people-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
         },
         {
           "answers": [
@@ -11531,12 +11531,12 @@
           "purpose": "practice",
           "activityId": "it-family-foundation-meet",
           "required": true,
-          "nextStepId": "it-family-foundation-step-it-family-foundation-meaning"
+          "nextStepId": "it-family-foundation-step-it-family-foundation-produce"
         },
         {
-          "id": "it-family-foundation-step-it-family-foundation-meaning",
+          "id": "it-family-foundation-step-it-family-foundation-produce",
           "purpose": "practice",
-          "activityId": "it-family-foundation-meaning",
+          "activityId": "it-family-foundation-produce",
           "required": true,
           "nextStepId": "it-family-foundation-step-it-family-foundation-order"
         },
@@ -11552,12 +11552,12 @@
           "purpose": "practice",
           "activityId": "it-family-foundation-cloze",
           "required": true,
-          "nextStepId": "it-family-foundation-step-it-family-foundation-produce"
+          "nextStepId": "it-family-foundation-step-it-family-foundation-meaning"
         },
         {
-          "id": "it-family-foundation-step-it-family-foundation-produce",
+          "id": "it-family-foundation-step-it-family-foundation-meaning",
           "purpose": "practice",
-          "activityId": "it-family-foundation-produce",
+          "activityId": "it-family-foundation-meaning",
           "required": true,
           "nextStepId": "it-family-foundation-step-it-family-foundation-read"
         },
@@ -11641,14 +11641,20 @@
         },
         {
           "answers": [
-            "You have a sister.",
-            "You've a sister."
+            "Ho un fratello.",
+            "Io ho un fratello."
           ],
           "allowTypo": false,
-          "errors": [],
-          "id": "it-family-foundation-meaning",
+          "errors": [
+            {
+              "answer": "Io ha un fratello.",
+              "category": "wrong conjugation",
+              "explanation": "With io, avere is ho. The h is silent."
+            }
+          ],
+          "id": "it-family-foundation-produce",
           "conceptId": "it-family-concept",
-          "prompt": "Give the English meaning: Hai una sorella.",
+          "prompt": "A new friend asks about your family. Tell them in Italian: I have a brother.",
           "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
           "vocabulary": [
             "it-family-word-1",
@@ -11658,7 +11664,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "recognition"
+          "mode": "production"
         },
         {
           "answers": [
@@ -11707,20 +11713,14 @@
         },
         {
           "answers": [
-            "Ho un fratello.",
-            "Io ho un fratello."
+            "You have a sister.",
+            "You've a sister."
           ],
           "allowTypo": false,
-          "errors": [
-            {
-              "answer": "Io ha un fratello.",
-              "category": "wrong conjugation",
-              "explanation": "With io, avere is ho. The h is silent."
-            }
-          ],
-          "id": "it-family-foundation-produce",
+          "errors": [],
+          "id": "it-family-foundation-meaning",
           "conceptId": "it-family-concept",
-          "prompt": "A new friend asks about your family. Tell them in Italian: I have a brother.",
+          "prompt": "Give the English meaning: Hai una sorella.",
           "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
           "vocabulary": [
             "it-family-word-1",
@@ -11730,7 +11730,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "production"
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -11830,6 +11830,13 @@
           "purpose": "practice",
           "activityId": "it-numbers-foundation-meet",
           "required": true,
+          "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-read"
+        },
+        {
+          "id": "it-numbers-foundation-step-it-numbers-foundation-read",
+          "purpose": "practice",
+          "activityId": "it-numbers-foundation-read",
+          "required": true,
           "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-meaning"
         },
         {
@@ -11857,13 +11864,6 @@
           "id": "it-numbers-foundation-step-it-numbers-foundation-produce",
           "purpose": "practice",
           "activityId": "it-numbers-foundation-produce",
-          "required": true,
-          "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-read"
-        },
-        {
-          "id": "it-numbers-foundation-step-it-numbers-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-numbers-foundation-read",
           "required": true,
           "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-review"
         },
@@ -11937,6 +11937,28 @@
             "quanti",
             "venti"
           ]
+        },
+        {
+          "answers": [
+            "trenta"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-numbers-foundation-read",
+          "conceptId": "it-numbers-concept",
+          "prompt": "How old is the sister? Answer with the Italian number. (Reading 4)",
+          "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+          "vocabulary": [
+            "it-numbers-word-1",
+            "it-numbers-word-2",
+            "it-numbers-word-3",
+            "it-numbers-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Ho venti anni. Ho una sorella. Lei ha trenta anni.",
+          "translation": "I am twenty years old. I have a sister. She is thirty years old."
         },
         {
           "answers": [
@@ -12032,28 +12054,6 @@
         },
         {
           "answers": [
-            "trenta"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-numbers-foundation-read",
-          "conceptId": "it-numbers-concept",
-          "prompt": "How old is the sister? Answer with the Italian number. (Reading 4)",
-          "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
-          "vocabulary": [
-            "it-numbers-word-1",
-            "it-numbers-word-2",
-            "it-numbers-word-3",
-            "it-numbers-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Ho venti anni. Ho una sorella. Lei ha trenta anni.",
-          "translation": "I am twenty years old. I have a sister. She is thirty years old."
-        },
-        {
-          "answers": [
             "Ho un fratello.",
             "Io ho un fratello."
           ],
@@ -12137,12 +12137,12 @@
           "purpose": "practice",
           "activityId": "it-home-foundation-meaning",
           "required": true,
-          "nextStepId": "it-home-foundation-step-it-home-foundation-order"
+          "nextStepId": "it-home-foundation-step-it-home-foundation-read"
         },
         {
-          "id": "it-home-foundation-step-it-home-foundation-order",
+          "id": "it-home-foundation-step-it-home-foundation-read",
           "purpose": "practice",
-          "activityId": "it-home-foundation-order",
+          "activityId": "it-home-foundation-read",
           "required": true,
           "nextStepId": "it-home-foundation-step-it-home-foundation-cloze"
         },
@@ -12151,19 +12151,19 @@
           "purpose": "practice",
           "activityId": "it-home-foundation-cloze",
           "required": true,
+          "nextStepId": "it-home-foundation-step-it-home-foundation-order"
+        },
+        {
+          "id": "it-home-foundation-step-it-home-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-home-foundation-order",
+          "required": true,
           "nextStepId": "it-home-foundation-step-it-home-foundation-produce"
         },
         {
           "id": "it-home-foundation-step-it-home-foundation-produce",
           "purpose": "practice",
           "activityId": "it-home-foundation-produce",
-          "required": true,
-          "nextStepId": "it-home-foundation-step-it-home-foundation-read"
-        },
-        {
-          "id": "it-home-foundation-step-it-home-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-home-foundation-read",
           "required": true,
           "nextStepId": "it-home-foundation-step-it-home-foundation-review"
         },
@@ -12260,6 +12260,48 @@
         },
         {
           "answers": [
+            "in casa"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-home-foundation-read",
+          "conceptId": "it-home-concept",
+          "prompt": "Where is the book? Answer in Italian. (Reading 5)",
+          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+          "vocabulary": [
+            "it-home-word-1",
+            "it-home-word-2",
+            "it-home-word-3",
+            "it-home-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Ho una casa. Il libro è in casa. Ho un fratello.",
+          "translation": "I have a house. The book is at home. I have a brother."
+        },
+        {
+          "answers": [
+            "Il"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-home-foundation-cloze",
+          "conceptId": "it-home-concept",
+          "prompt": "Complete: ___ libro è in casa.",
+          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+          "vocabulary": [
+            "it-home-word-1",
+            "it-home-word-2",
+            "it-home-word-3",
+            "it-home-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Il libro è in casa."
           ],
           "allowTypo": false,
@@ -12287,26 +12329,6 @@
         },
         {
           "answers": [
-            "Il"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-home-foundation-cloze",
-          "conceptId": "it-home-concept",
-          "prompt": "Complete: ___ libro è in casa.",
-          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
-          "vocabulary": [
-            "it-home-word-1",
-            "it-home-word-2",
-            "it-home-word-3",
-            "it-home-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
-        },
-        {
-          "answers": [
             "Ho una casa.",
             "Io ho una casa."
           ],
@@ -12331,28 +12353,6 @@
           "reviewOf": [],
           "kind": "translate",
           "mode": "production"
-        },
-        {
-          "answers": [
-            "in casa"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-home-foundation-read",
-          "conceptId": "it-home-concept",
-          "prompt": "Where is the book? Answer in Italian. (Reading 5)",
-          "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
-          "vocabulary": [
-            "it-home-word-1",
-            "it-home-word-2",
-            "it-home-word-3",
-            "it-home-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Ho una casa. Il libro è in casa. Ho un fratello.",
-          "translation": "I have a house. The book is at home. I have a brother."
         },
         {
           "answers": [
@@ -12431,13 +12431,6 @@
           "purpose": "practice",
           "activityId": "it-descriptions-foundation-meet",
           "required": true,
-          "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-meaning"
-        },
-        {
-          "id": "it-descriptions-foundation-step-it-descriptions-foundation-meaning",
-          "purpose": "practice",
-          "activityId": "it-descriptions-foundation-meaning",
-          "required": true,
           "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-order"
         },
         {
@@ -12465,6 +12458,13 @@
           "id": "it-descriptions-foundation-step-it-descriptions-foundation-read",
           "purpose": "practice",
           "activityId": "it-descriptions-foundation-read",
+          "required": true,
+          "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-meaning"
+        },
+        {
+          "id": "it-descriptions-foundation-step-it-descriptions-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "it-descriptions-foundation-meaning",
           "required": true,
           "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-review"
         },
@@ -12538,26 +12538,6 @@
             "grande",
             "piccolo"
           ]
-        },
-        {
-          "answers": [
-            "The book is white."
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-descriptions-foundation-meaning",
-          "conceptId": "it-descriptions-concept",
-          "prompt": "Give the English meaning: Il libro è bianco.",
-          "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
-          "vocabulary": [
-            "it-descriptions-word-1",
-            "it-descriptions-word-2",
-            "it-descriptions-word-3",
-            "it-descriptions-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "translate",
-          "mode": "recognition"
         },
         {
           "answers": [
@@ -12652,6 +12632,26 @@
           "mode": "recognition",
           "passage": "La casa è bianca. Il libro è bianco. La casa è grande.",
           "translation": "The house is white. The book is white. The house is big."
+        },
+        {
+          "answers": [
+            "The book is white."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-descriptions-foundation-meaning",
+          "conceptId": "it-descriptions-concept",
+          "prompt": "Give the English meaning: Il libro è bianco.",
+          "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+          "vocabulary": [
+            "it-descriptions-word-1",
+            "it-descriptions-word-2",
+            "it-descriptions-word-3",
+            "it-descriptions-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -13035,19 +13035,19 @@
           "purpose": "practice",
           "activityId": "it-routine-foundation-meaning",
           "required": true,
-          "nextStepId": "it-routine-foundation-step-it-routine-foundation-order"
-        },
-        {
-          "id": "it-routine-foundation-step-it-routine-foundation-order",
-          "purpose": "practice",
-          "activityId": "it-routine-foundation-order",
-          "required": true,
           "nextStepId": "it-routine-foundation-step-it-routine-foundation-cloze"
         },
         {
           "id": "it-routine-foundation-step-it-routine-foundation-cloze",
           "purpose": "practice",
           "activityId": "it-routine-foundation-cloze",
+          "required": true,
+          "nextStepId": "it-routine-foundation-step-it-routine-foundation-order"
+        },
+        {
+          "id": "it-routine-foundation-step-it-routine-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-routine-foundation-order",
           "required": true,
           "nextStepId": "it-routine-foundation-step-it-routine-foundation-produce"
         },
@@ -13158,6 +13158,26 @@
         },
         {
           "answers": [
+            "studio"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-routine-foundation-cloze",
+          "conceptId": "it-routine-concept",
+          "prompt": "Complete: Io ___ ogni giorno.",
+          "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+          "vocabulary": [
+            "it-routine-word-1",
+            "it-routine-word-2",
+            "it-routine-word-3",
+            "it-routine-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Lavori in casa."
           ],
           "allowTypo": false,
@@ -13180,26 +13200,6 @@
             "in",
             "Lavori"
           ]
-        },
-        {
-          "answers": [
-            "studio"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-routine-foundation-cloze",
-          "conceptId": "it-routine-concept",
-          "prompt": "Complete: Io ___ ogni giorno.",
-          "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
-          "vocabulary": [
-            "it-routine-word-1",
-            "it-routine-word-2",
-            "it-routine-word-3",
-            "it-routine-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
         },
         {
           "answers": [
@@ -13326,6 +13326,13 @@
           "purpose": "practice",
           "activityId": "it-negation-foundation-meet",
           "required": true,
+          "nextStepId": "it-negation-foundation-step-it-negation-foundation-read"
+        },
+        {
+          "id": "it-negation-foundation-step-it-negation-foundation-read",
+          "purpose": "practice",
+          "activityId": "it-negation-foundation-read",
+          "required": true,
           "nextStepId": "it-negation-foundation-step-it-negation-foundation-meaning"
         },
         {
@@ -13353,13 +13360,6 @@
           "id": "it-negation-foundation-step-it-negation-foundation-produce",
           "purpose": "practice",
           "activityId": "it-negation-foundation-produce",
-          "required": true,
-          "nextStepId": "it-negation-foundation-step-it-negation-foundation-read"
-        },
-        {
-          "id": "it-negation-foundation-step-it-negation-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-negation-foundation-read",
           "required": true,
           "nextStepId": "it-negation-foundation-step-it-negation-foundation-review"
         },
@@ -13433,6 +13433,28 @@
             "studi",
             "sì"
           ]
+        },
+        {
+          "answers": [
+            "no"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-negation-foundation-read",
+          "conceptId": "it-negation-concept",
+          "prompt": "Does the speaker work at home? Answer in English. (Reading 9)",
+          "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+          "vocabulary": [
+            "it-negation-word-1",
+            "it-negation-word-2",
+            "it-negation-word-3",
+            "it-negation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Studio ogni giorno. Non lavoro in casa.",
+          "translation": "I study every day. I do not work at home."
         },
         {
           "answers": [
@@ -13524,28 +13546,6 @@
           "reviewOf": [],
           "kind": "translate",
           "mode": "production"
-        },
-        {
-          "answers": [
-            "no"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-negation-foundation-read",
-          "conceptId": "it-negation-concept",
-          "prompt": "Does the speaker work at home? Answer in English. (Reading 9)",
-          "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
-          "vocabulary": [
-            "it-negation-word-1",
-            "it-negation-word-2",
-            "it-negation-word-3",
-            "it-negation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Studio ogni giorno. Non lavoro in casa.",
-          "translation": "I study every day. I do not work at home."
         },
         {
           "answers": [
@@ -13648,12 +13648,12 @@
           "purpose": "practice",
           "activityId": "it-food-foundation-meet",
           "required": true,
-          "nextStepId": "it-food-foundation-step-it-food-foundation-meaning"
+          "nextStepId": "it-food-foundation-step-it-food-foundation-produce"
         },
         {
-          "id": "it-food-foundation-step-it-food-foundation-meaning",
+          "id": "it-food-foundation-step-it-food-foundation-produce",
           "purpose": "practice",
-          "activityId": "it-food-foundation-meaning",
+          "activityId": "it-food-foundation-produce",
           "required": true,
           "nextStepId": "it-food-foundation-step-it-food-foundation-order"
         },
@@ -13669,12 +13669,12 @@
           "purpose": "practice",
           "activityId": "it-food-foundation-cloze",
           "required": true,
-          "nextStepId": "it-food-foundation-step-it-food-foundation-produce"
+          "nextStepId": "it-food-foundation-step-it-food-foundation-meaning"
         },
         {
-          "id": "it-food-foundation-step-it-food-foundation-produce",
+          "id": "it-food-foundation-step-it-food-foundation-meaning",
           "purpose": "practice",
-          "activityId": "it-food-foundation-produce",
+          "activityId": "it-food-foundation-meaning",
           "required": true,
           "nextStepId": "it-food-foundation-step-it-food-foundation-read"
         },
@@ -13766,13 +13766,20 @@
         },
         {
           "answers": [
-            "Will you have a tea?"
+            "Prendo un caffè.",
+            "Io prendo un caffè."
           ],
           "allowTypo": false,
-          "errors": [],
-          "id": "it-food-foundation-meaning",
+          "errors": [
+            {
+              "answer": "Io prendi un caffè.",
+              "category": "wrong conjugation",
+              "explanation": "With io, prendere becomes prendo."
+            }
+          ],
+          "id": "it-food-foundation-produce",
           "conceptId": "it-food-concept",
-          "prompt": "Give the English meaning: Prendi un tè?",
+          "prompt": "Write in Italian: I will have a coffee.",
           "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
           "vocabulary": [
             "it-food-word-1",
@@ -13782,7 +13789,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "recognition"
+          "mode": "production"
         },
         {
           "answers": [
@@ -13831,20 +13838,13 @@
         },
         {
           "answers": [
-            "Prendo un caffè.",
-            "Io prendo un caffè."
+            "Will you have a tea?"
           ],
           "allowTypo": false,
-          "errors": [
-            {
-              "answer": "Io prendi un caffè.",
-              "category": "wrong conjugation",
-              "explanation": "With io, prendere becomes prendo."
-            }
-          ],
-          "id": "it-food-foundation-produce",
+          "errors": [],
+          "id": "it-food-foundation-meaning",
           "conceptId": "it-food-concept",
-          "prompt": "Write in Italian: I will have a coffee.",
+          "prompt": "Give the English meaning: Prendi un tè?",
           "explanation": "Regular -ere verbs commonly use -o for io and -i for tu: prendere → prendo, prendi. In a café, prendo un caffè can mean I will have a coffee. Keep the accents on caffè and tè. Acqua is feminine: un’acqua.",
           "vocabulary": [
             "it-food-word-1",
@@ -13854,7 +13854,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "production"
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -13961,12 +13961,12 @@
           "purpose": "practice",
           "activityId": "it-possession-foundation-meaning",
           "required": true,
-          "nextStepId": "it-possession-foundation-step-it-possession-foundation-order"
+          "nextStepId": "it-possession-foundation-step-it-possession-foundation-read"
         },
         {
-          "id": "it-possession-foundation-step-it-possession-foundation-order",
+          "id": "it-possession-foundation-step-it-possession-foundation-read",
           "purpose": "practice",
-          "activityId": "it-possession-foundation-order",
+          "activityId": "it-possession-foundation-read",
           "required": true,
           "nextStepId": "it-possession-foundation-step-it-possession-foundation-cloze"
         },
@@ -13975,19 +13975,19 @@
           "purpose": "practice",
           "activityId": "it-possession-foundation-cloze",
           "required": true,
+          "nextStepId": "it-possession-foundation-step-it-possession-foundation-order"
+        },
+        {
+          "id": "it-possession-foundation-step-it-possession-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-possession-foundation-order",
+          "required": true,
           "nextStepId": "it-possession-foundation-step-it-possession-foundation-produce"
         },
         {
           "id": "it-possession-foundation-step-it-possession-foundation-produce",
           "purpose": "practice",
           "activityId": "it-possession-foundation-produce",
-          "required": true,
-          "nextStepId": "it-possession-foundation-step-it-possession-foundation-read"
-        },
-        {
-          "id": "it-possession-foundation-step-it-possession-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-possession-foundation-read",
           "required": true,
           "nextStepId": "it-possession-foundation-step-it-possession-foundation-review"
         },
@@ -14084,6 +14084,48 @@
         },
         {
           "answers": [
+            "il libro"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-possession-foundation-read",
+          "conceptId": "it-possession-concept",
+          "prompt": "What is small? Answer in Italian. (Reading 11)",
+          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
+          "vocabulary": [
+            "it-possession-word-1",
+            "it-possession-word-2",
+            "it-possession-word-3",
+            "it-possession-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "La mia casa è bianca. Il mio libro è piccolo.",
+          "translation": "My house is white. My book is small."
+        },
+        {
+          "answers": [
+            "mia"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-possession-foundation-cloze",
+          "conceptId": "it-possession-concept",
+          "prompt": "Complete: La ___ casa è bianca.",
+          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
+          "vocabulary": [
+            "it-possession-word-1",
+            "it-possession-word-2",
+            "it-possession-word-3",
+            "it-possession-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Il mio libro è piccolo."
           ],
           "allowTypo": false,
@@ -14111,26 +14153,6 @@
         },
         {
           "answers": [
-            "mia"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-possession-foundation-cloze",
-          "conceptId": "it-possession-concept",
-          "prompt": "Complete: La ___ casa è bianca.",
-          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
-          "vocabulary": [
-            "it-possession-word-1",
-            "it-possession-word-2",
-            "it-possession-word-3",
-            "it-possession-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
-        },
-        {
-          "answers": [
             "La mia casa è bianca."
           ],
           "allowTypo": false,
@@ -14154,28 +14176,6 @@
           "reviewOf": [],
           "kind": "translate",
           "mode": "production"
-        },
-        {
-          "answers": [
-            "il libro"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-possession-foundation-read",
-          "conceptId": "it-possession-concept",
-          "prompt": "What is small? Answer in Italian. (Reading 11)",
-          "explanation": "Possessives agree with the thing owned: il mio libro, la mia casa, i miei libri. The owner’s gender does not determine mio or mia. Ordinary nouns usually keep the article before the possessive.",
-          "vocabulary": [
-            "it-possession-word-1",
-            "it-possession-word-2",
-            "it-possession-word-3",
-            "it-possession-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "La mia casa è bianca. Il mio libro è piccolo.",
-          "translation": "My house is white. My book is small."
         },
         {
           "answers": [
@@ -14254,13 +14254,6 @@
           "purpose": "practice",
           "activityId": "it-transport-foundation-meet",
           "required": true,
-          "nextStepId": "it-transport-foundation-step-it-transport-foundation-meaning"
-        },
-        {
-          "id": "it-transport-foundation-step-it-transport-foundation-meaning",
-          "purpose": "practice",
-          "activityId": "it-transport-foundation-meaning",
-          "required": true,
           "nextStepId": "it-transport-foundation-step-it-transport-foundation-order"
         },
         {
@@ -14288,6 +14281,13 @@
           "id": "it-transport-foundation-step-it-transport-foundation-read",
           "purpose": "practice",
           "activityId": "it-transport-foundation-read",
+          "required": true,
+          "nextStepId": "it-transport-foundation-step-it-transport-foundation-meaning"
+        },
+        {
+          "id": "it-transport-foundation-step-it-transport-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "it-transport-foundation-meaning",
           "required": true,
           "nextStepId": "it-transport-foundation-step-it-transport-foundation-review"
         },
@@ -14361,26 +14361,6 @@
             "a Roma",
             "vado"
           ]
-        },
-        {
-          "answers": [
-            "Are you going to Rome?"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-transport-foundation-meaning",
-          "conceptId": "it-transport-concept",
-          "prompt": "Give the English meaning: Vai a Roma?",
-          "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
-          "vocabulary": [
-            "it-transport-word-1",
-            "it-transport-word-2",
-            "it-transport-word-3",
-            "it-transport-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "translate",
-          "mode": "recognition"
         },
         {
           "answers": [
@@ -14475,6 +14455,26 @@
           "mode": "recognition",
           "passage": "Io vado alla stazione. Tu vai a Roma.",
           "translation": "I am going to the station. You are going to Rome."
+        },
+        {
+          "answers": [
+            "Are you going to Rome?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-transport-foundation-meaning",
+          "conceptId": "it-transport-concept",
+          "prompt": "Give the English meaning: Vai a Roma?",
+          "explanation": "Andare is irregular: io vado, tu vai. Use a with cities, and combine a + la as alla, a + il as al. Vado alla stazione means I am going to the station. A Roma has no article.",
+          "vocabulary": [
+            "it-transport-word-1",
+            "it-transport-word-2",
+            "it-transport-word-3",
+            "it-transport-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -14908,6 +14908,13 @@
           "purpose": "practice",
           "activityId": "it-reflexive-foundation-meet",
           "required": true,
+          "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-read"
+        },
+        {
+          "id": "it-reflexive-foundation-step-it-reflexive-foundation-read",
+          "purpose": "practice",
+          "activityId": "it-reflexive-foundation-read",
+          "required": true,
           "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-meaning"
         },
         {
@@ -14935,13 +14942,6 @@
           "id": "it-reflexive-foundation-step-it-reflexive-foundation-produce",
           "purpose": "practice",
           "activityId": "it-reflexive-foundation-produce",
-          "required": true,
-          "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-read"
-        },
-        {
-          "id": "it-reflexive-foundation-step-it-reflexive-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-reflexive-foundation-read",
           "required": true,
           "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-review"
         },
@@ -15015,6 +15015,28 @@
             "alle sette",
             "la mattina"
           ]
+        },
+        {
+          "answers": [
+            "alle sette"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-reflexive-foundation-read",
+          "conceptId": "it-reflexive-concept",
+          "prompt": "When does the speaker get up? Answer in Italian. (Reading 14)",
+          "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
+          "vocabulary": [
+            "it-reflexive-word-1",
+            "it-reflexive-word-2",
+            "it-reflexive-word-3",
+            "it-reflexive-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Mi alzo alle sette. Studio ogni giorno.",
+          "translation": "I get up at seven. I study every day."
         },
         {
           "answers": [
@@ -15110,28 +15132,6 @@
         },
         {
           "answers": [
-            "alle sette"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-reflexive-foundation-read",
-          "conceptId": "it-reflexive-concept",
-          "prompt": "When does the speaker get up? Answer in Italian. (Reading 14)",
-          "explanation": "Reflexive verbs use a pronoun referring back to the subject. Alzarsi means to get up: io mi alzo, tu ti alzi. Mi and ti go before the finite verb. Alle sette means at seven o’clock; alle combines a + le.",
-          "vocabulary": [
-            "it-reflexive-word-1",
-            "it-reflexive-word-2",
-            "it-reflexive-word-3",
-            "it-reflexive-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Mi alzo alle sette. Studio ogni giorno.",
-          "translation": "I get up at seven. I study every day."
-        },
-        {
-          "answers": [
             "Posso prendere un caffè?",
             "Io posso prendere un caffè?"
           ],
@@ -15215,19 +15215,19 @@
           "purpose": "practice",
           "activityId": "it-past-foundation-meaning",
           "required": true,
-          "nextStepId": "it-past-foundation-step-it-past-foundation-order"
-        },
-        {
-          "id": "it-past-foundation-step-it-past-foundation-order",
-          "purpose": "practice",
-          "activityId": "it-past-foundation-order",
-          "required": true,
           "nextStepId": "it-past-foundation-step-it-past-foundation-cloze"
         },
         {
           "id": "it-past-foundation-step-it-past-foundation-cloze",
           "purpose": "practice",
           "activityId": "it-past-foundation-cloze",
+          "required": true,
+          "nextStepId": "it-past-foundation-step-it-past-foundation-order"
+        },
+        {
+          "id": "it-past-foundation-step-it-past-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-past-foundation-order",
           "required": true,
           "nextStepId": "it-past-foundation-step-it-past-foundation-produce"
         },
@@ -15338,6 +15338,26 @@
         },
         {
           "answers": [
+            "ho"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-past-foundation-cloze",
+          "conceptId": "it-past-concept",
+          "prompt": "Complete: Ieri ___ mangiato.",
+          "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
+          "vocabulary": [
+            "it-past-word-1",
+            "it-past-word-2",
+            "it-past-word-3",
+            "it-past-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Ho studiato in casa."
           ],
           "allowTypo": false,
@@ -15361,26 +15381,6 @@
             "studiato",
             "Ho"
           ]
-        },
-        {
-          "answers": [
-            "ho"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-past-foundation-cloze",
-          "conceptId": "it-past-concept",
-          "prompt": "Complete: Ieri ___ mangiato.",
-          "explanation": "The passato prossimo combines an auxiliary and a past participle. With mangiare, use avere: ho mangiato. Regular -are participles end in -ato. Ieri means yesterday. This lesson introduces only the I-form with avere.",
-          "vocabulary": [
-            "it-past-word-1",
-            "it-past-word-2",
-            "it-past-word-3",
-            "it-past-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
         },
         {
           "answers": [
@@ -15506,12 +15506,12 @@
           "purpose": "practice",
           "activityId": "it-plans-foundation-meet",
           "required": true,
-          "nextStepId": "it-plans-foundation-step-it-plans-foundation-meaning"
+          "nextStepId": "it-plans-foundation-step-it-plans-foundation-produce"
         },
         {
-          "id": "it-plans-foundation-step-it-plans-foundation-meaning",
+          "id": "it-plans-foundation-step-it-plans-foundation-produce",
           "purpose": "practice",
-          "activityId": "it-plans-foundation-meaning",
+          "activityId": "it-plans-foundation-produce",
           "required": true,
           "nextStepId": "it-plans-foundation-step-it-plans-foundation-order"
         },
@@ -15527,12 +15527,12 @@
           "purpose": "practice",
           "activityId": "it-plans-foundation-cloze",
           "required": true,
-          "nextStepId": "it-plans-foundation-step-it-plans-foundation-produce"
+          "nextStepId": "it-plans-foundation-step-it-plans-foundation-meaning"
         },
         {
-          "id": "it-plans-foundation-step-it-plans-foundation-produce",
+          "id": "it-plans-foundation-step-it-plans-foundation-meaning",
           "purpose": "practice",
-          "activityId": "it-plans-foundation-produce",
+          "activityId": "it-plans-foundation-meaning",
           "required": true,
           "nextStepId": "it-plans-foundation-step-it-plans-foundation-read"
         },
@@ -15616,13 +15616,19 @@
         },
         {
           "answers": [
-            "Are you studying at home tomorrow?"
+            "Domani vado a Roma."
           ],
           "allowTypo": false,
-          "errors": [],
-          "id": "it-plans-foundation-meaning",
+          "errors": [
+            {
+              "answer": "Domani io vai a Roma.",
+              "category": "incorrect answer",
+              "explanation": "Io uses vado, even when the plan is for tomorrow."
+            }
+          ],
+          "id": "it-plans-foundation-produce",
           "conceptId": "it-plans-concept",
-          "prompt": "Give the English meaning: Domani studi in casa?",
+          "prompt": "Write in Italian: Tomorrow I am going to Rome.",
           "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
           "vocabulary": [
             "it-plans-word-1",
@@ -15632,7 +15638,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "recognition"
+          "mode": "production"
         },
         {
           "answers": [
@@ -15682,19 +15688,13 @@
         },
         {
           "answers": [
-            "Domani vado a Roma."
+            "Are you studying at home tomorrow?"
           ],
           "allowTypo": false,
-          "errors": [
-            {
-              "answer": "Domani io vai a Roma.",
-              "category": "incorrect answer",
-              "explanation": "Io uses vado, even when the plan is for tomorrow."
-            }
-          ],
-          "id": "it-plans-foundation-produce",
+          "errors": [],
+          "id": "it-plans-foundation-meaning",
           "conceptId": "it-plans-concept",
-          "prompt": "Write in Italian: Tomorrow I am going to Rome.",
+          "prompt": "Give the English meaning: Domani studi in casa?",
           "explanation": "Italian often uses the present with a future time expression: domani vado a Roma. Domani makes the time clear. This is a first way to express plans before learning the future tense. Keep the irregular forms vado and vai.",
           "vocabulary": [
             "it-plans-word-1",
@@ -15704,7 +15704,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "production"
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -15811,12 +15811,12 @@
           "purpose": "practice",
           "activityId": "it-days-foundation-meaning",
           "required": true,
-          "nextStepId": "it-days-foundation-step-it-days-foundation-order"
+          "nextStepId": "it-days-foundation-step-it-days-foundation-read"
         },
         {
-          "id": "it-days-foundation-step-it-days-foundation-order",
+          "id": "it-days-foundation-step-it-days-foundation-read",
           "purpose": "practice",
-          "activityId": "it-days-foundation-order",
+          "activityId": "it-days-foundation-read",
           "required": true,
           "nextStepId": "it-days-foundation-step-it-days-foundation-cloze"
         },
@@ -15825,19 +15825,19 @@
           "purpose": "practice",
           "activityId": "it-days-foundation-cloze",
           "required": true,
+          "nextStepId": "it-days-foundation-step-it-days-foundation-order"
+        },
+        {
+          "id": "it-days-foundation-step-it-days-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-days-foundation-order",
+          "required": true,
           "nextStepId": "it-days-foundation-step-it-days-foundation-produce"
         },
         {
           "id": "it-days-foundation-step-it-days-foundation-produce",
           "purpose": "practice",
           "activityId": "it-days-foundation-produce",
-          "required": true,
-          "nextStepId": "it-days-foundation-step-it-days-foundation-read"
-        },
-        {
-          "id": "it-days-foundation-step-it-days-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-days-foundation-read",
           "required": true,
           "nextStepId": "it-days-foundation-step-it-days-foundation-review"
         },
@@ -15934,13 +15934,13 @@
         },
         {
           "answers": [
-            "Oggi è lunedì."
+            "il tre maggio"
           ],
           "allowTypo": false,
           "errors": [],
-          "id": "it-days-foundation-order",
+          "id": "it-days-foundation-read",
           "conceptId": "it-days-concept",
-          "prompt": "Arrange the words to say: Today is Monday.",
+          "prompt": "When is Anna’s birthday? Answer with the Italian date. (Reading 17)",
           "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
           "vocabulary": [
             "it-days-foundation-word-1",
@@ -15949,13 +15949,10 @@
             "it-days-foundation-word-4"
           ],
           "reviewOf": [],
-          "kind": "order",
-          "mode": "production",
-          "tokens": [
-            "lunedì.",
-            "Oggi",
-            "è"
-          ]
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Oggi è lunedì. Domani è martedì. Il compleanno di Anna è il tre maggio.",
+          "translation": "Today is Monday. Tomorrow is Tuesday. Anna’s birthday is May third."
         },
         {
           "answers": [
@@ -15982,6 +15979,31 @@
             "Oggi è lunedì."
           ],
           "allowTypo": false,
+          "errors": [],
+          "id": "it-days-foundation-order",
+          "conceptId": "it-days-concept",
+          "prompt": "Arrange the words to say: Today is Monday.",
+          "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
+          "vocabulary": [
+            "it-days-foundation-word-1",
+            "it-days-foundation-word-2",
+            "it-days-foundation-word-3",
+            "it-days-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "lunedì.",
+            "Oggi",
+            "è"
+          ]
+        },
+        {
+          "answers": [
+            "Oggi è lunedì."
+          ],
+          "allowTypo": false,
           "errors": [
             {
               "answer": "Oggi ha lunedì.",
@@ -16002,28 +16024,6 @@
           "reviewOf": [],
           "kind": "translate",
           "mode": "production"
-        },
-        {
-          "answers": [
-            "il tre maggio"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-days-foundation-read",
-          "conceptId": "it-days-concept",
-          "prompt": "When is Anna’s birthday? Answer with the Italian date. (Reading 17)",
-          "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
-          "vocabulary": [
-            "it-days-foundation-word-1",
-            "it-days-foundation-word-2",
-            "it-days-foundation-word-3",
-            "it-days-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Oggi è lunedì. Domani è martedì. Il compleanno di Anna è il tre maggio.",
-          "translation": "Today is Monday. Tomorrow is Tuesday. Anna’s birthday is May third."
         },
         {
           "answers": [
@@ -16107,13 +16107,6 @@
           "purpose": "practice",
           "activityId": "it-time-foundation-meet",
           "required": true,
-          "nextStepId": "it-time-foundation-step-it-time-foundation-meaning"
-        },
-        {
-          "id": "it-time-foundation-step-it-time-foundation-meaning",
-          "purpose": "practice",
-          "activityId": "it-time-foundation-meaning",
-          "required": true,
           "nextStepId": "it-time-foundation-step-it-time-foundation-order"
         },
         {
@@ -16141,6 +16134,13 @@
           "id": "it-time-foundation-step-it-time-foundation-read",
           "purpose": "practice",
           "activityId": "it-time-foundation-read",
+          "required": true,
+          "nextStepId": "it-time-foundation-step-it-time-foundation-meaning"
+        },
+        {
+          "id": "it-time-foundation-step-it-time-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "it-time-foundation-meaning",
           "required": true,
           "nextStepId": "it-time-foundation-step-it-time-foundation-review"
         },
@@ -16214,26 +16214,6 @@
             "mezzogiorno",
             "meno un quarto"
           ]
-        },
-        {
-          "answers": [
-            "It is one o’clock."
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-time-foundation-meaning",
-          "conceptId": "it-time-concept",
-          "prompt": "Give the English meaning: È l’una.",
-          "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
-          "vocabulary": [
-            "it-time-foundation-word-1",
-            "it-time-foundation-word-2",
-            "it-time-foundation-word-3",
-            "it-time-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "translate",
-          "mode": "recognition"
         },
         {
           "answers": [
@@ -16330,6 +16310,26 @@
           "mode": "recognition",
           "passage": "Il treno parte alle otto e mezza. Arriva a mezzogiorno.",
           "translation": "The train leaves at half past eight. It arrives at midday."
+        },
+        {
+          "answers": [
+            "It is one o’clock."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-time-foundation-meaning",
+          "conceptId": "it-time-concept",
+          "prompt": "Give the English meaning: È l’una.",
+          "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+          "vocabulary": [
+            "it-time-foundation-word-1",
+            "it-time-foundation-word-2",
+            "it-time-foundation-word-3",
+            "it-time-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -16759,12 +16759,12 @@
           "purpose": "practice",
           "activityId": "it-market-foundation-meet",
           "required": true,
-          "nextStepId": "it-market-foundation-step-it-market-foundation-meaning"
+          "nextStepId": "it-market-foundation-step-it-market-foundation-produce"
         },
         {
-          "id": "it-market-foundation-step-it-market-foundation-meaning",
+          "id": "it-market-foundation-step-it-market-foundation-produce",
           "purpose": "practice",
-          "activityId": "it-market-foundation-meaning",
+          "activityId": "it-market-foundation-produce",
           "required": true,
           "nextStepId": "it-market-foundation-step-it-market-foundation-order"
         },
@@ -16780,12 +16780,12 @@
           "purpose": "practice",
           "activityId": "it-market-foundation-cloze",
           "required": true,
-          "nextStepId": "it-market-foundation-step-it-market-foundation-produce"
+          "nextStepId": "it-market-foundation-step-it-market-foundation-meaning"
         },
         {
-          "id": "it-market-foundation-step-it-market-foundation-produce",
+          "id": "it-market-foundation-step-it-market-foundation-meaning",
           "purpose": "practice",
-          "activityId": "it-market-foundation-produce",
+          "activityId": "it-market-foundation-meaning",
           "required": true,
           "nextStepId": "it-market-foundation-step-it-market-foundation-read"
         },
@@ -16869,13 +16869,19 @@
         },
         {
           "answers": [
-            "They cost three euros."
+            "Quanto costa un chilo di mele?"
           ],
           "allowTypo": false,
-          "errors": [],
-          "id": "it-market-foundation-meaning",
+          "errors": [
+            {
+              "answer": "Quanto costano un chilo di mele?",
+              "category": "incorrect answer",
+              "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
+            }
+          ],
+          "id": "it-market-foundation-produce",
           "conceptId": "it-market-concept",
-          "prompt": "Give the English meaning: Costano tre euro.",
+          "prompt": "Write in Italian: How much is a kilo of apples?",
           "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
           "vocabulary": [
             "it-market-foundation-word-1",
@@ -16885,7 +16891,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "recognition"
+          "mode": "production"
         },
         {
           "answers": [
@@ -16937,19 +16943,13 @@
         },
         {
           "answers": [
-            "Quanto costa un chilo di mele?"
+            "They cost three euros."
           ],
           "allowTypo": false,
-          "errors": [
-            {
-              "answer": "Quanto costano un chilo di mele?",
-              "category": "incorrect answer",
-              "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
-            }
-          ],
-          "id": "it-market-foundation-produce",
+          "errors": [],
+          "id": "it-market-foundation-meaning",
           "conceptId": "it-market-concept",
-          "prompt": "Write in Italian: How much is a kilo of apples?",
+          "prompt": "Give the English meaning: Costano tre euro.",
           "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
           "vocabulary": [
             "it-market-foundation-word-1",
@@ -16959,7 +16959,7 @@
           ],
           "reviewOf": [],
           "kind": "translate",
-          "mode": "production"
+          "mode": "recognition"
         },
         {
           "answers": [
@@ -17066,6 +17066,13 @@
           "purpose": "practice",
           "activityId": "it-health-foundation-meet",
           "required": true,
+          "nextStepId": "it-health-foundation-step-it-health-foundation-read"
+        },
+        {
+          "id": "it-health-foundation-step-it-health-foundation-read",
+          "purpose": "practice",
+          "activityId": "it-health-foundation-read",
+          "required": true,
           "nextStepId": "it-health-foundation-step-it-health-foundation-meaning"
         },
         {
@@ -17093,13 +17100,6 @@
           "id": "it-health-foundation-step-it-health-foundation-produce",
           "purpose": "practice",
           "activityId": "it-health-foundation-produce",
-          "required": true,
-          "nextStepId": "it-health-foundation-step-it-health-foundation-read"
-        },
-        {
-          "id": "it-health-foundation-step-it-health-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-health-foundation-read",
           "required": true,
           "nextStepId": "it-health-foundation-step-it-health-foundation-review"
         },
@@ -17173,6 +17173,28 @@
             "dottore",
             "male"
           ]
+        },
+        {
+          "answers": [
+            "la testa"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-health-foundation-read",
+          "conceptId": "it-health-concept",
+          "prompt": "What hurts? Answer with the Italian body part. (Reading 21)",
+          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+          "vocabulary": [
+            "it-health-foundation-word-1",
+            "it-health-foundation-word-2",
+            "it-health-foundation-word-3",
+            "it-health-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Marco ha la febbre. Mi fa male la testa, dice al dottore.",
+          "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
         },
         {
           "answers": [
@@ -17269,28 +17291,6 @@
         },
         {
           "answers": [
-            "la testa"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-health-foundation-read",
-          "conceptId": "it-health-concept",
-          "prompt": "What hurts? Answer with the Italian body part. (Reading 21)",
-          "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
-          "vocabulary": [
-            "it-health-foundation-word-1",
-            "it-health-foundation-word-2",
-            "it-health-foundation-word-3",
-            "it-health-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Marco ha la febbre. Mi fa male la testa, dice al dottore.",
-          "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
-        },
-        {
-          "answers": [
             "Quanto costa un chilo di mele?"
           ],
           "allowTypo": false,
@@ -17371,13 +17371,6 @@
           "purpose": "practice",
           "activityId": "it-pharmacy-foundation-meet",
           "required": true,
-          "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning"
-        },
-        {
-          "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning",
-          "purpose": "practice",
-          "activityId": "it-pharmacy-foundation-meaning",
-          "required": true,
           "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-order"
         },
         {
@@ -17405,6 +17398,13 @@
           "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-read",
           "purpose": "practice",
           "activityId": "it-pharmacy-foundation-read",
+          "required": true,
+          "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning"
+        },
+        {
+          "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "it-pharmacy-foundation-meaning",
           "required": true,
           "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-review"
         },
@@ -17478,26 +17478,6 @@
             "pastiglia",
             "sciroppo"
           ]
-        },
-        {
-          "answers": [
-            "It costs five euros."
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-pharmacy-foundation-meaning",
-          "conceptId": "it-pharmacy-concept",
-          "prompt": "Give the English meaning: Costa cinque euro.",
-          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
-          "vocabulary": [
-            "it-pharmacy-foundation-word-1",
-            "it-pharmacy-foundation-word-2",
-            "it-pharmacy-foundation-word-3",
-            "it-pharmacy-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "translate",
-          "mode": "recognition"
         },
         {
           "answers": [
@@ -17596,6 +17576,26 @@
         },
         {
           "answers": [
+            "It costs five euros."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-pharmacy-foundation-meaning",
+          "conceptId": "it-pharmacy-concept",
+          "prompt": "Give the English meaning: Costa cinque euro.",
+          "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+          "vocabulary": [
+            "it-pharmacy-foundation-word-1",
+            "it-pharmacy-foundation-word-2",
+            "it-pharmacy-foundation-word-3",
+            "it-pharmacy-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
             "Mi fa male la testa."
           ],
           "allowTypo": false,
@@ -17683,12 +17683,12 @@
           "purpose": "practice",
           "activityId": "it-emergency-foundation-meaning",
           "required": true,
-          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-order"
+          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-read"
         },
         {
-          "id": "it-emergency-foundation-step-it-emergency-foundation-order",
+          "id": "it-emergency-foundation-step-it-emergency-foundation-read",
           "purpose": "practice",
-          "activityId": "it-emergency-foundation-order",
+          "activityId": "it-emergency-foundation-read",
           "required": true,
           "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-cloze"
         },
@@ -17697,19 +17697,19 @@
           "purpose": "practice",
           "activityId": "it-emergency-foundation-cloze",
           "required": true,
+          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-order"
+        },
+        {
+          "id": "it-emergency-foundation-step-it-emergency-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-emergency-foundation-order",
+          "required": true,
           "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-produce"
         },
         {
           "id": "it-emergency-foundation-step-it-emergency-foundation-produce",
           "purpose": "practice",
           "activityId": "it-emergency-foundation-produce",
-          "required": true,
-          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-read"
-        },
-        {
-          "id": "it-emergency-foundation-step-it-emergency-foundation-read",
-          "purpose": "practice",
-          "activityId": "it-emergency-foundation-read",
           "required": true,
           "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-review"
         },
@@ -17806,13 +17806,13 @@
         },
         {
           "answers": [
-            "Aiuto! Chiami un’ambulanza!"
+            "il centododici"
           ],
           "allowTypo": false,
           "errors": [],
-          "id": "it-emergency-foundation-order",
+          "id": "it-emergency-foundation-read",
           "conceptId": "it-emergency-concept",
-          "prompt": "Arrange the words to say: Help! Call an ambulance!",
+          "prompt": "What number? Answer with the Italian number name. (Reading 23)",
           "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
           "vocabulary": [
             "it-emergency-foundation-word-1",
@@ -17821,13 +17821,10 @@
             "it-emergency-foundation-word-4"
           ],
           "reviewOf": [],
-          "kind": "order",
-          "mode": "production",
-          "tokens": [
-            "un’ambulanza!",
-            "Chiami",
-            "Aiuto!"
-          ]
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Marco chiama il centododici. L’ambulanza arriva ed è urgente.",
+          "translation": "Marco calls 112. The ambulance arrives and it is urgent."
         },
         {
           "answers": [
@@ -17854,6 +17851,31 @@
             "Aiuto! Chiami un’ambulanza!"
           ],
           "allowTypo": false,
+          "errors": [],
+          "id": "it-emergency-foundation-order",
+          "conceptId": "it-emergency-concept",
+          "prompt": "Arrange the words to say: Help! Call an ambulance!",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-emergency-foundation-word-1",
+            "it-emergency-foundation-word-2",
+            "it-emergency-foundation-word-3",
+            "it-emergency-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "un’ambulanza!",
+            "Chiami",
+            "Aiuto!"
+          ]
+        },
+        {
+          "answers": [
+            "Aiuto! Chiami un’ambulanza!"
+          ],
+          "allowTypo": false,
           "errors": [
             {
               "answer": "Aiuto! Chiamo un’ambulanza!",
@@ -17874,28 +17896,6 @@
           "reviewOf": [],
           "kind": "translate",
           "mode": "production"
-        },
-        {
-          "answers": [
-            "il centododici"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-emergency-foundation-read",
-          "conceptId": "it-emergency-concept",
-          "prompt": "What number? Answer with the Italian number name. (Reading 23)",
-          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
-          "vocabulary": [
-            "it-emergency-foundation-word-1",
-            "it-emergency-foundation-word-2",
-            "it-emergency-foundation-word-3",
-            "it-emergency-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "reading",
-          "mode": "recognition",
-          "passage": "Marco chiama il centododici. L’ambulanza arriva ed è urgente.",
-          "translation": "Marco calls 112. The ambulance arrives and it is urgent."
         },
         {
           "answers": [
@@ -17986,19 +17986,19 @@
           "purpose": "practice",
           "activityId": "it-invitations-foundation-meaning",
           "required": true,
-          "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-order"
-        },
-        {
-          "id": "it-invitations-foundation-step-it-invitations-foundation-order",
-          "purpose": "practice",
-          "activityId": "it-invitations-foundation-order",
-          "required": true,
           "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-cloze"
         },
         {
           "id": "it-invitations-foundation-step-it-invitations-foundation-cloze",
           "purpose": "practice",
           "activityId": "it-invitations-foundation-cloze",
+          "required": true,
+          "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-order"
+        },
+        {
+          "id": "it-invitations-foundation-step-it-invitations-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-invitations-foundation-order",
           "required": true,
           "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-produce"
         },
@@ -18109,6 +18109,26 @@
         },
         {
           "answers": [
+            "volentieri"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-invitations-foundation-cloze",
+          "conceptId": "it-invitations-concept",
+          "prompt": "Complete the reply: Sì, grazie, ___.",
+          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+          "vocabulary": [
+            "it-invitations-foundation-word-1",
+            "it-invitations-foundation-word-2",
+            "it-invitations-foundation-word-3",
+            "it-invitations-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
             "Vuoi venire a cena sabato?"
           ],
           "allowTypo": false,
@@ -18133,26 +18153,6 @@
             "venire",
             "Vuoi"
           ]
-        },
-        {
-          "answers": [
-            "volentieri"
-          ],
-          "allowTypo": false,
-          "errors": [],
-          "id": "it-invitations-foundation-cloze",
-          "conceptId": "it-invitations-concept",
-          "prompt": "Complete the reply: Sì, grazie, ___.",
-          "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
-          "vocabulary": [
-            "it-invitations-foundation-word-1",
-            "it-invitations-foundation-word-2",
-            "it-invitations-foundation-word-3",
-            "it-invitations-foundation-word-4"
-          ],
-          "reviewOf": [],
-          "kind": "cloze",
-          "mode": "production"
         },
         {
           "answers": [

@@ -1,0 +1,2038 @@
+{
+  "_comment": "Rewrites Italian lessons 2-9 (it-people..it-negation) into their assigned archetypes (F,B,C,E,D,A,F,C) from scripts/content/lessons/ITALIAN-VARIETY.md. Italian is schemaVersion 2, where a lesson holds `steps` (each naming a TOP-LEVEL activity) AND `legacyExercises`; both are reordered so step i and legacy exercise i stay the same exercise, and each step's nextStepId is re-chained to follow the new array order because lesson-session.ts advances via nextStepId. The intro (information/notice) stays first and remains entryStepId. The archetype tables name eight non-intro slots only for archetype A; B-F omit `review`. Every lesson here has nine steps (intro + meet,meaning,order,cloze,produce,read,review,listen-model), so in B-F `review` is kept and placed immediately before `listen` -- the position review holds in archetype A and the same adjustment the French payload made. No step, exercise, activity or id is added or removed; order and purpose only. Purposes: notice for the intro, practice for every graded step (no lesson in this range carries a transfer step). Applied centrally by scripts/content/differentiate-first-words.py; not run here.",
+  "courses/italian/manifest.json": {
+    "lessons": [
+      {
+        "id": "it-people-foundation",
+        "steps": [
+          {
+            "id": "it-people-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-people-foundation-intro",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-meet"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-meet",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-meaning"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-cloze"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-order"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-order",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-produce"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-produce",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-read"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-read",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-review"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-review",
+            "required": true,
+            "nextStepId": "it-people-foundation-step-it-people-foundation-listen-model"
+          },
+          {
+            "id": "it-people-foundation-step-it-people-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-people-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "sei"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-meet",
+            "conceptId": "it-people-concept",
+            "prompt": "Which Italian word means “are (with tu)”?",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu",
+              "sei",
+              "lei",
+              "è"
+            ]
+          },
+          {
+            "answers": [
+              "She is Italian."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-meaning",
+            "conceptId": "it-people-concept",
+            "prompt": "Give the English meaning: Lei è italiana.",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "sei"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-cloze",
+            "conceptId": "it-people-concept",
+            "prompt": "Complete: Tu ___ Marco.",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Lei è italiana."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-order",
+            "conceptId": "it-people-concept",
+            "prompt": "Arrange the words to say: She is Italian.",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "italiana.",
+              "è",
+              "Lei"
+            ]
+          },
+          {
+            "answers": [
+              "Tu sei Marco."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Tu è Marco.",
+                "category": "wrong conjugation",
+                "explanation": "With tu, essere is sei."
+              }
+            ],
+            "id": "it-people-foundation-produce",
+            "conceptId": "it-people-concept",
+            "prompt": "You recognize Marco at a café. Address him in Italian: You are Marco.",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Anna"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-read",
+            "conceptId": "it-people-concept",
+            "prompt": "Who is Italian? (Reading 2)",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Anna è italiana. Tu sei Marco.",
+            "translation": "Anna is Italian. You are Marco."
+          },
+          {
+            "answers": [
+              "Io sono Anna.",
+              "sono Anna."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-review",
+            "conceptId": "it-identity-concept",
+            "prompt": "Recall from Names and introductions: I am Anna.",
+            "explanation": "Io means I. Sono is the I-form of essere (to be). Italian often omits io because the verb identifies the speaker. Use sono with your name or nationality. Ciao is informal; buongiorno is a polite greeting.",
+            "vocabulary": [
+              "it-identity-word-1",
+              "it-identity-word-2",
+              "it-identity-word-3",
+              "it-identity-word-4"
+            ],
+            "reviewOf": [
+              "it-identity-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Tu sei Marco."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-people-foundation-listen-model",
+            "conceptId": "it-people-concept",
+            "prompt": "Listen and write the model: people and essere.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-people-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-family-foundation",
+        "steps": [
+          {
+            "id": "it-family-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-family-foundation-intro",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-meet"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-meet",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-produce"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-produce",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-order"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-order",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-cloze"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-meaning"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-read"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-read",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-review"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-review",
+            "required": true,
+            "nextStepId": "it-family-foundation-step-it-family-foundation-listen-model"
+          },
+          {
+            "id": "it-family-foundation-step-it-family-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-family-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "un fratello"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-meet",
+            "conceptId": "it-family-concept",
+            "prompt": "Which Italian word means “a brother”?",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "ho",
+              "hai",
+              "un fratello",
+              "una sorella"
+            ]
+          },
+          {
+            "answers": [
+              "Ho un fratello.",
+              "Io ho un fratello."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Io ha un fratello.",
+                "category": "wrong conjugation",
+                "explanation": "With io, avere is ho. The h is silent."
+              }
+            ],
+            "id": "it-family-foundation-produce",
+            "conceptId": "it-family-concept",
+            "prompt": "A new friend asks about your family. Tell them in Italian: I have a brother.",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Hai una sorella."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-order",
+            "conceptId": "it-family-concept",
+            "prompt": "Arrange the words to say: You have a sister.",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "sorella.",
+              "una",
+              "Hai"
+            ]
+          },
+          {
+            "answers": [
+              "ho"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-cloze",
+            "conceptId": "it-family-concept",
+            "prompt": "Complete: Io ___ un fratello.",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "You have a sister.",
+              "You've a sister."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-meaning",
+            "conceptId": "it-family-concept",
+            "prompt": "Give the English meaning: Hai una sorella.",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Marco"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-read",
+            "conceptId": "it-family-concept",
+            "prompt": "What is the brother’s name? (Reading 3)",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Sono Anna. Ho un fratello. Lui è Marco.",
+            "translation": "I am Anna. I have a brother. He is Marco."
+          },
+          {
+            "answers": [
+              "Tu sei Marco."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-review",
+            "conceptId": "it-people-concept",
+            "prompt": "Recall from People and essere: You are Marco.",
+            "explanation": "Tu means you (one familiar person); lui and lei mean he and she. Essere changes: io sono, tu sei, lui/lei è. Use the accent on è (is): e without the accent means and.",
+            "vocabulary": [
+              "it-people-word-1",
+              "it-people-word-2",
+              "it-people-word-3",
+              "it-people-word-4"
+            ],
+            "reviewOf": [
+              "it-people-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho un fratello."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-family-foundation-listen-model",
+            "conceptId": "it-family-concept",
+            "prompt": "Listen and write the model: family and avere.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-family-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-numbers-foundation",
+        "steps": [
+          {
+            "id": "it-numbers-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-numbers-foundation-intro",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-meet"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-meet",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-read"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-read",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-meaning"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-order"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-order",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-cloze"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-produce"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-produce",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-review"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-review",
+            "required": true,
+            "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-listen-model"
+          },
+          {
+            "id": "it-numbers-foundation-step-it-numbers-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-numbers-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "venti"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-meet",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Which Italian word means “twenty”?",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "trenta",
+              "anni",
+              "quanti",
+              "venti"
+            ]
+          },
+          {
+            "answers": [
+              "trenta"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-read",
+            "conceptId": "it-numbers-concept",
+            "prompt": "How old is the sister? Answer with the Italian number. (Reading 4)",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Ho venti anni. Ho una sorella. Lei ha trenta anni.",
+            "translation": "I am twenty years old. I have a sister. She is thirty years old."
+          },
+          {
+            "answers": [
+              "Are you thirty years old?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-meaning",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Give the English meaning: Hai trenta anni?",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Hai trenta anni?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-order",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Arrange the words to say: Are you thirty years old?",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "anni?",
+              "trenta",
+              "Hai"
+            ]
+          },
+          {
+            "answers": [
+              "Ho"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-cloze",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Complete: ___ venti anni.",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho venti anni.",
+              "Io ho venti anni."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Sono venti anni.",
+                "category": "incorrect answer",
+                "explanation": "Use avere for a person’s age: Ho venti anni."
+              }
+            ],
+            "id": "it-numbers-foundation-produce",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Write in Italian: I am twenty years old.",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho un fratello.",
+              "Io ho un fratello."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-review",
+            "conceptId": "it-family-concept",
+            "prompt": "Recall from Family and avere: I have a brother.",
+            "explanation": "Avere means to have: io ho, tu hai, lui/lei ha. The h is silent but required. Un is an indefinite article with a masculine noun; una is feminine. Learn un fratello and una sorella as phrases.",
+            "vocabulary": [
+              "it-family-word-1",
+              "it-family-word-2",
+              "it-family-word-3",
+              "it-family-word-4"
+            ],
+            "reviewOf": [
+              "it-family-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho venti anni.",
+              "Ho 20 anni."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-numbers-foundation-listen-model",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Listen and write the model: numbers and age.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-numbers-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-home-foundation",
+        "steps": [
+          {
+            "id": "it-home-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-home-foundation-intro",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-meet"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-meet",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-meaning"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-read"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-read",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-cloze"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-order"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-order",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-produce"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-produce",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-review"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-review",
+            "required": true,
+            "nextStepId": "it-home-foundation-step-it-home-foundation-listen-model"
+          },
+          {
+            "id": "it-home-foundation-step-it-home-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-home-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "una casa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-meet",
+            "conceptId": "it-home-concept",
+            "prompt": "Which Italian word means “a house”?",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "una casa",
+              "il libro",
+              "in",
+              "la"
+            ]
+          },
+          {
+            "answers": [
+              "The book is at home."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-meaning",
+            "conceptId": "it-home-concept",
+            "prompt": "Give the English meaning: Il libro è in casa.",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "in casa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-read",
+            "conceptId": "it-home-concept",
+            "prompt": "Where is the book? Answer in Italian. (Reading 5)",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Ho una casa. Il libro è in casa. Ho un fratello.",
+            "translation": "I have a house. The book is at home. I have a brother."
+          },
+          {
+            "answers": [
+              "Il"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-cloze",
+            "conceptId": "it-home-concept",
+            "prompt": "Complete: ___ libro è in casa.",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Il libro è in casa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-order",
+            "conceptId": "it-home-concept",
+            "prompt": "Arrange the words to say: The book is at home.",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "casa.",
+              "in",
+              "è",
+              "libro",
+              "Il"
+            ]
+          },
+          {
+            "answers": [
+              "Ho una casa.",
+              "Io ho una casa."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "La libro è in casa.",
+                "category": "incorrect answer",
+                "explanation": "Libro is masculine: il libro."
+              }
+            ],
+            "id": "it-home-foundation-produce",
+            "conceptId": "it-home-concept",
+            "prompt": "Write in Italian: I have a house.",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho venti anni.",
+              "Io ho venti anni."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-review",
+            "conceptId": "it-numbers-concept",
+            "prompt": "Recall from Numbers and age: I am twenty years old.",
+            "explanation": "Italian expresses age with avere: ho venti anni literally means I have twenty years. Learn venti (twenty) and trenta (thirty). Hai asks about your age when the voice rises; writing adds a question mark.",
+            "vocabulary": [
+              "it-numbers-word-1",
+              "it-numbers-word-2",
+              "it-numbers-word-3",
+              "it-numbers-word-4"
+            ],
+            "reviewOf": [
+              "it-numbers-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho una casa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-home-foundation-listen-model",
+            "conceptId": "it-home-concept",
+            "prompt": "Listen and write the model: home and definite articles.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-home-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-descriptions-foundation",
+        "steps": [
+          {
+            "id": "it-descriptions-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-descriptions-foundation-intro",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-meet"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-meet",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-order"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-order",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-cloze"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-produce"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-produce",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-read"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-read",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-meaning"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-review"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-review",
+            "required": true,
+            "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-listen-model"
+          },
+          {
+            "id": "it-descriptions-foundation-step-it-descriptions-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-descriptions-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "bianca"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-meet",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Which Italian word means “white (feminine)”?",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "bianco",
+              "bianca",
+              "grande",
+              "piccolo"
+            ]
+          },
+          {
+            "answers": [
+              "Il libro è bianco."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-order",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Arrange the words to say: The book is white.",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "bianco.",
+              "è",
+              "libro",
+              "Il"
+            ]
+          },
+          {
+            "answers": [
+              "bianca"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-cloze",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Complete: La casa è ___",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "La casa è bianca."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "La casa è bianco.",
+                "category": "incorrect answer",
+                "explanation": "Casa is feminine, so bianco becomes bianca."
+              }
+            ],
+            "id": "it-descriptions-foundation-produce",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Write in Italian: The house is white.",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "la casa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-read",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Which thing is big? Answer in Italian. (Reading 6)",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "La casa è bianca. Il libro è bianco. La casa è grande.",
+            "translation": "The house is white. The book is white. The house is big."
+          },
+          {
+            "answers": [
+              "The book is white."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-meaning",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Give the English meaning: Il libro è bianco.",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Ho una casa.",
+              "Io ho una casa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-review",
+            "conceptId": "it-home-concept",
+            "prompt": "Recall from Home and definite articles: I have a house.",
+            "explanation": "Il means the with many masculine singular nouns; la with feminine singular nouns. Before a vowel both may become l’. Here casa is feminine and libro is masculine. In una casa means in a house.",
+            "vocabulary": [
+              "it-home-word-1",
+              "it-home-word-2",
+              "it-home-word-3",
+              "it-home-word-4"
+            ],
+            "reviewOf": [
+              "it-home-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "La casa è bianca."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-descriptions-foundation-listen-model",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Listen and write the model: colors and agreement.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-descriptions-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-plural-foundation",
+        "steps": [
+          {
+            "id": "it-plural-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-plural-foundation-intro",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-meet"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-meet",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-meaning"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-order"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-order",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-cloze"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-produce"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-produce",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-read"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-read",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-review"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-review",
+            "required": true,
+            "nextStepId": "it-plural-foundation-step-it-plural-foundation-listen-model"
+          },
+          {
+            "id": "it-plural-foundation-step-it-plural-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-plural-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "i libri"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-meet",
+            "conceptId": "it-plural-concept",
+            "prompt": "Which Italian word means “the books”?",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "le case",
+              "bianchi",
+              "i libri",
+              "grandi"
+            ]
+          },
+          {
+            "answers": [
+              "The houses are big."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-meaning",
+            "conceptId": "it-plural-concept",
+            "prompt": "Give the English meaning: Le case sono grandi.",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Le case sono grandi."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-order",
+            "conceptId": "it-plural-concept",
+            "prompt": "Arrange the words to say: The houses are big.",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "grandi.",
+              "sono",
+              "case",
+              "Le"
+            ]
+          },
+          {
+            "answers": [
+              "bianchi"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-cloze",
+            "conceptId": "it-plural-concept",
+            "prompt": "Complete: I libri sono ___.",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "I libri sono bianchi."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "I libri sono bianco.",
+                "category": "incorrect answer",
+                "explanation": "Plural libri needs plural bianchi."
+              }
+            ],
+            "id": "it-plural-foundation-produce",
+            "conceptId": "it-plural-concept",
+            "prompt": "Write in Italian: The books are white.",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "bianchi"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-read",
+            "conceptId": "it-plural-concept",
+            "prompt": "What color are the books? Answer in Italian. (Reading 7)",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Le case sono grandi. I libri sono bianchi.",
+            "translation": "The houses are big. The books are white."
+          },
+          {
+            "answers": [
+              "La casa è bianca."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-review",
+            "conceptId": "it-descriptions-concept",
+            "prompt": "Recall from Colors and agreement: The house is white.",
+            "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
+            "vocabulary": [
+              "it-descriptions-word-1",
+              "it-descriptions-word-2",
+              "it-descriptions-word-3",
+              "it-descriptions-word-4"
+            ],
+            "reviewOf": [
+              "it-descriptions-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "I libri sono bianchi."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-plural-foundation-listen-model",
+            "conceptId": "it-plural-concept",
+            "prompt": "Listen and write the model: more than one.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-plural-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-routine-foundation",
+        "steps": [
+          {
+            "id": "it-routine-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-routine-foundation-intro",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-meet"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-meet",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-meaning"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-cloze"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-order"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-order",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-produce"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-produce",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-read"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-read",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-review"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-review",
+            "required": true,
+            "nextStepId": "it-routine-foundation-step-it-routine-foundation-listen-model"
+          },
+          {
+            "id": "it-routine-foundation-step-it-routine-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-routine-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "studio"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-meet",
+            "conceptId": "it-routine-concept",
+            "prompt": "Which Italian word means “I study”?",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "lavori",
+              "ogni giorno",
+              "studiare",
+              "studio"
+            ]
+          },
+          {
+            "answers": [
+              "You work at home."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-meaning",
+            "conceptId": "it-routine-concept",
+            "prompt": "Give the English meaning: Lavori in casa.",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "studio"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-cloze",
+            "conceptId": "it-routine-concept",
+            "prompt": "Complete: Io ___ ogni giorno.",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Lavori in casa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-order",
+            "conceptId": "it-routine-concept",
+            "prompt": "Arrange the words to say: You work at home.",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "casa.",
+              "in",
+              "Lavori"
+            ]
+          },
+          {
+            "answers": [
+              "Studio ogni giorno.",
+              "Io studio ogni giorno."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Io studi ogni giorno.",
+                "category": "wrong conjugation",
+                "explanation": "With io, studiare becomes studio."
+              }
+            ],
+            "id": "it-routine-foundation-produce",
+            "conceptId": "it-routine-concept",
+            "prompt": "Write in Italian: I study every day.",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Anna"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-read",
+            "conceptId": "it-routine-concept",
+            "prompt": "Who studies every day? (Reading 8)",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Sono Anna. Studio ogni giorno. Tu lavori in casa.",
+            "translation": "I am Anna. I study every day. You work at home."
+          },
+          {
+            "answers": [
+              "I libri sono bianchi."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-review",
+            "conceptId": "it-plural-concept",
+            "prompt": "Recall from More than one: The books are white.",
+            "explanation": "Common masculine nouns change -o to -i: libro → libri. Many feminine nouns change -a to -e: casa → case. The articles also change: il → i; la → le. Sono means are with plural subjects as well as am with io.",
+            "vocabulary": [
+              "it-plural-word-1",
+              "it-plural-word-2",
+              "it-plural-word-3",
+              "it-plural-word-4"
+            ],
+            "reviewOf": [
+              "it-plural-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Studio ogni giorno."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-routine-foundation-listen-model",
+            "conceptId": "it-routine-concept",
+            "prompt": "Listen and write the model: study and work.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-routine-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-negation-foundation",
+        "steps": [
+          {
+            "id": "it-negation-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-negation-foundation-intro",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-meet"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-meet",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-read"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-read",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-meaning"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-order"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-order",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-cloze"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-produce"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-produce",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-review"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-review",
+            "required": true,
+            "nextStepId": "it-negation-foundation-step-it-negation-foundation-listen-model"
+          },
+          {
+            "id": "it-negation-foundation-step-it-negation-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-negation-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "non"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-meet",
+            "conceptId": "it-negation-concept",
+            "prompt": "Which Italian word means “not”?",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "non",
+              "lavoro",
+              "studi",
+              "sì"
+            ]
+          },
+          {
+            "answers": [
+              "no"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-read",
+            "conceptId": "it-negation-concept",
+            "prompt": "Does the speaker work at home? Answer in English. (Reading 9)",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Studio ogni giorno. Non lavoro in casa.",
+            "translation": "I study every day. I do not work at home."
+          },
+          {
+            "answers": [
+              "Do you study every day?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-meaning",
+            "conceptId": "it-negation-concept",
+            "prompt": "Give the English meaning: Studi ogni giorno?",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Studi ogni giorno?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-order",
+            "conceptId": "it-negation-concept",
+            "prompt": "Arrange the words to say: Do you study every day?",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "giorno?",
+              "ogni",
+              "Studi"
+            ]
+          },
+          {
+            "answers": [
+              "Non"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-cloze",
+            "conceptId": "it-negation-concept",
+            "prompt": "Complete: ___ lavoro in casa.",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Non lavoro in casa."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Io non lavori in casa.",
+                "category": "wrong conjugation",
+                "explanation": "The verb still agrees with io: non lavoro."
+              }
+            ],
+            "id": "it-negation-foundation-produce",
+            "conceptId": "it-negation-concept",
+            "prompt": "Write in Italian: I do not work at home.",
+            "explanation": "Put non immediately before the verb to negate it: non studio. Do not add an equivalent of English do. A statement can become a yes/no question with intonation and a question mark. Keep subject and verb agreement.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Studio ogni giorno.",
+              "Io studio ogni giorno."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-review",
+            "conceptId": "it-routine-concept",
+            "prompt": "Recall from Study and work: I study every day.",
+            "explanation": "Regular -are verbs replace -are with -o for io and -i for tu. Studiare → studio, studi. Lavorare → lavoro, lavori. Ogni giorno means every day. No extra helping verb is needed for I am studying in this context.",
+            "vocabulary": [
+              "it-routine-word-1",
+              "it-routine-word-2",
+              "it-routine-word-3",
+              "it-routine-word-4"
+            ],
+            "reviewOf": [
+              "it-routine-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Non lavoro in casa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-negation-foundation-listen-model",
+            "conceptId": "it-negation-concept",
+            "prompt": "Listen and write the model: saying no and asking.",
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "it-negation-word-1",
+              "it-negation-word-2",
+              "it-negation-word-3",
+              "it-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-negation-foundation-model"
+          }
+        ]
+      }
+    ]
+  }
+}

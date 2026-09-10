@@ -90,7 +90,7 @@ Privacy: no learner audio is stored by default. The voice route returns only a t
 ## Known limits
 
 - Partial A1 only. No B1 content yet.
-- The Italian course still repeats one lesson shape. 21 of its 25 lessons use the same sequence of step kinds. The French course was rebuilt for variety (nine shapes across 25 lessons, no two consecutive lessons alike) and Italian is next.
+- Lesson rhythms were rebuilt for variety in all five courses: the small three by cross-language differentiation, French into nine shapes across 25 lessons, and Italian into ten step sequences. What has NOT been varied yet is the exercise MIX. `translate` is still the single most common activity, and no course asks the learner to speak.
 - Foundation lessons are machine-authored and consistency-checked. Native-speaker review is still open, and the audio player says so.
 - Placement is a rough starting suggestion, not a CEFR certification.
 - Physical iPhone testing (Add to Home Screen, offline relaunch, background and foreground) is still open.
