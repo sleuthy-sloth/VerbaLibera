@@ -56,6 +56,12 @@
   border-radius: 16px;
   background: var(--stock);
   box-shadow: var(--lift-sm);
+  transition: transform var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)), box-shadow var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1));
+}
+.list li:hover,
+.list li:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--lift, 4px 4px 0 var(--edge));
 }
 .list li button {
   display: grid;

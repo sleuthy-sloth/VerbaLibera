@@ -10,6 +10,16 @@
   --accent-soft: #f6e3cd;
   --focus-ring: var(--accent);
   --motion-duration: 220ms;
+  /* Motion here is paper, not glass. Depth in this identity is a hard offset
+   * shadow, so movement reads as LIFT when you reach for something and PRESS
+   * when you tap it: the shadow grows and the shape rises, then the shadow
+   * collapses and the shape sits flat on the page. Durations are short because
+   * the displacement is only a pixel or two and because a click has to be able
+   * to land on a settled target. Every use is neutralised by the
+   * prefers-reduced-motion and data-motion blocks further down this file. */
+  --motion-fast: 110ms;
+  --motion-slow: 340ms;
+  --ease-paper: cubic-bezier(0.2, 0.9, 0.3, 1);
   /* Secondary text, warm. Measured 5.70:1 on --canvas and 6.14:1 on --surface,
    * so it holds AA for body text and for the 12px uppercase labels. The earlier
    * #8a7c62 that this identity was sketched with measured 3.73:1 on canvas —

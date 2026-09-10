@@ -73,6 +73,14 @@
   border-radius: var(--radius-card);
   background: var(--stock);
   box-shadow: var(--lift-sm);
+  transition: transform var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)), box-shadow var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1));
+}
+/* A course card is a sheet of paper: reaching for it picks it up. focus-within
+ * carries the same lift for keyboard users, who get no hover at all. */
+.card > article:hover,
+.card > article:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--lift, 4px 4px 0 var(--edge));
 }
 
 .art {
