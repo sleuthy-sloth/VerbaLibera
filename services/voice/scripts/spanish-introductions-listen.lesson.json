@@ -246,6 +246,54 @@
         "meaning": "I would like a tea, please."
       },
       "thinkSeconds": 8
+    },
+    {
+      "heading": "Numbers: one through five",
+      "teacher": "Let's add numbers. One is uno. Two is dos. Three is tres. Four is cuatro. Five is cinco. Listen to the rhythm: uno, dos, tres, cuatro, cinco. Notice that dos sounds like the English word two, and tres sounds like the English word three. Spanish kept close echoes of the Latin numbers, just like English did.",
+      "target": {
+        "text": "Uno, dos, tres, cuatro, cinco.",
+        "meaning": "One, two, three, four, five."
+      }
+    },
+    {
+      "heading": "Think: How many?",
+      "teacher": "Think. Someone asks cuántos? — how many? You want to say three coffees. You know coffee is café. You know three is tres. Build it: tres cafés. The s on café makes it plural. One café, two cafés, three cafés. The number stays the same, only the noun changes.",
+      "target": {
+        "text": "Tres cafés.",
+        "meaning": "Three coffees."
+      }
+    },
+    {
+      "heading": "Telling time",
+      "teacher": "Now time. ¿Qué hora es? means what time is it. The answer starts with son las for most hours. Son las dos means it is two o'clock. For one o'clock, it's singular: es la una. Two onward uses las: son las dos, son las tres. Same number system, just applied to the clock.",
+      "target": {
+        "text": "¿Qué hora es? Son las tres.",
+        "meaning": "What time is it? It is three o'clock."
+      }
+    },
+    {
+      "heading": "Think: Your schedule",
+      "teacher": "Think. You have a meeting at four. Son las cuatro. Your friend asks when. Son las cuatro, you say. Simple. Now it's one o'clock — the singular trick. Es la una. That's the only irregular one. After that it's regular.",
+      "target": {
+        "text": "Es la una. / Son las cuatro.",
+        "meaning": "It is one o'clock. / It is four o'clock."
+      }
+    },
+    {
+      "heading": "Transfer: Restaurant arrival",
+      "teacher": "Let's stack everything. You walk into a restaurant at three o'clock. Hola. Quisiera una mesa, por favor. — I would like a table, please. Son las tres. You sit down. Quisiera un café y un pastel. — I would like a coffee and a cake. Cuatro euros. Gracias. You just used greetings, politeness, numbers, and time in one real transaction.",
+      "target": {
+        "text": "Hola. Quisiera una mesa, por favor.",
+        "meaning": "Hello. I would like a table, please."
+      }
+    },
+    {
+      "heading": "Full dialogue: The restaurant",
+      "teacher": "Let's do the full exchange. Hola, buenas tardes. Quisiera un café, por favor. ¿Cuántos? Uno, por favor. Cuatro euros. Aquí tiene. Gracias. Hasta luego. Buenas tardes means good afternoon. Aquí tiene means here you go. Hasta luego means see you later. You just had a complete restaurant conversation using blocks from the entire lesson.",
+      "target": {
+        "text": "Hola, buenas tardes. Quisiera un café, por favor.",
+        "meaning": "Hello, good afternoon. I would like a coffee, please."
+      }
     }
   ]
 }

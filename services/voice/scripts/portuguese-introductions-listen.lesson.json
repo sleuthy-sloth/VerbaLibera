@@ -245,6 +245,54 @@
         "meaning": "I would like a tea, please."
       },
       "thinkSeconds": 8
+    },
+    {
+      "heading": "Numbers: one through five",
+      "teacher": "Let's add numbers. One is um. Two is dois. Three is três. Four is quatro. Five is cinco. Listen: um, dois, três, quatro, cinco. Dois sounds like the English word do — but it means two. Três sounds like the English word trace minus the e. Portuguese kept the Latin echoes.",
+      "target": {
+        "text": "Um, dois, três, quatro, cinco.",
+        "meaning": "One, two, three, four, five."
+      }
+    },
+    {
+      "heading": "Think: Counting items",
+      "teacher": "Think. You want to say two coffees. Coffee is café. Two is dois. Build it: dois cafés. Three teas: três chás. The number doesn't change, only the noun. Same rule as Spanish, same logic you already know.",
+      "target": {
+        "text": "Dois cafés. / Três chás.",
+        "meaning": "Two coffees. / Three teas."
+      }
+    },
+    {
+      "heading": "Telling time",
+      "teacher": "Now time. Que horas são? means what time is it. The answer uses São as the verb. São duas means it is two o'clock. For one o'clock: é uma hora — singular. Two onward: são duas, são três. The same number system applied to the clock.",
+      "target": {
+        "text": "Que horas são? São três.",
+        "meaning": "What time is it? It is three o'clock."
+      }
+    },
+    {
+      "heading": "Think: Your schedule",
+      "teacher": "Think. You have a class at four. São quatro. Your friend asks when. São quatro, you say. Now it's one o'clock — the singular. É uma hora. That's the only irregular. After that it's regular.",
+      "target": {
+        "text": "É uma hora. / São quatro.",
+        "meaning": "It is one o'clock. / It is four o'clock."
+      }
+    },
+    {
+      "heading": "Transfer: Shopping arrival",
+      "teacher": "Let's stack everything. You walk into a shop at three o'clock. Olá, boa tarde. Queria um café, por favor. — I wanted a coffee, please. São três. You sit down. Queria um café e um pastel. — I wanted a coffee and a cake. Quatro euros. Obrigado. You used greetings, politeness, numbers, and time in one real transaction.",
+      "target": {
+        "text": "Olá, boa tarde. Queria um café, por favor.",
+        "meaning": "Hello, good afternoon. I wanted a coffee, please."
+      }
+    },
+    {
+      "heading": "Full dialogue: The café",
+      "teacher": "Let's do the full exchange. Olá, boa tarde. Queria um café, por favor. Quer mais? Não, obrigado. Quatro euros. Até logo. Boa tarde means good afternoon. Quer mais means do you want more. Até logo means see you later. You just had a complete café conversation using blocks from the entire lesson.",
+      "target": {
+        "text": "Olá, boa tarde. Queria um café, por favor.",
+        "meaning": "Hello, good afternoon. I wanted a coffee, please."
+      }
     }
   ]
 }
