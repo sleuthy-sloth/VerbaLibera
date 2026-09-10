@@ -1,73 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useVoiceRecorder } from '@/lib/use-voice-recorder';
 import styles from './session.module.css';
-
-type RecorderState = 'idle' | 'requesting' | 'recording' | 'ready' | 'unsupported' | 'denied';
 
 /**
  * In-memory voice practice: records via MediaRecorder, plays back from a
  * Blob URL, and revokes it on unmount. Nothing is uploaded or persisted —
  * the recording lives only in this tab and is discarded on advance.
+ *
+ * The recorder itself lives in `useVoiceRecorder` so the lesson player's
+ * `self-compare` step can record too. This component owns only the guided
+ * session's presentation of it.
  */
 export function VoiceRecorder() {
-  // Initialize to the SSR markup ('unsupported') and upgrade after mount so
-  // the server HTML matches the first client render — reading
-  // navigator.mediaDevices during render causes a hydration mismatch on
-  // every lesson page (full client re-render, lost early interactions).
-  const [state, setState] = useState<RecorderState>('unsupported');
-  const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
-  const recorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
-
-  useEffect(() => {
-    const devices = navigator.mediaDevices as MediaDevices | undefined;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount-only upgrade from the SSR-safe initial state; reading mediaDevices during render causes a hydration mismatch.
-    if (typeof devices?.getUserMedia === 'function') setState('idle');
-  }, []);
-
-  useEffect(() => {
-    const url = recordingUrl;
-    return () => {
-      if (url) URL.revokeObjectURL(url);
-      streamRef.current?.getTracks().forEach((track) => track.stop());
-    };
-  }, [recordingUrl]);
-
-  const start = async () => {
-    if (state === 'recording' || state === 'requesting') return;
-    setState('requesting');
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-      chunksRef.current = [];
-      const recorder = new MediaRecorder(stream);
-      recorderRef.current = recorder;
-      recorder.ondataavailable = (event: BlobEvent) => {
-        if (event.data.size > 0) chunksRef.current.push(event.data);
-      };
-      recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: recorder.mimeType || 'audio/webm' });
-        setRecordingUrl(URL.createObjectURL(blob));
-        setState('ready');
-      };
-      recorder.start();
-      setState('recording');
-    } catch {
-      setState('denied');
-    }
-  };
-
-  const stop = () => {
-    recorderRef.current?.stop();
-    streamRef.current?.getTracks().forEach((track) => track.stop());
-  };
-
-  const discard = () => {
-    setRecordingUrl(null);
-    setState('idle');
-  };
+  const { state, recordingUrl, start, stop, discard } = useVoiceRecorder();
 
   if (state === 'unsupported') {
     return (
