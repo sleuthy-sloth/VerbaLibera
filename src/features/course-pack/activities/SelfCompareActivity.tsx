@@ -12,7 +12,7 @@ export function SelfCompareActivity({activity, disabled, onChange, onAssist, mod
   <p>Say your answer, then compare it with the model. This is self-assessed practice.</p>
   {revealed ? <>
    <p className="lp-model" lang={language}>{activity.modelText}</p>
-   {modelAudioUrl && <audio controls preload="none" src={modelAudioUrl} aria-label="Comparison model audio" />}
+   {modelAudioUrl && <audio controls preload="metadata" src={modelAudioUrl} aria-label="Comparison model audio" />}
    <button type="button" disabled={disabled} onClick={()=>onChange({kind:'self',rating:'again'})}>Practise again</button>
    <button type="button" disabled={disabled} onClick={()=>onChange({kind:'self',rating:'comfortable'})}>Comfortable</button>
   </> : <button type="button" disabled={disabled} onClick={()=>{setRevealed(true);onAssist('model');}}>Reveal comparison model</button>}

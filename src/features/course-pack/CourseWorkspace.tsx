@@ -321,7 +321,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
             <p lang={pack.language}>{modelClip.transcript}</p>
             <audio
               controls
-              preload="none"
+              preload="metadata"
               src={environment.resolveMedia(modelClip.url)}
               aria-label="Model audio"
             />
@@ -446,7 +446,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
               </p>
               <audio
                 controls
-                preload="none"
+                preload="metadata"
                 src={heard.url}
                 aria-label="Replay the model sentence"
               />

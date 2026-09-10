@@ -58,7 +58,7 @@ export function ListenPlayer({
       <audio
         ref={audio}
         controls
-        preload="none"
+        preload="metadata"
         src={track.audioUrl}
         aria-label={`Play the audio lesson: ${title}`}
         onEnded={() => setHeard(markListened(track.lessonId))}
