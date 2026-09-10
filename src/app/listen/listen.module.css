@@ -1,24 +1,45 @@
 .page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 16px 16px 96px;
+  padding: 1.25rem 1rem 6rem;
+  color: var(--ink);
 }
+/* `var(--muted)` was never defined at this scope, so every muted colour on this
+ * page silently fell back to inherited ink. The global token exists now. */
 .eyebrow {
-  font-size: 12px;
+  margin: 0 0 0.5rem;
+  color: var(--muted-foreground, #586360);
+  font: 700 var(--text-min, 0.75rem)/1.2 var(--font-utility);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.13em;
-  color: var(--muted);
+}
+.page h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
 }
 .lede {
-  max-width: 560px;
+  max-width: 56ch;
+  margin: 0.9rem 0 1.25rem;
+  color: var(--muted-foreground, #586360);
+  font-size: 1.02rem;
+  line-height: 1.6;
 }
 .label {
   display: block;
   margin: 12px 0;
+  font-weight: 600;
 }
 .label select {
   display: block;
+  min-height: 44px;
   margin-top: 4px;
+}
+.page :is(a, button, select):focus-visible {
+  outline: 3px solid var(--focus-ring, var(--accent));
+  outline-offset: 3px;
 }
 .list {
   padding: 0;
@@ -38,11 +59,53 @@
   backdrop-filter: var(--glass-blur);
   box-shadow: var(--glass-highlight);
 }
-.list li span:last-child {
-  font-size: 14px;
-  color: var(--muted);
+.list li button {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.itemTitle {
+  font-size: 1.02rem;
+  font-weight: 650;
+}
+.itemMeta {
+  font-size: 0.85rem;
+  color: var(--muted-foreground, #586360);
+}
+.itemState {
+  font-size: 0.85rem;
+  color: var(--muted-foreground, #586360);
   white-space: nowrap;
 }
 .back {
+  min-height: 44px;
   margin: 8px 0;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.empty,
+.note {
+  max-width: 56ch;
+  color: var(--muted-foreground, #586360);
+  line-height: 1.6;
+}
+.note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.empty a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }

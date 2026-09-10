@@ -26,8 +26,8 @@ describe('HomePage', () => {
 
     expect(await screen.findByRole('heading', { name: /VerbaLibera/i })).toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-french');
-    expect(await screen.findByRole('link', { name: /continue 8-minute session/i })).toBeInTheDocument();
-    expect(screen.getByText(/today's 8-minute path/i)).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: /today.s lesson/i })).toBeInTheDocument();
   });
 
   it('uses a valid course query to restore the dashboard selection', async () => {
@@ -42,7 +42,7 @@ describe('HomePage', () => {
     render(<QueryClientProvider client={client}>{page}</QueryClientProvider>);
 
     expect(await screen.findByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-italian');
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveAttribute(
       'href',
       '/learn/english-to-italian',
     );

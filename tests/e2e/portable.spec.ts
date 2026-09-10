@@ -58,7 +58,7 @@ test("opens from one file, stays offline, and reloads durable progress", async (
   await page.getByRole("button", { name: "First words", exact: true }).click();
   await page.getByRole("button", { name: "Begin practice", exact: true }).click();
   await expect(page.getByText(/of 8 steps completed/)).toContainText("2 of 8");
-  await page.getByRole("button", { name: "← All lessons" }).click();
+  await page.getByRole("button", { name: "All lessons" }).click();
   expect(networkRequests).toEqual([]);
 });
 
@@ -79,7 +79,7 @@ test("warns and exports valid progress when IndexedDB is unavailable", async ({
 
   // The export control lives on the course-path view (RuntimeCourseWorkspace),
   // so step back out of the lesson to reach it.
-  await page.getByRole("button", { name: "← All lessons" }).click();
+  await page.getByRole("button", { name: "All lessons" }).click();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export practice backup" }).click();
   const download = await downloadPromise;

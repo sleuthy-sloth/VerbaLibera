@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { onboardingDestination, saveOnboardingState, setSelectedCourse, type OnboardingLanguage } from '@/features/onboarding/state';
 import styles from './welcome-flow.module.css';
 
@@ -61,7 +61,7 @@ export function WelcomeFlow({
   if (screen === 'choice' && selectedLanguage) {
     return (
       <div className={styles.flow}>
-        <button type="button" className={styles.backButton} onClick={backToLanguage}>← Back</button>
+        <button type="button" className={styles.backButton} onClick={backToLanguage}><span aria-hidden="true">←</span> Back</button>
         <h2 className={styles.title}>Where should we start?</h2>
         <p className={styles.copy}>
           Pick the pace that fits you. There is no wrong answer, and you can change it later.

@@ -51,7 +51,7 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
   await page.getByRole("button", { name: "Next step", exact: true }).click();
 
   // Returning from the lesson goes back to the course path, not a stale lesson.
-  await page.getByRole("button", { name: "← All lessons", exact: true }).click();
+  await page.getByRole("button", { name: "All lessons", exact: true }).click();
   await expect(runtimePlayer(page)).toBeVisible();
 
   // Offline install works on the v2 path and survives a cold start.
@@ -100,11 +100,11 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
 
 test("French references and mobile navigation are usable", async ({ page }) => {
   await page.goto("/courses/french");
-  await page.getByRole("button", { name: "Grammar", exact: true }).click();
+  await page.getByRole("link", { name: "Grammar", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "People and être", exact: true }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Vocabulary", exact: true }).click();
+  await page.getByRole("link", { name: "Vocabulary", exact: true }).click();
   await page.getByLabel("Search vocabulary").fill("frère");
   await expect(page.getByText("a brother", { exact: true })).toBeVisible();
   for (const width of [320, 390, 430, 844]) {
@@ -115,7 +115,7 @@ test("French references and mobile navigation are usable", async ({ page }) => {
       ),
     ).toBe(true);
   }
-  await page.getByLabel("Foundation language").selectOption("italian");
+  await page.getByLabel("Learning language").selectOption("italian");
   await expect(page).toHaveURL(/courses\/italian/);
   await page.reload();
   await expect(
@@ -210,7 +210,7 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
   await expect(
     page.getByRole("button", { name: "People and être", exact: true }),
   ).toBeEnabled();
-  await page.getByRole("button", { name: "Dialogues", exact: true }).click();
+  await page.getByRole("link", { name: "Dialogues", exact: true }).click();
   const meeting = page.getByRole("article").filter({
     has: page.getByRole("heading", { name: "Meeting someone", exact: true }),
   });
@@ -246,5 +246,11 @@ test("Italian lesson audio plays and the listening step can be reached", async (
   await expect(audio).toBeVisible();
   // Revealing the transcript marks the attempt assisted, never independent.
   await page.getByRole("button", { name: "Show transcript", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText(/assisted/i);
+  // The notice used to read "Assisted practice — help was shown on this step,
+  // so this attempt will not count toward independent review." It now says what
+  // happens next in plain words, and is scoped rather than matched by role
+  // (the player has more than one live region while a step is graded).
+  await expect(
+    page.getByText(/already seen the answer on this step/i),
+  ).toBeVisible();
 });

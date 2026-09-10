@@ -85,7 +85,11 @@ describe("portable course environment", () => {
     expect(screen.getByRole("progressbar", { name: "Course progress" })).toHaveValue(0);
     expect(screen.getByText(/Up next — select to start/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "First words" })).toBeInTheDocument();
-    expect(screen.getByText(/complete First words to unlock/)).toBeInTheDocument();
+    // Locked rows no longer carry an `opacity: .72` (that composited the muted
+    // ink down to 3.27:1 and was the bulk of the contrast failures) and the
+    // sentence is now short: the dependency reads "After <prerequisite>", with
+    // a lock glyph that is hidden from assistive tech.
+    expect(screen.getByText(/After First words/)).toBeInTheDocument();
   });
 
   it("warns persistently when practice storage is temporary", async () => {

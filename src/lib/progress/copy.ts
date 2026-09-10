@@ -11,14 +11,14 @@ export function dashboardBadgeCopy(isPreview: boolean): string;
 export function dashboardBadgeCopy(args: { isPreview: boolean }): string;
 export function dashboardBadgeCopy(arg: boolean | { isPreview: boolean }): string {
   const isPreview = resolveIsPreview(arg);
-  return isPreview ? 'Preview progress' : 'Saved to your account';
+  return isPreview ? 'Saved in this browser' : 'Saved to your account';
 }
 
 export function progressNoticeCopy(isPreview: boolean): string;
 export function progressNoticeCopy(args: { isPreview: boolean }): string;
 export function progressNoticeCopy(arg: boolean | { isPreview: boolean }): string {
   const isPreview = resolveIsPreview(arg);
-  return isPreview ? 'Nothing was saved. Preview progress only.' : 'Saved to your account.';
+  return isPreview ? 'Nothing was saved yet.' : 'Saved to your account.';
 }
 
 export function sessionCompletionCopy(isPreview: boolean): string;

@@ -44,6 +44,11 @@
 }
 .study a {
   color: var(--accent);
+  /* Tailwind preflight sets `text-decoration: inherit` on anchors, so an
+   * in-text link was distinguishable by colour alone — axe flags that as
+   * link-in-text-block, and it is a real problem for anyone who cannot
+   * separate the accent green from body ink. */
+  text-decoration: underline;
   text-underline-offset: 4px;
 }
 .study button,
@@ -125,10 +130,23 @@
   padding: 16px 0;
   margin: 28px 0;
 }
-.study-tabs button {
+.study-tabs button,
+.study-tabs a {
+  min-height: 44px;
   border: 0;
+  color: var(--ink);
+  text-decoration: none;
 }
-.study-tabs button[aria-current="page"] {
+/* Hosted routes render these as links so the view is addressable; the offline
+ * build still renders buttons. Both need the same target size and current-state
+ * treatment. */
+.study-tabs a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+}
+.study-tabs button[aria-current="page"],
+.study-tabs a[aria-current="page"] {
   background: #dfebe4;
 }
 .study-eyebrow {
@@ -228,7 +246,7 @@
   flex-wrap: wrap;
 }
 .study-path-heading h2 { margin: 4px 0; }
-.study-path-progress { min-width: 180px; display: grid; gap: 2px; color: var(--muted); font-size: 13px; }
+.study-path-progress { min-width: 180px; display: grid; gap: 2px; color: var(--muted); font-size: 14px; }
 .study-path-progress strong { color: var(--ink); font-size: 18px; }
 .study-path-progress progress { width: 100%; accent-color: var(--accent); }
 .study-path-unit { margin: 26px 0 0 !important; }
@@ -238,13 +256,34 @@
 .study-path-number { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #dce8e1; color: var(--accent); font-weight: bold; }
 .study-path .study-lessons li.is-next { border-left: 3px solid var(--accent); padding-left: 10px; background: #eff5f1; }
 .study-path .study-lessons li.is-complete .study-path-number { background: var(--accent); color: #fff; }
-.study-path .study-lessons li.is-locked { opacity: .72; }
+/* Locked lessons used to be `opacity: .72`, which composited --muted (#536560,
+ * 5.57:1 on its own) down to 3.27:1 — that is what axe was flagging on 24 nodes
+ * per course page. Locked state is now a border + pill instead of a dimmer, so
+ * the prerequisite sentence stays readable. `.is-ready` (unlocked, not the next
+ * lesson) previously also received `is-locked`, so available lessons looked
+ * disabled; ready rows now get their own neutral treatment. */
+.study-path .study-lessons li.is-locked,
+.study-path .study-lessons li.is-ready {
+  opacity: 1;
+}
+.study-path .study-lessons li.is-locked { border-left: 3px solid color-mix(in srgb, var(--muted) 45%, transparent); padding-left: 10px; }
+.study-path .study-lessons li.is-ready { border-left: 3px solid transparent; padding-left: 10px; }
+.study-path .study-lessons li.is-locked .study-path-number { background: #e8e6df; color: #4a5451; }
+.study-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border: 1px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  border-radius: 999px;
+  font-size: 13px;
+}
 .study-lessons button {
   border: 0;
   flex: 1;
 }
 .study-lessons span {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
   white-space: nowrap;
 }
@@ -371,7 +410,7 @@
     gap: 12px;
   }
   .study-lessons span {
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -448,4 +487,65 @@ body:has(#study-root) {
   .study-download { padding: 16px; }
   .study .study-download h2 { font-size: 23px; }
   .study-cloze-sentence { padding: 14px; font-size: 24px; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Lesson shell.
+ *
+ * A lesson renders alone: it is what the learner came for, and the course
+ * chrome (download panel, account controls, workspace tabs, backup export)
+ * belongs to browsing. `.study-focused` narrows the column and raises the
+ * contrast of the back control, since it is the only way out.
+ * -------------------------------------------------------------------------- */
+.study-focused {
+  max-width: 760px;
+}
+
+.study-back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
+  padding: 6px 14px;
+  border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.study-back:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.study-primary-large {
+  min-height: 56px;
+  padding: 14px 28px;
+  font-size: 1.05rem;
+}
+
+.study-locked-note {
+  padding: 14px 18px;
+  border-left: 3px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  color: var(--ink);
+}
+
+.study-backup h2 {
+  margin-bottom: 6px;
+}
+
+.study-provenance {
+  margin-top: 54px;
+  padding-top: 18px;
+  border-top: 1px solid #b4c0b9;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.study-provenance a {
+  color: var(--accent-strong);
+  text-underline-offset: 4px;
 }

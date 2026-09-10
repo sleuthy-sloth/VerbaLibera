@@ -26,7 +26,7 @@ it('story lesson has no axe violations after feedback', { timeout: 20000 }, asyn
   await userEvent.click(await screen.findByRole('button', { name: 'Continue' }));
   await userEvent.click(await screen.findByRole('radio', { name: 'Un caffè' }));
   await userEvent.click(screen.getByRole('button', { name: 'Check' }));
-  await screen.findByText(/Saved as independent practice/);
+  await screen.findByText(/Saved — you answered this one from memory/);
   expect(await axe(container)).toHaveNoViolations();
 });
 

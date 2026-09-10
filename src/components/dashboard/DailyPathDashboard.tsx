@@ -10,6 +10,8 @@ import { parseStoredPlan } from '@/features/study-plan/parse';
 import type { StudyPlan } from '@/features/study-plan/types';
 import { dashboardBadgeCopy, planStatusCopy, planTodayCopy } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
+import { WelcomeFlow } from '@/components/onboarding/WelcomeFlow';
+import { readOnboardingState } from '@/features/onboarding/state';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
 import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
@@ -68,10 +70,20 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(initialCourseIndex);
   const selectedCourse = progress.courses[selectedCourseIndex] ?? progress.courses[0];
   const [guestPlan, setGuestPlan] = useState<GuestPlanStatus | null>(null);
+  // `null` = still reading storage (renders the returning-learner card, never a
+  // flash of onboarding); 'unseen' = genuinely new learner.
+  const [onboardingSeen, setOnboardingSeen] = useState<boolean | null>(true);
   useEffect(() => {
-    if (!isPreview || typeof window === 'undefined' || !selectedCourse) return;
+    if (typeof window === 'undefined') return;
     // Deferred like the plan builder: read storage after paint so the effect
     // never sets state synchronously (cascading-render lint).
+    const timer = setTimeout(() => {
+      setOnboardingSeen(readOnboardingState(initialCourses) !== null);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    if (!isPreview || typeof window === 'undefined' || !selectedCourse) return;
     const slug = selectedCourse.slug;
     const timer = setTimeout(() => {
       setGuestPlan(readGuestPlan(slug));
@@ -83,7 +95,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   if (!selectedCourse) {
     return (
       <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
-        <p className={styles.eyebrow}>VerbaLibera preview</p>
+        <p className={styles.eyebrow}>VerbaLibera</p>
         <h1>VerbaLibera</h1>
         <p>No preview courses are ready yet.</p>
       </main>
@@ -118,42 +130,60 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         frontierNote: activePlan.plan.frontier?.note ?? null,
       }
     : null;
-  const hasSelectedSession =
-    initialCourses.some((course) => course.slug === selectedCourse.slug) &&
+  const hasGuidedSession =
+    !!authoredCourse &&
     progress.session.some((step) => step.courseSlug === selectedCourse.slug);
+  // Every course in the snapshot resolves to a foundation pack or nothing. The
+  // old code showed "Session preview coming soon" here — a status message where
+  // a next step belonged, with no way forward from it.
+  const foundationHref = language ? foundationStartHref(selectedCourse.slug) : null;
+  // An explicit ?course= means the learner has already chosen, so the welcome
+  // flow would be asking a question they just answered.
+  const showWelcome = isBlank && onboardingSeen === false && !(requestedCourseSlug && requestedCourseIndex >= 0);
 
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
       <header className={styles.brandHeader}>
-        <Link className={styles.wordmark} href="/" aria-label="VerbaLibera home">
+        <Link className={styles.wordmark} href="/dashboard" aria-label="VerbaLibera — Today">
           <Image alt="" height={68} priority src="/brand/logo-mark.jpg" width={68} />
           VerbaLibera
         </Link>
-        <LanguageSwitcher currentCourse={selectedCourse.slug} courses={progress.courses} dashboard onChange={(slug) => {
-          const nextIndex = progress.courses.findIndex((course) => course.slug === slug);
-          if (nextIndex >= 0) setSelectedCourseIndex(nextIndex);
-        }} />
+        {showWelcome ? null : (
+          <LanguageSwitcher currentCourse={selectedCourse.slug} courses={progress.courses} dashboard onChange={(slug) => {
+            const nextIndex = progress.courses.findIndex((course) => course.slug === slug);
+            if (nextIndex >= 0) setSelectedCourseIndex(nextIndex);
+          }} />
+        )}
         <p className={styles.previewBadge}>
           <span aria-hidden="true" />
           {dashboardBadgeCopy({ isPreview })}
         </p>
+        <nav className={styles.headerNav} aria-label="Primary">
+          <Link href="/dashboard">Today</Link>
+          <Link href="/courses">Courses</Link>
+          <Link href="/listen">Listen</Link>
+          <Link href="/you">You</Link>
+        </nav>
         {isDebug && progress.contentVersion ? (
           <p data-testid="content-version-badge" className={styles.previewBadge} style={{ marginLeft: '0.5rem' }}>
             v{progress.contentVersion}
           </p>
         ) : null}
-        {isPreview ? <Link className={styles.accountLink} href="/login">Save your progress</Link> : <Link className={styles.accountLink} href="/you">Your profile</Link>}
+        {isPreview ? <Link className={styles.accountLink} href="/login">Keep this on my account</Link> : <Link className={styles.accountLink} href="/you">Your profile</Link>}
       </header>
 
       <section className={styles.intro} aria-labelledby="dashboard-title">
-        <p className={styles.eyebrow}>Today · your daily path</p>
+        <p className={styles.eyebrow}>Today</p>
         <h1 id="dashboard-title">
           <span className={styles.srOnly}>VerbaLibera — </span>
           Keep your useful phrases moving.
         </h1>
         <p className={styles.introCopy}>
-          Learn how the language works, practice one useful pattern, and make it part of your everyday vocabulary. Already know some?{' '}
-          <Link href={`/learn/${selectedCourse.slug}/placement`}>Take the 3-minute placement quiz</Link>.
+          Learn how the language works, practise one useful pattern, and make it part of your
+          everyday vocabulary. Already know some?{' '}
+          <Link href={`/learn/${selectedCourse.slug}/placement`}>
+            Take the 3-minute placement quiz
+          </Link>.
         </p>
         <div className={styles.introArtwork}>
           <Image alt="" height={1024} src="/brand/hero-banner.jpg" width={1536} />
@@ -163,13 +193,12 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
       <div className={styles.learningPromise}>
         <span>Free to learn</span><span>Explanations before exercises</span><span>No timers or lost hearts</span>
       </div>
-      {language ? <section className={styles.foundationEntry} aria-label="Foundation courses and downloads">
+      {language && !showWelcome ? <section className={styles.foundationEntry} aria-label="Offline study">
         <div>
           <h2>{languageName}, from the first words</h2>
-          <p>Start at Lesson 0 or continue your foundation course. Travel sessions remain available below.</p>
+          <p>Start at the first lesson or continue where you left off. Travel sessions remain available below.</p>
         </div>
         <div>
-          <Link href={foundationStartHref(selectedCourse.slug)}>Open {languageName} foundations</Link>
           <Link href={`/courses/${language}#offline-download`}>Download {languageName} for offline study</Link>
         </div>
       </section> : null}
@@ -177,7 +206,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         <section className={styles.todayCard} aria-labelledby="today-title">
           <div className={styles.todayHeading}>
             <div>
-              <p className={styles.kicker} id="today-title">{"Today's 8-minute path"}</p>
+              <p className={styles.kicker} id="today-title">{"Today's lesson"}</p>
               <p className={`${styles.kicker} ${styles.contrastTag}`}>Up next</p>
               <h2>{selectedCourse.unitLabel}</h2>
               <p className={styles.courseMeta}>{selectedCourse.title}</p>
@@ -199,7 +228,18 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
             </div>
           ) : null}
 
-          {isBlank ? (
+          {showWelcome ? (
+            <WelcomeFlow
+              courses={progress.courses}
+              onComplete={(destination) => {
+                // Full navigation rather than router.push: this fires once per
+                // learner, and it matches how LanguageSwitcher already leaves a
+                // course page. It also keeps the dashboard renderable outside
+                // an app-router context (unit tests, offline shell).
+                window.location.assign(destination);
+              }}
+            />
+          ) : isBlank ? (
             <FirstRunOnboarding courseSlug={selectedCourse.slug} />
           ) : (
             <>
@@ -233,14 +273,19 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
                 ))}
               </ol>
 
-              {hasSelectedSession ? (
+              {hasGuidedSession ? (
                 <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
-                  Continue 8-minute session
+                  Continue today&rsquo;s lesson
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ) : foundationHref ? (
+                <Link className={styles.primaryAction} href={foundationHref}>
+                  Open {languageName} foundations
                   <span aria-hidden="true">→</span>
                 </Link>
               ) : (
                 <p className={styles.pendingAction} role="status">
-                  Session preview coming soon
+                  {selectedCourse.title} lessons are being authored
                 </p>
               )}
             </>

@@ -31,9 +31,9 @@ test('foundation events survive offline practice, synchronize across devices, an
     await completeItalianL0(page);
     await practice(); // Guest work must not be silently uploaded.
     await expect(page.getByText(/8 practice results on this device/)).toBeVisible();
-    await page.getByRole('button', { name: 'Use signed-in account', exact: true }).click();
+    await page.getByRole('button', { name: 'Use my account', exact: true }).click();
     await expect(page.getByText(/0 practice results on this device/)).toBeVisible();
-    await expect(page.getByText('Account practice synchronized.', { exact: true })).toBeVisible();
+    await expect(page.getByText('Practice synced.', { exact: true })).toBeVisible();
     await completeItalianL0(page);
     await practice();
     await expect.poll(() => db.foundationPracticeEvent.count({ where: { userId: user.id } })).toBe(8);
@@ -53,9 +53,9 @@ test('foundation events survive offline practice, synchronize across devices, an
     second = await browser.newContext({ baseURL, storageState: { cookies: await context.cookies(), origins: [] } });
     const secondPage = await second.newPage();
     await secondPage.goto('/courses/italian');
-    await secondPage.getByRole('button', { name: 'Use signed-in account', exact: true }).click();
+    await secondPage.getByRole('button', { name: 'Use my account', exact: true }).click();
     await expect(secondPage.getByText(/9 practice results on this device/)).toBeVisible();
-    await expect(secondPage.getByText('Account practice synchronized.', { exact: true })).toBeVisible();
+    await expect(secondPage.getByText('Practice synced.', { exact: true })).toBeVisible();
     const csrf = (await context.cookies()).find(c => c.name === 'verbalibera_csrf')!.value;
     const headers = { origin: new URL(baseURL!).origin, 'x-csrf-token': csrf };
     const snapshot = await (await context.request.get(`/api/course-progress?userId=${user.id}`)).json();
@@ -69,7 +69,7 @@ test('foundation events survive offline practice, synchronize across devices, an
     expect((await context.request.get(`/api/course-progress?userId=${other.id}`)).status()).toBe(409);
     expect((await context.request.post('/api/course-progress', { headers, data: { ...replay, userId: other.id } })).status()).toBe(409);
     expect(await db.foundationPracticeEvent.count({ where: { userId: other.id } })).toBe(0);
-    await page.getByRole('button', { name: 'Use guest practice', exact: true }).click();
+    await page.getByRole('button', { name: 'Use this browser only', exact: true }).click();
     await expect(page.getByText(/8 practice results on this device/)).toBeVisible();
   } finally {
     await context.setOffline(false);

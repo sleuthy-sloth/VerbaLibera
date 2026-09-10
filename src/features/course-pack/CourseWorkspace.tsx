@@ -21,7 +21,8 @@ import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
 import type { CourseEnvironment } from "./environment";
 
-type View = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
+/** Workspace views. Also the `/courses/<language>/<view>` URL segment values. */
+export type WorkspaceView = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
 // Per-language Quiet Ink banners. Plain <img>: this component is also bundled
 // outside Next for offline cold starts, so next/image is unavailable here.
 const BANNER_BY_LANGUAGE: Record<string, string> = {
@@ -33,6 +34,8 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
 export type CourseWorkspaceProps = {
   initialLanguage?: string;
   startNextLesson?: boolean;
+  /** Which workspace view to open: course (default), review, vocabulary, grammar, dialogues. */
+  initialView?: WorkspaceView;
   environment: CourseEnvironment;
   scope?: string | null;
   synchronize?: (scope: string, signal?: AbortSignal) => Promise<PracticeEvent[]>;
@@ -45,15 +48,16 @@ export type CourseWorkspaceProps = {
 export function CourseWorkspace({
   initialLanguage = "italian",
   startNextLesson = false,
+  initialView,
   environment,
   scope = null,
   synchronize,
   renderAccountPractice,
 }: CourseWorkspaceProps) {
-  return <ScopedWorkspace startNextLesson={startNextLesson} initialLanguage={initialLanguage} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
+  return <ScopedWorkspace startNextLesson={startNextLesson} initialLanguage={initialLanguage} initialView={initialView} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
 }
-function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment, synchronize, renderAccountPractice }: {
-  initialLanguage: string; startNextLesson: boolean; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
+function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope, environment, synchronize, renderAccountPractice }: {
+  initialLanguage: string; startNextLesson: boolean; initialView?: WorkspaceView; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
   const [runtimePack, setRuntimePack] = useState<RuntimePack | null>(null);
@@ -61,7 +65,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   const [language, setLanguage] = useState(initialLanguage),
     [pack, setPack] = useState<CoursePack | null>(null),
     [events, setEvents] = useState<PracticeEvent[]>([]),
-    [view, setView] = useState<View>("Course");
+    [view, setView] = useState<WorkspaceView>(initialView ?? "Course");
   const [lessonId, setLessonId] = useState(""),
     [session, setSession] = useState<string[]>([]),
     [step, setStep] = useState(0),
@@ -125,7 +129,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
       try {
         if (!synchronize) return;
         const synced = await synchronize(scope, controller.signal);
-        if (!controller.signal.aborted) { setEvents(old => mergeEvents(old, synced)); setSyncStatus("Account practice synchronized."); }
+        if (!controller.signal.aborted) { setEvents(old => mergeEvents(old, synced)); setSyncStatus("Practice synced."); }
       } catch (e) {
         if (!controller.signal.aborted) setSyncStatus(e instanceof Error ? e.message : "Sync failed. Local practice is safe.");
       }
@@ -162,7 +166,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
     setError("");
     setQuery("");
   };
-  if (runtimePack) return <RuntimeCourseWorkspace key={`${runtimePack.id}:${scope ?? "guest"}`} pack={runtimePack} environment={environment} scope={scope} language={language} onLanguageChange={changeLanguage} onProgressChanged={() => setSyncRevision(n => n + 1)} accountControls={renderAccountPractice?.({status: syncStatus, retry: () => setSyncRevision(n => n + 1)})} />;
+  if (runtimePack) return <RuntimeCourseWorkspace key={`${runtimePack.id}:${scope ?? "guest"}`} pack={runtimePack} environment={environment} scope={scope} language={language} onLanguageChange={changeLanguage} onProgressChanged={() => setSyncRevision(n => n + 1)} accountControls={renderAccountPractice?.({status: syncStatus, retry: () => setSyncRevision(n => n + 1)})} startNextLesson={startNextLesson} />;
   if (!pack)
     return (
       <main id="main-content" className="study">
@@ -187,7 +191,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
           now — this page fills in as units land. Meanwhile,{" "}
           {capabilities.hostedNavigation ? <><a href="/courses/french">French foundations</a> and{" "}<a href="/courses/italian">Italian foundations</a></> : <>French and Italian foundations</>} are ready to study.
         </p>
-        {capabilities.hostedNavigation ? <a href="/dashboard">← Daily path</a> : null}
+        {capabilities.hostedNavigation ? <a href="/dashboard"><span aria-hidden="true">←</span> Daily path</a> : null}
       </main>
     );
   const summary = conceptEvidence(pack, events);
@@ -201,8 +205,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   );
   const allExercises = pack.lessons.flatMap((l) => l.exercises),
     activeExercise = allExercises.find((e) => e.id === session[step]);
-  const count = events.filter((e) => e.packId === pack.id).length;
-  const go = (next: View) => {
+    const go = (next: WorkspaceView) => {
     window.scrollTo({ top: 0 });
     setView(next);
     setLessonId("");
@@ -246,6 +249,88 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   };
   const daily = selectDaily(pack, events, minutes);
   const reviewIds = daily.exerciseIds.filter((id) => !!progress[id]);
+
+  // Lesson shell: when a lesson is open, render it alone. The course shell
+  // (download panel, account controls, workspace tabs, practice backup) is for
+  // browsing; a learner who has opened a lesson should see one lesson and one
+  // way out. This is also what makes `?start=1` land somewhere deliberate
+  // instead of scrolling a 3,000px page to a section below the chrome.
+  const practising = !!activeExercise || session.length > 0;
+  // Only the lesson *introduction* gets its own shell. Once practice starts the
+  // session renders in the main return below (focused, chrome-free) — guarding
+  // on `lesson` alone made "Begin practice" a no-op, because the intro shell
+  // re-rendered instead of the exercise.
+  if (lesson && !practising) {
+    const lessonUnlocked = lesson.prerequisites.every((id) => completed.has(id));
+    const modelClip = pack.media.find((m) =>
+      lesson.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
+    );
+    return (
+      <main id="main-content" className="study study-focused">
+        <button type="button" className="study-back" onClick={() => setLessonId("")}>
+          <span aria-hidden="true">←</span> Back to the course
+        </button>
+        <p className="study-eyebrow">
+          Lesson {pack.lessons.indexOf(lesson) + 1} of {pack.lessons.length} · Notice → build → vary → use
+        </p>
+        <h1>{lesson.title}</h1>
+        <p>
+          <strong>Your aim:</strong> {lesson.objective}
+        </p>
+        <p>{lesson.explanation}</p>
+        <h2>Worked examples</h2>
+        {lesson.examples.map((ex) => (
+          <div className="study-example" key={ex.target}>
+            <p lang={pack.language}>{ex.target}</p>
+            <p>{ex.meaning}</p>
+          </div>
+        ))}
+        <h2>Words and expressions</h2>
+        <dl>
+          {lesson.vocabulary
+            .map((id) => pack.vocabulary.find((v) => v.id === id)!)
+            .map((v) => (
+              <div key={v.id}>
+                <dt lang={pack.language}>{v.word}</dt>
+                <dd>{v.meaning}</dd>
+              </div>
+            ))}
+        </dl>
+        {modelClip ? (
+          <div>
+            <h2>Hear it once</h2>
+            <p lang={pack.language}>{modelClip.transcript}</p>
+            <audio
+              controls
+              preload="none"
+              src={environment.resolveMedia(modelClip.url)}
+              aria-label="Model audio"
+            />
+          </div>
+        ) : (
+          <p className="study-scope">No recording for this lesson yet — read it aloud yourself.</p>
+        )}
+        <button className="study-primary study-primary-large" disabled={!storageReady || !lessonUnlocked} onClick={() => begin(lesson)}>
+          Begin practice
+        </button>
+        {lesson.optionalExerciseIds.length ? (
+          <>
+            <button disabled={!storageReady || !lessonUnlocked} onClick={() => { setSession(lesson.optionalExerciseIds); setStep(0); setHeard(null); setMessage(""); }}>
+              Practice listening
+            </button>
+            <p className="study-scope">Listening practice is optional.</p>
+          </>
+        ) : null}
+        {!lessonUnlocked ? (
+          <p className="study-scope">
+            You can read this lesson now. Finish the practice in the lesson before it to unlock its
+            exercises.
+          </p>
+        ) : null}
+      </main>
+    );
+  }
+
   const selectedState = (wordId: string) => {
     const related = allExercises
       .filter((e) => e.vocabulary.includes(wordId))
@@ -259,11 +344,11 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
     return "Learning";
   };
   return (
-    <main id="main-content" className="study">
-      <header className="study-header">
-        {capabilities.hostedNavigation ? <a href="/dashboard">← Daily path</a> : null}
+    <main id="main-content" className={practising ? "study study-focused" : "study"}>
+      {practising ? null : <header className="study-header">
+        {capabilities.hostedNavigation ? <a href="/dashboard"><span aria-hidden="true">←</span> Today</a> : null}
         <label>
-          Foundation language
+          Learning language
           <select
             value={language}
             onChange={(e) => changeLanguage(e.target.value)}
@@ -275,46 +360,60 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
             ))}
           </select>
         </label>
-      </header>
-      <p className="study-eyebrow">VerbaLibera · A1 course packs</p>
-      <h1>{pack.title}</h1>
+      </header>}
+      {practising ? null : <h1>{pack.title}</h1>}
       {durability === "temporary" ? (
         <p role="alert">
           Progress is temporary in this browser. Export a backup before
           closing this file.
         </p>
       ) : null}
-      {BANNER_BY_LANGUAGE[language] ? (
+      {practising || !BANNER_BY_LANGUAGE[language] ? null : (
         <img className="course-banner" src={environment.resolveMedia(BANNER_BY_LANGUAGE[language])} alt="" />
-      ) : null}
-      <p className="study-lede">
+      )}
+      {practising ? null : <p className="study-lede">
         A little explanation. A worked example. Then make the language your own.
-      </p>
-      <p className="study-scope">
-        {count} practice {count === 1 ? "result" : "results"} on this device ·{" "}
-        {completed.size}/{pack.lessons.length} lessons practised successfully.
-        {scope ? " Account practice is synchronized when connected." : " Device practice is separate from account progress."}
-      </p>
-      {capabilities.accounts && renderAccountPractice
-        ? renderAccountPractice({
+      </p>}
+      {/* The storage-scope paragraph used to open this page with two sentences
+          about which layer holds your progress. One compact line, and the long
+          version lives on /you next to the action that changes it. */}
+      {practising ? null : <p className="study-scope">
+        {completed.size} of {pack.lessons.length} lessons practised
+        {scope ? " · kept on your account" : " · kept in this browser"}
+      </p>}
+      {practising || !capabilities.accounts || !renderAccountPractice
+        ? null
+        : renderAccountPractice({
             status: syncStatus,
             retry: () => setSyncRevision((n) => n + 1),
-          })
-        : null}
-      {capabilities.offlineInstall ? <OfflineDownload key={language} pack={pack} language={language} environment={environment} /> : null}
-      <nav className="study-tabs" aria-label="Course workspace">
+          })}
+      {practising || !capabilities.offlineInstall ? null : <OfflineDownload key={language} pack={pack} language={language} environment={environment} />}
+      {practising ? null : <nav className="study-tabs" aria-label="Course sections">
         {(
           ["Course", "Review", "Vocabulary", "Grammar", "Dialogues"] as const
         ).map((tab) => (
-          <button
-            key={tab}
-            aria-current={view === tab ? "page" : undefined}
-            onClick={() => go(tab)}
-          >
-            {tab}
-          </button>
+          // Real destinations, not buttons: the selected view used to live only
+          // in useState, so switching to Vocabulary and reloading dropped you
+          // back on Course, and the view could not be linked or shared.
+          capabilities.hostedNavigation ? (
+            <a
+              key={tab}
+              href={`/courses/${language}${tab === "Course" ? "" : `/${tab.toLowerCase()}`}`}
+              aria-current={view === tab ? "page" : undefined}
+            >
+              {tab}
+            </a>
+          ) : (
+            <button
+              key={tab}
+              aria-current={view === tab ? "page" : undefined}
+              onClick={() => go(tab)}
+            >
+              {tab}
+            </button>
+          )
         ))}
-      </nav>
+      </nav>}
       {error ? <p role="alert">{error}</p> : null}
       {message ? <p role="status">{message}</p> : null}
       {activeExercise ? (
@@ -364,80 +463,6 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
           <button onClick={() => go("Course")}>Back to course</button>
         </section>
       ) : view === "Course" ? (
-        lesson ? (
-          <section className="study-lesson">
-            <button onClick={() => setLessonId("")}>← All lessons</button>
-            <p className="study-eyebrow">Lesson {pack.lessons.indexOf(lesson)} · Notice → build → vary → use</p>
-            <h2 tabIndex={-1}>{lesson.title}</h2>
-            <p>
-              <strong>Your aim:</strong> {lesson.objective}
-            </p>
-            <p>{lesson.explanation}</p>
-            <h3>Worked examples</h3>
-            {lesson.examples.map((ex) => (
-              <div className="study-example" key={ex.target}>
-                <p lang={pack.language}>{ex.target}</p>
-                <p>{ex.meaning}</p>
-              </div>
-            ))}
-            <h3>Words and expressions</h3>
-            <dl>
-              {lesson.vocabulary
-                .map((id) => pack.vocabulary.find((v) => v.id === id)!)
-                .map((v) => (
-                  <div key={v.id}>
-                    <dt lang={pack.language}>{v.word}</dt>
-                    <dd>{v.meaning}</dd>
-                  </div>
-                ))}
-            </dl>
-            {lesson.exercises.some((e) => e.kind === "dictation") ? (
-              pack.media
-                .filter((m) =>
-                  lesson.exercises.some(
-                    (e) => e.kind === "dictation" && e.audioId === m.id,
-                  ),
-                )
-                .map((m) => (
-                  <div key={m.id}>
-                    <p>Model audio · normal speed</p>
-                    <p lang={pack.language}>{m.transcript}</p>
-                    <audio
-                      controls
-                      preload="none"
-                      src={environment.resolveMedia(m.url)}
-                      aria-label="Model audio"
-                    />
-                  </div>
-                ))
-            ) : (
-              <p className="study-scope">
-                This lesson is text-only. New recordings are still being
-                authored.
-              </p>
-            )}
-            <button
-              className="study-primary"
-              disabled={
-                !storageReady ||
-                !lesson.prerequisites.every((id) => completed.has(id))
-              }
-              onClick={() => begin(lesson)}
-            >
-              Begin practice
-            </button>
-            {lesson.optionalExerciseIds.length ? <>
-              <button disabled={!storageReady || !lesson.prerequisites.every(id => completed.has(id))} onClick={() => { setSession(lesson.optionalExerciseIds); setStep(0); setHeard(null); setMessage(""); }}>Practice listening</button>
-              <p className="study-scope">Listening is optional and has its own review history. New recordings do not reset completed text lessons.</p>
-            </> : null}
-            {!lesson.prerequisites.every((id) => completed.has(id)) ? (
-              <p>
-                Read freely. Complete the preceding lesson’s practice
-                successfully to start this practice.
-              </p>
-            ) : null}
-          </section>
-        ) : (
           <>
             <section className="study-daily">
               <div>
@@ -478,10 +503,15 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
                       const unlocked = l.prerequisites.every((id) => completed.has(id));
                       const prerequisite = pack.lessons.find((item) => item.id === l.prerequisites[0]);
                       const status = isComplete ? "Complete — select to review" : isNext ? "Up next — select to start" : unlocked ? "Ready — select to start" : `Locked — complete ${prerequisite?.title ?? "the preceding lesson"} to unlock`;
-                      return <li key={l.id} className={isComplete ? "is-complete" : isNext ? "is-next" : "is-locked"}>
+                      // `.is-locked` used to swallow the "Ready" state too, so
+                      // available lessons looked disabled. State now maps 1:1.
+                      const state = isComplete ? "is-complete" : isNext ? "is-next" : unlocked ? "is-ready" : "is-locked";
+                      return <li key={l.id} className={state}>
                         <span className="study-path-number" aria-hidden="true">{index + 1}</span>
-                        <button onClick={() => setLessonId(l.id)}>{l.title}</button>
-                        <span>{status}</span>
+                        <button onClick={() => setLessonId(l.id)} disabled={!unlocked}>{l.title}</button>
+                        <span className={state === "is-locked" ? "study-lock" : undefined}>
+                          {state === "is-locked" ? <><span aria-hidden="true">🔒</span>{`After ${prerequisite?.title ?? "the previous lesson"}`}</> : status}
+                        </span>
                       </li>;
                     })}
                   </ol>
@@ -489,7 +519,6 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
               ))}
             </nav>
           </>
-        )
       ) : view === "Review" ? (
         <section>
           <h2>Today’s practice</h2>

@@ -21,8 +21,11 @@ function renderGuided(ui: React.ReactElement) {
 }
 
 const axeRules = {
-  'color-contrast': { enabled: false },
-  // complementary inside main is intentional for context rail design; e2e expects complementary
+  // Contrast is NOT disabled here any more. It was, and that is exactly why 102
+  // failing nodes shipped across ten routes (locked course-path rows at 3.27:1,
+  // the language-switcher label at 3.67:1 and 9.3px, the /you eyebrow at
+  // 4.24:1). Those are fixed; this rule is the guard that keeps them fixed.
+  // If it fails, fix the colour — do not re-disable the rule.
   'landmark-complementary-is-top-level': { enabled: false },
 };
 

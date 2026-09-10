@@ -1,0 +1,92 @@
+/* Desktop-only top navigation for app routes. Mobile keeps the bottom capsule
+ * (bottom-tabs.module.css), so this is hidden below 768px rather than stacked —
+ * two navigations for the same four destinations would just be noise.
+ *
+ * Hidden via a max-width query rather than a min-width one on purpose: jsdom
+ * (vitest) ignores media queries, so a min-width gate would make the header
+ * unreachable to every unit test. */
+.header {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--glass-edge);
+  background: var(--glass-fill-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 0.5rem clamp(1rem, 4vw, 3rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+  color: var(--ink);
+  font: 700 0.9rem/1 var(--font-utility);
+  text-decoration: none;
+}
+
+.brand > img {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border-radius: var(--radius-pill);
+  color: var(--muted-foreground, #586360);
+  font: 700 0.78rem/1 var(--font-utility);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+.link[aria-current='page'] {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--focus-ring, var(--accent));
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .header {
+    display: none;
+  }
+}
+
+/* Opaque fallback for users who ask the OS to reduce transparency. */
+@media (prefers-reduced-transparency: reduce) {
+  .header {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

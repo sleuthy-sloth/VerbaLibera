@@ -2,53 +2,38 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import styles from './bottom-tabs.module.css';
-import { foundationStartHref, foundationLanguage } from '@/features/course-pack/navigation';
+import { isActive, PRIMARY_NAV } from './AppHeader';
 
-// Bottom quick nav: Today, Practice (resumes the last-used course), Listen, You.
-// Language switching lives in the header switcher; these tabs never duplicate it.
+/**
+ * Mobile bottom navigation (<768px). Desktop gets the same four destinations
+ * from `AppHeader` — keep the two lists in sync via `PRIMARY_NAV`.
+ *
+ * The previous tab set was Today / Practice / Listen / You, where "Practice"
+ * resolved to `localStorage.verbalibera_course` and defaulted to `/dashboard` —
+ * so on a first visit two of the four tabs pointed at the same URL, and the
+ * label never said what it practised. Resuming a course now lives on the Today
+ * page as its primary action, where it has room to say which course it resumes.
+ */
 export function QuickNav() {
   const pathname = usePathname() ?? '/';
-  const [practiceHref, setPracticeHref] = useState('/dashboard');
-  // Deferred read after paint so the effect never sets state synchronously
-  // (cascading-render lint): QuickNav renders a safe default first.
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const saved = localStorage.getItem('verbalibera_course');
-        const current = pathname.startsWith('/courses/') ? pathname.split('/')[2] : saved;
-        if (current && foundationLanguage(current)) setPracticeHref(foundationStartHref(current));
-      } catch {}
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [pathname]);
-  const tabs = [
-    { href: '/dashboard', label: 'Today', fullName: 'Daily path', active: pathname === '/dashboard' },
-    {
-      href: practiceHref,
-      label: 'Practice',
-      fullName: 'Resume practice',
-      active: pathname.startsWith('/learn/') || pathname.startsWith('/courses/'),
-    },
-    { href: '/listen', label: 'Listen', fullName: 'Audio lessons', active: pathname.startsWith('/listen') },
-    { href: '/you', label: 'You', fullName: 'Account', active: pathname.startsWith('/you') || pathname.startsWith('/login') },
-  ];
   if (pathname === '/') return null;
   return (
     <nav aria-label="Primary" className={styles.tabs}>
-      {tabs.map((tab) => (
-        <Link
-          key={tab.label}
-          href={tab.href}
-          aria-label={tab.fullName}
-          aria-current={tab.active ? 'page' : undefined}
-          data-active={tab.active || undefined}
-          className={styles.tab}
-        >
-          {tab.label}
-        </Link>
-      ))}
+      {PRIMARY_NAV.map((tab) => {
+        const active = isActive(pathname, tab.href);
+        return (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            aria-current={active ? 'page' : undefined}
+            data-active={active || undefined}
+            className={styles.tab}
+          >
+            {tab.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

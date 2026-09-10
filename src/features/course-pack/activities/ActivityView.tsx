@@ -41,10 +41,18 @@ export function ActivityView({
   onAssist,
   stimulus,
   modelAudioUrl,
+  language,
 }: {
   activity: Activity;
   stimulus?: Stimulus;
   modelAudioUrl?: string;
+  /**
+   * BCP-47 code of the target language. Marked on the strings the content model
+   * guarantees are target-language, so a screen reader does not read «Je
+   * voudrais» with English phonemes. Choice options and matching columns mix
+   * target text with English glosses and stay unmarked rather than guessed at.
+   */
+  language?: string;
   response: Response | null;
   disabled: boolean;
   onChange: (response: Response) => void;
@@ -119,7 +127,7 @@ export function ActivityView({
       );
       break;
     case "self-compare":
-      controls = <SelfCompareActivity activity={activity} disabled={disabled} onChange={onChange} onAssist={onAssist} modelAudioUrl={modelAudioUrl} />;
+      controls = <SelfCompareActivity activity={activity} disabled={disabled} onChange={onChange} onAssist={onAssist} modelAudioUrl={modelAudioUrl} language={language} />;
       break;
     case "scene-selection":
       controls = stimulus?.kind === "scene"

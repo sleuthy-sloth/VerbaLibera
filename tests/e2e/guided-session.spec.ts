@@ -100,7 +100,7 @@ test.describe('mobile touch', () => {
     await expect(page.getByText('That is the right picture.')).toBeVisible();
 
     // Quick nav tabs are reachable by touch on mobile.
-    await page.getByRole('link', { name: 'Account' }).tap();
+    await page.getByRole('link', { name: 'You', exact: true }).tap();
     await expect(page).toHaveURL(/\/you$/);
   });
 });

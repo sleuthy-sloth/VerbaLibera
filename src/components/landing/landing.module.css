@@ -35,7 +35,7 @@
 .meta { color: var(--muted); font-size: .75rem; }
 .finePrint { color: var(--muted); font-size: .8125rem; margin: 22px 0 0; }
 .finePrint a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.label { font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.label { font-size: 0.75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
 .gloss { font-family: var(--font-display), Georgia, serif; font-style: italic; color: var(--muted); }
 .actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
 .primary, .secondary, .revealButton { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid var(--rule); padding: 12px 22px; border-radius: 4px; font-size: .9375rem; font-weight: 500; line-height: 1.4; transition: background .16s, border-color .16s; }
@@ -63,12 +63,12 @@
 .chain li:nth-child(2) { animation-delay: .16s; }
 .chain li:nth-child(3) { animation-delay: .32s; }
 .chain li:nth-child(4) { animation-delay: .48s; border: 0; }
-.stepNumber { width: 18px; flex: none; font-size: .6875rem; color: var(--muted); }
+.stepNumber { width: 18px; flex: none; font-size: 0.75rem; color: var(--muted); }
 .phrase { font-family: var(--font-display), Georgia, serif; font-size: clamp(1.25rem, 2.7vw, 1.875rem); font-weight: 500; line-height: 1.3; letter-spacing: -.012em; }
 .chain li:last-child .phrase { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 7px; }
 .chain .gloss { margin-left: auto; text-align: right; font-size: .9375rem; max-width: 26ch; }
-.annotation { flex-basis: 100%; font-size: .6875rem; color: var(--muted); letter-spacing: .03em; }
-.boardFoot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 16px; margin: 22px 0 0; font-size: .6875rem; color: var(--muted); }
+.annotation { flex-basis: 100%; font-size: 0.75rem; color: var(--muted); letter-spacing: .03em; }
+.boardFoot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 16px; margin: 22px 0 0; font-size: 0.75rem; color: var(--muted); }
 .boardFoot span:first-child { text-transform: uppercase; letter-spacing: .08em; }
 .sectionHead { max-width: 46ch; margin-bottom: clamp(36px, 5vw, 64px); }
 .sectionHead > p:last-child { margin: 16px 0 0; font-size: 1.1rem; color: var(--muted); max-width: 46ch; }
@@ -101,7 +101,7 @@
 .course { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 22px rgb(26 31 30 / 4%); }
 .courseArt { position: relative; }
 .courseArt img { width: 100%; aspect-ratio: 2064 / 512; }
-.courseBadge { position: absolute; left: 16px; top: 14px; padding: 5px 10px; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; font-size: .6875rem; text-transform: uppercase; letter-spacing: .1em; }
+.courseBadge { position: absolute; left: 16px; top: 14px; padding: 5px 10px; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: .1em; }
 .courseBody { padding: 20px 22px 22px; }
 .courseBody > p:not(.label):not(.courseMeta) { color: var(--muted); font-size: .9375rem; margin: 12px 0 0; }
 .courseBody .label { margin: 6px 0 0; color: var(--clay); }
@@ -119,10 +119,10 @@
 .phones { display: flex; align-items: flex-start; gap: 22px; }
 .phone { flex: 1; min-width: 0; padding: 14px; border: 1px solid var(--rule); border-radius: 24px; background: var(--paper); box-shadow: 0 16px 36px rgb(26 31 30 / 6%); }
 .phone + .phone { margin-top: 44px; }
-.phoneStatus { display: flex; justify-content: space-between; gap: 6px; padding: 2px 0 10px; border-bottom: 1px solid var(--rule); color: var(--muted); font: .625rem var(--font-utility), monospace; text-transform: uppercase; }
+.phoneStatus { display: flex; justify-content: space-between; gap: 6px; padding: 2px 0 10px; border-bottom: 1px solid var(--rule); color: var(--muted); font: 0.75rem var(--font-utility), monospace; text-transform: uppercase; }
 .phoneScreen { padding: 14px 2px 6px; }
 .phoneScreen h3 { font-size: 1rem; }
-.phoneScreen .meta { font-size: .6875rem; margin-top: 4px; }
+.phoneScreen .meta { font-size: 0.75rem; margin-top: 4px; }
 .progressLine { height: 3px; margin: 12px 0; background: var(--rule); }
 .progressLine::before { content: ''; display: block; width: 34%; height: 100%; background: var(--accent); }
 .phone + .phone .progressLine::before { width: 78%; }
@@ -168,7 +168,7 @@
 .footer .brand { color: var(--ink); font-size: 1.5rem; min-height: 44px; }
 .footerTop .gloss { margin-top: 8px; }
 .footerColumns { display: flex; gap: clamp(32px, 5vw, 72px); flex-wrap: wrap; }
-.footerColumns h2 { font: .6875rem var(--font-utility), monospace; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.footerColumns h2 { font: 0.75rem var(--font-utility), monospace; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
 .footerColumns a { display: flex; align-items: center; min-height: 44px; color: var(--ink); }
 .footerColumns a:hover { text-decoration: underline; }
 .footerNote { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--rule); }
@@ -198,7 +198,7 @@
   .noList { grid-template-columns: 1fr; }
   .noList li { padding-block: 22px; }
   .method li { grid-template-columns: 36px 1fr; gap: 16px; }
-  .courseDivider { font-size: .6875rem; letter-spacing: .04em; gap: 10px; }
+  .courseDivider { font-size: 0.75rem; letter-spacing: .04em; gap: 10px; }
   .boardHead { gap: 8px; }
   .chain li { gap: 10px; }
   .chain .gloss { max-width: none; }

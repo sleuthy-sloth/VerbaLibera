@@ -102,9 +102,8 @@ export default function DesktopSettings() {
         )}
         {leavingLocal ? (
           <p>
-            Before restarting, use <strong>Export practice backup</strong> in
-            the course workspace: switching away from local storage does not
-            copy your progress.
+            Before restarting, use <strong>Export practice backup</strong> on the course page:
+            switching away from local storage does not copy your progress.
           </p>
         ) : null}
         <div className={styles.field}>

@@ -10,6 +10,18 @@
   --accent-soft: #e4edeb;
   --focus-ring: var(--accent);
   --motion-duration: 220ms;
+  /* Secondary text. #6b7672 failed 4.5:1 on everything but pure white
+   * (4.24:1 on --canvas), so the token is one step darker: 5.61:1 on
+   * --canvas, 6.14:1 on --surface. Do not lighten this without re-running
+   * `npm run a11y:audit`. */
+  --muted-foreground: #586360;
+  /* Equivalent of color-mix(in srgb, var(--ink) 55%, transparent) over the
+   * canvas — that mix measured 3.68:1. This one holds at 5.15:1. */
+  --muted-ink: color-mix(in srgb, var(--ink) 66%, transparent);
+  /* Type floor: nothing readable may be smaller than 0.75rem (12px).
+   * Sub-12px labels shipped at 8.6px (0.54rem) and 9.3px (0.58rem) and were
+   * unreadable on a phone. `tests/type-scale.test.ts` enforces this. */
+  --text-min: 0.75rem;
   --background: var(--canvas);
   --foreground: var(--ink);
   --font-display: var(--font-newsreader);
@@ -127,5 +139,76 @@ html[data-motion='reduced'] *::after {
   transition-duration: 0.01ms !important;
 }
 
+/* Users who ask their OS for more contrast get opaque surfaces and a heavier
+ * ink, because the translucent Liquid Glass fills are what push several muted
+ * colours toward the 4.5:1 line. */
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: #2f3a37;
+    --glass-fill: var(--surface);
+    --glass-fill-strong: var(--surface);
+    --glass-edge: color-mix(in srgb, var(--ink) 45%, transparent);
+    --glass-blur: none;
+  }
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  :focus-visible {
+    outline-width: 4px;
+  }
+}
+
 /* The public page has its own navigation and needs no bottom-tab clearance. */
 body:has([data-landing-page]) { padding-bottom: 0; }
+
+/* Branded 404 (src/app/not-found.tsx). */
+.not-found {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: clamp(3rem, 12vh, 7rem) clamp(1rem, 4vw, 2rem) 6rem;
+}
+
+.not-found-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--muted-foreground);
+  font: 700 var(--text-min) / 1.2 var(--font-utility);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.not-found h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.not-found p {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.not-found-links {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.not-found-links a {
+  text-decoration: underline;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-strong);
+  text-underline-offset: 4px;
+}

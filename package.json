@@ -39,7 +39,8 @@
     "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts",
     "postgres:prepare": "bash scripts/desktop/prepare-postgres.sh",
     "postgres:verify": "tsx scripts/desktop/verify-postgres.ts",
-    "electron:verify": "tsx scripts/desktop/verify-artifact.ts"
+    "electron:verify": "tsx scripts/desktop/verify-artifact.ts",
+    "a11y:audit": "node scripts/a11y/route-audit.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",

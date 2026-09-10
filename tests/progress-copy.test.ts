@@ -12,26 +12,26 @@ describe('progress copy', () => {
   });
 
   it('returns preview copy byte-identical to today for signed-out', () => {
-    expect(dashboardBadgeCopy(true)).toBe('Preview progress');
+    expect(dashboardBadgeCopy(true)).toBe('Saved in this browser');
     expect(dashboardBadgeCopy(false)).toBe('Saved to your account');
   });
 
   it('preserves preview copy for signed-out', () => {
     const preview = dashboardBadgeCopy(true);
-    expect(preview).toBe('Preview progress');
+    expect(preview).toBe('Saved in this browser');
     // Signed-in should differ
     expect(dashboardBadgeCopy(false)).not.toBe(preview);
   });
 
   it('exposes canonical preview/saved badge copy', () => {
-    expect(dashboardBadgeCopy({ isPreview: true })).toBe('Preview progress');
+    expect(dashboardBadgeCopy({ isPreview: true })).toBe('Saved in this browser');
     expect(dashboardBadgeCopy({ isPreview: false })).toBe('Saved to your account');
     expect(sessionCompletionCopy({ isPreview: true })).toBe('Nothing was saved.');
     expect(sessionCompletionCopy({ isPreview: false })).toBe('Saved to your account.');
   });
 
   it('exposes canonical badge and completion copy via object param (case-insensitive)', () => {
-    expect(dashboardBadgeCopy({ isPreview: true })).toMatch(/Preview progress/i);
+    expect(dashboardBadgeCopy({ isPreview: true })).toMatch(/Saved in this browser/i);
     expect(dashboardBadgeCopy({ isPreview: false })).toMatch(/Saved to your account/i);
     expect(sessionCompletionCopy({ isPreview: true })).toMatch(/Nothing was saved/i);
   });

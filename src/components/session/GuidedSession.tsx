@@ -206,8 +206,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   return (
     <main id="main-content" tabIndex={-1} className={styles.session}>
       <header className={styles.sessionHeader}>
-        <Link href={dashboardHref}>← Daily path</Link>
-        <span>{isPreview ? '8-minute preview' : 'Your daily practice'}</span>
+        <Link href={dashboardHref}><span aria-hidden="true">←</span> Daily path</Link>
+        <span>{isPreview ? 'Lesson' : 'Your daily practice'}</span>
       </header>
 
       <section className={styles.sessionIntro} aria-labelledby="session-heading">

@@ -11,10 +11,10 @@ export default function Error({ error, reset }: ErrorProps) {
   return (
     <main className={`${styles.dashboard} ${styles.focusSurface} ${styles.errorShell}`}>
       <div className={styles.errorMessage} role="alert">
-        <p className={styles.eyebrow}>VerbaLibera preview</p>
+        <p className={styles.eyebrow}>VerbaLibera</p>
         <h1>Unable to load your practice path.</h1>
         <p>
-          Something went wrong. Your preview progress is still safe. Try the read-only snapshot again.
+          Something went wrong loading this page. Your practice is still saved — try again.
         </p>
         {error?.digest ? (
           <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'color-mix(in srgb, var(--ink) 55%, transparent)' }}>

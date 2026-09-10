@@ -48,9 +48,9 @@ export class DashboardErrorBoundary extends Component<
           data-testid="dashboard-error-boundary"
         >
           <div className={styles.errorMessage} role="alert">
-            <p className={styles.eyebrow}>VerbaLibera preview</p>
+            <p className={styles.eyebrow}>VerbaLibera</p>
             <h1>Unable to load your practice path.</h1>
-            <p>Something unexpected happened. Your preview progress is still safe. Try again.</p>
+            <p>Something went wrong loading your practice path. Nothing was lost — try again.</p>
           </div>
           <button onClick={this.handleReset} type="button">
             Try again
@@ -81,9 +81,9 @@ function DashboardDataBoundaryInner({
         className={`${styles.dashboard} ${styles.focusSurface} ${styles.errorShell}`}
       >
         <div className={styles.errorMessage} role="alert">
-          <p className={styles.eyebrow}>VerbaLibera preview</p>
+          <p className={styles.eyebrow}>VerbaLibera</p>
           <h1>Unable to load your practice path.</h1>
-          <p>Your preview progress is still safe. Try the read-only snapshot again.</p>
+          <p>Your practice is still saved. Try loading it again.</p>
         </div>
         {retryIsActive ? <p role="status">Trying to load your practice path again…</p> : null}
         <button

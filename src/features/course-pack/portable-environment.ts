@@ -155,15 +155,6 @@ function durableStore(factory: IDBFactory): PracticeStore {
   };
 }
 
-const TYPE_HINT_MAP: Record<string, string> = {
-  cloze: 'missing word',
-  order: 'drag into order',
-  meaning: 'choose the meaning',
-  speaking: 'speak the phrase',
-  listening: 'listen and type',
-  notice: 'notice pattern',
-  reading: 'reading',
-};
 
 export function hintNextExerciseType(lesson: {
   start: number;

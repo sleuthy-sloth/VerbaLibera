@@ -38,7 +38,7 @@
   margin: 0 0 0.65rem;
   color: #46534f;
   font-family: var(--font-utility);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -181,7 +181,7 @@
 .modelDialogue span {
   color: #46534f;
   font-family: var(--font-utility);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.12em;
   text-transform: uppercase;

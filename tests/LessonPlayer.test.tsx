@@ -13,7 +13,7 @@ it('checkpoints revealed assistance and refuses exit when checkpoint fails', asy
  await userEvent.click(await screen.findByRole('button',{name:'Show translation'}));
  await waitFor(async()=>expect((await environment.lessonPractice!.readCheckpoint(pack.id,'it-cafe-story'))?.assistance).toContain('translation'));
  vi.spyOn(environment.lessonPractice!,'writeCheckpoint').mockRejectedValue(new Error('offline'));
- await userEvent.click(screen.getByRole('button',{name:'← All lessons'}));
+ await userEvent.click(screen.getByRole('button',{name:'All lessons'}));
  expect(exit).not.toHaveBeenCalled();
  expect(await screen.findByRole('alert')).toHaveTextContent(/could not be saved/i);
 });
@@ -38,14 +38,14 @@ it('keeps a revealed story assisted on the next question and after reopening',as
  await userEvent.click(screen.getByRole('button',{name:'Continue'}));
  await userEvent.click(await screen.findByRole('radio',{name:'Un caffè'}));
  await userEvent.click(screen.getByRole('button',{name:'Check'}));
- await screen.findByText(/Saved as assisted practice/);
+ await screen.findByText(/used the answer on this step/);
  const events=await environment.lessonPractice!.readLessons();
  const attempts=events.filter(e=>'eventVersion' in e && e.type==='attempt');
  expect(attempts.at(-1)).toMatchObject({assistance:['translation'],evaluation:{independent:false}});
  await waitFor(async()=>expect((await environment.lessonPractice!.readCheckpoint(pack.id,'it-cafe-story'))?.stepId).toBe('st-s2'));
  view.unmount();
  render(<LessonPlayer pack={pack} lessonId="it-cafe-story" environment={environment} onExit={()=>{}}/>);
- await screen.findByText(/Saved as assisted practice/);
+ await screen.findByText(/used the answer on this step/);
 });
 it('retries an event write with the same logical IDs',async()=>{
  const environment=env();

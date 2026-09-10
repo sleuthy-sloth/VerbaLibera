@@ -1,7 +1,24 @@
-.control { position: relative; display: inline-grid; min-width: 9rem; gap: 0.1rem; opacity: 0.92; }
-.label { color: var(--muted-foreground, #6b7672); font: 600 0.58rem/1.1 var(--font-utility); letter-spacing: 0.08em; text-transform: uppercase; }
-.control select { min-height: 34px; appearance: none; padding: 0.35rem 1.7rem 0.35rem 0.6rem; border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); border-radius: 999px; background: transparent; color: var(--ink); font: 600 0.78rem/1.2 var(--font-utility); cursor: pointer; }
-.control select:hover { border-color: color-mix(in srgb, var(--ink) 38%, transparent); opacity: 1; }
-.control select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.chevron { position: absolute; right: 0.6rem; bottom: 0.42rem; color: var(--muted-foreground, #6b7672); pointer-events: none; font-size: 0.85rem; line-height: 1; }
-@media (max-width: 760px) { .control { min-width: 8rem; } .label { font-size: 0.54rem; } }
+.control { position: relative; display: inline-grid; min-width: 9rem; gap: 0.1rem; }
+/* The label used to render at 0.58rem / 0.54rem (9.3px / 8.6px) in #6b7672,
+ * which measured 3.67:1 — both below the type floor and below AA. */
+.label {
+  color: var(--muted-foreground, #586360);
+  font: 700 var(--text-min, 0.75rem)/1.2 var(--font-utility);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.control select {
+  min-height: 44px;
+  appearance: none;
+  padding: 0.35rem 1.7rem 0.35rem 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 600 0.8rem/1.2 var(--font-utility);
+  cursor: pointer;
+}
+.control select:hover { border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+.control select:focus-visible { outline: 3px solid var(--focus-ring, var(--accent)); outline-offset: 2px; }
+.chevron { position: absolute; right: 0.7rem; bottom: 0.72rem; color: var(--muted-foreground, #586360); pointer-events: none; font-size: 0.85rem; line-height: 1; }
+@media (max-width: 760px) { .control { min-width: 8.5rem; } }

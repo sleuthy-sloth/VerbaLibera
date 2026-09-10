@@ -844,7 +844,7 @@ function LessonPlayerSession({
         </div>
         <div className="lp-controls">
           <button type="button" className="lp-secondary" onClick={onExit}>
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
       </div>
@@ -863,7 +863,7 @@ function LessonPlayerSession({
         )}
         <div className="lp-controls">
           <button type="button" className="lp-secondary" onClick={onExit}>
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
       </div>
@@ -878,7 +878,7 @@ function LessonPlayerSession({
         </div>
         <div className="lp-controls">
           <button type="button" className="lp-secondary" onClick={onExit}>
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
       </div>
@@ -894,7 +894,7 @@ function LessonPlayerSession({
             className="lp-back"
             onClick={() => void handleBack()}
           >
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
         {durability === "temporary" && (
@@ -934,7 +934,7 @@ function LessonPlayerSession({
         </div>
         <div className="lp-controls">
           <button type="button" className="lp-secondary" onClick={onExit}>
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
       </div>
@@ -953,7 +953,7 @@ function LessonPlayerSession({
         </div>
         <div className="lp-controls">
           <button type="button" className="lp-secondary" onClick={onExit}>
-            ← All lessons
+            <span aria-hidden="true">←</span> All lessons
           </button>
         </div>
       </div>
@@ -1003,6 +1003,7 @@ function LessonPlayerSession({
           disabled={false}
           onChange={() => {}}
           onAssist={recordAssist}
+          language={pack.language}
         />
       </section>
     ) : (
@@ -1012,6 +1013,7 @@ function LessonPlayerSession({
         stimulus={contextStimulus ?? undefined}
         modelAudioUrl={activity.kind === "self-compare" && activity.modelAudioId && mediaById.has(activity.modelAudioId)
           ? environment.resolveMedia(mediaById.get(activity.modelAudioId)!.url) : undefined}
+        language={pack.language}
         response={draft}
         disabled={pending !== null || stepCompleted}
         onChange={setDraft}
@@ -1068,8 +1070,8 @@ function LessonPlayerSession({
           evaluation.outcome === "self-assessed") && (
           <span className="lp-independence">
             {evaluation.independent
-              ? "Saved as independent practice."
-              : "Saved as assisted practice — it will not count toward independent review."}
+              ? "Saved — you answered this one from memory."
+              : "Saved, but you used the answer on this step — we&rsquo;ll bring it back sooner."}
           </span>
         )}
       </div>
@@ -1089,8 +1091,8 @@ function LessonPlayerSession({
   const assistedNotice =
     !session.currentEvaluation && assistanceTaints ? (
       <p role="status" className="lp-assist-notice">
-        Assisted practice — help was shown on this step, so this attempt will not
-        count toward independent review.
+        You&rsquo;ve already seen the answer on this step, so it won&rsquo;t count as
+        practice from memory. Answering the next one without help will.
       </p>
     ) : null;
 
@@ -1129,7 +1131,7 @@ function LessonPlayerSession({
           className="lp-back"
           onClick={() => void handleBack()}
         >
-          ← All lessons
+          <span aria-hidden="true">←</span> All lessons
         </button>
         {requiredTrail.length > 0 && (
           <div className="lp-progress-track">

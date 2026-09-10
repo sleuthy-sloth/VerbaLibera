@@ -250,27 +250,29 @@ export function ExerciseView({
             Check answer
           </button>
         ) : null}
-        <button
-          onClick={() => {
-            setRevealed(true);
-            if (!result)
-              setResult({
-                accepted: false,
-                category: "model revealed",
-                explanation: "Study the model. This remains a review item.",
-                model: exercise.answers[0],
-              });
-          }}
-        >
-          Reveal model
-        </button>
+        {!revealed ? (
+          <button
+            onClick={() => {
+              setRevealed(true);
+              if (!result)
+                setResult({
+                  accepted: false,
+                  category: "model revealed",
+                  explanation: "Here is the model answer. Compare it with yours before moving on.",
+                  model: exercise.answers[0],
+                });
+            }}
+          >
+            Reveal model
+          </button>
+        ) : null}
       </div>
       {result ? (
         <div role="status" className="study-feedback">
           <strong>{result.category}</strong>
           <p>{result.explanation}</p>
           {revealed ? (
-            <p>Assisted practice. This will remain in review.</p>
+            <p>You used the model answer, so this one will come back sooner. That is the point of it.</p>
           ) : null}
           {!result.accepted || revealed ? (
             <p lang={pack.language}>{result.model}</p>
