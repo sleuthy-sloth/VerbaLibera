@@ -48,6 +48,18 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # The staged PostgreSQL runtime must exist BEFORE any vitest call. This
+      # job sets VERBALIBERA_TEST_TLS=1 at job level, so
+      # tests/desktop-postgres-tls.test.ts activates on the FIRST run and
+      # spawns .desktop-stage/postgres/bin/initdb. These two steps used to sit
+      # after the tests, so that test failed with ENOENT on every tag ever cut
+      # (v0.1.0, v0.2.0, v0.3.0) and took the whole release job with it.
+      - name: Prepare PostgreSQL runtime
+        run: npm run postgres:prepare
+
+      - name: Verify PostgreSQL runtime
+        run: npm run postgres:verify
+
       - name: Vitest run
         run: npx vitest run
 
@@ -61,12 +73,6 @@ jobs:
 
       - name: Type check
         run: npm run typecheck
-
-      - name: Prepare PostgreSQL runtime
-        run: npm run postgres:prepare
-
-      - name: Verify PostgreSQL runtime
-        run: npm run postgres:verify
 
       - name: Build portable edition
         run: npm run portable:build
