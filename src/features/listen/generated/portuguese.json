@@ -244,55 +244,67 @@
       "thinkSeconds": 8
     },
     {
-      "heading": "Numbers: one through five",
-      "teacher": "Let's add numbers. One is um. Two is dois. Three is três. Four is quatro. Five is cinco. Listen: um, dois, três, quatro, cinco. Dois sounds like the English word do — but it means two. Três sounds like the English word trace minus the e. Portuguese kept the Latin echoes.",
+      "heading": "Ask where something is",
+      "teacher": "Beyond ordering, you need to find your way. Imagine looking for the station. The question you will hear means where is the station, please. It starts with the word for where, then the place block, then the polite ending you know. Hear it as question word plus location noun. Listen first to notice the order of the three parts.",
       "target": {
-        "text": "Um, dois, três, quatro, cinco.",
-        "meaning": "One, two, three, four, five."
+        "text": "Onde fica a estação, por favor?",
+        "meaning": "Where is the station, please?"
       }
     },
     {
-      "heading": "Think: Counting items",
-      "teacher": "Think. You want to say two coffees. Coffee is café. Two is dois. Build it: dois cafés. Three teas: três chás. The number doesn't change, only the noun. Same rule as Spanish, same logic you already know.",
+      "heading": "Follow directions — think",
+      "teacher": "Answers use three blocks: to the left, to the right, and straight ahead. Listen to them as a set so you hear the contrast. During the pause, say straight ahead from memory as one block. Afterwards you will hear a combined instruction meaning go straight ahead and then turn left, stacking two blocks into a longer route.",
       "target": {
-        "text": "Dois cafés. / Três chás.",
-        "meaning": "Two coffees. / Three teas."
-      }
+        "text": "À esquerda. À direita. Em frente. Siga em frente e vire à esquerda.",
+        "meaning": "To the left. To the right. Straight ahead. Go straight ahead and then turn left."
+      },
+      "thinkSeconds": 8
     },
     {
-      "heading": "Telling time",
-      "teacher": "Now time. Que horas são? means what time is it. The answer uses São as the verb. São duas means it is two o'clock. For one o'clock: é uma hora — singular. Two onward: são duas, são três. The same number system applied to the clock.",
+      "heading": "Transfer directions to a new landmark",
+      "teacher": "Transfer your where question to a different place. The new location is the pharmacy. Keep the same where is opening and the same polite ending, but replace only the place block. During the pause, say where is the pharmacy, please. You keep the question frame and swap one interior noun, just as you swapped drinks earlier.",
       "target": {
-        "text": "Que horas são? São três.",
+        "text": "Onde fica a farmácia, por favor?",
+        "meaning": "Where is the pharmacy, please?"
+      },
+      "thinkSeconds": 8
+    },
+    {
+      "heading": "Ask what time it is — think",
+      "teacher": "You also need to ask about time while navigating. The question you will hear means what time is it. The answer means it is three o'clock, beginning with a phrase meaning it is, then the number and the word for hours. During the pause, try asking what time is it from memory, then listen to the pair together.",
+      "target": {
+        "text": "Que horas são? São três horas.",
         "meaning": "What time is it? It is three o'clock."
+      },
+      "thinkSeconds": 8
+    },
+    {
+      "heading": "Tell time — half past",
+      "teacher": "Time often includes halves. The phrase you will hear means it is three-thirty, or half past three. It keeps the it is opening and adds a phrase meaning and a half. Say it is three-thirty from memory during the pause. The opening is identical to the whole hour; only the ending shifts.",
+      "target": {
+        "text": "São três e meia.",
+        "meaning": "It is three-thirty."
       }
     },
     {
-      "heading": "Think: Your schedule",
-      "teacher": "Think. You have a class at four. São quatro. Your friend asks when. São quatro, you say. Now it's one o'clock — the singular. É uma hora. That's the only irregular. After that it's regular.",
+      "heading": "Shopping — ask the price and buy — think",
+      "teacher": "The final topic is shopping. The question means how much does it cost, and the reply means ten euros. When you decide to buy, you say I will take it, thank you. During the pause, ask how much does it cost from memory. You already know how prices and polite closings work; only the shopping frame is new.",
       "target": {
-        "text": "É uma hora. / São quatro.",
-        "meaning": "It is one o'clock. / It is four o'clock."
-      }
+        "text": "Quanto custa? Custa dez euros. Vou levar, obrigada.",
+        "meaning": "How much does it cost? It costs ten euros. I will take it, thank you. (Feminine speaker.)"
+      },
+      "thinkSeconds": 8
     },
     {
-      "heading": "Transfer: Shopping arrival",
-      "teacher": "Let's stack everything. You walk into a shop at three o'clock. Olá, boa tarde. Queria um café, por favor. — I wanted a coffee, please. São três. You sit down. Queria um café e um pastel. — I wanted a coffee and a cake. Quatro euros. Obrigado. You used greetings, politeness, numbers, and time in one real transaction.",
+      "heading": "Full dialogue — finding the shops",
+      "teacher": "Rehearse a complete outing linking directions, time, and shopping. You greet, introduce yourself, ask where the station is, follow straight ahead and left, ask what time it is, hear three-thirty, ask the price, hear ten euros, and say you will take it. Listen once through, then replay and speak your parts after each sentence.",
       "target": {
-        "text": "Olá, boa tarde. Queria um café, por favor.",
-        "meaning": "Hello, good afternoon. I wanted a coffee, please."
-      }
-    },
-    {
-      "heading": "Full dialogue: The café",
-      "teacher": "Let's do the full exchange. Olá, boa tarde. Queria um café, por favor. Quer mais? Não, obrigado. Quatro euros. Até logo. Boa tarde means good afternoon. Quer mais means do you want more. Até logo means see you later. You just had a complete café conversation using blocks from the entire lesson.",
-      "target": {
-        "text": "Olá, boa tarde. Queria um café, por favor.",
-        "meaning": "Hello, good afternoon. I wanted a coffee, please."
+        "text": "Olá. Meu nome é Ana. Onde fica a estação, por favor? Siga em frente e vire à esquerda. Que horas são? São três e meia. Quanto custa? Custa dez euros. Vou levar, obrigada.",
+        "meaning": "Hello. My name is Ana. Where is the station, please? Go straight ahead and then turn left. What time is it? It is three-thirty. How much does it cost? It costs ten euros. I will take it, thank you."
       }
     }
   ],
   "audioUrl": "/audio/portuguese-foundations/pt-introductions-foundation-listen.mp3",
-  "durationS": 574,
+  "durationS": 624.27,
   "reviewPending": true
 }

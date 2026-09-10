@@ -245,55 +245,67 @@
       "thinkSeconds": 8
     },
     {
-      "heading": "Numbers: one through five",
-      "teacher": "Let's add numbers. One is eins. Two is zwei. Three is drei. Four is vier. Five is fünf. Listen: eins, zwei, drei, vier, fünf. Zwei sounds like the English word two. Drei sounds like the English word three. Vier sounds like four. German kept the Latin echoes, just like English did.",
+      "heading": "Ask for a table at a restaurant",
+      "teacher": "Your café pattern now works in a sit-down restaurant. Imagine entering in the evening and asking for a table for two. The phrase you will hear means a table for two, please. It ends with the polite word you know and keeps for two together as one block in the middle. Listen first to hear where that polite ending sits.",
       "target": {
-        "text": "Eins, zwei, drei, vier, fünf.",
-        "meaning": "One, two, three, four, five."
+        "text": "Einen Tisch für zwei, bitte.",
+        "meaning": "A table for two, please."
       }
     },
     {
-      "heading": "Think: Counting items",
-      "teacher": "Think. You want to say two coffees. Coffee is der Kaffee. Two is zwei. Build it: zwei Kaffees. Three teas: drei Tees. The number doesn't change, only the noun. Same logic as every other language in this lesson.",
+      "heading": "Order a main dish",
+      "teacher": "Order food exactly as you ordered drinks. The opening meaning I would like works for any dish. Keep that opening, then a dish block, then the polite ending. During the pause, say I would like the schnitzel, please. You know the frame; the dish block is the only new piece in the middle. Listen afterward to check the noun block.",
       "target": {
-        "text": "Zwei Kaffees. / Drei Tees.",
-        "meaning": "Two coffees. / Three teas."
-      }
+        "text": "Ich möchte das Schnitzel, bitte.",
+        "meaning": "I would like the schnitzel, please."
+      },
+      "thinkSeconds": 8
     },
     {
-      "heading": "Telling time",
-      "teacher": "Now time. Wie spät ist es? means what time is it — literally how late is it. The answer uses Uhr, which means o'clock. Es ist drei Uhr means it is three o'clock. One o'clock: Es ist ein Uhr. Two: Es ist zwei Uhr. The number stays the same, Uhr follows.",
+      "heading": "Transfer your order to a new dish",
+      "teacher": "Transfer the same frame to a different dish. The new choice is the soup. Keep the I would like opening and the polite ending, replacing only the dish block. During the pause, say I would like the soup, please. You reuse the whole sentence and swap one interior block. Listen afterward to confirm you changed only the dish.",
+      "target": {
+        "text": "Ich möchte die Suppe, bitte.",
+        "meaning": "I would like the soup, please."
+      },
+      "thinkSeconds": 8
+    },
+    {
+      "heading": "Ask what time it is — think",
+      "teacher": "A different need is asking about time. Imagine you have a reservation. The question you will hear means what time is it. The answer means it is three o'clock, starting with a phrase meaning it is, then the number and the word for hours. During the pause, try asking what time is it from memory, then listen to the full question and answer.",
       "target": {
         "text": "Wie spät ist es? Es ist drei Uhr.",
         "meaning": "What time is it? It is three o'clock."
+      },
+      "thinkSeconds": 8
+    },
+    {
+      "heading": "Tell time — half past",
+      "teacher": "In this language the half hour is phrased as halfway to the next hour. The phrase you will hear means it is half past three, literally half four. Keep the it is opening and add the half expression. Say it is half past three from memory during the pause. The opening stays the same; only the time expression changes.",
+      "target": {
+        "text": "Es ist halb vier.",
+        "meaning": "It is half past three. (Literally half four.)"
       }
     },
     {
-      "heading": "Think: Your schedule",
-      "teacher": "Think. You have a meeting at four. Es ist vier Uhr. Your friend asks when. Es ist vier Uhr, you say. Simple and regular — no singular trick like Spanish or Portuguese. German time is straightforward.",
+      "heading": "Introduce your family — think",
+      "teacher": "The last topic is family. The phrase you will hear means my mother and my father, as two blocks joined by the word for and, each with its ownership word. During the pause, say my brother from memory — same ownership pattern, new noun. Once you have my plus a noun, you can describe any family member.",
       "target": {
-        "text": "Es ist ein Uhr. / Es ist vier Uhr.",
-        "meaning": "It is one o'clock. / It is four o'clock."
-      }
+        "text": "Meine Mutter und mein Vater. Mein Bruder.",
+        "meaning": "My mother and my father. My brother."
+      },
+      "thinkSeconds": 8
     },
     {
-      "heading": "Transfer: Restaurant arrival",
-      "teacher": "Let's stack everything. You walk into a restaurant at three o'clock. Hallo. Ich hätte gern einen Kaffee, bitte. — I would like a coffee, please. Es ist drei Uhr. You sit down. Ich hätte gern einen Kaffee und ein Stück Kuchen. — I would like a coffee and a piece of cake. Vier Euro. Danke. You used greetings, politeness, numbers, and time in one real transaction.",
+      "heading": "Full dialogue — evening at the restaurant",
+      "teacher": "Rehearse a complete evening linking everything. You greet, introduce yourself, ask for a table for two, order a main dish, ask what time it is, hear half past three, mention your family waiting, ask for the bill, and thank the server. Listen once, then replay and speak your parts after each sentence.",
       "target": {
-        "text": "Hallo. Ich hätte gern einen Kaffee, bitte.",
-        "meaning": "Hello. I would like a coffee, please."
-      }
-    },
-    {
-      "heading": "Full dialogue: The restaurant",
-      "teacher": "Let's do the full exchange. Hallo, guten Tag. Ich hätte gern einen Kaffee, bitte. Sonst noch etwas? Nein, danke. Vier Euro. Tschüss. Guten Tag means good day. Sonst noch etwas means anything else. Tschüss means bye. You just had a complete restaurant conversation using blocks from the entire lesson.",
-      "target": {
-        "text": "Hallo, guten Tag. Ich hätte gern einen Kaffee, bitte.",
-        "meaning": "Hello, good day. I would like a coffee, please."
+        "text": "Hallo. Ich heiße Anna. Einen Tisch für zwei, bitte. Ich möchte das Schnitzel, bitte. Wie spät ist es? Es ist halb vier. Meine Mutter und mein Vater sind hier. Die Rechnung, bitte. Danke.",
+        "meaning": "Hello. My name is Anna. A table for two, please. I would like the schnitzel, please. What time is it? It is half past three. My mother and my father are here. The bill, please. Thank you."
       }
     }
   ],
   "audioUrl": "/audio/german-foundations/de-introductions-foundation-listen.mp3",
-  "durationS": 572,
+  "durationS": 613.89,
   "reviewPending": true
 }
