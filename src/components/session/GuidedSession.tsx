@@ -406,10 +406,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                         {verdict.limited
                           ? 'Local checking is unavailable right now — compare with the model answer.'
                           : verdict.verdict === 'exact'
-                          ? 'That matches an accepted answer.'
+                          ? "That's it."
                           : verdict.verdict === 'close'
-                          ? 'Close — compare with the accepted answer.'
-                          : 'Try again, or reveal the model answer.'}
+                          ? 'Close — one detail off. Compare with the model.'
+                          : 'Not quite. Try again, or reveal the model.'}
                       </p>
                       {verdict.verdict === 'close' && verdict.matchedVariant && (
                         <p className={styles.verdictHint}>{verdict.matchedVariant}</p>

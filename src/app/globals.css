@@ -39,6 +39,16 @@
   --glass-shadow-sm: 0 2px 12px color-mix(in srgb, var(--ink) 12%, transparent);
   --radius-glass: 20px;
   --radius-pill: 999px;
+  /* Practice feedback states. A right answer and a wrong answer used to render
+   * in the identical glass panel in the French lesson — the only difference was
+   * the sentence, and a learner skimming on a phone has no visual signal at all.
+   * These are a *redundant* cue that sits alongside the text, never the only
+   * one: the headline already says which it is. */
+  --state-correct-fill: #e3efec;
+  --state-correct-line: #1e6563;
+  --state-attention-fill: #f7ece7;
+  --state-attention-line: #d8b3a6;
+  --state-attention-ink: #8f4b3a;
 }
 
 @theme inline {

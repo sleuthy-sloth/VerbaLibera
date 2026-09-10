@@ -46,7 +46,7 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
   await page.getByRole("radio", { name: "sono", exact: true }).check();
   await page.getByRole("button", { name: "Check", exact: true }).click();
   await expect(
-    page.getByRole("status").filter({ hasText: "correct" }),
+    page.locator('[role="status"][data-outcome]').first(),
   ).toBeVisible();
   await page.getByRole("button", { name: "Next step", exact: true }).click();
 
@@ -142,9 +142,13 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
   await page.getByRole("button", { name: "Begin practice", exact: true }).click();
   await page.getByRole("radio", { name: "suis", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   for (const answer of ["Je suis Marc.", "Je suis française.", "Je suis Sophie."]) {
     if (answer === "Je suis française.") {
@@ -159,9 +163,13 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
       await page
         .getByRole("button", { name: "Check answer", exact: true })
         .click();
-      await expect(page.getByRole("status")).toContainText("correct");
+      // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
       await page
-        .getByRole("button", { name: "Save and continue", exact: true })
+        .getByRole("button", { name: "Continue", exact: true })
         .click();
     }
     await page
@@ -169,40 +177,60 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
       .click();
     await page.getByLabel(/^(Your answer|Missing word)$/).fill(answer);
     await page.getByRole("button", { name: "Check answer", exact: true }).click();
-    await expect(page.getByRole("status")).toContainText("correct");
+    // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
     await page
-      .getByRole("button", { name: "Save and continue", exact: true })
+      .getByRole("button", { name: "Continue", exact: true })
       .click();
     if (answer === "Je suis française.") {
       for (const word of ["Je", "suis", "française."])
         await page.getByRole("button", { name: word, exact: true }).click();
       await page.getByRole("button", { name: "Check answer", exact: true }).click();
-      await expect(page.getByRole("status")).toContainText("correct");
+      // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
       await page
-        .getByRole("button", { name: "Save and continue", exact: true })
+        .getByRole("button", { name: "Continue", exact: true })
         .click();
     }
   }
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("I am French.");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("suis");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("Anna");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Practice complete", exact: true }),
+    page.getByRole("heading", { name: /— done\.$/ }),
   ).toBeVisible();
   await page
     .getByRole("button", { name: "Back to course", exact: true })

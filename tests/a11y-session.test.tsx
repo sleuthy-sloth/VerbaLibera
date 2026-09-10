@@ -95,7 +95,7 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    const verdictText = await screen.findByText('That matches an accepted answer.');
+    const verdictText = await screen.findByText("That's it.");
     const verdictRegion = verdictText.closest('[aria-live]');
     expect(verdictRegion).not.toBeNull();
     expect(verdictRegion).toHaveAttribute('aria-live', 'polite');

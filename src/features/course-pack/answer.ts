@@ -48,9 +48,14 @@ export function evaluateAnswer(response: string, spec: AnswerSpec): Evaluation {
     );
   const exact = spec.answers.findIndex((a) => normalize(a) === input);
   if (exact >= 0)
+    // `feedbackFor` supplies the learner-facing wording; this string exists so
+    // the evaluation is self-describing and must never say "authored answer" —
+    // that is answer-key vocabulary, not something to show a person.
     return result(
       exact === 0 ? "correct" : "acceptable alternative",
-      "That matches an authored answer.",
+      exact === 0
+        ? "That is the answer."
+        : "That is one of the accepted forms.",
       true,
     );
   const error = spec.errors?.find((e) => normalize(e.answer) === input);
@@ -119,6 +124,6 @@ export function evaluateAnswer(response: string, spec: AnswerSpec): Evaluation {
   }
   return result(
     "incorrect answer",
-    "This does not match an authored answer. Study the explanation, then try again.",
+    "That is not the form we are looking for. Study the explanation, then try again.",
   );
 }

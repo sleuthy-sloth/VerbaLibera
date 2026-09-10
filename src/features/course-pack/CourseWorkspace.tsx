@@ -69,6 +69,10 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
   const [lessonId, setLessonId] = useState(""),
     [session, setSession] = useState<string[]>([]),
     [step, setStep] = useState(0),
+    // Every target-language form the learner got credit for this session, in
+    // order. Visible accumulation: the one progress signal a lesson had was
+    // "Practice 3 of 7", which shows effort but never progress.
+    [usedPhrases, setUsedPhrases] = useState<string[]>([]),
     [query, setQuery] = useState(""),
     [filter, setFilter] = useState("All"),
     [heard, setHeard] = useState<{ url: string; transcript: string } | null>(null),
@@ -205,18 +209,27 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
   );
   const allExercises = pack.lessons.flatMap((l) => l.exercises),
     activeExercise = allExercises.find((e) => e.id === session[step]);
+  // Where to send the learner when the session ends: the next lesson in course
+  // order, offered only when its prerequisites are met, so "Next" can never
+  // open a locked lesson.
+  const lessonIndex = lesson ? pack.lessons.indexOf(lesson) : -1;
+  const nextLesson = lessonIndex >= 0 ? pack.lessons[lessonIndex + 1] : undefined;
+  const nextUnlocked =
+    !!nextLesson && nextLesson.prerequisites.every((id) => completed.has(id));
     const go = (next: WorkspaceView) => {
     window.scrollTo({ top: 0 });
     setView(next);
     setLessonId("");
     setSession([]);
     setStep(0);
+    setUsedPhrases([]);
     setHeard(null);
     setMessage("");
   };
   const begin = (l: Lesson) => {
     setSession(l.exercises.filter(e => !l.optionalExerciseIds.includes(e.id)).map((e) => e.id));
     setStep(0);
+    setUsedPhrases([]);
     setMessage("");
     // Hear-it-first: autoplay the lesson model inside the click gesture so
     // the learner hears the pattern before meeting any words. Browsers allow
@@ -244,6 +257,10 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
     };
     await environment.practice.write([event], scope);
     setEvents((old) => mergeEvents(old, [event]));
+    if (result.accepted && result.model.trim())
+      setUsedPhrases((old) =>
+        old.includes(result.model) ? old : [...old, result.model],
+      );
     setStep((old) => old + 1);
     if (scope) { setSyncStatus("Saved locally. Waiting to sync."); setSyncRevision(n => n + 1); }
   };
@@ -418,9 +435,6 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
       {message ? <p role="status">{message}</p> : null}
       {activeExercise ? (
         <>
-          <p>
-            Practice {step + 1} of {session.length}
-          </p>
           {step === 0 && heard ? (
             <div className="study-listen-first">
               <p>
@@ -444,6 +458,12 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
             <span>Practice {step + 1} of {session.length}</span>
             <progress aria-label="Practice progress" max={session.length} value={step} />
           </div>
+          {usedPhrases.length ? (
+            <p className="study-used" aria-live="polite">
+              <span className="study-used-label">Used this session</span>{" "}
+              <span lang={pack.language}>{usedPhrases.join(" · ")}</span>
+            </p>
+          ) : null}
           <ExerciseView
             key={`${activeExercise.id}:${step}`}
             exercise={activeExercise}
@@ -453,14 +473,51 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           />
         </>
       ) : session.length > 0 ? (
-        <section>
-          <h2>Practice complete</h2>
-          <p>
-            Your results were saved on this device. Missed or revealed answers
-            stay in review. A completed practice session is not a proficiency
-            certificate.
+        <section className="study-finished">
+          <p className="study-eyebrow">Session finished</p>
+          <h2>{lesson ? `${lesson.title} — done.` : "Practice complete"}</h2>
+          {usedPhrases.length ? (
+            <>
+              <p>
+                You used {usedPhrases.length}{" "}
+                {usedPhrases.length === 1 ? "expression" : "expressions"} in{" "}
+                {pack.title.replace(/ foundations$/, "")} just now:
+              </p>
+              <p className="study-finished-used" lang={pack.language}>
+                {usedPhrases.join(" · ")}
+              </p>
+              <p className="study-scope">
+                Say them out loud once more before you move on — that is the rep
+                that counts.
+              </p>
+            </>
+          ) : (
+            <p>
+              Nothing landed first time this round. That is why these come back
+              sooner — work through them once more and they will stick.
+            </p>
+          )}
+          <div className="study-actions">
+            {nextLesson && nextUnlocked ? (
+              <button
+                className="study-primary"
+                onClick={() => {
+                  setSession([]);
+                  setStep(0);
+                  setUsedPhrases([]);
+                  setHeard(null);
+                  setMessage("");
+                  setLessonId(nextLesson.id);
+                }}
+              >
+                Next: {nextLesson.title}
+              </button>
+            ) : null}
+            <button onClick={() => go("Course")}>Back to course</button>
+          </div>
+          <p className="study-scope">
+            Saved on this device. Missed or revealed answers stay in review.
           </p>
-          <button onClick={() => go("Course")}>Back to course</button>
         </section>
       ) : view === "Course" ? (
           <>
@@ -652,6 +709,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           ))}
         </section>
       )}
+      {practising ? null : (
       <footer className="study-storage">
         <h2>Keep a practice backup</h2>
         <p>Export your practice to restore it later or move it to another device. Guest and account practice stay separate.</p>
@@ -711,6 +769,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           {pack.description} {pack.attribution}
         </p>
       </footer>
+      )}
     </main>
   );
 }

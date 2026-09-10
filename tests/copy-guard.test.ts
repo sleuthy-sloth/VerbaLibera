@@ -47,6 +47,15 @@ const BANNED = [
   'session preview coming soon',
   'course workspace',
   'read-only snapshot',
+  // Answer-key vocabulary. Every correct answer used to print the grader's own
+  // category ("correct", then "That matches an authored answer.") and the button
+  // advancing to the next question said "Save and continue" — a database verb
+  // as the learner's next action. The wording lives in
+  // `features/course-pack/feedback.ts` now; this keeps it from creeping back
+  // into a component.
+  'authored answer',
+  'matches an accepted answer',
+  'save and continue',
 ];
 
 /** Only the text a learner reads: string literals, with comments stripped. */

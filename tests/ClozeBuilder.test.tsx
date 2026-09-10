@@ -112,6 +112,6 @@ describe('ClozeBuilder in GuidedSession', () => {
     await user.type(screen.getByLabelText(/blank 1/i), 'avons mangé');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
+    expect(await screen.findByText("That's it.")).toBeInTheDocument();
   });
 });

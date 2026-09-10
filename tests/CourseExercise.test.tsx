@@ -17,7 +17,7 @@ it("records reading with a revealed translation as assisted practice", async () 
   await user.click(screen.getByText("Sentence translation"));
   await user.type(screen.getByLabelText("Your answer"), "Anna");
   await user.click(screen.getByRole("button", { name: "Check answer" }));
-  await user.click(screen.getByRole("button", { name: "Save and continue" }));
+  await user.click(screen.getByRole("button", { name: "Continue" }));
   expect(save).toHaveBeenCalledWith(
     expect.objectContaining({ accepted: true }),
     true,
@@ -34,7 +34,7 @@ it('lets a learner correct a built sentence by removing a selected word', async 
   await user.click(screen.getByRole('button', { name: 'Remove française.' }));
   for (const word of ['Elle', 'est', 'française.']) await user.click(screen.getByRole('button', { name: word }));
   await user.click(screen.getByRole('button', { name: 'Check answer' }));
-  await user.click(screen.getByRole('button', { name: 'Save and continue' }));
+  await user.click(screen.getByRole('button', { name: 'Continue' }));
   expect(save).toHaveBeenCalledWith(expect.objectContaining({ accepted: true }), false);
 });
 
@@ -46,6 +46,6 @@ it('checks a missing word from an inline blank without requiring the whole sente
   render(<ExerciseView pack={pack} exercise={exercise} onSave={save} />);
   await user.type(screen.getByRole('textbox', { name: 'Missing word' }), 'suis');
   await user.click(screen.getByRole('button', { name: 'Check answer' }));
-  await user.click(screen.getByRole('button', { name: 'Save and continue' }));
+  await user.click(screen.getByRole('button', { name: 'Continue' }));
   expect(save).toHaveBeenCalledWith(expect.objectContaining({ accepted: true }), false);
 });

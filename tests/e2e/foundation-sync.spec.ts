@@ -16,7 +16,7 @@ test('foundation events survive offline practice, synchronize across devices, an
     await page.getByRole('button', { name: 'Begin practice', exact: true }).click();
     await page.getByRole('radio', { name: 'sono', exact: true }).check();
     await page.getByRole('button', { name: 'Check answer', exact: true }).click();
-    await page.getByRole('button', { name: 'Save and continue', exact: true }).click();
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await page.getByRole('button', { name: 'Course', exact: true }).click();
   };
   let second;

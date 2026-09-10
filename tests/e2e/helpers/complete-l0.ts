@@ -64,13 +64,17 @@ async function walk(page: Page, steps: Step[], runtime: boolean) {
       })
       .click();
     await expect(
-      page.getByRole("status").filter({ hasText: "correct" }),
+      // Both engines now mark the outcome on the feedback panel itself, so the
+      // wait no longer depends on the grader's wording ("correct" was the raw
+      // category, which the learner never sees any more). `data-outcome` is
+      // present on the v1 practice panel and on the v2 runtime panel.
+      page.locator('[role="status"][data-outcome]').first(),
     ).toBeVisible();
     // The v2 runtime player shows "Saving…" while persisting the step and
-    // then advances to the next step; the legacy player keeps "Save and
-    // continue". Match whichever one is present.
+    // then advances to the next step; the legacy player keeps a steady
+    // "Continue". Match whichever one is present.
     const advance = page
-      .getByRole("button", { name: runtime ? "Next step" : "Save and continue", exact: true })
+      .getByRole("button", { name: runtime ? "Next step" : "Continue", exact: true })
       .or(page.getByRole("button", { name: "Saving…", exact: true }))
       .or(page.getByRole("button", { name: "Finish lesson", exact: true }));
     await advance.first().click();
@@ -125,7 +129,7 @@ async function completeLesson(page: Page, answers: LessonAnswers) {
   } else {
     await walk(page, answers.legacy, legacyPlayer);
     await expect(
-      page.getByRole("heading", { name: "Practice complete", exact: true }),
+      page.getByRole("heading", { name: /— done\.$/ }),
     ).toBeVisible();
     await page.getByRole("button", { name: "Back to course", exact: true }).click();
   }

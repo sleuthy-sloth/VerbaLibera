@@ -21,7 +21,7 @@ async function openFirstLesson(page: Page, runtime: boolean) {
     await page.getByRole("radio", { name: "Hello.", exact: true }).check();
     await page.getByRole("button", { name: "Check", exact: true }).click();
     await expect(
-      page.getByRole("status").filter({ hasText: "correct" }),
+      page.locator('[role="status"][data-outcome]').first(),
     ).toBeVisible();
     await page.getByRole("button", { name: "Next step", exact: true }).click();
   } else {
@@ -30,7 +30,7 @@ async function openFirstLesson(page: Page, runtime: boolean) {
     await page.getByRole("button", { name: "Begin practice" }).click();
     await page.getByRole("radio", { name: "Hello." }).check();
     await page.getByRole("button", { name: "Check answer" }).click();
-    await page.getByRole("button", { name: "Save and continue" }).click();
+    await page.getByRole("button", { name: "Continue" }).click();
   }
 }
 

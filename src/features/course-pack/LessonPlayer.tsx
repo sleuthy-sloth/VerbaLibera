@@ -136,12 +136,14 @@ const validResponse = (response: Response | null): boolean => {
 
 const outcomeWord = (outcome: string): string =>
   outcome === "correct"
-    ? "Correct."
+    ? "That's it."
     : outcome === "incorrect"
-      ? "Not quite. Try again."
+      ? "Not quite — try again."
       : outcome === "self-assessed"
-        ? "Noted."
-        : "Hold on.";
+        ? "Thanks — that shapes what comes back next."
+        : outcome === "blocked"
+          ? "Not saved — check your connection and try again."
+          : "Working on it…";
 
 /* --------------------------------------------------------- stimulus context */
 

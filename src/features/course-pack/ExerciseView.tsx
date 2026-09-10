@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { GlossedText } from "./GlossedText";
 import type { CoursePack, Exercise } from "./schema";
 import { evaluateAnswer, type Evaluation } from "./answer";
+import { feedbackFor } from "./feedback";
 
 type InputProps = {
   exercise: Exercise;
@@ -223,6 +224,9 @@ export function ExerciseView({
     heading.current?.focus();
   }, []);
   const Input = renderers[exercise.kind];
+  // Learner-facing wording lives in one module so the grader's taxonomy can
+  // never reach the screen (see feedback.ts).
+  const feedback = result ? feedbackFor(result, exercise) : null;
   return (
     <section className={`practice-panel activity-${exercise.kind}`} aria-labelledby="practice-title">
       <p className="study-eyebrow">
@@ -267,14 +271,24 @@ export function ExerciseView({
           </button>
         ) : null}
       </div>
-      {result ? (
-        <div role="status" className="study-feedback">
-          <strong>{result.category}</strong>
-          <p>{result.explanation}</p>
-          {revealed ? (
-            <p>You used the model answer, so this one will come back sooner. That is the point of it.</p>
+      {result && feedback ? (
+        <div
+          role="status"
+          className="study-feedback"
+          data-outcome={
+            result.category === "model revealed"
+              ? "neutral"
+              : result.accepted
+                ? "correct"
+                : "attention"
+          }
+        >
+          <strong>{feedback.headline}</strong>
+          {feedback.detail ? <p>{feedback.detail}</p> : null}
+          {revealed && result.accepted ? (
+            <p>It comes back sooner because you looked. That is the point of it.</p>
           ) : null}
-          {!result.accepted || revealed ? (
+          {feedback.showModel ? (
             <p lang={pack.language}>{result.model}</p>
           ) : null}
           <details open={!result.accepted || revealed}>
@@ -297,7 +311,7 @@ export function ExerciseView({
               }
             }}
           >
-            {saving ? "Saving…" : "Save and continue"}
+            Continue
           </button>
         </div>
       ) : null}
