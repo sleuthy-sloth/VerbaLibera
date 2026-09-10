@@ -1,0 +1,1869 @@
+{
+  "_comment": "Italian variety pass, archetypes over lessons 18-24 (branch feat/fr-it-variety). L18-L24 = manifest indices 18-24 per the same convention as french-variety-18-24.json (the French payload's L18-L24 name time/weather/market/health/pharmacy/emergency/invitations). Assignment D,A,B,C,D,E,F. Each lesson reorders its `steps` AND `legacyExercises` together, so step i and legacy exercise i stay the same exercise, and rebuilds nextStepId to match. Only `steps` and `legacyExercises` are named; activities/entryStepId/completionPolicy are untouched. Note: the spec's archetype rows B-F omit `review`; per the French precedent every lesson keeps it immediately before the closing `listen` step. it-market-foundation (listening family, 14 steps) is handled as its own design: intro, its five-step listening block, then the standard slots in archetype-B order. Applied by scripts/content/differentiate-first-words.py.",
+  "courses/italian/manifest.json": {
+    "lessons": [
+      {
+        "id": "it-time-foundation",
+        "steps": [
+          {
+            "id": "it-time-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-time-foundation-intro",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-meet"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-meet",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-order"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-order",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-cloze"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-produce"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-produce",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-read"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-read",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-meaning"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-review"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-review",
+            "required": true,
+            "nextStepId": "it-time-foundation-step-it-time-foundation-listen-model"
+          },
+          {
+            "id": "it-time-foundation-step-it-time-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-time-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "e mezza"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-meet",
+            "conceptId": "it-time-concept",
+            "prompt": "Which Italian word means “half past”?",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "ora",
+              "e mezza",
+              "mezzogiorno",
+              "meno un quarto"
+            ]
+          },
+          {
+            "answers": [
+              "Sono le tre e mezza."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-order",
+            "conceptId": "it-time-concept",
+            "prompt": "Arrange the words to say: It is half past three.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "mezza.",
+              "tre",
+              "e",
+              "le",
+              "Sono"
+            ]
+          },
+          {
+            "answers": [
+              "È"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-cloze",
+            "conceptId": "it-time-concept",
+            "prompt": "Complete the time: ___ l’una.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Sono le tre e mezza.",
+              "Sono le 3 e mezza."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "È le tre e mezza.",
+                "category": "incorrect answer",
+                "explanation": "Hours take sono, except one o’clock: Sono le tre e mezza."
+              }
+            ],
+            "id": "it-time-foundation-produce",
+            "conceptId": "it-time-concept",
+            "prompt": "Write in Italian: It is half past three.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "alle otto e mezza"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-read",
+            "conceptId": "it-time-concept",
+            "prompt": "When does the train leave? Answer in Italian. (Reading 18)",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Il treno parte alle otto e mezza. Arriva a mezzogiorno.",
+            "translation": "The train leaves at half past eight. It arrives at midday."
+          },
+          {
+            "answers": [
+              "It is one o’clock."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-meaning",
+            "conceptId": "it-time-concept",
+            "prompt": "Give the English meaning: È l’una.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Oggi è lunedì."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Oggi ha lunedì.",
+                "category": "incorrect answer",
+                "explanation": "Use essere for the day: Oggi è lunedì."
+              }
+            ],
+            "id": "it-time-foundation-review",
+            "conceptId": "it-days-concept",
+            "prompt": "Recall from Days, months and dates: Today is Monday.",
+            "explanation": "Italian days and months are masculine and written lowercase: lunedì, maggio. Give the date with the number, di and the month: il tre maggio. Oggi, domani and ieri frame any plan.",
+            "vocabulary": [
+              "it-days-foundation-word-1",
+              "it-days-foundation-word-2",
+              "it-days-foundation-word-3",
+              "it-days-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-days-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Sono le tre e mezza.",
+              "Sono le 3 e mezza."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-time-foundation-listen-model",
+            "conceptId": "it-time-concept",
+            "prompt": "Listen and write the model: telling the time.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-time-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-weather-foundation",
+        "steps": [
+          {
+            "id": "it-weather-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-weather-foundation-intro",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-meet"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-meet",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-meaning"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-order"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-order",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-cloze"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-produce"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-produce",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-read"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-read",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-review"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-review",
+            "required": true,
+            "nextStepId": "it-weather-foundation-step-it-weather-foundation-listen-model"
+          },
+          {
+            "id": "it-weather-foundation-step-it-weather-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-weather-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "freddo"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-meet",
+            "conceptId": "it-weather-concept",
+            "prompt": "Which Italian word means “cold”?",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "sole",
+              "pioggia",
+              "freddo",
+              "caldo"
+            ]
+          },
+          {
+            "answers": [
+              "It is sunny."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-meaning",
+            "conceptId": "it-weather-concept",
+            "prompt": "Give the English meaning: C’è il sole.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Oggi fa freddo."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-order",
+            "conceptId": "it-weather-concept",
+            "prompt": "Arrange the words to say: It is cold today.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "freddo.",
+              "fa",
+              "Oggi"
+            ]
+          },
+          {
+            "answers": [
+              "fa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-cloze",
+            "conceptId": "it-weather-concept",
+            "prompt": "Complete the forecast: Domani ___ caldo.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Oggi fa freddo.",
+              "Fa freddo oggi."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Oggi è freddo.",
+                "category": "incorrect answer",
+                "explanation": "Weather uses fare: Oggi fa freddo."
+              }
+            ],
+            "id": "it-weather-foundation-produce",
+            "conceptId": "it-weather-concept",
+            "prompt": "Write in Italian: It is cold today.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "piove"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-read",
+            "conceptId": "it-weather-concept",
+            "prompt": "What falls tomorrow? Answer with the Italian verb. (Reading 19)",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Oggi c’è il sole e fa caldo. Domani piove e fa freddo.",
+            "translation": "Today it is sunny and hot. Tomorrow it rains and it is cold."
+          },
+          {
+            "answers": [
+              "Sono le tre e mezza.",
+              "Sono le 3 e mezza."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "È le tre e mezza.",
+                "category": "incorrect answer",
+                "explanation": "Hours take sono, except one o’clock: Sono le tre e mezza."
+              }
+            ],
+            "id": "it-weather-foundation-review",
+            "conceptId": "it-time-concept",
+            "prompt": "Recall from Telling the time: It is half past three.",
+            "explanation": "Ask the time with Che ore sono? Answer È l’una for one o’clock and Sono le plus the number otherwise: Sono le tre. Add e mezza for half past, e un quarto for quarter past and meno un quarto for quarter to.",
+            "vocabulary": [
+              "it-time-foundation-word-1",
+              "it-time-foundation-word-2",
+              "it-time-foundation-word-3",
+              "it-time-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-time-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Oggi fa freddo e c’è il sole."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-weather-foundation-listen-model",
+            "conceptId": "it-weather-concept",
+            "prompt": "Listen and write the model: weather and seasons.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-weather-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-market-foundation",
+        "steps": [
+          {
+            "id": "it-market-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-market-foundation-intro",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-listen-gist"
+          },
+          {
+            "id": "it-market-foundation-step-listen-gist",
+            "purpose": "practice",
+            "activityId": "it-market-listen-gist",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-listen-prosciutto",
+            "branches": {}
+          },
+          {
+            "id": "it-market-foundation-step-listen-prosciutto",
+            "purpose": "practice",
+            "activityId": "it-market-listen-prosciutto",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-listen-pesche",
+            "branches": {}
+          },
+          {
+            "id": "it-market-foundation-step-listen-pesche",
+            "purpose": "practice",
+            "activityId": "it-market-listen-pesche",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-listen-ordine",
+            "branches": {}
+          },
+          {
+            "id": "it-market-foundation-step-listen-ordine",
+            "purpose": "practice",
+            "activityId": "it-market-listen-ordine",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-listen-grazie",
+            "branches": {}
+          },
+          {
+            "id": "it-market-foundation-step-listen-grazie",
+            "purpose": "practice",
+            "activityId": "it-market-listen-grazie",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-meet",
+            "branches": {}
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-meet",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-produce"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-produce",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-order"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-order",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-cloze"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-meaning"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-read"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-read",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-review"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-review",
+            "required": true,
+            "nextStepId": "it-market-foundation-step-it-market-foundation-listen-model"
+          },
+          {
+            "id": "it-market-foundation-step-it-market-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-market-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "chilo"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-meet",
+            "conceptId": "it-market-concept",
+            "prompt": "Which Italian word means “kilo”?",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "mercato",
+              "euro",
+              "prezzo",
+              "chilo"
+            ]
+          },
+          {
+            "answers": [
+              "Quanto costa un chilo di mele?"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Quanto costano un chilo di mele?",
+                "category": "incorrect answer",
+                "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
+              }
+            ],
+            "id": "it-market-foundation-produce",
+            "conceptId": "it-market-concept",
+            "prompt": "Write in Italian: How much is a kilo of apples?",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Quanto costa un chilo di mele?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-order",
+            "conceptId": "it-market-concept",
+            "prompt": "Arrange the words to say: How much is a kilo of apples?",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "mele?",
+              "di",
+              "chilo",
+              "un",
+              "costa",
+              "Quanto"
+            ]
+          },
+          {
+            "answers": [
+              "Costano"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-cloze",
+            "conceptId": "it-market-concept",
+            "prompt": "Complete the price: ___ tre euro.",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "They cost three euros."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-meaning",
+            "conceptId": "it-market-concept",
+            "prompt": "Give the English meaning: Costano tre euro.",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "un euro"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-read",
+            "conceptId": "it-market-concept",
+            "prompt": "How much is the bread? Answer with the Italian price. (Reading 20)",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Mele: due euro al chilo. Pane: un euro.",
+            "translation": "Apples: two euros per kilo. Bread: one euro."
+          },
+          {
+            "answers": [
+              "Oggi fa freddo.",
+              "Fa freddo oggi."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Oggi è freddo.",
+                "category": "incorrect answer",
+                "explanation": "Weather uses fare: Oggi fa freddo."
+              }
+            ],
+            "id": "it-market-foundation-review",
+            "conceptId": "it-weather-concept",
+            "prompt": "Recall from Weather and seasons: It is cold today.",
+            "explanation": "Describe the weather with fa plus an adjective: fa caldo for hot, fa freddo for cold. Say c’è il sole for sunny and piove for it rains. Two seasons to know now are l’estate (summer) and l’inverno (winter).",
+            "vocabulary": [
+              "it-weather-foundation-word-1",
+              "it-weather-foundation-word-2",
+              "it-weather-foundation-word-3",
+              "it-weather-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-weather-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Quanto costa un chilo di mele?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-market-foundation-listen-model",
+            "conceptId": "it-market-concept",
+            "prompt": "Listen and write the model: market prices.",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-market-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-health-foundation",
+        "steps": [
+          {
+            "id": "it-health-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-health-foundation-intro",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-meet"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-meet",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-read"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-read",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-meaning"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-order"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-order",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-cloze"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-produce"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-produce",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-review"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-review",
+            "required": true,
+            "nextStepId": "it-health-foundation-step-it-health-foundation-listen-model"
+          },
+          {
+            "id": "it-health-foundation-step-it-health-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-health-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "testa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-meet",
+            "conceptId": "it-health-concept",
+            "prompt": "Which Italian word means “head”?",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "testa",
+              "febbre",
+              "dottore",
+              "male"
+            ]
+          },
+          {
+            "answers": [
+              "la testa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-read",
+            "conceptId": "it-health-concept",
+            "prompt": "What hurts? Answer with the Italian body part. (Reading 21)",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Marco ha la febbre. Mi fa male la testa, dice al dottore.",
+            "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
+          },
+          {
+            "answers": [
+              "I have a fever."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-meaning",
+            "conceptId": "it-health-concept",
+            "prompt": "Give the English meaning: Ho la febbre.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Mi fa male la testa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-order",
+            "conceptId": "it-health-concept",
+            "prompt": "Arrange the words to say: My head hurts.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "testa.",
+              "la",
+              "male",
+              "fa",
+              "Mi"
+            ]
+          },
+          {
+            "answers": [
+              "fa"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-cloze",
+            "conceptId": "it-health-concept",
+            "prompt": "Complete the pain: Mi ___ male la testa.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Mi fa male la testa."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "La mia testa è male.",
+                "category": "incorrect answer",
+                "explanation": "Pain uses fare: Mi fa male la testa."
+              }
+            ],
+            "id": "it-health-foundation-produce",
+            "conceptId": "it-health-concept",
+            "prompt": "Write in Italian: My head hurts.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Quanto costa un chilo di mele?"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Quanto costano un chilo di mele?",
+                "category": "incorrect answer",
+                "explanation": "Un chilo is singular: Quanto costa un chilo di mele?"
+              }
+            ],
+            "id": "it-health-foundation-review",
+            "conceptId": "it-market-concept",
+            "prompt": "Recall from At the market: prices: How much is a kilo of apples?",
+            "explanation": "Ask the price with Quanto costa? for one thing and Quanto costano? for several: Quanto costa un chilo di mele? Answer with the price: Tre euro. Un chilo is one kilo and il mercato is the market.",
+            "vocabulary": [
+              "it-market-foundation-word-1",
+              "it-market-foundation-word-2",
+              "it-market-foundation-word-3",
+              "it-market-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-market-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Mi fa male la testa."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-health-foundation-listen-model",
+            "conceptId": "it-health-concept",
+            "prompt": "Listen and write the model: saying where it hurts.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-health-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-pharmacy-foundation",
+        "steps": [
+          {
+            "id": "it-pharmacy-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-pharmacy-foundation-intro",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-meet"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-meet",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-order"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-order",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-cloze"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-produce"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-produce",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-read"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-read",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-review"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-review",
+            "required": true,
+            "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-listen-model"
+          },
+          {
+            "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-pharmacy-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "medicina"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-meet",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Which Italian word means “medicine”?",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "farmacia",
+              "medicina",
+              "pastiglia",
+              "sciroppo"
+            ]
+          },
+          {
+            "answers": [
+              "Ho bisogno di una medicina."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-order",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Arrange the words to say: I need some medicine.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "medicina.",
+              "una",
+              "di",
+              "bisogno",
+              "Ho"
+            ]
+          },
+          {
+            "answers": [
+              "di"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-cloze",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Complete the need: Ho bisogno ___ una medicina.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho bisogno di una medicina."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Ho bisogno una medicina.",
+                "category": "incorrect answer",
+                "explanation": "Bisogno needs di: Ho bisogno di una medicina."
+              }
+            ],
+            "id": "it-pharmacy-foundation-produce",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Write in Italian: I need some medicine.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "una pastiglia"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-read",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "What does Anna take? Answer with the Italian noun. (Reading 22)",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Anna ha la tosse. Prende una pastiglia e compra lo sciroppo in farmacia.",
+            "translation": "Anna has a cough. She takes a pill and buys syrup at the pharmacy."
+          },
+          {
+            "answers": [
+              "It costs five euros."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-meaning",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Give the English meaning: Costa cinque euro.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "Mi fa male la testa."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "La mia testa è male.",
+                "category": "incorrect answer",
+                "explanation": "Pain uses fare: Mi fa male la testa."
+              }
+            ],
+            "id": "it-pharmacy-foundation-review",
+            "conceptId": "it-health-concept",
+            "prompt": "Recall from Aches and the doctor: My head hurts.",
+            "explanation": "Say pain with mi fa male plus the body part: Mi fa male la testa. Headache is il mal di testa and fever is la febbre. Answer Dove fa male? (Where does it hurt?) with Mi fa male plus the spot.",
+            "vocabulary": [
+              "it-health-foundation-word-1",
+              "it-health-foundation-word-2",
+              "it-health-foundation-word-3",
+              "it-health-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-health-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho bisogno di una medicina."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-pharmacy-foundation-listen-model",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Listen and write the model: asking for medicine.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-pharmacy-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-emergency-foundation",
+        "steps": [
+          {
+            "id": "it-emergency-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-emergency-foundation-intro",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-meet"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-meet",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-meaning"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-read"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-read",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-cloze"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-order"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-order",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-produce"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-produce",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-review"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-review",
+            "required": true,
+            "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-listen-model"
+          },
+          {
+            "id": "it-emergency-foundation-step-it-emergency-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-emergency-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "aiuto"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-meet",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Which Italian word means “help”?",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "ambulanza",
+              "urgente",
+              "aiuto",
+              "telefono"
+            ]
+          },
+          {
+            "answers": [
+              "It is urgent."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-meaning",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Give the English meaning: È urgente.",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "il centododici"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-read",
+            "conceptId": "it-emergency-concept",
+            "prompt": "What number? Answer with the Italian number name. (Reading 23)",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Marco chiama il centododici. L’ambulanza arriva ed è urgente.",
+            "translation": "Marco calls 112. The ambulance arrives and it is urgent."
+          },
+          {
+            "answers": [
+              "un’ambulanza"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-cloze",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Complete the call: Chiami ___!",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Aiuto! Chiami un’ambulanza!"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-order",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Arrange the words to say: Help! Call an ambulance!",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "un’ambulanza!",
+              "Chiami",
+              "Aiuto!"
+            ]
+          },
+          {
+            "answers": [
+              "Aiuto! Chiami un’ambulanza!"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Aiuto! Chiamo un’ambulanza!",
+                "category": "incorrect answer",
+                "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+              }
+            ],
+            "id": "it-emergency-foundation-produce",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Write in Italian: Help! Call an ambulance!",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Ho bisogno di una medicina."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Ho bisogno una medicina.",
+                "category": "incorrect answer",
+                "explanation": "Bisogno needs di: Ho bisogno di una medicina."
+              }
+            ],
+            "id": "it-emergency-foundation-review",
+            "conceptId": "it-pharmacy-concept",
+            "prompt": "Recall from At the pharmacy: I need some medicine.",
+            "explanation": "Ask for medicine with Ho bisogno di…: Ho bisogno di una medicina. Una pastiglia is a pill and lo sciroppo is syrup. Ask the price with Quanto costa?: Costa cinque euro.",
+            "vocabulary": [
+              "it-pharmacy-foundation-word-1",
+              "it-pharmacy-foundation-word-2",
+              "it-pharmacy-foundation-word-3",
+              "it-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-pharmacy-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Aiuto! Chiami un’ambulanza!"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-emergency-foundation-listen-model",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Listen and write the model: calling for help.",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-emergency-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "it-invitations-foundation",
+        "steps": [
+          {
+            "id": "it-invitations-foundation-step-intro",
+            "purpose": "notice",
+            "activityId": "it-invitations-foundation-intro",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-meet"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-meet",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-meet",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-meaning"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-meaning",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-meaning",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-cloze"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-cloze",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-cloze",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-order"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-order",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-order",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-produce"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-produce",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-produce",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-read"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-read",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-read",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-review"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-review",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-review",
+            "required": true,
+            "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-listen-model"
+          },
+          {
+            "id": "it-invitations-foundation-step-it-invitations-foundation-listen-model",
+            "purpose": "practice",
+            "activityId": "it-invitations-foundation-listen-model",
+            "required": false,
+            "nextStepId": null
+          }
+        ],
+        "legacyExercises": [
+          {
+            "answers": [
+              "cena"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-meet",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Which Italian word means “dinner”?",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "sabato",
+              "volentieri",
+              "mi dispiace",
+              "cena"
+            ]
+          },
+          {
+            "answers": [
+              "I am sorry, I cannot."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-meaning",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Give the English meaning: Mi dispiace, non posso.",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "volentieri"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-cloze",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Complete the reply: Sì, grazie, ___.",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Vuoi venire a cena sabato?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-order",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Arrange the words to say: Do you want to come to dinner Saturday?",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "sabato?",
+              "cena",
+              "a",
+              "venire",
+              "Vuoi"
+            ]
+          },
+          {
+            "answers": [
+              "Vuoi venire a cena sabato?"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Vuoi andare a cena sabato?",
+                "category": "incorrect answer",
+                "explanation": "Andare is to go; invite with venire: Vuoi venire a cena sabato?"
+              }
+            ],
+            "id": "it-invitations-foundation-produce",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "sabato"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-read",
+            "conceptId": "it-invitations-concept",
+            "prompt": "When is dinner? Answer with the Italian day. (Reading 24)",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Anna invita Marco: Vuoi venire a cena sabato? Sì, grazie, volentieri, dice Marco.",
+            "translation": "Anna invites Marco: Do you want to come to dinner Saturday? “Yes, thanks, gladly,” says Marco."
+          },
+          {
+            "answers": [
+              "Aiuto! Chiami un’ambulanza!"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Aiuto! Chiamo un’ambulanza!",
+                "category": "incorrect answer",
+                "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+              }
+            ],
+            "id": "it-invitations-foundation-review",
+            "conceptId": "it-emergency-concept",
+            "prompt": "Recall from Emergencies: Help! Call an ambulance!",
+            "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+            "vocabulary": [
+              "it-emergency-foundation-word-1",
+              "it-emergency-foundation-word-2",
+              "it-emergency-foundation-word-3",
+              "it-emergency-foundation-word-4"
+            ],
+            "reviewOf": [
+              "it-emergency-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Vuoi venire a cena sabato?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "it-invitations-foundation-listen-model",
+            "conceptId": "it-invitations-concept",
+            "prompt": "Listen and write the model: inviting and replying.",
+            "explanation": "Invite with Vuoi venire…?: Vuoi venire a cena? Accept with Sì, grazie, volentieri. Decline politely with Mi dispiace, non posso.",
+            "vocabulary": [
+              "it-invitations-foundation-word-1",
+              "it-invitations-foundation-word-2",
+              "it-invitations-foundation-word-3",
+              "it-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "it-invitations-foundation-model"
+          }
+        ]
+      }
+    ]
+  }
+}
