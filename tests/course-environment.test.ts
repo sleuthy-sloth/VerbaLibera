@@ -74,6 +74,20 @@ describe("portable course environment", () => {
     );
   });
 
+  it("shows a sequenced path with an explicit next lesson and review route", async () => {
+    render(
+      createElement(CourseWorkspace, {
+        environment: portableFixtureEnvironment(),
+      }),
+    );
+
+    expect(await screen.findByRole("navigation", { name: "Course path" })).toBeInTheDocument();
+    expect(screen.getByRole("progressbar", { name: "Course progress" })).toHaveValue(0);
+    expect(screen.getByText(/Up next — select to start/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "First words" })).toBeInTheDocument();
+    expect(screen.getByText(/complete First words to unlock/)).toBeInTheDocument();
+  });
+
   it("warns persistently when practice storage is temporary", async () => {
     render(
       createElement(CourseWorkspace, {

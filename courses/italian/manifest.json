@@ -1370,8 +1370,8 @@
     {
       "kind": "audio",
       "id": "it-market-listen-audio",
-      "url": "/audio/italian-foundations/it-market-listen.mp3",
-      "sha256": "3f42797cfd56ce42c3ba370b9f2ae16643ea58c15c8c01652542a9371488f639",
+      "url": "/audio/italian-foundations/it-market-foundation-listen.mp3",
+      "sha256": "c0c6bee6a13c875313bbdfd0469e8080c0dd8fef6a9fc76731f22cd79c026dd1",
       "transcript": "Ascolto lungo: Al mercato.",
       "attribution": "Original VerbaLibera Kokoro 0.9.4 audio; see docs/audio-provenance/italian-market-listen.json. Native-speaker prosody review remains open."
     }
@@ -2231,16 +2231,12 @@
       "segments": [
         {
           "kind": "text",
-          "text": "Complete the first word you say to a friend: "
+          "text": "Complete the first word you say to a friend:"
         },
         {
           "kind": "blank",
           "name": "b1",
           "label": "Missing word"
-        },
-        {
-          "kind": "text",
-          "text": "ao."
         }
       ],
       "blanks": {
@@ -4081,16 +4077,12 @@
       "segments": [
         {
           "kind": "text",
-          "text": "La casa è "
+          "text": "La casa è"
         },
         {
           "kind": "blank",
           "name": "b1",
           "label": "Missing word"
-        },
-        {
-          "kind": "text",
-          "text": "."
         }
       ],
       "blanks": {
@@ -10890,7 +10882,7 @@
           "errors": [],
           "id": "it-first-words-foundation-cloze-ciao",
           "conceptId": "it-first-words-concept",
-          "prompt": "Complete the first word you say to a friend: ___ao.",
+          "prompt": "Complete the first word you say to a friend: ___",
           "explanation": "Ciao — short, warm, said before everything else.",
           "vocabulary": [
             "it-first-words-word-1"
@@ -12601,7 +12593,7 @@
           "errors": [],
           "id": "it-descriptions-foundation-cloze",
           "conceptId": "it-descriptions-concept",
-          "prompt": "Complete: La casa è ___.",
+          "prompt": "Complete: La casa è ___",
           "explanation": "Many adjectives change -o to -a with feminine nouns. A white book is un libro bianco; a white house is una casa bianca. Grande works with either gender. These adjectives normally follow the noun.",
           "vocabulary": [
             "it-descriptions-word-1",

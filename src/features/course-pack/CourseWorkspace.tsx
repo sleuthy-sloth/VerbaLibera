@@ -194,6 +194,11 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
   const progress = projectProgress(pack, events),
     completed = completedLessons(pack, events),
     lesson = pack.lessons.find((l) => l.id === lessonId);
+  const nextPathLesson = pack.lessons.find(
+    (candidate) =>
+      !completed.has(candidate.id) &&
+      candidate.prerequisites.every((id) => completed.has(id)),
+  );
   const allExercises = pack.lessons.flatMap((l) => l.exercises),
     activeExercise = allExercises.find((e) => e.id === session[step]);
   const count = events.filter((e) => e.packId === pack.id).length;
@@ -449,30 +454,40 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, scope, environment,
                 Open next lesson
               </button>
             </section>
-            {pack.units.map((unit) => (
-              <section key={unit.id}>
-                <h2>{unit.title}</h2>
-                <p>{unit.objective}</p>
-                <ol className="study-lessons">
-                  {pack.lessons
-                    .filter((l) => l.unitId === unit.id)
-                    .map((l) => (
-                      <li key={l.id}>
-                        <button onClick={() => setLessonId(l.id)}>
-                          {l.title}
-                        </button>
-                        <span>
-                          {completed.has(l.id)
-                            ? "Practised"
-                            : l.prerequisites.every((id) => completed.has(id))
-                              ? "Ready"
-                              : "Read ahead"}
-                        </span>
-                      </li>
-                    ))}
-                </ol>
-              </section>
-            ))}
+            <nav className="study-path" aria-label="Course path">
+              <div className="study-path-heading">
+                <div>
+                  <p className="study-eyebrow">Your route</p>
+                  <h2>Course path</h2>
+                  <p>Start at the top. Revisit any completed lesson whenever you need it.</p>
+                </div>
+                <div className="study-path-progress">
+                  <strong>{completed.size} of {pack.lessons.length}</strong>
+                  <span>lessons practised</span>
+                  <progress aria-label="Course progress" max={pack.lessons.length} value={completed.size} />
+                </div>
+              </div>
+              {pack.units.map((unit) => (
+                <section key={unit.id} className="study-path-unit">
+                  <h3>{unit.title}</h3>
+                  <p>{unit.objective}</p>
+                  <ol className="study-lessons">
+                    {pack.lessons.filter((l) => l.unitId === unit.id).map((l, index) => {
+                      const isComplete = completed.has(l.id);
+                      const isNext = nextPathLesson?.id === l.id;
+                      const unlocked = l.prerequisites.every((id) => completed.has(id));
+                      const prerequisite = pack.lessons.find((item) => item.id === l.prerequisites[0]);
+                      const status = isComplete ? "Complete — select to review" : isNext ? "Up next — select to start" : unlocked ? "Ready — select to start" : `Locked — complete ${prerequisite?.title ?? "the preceding lesson"} to unlock`;
+                      return <li key={l.id} className={isComplete ? "is-complete" : isNext ? "is-next" : "is-locked"}>
+                        <span className="study-path-number" aria-hidden="true">{index + 1}</span>
+                        <button onClick={() => setLessonId(l.id)}>{l.title}</button>
+                        <span>{status}</span>
+                      </li>;
+                    })}
+                  </ol>
+                </section>
+              ))}
+            </nav>
           </>
         )
       ) : view === "Review" ? (

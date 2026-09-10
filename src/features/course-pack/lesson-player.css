@@ -596,6 +596,18 @@
   color: var(--lp-muted);
 }
 
+/* Shown the moment a reveal lands, before the answer is checked. */
+.lp-assist-notice {
+  margin: 0.85rem 0 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  background: var(--lp-surface);
+  border: 1px solid var(--lp-border);
+  border-left: 3px solid var(--lp-accent);
+  font-size: 0.9rem;
+  color: var(--lp-muted);
+}
+
 /* ---------------------------------------------------------------- controls */
 
 .lp-controls {
@@ -679,6 +691,23 @@ button.lp-secondary:disabled {
   border: 0;
 }
 
+.lp-hint {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+.lp-hint-text {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: var(--lp-surface, #f0f0f0);
+  color: var(--lp-text, #333);
+  font-size: 0.9rem;
+  animation: fadeIn 0.2s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 @media (prefers-reduced-motion: reduce) {
   .lesson-player *,
   .lesson-player *::before,

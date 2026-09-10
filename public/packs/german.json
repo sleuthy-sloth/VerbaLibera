@@ -16,9 +16,56 @@
         }
       ],
       "commonError": "Say hallo the moment you arrive — Germans notice silence more than accent. Save tschüss (goodbye) for leaving."
+    },
+    {
+      "id": "de-introductions-concept",
+      "title": "Introducing yourself",
+      "explanation": "Ich heiße introduces your name: Ich heiße Anna. Ich bin means I am and can also introduce you: Ich bin Anna. Ask a peer Wie heißt du? Notice the ending: ich heiße, but du heißt. Freut mich is a short way to say nice to meet you. Keep ich when you write these complete statements.",
+      "examples": [
+        {
+          "target": "Ich heiße Anna.",
+          "meaning": "My name is Anna."
+        },
+        {
+          "target": "Wie heißt du?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Freut mich.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "commonError": "Use heiße with ich and heißt with du. Keep the capital letter at the beginning of a sentence."
+    },
+    {
+      "id": "de-cafe-requests-concept",
+      "title": "Polite café requests",
+      "explanation": "Ich möchte means I would like. Learn einen Kaffee and einen Tee as complete request chunks: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns. Here they are the requested objects, so the article is einen. You will explore that pattern later; for now, swap the drink and keep einen. Bitte adds please; danke expresses thanks.",
+      "examples": [
+        {
+          "target": "Ich möchte einen Kaffee, bitte.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Ich möchte einen Tee, bitte.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Einen Kaffee, bitte.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "commonError": "Use einen in these requests, not ein. German nouns keep their capitals: Kaffee and Tee."
+    },
+    {
+      "id": "de-numbers-quantities-concept",
+      "title": "Numbers and quantities",
+      "explanation": "German numbers are useful as short runs before you calculate with them. Learn one through ten, then use Was kostet? to ask the price of one thing. One apple is ein Apfel; two apples are zwei Äpfel. Keep each noun's capital letter.",
+      "examples": [{ "target": "Eins, zwei, drei, vier, fünf.", "meaning": "One, two, three, four, five." }, { "target": "Was kostet ein Kaffee?", "meaning": "How much does a coffee cost?" }, { "target": "Zwei Äpfel, bitte.", "meaning": "Two apples, please." }],
+      "commonError": "Use ein with one masculine Apfel and zwei with plural Äpfel. German nouns are capitalized."
     }
   ],
-  "description": "Structured A1 German foundations, taught the VerbaLibera way: notice, build, vary, use. Opens with a words-first lesson — more units being authored.",
+  "description": "Four A1 German lessons: first words, introductions, polite café requests, and numbers for everyday quantities. Native-speaker editorial review remains open.",
   "dialogues": [],
   "id": "de-foundations",
   "language": "de",
@@ -139,7 +186,7 @@
           "conceptId": "de-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say when you arrive: ___allo.",
+          "prompt": "Complete the first word you say when you arrive: ___",
           "answers": [
             "Hallo."
           ],
@@ -188,6 +235,365 @@
         }
       ],
       "optionalExerciseIds": []
+    },
+    {
+      "id": "de-introductions-foundation",
+      "unitId": "de-unit-1",
+      "title": "Introducing yourself",
+      "objective": "Introduce yourself, ask a name, and respond to an introduction.",
+      "cefr": "A1",
+      "prerequisites": [
+        "de-first-words-foundation"
+      ],
+      "conceptIds": [
+        "de-introductions-concept"
+      ],
+      "vocabulary": [
+        "de-introductions-word-1",
+        "de-introductions-word-2",
+        "de-introductions-word-3",
+        "de-introductions-word-4"
+      ],
+      "explanation": "Ich heiße introduces your name: Ich heiße Anna. Ich bin means I am and can also introduce you: Ich bin Anna. Ask a peer Wie heißt du? Notice the ending: ich heiße, but du heißt. Freut mich is a short way to say nice to meet you. Keep ich when you write these complete statements.",
+      "examples": [
+        {
+          "target": "Ich heiße Anna.",
+          "meaning": "My name is Anna."
+        },
+        {
+          "target": "Wie heißt du?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Freut mich.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "culturalNote": "Wie heißt du? uses informal du for peers. German has a separate formal form with Sie; this lesson practices only the informal question.",
+      "exercises": [
+        {
+          "id": "de-introductions-foundation-notice",
+          "conceptId": "de-introductions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which phrase asks another person their name in German?",
+          "answers": [
+            "Wie heißt du?"
+          ],
+          "explanation": "Use the complete name question when meeting someone.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "options": [
+            "Ich heiße Anna.",
+            "Wie heißt du?",
+            "Freut mich."
+          ]
+        },
+        {
+          "id": "de-introductions-foundation-build",
+          "conceptId": "de-introductions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to introduce Anna by name.",
+          "answers": [
+            "Ich heiße Anna."
+          ],
+          "explanation": "Use heiße with ich and heißt with du. Keep the capital letter at the beginning of a sentence.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "tokens": [
+            "Anna.",
+            "heiße",
+            "Ich"
+          ]
+        },
+        {
+          "id": "de-introductions-foundation-read",
+          "conceptId": "de-introductions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the first meeting. Who gives their own name?",
+          "answers": [
+            "Anna",
+            "Anna."
+          ],
+          "explanation": "The person who uses the name phrase introduces themself.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "passage": "Anna: Hallo. Ich heiße Anna.\nLeo: Hallo. Freut mich.",
+          "translation": "Anna: Hello. My name is Anna.\nLeo: Hello. Nice to meet you."
+        },
+        {
+          "id": "de-introductions-foundation-reply",
+          "conceptId": "de-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “Nice to meet you” using the short expression taught here.",
+          "answers": [
+            "Freut mich."
+          ],
+          "explanation": "Use this short response after an introduction.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        },
+        {
+          "id": "de-introductions-foundation-recall",
+          "conceptId": "de-introductions-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Imagine meeting a new classmate. Introduce yourself as Anna, using the phrase that means “My name is”.",
+          "answers": [
+            "Ich heiße Anna."
+          ],
+          "explanation": "Use heiße with ich and heißt with du. Keep the capital letter at the beginning of a sentence.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "de-introductions-foundation-ask",
+          "conceptId": "de-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask a peer “What is your name?” using the complete question taught here.",
+          "answers": [
+            "Wie heißt du?"
+          ],
+          "explanation": "This is the name question from the lesson; recall it as a whole.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "de-cafe-requests-foundation",
+      "unitId": "de-unit-1",
+      "title": "At the café",
+      "objective": "Choose a drink and make a polite café request from memory.",
+      "cefr": "A1",
+      "prerequisites": [
+        "de-introductions-foundation"
+      ],
+      "conceptIds": [
+        "de-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "de-cafe-requests-word-1",
+        "de-cafe-requests-word-2",
+        "de-cafe-requests-word-3",
+        "de-cafe-requests-word-4"
+      ],
+      "explanation": "Ich möchte means I would like. Learn einen Kaffee and einen Tee as complete request chunks: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns. Here they are the requested objects, so the article is einen. You will explore that pattern later; for now, swap the drink and keep einen. Bitte adds please; danke expresses thanks.",
+      "examples": [
+        {
+          "target": "Ich möchte einen Kaffee, bitte.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Ich möchte einen Tee, bitte.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Einen Kaffee, bitte.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "culturalNote": "A greeting before a request and thanks afterward make this small exchange courteous.",
+      "exercises": [
+        {
+          "id": "de-cafe-requests-foundation-choose",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You want tea. Which complete request matches your intention?",
+          "answers": [
+            "Ich möchte einen Tee, bitte."
+          ],
+          "explanation": "Change the drink while keeping the polite request frame.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "options": [
+            "Ich möchte einen Kaffee, bitte.",
+            "Ich möchte einen Tee, bitte.",
+            "Ich heiße Anna."
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-build",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the full polite request for one coffee.",
+          "answers": [
+            "Ich möchte einen Kaffee, bitte."
+          ],
+          "explanation": "Use einen in these requests, not ein. German nouns keep their capitals: Kaffee and Tee.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "tokens": [
+            "bitte.",
+            "Kaffee,",
+            "einen",
+            "möchte",
+            "Ich"
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-read",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. Which drink does the customer request?",
+          "answers": [
+            "Tea.",
+            "Tea",
+            "A tea."
+          ],
+          "explanation": "The customer requests tea; the thanks closes the exchange.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "passage": "Customer: Hallo. Einen Tee, bitte.\nServer: Einen Tee?\nCustomer: Ja. Danke.",
+          "translation": "Customer: Hello. A tea, please.\nServer: A tea?\nCustomer: Yes. Thank you."
+        },
+        {
+          "id": "de-cafe-requests-foundation-vary",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “I would like a tea, please” using the full request frame.",
+          "answers": [
+            "Ich möchte einen Tee, bitte."
+          ],
+          "explanation": "Use einen in these requests, not ein. German nouns keep their capitals: Kaffee and Tee.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-recall",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You arrive at a café and want coffee. Make the short request “A coffee, please”.",
+          "answers": [
+            "Einen Kaffee, bitte."
+          ],
+          "explanation": "The short request still includes please.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "de-cafe-requests-foundation-meaning",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning of this complete request: Ich möchte einen Kaffee, bitte.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "This is a polite request, not a statement about having coffee.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "de-numbers-quantities-foundation", "unitId": "de-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["de-cafe-requests-foundation"], "conceptIds": ["de-numbers-quantities-concept"], "vocabulary": ["de-numbers-quantities-word-1", "de-numbers-quantities-word-2", "de-numbers-quantities-word-3", "de-numbers-quantities-word-4"],
+      "explanation": "Count one through ten as two short runs. Then use Was kostet for a price and keep German noun capitals as you order a quantity.", "examples": [{ "target": "Was kostet ein Kaffee?", "meaning": "How much does a coffee cost?" }, { "target": "Zwei Äpfel, bitte.", "meaning": "Two apples, please." }], "culturalNote": "A price question can be brief and direct; bitte still makes a request polite.",
+      "exercises": [
+        { "id": "de-numbers-quantities-foundation-meet", "conceptId": "de-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which German number means three?", "answers": ["Drei."], "options": ["Zwei.", "Drei.", "Sechs.", "Zehn."], "explanation": "Drei is three.", "vocabulary": ["de-numbers-quantities-word-1"], "reviewOf": ["de-cafe-requests-foundation"] },
+        { "id": "de-numbers-quantities-foundation-order", "conceptId": "de-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["Was kostet ein Kaffee?"], "explanation": "Was kostet asks what one thing costs.", "vocabulary": ["de-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["Was", "kostet", "ein", "Kaffee?"] },
+        { "id": "de-numbers-quantities-foundation-quantity", "conceptId": "de-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in German: Two apples, please.", "answers": ["Zwei Äpfel, bitte."], "explanation": "Äpfel is plural and remains capitalized.", "vocabulary": ["de-numbers-quantities-word-4", "de-cafe-requests-word-4"], "reviewOf": [] },
+        { "id": "de-numbers-quantities-foundation-think", "conceptId": "de-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: you want one coffee. Ask its price, then write the question.", "answers": ["Was kostet ein Kaffee?"], "explanation": "The learned price question is Was kostet, followed by the item.", "vocabulary": ["de-numbers-quantities-word-3"], "reviewOf": [] }
+      ], "optionalExerciseIds": []
     }
   ],
   "media": [
@@ -208,9 +614,14 @@
       "id": "de-unit-1",
       "title": "Meeting people",
       "objective": "Introduce yourself and your family."
+    },
+    {
+      "id": "de-unit-2",
+      "title": "Getting around",
+      "objective": "Understand prices and quantities in everyday errands."
     }
   ],
-  "version": "0.1.0",
+  "version": "0.3.0",
   "vocabulary": [
     {
       "id": "de-first-words-word-1",
@@ -253,6 +664,66 @@
       "meaning": "coffee",
       "partOfSpeech": "word or expression",
       "example": "Kaffee."
-    }
+    },
+    {
+      "id": "de-introductions-word-1",
+      "word": "ich heiße",
+      "meaning": "my name is",
+      "partOfSpeech": "word or expression",
+      "example": "Ich heiße Anna."
+    },
+    {
+      "id": "de-introductions-word-2",
+      "word": "ich bin",
+      "meaning": "I am",
+      "partOfSpeech": "word or expression",
+      "example": "Ich bin Anna."
+    },
+    {
+      "id": "de-introductions-word-3",
+      "word": "Wie heißt du?",
+      "meaning": "What is your name? (informal)",
+      "partOfSpeech": "word or expression",
+      "example": "Wie heißt du?"
+    },
+    {
+      "id": "de-introductions-word-4",
+      "word": "Freut mich.",
+      "meaning": "Nice to meet you.",
+      "partOfSpeech": "word or expression",
+      "example": "Freut mich."
+    },
+    {
+      "id": "de-cafe-requests-word-1",
+      "word": "ich möchte",
+      "meaning": "I would like",
+      "partOfSpeech": "word or expression",
+      "example": "Ich möchte einen Kaffee, bitte."
+    },
+    {
+      "id": "de-cafe-requests-word-2",
+      "word": "einen Kaffee",
+      "meaning": "a coffee (in this request)",
+      "partOfSpeech": "word or expression",
+      "example": "Einen Kaffee, bitte."
+    },
+    {
+      "id": "de-cafe-requests-word-3",
+      "word": "einen Tee",
+      "meaning": "a tea (in this request)",
+      "partOfSpeech": "word or expression",
+      "example": "Einen Tee, bitte."
+    },
+    {
+      "id": "de-cafe-requests-word-4",
+      "word": "bitte",
+      "meaning": "please; you are welcome",
+      "partOfSpeech": "word or expression",
+      "example": "Einen Kaffee, bitte."
+    },
+    { "id": "de-numbers-quantities-word-1", "word": "eins, zwei, drei, vier, fünf", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Eins, zwei, drei, vier, fünf." },
+    { "id": "de-numbers-quantities-word-2", "word": "sechs, sieben, acht, neun, zehn", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Sechs, sieben, acht, neun, zehn." },
+    { "id": "de-numbers-quantities-word-3", "word": "Was kostet?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "Was kostet ein Kaffee?" },
+    { "id": "de-numbers-quantities-word-4", "word": "zwei Äpfel", "meaning": "two apples", "partOfSpeech": "noun phrase", "example": "Zwei Äpfel, bitte." }
   ]
 }

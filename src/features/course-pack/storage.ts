@@ -8,7 +8,7 @@ import {
   type LearningEvent,
   type LessonCheckpoint,
 } from "./attempts";
-import type { CoursePack } from "./schema";
+import type { OfflineInstallablePack } from "./environment";
 const DB = "verbalibera-course-practice";
 const DB_VERSION = 2;
 const legacyBackupEventSchema = learningEventSchema.transform((event, ctx): PracticeEvent => {
@@ -242,7 +242,7 @@ export async function readCheckpoint(
   });
 }
 export async function installPack(
-  pack: CoursePack,
+  pack: OfflineInstallablePack,
   language: string,
 ): Promise<void> {
   if (!("serviceWorker" in navigator) || !("caches" in window))

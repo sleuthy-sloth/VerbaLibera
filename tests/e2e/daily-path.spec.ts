@@ -20,13 +20,20 @@ test('Daily Path works on a narrow mobile viewport', async ({ page }) => {
 
   await page.getByRole('combobox', { name: 'Learning language' }).selectOption('english-to-italian');
 
-  // Beginner entry is the foundation course from Lesson 0.
+  // Beginner entry is the foundation course from Lesson 0. The Italian
+  // course renders the v2 runtime path, so assert the outcome (lesson one is
+  // reachable and unlocked), not legacy markup.
   const startLink = page.getByRole('link', { name: 'Start learning', exact: true });
   await expect(startLink).toBeVisible();
   await startLink.click();
 
   await expect(page).toHaveURL(/\/courses\/italian\?start=1/);
+  await expect(page.getByRole('navigation', { name: 'Course path' })).toBeVisible();
+  const firstWords = page.getByRole('button', { name: 'First words', exact: true });
+  await expect(firstWords).toBeEnabled();
+  await firstWords.click();
   await expect(page.getByRole('heading', { name: 'First words' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Begin practice', exact: true })).toBeEnabled();
 
   await assertNoHorizontalOverflow(page);
 });

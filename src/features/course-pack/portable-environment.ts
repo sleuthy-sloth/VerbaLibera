@@ -1,5 +1,5 @@
 import { importBackupDatabase } from "./backup-database";
-import { decodeBackupEnvelope, encodeBackup } from "./storage";
+  import { decodeBackupEnvelope, encodeBackup } from "./storage";
 import type {
   CourseEnvironment,
   LessonPracticeStore,
@@ -153,6 +153,37 @@ function durableStore(factory: IDBFactory): PracticeStore {
       }
     },
   };
+}
+
+const TYPE_HINT_MAP: Record<string, string> = {
+  cloze: 'missing word',
+  order: 'drag into order',
+  meaning: 'choose the meaning',
+  speaking: 'speak the phrase',
+  listening: 'listen and type',
+  notice: 'notice pattern',
+  reading: 'reading',
+};
+
+export function hintNextExerciseType(lesson: {
+  start: number;
+  length: number;
+  steps: { exercise?: { type?: string } }[];
+  getNextStepIndex: (step: number) => number;
+}, step: number): string {
+  return lesson.steps[step]?.exercise?.type ?? 'reading';
+}
+
+export function resolveNextStepForType(lesson: {
+  start: number;
+  length: number;
+  steps: { exercise?: { type?: string } }[];
+  getNextStepIndex: (step: number) => number;
+}, currentStep: number, exerciseType: string): number {
+  for (let i = currentStep; i < lesson.start + lesson.length; i++) {
+    if (hintNextExerciseType(lesson, i) === exerciseType) return i;
+  }
+  return lesson.start + lesson.length - 1;
 }
 
 export async function probePortableStore(options: {

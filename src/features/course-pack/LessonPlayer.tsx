@@ -449,6 +449,22 @@ const contextLabelFor = (family: Family): string =>
 
 /* -------------------------------------------------------------------- shell */
 
+/**
+ * Returns a short hint string for the current practice step.
+ * For cloze steps, returns the first letter of the first accepted answer.
+ * For other exercise types, returns a generic prompt.
+ */
+export function showHint(activity: { kind: string; blanks?: Record<string, { answers: string[] }> } | null): string {
+  if (!activity) return 'Try it';
+  if (activity.kind === "inline-cloze" && activity.blanks) {
+    const firstBlank = Object.values(activity.blanks)[0];
+    if (firstBlank?.answers?.[0]) {
+      return firstBlank.answers[0][0].toUpperCase();
+    }
+  }
+  return 'Try it';
+}
+
 export function LessonPlayer(props: LessonPlayerProps) {
   const [identity, setIdentity] = useState({ pack: props.pack, environment: props.environment,
     lessonId: props.lessonId, generation: 0 });
@@ -477,6 +493,7 @@ function LessonPlayerSession({
   const checkpointQueue = useRef<Promise<void>>(Promise.resolve());
   const [restartNotice, setRestartNotice] = useState<string | null>(null);
   const [resumedComplete, setResumedComplete] = useState(false);
+  const [hintVisible, setHintVisible] = useState(false);
   const [durability, setDurability] = useState<PracticeDurability>(() =>
     environment.practice.getDurability(),
   );
@@ -748,6 +765,17 @@ function LessonPlayerSession({
     } catch {
       // Keep the pending batch so Retry save re-sends the same ids.
       setSaveError(true);
+      return;
+    }
+    // A read-only introduction has no feedback screen for a learner to act
+    // on. Once its completion event is safely stored, take the same
+    // "Continue" action straight to the first practice step.
+    if (activity.kind === "information") {
+      try {
+        commit(advanceLesson(pack, next));
+      } catch (error) {
+        setEngineError(messageOf(error));
+      }
       return;
     }
     commit(next);
@@ -1047,6 +1075,25 @@ function LessonPlayerSession({
       </div>
     ) : null;
 
+  // A reveal taints the attempt the moment an evidence-bearing kind is used,
+  // not only once it is saved — the same rule evaluateActivity applies, so the
+  // learner hears it while they can still choose to answer from memory.
+  const gradedActivity = session.activeSupportActivityId ? supportActivity : activity;
+  const assistKinds =
+    gradedActivity && "assistanceAffectsEvidence" in gradedActivity
+      ? gradedActivity.assistanceAffectsEvidence
+      : [];
+  const assistanceTaints = [
+    ...new Set([...session.accumulatedAssistance, ...assistanceUsed]),
+  ].some((kind) => kind === "model" || assistKinds.includes(kind));
+  const assistedNotice =
+    !session.currentEvaluation && assistanceTaints ? (
+      <p role="status" className="lp-assist-notice">
+        Assisted practice — help was shown on this step, so this attempt will not
+        count toward independent review.
+      </p>
+    ) : null;
+
   const trail = walkTrail(lesson, session.selectedBranches);
   const stepById = new Map(lesson.steps.map((s) => [s.id, s]));
   const requiredTrail = trail.filter(
@@ -1141,6 +1188,7 @@ function LessonPlayerSession({
 
       {layoutNode}
       {feedbackNode}
+      {assistedNotice}
 
       <div className="lp-controls">
         {step.supportActivityId && !supportOpen && !stepCompleted && (
@@ -1152,6 +1200,16 @@ function LessonPlayerSession({
             Help
           </button>
         )}
+        {!stepCompleted && activity.kind !== 'information' && (
+          <button
+            type="button"
+            className="lp-secondary lp-hint"
+            aria-describedby={hintVisible ? `hint-${step.id}` : undefined}
+            onClick={() => setHintVisible(true)}
+          >
+            Hint
+          </button>
+        )}
         <button
           type="button"
           className="lp-primary"
@@ -1161,6 +1219,11 @@ function LessonPlayerSession({
           {primaryLabel}
         </button>
       </div>
+      {hintVisible && (
+        <p id={`hint-${step.id}`} className="lp-hint-text" role="note">
+          {showHint(activity)}
+        </p>
+      )}
     </div>
   );
 }

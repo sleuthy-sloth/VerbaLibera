@@ -1,0 +1,741 @@
+{
+  "source": "services/voice/scripts/french-identity-listen.lesson.json",
+  "source_sha256": "45239f2d13b826343f5207360c5bd1b783b586939c57d6cb98b98dbc69ac6c1b",
+  "audioUrl": "/audio/french-foundations/fr-identity-foundation-listen.mp3",
+  "audio_sha256": "1c7b7d298b54cf19c4ed10846936d5ae58e4972399631e875acc72bc95e5ae30",
+  "durationS": 617.58,
+  "engines": {
+    "kokoro": "0.9.4"
+  },
+  "review": "Machine-authored. Waveform and assembly checked; native-speaker editorial and prosody review open.",
+  "events": [
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Welcome to French, lesson one: names and introductions. You need nothing memorized. Everything in this lesson is built from two small words, and you already know a name: Anna.",
+      "text_sha256": "8c6af44f2e7e544fe86d7135e73af8070deb376b89a6516a16fa7061a9a8b2f6",
+      "audio_sha256": "0fabbc1e5d75f24efc2bec5453c92975478cfb9748078e055e77cd31bf0f9dfe",
+      "cacheFile": "783eba68c884129b44dd8d798b0a230cb45811b58914e655b5f5675d23613c6c.wav",
+      "durationS": 12.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Je suis Anna means I am Anna. Two words do the work. Je means I. Suis means am. Say them in your head: Je... suis.",
+      "text_sha256": "f68b37100c29dd8a42c15b98e661c6994976cdc421db9ca59f8b16fa45058193",
+      "audio_sha256": "1174e3fa5f3c0a50526bf5ec8cbbcca34cc33552230f2ce08aabc9a39f08c54d",
+      "cacheFile": "35271ae3027bce2bae955ba5396dfcc78916f9bd517f1974353a1fec01eaf6cc.wav",
+      "durationS": 8.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je suis Anna.",
+      "text_sha256": "180b7eaeffcdbdfe68353842044c2841e8fa4084edcf8344aa64264483e8ac85",
+      "audio_sha256": "83fd90bab267528ab9dd887dbd7f196ad4b762670749701591e1d474118ade34",
+      "cacheFile": "0b12b14388c37f015374d0049eaf80cecd92e27fddd4e9a7d0fa110f8553107f.wav",
+      "durationS": 1.95
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now think. Marc is introducing himself. How does he say, I am Marc? Pause the track if you need more time. Then listen. Je suis Marc. Same two blocks, a new name in the same slot. Names slide into the pattern without changing anything.",
+      "text_sha256": "2dd4f38fd48b21b83e34b4ff21993e5c10a657779dd0c5cf3c459bc67c0c6c57",
+      "audio_sha256": "1ee1f59fa9452b2db461e7a8b6c5e986dcfd22a83160c6b812a4c7a27ceba986",
+      "cacheFile": "51c29f60c30c24416616774f17a90623bbebba11388536a1f226aab574cfcd38.wav",
+      "durationS": 16.45
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je suis Marc.",
+      "text_sha256": "c85fd28abfb547554a7bdbcee57965fbae9755a66cad359fa3c07b3b165b9eb4",
+      "audio_sha256": "20789d393f2d7641c0ecd886292a7594283530dccaf9ad930a8b8c6e08a32dea",
+      "cacheFile": "c4adf1579b518b8f55532ce7f0577afae9827b7c54421f1a84988ba6f246f69e.wav",
+      "durationS": 1.875
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Next. Marie is a woman, and Paul is a man. Listen to how each one says, I am French.",
+      "text_sha256": "a371e009657448f758342093c641b4c6ec501c8b544fca7cd6fac5e79f780c50",
+      "audio_sha256": "3ba2eed04cc81b774ec6eaf58e25d3df71894245a5674ea8b0075605fe71ca9b",
+      "cacheFile": "173cf960a1dc5d9799520a7a36bce51987ce010df3a0e70996e781f9894cfb6b.wav",
+      "durationS": 6.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je suis française. / Je suis français.",
+      "text_sha256": "6c51b53951f1dfbb1ce7db890eec9f78274532c5cea2e5ca568fabc82d4ff3df",
+      "audio_sha256": "8b741d799fc9acca9b5648fc937288a86771c6b430c2d58194524e20f1ee85f0",
+      "cacheFile": "88f62f8d939e9fd4cf3c0b8ae3d6f7c89d92dc2aadd19c24709a2815cf44e8a2.wav",
+      "durationS": 3.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "One letter carries the difference. The woman's word ends in e: française. The man's does not: français.",
+      "text_sha256": "c4c236ace609437076d52b6f5673110bb56956c3d5b42da94162a9a122053996",
+      "audio_sha256": "73d5985b652d123f7015e54f56ed47a5ea6c5b2c5a6ef364ce60188d8bcec791",
+      "cacheFile": "7b2247fcb5ad8acee59951708bf3faf9fa42c05d8aa3d67fceec1b3678b9c3a8.wav",
+      "durationS": 7.75
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. Marie is telling someone she is French. Build her sentence, then listen. Je suis française. You combined two things you worked out minutes ago: the Je suis pattern, and the feminine e.",
+      "text_sha256": "d23eae6d4a73d30cd0cad27ccd066288f61fc08ff0f6d6e49cde167c435bbdd8",
+      "audio_sha256": "dae61c126516d2dbb3b75d7d710b50ccf877f726bba588eeedcdd5b5a7f69d35",
+      "cacheFile": "c737ced05d5da97e3df611433c87a04c530722abfbe99f82de3636da6557b57e.wav",
+      "durationS": 13.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je suis française.",
+      "text_sha256": "1bff76f9bc7dd13b700e6d820e7bc50ad4b9e03968bc45fff3e33b15252a1fc5",
+      "audio_sha256": "fff131bab5ee00a743cd95237eeaeed762224732567dcb02178121050b886862",
+      "cacheFile": "a0730eab9e65676816f005d7d91cfc0ff0691e1d531d02023cd8c1f8dbc75b7a.wav",
+      "durationS": 2.225
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Last one, and nobody taught you this sentence. Sophie is introducing herself. What does she say? Think. Je suis Sophie. You never practiced that sentence. You derived it. New situations, same few blocks.",
+      "text_sha256": "efc8a6985b9e60e7093be4f5a35ee75dbb7dbc2d07e7fc1ce2c2e3add84b5a1d",
+      "audio_sha256": "c33b4dbeeb0d0e314d183c1f31832f7cdddae1335c0095ef2819181047ecabd1",
+      "cacheFile": "463bea114108dd050ad1f5ebc5d15c6ca80b218da869501d13faa5636e2b3d49.wav",
+      "durationS": 14.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je suis Sophie.",
+      "text_sha256": "fcb40b2adcb396fa7544e576dae1a9a2ad26e06fc77fb7baea02db6499fa054e",
+      "audio_sha256": "7560370b1f3aed9b3c8673e7c26f205935a5c616678638e5bf49d59ffa162445",
+      "cacheFile": "20295d69b26aa1d3f836dfb7684a6e5fdd49a26862670e5976685dc56c051ece.wav",
+      "durationS": 2.025
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Good. Now let's give you more blocks. When you walk into a shop in France, you say one word: Bonjour. It means both hello and good day. It works everywhere. But among friends, there's a shortcut: Salut. It means both hi and bye. Think of bonjour as the button you press with strangers, and salut as the one you press with people you already know.",
+      "text_sha256": "24f7e3c163fcb7293953f880792b759e6d5eeb26f3c57fed89bf56191745132c",
+      "audio_sha256": "8e21b1953a1d971a18bd9a1ece989e672522ad405a9867b799e85dab15dec297",
+      "cacheFile": "2eb4b2942cd763e22a61648ae0fd1557a196b859a4ee85e2a8ab6f020ebffb3d.wav",
+      "durationS": 22.4
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Bonjour. / Salut.",
+      "text_sha256": "82d126f52c56e79dd5260f105ee9cd55e1b37056ab5695bd8bf263154746fe3d",
+      "audio_sha256": "f184fb5a8a58e5c41a75a1c4310c733da603bac5cd40c7520d41bc36ce7e7bf9",
+      "cacheFile": "b93cd0ded6e2d43f8775cb092d5b25721eb0210a429108212509b400c3b5bbb4.wav",
+      "durationS": 2.1
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. You meet someone at a language exchange. Do you say Bonjour or Salut? You just met them. Bonjour. You've been talking for twenty minutes and you're leaving. Now Salut works. The word changes with the relationship, not the clock.",
+      "text_sha256": "5ca84ca86a77c620e4bcaefd3992d015f012178b73f4ac0e39b8b73e2d6e35a6",
+      "audio_sha256": "2a20806ebb15c92ffe1daf003fd66d94bba139890f3ca53c2702e88599da8fab",
+      "cacheFile": "ed7ef6f4b6a752b4c64d402dc518f22c62cf30ab909fec9a36d9987c1cab2dfe.wav",
+      "durationS": 14.925
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Bonjour. → Salut.",
+      "text_sha256": "d89f0b971a241961d45bcb47a426f701c9d0470125c7d10c0f017ca4b698c8cf",
+      "audio_sha256": "d4a0cb0d384f74c59ed83700ede109b2d57333b1c162e22904af6457e06281a3",
+      "cacheFile": "9360ebb258d2627670cd61fa0e85fad171db2dc75aba0c849433e6deefde3ee1.wav",
+      "durationS": 2.1
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Here's where French gets interesting. There are two ways to say you. Tu is the one you use with friends, children, people your age. Vous is the one you use with strangers, elders, and anyone you're being polite with. Think of tu as the casual you, and vous as the respectful you. There's no shortcut to know which one — you learn it the way you learned who to call sir and who to call by first name.",
+      "text_sha256": "df7da11c2ba65982f23718a59117698bf390257c816cc26b19bd1b27e3fa8c31",
+      "audio_sha256": "130111192acfa942502adeb85b1e7ba154b33bba99223350850a93c61095159f",
+      "cacheFile": "b1bd9ec2b058e7c121abc8ff66aae0406e229444623f6a70f7c2f8c2e84150d5.wav",
+      "durationS": 24.825
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Tu es française. / Vous êtes française.",
+      "text_sha256": "0db19d7cc069959d8ef3e6bb87b0f2eac09c0329f23c96fe3c2436b389580481",
+      "audio_sha256": "b25f2cb9e2305e688179bb10ee36b00d2bae68ba64c1d164e96397c8a24157e7",
+      "cacheFile": "ad1b02df5dc32eff804aaff35fe909b92d9a2e40c6715637792cdbb1e6387fbb.wav",
+      "durationS": 3.2
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. You're in a bakery. The person behind the counter is about your age. Do you use tu or vous? Vous. You don't know them. Now your friend who works there — tu. Same person, different word, different relationship. Bonjour, vous êtes français? Salut, tu es français?",
+      "text_sha256": "50399c1ea6c557517c5e199cde27167ac9557ea28931dfa440951c2d2145e65d",
+      "audio_sha256": "2c541e2e5b84158838dd6e796cf18338b8dddb9fed253951becbce61fb1195a6",
+      "cacheFile": "0bdee3cb18de1a03ee6df4b1fcf82647db7d81f78e2db58c5f8fce0a33e5130c.wav",
+      "durationS": 17.925
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Bonjour, vous êtes français?",
+      "text_sha256": "197a4dc6acf46fda3234bc7cd519ce42e00ae9cf8bcd8deff18b34b23723a0cf",
+      "audio_sha256": "bc27e7f75323a17a578f54eb4f7d87fd8d45cbb0eacc27542e4a8089f95e3337",
+      "cacheFile": "e9c6b06ef33b86dbfb36fc45eda525f762f44cd54aeb6a7c9e6b33769a36438d.wav",
+      "durationS": 2.65
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Let's give you numbers. One is un. Two is deux. Three is trois. Four is quatre. Five is cinq. Listen to the rhythm: un, deux, trois, quatre, cinq. Don't memorize the list. Just notice that trois sounds like the English word three, and quatre sounds like quarter. French kept echoes of the Latin, and so did English.",
+      "text_sha256": "82e0aa292d3ff16fc341409cedc1e8cbbc79a8a458b7c1f2cdec5c3b7b2c8de9",
+      "audio_sha256": "c62c8c8dc046b1b11c43581f940687a8103e1a53114e0cc38e3ba68690192900",
+      "cacheFile": "d9072e968b3169338d9d7ca190c9b3833b21f6557a2467c454c3569eff38e3ec.wav",
+      "durationS": 21.825
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Un, deux, trois, quatre, cinq.",
+      "text_sha256": "253c3ccc822235e8897fa086cc52c4d8b9e16c6b719a8607bd4e4916e6f573e0",
+      "audio_sha256": "4ed9ff27e03cef51b3ca20e85145b2b5a106f1499b6b23d2a32c1df10657a49e",
+      "cacheFile": "5f30667c26972036efbb8eeb0ffa561c61e64469ee62fde5ca85aaa5d4df8c42.wav",
+      "durationS": 2.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. Six is six. That's almost the same word. Sept sounds close to seven. Huit sounds like the English word wheat — but it means eight. Neuf means nine, and dix sounds like the English word deer without the r. You already know more French numbers than you think.",
+      "text_sha256": "c7f9ad8bf9d91707c63a9a7b032aa676b5216948022f6a0c54b5636a7932d168",
+      "audio_sha256": "fa3041f1898875bc9474139f8e7b7be2ce717a8d626b297fca07bb85ebec6835",
+      "cacheFile": "0525ac92d82e940fe16376a032d521a73e4fee97c9f9ff970242fe53d5157d75.wav",
+      "durationS": 17.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Six, sept, huit, neuf, dix.",
+      "text_sha256": "54c3c9d0227d497b8f6b97ac81733d06760b154a3a39e00d9822f07b4db536c0",
+      "audio_sha256": "3413b0e440efa55418a77a3e6d1ea6455daacc02245a185dacd9f7685d293822",
+      "cacheFile": "e2ba042e66c944a75508909fd99a2ad1b60a5c1b91ab15fe9d0dac89b4813f4f.wav",
+      "durationS": 2.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now a new verb. J'ai means I have. The same J from Je, plus ai, which means have. J'ai un ami means I have a friend. Notice what happened: you already knew Je, you already knew un. You just added one new piece — ai — and you built a whole new sentence.",
+      "text_sha256": "7713484d5fbd0d1960f62152e39b9f9b60d5aeefbbcb93d12a38d6a8027e817f",
+      "audio_sha256": "645ddc801837a476a87daddc47f582f20a27e8768cf8217f51033942e42bfd73",
+      "cacheFile": "e5b2484264f30c2dc569409afe61f64a57f726dd2baf23942e01683a1d133293.wav",
+      "durationS": 18.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "J'ai un ami.",
+      "text_sha256": "324f8fe734825336cadd817c1e156c1aee15f714d03b11b0f5631c35a55230ea",
+      "audio_sha256": "39329c174b7da530b1aa5ce7b4427f39b88ebb72cf6c1ce67eac24e82f64d500",
+      "cacheFile": "880a3eb6eecf3b63dadc0347ea399e7bd27797c46c76b9cdc5cde0dbd47263f5.wav",
+      "durationS": 1.85
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. You want to say I have two friends. You know two is deux. You know friends would be amis. Build it: J'ai deux amis. You used Je from the beginning, deux from five minutes ago, and ami with the s for plural. Three pieces you already had, one new rule — plural s.",
+      "text_sha256": "9fb264766c5b91f0c29cdfec00236563d4d5c23724d6b6640cfdc6b7c0125137",
+      "audio_sha256": "ad4b71474cbb3f9980abf62bb3487f878976083e2bf2ab57d9b6cd74a43bb3e7",
+      "cacheFile": "eca475f110630742adb94c8dd22b3857d8b2214000d2971f4b5631cc4f9bce80.wav",
+      "durationS": 17.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "J'ai deux amis.",
+      "text_sha256": "80e5186b4231668c0f78fb97c385a42e0cf3c82a909cdfa92a892dfca2cbff80",
+      "audio_sha256": "992e40ac6e5d7a8fa6653c95948c3f5a0ef9dd4797093b9a4faf75bcee2b831b",
+      "cacheFile": "07bb4cdafa20ef3af1b2e607eebb2896ece16dc542d970e7b09fca61be993344.wav",
+      "durationS": 1.975
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Here's your first real stack. Walk into a bakery. What do you say? Bonjour. What if the baker asks if you want something? Vous êtes français? How do you answer? Oui, je suis français. How many new things did you use? None. Bonjour, je suis, français — all from the first five minutes. You just stacked them in a real conversation.",
+      "text_sha256": "8816d0219860df5661758833eabb2719fba98b92f5cac00f35105a2e19c48292",
+      "audio_sha256": "2ac0754b4da2d83d4de568d51d13dad4f585543b0c141ecf81c1f714f9a0f55d",
+      "cacheFile": "7e1100b9b9fb0115ae187341a2832fe87ccb40fa83ca7c2cea1dda0b86831c8a.wav",
+      "durationS": 21.875
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Bonjour. Je suis français. J'ai un ami français aussi.",
+      "text_sha256": "1b9bcd68615553e9c9f51837ea92bccdbeacd8a8f6a608a38ff7ce0d75cef1e2",
+      "audio_sha256": "85b2c336de55c73ff7bdf7ac52a42e771b31c55ac5c4a6dbb6d95dad64f2af91",
+      "cacheFile": "0bd98e45caf96bb61bd5d89e1be1e8aa5389538cf07aa0d5cbb711b63b73760b.wav",
+      "durationS": 4.4
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Three colors. Rouge is red. Bleu is blue. Vert is green. When the color describes a feminine noun, it changes: rouge stays rouge, but bleu becomes bleue, and vert becomes verte. Remember française from the start? Same e trick.",
+      "text_sha256": "b87cc6af3df97d4933911ffa661f5b24088660f2ecd134cbd463b8a7baf05a78",
+      "audio_sha256": "05642eea7a7889ee4eb6d474b153dc0c6bfbaad788c0d12044432f2149b2ae94",
+      "cacheFile": "ba6c24c305c9c9949403c8ad3b2f7782bac9fc5eda1922ed842486dd8784a3ed.wav",
+      "durationS": 15.65
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Une voiture rouge. / Un livre bleue. / Une fleur verte.",
+      "text_sha256": "1d3bccb03bf76b5f7e0016dd492d84a4f2c9f9b800f37419fe11ddf4f3eee3d1",
+      "audio_sha256": "ec421752f0546c6f076bd139d1644cbadb36368ab20b8777a3d7697bcd106674",
+      "cacheFile": "1e02c15875313d5ee3d55b2bd2483d4b98cb38693f15c66b3c9eb285e7d6ca5a.wav",
+      "durationS": 3.9
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. You have a feminine noun — voiture, car. You want to say red car. Is it une voiture rouge or une voiture rouge? Rouge doesn't change — it already ends in e. Now blue car: une voiture bleue. Green car: une voiture verte. The color agrees with the noun, the way français agreed with Marie.",
+      "text_sha256": "5c8fa135657fa6cf4533a31012fe38057f2fe9e5012bfc0466d6b2b1fbdccab5",
+      "audio_sha256": "cc263f0a5400e8c803003f1274fd0055b15c5f39ff5ca8e4b13599d71dd1bd70",
+      "cacheFile": "8fa4e10ac4de708f6d75450a19d52361518952647a656fbff43de7089eb09c25.wav",
+      "durationS": 19.825
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "La voiture est rouge. La voiture est bleue.",
+      "text_sha256": "26ec791c189f1059a134b47b3ad55c5fe961d46934ef3502ac13507bab6dc1ce",
+      "audio_sha256": "f91358d02730d5d44f5ca3878e515af3f632513d3b4d5014c03e3b71dd823211",
+      "cacheFile": "8293bf1e5f73e3735c2f397ff002a957da3bcaf7b0bef465de16cc00bc2c0c84.wav",
+      "durationS": 3.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now let's tell time. Il est means it is. Il est trois heures means it is three o'clock. Heures means hours or o'clock. One o'clock is the exception — it's l'heure, not heure, because the h drops: il est une heure. But from two onward it's regular: deux heures, trois heures, quatre heures.",
+      "text_sha256": "e6899700980d22d75565856fb9c95fc18cef297220722b0759a311be9e1f3773",
+      "audio_sha256": "1c2375457e5a64534e2a7970522ebe55c2b0cd084971ee84af95b8b0a1fbdd72",
+      "cacheFile": "9e876ab5f1fd94e278f69546f600f237e1142613c208bef8267f26f5ee79f80b.wav",
+      "durationS": 20.75
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Il est une heure. / Il est trois heures.",
+      "text_sha256": "b5b3a47b1e6e0916423fe9d95f970c80df470c04816e64557cc245f8c8c37c3c",
+      "audio_sha256": "58d049fe00e8b45c0d4e587577fbfe206cfae2baad819c6d020f59bfa594a5eb",
+      "cacheFile": "7287bd0ae4346fae9f420d6d345308545b520b3702c8ec808a7bd01e20d393ce.wav",
+      "durationS": 2.9
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. Someone asks you — quelle heure est-il? What time is it? You look at your watch. It's ten o'clock. Il est dix heures. You just used the time phrase with a number you learned eight minutes ago. If it's one o'clock, the trick — il est une heure, not il est un heure.",
+      "text_sha256": "3082c83dababb12fe0d35f5dfb49b6013b1193b8f40b0b8c210cdde0b912f1b6",
+      "audio_sha256": "43170365c7795276a894d34442eae8cfdc213487983d1070c6a41be4ab90f6c6",
+      "cacheFile": "6cd1daf55c9f64a56d82cff6d38c58aea0bbb70c00461fe8044823d810a84937.wav",
+      "durationS": 18.225
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Quelle heure est-il? Il est dix heures.",
+      "text_sha256": "3e06628d7ffd74eba5be57fef38ea8f731f6627976518e98e1f30be55ae807b3",
+      "audio_sha256": "173c9438e97ef59b074159123030ed1f43f460f54ab74aa51fc8bb8b1f0b469a",
+      "cacheFile": "e6f2903be9a8d6e9c65400dff2b0a6c954ea9240b3d6f76670198bc2b3319c8e.wav",
+      "durationS": 2.95
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Here's a transfer. The clock is blue. L'horloge is feminine. So l'horloge est bleue. It is two o'clock. Il est deux heures. The blue clock says two. L'horloge bleue dit deux. Three blocks you already knew — feminine agreement from the start, colors from three minutes ago, time from one minute ago.",
+      "text_sha256": "2e77948fd97677f6782b1126764e09182cce59c8eb6aa92225d2796c7bcbd415",
+      "audio_sha256": "b126a6c5326ffc80253a9cd56d03c155a6efc4041afaf73a6d0b88a0b5b8bb61",
+      "cacheFile": "543527c3f11cf8e3bb06704a4b5986b3695326fdcb9a79bf60a9f1ff1bc41b50.wav",
+      "durationS": 20.05
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "L'horloge bleue dit deux heures.",
+      "text_sha256": "33d3fd9cc96815e87ba517d1af589aa3c729d660795ad11a31e9a8d97c4e706d",
+      "audio_sha256": "8efceaef3774d8d18c659fd6c6c17c8de32aefa454b32c40838574e398ec2a87",
+      "cacheFile": "8683c380d17239dc528531b8e67625d5219ef75d00b421815212a6afc888428d.wav",
+      "durationS": 2.925
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "One more verb. Je vais means I go or I'm going. It's irregular — you can't build it from Je and a pattern. You just learn it. But here's the payoff: je vais au marché means I'm going to the market. Au is a contraction of à le, meaning to the. One new verb, one new contraction, and you're navigating a city.",
+      "text_sha256": "5675cdad87af27b1ad197a92e665bb5c7fa1175368ae232ab21092a724edfa26",
+      "audio_sha256": "a3b8902671a2d5a0eecfbcd3238b18ad1ce794bd9a85623a3658efce41122ba0",
+      "cacheFile": "c27e8505674a3b7dcda9fdf46fded5f62bf9910e95a47a893e7fcdc870978fec.wav",
+      "durationS": 20.65
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je vais au marché.",
+      "text_sha256": "5b5fe2b8d2943b6c5fe3b70022ef536ea5464f82c6ca5797848b6c00339e1164",
+      "audio_sha256": "b436558f229d4eebe07f66dc77427957f7b7f5f6964ec3686bf5e4410999faca",
+      "cacheFile": "9aaadd9f09a1b99fe32b39722a9655c81575788348197d0c9ef67546daf02744.wav",
+      "durationS": 2.3
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. Someone asks — tu vas où? Where are you going? You're going to the restaurant. Tu vas au restaurant. To the bakery: tu vas à la boulangerie. Notice — à la for feminine, au for masculine. You saw this with à le becoming au. La boulangerie keeps its à la because it's feminine.",
+      "text_sha256": "58ad6e244869524ff64e2c9700e57cbbbbac364f0435534c0c07bc1d2234bc5d",
+      "audio_sha256": "b30c068a58ec45249065557cb804b9c8e9da3c8b6be8c925d98a4c431caf3cb4",
+      "cacheFile": "b9bc6f08aaed007199a608a456b63f6fe7bec3fad407b25a45b3c762332c516b.wav",
+      "durationS": 18.9
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Tu vas au restaurant. / Tu vas à la boulangerie.",
+      "text_sha256": "24bf2065446ea6ff6411280577119e94c747b644f98bb0f4895766f03c2f4a7b",
+      "audio_sha256": "7c94d3317ca0b169c8282ea93be399e986a80ad9e172cb940128c412234e44a8",
+      "cacheFile": "19a73b6ba96888ef587d10b3fa9d2cbd01b34ff2a1c741bb803067991119480c.wav",
+      "durationS": 3.85
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Let's put everything together. You walk into a bakery. You say bonjour. The baker says bonjour, vous désirez? — hello, you want something? You say je voudrais un café, s'il vous plaît. That means I would like a coffee, please. The baker says trois euros. You pay and say merci, au revoir. Let's break that down.",
+      "text_sha256": "4c339ff43e0a2feeb2cac132226d18592a5ae26f1198565a42a51459b02d89ca",
+      "audio_sha256": "294c63695b2ba3e5b06092441e46a5c792e884e826eaf9c7f20bf0ea1885af23",
+      "cacheFile": "4b24ac2c6d9fe6e49a88bb9d6d74a815844ccad35b755177c8b2bcc4c1f4853b.wav",
+      "durationS": 21.35
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Bonjour. Je voudrais un café, s'il vous plaît.",
+      "text_sha256": "0875e73d296bc57e22ee3be75b82925d7f249d5afe6bc2b8f40664760d971229",
+      "audio_sha256": "d24c34b4d07a8b566d23d27bf2ca7ea31d9b7be924832c1790ef48c523989961",
+      "cacheFile": "ec77b6516af8ea35fb6045a892a54ed5810d6605460c842f00e6fb40f138f663.wav",
+      "durationS": 3.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Je voudrais means I would like. It's the polite way to ask for something. Voudrais comes from the verb vouloir, to want, but softened. S'il vous plaît means please — literally if it pleases you. You don't need to understand the grammar. You need to know that je voudrais plus what you want plus s'il vous plaît is your universal key to every shop, restaurant, and café in France.",
+      "text_sha256": "f89e91dac3ab66e5b397ad08ae3dee7a6842a2c78fb65222a6ceec4403faa724",
+      "audio_sha256": "331b90dc231c4c184d6da2942498a525e0fd765b83537858606c23ae76b5def8",
+      "cacheFile": "4a3134907fd0a3cbf522b145cced58a49471631060abcbac13f068728a20b1da.wav",
+      "durationS": 24.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Je voudrais un croissant. S'il vous plaît.",
+      "text_sha256": "9f5e0ca76b37e0fd8fc15881afa193721db1cd27c6e9e09f80b9791ed1543318",
+      "audio_sha256": "ad948aed17c6cdec335c848f997198ad6c54fa8691c9647498c08d14b26ba62b",
+      "cacheFile": "bdaee6cc2d87a02a55866efdba4e6ead54e243a7d49c176c4f4e4c38feb540c6.wav",
+      "durationS": 3.325
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The baker says cinq euros, please. You hand over a ten — dix euros. She gives you five back — cinq euros de monnaie. Monnaie means change. You already know all the numbers. You just heard them in a real transaction. Bonjour, je voudrais un croissant. Cinq euros, s'il vous plaît. Voilà, dix euros. Merci.",
+      "text_sha256": "2ab2bc2f70bdd0e087de46b7f12767f7eddcb7168b276a89886ecad1e55beb67",
+      "audio_sha256": "b89b497cb91dc99fda285a5d7acc61a28a07f074c3c57dab527def9e248f5457",
+      "cacheFile": "344dc6bf69e4f9f52685d1fe405f0a6614e3ce83469a325b0cd07263895ab4b7.wav",
+      "durationS": 21.55
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "Cinq euros. Voilà, dix euros. Merci.",
+      "text_sha256": "b99ed5fafd0a303497ce86acf1075ab4372a2a2b5f730140f6b12286efe26e4a",
+      "audio_sha256": "11933560788fedb6be25192ac1142a6a0685fb270c688c1093478021ec4472af",
+      "cacheFile": "00ec7b64029df5ec8000b3dec61032fd3702efcd453e01db7cbc2b48332150bb.wav",
+      "durationS": 3.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Let's see what you did today. You started with two words — je suis — and built introductions, gender agreement, greetings, politeness, numbers, colors, time, movement, and a full bakery transaction. None of it was memorized. You derived every sentence from blocks you already had. That's the thinking method. Bonjour means good day. Salut means see you later. À bientôt — that means see you soon.",
+      "text_sha256": "0fb88bcf5f67dd3b5c311baa98209cdb1ca20cd5e8e3ac060159be4d1d348a48",
+      "audio_sha256": "00d3febcc8a22a5b0bf02b3ebf0a2b18b686f4f7bdcf2b314ad1891aed3b4d10",
+      "cacheFile": "9412a8a64df8a7b645df62b0f893f356092134f54ed043824f9415b4449d955d.wav",
+      "durationS": 25.45
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "fr",
+      "voice": "bf_emma",
+      "text": "À bientôt.",
+      "text_sha256": "e8239757ced306fb2e1f56038c82337d0c5b2070bf5db41a7f7d852db2bf2e38",
+      "audio_sha256": "7f622a03fcf7877d51307d38f790864259b48c4b02b59a6452b0eaac227943b5",
+      "cacheFile": "40f0652a5cb7137ef27469c528c966deefee5d14287e3e5f1d07a703f7a473eb.wav",
+      "durationS": 1.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    }
+  ]
+}

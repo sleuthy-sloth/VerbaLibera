@@ -265,11 +265,46 @@ it('accepts ordinary numeric notation in listening answers without changing mean
 describe('new foundation packs', () => {
   const readGerman = () =>
     JSON.parse(readFileSync('courses/german/manifest.json', 'utf8'));
-  it.each(['german', 'spanish', 'portuguese'])('validates the active %s words-first pack', (language) => {
+  it.each(['german', 'spanish', 'portuguese'])('preserves the %s words-first entry and advances through introductions to café requests', (language) => {
     const pack = validatePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
     expect(pack.status).toBe('active');
-    expect(pack.lessons).toHaveLength(1);
-    expect(pack.lessons[0].title).toBe('First words');
+    const prefix = pack.language;
+    const [first, introductions, requests] = pack.lessons;
+    expect(pack.lessons.slice(0, 3).map(({ id }) => id)).toEqual([
+      `${prefix}-first-words-foundation`,
+      `${prefix}-introductions-foundation`,
+      `${prefix}-cafe-requests-foundation`,
+    ]);
+    expect(first.title).toBe('First words');
+    expect(first.prerequisites).toEqual([]);
+    expect(first.exercises[0]).toMatchObject({
+      id: `${prefix}-first-words-foundation-meet`,
+      kind: 'choice',
+      mode: 'recognition',
+    });
+    expect(introductions.prerequisites).toEqual([first.id]);
+    expect(requests.prerequisites).toEqual([introductions.id]);
+    for (const lesson of [introductions, requests]) {
+      expect(lesson.exercises.map(({ kind }) => kind)).toEqual(
+        expect.arrayContaining(['reading', 'order', 'think']),
+      );
+    }
+    const passed = (lessons: typeof pack.lessons) => lessons.flatMap(lesson =>
+      lesson.exercises.map(exercise => ({
+        id: `passed-${exercise.id}`,
+        packId: pack.id,
+        version: '0.1.0',
+        exerciseId: exercise.id,
+        at: '2026-09-08T12:00:00.000Z',
+        correct: true,
+        revealed: false,
+      })),
+    );
+    const now = new Date('2026-09-08T12:01:00.000Z');
+    expect(selectDaily(pack, [], 5, now).lessonId).toBe(first.id);
+    expect(completedLessons(pack, passed([first])).has(first.id)).toBe(true);
+    expect(selectDaily(pack, passed([first]), 5, now).lessonId).toBe(introductions.id);
+    expect(selectDaily(pack, passed([first, introductions]), 5, now).lessonId).toBe(requests.id);
     expect(pack.lessons[0].exercises.some((exercise) =>
       exercise.kind === 'dictation' && pack.media.some((media) => media.id === exercise.audioId),
     )).toBe(true);

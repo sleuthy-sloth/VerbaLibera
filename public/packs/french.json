@@ -1458,7 +1458,7 @@
           "conceptId": "fr-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say when you arrive: ___jour.",
+          "prompt": "Complete the first word you say when you arrive: ___",
           "answers": [
             "Bonjour."
           ],

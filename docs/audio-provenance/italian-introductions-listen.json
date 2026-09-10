@@ -1,0 +1,825 @@
+{
+  "source": "services/voice/scripts/italian-market-listen.lesson.json",
+  "source_sha256": "ed3f5017828e947bf760b44aa1cc12c835382a2eddec07a5a9bc0bda46002367",
+  "audioUrl": "/audio/italian-foundations/it-market-foundations-listen.mp3",
+  "audio_sha256": "c0c6bee6a13c875313bbdfd0469e8080c0dd8fef6a9fc76731f22cd79c026dd1",
+  "durationS": 663.92,
+  "engines": {
+    "kokoro": "0.9.4"
+  },
+  "review": "Machine-authored. Waveform and assembly checked; native-speaker editorial and prosody review open.",
+  "events": [
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Welcome to today's walk through an Italian market. You already met numbers up to twenty in the foundations course, and today they go to work. In the next ten minutes you will buy fruit by the kilo, ask prices, and order politely, all by recombining a handful of blocks.",
+      "text_sha256": "64917a7d1aea8ba1103dbb5cdba2a6d0adeb48cbdf2441802bd437abadf45c49",
+      "audio_sha256": "2eb8555b0d9b95afd054276058eef5d23c289b5327d9a444d03f2d6b05333a51",
+      "cacheFile": "7ac2cfb397b285e1c16eb9e4c58bf82f5491918f4b2bfcc28989d2f8d8bace63.wav",
+      "durationS": 17.975
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "First, a quick recap. One to ten in Italian. You know these cold, and everything today is priced and weighed with them. Listen once to lock them in.",
+      "text_sha256": "47dcb7b603d7b0d22a83a66ba745670a9540b94d0967810d9c9fe161f6fb94bc",
+      "audio_sha256": "6fb3cc7bc0ed9dfad333fd92e7cdd683fa5b2040dc72c4aae7d687e9695e071b",
+      "cacheFile": "631db34c5a1935969131aaec1076d4becaa859e3ada133f470b4205fef7dd44e.wav",
+      "durationS": 10.25
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Uno, due, tre, quattro, cinque, sei, sette, otto, nove, dieci.",
+      "text_sha256": "f8a1054d3687437f0637b56dd23868f7c46dc6dd208ad485e8e9921114e497f1",
+      "audio_sha256": "aa3841ee61bd6fb58faf6d7f46959515e61694b8cf94ee28435538b0899621f6",
+      "cacheFile": "c3e45b6fa2f04c8b9b8b64eb14719602c89df8ebf8f7c81615c405568a489c43.wav",
+      "durationS": 4.025
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now eleven to twenty. They stack onto ten the way English stacks teens. Notice seventeen and nineteen keep their full shape. Listen, because in two minutes these become prices.",
+      "text_sha256": "9b307e3411e68d29d399fc231f325a739f8f9851a0f34771ac77752a7f72d60f",
+      "audio_sha256": "5cb9e9af7b917c4e3105e35f5ec73d8a0d7c56993a845aa4aa86754a886ff416",
+      "cacheFile": "9807f1bb8617da8cc5197b2e083990ab97333c66bc4d341e009e53d3b2dd3ef8.wav",
+      "durationS": 12.575
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Undici, dodici, tredici, quattordici, quindici, sedici, diciassette, diciotto, diciannove, venti.",
+      "text_sha256": "c059492e6e082eac6c1c3722d0d59bc68966ed7610fe61505cd8006dd34d8fe7",
+      "audio_sha256": "f15a35a5a5b6c0abcb0f5654fb9e6e9499910095fbf0bb095328bc78a7954627",
+      "cacheFile": "43bf5877f404d0517557ab33b736a88c8e35d3ebc96df0608567723633121760.wav",
+      "durationS": 6.45
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Quick check before we move on. Seventeen. You heard it buried in the list. Say it in your head right now. Ten seconds, then listen to confirm.",
+      "text_sha256": "0f0a97ea2bc781ec5e16f68281da9cb571f51a26b244a258b52df41c96dd3690",
+      "audio_sha256": "277fa7e930c8b85cbe2105de05470274b6a2add9144b52633326f469173cce6f",
+      "cacheFile": "4bfb1e8ab148807655cc8999a0cbe0bb16ff97f14eb65ca89925cc2bca0bd454.wav",
+      "durationS": 9.775
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Diciassette.",
+      "text_sha256": "d9060bb2372f1be4b3e6e6e0b8208b88d33279fb4aaf6e1b1662fcb620237e37",
+      "audio_sha256": "76298c79ab3f7ea886addfa05a610fcb3e2ffc7e0a4447cce03d522fab1d7c47",
+      "cacheFile": "ea4c9806cc6bbc00ad2b6eb5504cdaa2029cdb5cccd41dc787dc524c9c5bd344.wav",
+      "durationS": 1.85
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "At an Italian market you buy quantities, not pieces. Two tiny words do the heavy lifting: a feminine word pairs with one of them, a masculine word with the other. Listen to how a kilo of apples is ordered.",
+      "text_sha256": "aeb487b30beb21a0ba6acb3f1cff0d51626538c80981271d0bde3541ce10baf1",
+      "audio_sha256": "d93d148b446bd1b7663003d81daf9a1298198dfa2cd3083e3019af8b3ac6ae48",
+      "cacheFile": "6e506e79b378983fb560f08ff39dad2351fafb3215a93781adcc995eb52524ca.wav",
+      "durationS": 14.6
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Un chilo di mele.",
+      "text_sha256": "cfe99bbcf06a7c585568fd4925126f183be16378198c04591c99b32a1f828365",
+      "audio_sha256": "ca58a995b8f50bd5156900351f98a079a8e8a43d67c1ec9a32d74a6c2895e15f",
+      "cacheFile": "c9598e5daa64fe715293dc726bd36f9da0d4dc3b20acea04db53f82a50ba1a28.wav",
+      "durationS": 1.95
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Next block: short for one hundred grams. Cold cuts and cheese sell by it. A hundred grams of ham. Listen to the pattern with apples, then ham.",
+      "text_sha256": "ecb4201e4cf3c5fe8288283e9a38d100a7da9aa8629aceb2d24d15325a5acd09",
+      "audio_sha256": "13cf5525c11c8e5b1a72a47f4ed201f70312f0eca145b41355f71af58a0dfab7",
+      "cacheFile": "2e797dc9f0219b948de254406ad7989b2c66cd7bd56fd47cfbe4b815c6b5fd63.wav",
+      "durationS": 10.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Un etto di prosciutto. Una fetta di formaggio.",
+      "text_sha256": "29aa2e6810b5e7ea5c08af5eddc83e98ba82bdce6ae2ad45bf5b2d1358545d17",
+      "audio_sha256": "c5150631f625b8379012c0bce7ff3ae42b4039fcbf5341b2fa20a888f232c80d",
+      "cacheFile": "9705d6cfcfee292c4123e171f90d61399b24875404b8e1073d490043640affc4.wav",
+      "durationS": 3.475
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now prices. How much does it cost, for one thing. Think. You are at the stall with one melon in your hand. Build the question yourself, then take ten seconds and say it in your head. Then listen to the reveal.",
+      "text_sha256": "39f0c242884aa6e65fc08c246000f7631c09094cc705ae7dc550db4fb79a52a5",
+      "audio_sha256": "5392f33e7fce2811f20877cc40619c2454669bef42f4e2799de57cc986da3b00",
+      "cacheFile": "39174ca8e46045ad6e6e6ef9a5b6c163dd8c3de587c4be73195d58f2b9d198b1.wav",
+      "durationS": 13.75
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Quanto costa un melone?",
+      "text_sha256": "d1cba1f1f4ba4d9eeed3b589fad42c79b387aef73b7816f93268845fbff40f0d",
+      "audio_sha256": "8f7357bcd8e0489a290a77b74940a0970f92dfb364280e07c2c1d3bf65a13e3d",
+      "cacheFile": "84fda064317a9a92f23ec5bf2b581d466b13a3653ac0935def2d086c5415b484.wav",
+      "durationS": 2.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Many things change exactly one word: it gains an n, meaning they cost. Think. A pile of peaches catches your eye. Ask the vendor their price, then listen.",
+      "text_sha256": "6beee7009530c39e45f9df9659148ed67ee2b27ac123a082173e04d09ff4305a",
+      "audio_sha256": "f2dde535e8f34c58e2ec204a48aa8310efa9388c074708dd48996766a9cc2f9c",
+      "cacheFile": "05b695612a8c5e734838938299c1d015bab55844b207fd0e7734ca1167a8bc01.wav",
+      "durationS": 11.125
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Quanto costano le pesche?",
+      "text_sha256": "651564474cd9debde955384d1fa7bf1e9da4be037f405553cca88d9106100212",
+      "audio_sha256": "82560cca7dff87e3206d708d7fe2746986850ea12990baf6e2c79384982091fc",
+      "cacheFile": "82e4763f0a195e8d96f6f4c51dd2d1e960b127194fdd4025f46536c8ab83e695.wav",
+      "durationS": 2.425
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Answers come back as numbers you already own. Listen and count with the vendor: three euros, that is four euros, five euros and fifty cents.",
+      "text_sha256": "70a2d91489e434f8d8378d2a3152dbe4db04a61d70a797f301a54865b012110c",
+      "audio_sha256": "1c8ed72f04fdd4e2b5015eba90d81dd9c872f628e5507689812a487c1f22cd15",
+      "cacheFile": "03c77400a01d4da92f77ffe3ff5c52310921c0ccae9e5f66fbcba4926a27cfcf.wav",
+      "durationS": 10.025
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Tre euro. Sono quattro euro. Cinque euro e cinquanta.",
+      "text_sha256": "0ed784edc5ab0eb5dc0ba9ce0c24c210188dd93fcad8dae5b1496eb025544274",
+      "audio_sha256": "165087f18869426a36397b8885a7bd00d6343da4a88fcd92a67fe1dfa9f46c13",
+      "cacheFile": "6894cfbbf6aef61626fbcfd9b8cc4ec30f0848e22f7069b4573d12bade4e71e4.wav",
+      "durationS": 3.975
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Now the politest verb in the market: I would like, softer than I want. Please opens every request, and thanks closes it. Listen to a full request.",
+      "text_sha256": "b48b63e164ddf5b734062e6999abba844363e23ee3ea7049f7cff9bcf85e196c",
+      "audio_sha256": "63dd5d8f3782619824205ed69238dd06b736527a3553319b374132e6c3a88792",
+      "cacheFile": "0420e91f23a8b26b0d85e8ae31e9bcdb17e8d1fd692af67f5eab2db538cfae3f.wav",
+      "durationS": 10.375
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Due etti di prosciutto, per favore.",
+      "text_sha256": "b59f6400d2a1789a9325b438bc11b5b8275c4419d2728fca578683b7a0791621",
+      "audio_sha256": "64988a0b84efd617fbfa684a50555117b0e6928cebb9aaae4287bd8f195d95dc",
+      "cacheFile": "b76a89f6fd37464dd6f1f5df0611e6c80ba603570759bc849b76255d37266b5c.wav",
+      "durationS": 2.9
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Markets run on greetings: good morning, many thanks, goodbye, until tomorrow. Listen to each.",
+      "text_sha256": "ad601f6fb0b77bbebdad0c51e3ce2e730c3431ba2ad3cf4cbab0e46ada622c4a",
+      "audio_sha256": "ead950a3ea429c3929fc1fb43f58c0150fdf6bdc09fdd931b6bbaa7b05a459f0",
+      "cacheFile": "86e7a29b18597700e3b621c489f8d62ff6a4308efd448cbb22f534101940b47d.wav",
+      "durationS": 6.575
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Buongiorno, grazie mille! Arrivederci, a domani!",
+      "text_sha256": "b62d84eec7869d2b0fbc39ae465be4a4d1e8bb6c49c8e93d8b7436273332ba82",
+      "audio_sha256": "2e00928017809c7584f68deb8aa95d3dbe951c26ab48ff1b429ae76c6ddf0669",
+      "cacheFile": "5d6139b79481b21a6643b24847ad7e9a363e1b952a00bd23f479c255720d9fcd.wav",
+      "durationS": 3.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Time to put it together. A customer, Elena, at a fruit stall. She greets, the vendor answers, she orders a kilo of apples, and asks the price of the grapes. Listen to the whole exchange.",
+      "text_sha256": "e553446e15923a60f69adffee4ad25e7ab864f9ede0b2e479458b2bd2d5c70a3",
+      "audio_sha256": "38e31e3824c559c097237e4353fe0870284d7957bf8a6a7f25c7254eced3ecc7",
+      "cacheFile": "683a07bf49fbe39e36bc43aa379eeffbbdf899bb5ce1df97460d8a1e45222b0c.wav",
+      "durationS": 12.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Buongiorno! Vorrei un chilo di mele, per favore. Buongiorno! Mi dica pure. Quanto costano le pesche? Grazie mille, arrivederci!",
+      "text_sha256": "b7cccd4fc0c1d257368cea1b484fd31a3ed405e904bc2f99c10f3a61f9598d3f",
+      "audio_sha256": "20f96d19f84af363995b2c478fd206f8613c81e139baf375259c21e3df51d3d8",
+      "cacheFile": "b8620027955cd388775517002775d3aac5d253eae155f897de04dd3bc7288ad6.wav",
+      "durationS": 7.775
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Here is the transfer. You do not need a new grammar for the restaurant. The same polite would-like form that ordered ham now orders from a menu. The same how-much-does-it-cost question now asks the price of a dish. The same please and thank you frame every line. Only the nouns change, from kilos and slices to plates and glasses. Listen to how one market sentence becomes a restaurant sentence without learning a new verb.",
+      "text_sha256": "694037548e161dd1a37d3aff0b5867b8e2a72602fcefebc25f6f3fb7bc6d17a4",
+      "audio_sha256": "e90f18d9a69abdad8e5826306a26355aaffb96c3c3329bcc366f85f0bfd0f31a",
+      "cacheFile": "0c6e789ed74135fb7e729468c2c5197d0bf8569ce7d463e4febb4b3441525031.wav",
+      "durationS": 26.65
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Vorrei un chilo di mele, per favore. Vorrei la pasta, per favore.",
+      "text_sha256": "4aa814102c16c39dc4c8621ab3c92704302f1f16bfd1a316fa28ae9bf48ec558",
+      "audio_sha256": "b67acbc14f79c739c47dc8cdc481546e40c0138c5ce12bbd4b7e4169aa88658a",
+      "cacheFile": "2db5927c8b08a8421fa37efd40c747fc79b5146258a3f58f0100cb053d36a8d3.wav",
+      "durationS": 4.425
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "At an Italian restaurant you signal intent first, then name the dish. The frame is the polite would-like verb followed by the verb for to order, then please. After that, the menu nouns behave exactly like apples and ham, feminine and masculine picking their own little word for the. Listen to the ordering frame on its own.",
+      "text_sha256": "e1df9d7528620b983471bd97900e379c9d685a2853795e6c7d17f364329afd0d",
+      "audio_sha256": "7056758b2a631270533326821457c34eebc72c65b3581260f1dc7bb2048311cd",
+      "cacheFile": "9f4883f82cd1085112147820450134009adb04a931b3578803a7ee59c6418e11.wav",
+      "durationS": 21.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Vorrei ordinare, per favore.",
+      "text_sha256": "1ed807ad9cec0d524052c5fbfc81f668be2119125bdac9dafca0de7536a09efc",
+      "audio_sha256": "9cf7dccbdbf483f35e351bfa8ecdf852a90bb60b57bd3c6455c3af4a3432c8b3",
+      "cacheFile": "8de71c6307bb67e1b1dd7cc300afa29c9c5c9f2a1f33420ab3c4c29e8908fceb.wav",
+      "durationS": 2.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Three menu anchors to carry through the rest of the track. One is a feminine staple in a bowl, one is a masculine pour in a glass, one is feminine and comes in a bottle or a glass with no color. You already know how the article before each one signals its gender. Listen and picture the table.",
+      "text_sha256": "c06c6f0c623d0f4eafa401536b8cd0739767303a768d36444b409ff715d26f08",
+      "audio_sha256": "bb65f1e084ee2740160f16e7858f9956f336de1c63e9c018d2cf704e4cbf6380",
+      "cacheFile": "5cd7f112248794ca71001235112ba36fd4a94da14980a16e5266f752578c815b.wav",
+      "durationS": 19.475
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "La pasta. Il vino. L'acqua.",
+      "text_sha256": "f0ef72fbf299e11b5be584bb9bdaddbb57580bf84939776f8493ed04344d553f",
+      "audio_sha256": "dea298ea04033198fbd3ed100ec5cdf0ba88bf743f0a81504213605a242a73ba",
+      "cacheFile": "ec6a648d1d2b5dae9540ff05c140a350cbbf4d1732cfabbe272173bfb69a9859.wav",
+      "durationS": 2.475
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Your turn. The server is at the table. You want the pasta, and you want to be polite. You already have the would-like verb, the article that matches a feminine noun, and the please closer. Build the full request in your head. Ten seconds, then listen to confirm.",
+      "text_sha256": "ddfdb223b328944b4c1fda060aa92acbe64b5e92f6ad9c53fc7c1c87b0f28ed7",
+      "audio_sha256": "4d3bceca0af6eb64b775b9b86f0ff516903ee7cb63057a28642802ffe2b1ee07",
+      "cacheFile": "260a396daec8c726671068629415d58e2f2a1ff29cec30ff487c25d82a31a28d.wav",
+      "durationS": 16.75
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Vorrei la pasta, per favore.",
+      "text_sha256": "0af53852efcc8d75600db96c7fb957dd1a3a87354dd83005ee44a76d0ab45b45",
+      "audio_sha256": "350ffc8f4574e93aa0695a6e74f823a56def773a50af9ede28acf078f3009e2f",
+      "cacheFile": "3678a51e7f3af8fda79ea577ceddc6e44686ab2a242ff8d964fa807e0124d824.wav",
+      "durationS": 2.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Stay at the same table. Now add two drinks, one masculine, one that starts with a vowel and takes the vowel article. Think how the little word before each noun shifts while the polite verb and please stay identical. Ten seconds, then listen.",
+      "text_sha256": "88483dd01f4904238a99c4aef4ef05bce2b7c0d13915a25b105e3f2840e032b7",
+      "audio_sha256": "83264a210c38102defe4b827a7a1348d2cdffd7311d382cdca7dbb11a6f2cc75",
+      "cacheFile": "de3d0f9038ffc9f10e9694773c98a511bf33247e0f46d4564bda18aed708a7fc.wav",
+      "durationS": 16.4
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Vorrei il vino e l'acqua, per favore.",
+      "text_sha256": "b78547db70e7df6062965712641857722148b6d4bca73a822d63c4230d66d743",
+      "audio_sha256": "5d5a02a406d818f97bb7d71be4b76c760d04f6eecbee37dd042c516d7e5c3dfe",
+      "cacheFile": "0fa4575843c5621c137693e86acf9e2b181ac5e15c254955f2ddeb512f2c7da4.wav",
+      "durationS": 3.0
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The meal ends with one masculine noun that means the account. You ask for it with the same please you used at the market. You can also precede it with the would-like verb for extra politeness. Listen to the two natural variants, short and full.",
+      "text_sha256": "d9937e1cb93f7b7e45c0f63ab4d3de43d64f5696ec0e14ac855adcb95c8f906c",
+      "audio_sha256": "3f6dde7f5f537741a80da5a58291d3c3eb5d7f245d4ca01246c8a1306be56828",
+      "cacheFile": "dcafaa96de7d2f8a178823002129c7cf46f1ef70a6b0521646c88ae154b19c63.wav",
+      "durationS": 16.15
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Il conto, per favore. Vorrei il conto, per favore.",
+      "text_sha256": "bbacdac5f295c6b94f5a4f21135f369724e4ab8d3cceacc90986eab7b10667ce",
+      "audio_sha256": "7a4eeecad4deecf2849316e96abdb001c32b180ce8a2b953e52702c7ced4690f",
+      "cacheFile": "39dc7b411643e309a32ddaaccc4344748dfff3620e1d38fb68e76db43d8408e7.wav",
+      "durationS": 3.675
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think moment. Dinner is done. You want to catch the server's eye and ask for the account, politely but directly. No new verb, just the masculine bill noun and please. Or add the would-like frame if you want it softer. Build one version in your head, ten seconds, then listen.",
+      "text_sha256": "c166c7c5fbba4f86c2df9e1dbaa37f1dde9b27cc3ceff332fbcd03e429db9a64",
+      "audio_sha256": "692ba0ba5068f1b68d895436ab2141c4992f3f61ba84f4f99c4abfaffa7301d5",
+      "cacheFile": "b0fce2450cdae571b4e89762c771cfcfaf3d20c0485d54dfb35a7ce7be7e98eb.wav",
+      "durationS": 17.975
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Il conto, per favore.",
+      "text_sha256": "b4e42f572e69ea05aecb9bc59dfae971b5283cd079190f753b776c53c61fac77",
+      "audio_sha256": "f9f46198ed379ff1dabf9a586bcf31fa14a137f17b79781247761dfd3c91afc2",
+      "cacheFile": "9e2ae9f65adc42dd4c361044d215c8320f78ad0449f3e360a28d34e9776cc3fd.wav",
+      "durationS": 2.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "New setting: you are not dining alone. Family words in Italian use my, but the form of my changes with the gender of the family member, not yours. One form pairs with a masculine family noun, the other with a feminine one. Listen to the two anchors that unlock the whole family.",
+      "text_sha256": "3bb9e4833a8651f310bf9c30b88a47854d0b08a6136a6527c5de26584bfca363",
+      "audio_sha256": "31ca8d431eecd126d18f08329093d2374a1da3d5471f6f2732bbb435c0e71e3c",
+      "cacheFile": "6af5c62db510f7ecc4ff90329d6e998d54b137234caad350038745b8987dd071.wav",
+      "durationS": 19.55
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Mio padre. Mia madre.",
+      "text_sha256": "4290696946c2fee0386e8c52ad952de28cf64451825492e379e2f538287cd43a",
+      "audio_sha256": "1c6aa67fe21f84b502e49d52a3b459abe0acfee31edbe978ed4fc4bd0a261885",
+      "cacheFile": "0dd2e3f43ee28213d6c9e30c669314c6ab16fe7f969362474d0eff8227a51709.wav",
+      "durationS": 2.25
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Same pattern, three more. The masculine my before brother, the feminine my before sister, and then a plural form for parents where my itself turns plural because the noun is plural. Notice the same vowel shift you saw with a and the. Listen.",
+      "text_sha256": "1d826db04f8586d2e9f794f185b783df8464d48a35567923bbd7f6c9b3cd5df1",
+      "audio_sha256": "eb9dfefa0405622eef5f8847f777cba09746885044bac6fc6b09c2373ea54166",
+      "cacheFile": "2ca26dd070249c589e670d56e52b91785a61c168458ab0fc5c2a675372b1ffc0.wav",
+      "durationS": 16.625
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Mio fratello. Mia sorella. I miei genitori.",
+      "text_sha256": "0e1334eea5d0753944f5ed11958d5e994668e98a7478cc3afbb5e1da75b84921",
+      "audio_sha256": "a4988224d25ca3a0b1f06626909273a6b5171502459a252526b64986f78b8e6a",
+      "cacheFile": "c62c21f9e5cd4d6081b00506eff3f91bda2f9f52be8a35ec4d2712180d77b7c1.wav",
+      "durationS": 3.425
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Second transfer. You now have family possession plus restaurant ordering plus numbers. That means you can order for the table without a new construction: the would-like verb, then a number, then the menu noun, then for my family. You are just stacking blocks you already own. Listen how ordering for two becomes ordering with family.",
+      "text_sha256": "04c832fbf3128a1b591663841145945520a0ed19ecb870801715acf836f63dc1",
+      "audio_sha256": "cbc4bab6e649d80485ae1ab7a589db689358f12473b8953212b82e4138547d25",
+      "cacheFile": "d5fa3028e9a29227b5d282b0267e8e33d0b4249624168907c0bd00b81ad8dae5.wav",
+      "durationS": 21.425
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Vorrei due paste, per mia madre e mio padre.",
+      "text_sha256": "9eea032be4f09deee000a027b4bd5cefd6a7192215f732e18995f8adf56843f3",
+      "audio_sha256": "cf3baac928ed896d907249890b25846c9e7a25212325d6a19ea07478481a89fa",
+      "cacheFile": "4915c014331923434e173210a8494d6ccadc65a074fe795195da6650ee5f7df0.wav",
+      "durationS": 3.325
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think. The server asks who you are waiting for. You want to say: my mother and my father are here. You have both possession forms and the are-here ending you already heard in prices. Build that introduction in your head. Twelve seconds, then listen.",
+      "text_sha256": "b9d0ad17df6eed9d5ab403e4e84522f1830c558df122d275f4a5423ed3d949cd",
+      "audio_sha256": "9c6afc5000f6dd6ee5f30d6f379fbb6754f1fac107a9539c2cad0dd600b890e7",
+      "cacheFile": "3bfb3207427d1c27464ab41a20726c97d89cd64ca567d621e59da11856d0ce42.wav",
+      "durationS": 15.8
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Mia madre e mio padre sono qui.",
+      "text_sha256": "d277829b39a59e8065d3b0c92e86ec79de97f1d778c200012a028c4bee418fb4",
+      "audio_sha256": "2a5dccb59608043520313622b963b9ea4aa4e79d2a590522a10aa05585695d74",
+      "cacheFile": "6e1ada4babc8ef9c93014168458d2c014b66fcf2a87dcfd63224e0b8640eb05c.wav",
+      "durationS": 2.75
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Italian time starts with a question built from what plus hours plus are. You heard are in the price answers, that same are returns here as the verb for telling time. The question literally asks what hours are they. Listen to the time question on its own.",
+      "text_sha256": "426a2fd19be65d62cea1f1edea4327ff9510926f890c88c2f3404b86b69b11d7",
+      "audio_sha256": "fc3126258b0e019a10caffb99fc67ad9557dfe349e0f8697e719f3edbc3fc144",
+      "cacheFile": "1a83880d32065149ad0b6d0a97c7f2603de1e466b9409f1a95f1b5fe1ff19710.wav",
+      "durationS": 16.7
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Che ore sono?",
+      "text_sha256": "a6c2fb4cf1f89a3d128692775a22250a30f95f1ab77509a6cfb6937f9d7c8a7a",
+      "audio_sha256": "104ed9c621c448f1dd84432f16cf206714b5ded0f0fc173b7114afde55385cb8",
+      "cacheFile": "e4a47fe076b3afe206d27045ce868e066750150f5681d576fbee6d447dc031f8.wav",
+      "durationS": 1.825
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "The answer for one is the exception. Every other hour uses they are, but one o'clock is singular, it is, with a feminine singular article because hour itself is feminine. You do not need to memorize a new number, you already know one. Listen to the singular answer.",
+      "text_sha256": "ad232ac4807f8c6bd9273ca7213977c24ca5aa9680247cb3cfa0c1f6bbdf814a",
+      "audio_sha256": "293cb15cb76e1d333a0992968ba6dc035b1dc77ec48b15f46c9ebaf74ed016c3",
+      "cacheFile": "dd6788e88b2a4c090cc30c4df7ed757ce4a557990831dce6f2f73552f515ab97.wav",
+      "durationS": 18.575
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "È l'una.",
+      "text_sha256": "4a69e1340b988dcd2a7532f1e382940dd28554ba01ab032620dc3a132c5c4cb2",
+      "audio_sha256": "0470eeca93d0ad8a7fa2d20312d47b9306ddc79e6a4c659ad099576fe3294cbd",
+      "cacheFile": "fdeb33d802f67cab9931bffc51ba933980231b806e6c8f0dd180fac0f30f3ff9.wav",
+      "durationS": 1.525
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "All other hours swing plural, they are the hours, followed by the number you have known since part two. Two, three, even eight for a dinner reservation, all slot in after the same frame. Listen to three common reservation times.",
+      "text_sha256": "366426725aa8a21075ee80d9c7e504704776f09f4bba5d9ab2bead5580ca945c",
+      "audio_sha256": "e0b295790f66c66f61e3a2d032beebd79438ad8421cebd2d10fa3959b2dbf270",
+      "cacheFile": "2085365f4caf30e6a8ab291c2f3953dc7031f495b0277c56774ee4621d2e9f18.wav",
+      "durationS": 15.775
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Sono le due. Sono le tre. Sono le otto.",
+      "text_sha256": "26fed305ceba6f9a3160ccd2a034adf4096f4ee58fd55736dde6b23625452523",
+      "audio_sha256": "bc7def6247a2e6dd5c2c1d0575bdbf298813431c88a4866fdb68323e56d66278",
+      "cacheFile": "eb33559165ff3b0622fcca18738bd3a0926d933e5b2c5518427a8f7bba8acaa5.wav",
+      "durationS": 3.125
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Think moment. Someone asks the time. In your head, answer that it is three o'clock. Remember it is not is, it is they are, plus the feminine plural hours plus the number three you knew on day one. Ten seconds, build it, then listen.",
+      "text_sha256": "e2d78c31ceb966bc0e11b19eb0499411ff16f59190f4ab5e098ce89e11b2b775",
+      "audio_sha256": "7d86b3310d4a41ecbed0e1b0e5d495b19c0365aa204b3ae49fdaf7760bbab393",
+      "cacheFile": "9f1a3534f1567fdc7631a5452c5e7ffa58b7493208608c484cf2357dc6327119.wav",
+      "durationS": 15.875
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Sono le tre.",
+      "text_sha256": "70a4dd05c7f40e515f45586d70163a9a3acdc11f7e736dba4bcce9d20834e4ff",
+      "audio_sha256": "f2f4839794958959044b27163ca129f861eee1e6c48dd6ce3e6afe7b4e175f99",
+      "cacheFile": "d310ff08ec16d91b9d68174c7d9f5f2395909d38209fee886204068f50361f13.wav",
+      "durationS": 1.725
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Final transfer before the dialogue. Time plus restaurant is a reservation. The same they-are-the-hours frame plus a number gives the server your booking time, and the same family and ordering blocks let you name the party. You are not learning a reservation phrase, you are assembling reservation meaning from time, numbers, and family. Listen.",
+      "text_sha256": "a71e27c088aac7bab3d61af215a4bca3a964bdf12a5105d10ee63efe030a0146",
+      "audio_sha256": "228030701da0410516acf772d8fa153135d47deacfecd944ff9d6896bd677632",
+      "cacheFile": "ca90d23aac57a7969bb49aa639e6e7019326bb8890842ce7096685f5772d9d87.wav",
+      "durationS": 22.875
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Una prenotazione per le otto, per i miei genitori e me. Vorrei la pasta e il vino, per favore.",
+      "text_sha256": "69fdb9c928770faaaff058d06ec67fc3c89063ee4e369004651eefa8156aeaaa",
+      "audio_sha256": "c49baba8dda36cddfc4388fe13e2042384fa9b0b0b40353109bdefb73d9e9678",
+      "cacheFile": "06b4c45ad6bf141a98be4c53fcc145f799c19a074e426812785f8dda48d6367a.wav",
+      "durationS": 6.325
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "Full scene. It is eight o'clock. You arrive with your mother and father, greet the host, state the reservation time, order pasta for the table, ask the price of the wine, and close by asking for the bill with a polite thank you. Every block you met in the market and the last ten minutes appears here exactly once more. Listen to the whole meal from hello to goodbye.",
+      "text_sha256": "8dde5bebe06e1ce71df898a841be63be9e485360c6cf0116ff7670f83c541d01",
+      "audio_sha256": "28e21e4660c8d960ec21cc06ba1542806f72f97c21da449d132e2d7b436708fa",
+      "cacheFile": "f59075b1e2efda50938ee39e36aaff705a251ded820e99f23026034b8975f06d.wav",
+      "durationS": 23.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1
+    },
+    {
+      "kind": "speech",
+      "language": "it",
+      "voice": "if_sara",
+      "text": "Buongiorno! Sono le otto. Ho una prenotazione per i miei genitori e me. Vorrei la pasta e l'acqua, per favore. Quanto costa il vino? Sono dodici euro. Vorrei anche il vino, per favore. Il conto, per favore. Grazie mille, arrivederci!",
+      "text_sha256": "0135e10a48e2f328e33d035e4d5ac4c51812fb31d80763a15d8bd1454a97138c",
+      "audio_sha256": "bf5fe522ba2f90a67d2cd2b85dd76d7156a868c105bb222fac6d7f93c3696ddb",
+      "cacheFile": "5d04c56a1342268da180f1d2fef70e8ddc01f4410a9d8c3117805f0fadd77d5c.wav",
+      "durationS": 13.0
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    },
+    {
+      "kind": "speech",
+      "language": "en",
+      "voice": "af_heart",
+      "text": "And that is ten minutes. You weighed produce by the kilo and the hundred grams, asked singular and plural prices, ordered with the politest verb and closed with please and thank you. Then you transferred those same verbs to the restaurant, named the bill, introduced father, mother, brother, sister, and parents with the matching my, and told time from one through twelve using numbers you knew before today. A handful of blocks, recombined. Next time, you will add past tense to say what you ate.",
+      "text_sha256": "eceac9bc2e9782b3cfacb838e0b2b8fae77f51b6fa7668592b5f9ca43fc3dc0a",
+      "audio_sha256": "8a0754802aea8541e255cd5bb40785946213cc97ae351cd2bc4a305e4f4d109f",
+      "cacheFile": "faf31cb8806e120f03bfadfb29f646236b4d44954ec069bd5ccef5a33258a186.wav",
+      "durationS": 28.275
+    },
+    {
+      "kind": "silence",
+      "seconds": 1.5
+    }
+  ]
+}

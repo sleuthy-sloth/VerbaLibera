@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment } from 'react';
+import { getLiveCourseData } from '@/features/curriculum/live-course-data';
 import s from './landing.module.css';
 
 type CourseCard = {
@@ -16,6 +17,8 @@ const courses: CourseCard[] = [
 ];
 
 export function CourseShowcase() {
+  const liveData = getLiveCourseData();
+  const liveBySlug = Object.fromEntries(liveData.map((d) => [d.slug, d]));
   return <section id="courses" className={s.section} aria-labelledby="courses-heading"><div className={s.container}>
     <div className={`${s.sectionHead} ${s.wideHead}`}><p className={s.eyebrow}>Courses</p><h2 id="courses-heading">Start with a strong foundation.<br /> Travel with what you need.</h2><p>French and Italian offer full structured A1 foundations; German, Spanish and Portuguese open with first words, with more units being authored. Travel-and-conversation material for all five lives in the daily path.</p></div>
     <div className={s.courseGrid}>{courses.map((course) => <Fragment key={course.slug}>
@@ -23,7 +26,14 @@ export function CourseShowcase() {
         <div className={s.courseArt}>{course.comingSoon || course.noArt
           ? <span className={s.courseBadge}>{course.noArt ? 'New · A1' : 'Coming soon'}</span>
           : <><Image src={`/brand/courses/${course.slug}.jpg`} alt={course.alt} width={2064} height={512} sizes="(max-width: 700px) 100vw, (max-width: 1200px) 50vw, 546px" /><span className={s.courseBadge}>{course.foundations ? 'Structured · A1' : 'Travel · conversation'}</span></>}</div>
-        <div className={s.courseBody}><h3>{course.language}</h3><p className={s.label}>{course.comingSoon ? 'Foundations · coming soon' : course.foundations ? 'Foundations' : 'Travel material'}</p><p>{course.description}</p><p className={s.courseMeta}><span aria-hidden="true" />{course.comingSoon ? 'Syllabus being authored' : course.foundations ? 'Structured course · A1 foundations' : 'Supplemental travel & conversation'}</p><Link href={course.href} className={s.courseLink}>{course.comingSoon ? 'See what’s coming' : `Explore ${course.language}`}<span aria-hidden="true"> →</span></Link></div>
+        <div className={s.courseBody}><h3>{course.language}</h3><p className={s.label}>{course.comingSoon ? 'Foundations · coming soon' : course.foundations ? 'Foundations' : 'Travel material'}</p><p>{course.description}</p><p className={s.courseMeta}><span aria-hidden="true" />{(() => {
+        const live = liveBySlug[course.slug];
+        if (course.comingSoon) return 'Syllabus being authored';
+        if (live && live.totalLessons > 0) {
+          return `${live.totalLessons} lessons · ${live.totalSteps} exercises`;
+        }
+        return course.foundations ? 'Structured course · A1 foundations' : 'Supplemental travel & conversation';
+      })()}</p><Link href={course.href} className={s.courseLink}>{course.comingSoon ? 'See what’s coming' : `Explore ${course.language}`}<span aria-hidden="true"> →</span></Link></div>
       </article>
     </Fragment>)}</div>
   </div></section>;

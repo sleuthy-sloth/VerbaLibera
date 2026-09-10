@@ -59,3 +59,7 @@ next-env.d.ts
 # Playwright artifacts
 test-results/
 playwright-report/
+
+# Voice build artifacts
+.voice-cache/
+services/voice/models/

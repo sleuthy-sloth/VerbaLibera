@@ -1,0 +1,393 @@
+{
+  "generatedAt": "2026-09-09T05:56:41.257125+00:00",
+  "method": {
+    "engine": "faster-whisper",
+    "model": "small",
+    "device": "cpu",
+    "computeType": "int8",
+    "cpuThreads": 2,
+    "beamSize": 5,
+    "normalization": "Lowercase; strip diacritics; ignore punctuation and whitespace.",
+    "scope": "Target-language speech events only, deduplicated by cache filename. No expected-text prompt supplied.",
+    "limitation": "Automated recognition differences are review flags, not confirmed synthesis errors. This is not native-language or prosody review."
+  },
+  "languages": {
+    "es": {
+      "status": "checked",
+      "provenance": "docs/audio-provenance/spanish-introductions-listen.json",
+      "trackAudioSha256": "dd954747790c9db907c5b1fc8a0792d5b26432a6e0c0537b7d3d8ea6c9ca831c",
+      "targetEventCount": 28,
+      "uniqueClipCount": 14,
+      "matchingUniqueClipCount": 9,
+      "discrepancyCount": 5,
+      "checks": [
+        {
+          "cacheFile": "6f33c1305f6022136b445a93092621974d9493fc040a7a7c803cfdedb39d5f1d.wav",
+          "audio_sha256": "bf12e62a4bddb03f9981e323578c29dc5ea347936081e82589fb14f244932327",
+          "expected": "Hola.",
+          "heard": "¡Gola!",
+          "normalizedMatch": false,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "da3cedc26d79047191d80d76fe767f1e5da2ec4ee9886ff6dcbc0d9f94a90cc3.wav",
+          "audio_sha256": "c14a721ef155ac7760e5db9847932a2464f48e17240499ab10b7c5caab7618d7",
+          "expected": "Me llamo Ana.",
+          "heard": "Me llamo Ana.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "5d2df8e7661757d0243740680ca5ca1b5040ddf0850da5f4ab7b049f89f3bbb7.wav",
+          "audio_sha256": "7739c1ea4c1a83e5d55ee047b4d78b0a0837d80ee0aec6d27aeed9178cac96bc",
+          "expected": "Me llamo Luis.",
+          "heard": "Me llamo Luis.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "732b4d6d2d2df9950ca52cbbf0b74e961f2637d0aed23b582f312f833b6932d2.wav",
+          "audio_sha256": "42efb9fb392bb023db36ed31bc0a85707a3060bac617a80cea93fe47a0ccdafe",
+          "expected": "Soy Ana.",
+          "heard": "Soy Ana.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "d387e7748d0ae6fbd99840ff1fb80ee91e4903224dfabb00b44887cb92c41eb3.wav",
+          "audio_sha256": "9f1c6e3af7a0b4990365c0138e9997e4762f03bce30ff7e76a09c11bbf4bb182",
+          "expected": "Soy Luis.",
+          "heard": "Soy Luisa.",
+          "normalizedMatch": false,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "0766310931375b8378b06101c4747d4bb5d24e9be9547d0af5f602553c3423f8.wav",
+          "audio_sha256": "bf00881cab84a1395b78bbff770e96d3465f836ff27f4b36d5d33bd2edebb225",
+          "expected": "Hola. Me llamo Ana.",
+          "heard": "¡Cólatme Jamuana!",
+          "normalizedMatch": false,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "9bb0b37351bd0ab1bd66ee999a79c7455a65d05691e4b33f80bcdecdc8a18ada.wav",
+          "audio_sha256": "9d2d19be9d0067583d27ea38c8142e132e0299e3ba063aa0350a6fd2a22897d9",
+          "expected": "Un café.",
+          "heard": "¡Dún café!",
+          "normalizedMatch": false,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "51a08dd6c6d694f945a970daf9b2e917dd1cb5bb84b4a1f1566216f4f06698ee.wav",
+          "audio_sha256": "521cb2abd162b6327365c7c4b185e41d56a4b446b85c475e2eeeb29d7d6756f9",
+          "expected": "Por favor.",
+          "heard": "por favor",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "b8eecb57b9e213c18ce84bc60d819112b1fae90c7f8a4a4be8648dccad23232a.wav",
+          "audio_sha256": "08e5cec8433f061369a89f094e01c182dccb41605d003bc7691ace74ff3c1af5",
+          "expected": "Quisiera un café, por favor.",
+          "heard": "Quisiera un café, por favor.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "d5174d5a2fda426179f3e3bf56e4006b510c47fc87ca26b631d7f4862f093803.wav",
+          "audio_sha256": "da176d71fae3be51b0a28feb736f32ac5228513ec21b572e6fa78b888dcfc216",
+          "expected": "Un té.",
+          "heard": "Gunster",
+          "normalizedMatch": false,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "d92a7f2efbaa3aa574a9bca845b8cf97e81fb0a13a06f6086d630d26e327886e.wav",
+          "audio_sha256": "d6a8bd4bb038d96caea9cf86114414c162ca4353f45718c02e4608c01bcab0ab",
+          "expected": "Quisiera un té, por favor.",
+          "heard": "Quisiera un té, por favor.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "c55fe0a379df8e9cbda976b53f409d9805f1f04695eb308a1cd002696b7932b0.wav",
+          "audio_sha256": "2ab9e208e9ebfed929add57afab5435376368ddba82436169d1032bad18812d6",
+          "expected": "Gracias.",
+          "heard": "¡Gracias!",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "4b27f7af9b9f05713a5e381105465e0ff9137de1dda7c4d7204ea0970a14ef1d.wav",
+          "audio_sha256": "6e0a441242bcc9e0a4f1f59e843922de9a52394a00ee18fa73ee158062f8b624",
+          "expected": "Hola. Quisiera un café, por favor. Gracias.",
+          "heard": "Hola, quisiera un café, por favor, gracias.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "063437fc5e30ba9e3ff82aa61208a00bc8305b5868274c862acfb8177387fc2a.wav",
+          "audio_sha256": "be5ac542f4d1898ac702b85f04ba3d86b283d9f999f9e7c630f9d9d2cc04f787",
+          "expected": "Hola. Quisiera un té, por favor. Gracias.",
+          "heard": "Hola, quisiera un té, por favor, gracias.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        }
+      ]
+    },
+    "pt": {
+      "status": "checked",
+      "provenance": "docs/audio-provenance/portuguese-introductions-listen.json",
+      "trackAudioSha256": "ba73e41e67ff1490e616f6f79f2a04bd7af0ed377d00bd1eca4c010fc59b592b",
+      "targetEventCount": 28,
+      "uniqueClipCount": 15,
+      "matchingUniqueClipCount": 11,
+      "discrepancyCount": 4,
+      "checks": [
+        {
+          "cacheFile": "94a92599e2678ed9aa15c3a694694300bec726e158d702b8953f5b6bbde17706.wav",
+          "audio_sha256": "80ab09816482c3ccd3e14cd204a9bf6fb070139716693b54090bac715e7aad70",
+          "expected": "Olá.",
+          "heard": "Olá!",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "5d1b0137e8ec7ece678c7010eb20961b1fb0c50cffd9d219c52552f5e17b8de9.wav",
+          "audio_sha256": "a340b75a13e7e288b38e0af0af7dc65967680196e56ef6f8f6c1a87427dd621f",
+          "expected": "Meu nome é Ana.",
+          "heard": "Meu nome é Zanas.",
+          "normalizedMatch": false,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "fd14b96eb08fa432d07401d6464b9a89cbc2aacf8ef0160ccd30aa283c7fa833.wav",
+          "audio_sha256": "9315fb809180b6a23b69d9dbc15b9a67ba692447052a42857669ce678c67eb36",
+          "expected": "Meu nome é Lucas.",
+          "heard": "Meu nome é Lucas.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "d5e17d096fd0a5e2c2fa32c75fa42197f067e9604ebde08c7898efb1295c3e25.wav",
+          "audio_sha256": "6ba577d020f680705a841ab7201d96a5489b9f935bc7379251448c75991485ad",
+          "expected": "Eu sou Ana.",
+          "heard": "Eu sou Rana.",
+          "normalizedMatch": false,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "bf847a63ad9ed4b6c8057449067dc86291c5cd8c88decdc3cc3d42b0b9728eb5.wav",
+          "audio_sha256": "abbbc21d0b0f74eb3f35dade52ef67ffdd514983c08c90b40d55a9e39918fb83",
+          "expected": "Eu sou Lucas.",
+          "heard": "Eu sou Lucas.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "4e37e8917f82b836981161890f52e831639a23c32c554e8b5d64eafad18c7890.wav",
+          "audio_sha256": "f0ae4f841478f01129ca1e1b37f943343bb0d3aeb79ed34d12593cef04375d1e",
+          "expected": "Olá. Meu nome é Ana.",
+          "heard": "Olá, meu nome é Ganas.",
+          "normalizedMatch": false,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "7b2600e596354ad1d25b497471cf6a94bf38892440360deee439ff1863ab1c04.wav",
+          "audio_sha256": "2b3c505d183773debe28d05a51998a71f97eaa4e04c25b6d9c942511da0da7a6",
+          "expected": "Um café.",
+          "heard": "Um café!",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "5871c3863cec57110b88cf2db3b3819e10da3e0ca237ba8660d81beeb9d2783e.wav",
+          "audio_sha256": "f2f55e9b65fb7346c420d3f11ed6c6d0380d2f73bf7855b1320fdc51949d720f",
+          "expected": "Por favor.",
+          "heard": "Por favor.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "8e3e46f424b9d0a767dfcc8630347c5116265308961bde98d0befbff73d8d66a.wav",
+          "audio_sha256": "bbeb1b143537095d91d03097b5c324e8de52f03496a5bc5cf6f3f81e60d11af4",
+          "expected": "Eu gostaria de um café, por favor.",
+          "heard": "Eu gostaria de um café, por favor.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "e433068481d0355b339385b091ea88269f18ce635dd21c9304efc25cdb6a2f4e.wav",
+          "audio_sha256": "5e2676e207c4ce62bda8712b957b85710ba200bbb741f5e0cf423896eff6c20b",
+          "expected": "Um chá.",
+          "heard": "Um chá.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "203718a58decd058653e22790635e03c2a5bb44a9fc1c556496569018809f6da.wav",
+          "audio_sha256": "178d0e9f524b1af2936d082ee83f3bc6796a14886a7360284838eb89ba147494",
+          "expected": "Eu gostaria de um chá, por favor.",
+          "heard": "Eu gostaria de um chá, por favor.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "a4efe40cbfc2b488b4cc687c04aa73102747792db12864535c765c7a3f5b704f.wav",
+          "audio_sha256": "d89a0eaa90b05d326d369210b96bd42b9294f32116b383c13a2f142dbbb53e91",
+          "expected": "Obrigada.",
+          "heard": "Obrigadas!",
+          "normalizedMatch": false,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "cfd0f8fecaadaeb17b3db22838793a82e3d265027af5a052625be6b32ac2fb04.wav",
+          "audio_sha256": "90161e48c2e89a4d38005a35a9b80905cd0ccf92a217c4e4a433f5b31b12e03d",
+          "expected": "Obrigado.",
+          "heard": "Obrigado.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "ad986426aa789b93315ac04ffedd0c83b257e549ebe2a1d3220b16718e6ed664.wav",
+          "audio_sha256": "43e617751c4bb07eb5a5cc790fffad1dcacad7b1e8756d73d73237db012c5d42",
+          "expected": "Olá. Eu gostaria de um café, por favor. Obrigada.",
+          "heard": "Olá, eu gostaria de um café, por favor, obrigada.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "595b15832529ba86be4956cf4deb1a8d88dbdeb4bd06c357f3564224c3d1376c.wav",
+          "audio_sha256": "2f95e8fa5e8e47d5aba9b4fdd9462d1efc0d9fd840800d1a87a12b9c746ccaa9",
+          "expected": "Olá. Eu gostaria de um chá, por favor. Obrigada.",
+          "heard": "Olá, eu gostaria de um chá, por favor, obrigada.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        }
+      ]
+    },
+    "de": {
+      "status": "checked",
+      "provenance": "docs/audio-provenance/german-introductions-listen.json",
+      "trackAudioSha256": "6ee6c919d0ce7f5e7e5db66ea2fed0d159eda2dfa6e2c91b0cff07755644b703",
+      "targetEventCount": 28,
+      "uniqueClipCount": 14,
+      "matchingUniqueClipCount": 13,
+      "discrepancyCount": 1,
+      "checks": [
+        {
+          "cacheFile": "3a077efa9edc719e2b2270c463b2bedaf5ccb32657c90ebf30e2342bf17c62ea.wav",
+          "audio_sha256": "fe2037376484dddec74a12bb55c57b2df8b40508d953b2cc2ace841b3ef9901c",
+          "expected": "Hallo.",
+          "heard": "Hallo!",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "ee6f5d26b73c4e627e1a50286d157999b839315a8eb520403947025f0f3f5213.wav",
+          "audio_sha256": "6671353128948d76a63980d1fbc77b6dad6bc8633e3f986720023d8d2e2e8b4d",
+          "expected": "Ich heiße Anna.",
+          "heard": "Ich heiße Anna.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "db84842791c6e85c7c7d33ce0c343a76759de27a42a0983c5e8beb6a989c0ad6.wav",
+          "audio_sha256": "db13e68b24b10e1105c68a0e3dff46eae61ce8a28766f882778c5a3e5248ef3f",
+          "expected": "Ich heiße Lukas.",
+          "heard": "Ich heiße Lukas.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "469cec7f4a721228cd8bfc8fde9b4bcace0c6c45b84f9fe728840f7198d5840d.wav",
+          "audio_sha256": "35530744002cbdc231bdb2f7934a2caded6dc1591e6ae507d9d36ae14d6b20ce",
+          "expected": "Ich bin Anna.",
+          "heard": "Ich bin Anna.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "b4e615016f406f4eee7a071d14d60972eb49a902a857913afd4f68e8055c0df4.wav",
+          "audio_sha256": "0472f03381915bc0652ac0961389f89cc6d98408ad116279e2d8fc656566269f",
+          "expected": "Ich bin Lukas.",
+          "heard": "Ich bin Lukas.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "4079a7b2677b92e16bbd4199f39bbb06a065b86b299de89ca55cb902f3acc2bb.wav",
+          "audio_sha256": "cbe1cf421e44aca7388e499849822b62a61ef2602a440c4f66878dde04f97638",
+          "expected": "Hallo. Ich heiße Anna.",
+          "heard": "Hallo, ich heiße Anna.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "0186a5015668a5b3c09f6470e708209fe42c3fb2a0046ef3f0abcae2369d06bb.wav",
+          "audio_sha256": "e7eca252d62b5918a210460ce86ffe12c40b0ef2e17145480cf2beb2e5f1e855",
+          "expected": "Einen Kaffee.",
+          "heard": "einen Kaffee",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "20cc11e76137a4bdbb4b36b28da4df2761147fbd980c6cc784bd062690ad0a80.wav",
+          "audio_sha256": "64848279eacd2ac71484beedc7d890925799d7306f0e23acce6269542a96ab03",
+          "expected": "Bitte.",
+          "heard": "Bitte.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "4d8aedc04fce9ab9296235266ec3922fcb9453a9f8812a1bba82116410ada958.wav",
+          "audio_sha256": "9e49b18b85f717645bf8f2b02e3666cb9acdd168530a1f0b56c08e2d5a1c9135",
+          "expected": "Ich möchte einen Kaffee, bitte.",
+          "heard": "Ich möchte einen Kaffee, bitte.",
+          "normalizedMatch": true,
+          "occurrences": 3
+        },
+        {
+          "cacheFile": "fc86d716697f920a3723127c7fa174895f3e2a68a8fa27d816c4a13fc3fb88b6.wav",
+          "audio_sha256": "960bb797c99ef6aae597e9c2ad2efe29ca8f49a55c118709a536bace1aeaf8b7",
+          "expected": "Einen Tee.",
+          "heard": "Eine Tee.",
+          "normalizedMatch": false,
+          "occurrences": 1
+        },
+        {
+          "cacheFile": "23d107cf7f54ac20efcd76102214ef26477a62951d98b295c80a3fec3ecc1e92.wav",
+          "audio_sha256": "0348bd13476fa1b2e3ed9eb4f5a470589c15f5ed6c6f35922e0af6d47db2f694",
+          "expected": "Ich möchte einen Tee, bitte.",
+          "heard": "Ich möchte einen Tee, bitte.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "e7c5465d1f1f75a8407688beb27f61d78fd19b94a6777b7d23c463f21b49afa5.wav",
+          "audio_sha256": "4f7a56f2a9a7a493b99c153f18d9720248d4c28cff778ce849357f716eca36a5",
+          "expected": "Danke.",
+          "heard": "Danke.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "7d1011a59ff10dbbdefd4457588d0ad5eed7905f2089c930f40f46c8dce7c743.wav",
+          "audio_sha256": "c274b6dc0d974381749fa9465bd91080b0b90391432f4399be7f7c6ea2a3f82d",
+          "expected": "Hallo. Ich möchte einen Kaffee, bitte. Danke.",
+          "heard": "Hallo, ich möchte einen Kaffee, bitte. Danke.",
+          "normalizedMatch": true,
+          "occurrences": 2
+        },
+        {
+          "cacheFile": "76b66a507ed886be55a77d138d011628f760d7fadd58d5e4ec0d3294f6afeef3.wav",
+          "audio_sha256": "1ae9ce704a868e946dce391aa8086ba9c31d394977f86218d953f344d7c2c313",
+          "expected": "Hallo. Ich möchte einen Tee, bitte. Danke.",
+          "heard": "Hallo, ich möchte einen Tee, bitte. Danke.",
+          "normalizedMatch": true,
+          "occurrences": 1
+        }
+      ]
+    }
+  }
+}

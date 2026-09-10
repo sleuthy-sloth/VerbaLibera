@@ -55,7 +55,9 @@ self.addEventListener('fetch', event => {
   }
   if (url.pathname.startsWith('/brand/') || url.pathname.startsWith('/audio/') || url.pathname.startsWith('/images/') || url.pathname.startsWith('/_next/static/')) {
     event.respondWith(fetch(request).then(response => {
-      if (response.ok && !/private|no-store/.test(response.headers.get('cache-control') ?? '')) {
+      // Cache.put rejects partial (206) responses from audio range requests.
+      // Return them to the player, but cache only complete public responses.
+      if (response.status === 200 && !/private|no-store/.test(response.headers.get('cache-control') ?? '')) {
         const clone = response.clone();
         event.waitUntil(caches.open(STATIC_CACHE).then(cache => cache.put(request, clone)));
       }

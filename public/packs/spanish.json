@@ -1,18 +1,23 @@
 {
   "schemaVersion": 1,
   "id": "es-foundations",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "language": "es",
   "status": "active",
   "title": "Spanish foundations",
   "sourceLanguage": "en",
-  "description": "First words of structured A1 Spanish foundations — greetings and Latin-shared words in one words-first lesson. More units being authored.",
+  "description": "Four A1 Spanish lessons: first words, introductions, polite café requests, and numbers for everyday quantities. Native-speaker editorial review remains open.",
   "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
   "units": [
     {
       "id": "es-unit-1",
       "title": "Meeting people",
       "objective": "Introduce yourself and your family."
+    },
+    {
+      "id": "es-unit-2",
+      "title": "Getting around",
+      "objective": "Understand prices and quantities in everyday errands."
     }
   ],
   "concepts": [
@@ -31,6 +36,53 @@
         }
       ],
       "commonError": "Say hola the moment you arrive. Save adiós for leaving."
+    },
+    {
+      "id": "es-introductions-concept",
+      "title": "Introducing yourself",
+      "explanation": "Me llamo introduces your name: Me llamo Ana. Soy means I am and can also introduce you: Soy Ana. To ask a peer their name, use ¿Cómo te llamas? Learn this as a complete question. Mucho gusto is a useful reply when meeting someone. Spanish marks a question at both ends: ¿ ... ?.",
+      "examples": [
+        {
+          "target": "Me llamo Ana.",
+          "meaning": "My name is Ana."
+        },
+        {
+          "target": "¿Cómo te llamas?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Mucho gusto.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "commonError": "Use me llamo for your own name and te llamas in the informal question. Do not swap me and te."
+    },
+    {
+      "id": "es-cafe-requests-concept",
+      "title": "Polite café requests",
+      "explanation": "Quisiera means I would like and makes a polite request. Learn it as a ready-to-use phrase: Quisiera un café, por favor. Both café and té take un here. Change only the drink to request tea. A shorter Un café, por favor is also useful; gracias closes the exchange.",
+      "examples": [
+        {
+          "target": "Quisiera un café, por favor.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Quisiera un té, por favor.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Un café, por favor.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "commonError": "Keep un with café and té in these requests. Remember the accents in café and té."
+    },
+    {
+      "id": "es-numbers-quantities-concept",
+      "title": "Numbers and quantities",
+      "explanation": "Spanish numbers are useful as chunks before you calculate with them. Learn one through ten in two short runs, then use cuánto cuesta to ask a price. One coffee costs one euro; two coffees cost two euros. Un changes to una before a feminine noun such as manzana.",
+      "examples": [{ "target": "Uno, dos, tres, cuatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }],
+      "commonError": "Use cuánto for the price of one item. Keep una with manzana because it is feminine."
     }
   ],
   "vocabulary": [
@@ -75,7 +127,67 @@
       "meaning": "coffee",
       "partOfSpeech": "word or expression",
       "example": "Café."
-    }
+    },
+    {
+      "id": "es-introductions-word-1",
+      "word": "me llamo",
+      "meaning": "my name is",
+      "partOfSpeech": "word or expression",
+      "example": "Me llamo Ana."
+    },
+    {
+      "id": "es-introductions-word-2",
+      "word": "soy",
+      "meaning": "I am",
+      "partOfSpeech": "word or expression",
+      "example": "Soy Ana."
+    },
+    {
+      "id": "es-introductions-word-3",
+      "word": "¿Cómo te llamas?",
+      "meaning": "What is your name? (informal)",
+      "partOfSpeech": "word or expression",
+      "example": "¿Cómo te llamas?"
+    },
+    {
+      "id": "es-introductions-word-4",
+      "word": "mucho gusto",
+      "meaning": "nice to meet you",
+      "partOfSpeech": "word or expression",
+      "example": "Mucho gusto."
+    },
+    {
+      "id": "es-cafe-requests-word-1",
+      "word": "quisiera",
+      "meaning": "I would like",
+      "partOfSpeech": "word or expression",
+      "example": "Quisiera un café, por favor."
+    },
+    {
+      "id": "es-cafe-requests-word-2",
+      "word": "un café",
+      "meaning": "a coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Un café, por favor."
+    },
+    {
+      "id": "es-cafe-requests-word-3",
+      "word": "un té",
+      "meaning": "a tea",
+      "partOfSpeech": "word or expression",
+      "example": "Un té, por favor."
+    },
+    {
+      "id": "es-cafe-requests-word-4",
+      "word": "por favor",
+      "meaning": "please",
+      "partOfSpeech": "word or expression",
+      "example": "Un café, por favor."
+    },
+    { "id": "es-numbers-quantities-word-1", "word": "uno, dos, tres, cuatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Uno, dos, tres, cuatro, cinco." },
+    { "id": "es-numbers-quantities-word-2", "word": "seis, siete, ocho, nueve, diez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, siete, ocho, nueve, diez." },
+    { "id": "es-numbers-quantities-word-3", "word": "¿Cuánto cuesta?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "¿Cuánto cuesta un café?" },
+    { "id": "es-numbers-quantities-word-4", "word": "una manzana", "meaning": "one apple", "partOfSpeech": "noun phrase", "example": "Una manzana, por favor." }
   ],
   "media": [
     {
@@ -203,7 +315,7 @@
           "conceptId": "es-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say to a friend: ___la.",
+          "prompt": "Complete the first word you say to a friend: ___",
           "answers": [
             "Hola."
           ],
@@ -252,6 +364,366 @@
         }
       ],
       "optionalExerciseIds": []
+    },
+    {
+      "id": "es-introductions-foundation",
+      "unitId": "es-unit-1",
+      "title": "Introducing yourself",
+      "objective": "Introduce yourself, ask a name, and respond to an introduction.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-first-words-foundation"
+      ],
+      "conceptIds": [
+        "es-introductions-concept"
+      ],
+      "vocabulary": [
+        "es-introductions-word-1",
+        "es-introductions-word-2",
+        "es-introductions-word-3",
+        "es-introductions-word-4"
+      ],
+      "explanation": "Me llamo introduces your name: Me llamo Ana. Soy means I am and can also introduce you: Soy Ana. To ask a peer their name, use ¿Cómo te llamas? Learn this as a complete question. Mucho gusto is a useful reply when meeting someone. Spanish marks a question at both ends: ¿ ... ?.",
+      "examples": [
+        {
+          "target": "Me llamo Ana.",
+          "meaning": "My name is Ana."
+        },
+        {
+          "target": "¿Cómo te llamas?",
+          "meaning": "What is your name?"
+        },
+        {
+          "target": "Mucho gusto.",
+          "meaning": "Nice to meet you."
+        }
+      ],
+      "culturalNote": "The name question uses informal te for a peer. In a more formal situation, Spanish also has an usted form; this lesson stays with the informal question.",
+      "exercises": [
+        {
+          "id": "es-introductions-foundation-notice",
+          "conceptId": "es-introductions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which phrase asks another person their name in Spanish?",
+          "answers": [
+            "¿Cómo te llamas?"
+          ],
+          "explanation": "Use the complete name question when meeting someone.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "options": [
+            "Me llamo Ana.",
+            "¿Cómo te llamas?",
+            "Mucho gusto."
+          ]
+        },
+        {
+          "id": "es-introductions-foundation-build",
+          "conceptId": "es-introductions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to introduce Ana by name.",
+          "answers": [
+            "Me llamo Ana."
+          ],
+          "explanation": "Use me llamo for your own name and te llamas in the informal question. Do not swap me and te.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "tokens": [
+            "Ana.",
+            "llamo",
+            "Me"
+          ]
+        },
+        {
+          "id": "es-introductions-foundation-read",
+          "conceptId": "es-introductions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the first meeting. Who gives their own name?",
+          "answers": [
+            "Ana",
+            "Ana."
+          ],
+          "explanation": "The person who uses the name phrase introduces themself.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "passage": "Ana: Hola. Me llamo Ana.\nLeo: Hola. Mucho gusto.",
+          "translation": "Ana: Hello. My name is Ana.\nLeo: Hello. Nice to meet you."
+        },
+        {
+          "id": "es-introductions-foundation-reply",
+          "conceptId": "es-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “Nice to meet you” using the short expression taught here.",
+          "answers": [
+            "Mucho gusto."
+          ],
+          "explanation": "Use this short response after an introduction.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-introductions-foundation-recall",
+          "conceptId": "es-introductions-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Imagine meeting a new classmate. Introduce yourself as Ana, using the phrase that means “My name is”.",
+          "answers": [
+            "Me llamo Ana."
+          ],
+          "explanation": "Use me llamo for your own name and te llamas in the informal question. Do not swap me and te.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "es-introductions-foundation-ask",
+          "conceptId": "es-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask a peer “What is your name?” using the complete question taught here.",
+          "answers": [
+            "¿Cómo te llamas?"
+          ],
+          "explanation": "This is the name question from the lesson; recall it as a whole.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-cafe-requests-foundation",
+      "unitId": "es-unit-1",
+      "title": "At the café",
+      "objective": "Choose a drink and make a polite café request from memory.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-introductions-foundation"
+      ],
+      "conceptIds": [
+        "es-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "es-cafe-requests-word-1",
+        "es-cafe-requests-word-2",
+        "es-cafe-requests-word-3",
+        "es-cafe-requests-word-4"
+      ],
+      "explanation": "Quisiera means I would like and makes a polite request. Learn it as a ready-to-use phrase: Quisiera un café, por favor. Both café and té take un here. Change only the drink to request tea. A shorter Un café, por favor is also useful; gracias closes the exchange.",
+      "examples": [
+        {
+          "target": "Quisiera un café, por favor.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Quisiera un té, por favor.",
+          "meaning": "I would like a tea, please."
+        },
+        {
+          "target": "Un café, por favor.",
+          "meaning": "A coffee, please."
+        }
+      ],
+      "culturalNote": "A greeting before a request and thanks afterward make this small exchange courteous.",
+      "exercises": [
+        {
+          "id": "es-cafe-requests-foundation-choose",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You want tea. Which complete request matches your intention?",
+          "answers": [
+            "Quisiera un té, por favor."
+          ],
+          "explanation": "Change the drink while keeping the polite request frame.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "options": [
+            "Quisiera un café, por favor.",
+            "Quisiera un té, por favor.",
+            "Me llamo Ana."
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-build",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the full polite request for one coffee.",
+          "answers": [
+            "Quisiera un café, por favor."
+          ],
+          "explanation": "Keep un with café and té in these requests. Remember the accents in café and té.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "tokens": [
+            "favor.",
+            "por",
+            "café,",
+            "un",
+            "Quisiera"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-read",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. Which drink does the customer request?",
+          "answers": [
+            "Tea.",
+            "Tea",
+            "A tea."
+          ],
+          "explanation": "The customer requests tea; the thanks closes the exchange.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "passage": "Customer: Hola. Un té, por favor.\nServer: Un té?\nCustomer: Sí. Gracias.",
+          "translation": "Customer: Hello. A tea, please.\nServer: A tea?\nCustomer: Yes. Thank you."
+        },
+        {
+          "id": "es-cafe-requests-foundation-vary",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say “I would like a tea, please” using the full request frame.",
+          "answers": [
+            "Quisiera un té, por favor."
+          ],
+          "explanation": "Keep un with café and té in these requests. Remember the accents in café and té.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-recall",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You arrive at a café and want coffee. Make the short request “A coffee, please”.",
+          "answers": [
+            "Un café, por favor."
+          ],
+          "explanation": "The short request still includes please.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "es-cafe-requests-foundation-meaning",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning of this complete request: Quisiera un café, por favor.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "This is a polite request, not a statement about having coffee.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-numbers-quantities-foundation", "unitId": "es-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["es-cafe-requests-foundation"], "conceptIds": ["es-numbers-quantities-concept"], "vocabulary": ["es-numbers-quantities-word-1", "es-numbers-quantities-word-2", "es-numbers-quantities-word-3", "es-numbers-quantities-word-4"],
+      "explanation": "Count one through ten as two short runs. Then use cuánto cuesta for the price of one thing. You already have por favor from the café; attach it to a quantity to make a small, polite order.", "examples": [{ "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }], "culturalNote": "Prices may be said quickly. First listen for the number, then the item and the total.",
+      "exercises": [
+        { "id": "es-numbers-quantities-foundation-meet", "conceptId": "es-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Spanish number means three?", "answers": ["Tres."], "options": ["Dos.", "Tres.", "Seis.", "Diez."], "explanation": "Tres is three.", "vocabulary": ["es-numbers-quantities-word-1"], "reviewOf": ["es-cafe-requests-foundation"] },
+        { "id": "es-numbers-quantities-foundation-order", "conceptId": "es-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["¿Cuánto cuesta un café?"], "explanation": "Cuánto cuesta asks what one thing costs.", "vocabulary": ["es-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["¿Cuánto", "cuesta", "un", "café?"] },
+        { "id": "es-numbers-quantities-foundation-quantity", "conceptId": "es-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Spanish: Two apples, please.", "answers": ["Dos manzanas, por favor."], "explanation": "Dos stays the same before the plural noun manzanas.", "vocabulary": ["es-numbers-quantities-word-4", "es-cafe-requests-word-4"], "reviewOf": [] },
+        { "id": "es-numbers-quantities-foundation-read", "conceptId": "es-numbers-quantities-concept", "kind": "reading", "mode": "recognition", "prompt": "Read the price sign. How many euros is the tea?", "passage": "Café: dos euros. Té: tres euros.", "translation": "Coffee: two euros. Tea: three euros.", "answers": ["Three euros."], "explanation": "Té costs tres euros on this sign.", "vocabulary": ["es-numbers-quantities-word-1", "es-cafe-requests-word-3"], "reviewOf": [] },
+        { "id": "es-numbers-quantities-foundation-think", "conceptId": "es-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: a vendor has one apple. Ask its price, then write the question.", "answers": ["¿Cuánto cuesta una manzana?"], "explanation": "One apple is feminine: una manzana. The price question stays cuánto cuesta.", "vocabulary": ["es-numbers-quantities-word-3", "es-numbers-quantities-word-4"], "reviewOf": [] }
+      ], "optionalExerciseIds": []
     }
   ],
   "dialogues": []

@@ -7,9 +7,21 @@ import styles from "./listen-player.module.css";
 // Audio-only lesson player. Lock-screen / control-center metadata comes from
 // the Media Session API (guarded: jsdom and old browsers lack it). Finishing
 // a track marks it listened — heard, not mastered.
-export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; courseTitle: string }) {
+export function ListenPlayer({
+  track,
+  courseTitle,
+  lessonTitle,
+}: {
+  track: ListenTrack;
+  courseTitle: string;
+  lessonTitle?: string;
+}) {
   const audio = useRef<HTMLAudioElement>(null);
   const [heard, setHeard] = useState<string | null>(null);
+  // The lesson the learner picked names the player. The track's own label
+  // describes the recording, so it is only the fallback when the course has
+  // not loaded yet.
+  const title = lessonTitle ?? track.lessonTitle;
   useEffect(() => {
     const timer = setTimeout(() => setHeard(listenedAt(track.lessonId)), 0);
     return () => clearTimeout(timer);
@@ -19,17 +31,18 @@ export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; cours
     if (!media) return;
     try {
       media.metadata = new MediaMetadata({
-        title: `${track.lessonTitle} · audio lesson`,
+        title: `${title} · audio lesson`,
         artist: "VerbaLibera",
         album: courseTitle,
       });
     } catch {
       // Older browsers: the player still works, just without lock-screen art.
     }
-  }, [track.lessonId, track.lessonTitle, courseTitle]);
+  }, [track.lessonId, title, courseTitle]);
   return (
-    <section aria-label={`Audio lesson: ${track.lessonTitle}`} className={styles.player}>
-      <h2>{track.lessonTitle}</h2>
+    <section aria-label={`Audio lesson: ${title}`} className={styles.player}>
+      <h2>{title}</h2>
+      {track.reviewPending ? <p>Preview lesson · language and pronunciation review pending.</p> : null}
       <p className={styles.lede}>
         Listen and think — predict each answer aloud before the reveal. No
         typing, no score. About {Math.round(track.durationS / 60)} minutes.
@@ -44,10 +57,11 @@ export function ListenPlayer({ track, courseTitle }: { track: ListenTrack; cours
         controls
         preload="none"
         src={track.audioUrl}
-        aria-label={`Play the audio lesson: ${track.lessonTitle}`}
+        aria-label={`Play the audio lesson: ${title}`}
         onEnded={() => setHeard(markListened(track.lessonId))}
         className={styles.audio}
       />
+      <p><a href={track.audioUrl} download>Save audio for offline listening</a></p>
       <details className={styles.transcript}>
         <summary>Read along (transcript)</summary>
         {track.sections.map((s) => (

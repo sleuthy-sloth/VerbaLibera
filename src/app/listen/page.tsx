@@ -60,14 +60,15 @@ export default function ListenPage() {
   }, [course]);
   const track = selected ? trackForLesson(selected) : undefined;
   const courseTitle = catalog.find((c) => c.slug === course)?.title ?? course;
+  const lessonTitle = lessons.find((l) => l.id === selected)?.title;
   return (
     <main id="main-content" className={styles.page}>
       <p className={styles.eyebrow}>VerbaLibera · audio lessons</p>
       <h1>Listen</h1>
       <p className={styles.lede}>
         A teacher guides each lesson by ear: predict answers aloud, then hear
-        the reveal. Made for walks — download the course once, then press play
-        and put the phone away.
+        the reveal. Save a recording with its “Save audio” link to listen
+        offline in your audio player, or press play here while connected.
       </p>
       <label className={styles.label}>
         Course
@@ -81,7 +82,7 @@ export default function ListenPage() {
       {track ? (
         <>
           <button onClick={() => setSelected("")} className={styles.back}>← All audio lessons</button>
-          <ListenPlayer track={track} courseTitle={courseTitle} />
+          <ListenPlayer track={track} courseTitle={courseTitle} lessonTitle={lessonTitle} />
         </>
       ) : (
         <ol className={styles.list}>
@@ -95,7 +96,7 @@ export default function ListenPage() {
                 ) : (
                   <span>{l.title}</span>
                 )}
-                <span>{has ? (heard ? "Listened" : "Ready") : "Audio being authored"}</span>
+                <span>{has ? (heard ? "Listened" : trackForLesson(l.id)?.reviewPending ? "Preview" : "Ready") : "Audio being authored"}</span>
               </li>
             );
           })}

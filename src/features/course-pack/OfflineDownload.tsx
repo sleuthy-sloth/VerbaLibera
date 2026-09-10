@@ -1,11 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { CourseEnvironment } from './environment';
-import type { CoursePack } from './schema';
+import type { CourseEnvironment, OfflineInstallablePack } from './environment';
+
+/** What the shared download control needs beyond the install shape. Both
+ * `CoursePack` and `RuntimePack` satisfy this structurally. */
+export type OfflineDownloadPack = OfflineInstallablePack & {
+  title: string;
+  lessons: readonly unknown[];
+};
 
 export function OfflineDownload({ pack, language, environment }: {
-  pack: CoursePack; language: string; environment: CourseEnvironment;
+  pack: OfflineDownloadPack; language: string; environment: CourseEnvironment;
 }) {
   const [downloaded, setDownloaded] = useState(false);
   const [checking, setChecking] = useState(true);
