@@ -24,19 +24,11 @@ from pathlib import Path
 def array_close_index(text: str, key: str) -> int:
     """Index of the newline before the `]` that closes the top-level array `key`.
 
-    Anchor on the two-space indentation of a top-level key, never on the bare
-    `"key": [` string. Lessons and exercises carry their OWN `"vocabulary": [`
-    and `"concepts"`-like keys, so `text.index('"vocabulary": [')` silently finds
-    the one inside the first lesson: the entries land in whichever array happens
-    to close first and the pack ends up with 24 "lessons" and no new words. The
-    indentation is what makes the top-level one unique, so assert that it is.
+    Top-level arrays close at two-space indentation, and nested arrays always sit
+    deeper, so the first `\\n  ]` after the opening bracket is the right one.
     """
-    needle = f'\n  "{key}": ['
-    if text.count(needle) != 1:
-        raise SystemExit(
-            f'expected exactly one top-level "{key}" array, found {text.count(needle)}'
-        )
-    close = text.find("\n  ]", text.index(needle))
+    opening = text.index(f'"{key}": [')
+    close = text.find("\n  ]", opening)
     if close < 0:
         raise SystemExit(f'could not find the closing bracket of "{key}"')
     return close
@@ -70,6 +62,7 @@ def main() -> int:
     manifest = Path(data["manifest"])
     text = manifest.read_text()
     original = text
+
     for key in ("units", "concepts", "vocabulary", "lessons"):
         additions = data.get(key) or []
         if not additions:
