@@ -1,9 +1,27 @@
 import { cookies } from 'next/headers';
 import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { verifySessionToken } from '@/lib/auth/session';
-import Link from 'next/link';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { PlanSection } from '@/components/plan/PlanSection';
 import { initialCourses } from '@/features/curriculum/fixture';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ courseSlug: string }>;
+}): Promise<Metadata> {
+  const { courseSlug } = await params;
+  if (!initialCourses.some((course) => course.slug === courseSlug)) notFound();
+  return { title: 'Your study plan' };
+}
+
+/** Only the authored guided courses exist; anything else is a router-level 404. */
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return initialCourses.map((course) => ({ courseSlug: course.slug }));
+}
 
 export default async function StudyPlanPage({
   params,
@@ -13,15 +31,7 @@ export default async function StudyPlanPage({
   const { courseSlug } = await params;
   const hasCourse = initialCourses.some((course) => course.slug === courseSlug);
 
-  if (!hasCourse) {
-    return (
-      <main id="main-content">
-        <p>VerbaLibera preview</p>
-        <h1>This course is not available in preview.</h1>
-        <Link href="/dashboard">Return to your daily path</Link>
-      </main>
-    );
-  }
+  if (!hasCourse) notFound();
 
   const token = sessionTokenFromCookies((await cookies()).toString());
   const session = token ? await verifySessionToken(token) : null;

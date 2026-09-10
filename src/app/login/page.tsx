@@ -103,7 +103,7 @@ export default function LoginPage() {
 
   return (
     <main id="main-content" className={styles.page}>
-      <Link className={styles.home} href="/">← VerbaLibera</Link>
+      <Link className={styles.home} href="/"><span aria-hidden="true">←</span> VerbaLibera</Link>
       <div className={styles.layout}>
         <section className={styles.intro}>
           <p className={styles.kicker}>A little practice, kept.</p>

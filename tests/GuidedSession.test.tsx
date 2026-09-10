@@ -295,7 +295,7 @@ describe('typed answer checking on DRILL steps', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
+    expect(await screen.findByText("That's it.")).toBeInTheDocument();
     expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
   });
 
@@ -323,7 +323,7 @@ describe('typed answer checking on DRILL steps', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un the s il vous plait');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    expect(await screen.findByText('Close — compare with the accepted answer.')).toBeInTheDocument();
+    expect(await screen.findByText('Close — one detail off. Compare with the model.')).toBeInTheDocument();
     expect(screen.getByText('Je voudrais un thé, s’il vous plaît.')).toBeInTheDocument();
     expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
   });
@@ -347,7 +347,7 @@ describe('typed answer checking on DRILL steps', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'completely wrong');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    expect(await screen.findByText('Try again, or reveal the model answer.')).toBeInTheDocument();
+    expect(await screen.findByText('Not quite. Try again, or reveal the model.')).toBeInTheDocument();
     expect(screen.getByText('Checked locally. Nothing was saved.')).toBeInTheDocument();
   });
 
@@ -407,7 +407,7 @@ describe('typed answer checking on DRILL steps', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'test');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    const verdictText = await screen.findByText('That matches an accepted answer.');
+    const verdictText = await screen.findByText("That's it.");
     expect(verdictText.closest('[tabindex="-1"]')).toHaveFocus();
   });
 
@@ -434,10 +434,10 @@ describe('typed answer checking on DRILL steps', () => {
     await user.click(screen.getByRole('button', { name: 'Continue' }));
     await user.type(screen.getByLabelText(/your answer/i), 'test');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
-    expect(await screen.findByText('That matches an accepted answer.')).toBeInTheDocument();
+    expect(await screen.findByText("That's it.")).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Continue' }));
-    expect(screen.queryByText('That matches an accepted answer.')).not.toBeInTheDocument();
+    expect(screen.queryByText("That's it.")).not.toBeInTheDocument();
     expect(screen.getByLabelText(/your answer/i)).toHaveValue('');
   });
 
@@ -461,7 +461,7 @@ describe('typed answer checking on DRILL steps', () => {
       json: () => Promise.resolve({ verdict: 'exact', matchedVariant: 'Je voudrais un thé, s’il vous plaît.', limited: false }),
     });
 
-    await screen.findByText('That matches an accepted answer.');
+    await screen.findByText("That's it.");
     expect(screen.getByRole('button', { name: 'Check my answer' })).toBeInTheDocument();
   });
 });

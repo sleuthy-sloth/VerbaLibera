@@ -1,4 +1,6 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import styles from '@/components/session/session.module.css';
 import { cookies } from 'next/headers';
 import { GuidedSession } from '@/components/session/GuidedSession';
@@ -11,6 +13,28 @@ import { sessionTokenFromCookies } from '@/lib/auth/cookies';
 import { verifySessionToken } from '@/lib/auth/session';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ courseSlug: string }>;
+}): Promise<Metadata> {
+  const { courseSlug } = await params;
+  const course = initialCourses.find((candidate) => candidate.slug === courseSlug);
+  // Throw before the shell streams so the response is a real 404 rather than a
+  // 200 carrying the not-found UI.
+  if (!course) notFound();
+  return {
+    title: course.title.replace(/: A1 patterns$/, ''),
+  };
+}
+
+/** Only the authored guided courses exist; anything else is a router-level 404. */
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return initialCourses.map((course) => ({ courseSlug: course.slug }));
+}
+
 export default async function LearnPage({ params, searchParams }: {
   params: Promise<{ courseSlug: string }>;
   searchParams: Promise<{ concept?: string; drill?: string }>;
@@ -18,6 +42,10 @@ export default async function LearnPage({ params, searchParams }: {
   const { courseSlug } = await params;
   const { concept: requestedConcept, drill: requestedDrill } = await searchParams;
   const course = initialCourses.find(course => course.slug === courseSlug);
+  // Unknown slugs used to render an inline 200 stub ("This course is not
+  // available in preview.") — a soft 404 that looked broken but reported
+  // success. Hand it to the branded not-found route instead.
+  if (!course) notFound();
   const token = sessionTokenFromCookies((await cookies()).toString());
   const session = token ? await verifySessionToken(token) : null;
   const progress = session ? await getProgressSnapshot(session.userId) : blankDemoProgress;

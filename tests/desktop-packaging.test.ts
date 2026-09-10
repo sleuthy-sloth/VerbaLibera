@@ -13,7 +13,10 @@ const STAGED_CLI_ENTRY = path.join(STAGED_MODULES, "prisma/build/index.js");
 // Clean Linux CI runners lack it, so the compiled-main assertion below only runs
 // when the artifact is present instead of failing with ENOENT.
 
-describe("desktop packaging configuration", () => {
+// These assert on a staged server tree: copying it and resolving module
+// specifiers from a tmpdir jail takes seconds, so the 5s default makes the
+// result depend on machine load rather than on the code.
+describe("desktop packaging configuration", { timeout: 30_000 }, () => {
   it("enables standalone Next output and arm64-only DMG packaging", async () => {
     const nextConfig = (await import("../next.config")).default as {
       output?: string;

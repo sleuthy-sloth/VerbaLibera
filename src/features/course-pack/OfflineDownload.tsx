@@ -60,14 +60,13 @@ export function OfflineDownload({ pack, language, environment }: {
       </div>
       {error ? <p role="alert">{error}</p> : null}
       <details>
-        <summary>How to use downloads in the installed app (PWA)</summary>
+        <summary>Installing this on your phone</summary>
         <ol>
-          <li>Download each language you want while connected. Wait for “Downloaded on this device”.</li>
-          <li>On iPhone or iPad, use Safari’s Share menu → Add to Home Screen. In other browsers, use the browser’s Install app option when available.</li>
-          <li>Open the installed app and check or download the language there too. Browser and installed-app storage can differ.</li>
-          <li>Use “Open offline study”. If the app opens to the offline welcome page, choose your downloaded language there.</li>
+          <li>Press the download button above while you are connected, and wait for “Downloaded on this device”.</li>
+          <li>iPhone or iPad: Safari&rsquo;s Share menu → Add to Home Screen. Other browsers: the browser&rsquo;s Install app option, when it offers one.</li>
+          <li>Open the installed app and check or download the language there too — browser storage and installed-app storage are separate.</li>
         </ol>
-        <p>Installing the app icon does not download lessons. Downloads stay on this device; clearing browser data removes them. Keep a practice backup below.</p>
+        <p>Adding the icon does not download lessons by itself. Downloads stay on this device, and clearing your browser data removes them.</p>
       </details>
     </section>
   );

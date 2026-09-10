@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { GlossedText } from "./GlossedText";
 import type { CoursePack, Exercise } from "./schema";
 import { evaluateAnswer, type Evaluation } from "./answer";
+import { feedbackFor } from "./feedback";
 
 type InputProps = {
   exercise: Exercise;
@@ -223,6 +224,9 @@ export function ExerciseView({
     heading.current?.focus();
   }, []);
   const Input = renderers[exercise.kind];
+  // Learner-facing wording lives in one module so the grader's taxonomy can
+  // never reach the screen (see feedback.ts).
+  const feedback = result ? feedbackFor(result, exercise) : null;
   return (
     <section className={`practice-panel activity-${exercise.kind}`} aria-labelledby="practice-title">
       <p className="study-eyebrow">
@@ -250,29 +254,41 @@ export function ExerciseView({
             Check answer
           </button>
         ) : null}
-        <button
-          onClick={() => {
-            setRevealed(true);
-            if (!result)
-              setResult({
-                accepted: false,
-                category: "model revealed",
-                explanation: "Study the model. This remains a review item.",
-                model: exercise.answers[0],
-              });
-          }}
-        >
-          Reveal model
-        </button>
+        {!revealed ? (
+          <button
+            onClick={() => {
+              setRevealed(true);
+              if (!result)
+                setResult({
+                  accepted: false,
+                  category: "model revealed",
+                  explanation: "Here is the model answer. Compare it with yours before moving on.",
+                  model: exercise.answers[0],
+                });
+            }}
+          >
+            Reveal model
+          </button>
+        ) : null}
       </div>
-      {result ? (
-        <div role="status" className="study-feedback">
-          <strong>{result.category}</strong>
-          <p>{result.explanation}</p>
-          {revealed ? (
-            <p>Assisted practice. This will remain in review.</p>
+      {result && feedback ? (
+        <div
+          role="status"
+          className="study-feedback"
+          data-outcome={
+            result.category === "model revealed"
+              ? "neutral"
+              : result.accepted
+                ? "correct"
+                : "attention"
+          }
+        >
+          <strong>{feedback.headline}</strong>
+          {feedback.detail ? <p>{feedback.detail}</p> : null}
+          {revealed && result.accepted ? (
+            <p>It comes back sooner because you looked. That is the point of it.</p>
           ) : null}
-          {!result.accepted || revealed ? (
+          {feedback.showModel ? (
             <p lang={pack.language}>{result.model}</p>
           ) : null}
           <details open={!result.accepted || revealed}>
@@ -295,7 +311,7 @@ export function ExerciseView({
               }
             }}
           >
-            {saving ? "Saving…" : "Save and continue"}
+            Continue
           </button>
         </div>
       ) : null}

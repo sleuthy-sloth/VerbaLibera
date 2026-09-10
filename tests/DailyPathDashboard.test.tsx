@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
-import { afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 import {
   DailyPathDashboard,
 } from '@/components/dashboard/DailyPathDashboard';
@@ -83,6 +83,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+// Onboarding state decides whether the dashboard shows the welcome flow or the
+// first-words card, so it must not leak between cases.
+beforeEach(() => {
+  try {
+    localStorage.removeItem('verbalibera_onboarding:v1');
+  } catch {}
+});
+
 describe('DailyPathDashboard', () => {
   it('turns preview progress into a sequential daily practice path', () => {
     // Break caught: the dashboard loses its primary session entry point or progress summary.
@@ -90,7 +98,7 @@ describe('DailyPathDashboard', () => {
     render(<DailyPathDashboard progress={demoProgress} />);
 
     expect(screen.getByRole('heading', { level: 1, name: /VerbaLibera/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveAttribute(
       'href',
       '/learn/english-to-french',
     );
@@ -98,7 +106,7 @@ describe('DailyPathDashboard', () => {
     expect(screen.queryByText(/4-day practice flow/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/28 reviews waiting/i)).not.toBeInTheDocument();
     expect(screen.queryByText('Progress snapshot')).not.toBeInTheDocument();
-    expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
+    expect(screen.getByText(/saved in this browser/i)).toBeInTheDocument();
     expect(screen.getByRole('option', { name: '🇮🇹 Italian · A1' })).toBeInTheDocument();
     expect(screen.getByRole('progressbar', { name: /daily goal/i })).toHaveAttribute(
       'aria-valuetext',
@@ -106,19 +114,23 @@ describe('DailyPathDashboard', () => {
     );
   });
 
-  it('shows an honest blank slate to guests with stats living on the profile', () => {
+  it('shows an honest blank slate to guests with stats living on the profile', async () => {
     // Break caught: signed-out visitors saw fiction progress (streaks, XP,
     // completions) they never earned. Stats live on /you now, never here.
     render(<DailyPathDashboard progress={blankDemoProgress} />);
 
-    expect(screen.getByTestId('first-run-onboarding')).toBeInTheDocument();
-    expect(screen.getByText(/preview progress/i)).toBeInTheDocument();
+    // A learner who has never chosen a language gets the welcome flow, not a
+    // default Lesson 0 card for whichever course happened to be first.
+    expect(
+      await screen.findByRole('heading', { name: /what would you like to speak first/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/saved in this browser/i)).toBeInTheDocument();
     expect(screen.queryByText(/practice flow/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/reviews waiting/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/daily steps/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/\d+ XP/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/streak yet|-day streak/i)).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /continue today.s lesson/i })).not.toBeInTheDocument();
   });
 
   it('switches the displayed course using only preview data', async () => {
@@ -128,7 +140,7 @@ describe('DailyPathDashboard', () => {
 
     await user.selectOptions(screen.getByRole('combobox', { name: 'Learning language' }), 'english-to-italian');
 
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveAttribute(
       'href',
       '/learn/english-to-italian',
     );
@@ -172,7 +184,7 @@ describe('DailyPathDashboard', () => {
     // Break caught: daily-path content is split between a session card and a separate path section.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    const today = screen.getByRole('region', { name: /today's 8-minute path/i });
+    const today = screen.getByRole('region', { name: /today.s lesson/i });
     expect(today).toHaveTextContent('Learn');
     expect(today).toHaveTextContent('Practice');
     expect(today).toHaveTextContent('Remember');
@@ -188,7 +200,10 @@ describe('DailyPathDashboard', () => {
   });
 
   it('does not link an available course to a session that has not been supplied yet', () => {
-    // Break caught: selecting a future course sends the learner to an unavailable guided-session route.
+    // Break caught: selecting a future course sends the learner to an unavailable
+    // guided-session route. The old fallback was a dead end — a status line reading
+    // "Session preview coming soon" with nothing to click. It now points at that
+    // language's foundation course instead.
     render(
       <DailyPathDashboard
         progress={{
@@ -211,8 +226,15 @@ describe('DailyPathDashboard', () => {
       />,
     );
 
-    expect(screen.getByText('Session preview coming soon')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /continue 8-minute session/i })).not.toBeInTheDocument();
+    const guidedLinks = screen
+      .queryAllByRole('link')
+      .filter((link) => link.getAttribute('href') === '/learn/english-to-german');
+    expect(guidedLinks).toHaveLength(0);
+    expect(screen.queryByText('Session preview coming soon')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Open German foundations/i })).toHaveAttribute(
+      'href',
+      '/courses/german?start=1',
+    );
   });
 
   it('leaves caught-up copy to the profile snapshot', () => {
@@ -230,7 +252,7 @@ describe('DailyPathDashboard', () => {
     render(<DailyPathDashboard progress={demoProgress} />);
 
     expect(screen.getByRole('main')).toHaveClass(styles.dashboard);
-    expect(screen.getByRole('link', { name: /continue 8-minute session/i })).toHaveClass(
+    expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveClass(
       styles.primaryAction,
     );
   });
@@ -305,10 +327,16 @@ describe('DailyPathDashboard', () => {
     expect(hero?.parentElement?.tagName).toBe('DIV');
   });
 
-  it('shows onboarding when progress is blank', () => {
-    // Break caught: first-run lands on fake metrics instead of an honest empty state.
+  it('shows the first-words card once a learner has already chosen a language', async () => {
+    // Break caught: the welcome flow re-appears for a learner who already
+    // picked a language, or the blank slate loses its single clear next step.
+    localStorage.setItem(
+      'verbalibera_onboarding:v1',
+      JSON.stringify({ version: 1, courseSlug: 'english-to-french', status: 'completed', entryIntent: 'beginner' }),
+    );
     render(<DailyPathDashboard progress={blankDemoProgress} />);
 
+    expect(await screen.findByTestId('first-run-onboarding')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Start with your first words/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Start learning/i })).toHaveAttribute(
       'href',
@@ -357,7 +385,7 @@ describe('DashboardDataBoundary', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Trying to load your practice path again…');
 
     resolveRetry?.(new Response(JSON.stringify(demoProgress)));
-    expect(await screen.findByRole('link', { name: /continue 8-minute session/i })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

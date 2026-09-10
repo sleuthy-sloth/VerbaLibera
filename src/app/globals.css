@@ -1,32 +1,64 @@
 @import "tailwindcss";
 
 :root {
-  --canvas: #f4f3ee;
-  --surface: #ffffff;
-  --ink: #1a1f1e;
-  --ink-deep: #0f1312;
-  --accent: #1e6563;
-  --accent-strong: #174b4a;
-  --accent-soft: #e4edeb;
+  --canvas: #fbf4e6;
+  --surface: #fffdf7;
+  --ink: #2f2a24;
+  --ink-deep: #231e18;
+  --accent: #a8511f;
+  --accent-strong: #8f4318;
+  --accent-soft: #f6e3cd;
   --focus-ring: var(--accent);
   --motion-duration: 220ms;
+  /* Secondary text, warm. Measured 5.70:1 on --canvas and 6.14:1 on --surface,
+   * so it holds AA for body text and for the 12px uppercase labels. The earlier
+   * #8a7c62 that this identity was sketched with measured 3.73:1 on canvas —
+   * do not go back to it. Re-run `npm run a11y:audit` after any change here. */
+  --muted-foreground: #6b5f4b;
+  /* Ink at a mix strength, for text that should read as secondary without
+   * claiming to be a different colour. Composites to #645f56: 5.79:1 on
+   * --canvas, 6.23:1 on --surface. It was 66% when written and measured 4.56:1
+   * — passing AA by six hundredths, on 12px labels. Do not lower it. */
+  --muted-ink: color-mix(in srgb, var(--ink) 74%, transparent);
+  /* Type floor: nothing readable may be smaller than 0.75rem (12px).
+   * Sub-12px labels shipped at 8.6px (0.54rem) and 9.3px (0.58rem) and were
+   * unreadable on a phone. `tests/type-scale.test.ts` enforces this. */
+  --text-min: 0.75rem;
   --background: var(--canvas);
   --foreground: var(--ink);
-  --font-display: var(--font-newsreader);
+  --font-display: var(--font-fraunces);
   --font-body: var(--font-instrument-sans);
   --font-utility: var(--font-ibm-plex-mono);
-  /* Liquid Glass material tokens: frosted translucent surfaces with a
-   * hairline edge, inner top highlight, and soft elevation. Components
-   * consume these so the glass recipe stays identical everywhere. */
-  --glass-fill: color-mix(in srgb, var(--surface) 62%, transparent);
-  --glass-fill-strong: color-mix(in srgb, var(--surface) 78%, transparent);
-  --glass-edge: color-mix(in srgb, #ffffff 55%, transparent);
-  --glass-blur: blur(22px) saturate(1.8);
-  --glass-highlight: inset 0 1px 0 color-mix(in srgb, #ffffff 65%, transparent);
-  --glass-shadow: 0 8px 28px color-mix(in srgb, var(--ink) 16%, transparent);
-  --glass-shadow-sm: 0 2px 12px color-mix(in srgb, var(--ink) 12%, transparent);
-  --radius-glass: 20px;
+
+  /* ---------- Warm Studio material ----------
+   * Depth is STACKED PAPER, not blur: a solid ink edge and a hard offset
+   * shadow, with no `backdrop-filter` anywhere. Two weights — a light warm
+   * offset for resting chips and controls, a heavy ink one for surfaces that
+   * are the focus of their screen. Radius is deliberately slightly uneven on
+   * lesson cards (`--radius-hand`) so they look cut rather than extruded. */
+  --stock: #fffdf7;
+  --stock-2: #fdf7ea;
+  --stock-3: #f2ead7;
+  --edge: #2f2a24;
+  --edge-soft: #e0d3ba;
+  --lift-sm: 2px 2px 0 var(--edge-soft);
+  --lift: 4px 4px 0 var(--edge);
+  --lift-lg: 5px 5px 0 var(--edge);
+  --radius-card: 20px;
+  --radius-hand: 22px 24px 20px 26px;
+  --radius-control: 16px;
   --radius-pill: 999px;
+
+  /* ---------- Practice feedback states ----------
+   * A right answer and a wrong answer used to render in the identical panel —
+   * the only difference was the sentence, and a learner skimming on a phone has
+   * no visual signal at all. These are a *redundant* cue alongside the text,
+   * never the only one: the headline already says which it is. */
+  --state-correct-fill: #e9f0e2;
+  --state-correct-line: #2f6b3f;
+  --state-attention-fill: #f7ece7;
+  --state-attention-line: #8f4b3a;
+  --state-attention-ink: #8f4b3a;
 }
 
 @theme inline {
@@ -127,5 +159,79 @@ html[data-motion='reduced'] *::after {
   transition-duration: 0.01ms !important;
 }
 
+/* Users who ask their OS for more contrast get a heavier ink, a darker edge,
+ * and a crisper offset. The surfaces are already opaque — this identity has no
+ * translucency to remove — so the win here is contrast, not opacity. */
+@media (prefers-contrast: more) {
+  :root {
+    --muted-foreground: #2b241c;
+    --edge: #16130e;
+    /* Deliberately not #8a7c62 — that hex is the muted TEXT colour this
+     * identity replaced because it fails AA, and keeping it anywhere invites
+     * it back. */
+    --edge-soft: #6b5f4b;
+  }
+  /* Belt and braces: no surface in this system blurs, so if one ever does,
+   * this is where it gets caught for the people who most need it not to. */
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  :focus-visible {
+    outline-width: 4px;
+  }
+}
+
 /* The public page has its own navigation and needs no bottom-tab clearance. */
 body:has([data-landing-page]) { padding-bottom: 0; }
+
+/* Branded 404 (src/app/not-found.tsx). */
+.not-found {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: clamp(3rem, 12vh, 7rem) clamp(1rem, 4vw, 2rem) 6rem;
+}
+
+.not-found-eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--muted-foreground);
+  font: 700 var(--text-min) / 1.2 var(--font-utility);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.not-found h1 {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.not-found p {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.not-found-links {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.not-found-links a {
+  text-decoration: underline;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--accent-strong);
+  text-underline-offset: 4px;
+}

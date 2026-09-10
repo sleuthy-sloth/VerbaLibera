@@ -5,7 +5,6 @@ import type { ReactNode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { YouProfile } from '@/components/you/YouProfile';
 import { blankDemoProgress, demoProgress } from '@/features/progress/demo-progress';
-import youStyles from '@/components/you/you.module.css';
 
 function createQueryClient() {
   return new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -39,18 +38,32 @@ describe('YouProfile', () => {
     delete document.documentElement.dataset.motion;
   });
 
-  it('shows fun stats with zero-state honesty for guests', async () => {
-    // Break caught: signed-out visitors saw fiction progress they never earned.
+  it('leads with what the learner can say, not with XP and streaks', async () => {
+    // Break caught: the profile marketed itself on XP and a streak counter that
+    // the landing page explicitly promises not to have ("no streaks to break, no
+    // meter you're failing"), and told the learner nothing about the language.
     mockProgressFetch({ ...blankDemoProgress, isPreview: true });
     render(<YouProfile />, { wrapper: QueryTestProvider });
 
-    expect(await screen.findByText('Total XP')).toBeInTheDocument();
-    expect(screen.getByText('Total XP')).toHaveClass(youStyles.metricLabel);
+    expect(await screen.findByRole('heading', { name: 'What you can say' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Your profile' })).toBeInTheDocument();
-    expect(screen.getByText('Preview progress')).toBeInTheDocument();
-    expect(screen.getByText(/0 XP/i)).toBeInTheDocument();
-    expect(screen.getByText(/no streak yet/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /save your progress/i })).toHaveAttribute('href', '/login');
+    expect(screen.getByText('Saved in this browser')).toBeInTheDocument();
+    expect(screen.queryByText(/XP/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/streak/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/nothing yet\. finish a lesson/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /keep this on my account/i })).toHaveAttribute('href', '/login');
+  });
+
+  it('lists the phrases a learner has met once they have progress', async () => {
+    mockProgressFetch({ ...demoProgress, isPreview: false });
+    render(<YouProfile />, { wrapper: QueryTestProvider });
+
+    const said = await screen.findByRole('heading', { name: 'What you can say' });
+    const section = said.closest('section');
+    expect(section?.querySelectorAll('li').length).toBeGreaterThan(0);
+    // Target-language phrases carry a lang attribute so screen readers do not
+    // read French with English phonemes.
+    expect(section?.querySelector('[lang="fr"]')).not.toBeNull();
   });
 
   it('shows real stats and sign-out for signed-in learners', async () => {

@@ -3,18 +3,58 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4f3ee" />
+    <meta name="theme-color" content="#fbf4e6" />
     <title>VerbaLibera is offline</title>
     <style>
-      :root { color: #1a1f1e; background: #f4f3ee; font-family: system-ui, sans-serif; }
+      /* Warm Studio. This page is precached by the service worker and rendered
+         with no stylesheet, so the tokens are spelled out here rather than
+         referenced — globals.css is never in scope. Keep the values in step
+         with src/app/globals.css. */
+      :root {
+        --canvas: #fbf4e6;
+        --stock: #fffdf7;
+        --ink: #2f2a24;
+        --accent: #a8511f;
+        --accent-soft: #f6e3cd;
+        --muted-ink: #645f56;
+        --edge: #16130e;
+        --display: Fraunces, Georgia, 'Times New Roman', serif;
+        color: var(--ink);
+        background: var(--canvas);
+        font-family: system-ui, sans-serif;
+      }
       body { display: grid; min-height: 100vh; margin: 0; place-items: center; padding: 1.5rem; }
-      main { max-width: 32rem; padding: 2rem; border: 1px solid #1e6563; border-radius: .5rem; background: #fff; }
-      h1 { font-family: Georgia, 'Times New Roman', serif; }
-      main > p:first-child { color: #1e6563; }
+      main {
+        max-width: 32rem;
+        padding: 2rem;
+        border: 1.5px solid var(--edge);
+        border-radius: 4px;
+        background: var(--stock);
+        /* Depth is stacked paper: a hard offset, never a blur. */
+        box-shadow: 5px 5px 0 var(--edge);
+      }
+      h1 { font-family: var(--display); font-weight: 600; line-height: 1.2; }
+      main > p:first-child {
+        margin: 0;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
       p { line-height: 1.6; }
-      nav { display: flex; gap: .5rem; flex-wrap: wrap; }
-      a { color: #176a61; border: 1px solid #899b95; padding: .8rem 1rem; text-underline-offset: 4px; }
-      a:focus-visible { outline: 3px solid #176a61; outline-offset: 3px; }
+      nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+      a {
+        color: var(--ink);
+        border: 1.5px solid var(--edge);
+        border-radius: 3px;
+        background: var(--canvas);
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        box-shadow: 3px 3px 0 var(--edge);
+      }
+      a:hover { background: var(--accent-soft); }
+      a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
     </style>
   </head>
   <body>

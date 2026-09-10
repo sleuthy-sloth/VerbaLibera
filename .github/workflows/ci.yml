@@ -79,6 +79,13 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Accessibility gate
+        # Named separately so a contrast or navigation regression reads as an
+        # accessibility failure, not as a flaky e2e run. Covers every learner
+        # route at desktop and mobile, plus the desktop primary-navigation
+        # assertion the bottom tab capsule cannot make below 768px.
+        run: npx playwright test tests/e2e/a11y.spec.ts --project=chromium --workers=1
+
       - name: Playwright test (chromium)
         # Serial workers: parallel workers flake under dev-server compile
         # contention (hydration/timeout failures that move between runs).

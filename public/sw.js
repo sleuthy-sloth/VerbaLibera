@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'verbalibera-static-v8';
+const STATIC_CACHE = 'verbalibera-static-v9';
 const STATIC_ASSETS = [
   '/offline.html',
   '/icons/verbalibera-192.png',
@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
   '/brand/courses/italian.jpg',
   '/brand/courses/spanish.jpg',
   '/brand/courses/portuguese.jpg',
+  '/brand/courses/german.jpg',
   '/audio/french-ordering/fr-ordering-politely-prompt.wav',
   '/audio/french-ordering/fr-ordering-politely-answer.wav',
   '/audio/french-foundations/fr-identity-listen.mp3',

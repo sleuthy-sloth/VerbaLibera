@@ -34,16 +34,19 @@ test("Listen tab plays the French L1 audio lesson and logs it heard", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/dashboard");
-  await page.getByRole("link", { name: "Audio lessons" }).click();
+  await page.getByRole("link", { name: "Listen", exact: true }).click();
   await expect(page).toHaveURL(/\/listen$/);
   await expect(
     page.getByRole("heading", { name: "Listen", exact: true }),
   ).toBeVisible();
-  // Only L1 has a track; the rest say so honestly.
+  // Only L1 has a track. The page lists what exists and says once, honestly,
+  // how much is still being recorded — it used to render twenty-four
+  // consecutive "Audio being authored" rows.
   await expect(
     page.getByRole("button", { name: "Names and introductions", exact: true }),
   ).toBeVisible();
-  await expect(page.getByText("Audio being authored").first()).toBeVisible();
+  await expect(page.getByText(/more lessons? (is|are) being recorded/i)).toBeVisible();
+  await expect(page.getByText("Audio being authored")).toHaveCount(0);
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();

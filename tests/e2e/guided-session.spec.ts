@@ -52,7 +52,7 @@ test('typed exact answer is checked without any sidecar', async ({ page }) => {
   await answer.fill('Je voudrais un thé, s’il vous plaît.');
   await page.getByRole('button', { name: 'Check my answer' }).click();
 
-  await expect(page.getByText('That matches an accepted answer.')).toBeVisible();
+  await expect(page.getByText("That's it.")).toBeVisible();
   await expect(page.getByText('Checked locally. Nothing was saved.')).toBeVisible();
 });
 
@@ -100,7 +100,7 @@ test.describe('mobile touch', () => {
     await expect(page.getByText('That is the right picture.')).toBeVisible();
 
     // Quick nav tabs are reachable by touch on mobile.
-    await page.getByRole('link', { name: 'Account' }).tap();
+    await page.getByRole('link', { name: 'You', exact: true }).tap();
     await expect(page).toHaveURL(/\/you$/);
   });
 });

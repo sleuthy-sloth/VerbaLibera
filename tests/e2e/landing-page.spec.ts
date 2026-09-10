@@ -61,7 +61,10 @@ test('demo, audio and CTAs connect the public page to real learning', async ({ p
   await expect(page.getByRole('heading', { name: 'Italian foundations', exact: true })).toBeVisible();
   await page.goto('/');
   await page.getByRole('link', { name: 'Start learning', exact: true }).first().click();
-  await expect(page.getByRole('combobox', { name: 'Learning language' })).toBeVisible();
+  // A first-time learner lands on the language question, not on a default course.
+  await expect(
+    page.getByRole('heading', { name: /What would you like to speak first\?/ }),
+  ).toBeVisible();
 });
 
 test('reduced motion keeps all content visible and old course bookmarks work', async ({ page }) => {

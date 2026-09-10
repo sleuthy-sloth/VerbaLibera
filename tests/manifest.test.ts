@@ -7,8 +7,8 @@ describe('VerbaLibera PWA manifest', () => {
       id: '/',
       start_url: '/dashboard',
       display: 'standalone',
-      background_color: '#f4f3ee',
-      theme_color: '#f4f3ee',
+      background_color: '#fbf4e6',
+      theme_color: '#fbf4e6',
       description: 'A calm daily practice path for practical language patterns.',
       shortcuts: [
         { name: 'Today', url: '/dashboard' },

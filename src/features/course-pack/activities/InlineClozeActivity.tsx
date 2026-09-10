@@ -10,15 +10,18 @@ export function InlineClozeActivity({
   response,
   disabled,
   onChange,
+  language,
 }: {
   activity: ClozeSpec;
   response: { kind: "cloze"; values: Record<string, string> } | null;
   disabled: boolean;
   onChange: (response: Response) => void;
+  /** BCP-47 code of the target language; a cloze sentence is always in it. */
+  language?: string;
 }): React.JSX.Element {
   const values = response?.values ?? {};
   return (
-    <p className="lp-cloze">
+    <p className="lp-cloze" lang={language}>
       {activity.segments.map((segment, index) =>
         segment.kind === "text" ? (
           <span key={`text-${index}`}>{segment.text}</span>

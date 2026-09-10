@@ -24,15 +24,15 @@ export function AccountPractice({ scope, select, status, retry }: {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   return <section aria-label="Practice account" className="study-account">
-    <p>{scope ? 'Account practice · available offline on this device.' : 'Guest practice · saved only on this device.'}</p>
-    <p className="study-scope">Guest and account practice stay separate. To transfer guest history, export its backup, select account practice, then import it. Account history remains available on this browser for offline use; use a trusted device.</p>
+    <p>{scope ? 'Keeping this on your account.' : 'Keeping this in this browser only.'}</p>
+    <p className="study-scope">The two are separate. To move what is in this browser onto your account, export it here, switch to your account, then import it. Your account practice also stays available offline on this device.</p>
     <div className="study-actions">
       <button disabled={busy} onClick={async () => {
         setBusy(true); setError('');
         try { select(await identifyAccount()); } catch (e) { setError(e instanceof Error ? e.message : 'Could not open account practice.'); }
         finally { setBusy(false); }
-      }}>{busy ? 'Checking account…' : 'Use signed-in account'}</button>
-      {scope ? <><button onClick={() => { try { select(null); } catch { setError('Could not change device selection.'); } }}>Use guest practice</button><button onClick={retry}>Sync now</button></> : <a href="/login">Sign in</a>}
+      }}>{busy ? 'Checking…' : 'Use my account'}</button>
+      {scope ? <><button onClick={() => { try { select(null); } catch { setError('Could not switch back.'); } }}>Use this browser only</button><button onClick={retry}>Sync now</button></> : <a href="/login">Sign in</a>}
     </div>
     {status ? <p role="status">{status}</p> : null}
     {error ? <p role="alert">{error}</p> : null}

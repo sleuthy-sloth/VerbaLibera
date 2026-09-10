@@ -136,7 +136,7 @@ export function PlanSection({ courseSlug, userId = null }: Readonly<{ courseSlug
   return (
     <main id="main-content" className={sessionStyles.session}>
       <p className={sessionStyles.eyebrow}>
-        <Link href="/dashboard">← Daily path</Link>
+        <Link href="/dashboard"><span aria-hidden="true">←</span> Daily path</Link>
       </p>
       <h1>Your {course?.title ?? 'course'} study plan</h1>
       <p>{userId ? 'Your plan is saved to your account and follows you across devices.' : 'Your plan and checklist stay in this browser.'}</p>

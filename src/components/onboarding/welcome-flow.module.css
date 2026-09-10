@@ -24,12 +24,12 @@
 .title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-text, #111827);
+  color: var(--ink);
 }
 
 .copy {
   font-size: 1rem;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--muted-foreground);
   line-height: 1.5;
   max-width: 30rem;
 }
@@ -47,22 +47,28 @@
 .card {
   display: flex;
   align-items: stretch;
-  border: 2px solid var(--color-border, #e5e7eb);
-  border-radius: 1rem;
+  border: 1.5px solid var(--edge-soft);
+  border-radius: var(--radius-control);
   padding: 1rem;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background: transparent;
+  background: var(--stock);
+  box-shadow: var(--lift-sm);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .card:hover {
-  border-color: var(--color-border-strong, #d1d5db);
+  transform: translate(-1px, -1px);
+  border-color: var(--edge-soft);
+  box-shadow: var(--lift);
 }
 
+/* Selection is legible without colour: the edge, the offset and the fill all
+ * change. This was an indigo Tailwind ring on a grey card. */
 .cardSelected {
-  border-color: var(--color-primary, #4f46e5);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  border-color: var(--edge);
+  background: var(--accent-soft);
+  box-shadow: var(--lift-sm);
 }
 
 .radio {
@@ -90,18 +96,18 @@
 
 .languageName {
   font-weight: 600;
-  color: var(--color-text, #111827);
+  color: var(--ink);
 }
 
 .availability {
   font-size: 0.875rem;
-  color: var(--color-primary, #4f46e5);
+  color: var(--edge);
   font-weight: 500;
 }
 
 .benefit {
   font-size: 0.875rem;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--muted-foreground);
 }
 
 .primary {
@@ -110,7 +116,7 @@
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   border: 0;
-  background: var(--color-primary, #4f46e5);
+  background: var(--edge);
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -127,7 +133,7 @@
   align-self: flex-start;
   background: transparent;
   border: 0;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--muted-foreground);
   font-size: 0.875rem;
   cursor: pointer;
   padding: 0;
@@ -135,7 +141,7 @@
 }
 
 .backButton:hover {
-  color: var(--color-text, #111827);
+  color: var(--ink);
 }
 
 .choiceGrid {
@@ -150,7 +156,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
-  border: 2px solid var(--color-border, #e5e7eb);
+  border: 2px solid var(--edge-soft);
   border-radius: 1rem;
   padding: 1.25rem;
   cursor: pointer;
@@ -160,7 +166,7 @@
 }
 
 .choiceCard:hover {
-  border-color: var(--color-border-strong, #d1d5db);
+  border-color: var(--edge);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
 }
 
@@ -169,5 +175,5 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-primary, #4f46e5);
+  color: var(--edge);
 }

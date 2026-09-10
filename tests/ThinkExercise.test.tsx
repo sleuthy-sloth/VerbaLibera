@@ -55,6 +55,10 @@ describe("think steps", () => {
     );
     await user.type(screen.getByLabelText(/your answer/i), "Je suis Marc.");
     await user.click(screen.getByRole("button", { name: /check answer/i }));
-    expect(await screen.findByText("correct")).toBeInTheDocument();
+    // The grader's category ("correct") is no longer rendered: the learner
+    // gets an acknowledgement. See tests/exercise-feedback.test.tsx.
+    const feedback = await screen.findByRole("status");
+    expect(feedback).toHaveTextContent(/That's it\.|Nice|Exactly|Yes — that's right\.|Got it\./);
+    expect(feedback).not.toHaveTextContent(/\bcorrect\b/);
   });
 });

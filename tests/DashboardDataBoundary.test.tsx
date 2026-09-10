@@ -50,7 +50,7 @@ describe('DashboardDataBoundary loading skeleton', () => {
     expect(skeletonBlocks.length >= 0).toBe(true);
 
     // After delay, dashboard content appears
-    expect(await screen.findByRole('link', { name: /continue 8-minute session/i }, { timeout: 2000 })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /continue today.s lesson/i }, { timeout: 2000 })).toBeInTheDocument();
     await waitFor(() => expect(screen.getByRole('main')).not.toHaveAttribute('aria-busy'));
   });
 
@@ -94,7 +94,7 @@ describe('DashboardDataBoundary loading skeleton', () => {
     const user = userEvent.setup();
     await user.click(retryButton);
 
-    expect(await screen.findByRole('link', { name: /continue 8-minute session/i })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });

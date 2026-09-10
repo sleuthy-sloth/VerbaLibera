@@ -21,8 +21,11 @@ function renderGuided(ui: React.ReactElement) {
 }
 
 const axeRules = {
-  'color-contrast': { enabled: false },
-  // complementary inside main is intentional for context rail design; e2e expects complementary
+  // Contrast is NOT disabled here any more. It was, and that is exactly why 102
+  // failing nodes shipped across ten routes (locked course-path rows at 3.27:1,
+  // the language-switcher label at 3.67:1 and 9.3px, the /you eyebrow at
+  // 4.24:1). Those are fixed; this rule is the guard that keeps them fixed.
+  // If it fails, fix the colour — do not re-disable the rule.
   'landmark-complementary-is-top-level': { enabled: false },
 };
 
@@ -92,7 +95,7 @@ describe('a11y session audit — jest-axe + focus + screen reader', () => {
     await user.type(screen.getByLabelText(/your answer/i), 'Je voudrais un thé, s’il vous plaît.');
     await user.click(screen.getByRole('button', { name: 'Check my answer' }));
 
-    const verdictText = await screen.findByText('That matches an accepted answer.');
+    const verdictText = await screen.findByText("That's it.");
     const verdictRegion = verdictText.closest('[aria-live]');
     expect(verdictRegion).not.toBeNull();
     expect(verdictRegion).toHaveAttribute('aria-live', 'polite');

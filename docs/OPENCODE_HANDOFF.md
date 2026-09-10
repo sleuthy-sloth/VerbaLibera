@@ -31,16 +31,24 @@ The repeated dashboard commits are intentional: task-scoped review found edge ca
 
 Read these first:
 
-- `docs/superpowers/specs/2026-09-01-quiet-ink-interface-redesign.md`
-- `docs/superpowers/plans/2026-09-01-quiet-ink-interface-redesign.md`
+- `DESIGN.md` (repo root) — the current identity
+- `docs/superpowers/plans/2026-09-10-warm-studio-migration.md`
 
-Quiet Ink is the approved direction:
+**Warm Studio** is the approved direction (it replaced Quiet Ink + Liquid Glass):
 
-- canvas `#f4f3ee`; surface `#ffffff`; ink `#1a1f1e`; deep ink `#0f1312`
-- teal-only accent `#1e6563`, strong `#174b4a`, soft `#e4edeb`
-- Newsreader display, Instrument Sans body, IBM Plex Mono utility
+- canvas `#fbf4e6`; stock `#fffdf7`; ink `#2f2a24`; deep ink `#231e18`
+- terracotta is the only functional accent: `#a8511f`, strong `#8f4318`, soft `#f6e3cd`
+- muted text `#645f56` (5.79:1 on canvas); edges `#16130e` hard, `#6b5f4b` soft
+- Fraunces display, Instrument Sans body
+- depth is **stacked paper**: hard offset shadows, zero blur — no gradients, no
+  glass, no `backdrop-filter`
 - course selection remains data-driven from `progress.courses`; never hardcode French/Italian controls
 - no hearts, penalties, leaderboards, or noisy celebration treatment
+
+Retired and must not return: `#f4f3ee`, `#f5f3ee`, `#ffffff` surfaces, `#1a1f1e`,
+`#0f1312`, `#1e6563`, `#176a61`, `#174b4a`, `#e4edeb`, `#586360`, `#46534f`,
+`#8a7c62`, `#c2662f`. The last two fail WCAG AA and are asserted against in
+`tests/warm-studio-global-styles.test.ts`.
 
 ## Completed and reviewed
 

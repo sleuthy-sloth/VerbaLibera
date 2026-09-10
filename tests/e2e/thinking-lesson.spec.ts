@@ -22,9 +22,13 @@ test("French L1 opens with a bridge, then a think-first prediction", async ({
   await expect(page.getByText(/you already know the name anna/i)).toBeVisible();
   await page.getByRole("radio", { name: "suis", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   // Step 2: think step — no input until the learner commits to thinking.
   await expect(page.getByText(/how does he say/i)).toBeVisible();
@@ -37,7 +41,11 @@ test("French L1 opens with a bridge, then a think-first prediction", async ({
     .click();
   await page.getByLabel("Your answer").fill("Je suis Marc.");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
 });
 test("French L0 starts with single words before any sentence", async ({
   page,
@@ -54,9 +62,13 @@ test("French L0 starts with single words before any sentence", async ({
   await expect(page.getByText(/opens almost every conversation/i)).toBeVisible();
   await page.getByRole("radio", { name: "Hello.", exact: true }).check();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Save and continue", exact: true })
+    .getByRole("button", { name: "Continue", exact: true })
     .click();
   // Step 2: think-first production of a single word, never a sentence.
   await expect(page.getByText(/think first/i)).toBeVisible();
@@ -68,5 +80,9 @@ test("French L0 starts with single words before any sentence", async ({
     .click();
   await page.getByLabel("Your answer").fill("Bonjour.");
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("correct");
+  // Pin the outcome state rather than the wording: the learner-facing
+    // acknowledgement rotates, and the grader's category is no longer shown.
+    await expect(
+      page.locator('[role="status"][data-outcome]').first(),
+    ).toHaveAttribute("data-outcome", "correct");
 });

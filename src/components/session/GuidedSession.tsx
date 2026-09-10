@@ -206,8 +206,8 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   return (
     <main id="main-content" tabIndex={-1} className={styles.session}>
       <header className={styles.sessionHeader}>
-        <Link href={dashboardHref}>← Daily path</Link>
-        <span>{isPreview ? '8-minute preview' : 'Your daily practice'}</span>
+        <Link href={dashboardHref}><span aria-hidden="true">←</span> Daily path</Link>
+        <span>{isPreview ? 'Lesson' : 'Your daily practice'}</span>
       </header>
 
       <section className={styles.sessionIntro} aria-labelledby="session-heading">
@@ -406,10 +406,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
                         {verdict.limited
                           ? 'Local checking is unavailable right now — compare with the model answer.'
                           : verdict.verdict === 'exact'
-                          ? 'That matches an accepted answer.'
+                          ? "That's it."
                           : verdict.verdict === 'close'
-                          ? 'Close — compare with the accepted answer.'
-                          : 'Try again, or reveal the model answer.'}
+                          ? 'Close — one detail off. Compare with the model.'
+                          : 'Not quite. Try again, or reveal the model.'}
                       </p>
                       {verdict.verdict === 'close' && verdict.matchedVariant && (
                         <p className={styles.verdictHint}>{verdict.matchedVariant}</p>

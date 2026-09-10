@@ -29,12 +29,10 @@
   gap: 0.75rem;
   align-content: start;
   padding: 1.25rem 1.35rem;
-  border: 1px solid var(--glass-edge);
-  border-radius: var(--radius-glass);
-  background: var(--glass-fill-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
+  border: 1.5px solid var(--edge);
+  border-radius: var(--radius-card);
+  background: var(--stock);
+  box-shadow: var(--lift-sm);
 }
 
 .card h2 {
@@ -94,17 +92,15 @@
 }
 
 .primaryBtn {
-  border: 1px solid color-mix(in srgb, var(--accent-strong) 55%, #ffffff);
-  background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
-  box-shadow: var(--glass-highlight), var(--glass-shadow-sm);
+  border: 1.5px solid var(--edge);
+  background: var(--accent);
+  box-shadow: var(--lift-sm);
   color: var(--canvas);
 }
 
 .ghostBtn {
   border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  background: var(--stock);
   color: var(--accent-strong);
 }
 
@@ -129,7 +125,7 @@
 .alert {
   margin: 0;
   padding: 0.8rem 1rem;
-  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
   border-left: 3px solid #9a342e;
   background: color-mix(in srgb, #f7e9e7 85%, transparent);
   line-height: 1.5;
@@ -138,7 +134,7 @@
 .status {
   margin: 0;
   padding: 0.8rem 1rem;
-  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
   border-left: 3px solid var(--accent);
   background: var(--accent-soft);
   line-height: 1.5;

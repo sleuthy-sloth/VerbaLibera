@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import type { ListenTrack } from "@/features/listen/tracks";
+import { langCodeFor } from "@/features/course-pack/language-code";
 import { listenedAt, markListened } from "@/features/listen/listened";
 import styles from "./listen-player.module.css";
 
@@ -42,14 +43,16 @@ export function ListenPlayer({
   return (
     <section aria-label={`Audio lesson: ${title}`} className={styles.player}>
       <h2>{title}</h2>
-      {track.reviewPending ? <p>Preview lesson · language and pronunciation review pending.</p> : null}
+      {track.reviewPending ? (
+        <p className={styles.note}>Machine-recorded. A native-speaker check is still pending.</p>
+      ) : null}
       <p className={styles.lede}>
         Listen and think — predict each answer aloud before the reveal. No
         typing, no score. About {Math.round(track.durationS / 60)} minutes.
       </p>
       {heard ? (
         <p role="status" className={styles.heard}>
-          Listened{heard ? ` · last finished ${new Date(heard).toLocaleDateString()}` : ""}. Replay anytime; text practice locks it in.
+          Listened {new Date(heard).toLocaleDateString()}. Heard, not mastered — replay any time.
         </p>
       ) : null}
       <audio
@@ -70,7 +73,7 @@ export function ListenPlayer({
             <p>{s.teacher}</p>
             {s.target ? (
               <p>
-                <strong>{s.target.text}</strong> — {s.target.meaning}
+                <strong lang={langCodeFor(track.courseSlug)}>{s.target.text}</strong> — {s.target.meaning}
               </p>
             ) : null}
           </div>

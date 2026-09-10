@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useDemoProgress } from '@/features/progress/use-demo-progress';
+import { initialCourses } from '@/features/curriculum/fixture';
+import { langCodeFor } from '@/features/course-pack/language-code';
 import { csrfHeaders } from '@/lib/auth/cookies';
 import styles from './you.module.css';
 
@@ -34,6 +36,33 @@ function applyA11yPrefs(prefs: A11yPrefs): void {
   } catch {}
 }
 
+/**
+ * Phrases the learner has actually met, derived from curriculum content rather
+ * than counted. "Total XP" and "Streak — No streak yet, finish a session to
+ * start one" used to lead this page, which contradicted the landing page's own
+ * promise ("no streaks to break, no meter you're failing") and told a learner
+ * nothing about the language.
+ */
+function sayablePhrases(
+  session: readonly { courseSlug: string; contentId: string; kind: string }[],
+) {
+  const met = new Set(session.filter((step) => step.kind === 'NEW_PATTERN').map((step) => `${step.courseSlug}:${step.contentId}`));
+  if (met.size === 0) return [];
+  const phrases: { key: string; courseSlug: string; answer: string; scenario: string }[] = [];
+  for (const course of initialCourses) {
+    for (const concept of course.concepts) {
+      if (!met.has(`${course.slug}:${concept.id}`)) continue;
+      phrases.push({
+        key: `${course.slug}:${concept.id}`,
+        courseSlug: course.slug,
+        answer: concept.modelDialogue.answer,
+        scenario: concept.scenario,
+      });
+    }
+  }
+  return phrases;
+}
+
 export function YouProfile() {
   const progressQuery = useDemoProgress();
   // Lazy init reads browser prefs (safe on the server: the try/catch in
@@ -62,55 +91,73 @@ export function YouProfile() {
         <p className={styles.eyebrow}>You</p>
         <h1>Your profile</h1>
         <p role="alert">Unable to load your profile. Try again.</p>
-        <button type="button" onClick={() => void progressQuery.refetch()}>Try again</button>
+        <button type="button" className={styles.primaryAction} onClick={() => void progressQuery.refetch()}>
+          Try again
+        </button>
       </main>
     );
   }
 
   const progress = progressQuery.data;
   const isPreview = progress.isPreview !== false;
+  const phrases = sayablePhrases(progress.session);
 
   const signOut = async () => {
     try {
       const response = await fetch('/api/auth/logout', { method: 'POST', headers: csrfHeaders() });
       if (!response.ok) throw new Error('Sign-out failed');
+      // Full navigation, not router.push: this component is rendered in unit
+      // tests and in the offline shell, where no app router is mounted.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.assign('/you');
     } catch {
       setSignOutError(true);
     }
   };
 
+  const daysPractised = progress.practiceFlowDays;
+
   return (
     <main id="main-content" className={styles.you}>
       <p className={styles.eyebrow}>You</p>
       <h1>Your profile</h1>
-      <p className={styles.previewBadge}>{isPreview ? 'Preview progress' : 'Saved to your account'}</p>
+      <p className={styles.previewBadge}>{isPreview ? 'Saved in this browser' : 'Saved to your account'}</p>
+
+      <section aria-labelledby="you-say-title">
+        <h2 id="you-say-title">What you can say</h2>
+        {phrases.length === 0 ? (
+          <p className={styles.saidEmpty}>
+            Nothing yet. Finish a lesson and the pattern you learn shows up here.
+          </p>
+        ) : (
+          <ul className={styles.saidList}>
+            {phrases.slice(0, 12).map((phrase) => (
+              <li key={phrase.key}>
+                <span className={styles.saidPhrase} lang={langCodeFor(phrase.courseSlug)}>
+                  {phrase.answer}
+                </span>
+                <span className={styles.saidGloss}>{phrase.scenario}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
 
       <section aria-labelledby="you-stats-title">
-        <h2 id="you-stats-title">Fun stats</h2>
+        <h2 id="you-stats-title">Where you are</h2>
         <dl className={styles.metrics}>
           <div>
-            <dt className={styles.metricLabel}>Total XP</dt>
-            <dd>{progress.xp} XP</dd>
-          </div>
-          <div>
-            <dt className={styles.metricLabel}>Practice flow</dt>
-            <dd>
-              <p>{progress.practiceFlowDays}-day practice flow</p>
-            </dd>
-          </div>
-          <div>
-            <dt className={styles.metricLabel}>Streak</dt>
+            <dt className={styles.metricLabel}>Days practised</dt>
             <dd>
               <p>
-                {progress.streakDays === 0
-                  ? 'No streak yet — finish a session to start one.'
-                  : `${progress.streakDays}-day streak`}
+                {daysPractised === 0
+                  ? 'None yet — today is a good first day.'
+                  : `${daysPractised} ${daysPractised === 1 ? 'day' : 'days'}`}
               </p>
             </dd>
           </div>
           <div>
-            <dt className={styles.metricLabel}>Review queue</dt>
+            <dt className={styles.metricLabel}>Waiting for review</dt>
             <dd>
               <p>
                 {progress.dueReviewCount === 0
@@ -120,7 +167,7 @@ export function YouProfile() {
             </dd>
           </div>
           <div>
-            <dt className={styles.metricLabel}>Daily goal</dt>
+            <dt className={styles.metricLabel}>Today</dt>
             <dd>
               <p>
                 {progress.dailyGoal.completed} of {progress.dailyGoal.target} daily steps
@@ -136,15 +183,20 @@ export function YouProfile() {
           {progress.courses.map((course) => (
             <li key={course.slug}>
               <span>{course.title}</span>
-              <span>{course.completionPercent}% complete</span>
+              <span className={styles.courseListProgress}>{course.completionPercent}% complete</span>
             </li>
           ))}
         </ul>
+        <p className={styles.sectionNote}>
+          <Link href="/courses">Browse all courses</Link>
+        </p>
       </section>
 
       <section aria-labelledby="you-a11y-title">
-        <h2 id="you-a11y-title">Accessibility</h2>
-        <p className={styles.sectionNote}>Saved only in this browser.</p>
+        <h2 id="you-a11y-title">Comfort</h2>
+        <p className={styles.sectionNote}>
+          Saved only in this browser, and applied everywhere in the app.
+        </p>
         <label className={styles.toggle}>
           <input
             type="checkbox"
@@ -167,14 +219,19 @@ export function YouProfile() {
         <h2 id="you-account-title">Account</h2>
         {isPreview ? (
           <>
-            <p>Your practice stays in this browser.</p>
+            <p className={styles.sectionNote}>
+              What you practise here stays in this browser. Sign in to keep it on an account, so it
+              follows you to another device.
+            </p>
             <Link className={styles.primaryAction} href="/login">
-              Save your progress
+              Keep this on my account
             </Link>
           </>
         ) : (
           <>
-            <p>Your progress is saved to your account and follows you across devices.</p>
+            <p className={styles.sectionNote}>
+              Your progress is saved to your account and follows you across devices.
+            </p>
             <button className={styles.primaryAction} type="button" onClick={signOut}>
               Sign out
             </button>

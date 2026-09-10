@@ -32,7 +32,27 @@ describe('foundation entry', () => {
     render(<CourseWorkspace environment={environment(events)} startNextLesson />);
     expect(await screen.findByRole('button', { name: 'Begin practice' })).toBeEnabled();
     expect(screen.getByRole('heading', { name: 'Names and introductions' })).toBeVisible();
-    expect(screen.getByText(/1\/25 lessons practised/)).toBeVisible();
+    // `?start=1` opens the lesson in the lesson shell, so the way out is the
+    // only navigation on the page. It used to scroll into a 3,000px course page
+    // and leave the learner below the chrome with no sticky context.
+    expect(screen.getByRole('button', { name: /Back to the course/ })).toBeVisible();
+    expect(screen.queryByRole('navigation', { name: 'Course path' })).toBeNull();
+  });
+
+  it('states progress and storage scope in one line, not two sentences', async () => {
+    const events = pack.lessons[0].exercises.filter(e => !pack.lessons[0].optionalExerciseIds.includes(e.id)).map((e, i) => ({
+      id: `saved-${i}`, packId: pack.id, version: pack.version, exerciseId: e.id,
+      at: '2026-09-06T12:00:00.000Z', correct: true, revealed: false,
+    }));
+    render(<CourseWorkspace environment={environment(events)} initialLanguage="french" />);
+    // Was: "N practice results on this device · N/25 lessons practised
+    // successfully. Device practice is separate from account progress." — two
+    // sentences about which layer holds your progress, above the course path.
+    const line = await screen.findByText((_, element) =>
+      element?.tagName === 'P' && /1 of 25 lessons practised/.test(element.textContent ?? ''),
+    );
+    expect(line).toHaveTextContent('kept in this browser');
+    expect(screen.queryByRole('navigation', { name: 'Course path' })).toBeInTheDocument();
   });
 
   it('does not report offline readiness before the download commits', async () => {

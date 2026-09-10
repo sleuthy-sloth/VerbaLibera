@@ -1,8 +1,8 @@
-/* Floating Liquid Glass tab bar (mobile only, <768px).
- * A detached frosted capsule: translucent surface, backdrop blur + saturate,
- * hairline edge with an inner top highlight, soft drop shadow. The active
- * tab is a tinted pill; inactive tabs are quiet ink. Behavior is unchanged:
- * fixed, four equal tabs, hidden on desktop where the header owns nav. */
+/* Floating tab bar (mobile only, <768px).
+ * Warm Studio: a detached capsule of solid stock with a cut ink edge and a
+ * hard paper offset. The active tab is a primary-soft pill; inactive tabs are
+ * muted ink. Behaviour is unchanged: fixed, four equal tabs, hidden on desktop
+ * where the header owns navigation. */
 .tabs {
   position: fixed;
   right: 12px;
@@ -11,14 +11,10 @@
   z-index: 40;
   display: flex;
   padding: 6px;
-  border: 1px solid var(--glass-edge);
+  border: 1.5px solid var(--edge);
   border-radius: 24px;
-  background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  box-shadow:
-    var(--glass-highlight),
-    var(--glass-shadow);
+  background: var(--stock);
+  box-shadow: var(--lift);
 }
 
 .tab {
@@ -29,7 +25,7 @@
   justify-content: center;
   padding: 0.6rem 0.25rem;
   border-radius: 18px;
-  color: color-mix(in srgb, var(--ink) 62%, transparent);
+  color: var(--muted-foreground);
   font: 700 0.78rem/1.2 var(--font-utility);
   letter-spacing: 0.04em;
   text-decoration: none;
@@ -44,21 +40,12 @@
 .tab[data-active] {
   background: var(--accent-soft);
   color: var(--accent-strong);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, #ffffff 60%, transparent);
+  box-shadow: var(--lift-sm);
 }
 
 @media (min-width: 768px) {
   .tabs {
     display: none;
-  }
-}
-
-/* Opaque fallback for users who ask the OS to reduce transparency. */
-@media (prefers-reduced-transparency: reduce) {
-  .tabs {
-    background: var(--surface);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
   }
 }
 

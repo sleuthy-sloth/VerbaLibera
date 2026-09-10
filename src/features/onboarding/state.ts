@@ -2,7 +2,7 @@
 
 import type { CourseFixture } from '@/features/curriculum/types';
 import { initialCourses } from '@/features/curriculum/fixture';
-import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
+import { foundationStartHref } from '@/features/course-pack/navigation';
 
 export type OnboardingStatus = 'unseen' | 'welcome-in-progress' | 'completed';
 export type EntryIntent = 'beginner' | 'placement';

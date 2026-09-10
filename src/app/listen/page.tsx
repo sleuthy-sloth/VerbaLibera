@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import catalog from "@/features/course-pack/catalog.json";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
-import { trackForLesson } from "@/features/listen/tracks";
+import { tracksForCourse, type ListenTrack } from "@/features/listen/tracks";
 import { listenedAt } from "@/features/listen/listened";
 import { ListenPlayer } from "@/components/listen/ListenPlayer";
 import styles from "./listen.module.css";
@@ -10,8 +10,12 @@ import styles from "./listen.module.css";
 type LessonRow = { id: string; title: string };
 const COURSE_KEY = "verbalibera_listen_course";
 
-// Audio-only path: pick a lesson, press play, put the phone away. Lessons
-// without a track yet say so honestly instead of showing a dead player.
+// Audio-only path: pick a lesson, press play, put the phone away.
+//
+// This page used to list every lesson in the pack and mark all but one
+// "Audio being authored" — twenty-four rows of unavailability in a row. It now
+// lists what actually exists to listen to, and says once, honestly, that more
+// is coming.
 export default function ListenPage() {
   const [course, setCourse] = useState("french");
   const [lessons, setLessons] = useState<LessonRow[]>([]);
@@ -19,16 +23,16 @@ export default function ListenPage() {
   const [error, setError] = useState("");
   useEffect(() => {
     const timer = setTimeout(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const saved = window.localStorage.getItem(COURSE_KEY);
-      const initial = params.get("course") ?? saved ?? "french";
-      if (catalog.some((c) => c.slug === initial)) setCourse(initial);
-      const lesson = params.get("lesson") ?? "";
-      if (lesson) setSelected(lesson);
-    } catch {
-      // Defaults stand.
-    }
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const saved = window.localStorage.getItem(COURSE_KEY);
+        const initial = params.get("course") ?? saved ?? "french";
+        if (catalog.some((c) => c.slug === initial)) setCourse(initial);
+        const lesson = params.get("lesson") ?? "";
+        if (lesson) setSelected(lesson);
+      } catch {
+        // Defaults stand.
+      }
     }, 0);
     return () => clearTimeout(timer);
   }, []);
@@ -39,11 +43,11 @@ export default function ListenPage() {
         if (!r.ok) throw new Error("Course pack is not downloaded yet.");
         return r.json();
       })
-      .then(normalizePack)
-      .then((pack) => {
+      .then((pack) => (normalizePack(pack) as { lessons: LessonRow[] }).lessons)
+      .then((rows) => {
         if (!active) return;
         setError("");
-        setLessons(pack.lessons.map((l) => ({ id: l.id, title: l.title })));
+        setLessons(rows.map((l) => ({ id: l.id, title: l.title })));
         try {
           window.localStorage.setItem(COURSE_KEY, course);
         } catch {}
@@ -58,17 +62,30 @@ export default function ListenPage() {
       active = false;
     };
   }, [course]);
-  const track = selected ? trackForLesson(selected) : undefined;
+  const track = selected ? tracksForCourse(course).find((t) => t.lessonId === selected) : undefined;
   const courseTitle = catalog.find((c) => c.slug === course)?.title ?? course;
   const lessonTitle = lessons.find((l) => l.id === selected)?.title;
+
+  // Only lessons that actually have a track, newest-shaped first.
+  const available = useMemo(() => {
+    const titles = new Map(lessons.map((l) => [l.id, l.title]));
+    return tracksForCourse(course)
+      // Wait for the pack so every button carries the lesson's own title. The
+      // track's internal label ("French Identity Foundations") is not what the
+      // learner saw in the course, and rendering it first meant a button
+      // appeared under the wrong name before the pack resolved.
+      .filter((t: ListenTrack) => titles.has(t.lessonId))
+      .map((t: ListenTrack) => ({ ...t, title: titles.get(t.lessonId)! }));
+  }, [lessons, course]);
+  const missingCount = Math.max(0, lessons.length - available.length);
+
   return (
     <main id="main-content" className={styles.page}>
-      <p className={styles.eyebrow}>VerbaLibera · audio lessons</p>
+      <p className={styles.eyebrow}>Audio lessons</p>
       <h1>Listen</h1>
       <p className={styles.lede}>
-        A teacher guides each lesson by ear: predict answers aloud, then hear
-        the reveal. Save a recording with its “Save audio” link to listen
-        offline in your audio player, or press play here while connected.
+        A teacher talks you through each lesson by ear. Predict each answer out loud before the
+        reveal — no typing, no scoring. Around ten minutes each.
       </p>
       <label className={styles.label}>
         Course
@@ -81,26 +98,42 @@ export default function ListenPage() {
       {error ? <p role="alert">{error}</p> : null}
       {track ? (
         <>
-          <button onClick={() => setSelected("")} className={styles.back}>← All audio lessons</button>
+          <button onClick={() => setSelected("")} className={styles.back}>
+            <span aria-hidden="true">←</span> All audio lessons
+          </button>
           <ListenPlayer track={track} courseTitle={courseTitle} lessonTitle={lessonTitle} />
         </>
+      ) : available.length === 0 ? (
+        <p className={styles.empty}>
+          {courseTitle} has no recorded lesson yet. The written course is ready — see the{" "}
+          <a href={`/courses/${course}`}>{courseTitle.replace(/ foundations$/, "")} course</a>.
+        </p>
       ) : (
-        <ol className={styles.list}>
-          {lessons.map((l) => {
-            const has = !!trackForLesson(l.id);
-            const heard = listenedAt(l.id);
-            return (
-              <li key={l.id}>
-                {has ? (
-                  <button onClick={() => setSelected(l.id)}>{l.title}</button>
-                ) : (
-                  <span>{l.title}</span>
-                )}
-                <span>{has ? (heard ? "Listened" : trackForLesson(l.id)?.reviewPending ? "Preview" : "Ready") : "Audio being authored"}</span>
-              </li>
-            );
-          })}
-        </ol>
+        <>
+          <ol className={styles.list}>
+            {available.map((t) => {
+              const heard = listenedAt(t.lessonId);
+              return (
+                <li key={t.lessonId}>
+                  {/* The button's accessible name is the lesson title alone —
+                      metadata belongs beside a control, not inside its name. */}
+                  <button onClick={() => setSelected(t.lessonId)}>{t.title}</button>
+                  <span className={styles.itemMeta}>
+                    {Math.round(t.durationS / 60)} min
+                    {t.reviewPending ? " · pronunciation check pending" : ""} ·{" "}
+                    <span className={styles.itemState}>{heard ? "Listened" : "New"}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+          {missingCount > 0 ? (
+            <p className={styles.note}>
+              {missingCount} more {missingCount === 1 ? "lesson is" : "lessons are"} being recorded.
+              They appear here as they land.
+            </p>
+          ) : null}
+        </>
       )}
     </main>
   );

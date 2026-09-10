@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'A calm daily practice path for practical language patterns.',
     start_url: '/dashboard',
     display: 'standalone',
-    background_color: '#f4f3ee',
-    theme_color: '#f4f3ee',
+    background_color: '#fbf4e6',
+    theme_color: '#fbf4e6',
     shortcuts: [
       { name: 'Today', url: '/dashboard' },
       { name: 'Start learning', url: '/courses/french?start=1' },

@@ -14,7 +14,7 @@ const privacy = [
 export function StudyFeatures() {
   return <>
     <section className={s.section} id="offline" aria-labelledby="offline-heading"><div className={`${s.container} ${s.offlineLayout}`}>
-      <div className={s.phones} aria-label="Illustration of downloaded foundation lessons">
+      <div className={s.phones} role="group" aria-label="Illustration of downloaded foundation lessons">
         <div className={s.phone}><div className={s.phoneStatus}><span>● Connected</span><span>Ready</span></div><div className={s.phoneScreen}><h3 lang="fr">Je suis Anna.</h3><p className={s.meta}>French foundations</p><div className={s.progressLine} /><p className={s.phoneChip}><strong>Pattern</strong><span lang="fr">Je suis</span> + name · audio ready</p></div></div>
         <div className={s.phone}><div className={s.phoneStatus}><span>Offline</span><span aria-hidden="true">▬▬▬</span></div><div className={s.phoneScreen}><h3>Lessons available offline</h3><p className={s.meta}>Downloaded · French</p><div className={s.progressLine} /><p className={s.phoneChip}><strong>Still here</strong>Patterns, audio &amp; drills — no signal.</p></div></div>
       </div>
