@@ -92,6 +92,21 @@ jobs:
       - name: Stage Next server
         run: npm run desktop:stage-next
 
+      # The installed electron package declares NO scripts field, so there is no
+      # postinstall and `npm ci` never downloads the binary. It is present on a
+      # dev machine from an earlier install (307MB under node_modules/electron/
+      # dist), which is why this only ever failed on a clean runner:
+      #   electron.launch: spawn .../node_modules/electron/dist/Electron.app/
+      #   Contents/MacOS/Electron ENOENT
+      # Fetch it explicitly rather than trusting a postinstall that is not there.
+      - name: Ensure Electron binary
+        run: |
+          if [ ! -x "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron" ]; then
+            echo "Electron binary missing; running the package's installer."
+            node node_modules/electron/install.js
+          fi
+          test -x "node_modules/electron/dist/Electron.app/Contents/MacOS/Electron"
+
       - name: Electron end-to-end (first run and recovery)
         run: npx playwright test --config playwright.electron.config.ts
 
