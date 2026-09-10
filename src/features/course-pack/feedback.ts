@@ -27,6 +27,18 @@ const APPROVED = [
   "Got it.",
 ] as const;
 
+/**
+ * Accepted with one thing to correct. Leads with the meaning the learner got,
+ * because they did get it: a slipped letter or a missing accent is a typography
+ * problem, not a knowledge problem, and the answer still counts.
+ */
+const ACCEPTED_WITH_FIX = [
+  "That's the meaning — one detail to tidy.",
+  "Right idea. Here's the exact form.",
+  "You had it. Small fix below.",
+  "Correct in substance — see the form.",
+] as const;
+
 /** Kinds where the learner produced language rather than picked it. */
 const PRODUCTIVE: ReadonlySet<Exercise["kind"]> = new Set([
   "think",
@@ -97,9 +109,20 @@ export function feedbackFor(result: Evaluation, exercise: Exercise): Feedback {
     const headline = pick(exercise.id, APPROVED);
     if (result.category === "correct with typo")
       return {
-        headline,
+        headline: pick(exercise.id, ACCEPTED_WITH_FIX),
         detail:
           "You had the meaning — a letter slipped. Fix the spelling in your head, then say it.",
+        showModel: true,
+      };
+    // The learner produced the right word and the writing system got in the
+    // way. Named explicitly, because "the accents are off" is the one piece of
+    // feedback a beginner cannot infer from the model alone.
+    if (result.category === "accent/diacritic issue")
+      return {
+        headline: pick(exercise.id, ACCEPTED_WITH_FIX),
+        detail: result.correction
+          ? `Right word. The written form carries an accent: ${result.correction}`
+          : "Right word. Check where the accents fall in the model.",
         showModel: true,
       };
     if (result.category === "acceptable alternative")

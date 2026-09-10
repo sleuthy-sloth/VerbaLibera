@@ -37,9 +37,9 @@ The daily path, showing what is next and what needs review:
 
 ## Course structure
 
-French and Italian have full structured A1 foundations at 25 lessons each. German, Portuguese, and Spanish open with four lessons covering introductions, ordering, and numbers.
+French and Italian have full structured A1 foundations at 25 lessons each. German, Portuguese, and Spanish run to eight lessons each, from first words through directions, prices, days and family.
 
-Each lesson runs one loop: explanation and worked examples, a zero-recall word choice, sentence building, then listening.
+Lessons open the same way, with a zero-recall word choice, and then take different routes: sentence building, changing a sentence's shape, filling a blank, reading a short passage, or listening.
 
 ### Listen tracks
 
@@ -90,6 +90,7 @@ Privacy: no learner audio is stored by default. The voice route returns only a t
 ## Known limits
 
 - Partial A1 only. No B1 content yet.
+- The French and Italian courses still repeat one lesson shape. 22 of the 25 French lessons use the same sequence of exercise types. The smaller courses were rebuilt for variety; these two have not been yet.
 - Foundation lessons are machine-authored and consistency-checked. Native-speaker review is still open, and the audio player says so.
 - Placement is a rough starting suggestion, not a CEFR certification.
 - Physical iPhone testing (Add to Home Screen, offline relaunch, background and foreground) is still open.

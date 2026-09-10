@@ -17,7 +17,7 @@ export function WelcomeFlow({
   const [selected, setSelected] = useState<string | null>(null);
   const languages: OnboardingLanguage[] = courses.map((course) => {
     const language = course.slug.replace(/^english-to-/, '');
-    const flagByLang: Record<string, string> = { french: '🇫🇷', italian: '🇮🇹', spanish: '🇪🇸', portuguese: '🇵🇹' };
+    const flagByLang: Record<string, string> = { french: '🇫🇷', italian: '🇮🇹', spanish: '🇪🇸', portuguese: '🇵🇹', german: '🇩🇪' };
     const isStructuredA1 = language === 'french' || language === 'italian';
     return {
       slug: course.slug,

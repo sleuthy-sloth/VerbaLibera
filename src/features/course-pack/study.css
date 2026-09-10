@@ -79,6 +79,11 @@
   color: var(--ink);
   border-radius: 999px;
   box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
+  /* Paper moves by its shadow, not by a fading in and out. Both properties
+   * transition so the shape and its shadow stay welded together. */
+  transition: transform var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)),
+    box-shadow var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)),
+    border-color var(--motion-fast, 110ms) linear;
 }
 .study button {
   cursor: pointer;
@@ -100,6 +105,20 @@
   background: var(--accent, #a8511f);
   color: var(--stock, #fffdf7); border: 1.5px solid var(--edge, #2f2a24);
   box-shadow: var(--lift-sm, 2px 2px 0 #2f2a24);
+}
+/* Reaching for a control lifts it off the page; pressing it settles it flat.
+ * These sit AFTER .study-primary on purpose: the accent button carries a dark
+ * shadow, and a generic hover rule placed earlier would repaint it soft. */
+.study button:not(:disabled):hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--lift, 4px 4px 0 var(--edge-soft, #e0d3ba));
+}
+.study button:not(:disabled):active {
+  transform: translate(1px, 1px);
+  box-shadow: 0 0 0 transparent;
+}
+.study .study-primary:not(:disabled):hover {
+  box-shadow: var(--lift, 4px 4px 0 var(--edge, #2f2a24));
 }
 .study-header,
 .study-actions {
@@ -300,12 +319,26 @@
 .study dd {
   margin: 0;
 }
+/* The verdict arrives as a stamp rather than materialising: a short settle
+ * downward into place, which is the same paper idea as the press. It uses the
+ * slow duration because it is an entrance, not a reaction to the pointer. */
+@keyframes feedbackStamp {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.988);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 .study-feedback {
   padding: 20px 24px;
   margin: 24px 0;
   background: var(--stock, #fffdf7); border: 1.5px solid var(--edge, #2f2a24);
   border-radius: var(--radius-hand, 22px 24px 20px 26px);
   box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
+  animation: feedbackStamp var(--motion-slow, 340ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)) both;
 }
 .study-feedback strong {
   /* Headlines are authored sentences now ("That's it."), not grader slugs.
@@ -498,8 +531,9 @@ body:has(#study-root) {
 .study .practice-panel { border-top: 3px solid var(--accent); padding-top: 12px; }
 .study .practice-panel h2 { max-width: 32ch; }
 .study .practice-panel fieldset { border: 0; padding: 0; }
-.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 15px 17px; border: 1.5px solid var(--edge-soft, #e0d3ba); border-radius: var(--radius-control, 16px); background: var(--stock, #fffdf7); cursor: pointer; box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba); transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 15px 17px; border: 1.5px solid var(--edge-soft, #e0d3ba); border-radius: var(--radius-control, 16px); background: var(--stock, #fffdf7); cursor: pointer; box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba); transition: transform var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)), box-shadow var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)), border-color var(--motion-fast, 110ms) linear; }
 .study .study-choice:hover { transform: translate(-1px, -1px); box-shadow: var(--lift, 4px 4px 0 var(--edge-soft, #e0d3ba)); }
+.study .study-choice:active { transform: translate(1px, 1px); box-shadow: 0 0 0 transparent; }
 .study .study-choice:has(:checked) { border-color: var(--edge, #2f2a24); background: var(--accent-soft, #f6e3cd); box-shadow: var(--lift-sm, 2px 2px 0 #2f2a24); }
 .study .study-choice input { margin: 0; accent-color: var(--accent); }
 .study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: var(--stock-2, #fdf7ea); border: 1.5px solid var(--edge, #2f2a24); border-bottom: 2px solid var(--edge, #2f2a24); border-radius: var(--radius-hand, 22px 24px 20px 26px); }

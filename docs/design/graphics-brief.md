@@ -17,7 +17,7 @@ things to know before you start are in **Read this first**.
 | Logo Mark | 1024×1024 | ✅ open book + speech bubble, monoline, no text — in `public/brand/` |
 | Logo Lockup | 1792×592 | ✅ symbol only, left, 90% empty right — wordmark still goes on in code |
 | App Icon | 1024×1024 | ✅ drove the 512/192/maskable icons, apple-touch 180 and the RGBA favicon |
-| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — one set, quiet left third, no baked text |
+| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — one set, no baked text, full-width composition (no reserved zone; see § 2) |
 | Hero Banner | 1584×672 | ✅ dashboard artwork |
 | Empty Journal | 1024×1024 | ✅ journal + seedling from the spine, blank pages |
 | Social Card | 1200×630 | ✅ 16:9 cropped to the OG ratio; text verified verbatim |
@@ -184,12 +184,23 @@ top — never let the model draw them.
 ## 2. Course banner template
 
 Five exist now — `public/brand/courses/{french,italian,spanish,portuguese,german}.jpg`,
-all 2064×512. German was missing and is not wired into the lesson view yet; see
-*Wiring the German banner* below.
+all 2064×512.
 
-The banner is a *background band*, not a poster: it sits behind the lesson title,
-so keep the left third quiet and put no faces or fine detail in the middle.
-Generate one per language by swapping the last line.
+**No zone is reserved for a title, and no title is overlaid on any banner.** An
+earlier version of this brief reserved the left third "because a title sits
+there". That overlay was never built: on the course page the course name is a
+heading ABOVE the banner, and on the landing cards it sits BELOW the art. Worse,
+the five shipped banners do not deliver the reservation anyway — measured with
+`scripts/brand/quiet-zone-audit.py`, they leave **19-31%** quiet on the left, a
+fifth to a quarter rather than a third, so a title dropped in "the left third"
+would land on artwork.
+
+So: **compose across the full width.** The banner is a decorative band beneath a
+heading that already names the course, and reserving space nothing consumes only
+costs composition. Re-introduce a quiet zone only when a title is genuinely going
+on top of the art, and then state it as a measurable requirement ("keep the left
+33% free of artwork, cream ground only") and verify with the audit script rather
+than trusting the render. Generate one per language by swapping the subject line.
 
 ```
 [STYLE BLOCK]
@@ -198,9 +209,8 @@ A wide horizontal illustrated frieze, like the cover band of a 1960s language
 textbook. Subject: a quiet street scene in Paris — a cafe terrace with two empty
 chairs and a small round table, a zinc bar counter visible through a window, a
 bicycle leaning on a wall, a plane tree, chimney pots on a roofline. Drawn as
-simple flat vector shapes, wide and calm, arranged along the middle band of the
-image. The left third is almost empty — just cream ground and a single roofline —
-because a title sits there.
+simple flat vector shapes, wide and calm, filling the full width of the frame
+from left to right along the middle band.
 
 Palette: cream #fbf4e6 ground, shapes in #2f2a24, #e0d3ba, #6b5f4b and
 terracotta #a8511f as the one accent (the cafe awning). Muted sage green #2f6b3f
@@ -318,6 +328,96 @@ Flat solid #fbf4e6 background, edge to edge, no border, no shadow, no people.
 ```
 
 ---
+
+## Framing: how much of its box the drawing actually uses
+
+A generated illustration arrives with uneven baked-in cream. Inside a bordered
+layout box that reads as a small mark floating in dead space, which is what
+"tossed in" looks like. `scripts/brand/frame-audit.py` measures it: for each
+asset, the drawing's bounding box as a share of the frame and the margin on all
+four sides.
+
+Measured on the shipped set:
+
+| asset | art fills | margins L/R/T/B |
+|---|---|---|
+| logo-mark | 64% × 41% | 18 / 18 / 30 / 30 |
+| logo-lockup | 15% × 34% | 9 / 76 / 33 / 33 (correct: the wordmark goes in the right side) |
+| hero-banner | 48% × 68% | 26 / 26 / 17 / 16 |
+| empty-journal | 73% × 61% | 17 / 9 / 15 / **24** |
+| courses/french | 79% × 90% | 19 / 2 / 7 / 3 |
+
+`scripts/brand/tighten-frame.py --margin 0.06 <files>` fixes them: it finds the
+drawing, centres it in a crop of the SAME aspect ratio (so no declared
+width/height has to change anywhere), and scales back to the original pixel
+size. Re-snaps the ground afterwards, because rescaling resamples flat cream.
+
+Applied to `empty-journal` (74%×61% → 88%×72%, margins even at 6/6/14/14),
+`hero-banner` (48%×68% → 62%×87%) and `logo-mark` (64%×41% → 88%×56%).
+
+Do not apply it to the course banners: their art already fills 87-93% of the
+height, so the same-aspect crop cannot be any smaller than the frame and the
+script correctly leaves them alone.
+
+**Check the logo change in place before reverting it.** The mark looked fine at
+64% of its tile and only when rendered next to the Fraunces wordmark did it read
+as undersized, a footnote to the type rather than a lockup. An A/B of the real
+header settled it; the measurements alone would not have.
+
+**Next's dev image cache is `.next/dev/cache/images`, not `.next/cache/images`.**
+Replacing a file in `public/` and re-capturing screenshots without clearing that
+directory silently serves the OLD optimised image, so the new screenshots come
+out byte-identical to the old ones. Check `git status` for the screenshots you
+expect to have changed; identical hashes after an asset swap mean the cache, not
+a no-op.
+
+## The German banner
+
+The generated German banner was the one asset that did not work, and it needed a
+re-frame rather than a crop of the excess margin:
+
+- **36% empty cream on the left** against 19-31% on the other four.
+- The scene **ran off the right edge through a distinct building** rather than
+  ending on it. This is not the same as the Italian banner, which also reaches
+  the right edge: Italian's crop falls on a flat continuing façade, so it reads
+  as a scene continuing past the frame. German's cut through a half-timbered
+  house with a strong silhouette, roof, framing and window, which reads as an
+  error.
+
+Column analysis found the complete part of the scene ends just past the tree
+(x≈1890), with a different building starting at x≈1899 and running to the frame.
+Cropping there removes the sliced building.
+
+The re-frame centres the complete 1160px scene: 22% cream each side, no art in
+either outermost column, and the left void down from 36% to 22%. The trade-off,
+recorded honestly: the other four bleed to the right edge and this one does not,
+so it reads as a framed vignette beside four friezes. Matching the set exactly
+needs the art regenerated wider, which is a generation job, not a crop:
+
+```
+[STYLE BLOCK]
+
+A wide horizontal frieze of a German town square, drawn as simple flat vector
+shapes arranged evenly ACROSS THE FULL WIDTH of the frame. From left to right:
+a single low stone fountain, a bare beech tree, a modest two-storey
+half-timbered house with a plain painted sign board and no lettering, and a
+distant gabled roofline. Keep to four or five objects in total.
+
+Critically: the scene ENDS well inside the frame. Every building and tree is
+completely contained, with plain cream on both the left and right sides. No
+object may touch, cross, or be cut by any edge of the image.
+
+No title is overlaid on this banner, so there is no zone to reserve. The
+containment above exists to stop the scene being sliced by the frame edge, not
+to leave room for type.
+
+Palette: #fbf4e6 ground; shapes in #2f2a24, #e0d3ba, #6b5f4b; terracotta #a8511f
+as the one accent; muted sage #2f6b3f for the tree only.
+
+Flat solid #fbf4e6 background, edge to edge, no border, no text, no lettering.
+
+4:1 aspect ratio (very wide, 2064x512), 2K output.
+```
 
 ## 7. Vocabulary images (32 files, `public/images/vocab/*.jpg`)
 

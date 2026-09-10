@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "es-foundations",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "language": "es",
   "status": "active",
   "title": "Spanish foundations",
@@ -18,13 +18,23 @@
       "id": "es-unit-2",
       "title": "Getting around",
       "objective": "Understand prices and quantities in everyday errands."
+    },
+    {
+      "id": "es-unit-3",
+      "title": "Finding your way",
+      "objective": "Ask where things are and follow spoken directions."
+    },
+    {
+      "id": "es-unit-4",
+      "title": "Everyday life",
+      "objective": "Talk about days, times, and the people around you."
     }
   ],
   "concepts": [
     {
       "id": "es-first-words-concept",
       "title": "First words and greetings",
-      "explanation": "Spanish grew from Latin in Iberia, and thousands of everyday words came into both Spanish and English from Latin — nación, información, restaurante, café. You can already recognize them before you speak a word of Spanish. The words below are the first ones to say out loud: hola opens almost every conversation, gracias answers kindness, sí and no steer it.",
+      "explanation": "Spanish greets by the hour, and it greets in the plural even for a single morning: buenos días, buenas tardes. The habit worth starting on day one is that Spanish marks a question twice, with an upside-down question mark at the front and an ordinary one at the end, so you can see a question coming before you have read a word of it.",
       "examples": [
         {
           "target": "Hola.",
@@ -40,7 +50,7 @@
     {
       "id": "es-introductions-concept",
       "title": "Introducing yourself",
-      "explanation": "Me llamo introduces your name: Me llamo Ana. Soy means I am and can also introduce you: Soy Ana. To ask a peer their name, use ¿Cómo te llamas? Learn this as a complete question. Mucho gusto is a useful reply when meeting someone. Spanish marks a question at both ends: ¿ ... ?.",
+      "explanation": "Spanish says Me llamo Ana, literally 'I call myself Ana'; the verb llamarse carries a pronoun that points back at the speaker. Asking the same question of someone else changes that pronoun to te: ¿Cómo te llamas? Soy Ana is the plain alternative, built on 'to be'.",
       "examples": [
         {
           "target": "Me llamo Ana.",
@@ -60,7 +70,7 @@
     {
       "id": "es-cafe-requests-concept",
       "title": "Polite café requests",
-      "explanation": "Quisiera means I would like and makes a polite request. Learn it as a ready-to-use phrase: Quisiera un café, por favor. Both café and té take un here. Change only the drink to request tea. A shorter Un café, por favor is also useful; gracias closes the exchange.",
+      "explanation": "For a polite café request Spanish uses quisiera, 'I would like', instead of the blunter quiero: Quisiera un café, por favor. The article stays un for either drink, and café and té keep their accents.",
       "examples": [
         {
           "target": "Quisiera un café, por favor.",
@@ -80,9 +90,102 @@
     {
       "id": "es-numbers-quantities-concept",
       "title": "Numbers and quantities",
-      "explanation": "Spanish numbers are useful as chunks before you calculate with them. Learn one through ten in two short runs, then use cuánto cuesta to ask a price. One coffee costs one euro; two coffees cost two euros. Un changes to una before a feminine noun such as manzana.",
-      "examples": [{ "target": "Uno, dos, tres, cuatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }],
+      "explanation": "Spanish runs one to ten as ordinary digits, then glues the parts of a number together where English keeps them apart: dieciséis for sixteen, veintiuno for twenty-one. That gluing stops at thirty, where a separate y appears, treinta y uno. A number in front of a noun also has to agree with it: un café is one coffee, but una manzana is one apple.",
+      "examples": [
+        {
+          "target": "Uno, dos, tres, cuatro, cinco.",
+          "meaning": "One, two, three, four, five."
+        },
+        {
+          "target": "¿Cuánto cuesta un café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Dos manzanas, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
       "commonError": "Use cuánto for the price of one item. Keep una with manzana because it is feminine."
+    },
+    {
+      "id": "es-directions-concept",
+      "title": "Asking the way",
+      "explanation": "Spanish marks the asking word with a written accent: dónde asks 'where', while the same letters without it, donde, are not asking anything. The accent does not change how the word sounds; it tells you what the word is doing, and a direct question also opens with ¿ and closes with ?. Ask about a place with estar, ¿Dónde está la estación?, and learn the directions as chunks: todo recto, a la izquierda, a la derecha, with luego joining the second step to the first.",
+      "examples": [
+        {
+          "target": "¿Dónde está la estación?",
+          "meaning": "Where is the station?"
+        },
+        {
+          "target": "Todo recto, luego a la izquierda.",
+          "meaning": "Straight ahead, then to the left."
+        },
+        {
+          "target": "Perdone, ¿dónde está el baño?",
+          "meaning": "Excuse me, where is the bathroom?"
+        }
+      ],
+      "commonError": "Dónde asks where. Quién asks who and qué asks what. The accent on dónde marks the question and drops in the middle of a sentence."
+    },
+    {
+      "id": "es-shopping-concept",
+      "title": "Prices and paying",
+      "explanation": "A Spanish question wears two marks, an upside-down one at the front and an ordinary one at the end, so ¿Cuánto cuesta? announces itself before you read a word. Costar changes its stem under stress: cuesta for a single item, cuestan for several, and never costa. The bill is la cuenta, a feminine noun, and por favor is the politeness that travels with it.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta el café?",
+          "meaning": "How much does the coffee cost?"
+        },
+        {
+          "target": "Esto es muy caro.",
+          "meaning": "This is very expensive."
+        },
+        {
+          "target": "La cuenta, por favor.",
+          "meaning": "The bill, please."
+        }
+      ],
+      "commonError": "Spanish puts no before the verb, never after it. Cost is cuesta for one thing and cuestan for several."
+    },
+    {
+      "id": "es-time-days-concept",
+      "title": "Days and times",
+      "explanation": "Five Spanish weekdays are the old sky names — lunes (moon), martes (Mars), miércoles (Mercury), jueves (Jupiter), viernes (Venus) — while sábado and domingo come from the Sabbath and the Lord’s day. They are masculine and lower-case, and the article el carries the meaning of ‘on’: el lunes. Mañana is tomorrow; la mañana is the morning.",
+      "examples": [
+        {
+          "target": "Hoy es miércoles.",
+          "meaning": "Today is Wednesday."
+        },
+        {
+          "target": "El lunes trabajo.",
+          "meaning": "On Monday I work."
+        },
+        {
+          "target": "Mañana es jueves.",
+          "meaning": "Tomorrow is Thursday."
+        }
+      ],
+      "commonError": "Mañana is both tomorrow and morning. La mañana is the morning; mañana alone in a schedule usually means tomorrow."
+    },
+    {
+      "id": "es-family-people-concept",
+      "title": "Family and people",
+      "explanation": "Spanish shows a noun's gender in its article — el hermano, la hermana — and hides an irregular verb under the simplest sentence: yo tengo, never yo tene. The possessive mi does not change with who is speaking; it changes with how many people are being counted, so mi hermana is one sister and mis hermanas is two, whoever the speaker is.",
+      "examples": [
+        {
+          "target": "Tengo un hermano.",
+          "meaning": "I have a brother."
+        },
+        {
+          "target": "Tengo una hermana.",
+          "meaning": "I have a sister."
+        },
+        {
+          "target": "Mis padres viven en Madrid.",
+          "meaning": "My parents live in Madrid."
+        }
+      ],
+      "commonError": "Tengo, not tene. Tener is irregular in the I form and it is the form you use most when talking about family."
     }
   ],
   "vocabulary": [
@@ -184,10 +287,146 @@
       "partOfSpeech": "word or expression",
       "example": "Un café, por favor."
     },
-    { "id": "es-numbers-quantities-word-1", "word": "uno, dos, tres, cuatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Uno, dos, tres, cuatro, cinco." },
-    { "id": "es-numbers-quantities-word-2", "word": "seis, siete, ocho, nueve, diez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, siete, ocho, nueve, diez." },
-    { "id": "es-numbers-quantities-word-3", "word": "¿Cuánto cuesta?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "¿Cuánto cuesta un café?" },
-    { "id": "es-numbers-quantities-word-4", "word": "una manzana", "meaning": "one apple", "partOfSpeech": "noun phrase", "example": "Una manzana, por favor." }
+    {
+      "id": "es-numbers-quantities-word-1",
+      "word": "uno, dos, tres, cuatro, cinco",
+      "meaning": "one through five",
+      "partOfSpeech": "number phrase",
+      "example": "Uno, dos, tres, cuatro, cinco."
+    },
+    {
+      "id": "es-numbers-quantities-word-2",
+      "word": "seis, siete, ocho, nueve, diez",
+      "meaning": "six through ten",
+      "partOfSpeech": "number phrase",
+      "example": "Seis, siete, ocho, nueve, diez."
+    },
+    {
+      "id": "es-numbers-quantities-word-3",
+      "word": "¿Cuánto cuesta?",
+      "meaning": "how much does it cost?",
+      "partOfSpeech": "question",
+      "example": "¿Cuánto cuesta un café?"
+    },
+    {
+      "id": "es-numbers-quantities-word-4",
+      "word": "una manzana",
+      "meaning": "one apple",
+      "partOfSpeech": "noun phrase",
+      "example": "Una manzana, por favor."
+    },
+    {
+      "id": "es-directions-word-1",
+      "word": "dónde",
+      "meaning": "where",
+      "partOfSpeech": "word or expression",
+      "example": "¿Dónde está la estación?"
+    },
+    {
+      "id": "es-directions-word-2",
+      "word": "a la izquierda",
+      "meaning": "to the left",
+      "partOfSpeech": "word or expression",
+      "example": "Todo recto, luego a la izquierda."
+    },
+    {
+      "id": "es-directions-word-3",
+      "word": "a la derecha",
+      "meaning": "to the right",
+      "partOfSpeech": "word or expression",
+      "example": "Luego a la derecha."
+    },
+    {
+      "id": "es-directions-word-4",
+      "word": "todo recto",
+      "meaning": "straight ahead",
+      "partOfSpeech": "word or expression",
+      "example": "Todo recto, luego a la izquierda."
+    },
+    {
+      "id": "es-shopping-word-1",
+      "word": "¿Cuánto cuesta?",
+      "meaning": "How much does it cost?",
+      "partOfSpeech": "word or expression",
+      "example": "¿Cuánto cuesta el café?"
+    },
+    {
+      "id": "es-shopping-word-2",
+      "word": "caro",
+      "meaning": "expensive",
+      "partOfSpeech": "word or expression",
+      "example": "Esto es muy caro."
+    },
+    {
+      "id": "es-shopping-word-3",
+      "word": "barato",
+      "meaning": "inexpensive",
+      "partOfSpeech": "word or expression",
+      "example": "El café es barato."
+    },
+    {
+      "id": "es-shopping-word-4",
+      "word": "la cuenta",
+      "meaning": "the bill",
+      "partOfSpeech": "word or expression",
+      "example": "La cuenta, por favor."
+    },
+    {
+      "id": "es-time-days-word-1",
+      "word": "hoy",
+      "meaning": "today",
+      "partOfSpeech": "word or expression",
+      "example": "Hoy es miércoles."
+    },
+    {
+      "id": "es-time-days-word-2",
+      "word": "mañana",
+      "meaning": "tomorrow",
+      "partOfSpeech": "word or expression",
+      "example": "Mañana es jueves."
+    },
+    {
+      "id": "es-time-days-word-3",
+      "word": "el lunes",
+      "meaning": "Monday",
+      "partOfSpeech": "word or expression",
+      "example": "El lunes trabajo."
+    },
+    {
+      "id": "es-time-days-word-4",
+      "word": "la semana",
+      "meaning": "the week",
+      "partOfSpeech": "word or expression",
+      "example": "La semana tiene siete días."
+    },
+    {
+      "id": "es-family-people-word-1",
+      "word": "la familia",
+      "meaning": "the family",
+      "partOfSpeech": "word or expression",
+      "example": "Mi familia es pequeña."
+    },
+    {
+      "id": "es-family-people-word-2",
+      "word": "el hermano",
+      "meaning": "the brother",
+      "partOfSpeech": "word or expression",
+      "example": "Tengo un hermano."
+    },
+    {
+      "id": "es-family-people-word-3",
+      "word": "la hermana",
+      "meaning": "the sister",
+      "partOfSpeech": "word or expression",
+      "example": "Tengo una hermana."
+    },
+    {
+      "id": "es-family-people-word-4",
+      "word": "los padres",
+      "meaning": "the parents",
+      "partOfSpeech": "word or expression",
+      "example": "Mis padres viven en Madrid."
+    }
   ],
   "media": [
     {
@@ -203,7 +442,7 @@
       "id": "es-first-words-foundation",
       "unitId": "es-unit-1",
       "title": "First words",
-      "objective": "Recognize and say your first Spanish words — greetings and Latin-shared words — before building any sentences.",
+      "objective": "Greet someone in Spanish, and meet the opening question mark that Spanish puts in front.",
       "cefr": "A1",
       "prerequisites": [],
       "conceptIds": [
@@ -217,7 +456,7 @@
         "es-first-words-word-5",
         "es-first-words-word-6"
       ],
-      "explanation": "You already know hundreds of Spanish words: nación, información, restaurante. They came into English and Spanish from Latin, the common root of Spanish, French, Italian and Portuguese — which is why the Romance languages resemble each other. Today you only say a few out loud: hola, gracias, sí, no. No sentences yet — those come next.",
+      "explanation": "Spanish greets by the hour, and it greets in the plural even for a single morning: buenos días, buenas tardes. The habit worth starting on day one is that Spanish marks a question twice, with an upside-down question mark at the front and an ordinary one at the end, so you can see a question coming before you have read a word of it.",
       "examples": [
         {
           "target": "Hola.",
@@ -243,7 +482,7 @@
           "conceptId": "es-first-words-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You already know this word — friends say it a dozen times a day in Spain. «Hola» — what does it mean?",
+          "prompt": "A friend says this to you in Madrid before anything else is said. What does «Hola» mean?",
           "answers": [
             "Hello."
           ],
@@ -251,11 +490,31 @@
             "Hello.",
             "Thank you.",
             "Yes.",
-            "Goodbye."
+            "Please."
           ],
-          "explanation": "Hola. is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "explanation": "Hola needs no clock. Morning, afternoon or night, this is the greeting that works.",
           "vocabulary": [
             "es-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-notice-marks",
+          "conceptId": "es-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Spanish opens a question with an upside-down mark and closes it with an ordinary one. Which of these is asking something?",
+          "answers": [
+            "¿Café?"
+          ],
+          "options": [
+            "¿Café?",
+            "Gracias.",
+            "Sí."
+          ],
+          "explanation": "Only the first line is a question: it carries the upside-down opening mark and the closing one. The other two are statements and need neither.",
+          "vocabulary": [
+            "es-first-words-word-3"
           ],
           "reviewOf": []
         },
@@ -264,62 +523,27 @@
           "conceptId": "es-first-words-concept",
           "kind": "think",
           "mode": "production",
-          "thinkSeconds": 5,
-          "prompt": "Think: you meet a friend in Madrid. One word greets them before anything else. Say it in your head — then write it.",
+          "prompt": "You meet a friend in Madrid. Greet them before anything else is said.",
           "answers": [
             "Hola."
           ],
-          "explanation": "Hola. One word, said first, opens the conversation.",
+          "explanation": "One word is all this needs. Say it aloud before you check.",
           "vocabulary": [
             "es-first-words-word-1"
           ],
-          "reviewOf": []
-        },
-        {
-          "id": "es-first-words-foundation-notice-latin",
-          "conceptId": "es-first-words-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Nación, información, restaurante — spelled almost the same in English and Spanish. Why do you already recognize them?",
-          "answers": [
-            "Spanish and English share thousands of words from Latin."
-          ],
-          "options": [
-            "Spanish and English share thousands of words from Latin.",
-            "Spanish borrowed its everyday words from modern English.",
-            "The shared spellings are coincidences."
-          ],
-          "explanation": "Both languages inherited these words from Latin — the common root of the Romance languages. Recognition comes before production.",
-          "vocabulary": [
-            "es-first-words-word-5"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "es-first-words-foundation-meaning",
-          "conceptId": "es-first-words-concept",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Gracias.",
-          "answers": [
-            "Thank you."
-          ],
-          "explanation": "Gracias is thank you — the second word to say out loud.",
-          "vocabulary": [
-            "es-first-words-word-2"
-          ],
-          "reviewOf": []
+          "reviewOf": [],
+          "thinkSeconds": 8
         },
         {
           "id": "es-first-words-foundation-cloze",
           "conceptId": "es-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say to a friend: ___",
+          "prompt": "Complete the greeting you give a friend: ___",
           "answers": [
             "Hola."
           ],
-          "explanation": "Hola. — said before everything else.",
+          "explanation": "Hola comes first; the rest of the sentence waits.",
           "vocabulary": [
             "es-first-words-word-1"
           ],
@@ -330,18 +554,19 @@
           "conceptId": "es-first-words-concept",
           "kind": "reading",
           "mode": "recognition",
-          "prompt": "Read the exchange. How many times do you read the word for thank you?",
-          "passage": "— Hola ! — Hola. — Gracias ? — Sí, gracias. — No, gracias.",
-          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "prompt": "Read the exchange and count the questions in it.",
           "answers": [
-            "Three times."
+            "Two.",
+            "2."
           ],
-          "explanation": "Every word on this page is one you already learned.",
+          "passage": "— ¿Hola?\n— Hola.\n— ¿Café?\n— Sí, gracias.\n— ¿Café?\n— No, gracias.",
+          "translation": "“Hello?”\n“Hello.”\n“Coffee?”\n“Yes, thanks.”\n“Coffee?”\n“No, thanks.”",
+          "explanation": "Two of the lines open with the upside-down mark. The other four are statements.",
           "vocabulary": [
-            "es-first-words-word-1",
             "es-first-words-word-2",
             "es-first-words-word-3",
-            "es-first-words-word-4"
+            "es-first-words-word-4",
+            "es-first-words-word-6"
           ],
           "reviewOf": []
         },
@@ -350,12 +575,12 @@
           "conceptId": "es-first-words-concept",
           "kind": "dictation",
           "mode": "listening",
-          "audioId": "es-first-words-foundation-model",
-          "prompt": "Listen and write the model: first words.",
+          "prompt": "Write down both words. The second one is a thank you.",
           "answers": [
             "Hola, gracias."
           ],
-          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "audioId": "es-first-words-foundation-model",
+          "explanation": "Hola first, then gracias.",
           "vocabulary": [
             "es-first-words-word-1",
             "es-first-words-word-2"
@@ -369,7 +594,7 @@
       "id": "es-introductions-foundation",
       "unitId": "es-unit-1",
       "title": "Introducing yourself",
-      "objective": "Introduce yourself, ask a name, and respond to an introduction.",
+      "objective": "Introduce yourself with the reflexive verb llamarse and ask a name with the pronoun that travels with it.",
       "cefr": "A1",
       "prerequisites": [
         "es-first-words-foundation"
@@ -383,7 +608,7 @@
         "es-introductions-word-3",
         "es-introductions-word-4"
       ],
-      "explanation": "Me llamo introduces your name: Me llamo Ana. Soy means I am and can also introduce you: Soy Ana. To ask a peer their name, use ¿Cómo te llamas? Learn this as a complete question. Mucho gusto is a useful reply when meeting someone. Spanish marks a question at both ends: ¿ ... ?.",
+      "explanation": "Spanish does not say 'my name is'. It says Me llamo Ana, literally 'I call myself Ana' — the small me is part of the verb llamarse and points back at the speaker. Turn the same verb on the person in front of you and that me becomes te: ¿Cómo te llamas? Soy Ana is the other introduction, and that one uses plain 'to be'. The pronoun, not the verb, is what changes.",
       "examples": [
         {
           "target": "Me llamo Ana.",
@@ -405,11 +630,11 @@
           "conceptId": "es-introductions-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which phrase asks another person their name in Spanish?",
+          "prompt": "Me llamo Ana and Soy Ana both give a name. Which one uses the verb that literally means 'I call myself'?",
           "answers": [
-            "¿Cómo te llamas?"
+            "Me llamo Ana."
           ],
-          "explanation": "Use the complete name question when meeting someone.",
+          "explanation": "Me llamo Ana is the reflexive form — 'I call myself Ana'. Soy Ana uses ser ('to be'), and ¿Cómo te llamas? is the question.",
           "vocabulary": [
             "es-introductions-word-1",
             "es-introductions-word-2",
@@ -421,8 +646,70 @@
           ],
           "options": [
             "Me llamo Ana.",
-            "¿Cómo te llamas?",
+            "Soy Ana.",
+            "¿Cómo te llamas?"
+          ]
+        },
+        {
+          "id": "es-introductions-foundation-ask",
+          "conceptId": "es-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask a classmate their name with the question whose pronoun changes to te.",
+          "answers": [
+            "¿Cómo te llamas?"
+          ],
+          "explanation": "The verb is the same one as in Me llamo, but the pronoun turns into te when it points at the person you are speaking to.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-introductions-foundation-read",
+          "conceptId": "es-introductions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. Which short word tells you the first speaker is talking about herself?",
+          "answers": [
+            "me"
+          ],
+          "explanation": "Me is the reflexive pronoun: it turns the verb llamarse back on the person speaking. The other introduction uses soy instead.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "passage": "— ¡Hola! Me llamo Ana.\n— Mucho gusto, Ana. Soy Leo.\n— Encantada, Leo.",
+          "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
+        },
+        {
+          "id": "es-introductions-foundation-reply",
+          "conceptId": "es-introductions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "A neighbour introduces herself to you. Give the two-word Spanish reply that closes an introduction.",
+          "answers": [
             "Mucho gusto."
+          ],
+          "explanation": "Mucho gusto closes an introduction, and the sentence needs no pronoun.",
+          "vocabulary": [
+            "es-introductions-word-1",
+            "es-introductions-word-2",
+            "es-introductions-word-3",
+            "es-introductions-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
           ]
         },
         {
@@ -430,11 +717,11 @@
           "conceptId": "es-introductions-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Put the words in order to introduce Ana by name.",
+          "prompt": "The words are jumbled. Build the reflexive sentence that gives Ana's name.",
           "answers": [
             "Me llamo Ana."
           ],
-          "explanation": "Use me llamo for your own name and te llamas in the informal question. Do not swap me and te.",
+          "explanation": "Me llamo Ana puts the reflexive pronoun first, then the verb, then the name.",
           "vocabulary": [
             "es-introductions-word-1",
             "es-introductions-word-2",
@@ -451,58 +738,15 @@
           ]
         },
         {
-          "id": "es-introductions-foundation-read",
-          "conceptId": "es-introductions-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the first meeting. Who gives their own name?",
-          "answers": [
-            "Ana",
-            "Ana."
-          ],
-          "explanation": "The person who uses the name phrase introduces themself.",
-          "vocabulary": [
-            "es-introductions-word-1",
-            "es-introductions-word-2",
-            "es-introductions-word-3",
-            "es-introductions-word-4"
-          ],
-          "reviewOf": [
-            "es-first-words-foundation"
-          ],
-          "passage": "Ana: Hola. Me llamo Ana.\nLeo: Hola. Mucho gusto.",
-          "translation": "Ana: Hello. My name is Ana.\nLeo: Hello. Nice to meet you."
-        },
-        {
-          "id": "es-introductions-foundation-reply",
-          "conceptId": "es-introductions-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Say “Nice to meet you” using the short expression taught here.",
-          "answers": [
-            "Mucho gusto."
-          ],
-          "explanation": "Use this short response after an introduction.",
-          "vocabulary": [
-            "es-introductions-word-1",
-            "es-introductions-word-2",
-            "es-introductions-word-3",
-            "es-introductions-word-4"
-          ],
-          "reviewOf": [
-            "es-first-words-foundation"
-          ]
-        },
-        {
           "id": "es-introductions-foundation-recall",
           "conceptId": "es-introductions-concept",
           "kind": "think",
           "mode": "production",
-          "prompt": "Imagine meeting a new classmate. Introduce yourself as Ana, using the phrase that means “My name is”.",
+          "prompt": "A classmate has introduced herself. Introduce yourself the same way, as Ana, using the verb that needs a pronoun.",
           "answers": [
             "Me llamo Ana."
           ],
-          "explanation": "Use me llamo for your own name and te llamas in the informal question. Do not swap me and te.",
+          "explanation": "Say the whole reflexive phrase; leaving out me would leave the verb belonging to nobody.",
           "vocabulary": [
             "es-introductions-word-1",
             "es-introductions-word-2",
@@ -513,26 +757,6 @@
             "es-first-words-foundation"
           ],
           "thinkSeconds": 8
-        },
-        {
-          "id": "es-introductions-foundation-ask",
-          "conceptId": "es-introductions-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Ask a peer “What is your name?” using the complete question taught here.",
-          "answers": [
-            "¿Cómo te llamas?"
-          ],
-          "explanation": "This is the name question from the lesson; recall it as a whole.",
-          "vocabulary": [
-            "es-introductions-word-1",
-            "es-introductions-word-2",
-            "es-introductions-word-3",
-            "es-introductions-word-4"
-          ],
-          "reviewOf": [
-            "es-first-words-foundation"
-          ]
         }
       ],
       "optionalExerciseIds": []
@@ -541,7 +765,7 @@
       "id": "es-cafe-requests-foundation",
       "unitId": "es-unit-1",
       "title": "At the café",
-      "objective": "Choose a drink and make a polite café request from memory.",
+      "objective": "Ask for a drink with the softened verb quisiera, and keep the accents on café and té.",
       "cefr": "A1",
       "prerequisites": [
         "es-introductions-foundation"
@@ -555,7 +779,7 @@
         "es-cafe-requests-word-3",
         "es-cafe-requests-word-4"
       ],
-      "explanation": "Quisiera means I would like and makes a polite request. Learn it as a ready-to-use phrase: Quisiera un café, por favor. Both café and té take un here. Change only the drink to request tea. A shorter Un café, por favor is also useful; gracias closes the exchange.",
+      "explanation": "Quiero means 'I want', and in a café it can sound blunt. Spanish softens the same verb into quisiera, 'I would like', and that ending is the whole difference: Quisiera un café, por favor. The article un does not change with the drink — Quisiera un té, por favor — so only the noun moves. Keep the accents: café and té each carry one, and por favor is the phrase that turns the request into a courteous one.",
       "examples": [
         {
           "target": "Quisiera un café, por favor.",
@@ -577,11 +801,11 @@
           "conceptId": "es-cafe-requests-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You want tea. Which complete request matches your intention?",
+          "prompt": "Quiero and quisiera are the same verb. Which request is the softened, polite one?",
           "answers": [
-            "Quisiera un té, por favor."
+            "Quisiera un café, por favor."
           ],
-          "explanation": "Change the drink while keeping the polite request frame.",
+          "explanation": "Quisiera gives the verb a conditional ending, and that is what makes the request courteous. Quiero is the blunt form.",
           "vocabulary": [
             "es-cafe-requests-word-1",
             "es-cafe-requests-word-2",
@@ -593,8 +817,73 @@
           ],
           "options": [
             "Quisiera un café, por favor.",
-            "Quisiera un té, por favor.",
+            "Quiero un café, por favor.",
             "Me llamo Ana."
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-vary",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for tea politely, using the softened verb rather than quiero.",
+          "answers": [
+            "Quisiera un té, por favor."
+          ],
+          "explanation": "Same polite frame, tea instead of coffee: Quisiera un té, por favor, with the accent on té.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ]
+        },
+        {
+          "id": "es-cafe-requests-foundation-read",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. How many drinks does the customer order?",
+          "answers": [
+            "Two.",
+            "2."
+          ],
+          "explanation": "The customer asks for a té and then adds un café, so two drinks in all.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
+          ],
+          "passage": "— ¡Buenas! Quisiera un té, por favor.\n— ¿Un té?\n— Sí, y un café también. Gracias.",
+          "translation": "— Hello! I would like a tea, please.\n— A tea?\n— Yes, and a coffee too. Thank you."
+        },
+        {
+          "id": "es-cafe-requests-foundation-meaning",
+          "conceptId": "es-cafe-requests-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "What does this café line mean in English: Quisiera un café, por favor.",
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "explanation": "Quisiera is 'I would like', and por favor supplies the 'please'.",
+          "vocabulary": [
+            "es-cafe-requests-word-1",
+            "es-cafe-requests-word-2",
+            "es-cafe-requests-word-3",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "es-first-words-foundation"
           ]
         },
         {
@@ -602,11 +891,11 @@
           "conceptId": "es-cafe-requests-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the full polite request for one coffee.",
+          "prompt": "Put the words in order to build the polite request for one coffee.",
           "answers": [
             "Quisiera un café, por favor."
           ],
-          "explanation": "Keep un with café and té in these requests. Remember the accents in café and té.",
+          "explanation": "Quisiera opens it, the drink follows with un, and por favor finishes the request.",
           "vocabulary": [
             "es-cafe-requests-word-1",
             "es-cafe-requests-word-2",
@@ -625,59 +914,15 @@
           ]
         },
         {
-          "id": "es-cafe-requests-foundation-read",
-          "conceptId": "es-cafe-requests-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the café exchange. Which drink does the customer request?",
-          "answers": [
-            "Tea.",
-            "Tea",
-            "A tea."
-          ],
-          "explanation": "The customer requests tea; the thanks closes the exchange.",
-          "vocabulary": [
-            "es-cafe-requests-word-1",
-            "es-cafe-requests-word-2",
-            "es-cafe-requests-word-3",
-            "es-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "es-first-words-foundation"
-          ],
-          "passage": "Customer: Hola. Un té, por favor.\nServer: Un té?\nCustomer: Sí. Gracias.",
-          "translation": "Customer: Hello. A tea, please.\nServer: A tea?\nCustomer: Yes. Thank you."
-        },
-        {
-          "id": "es-cafe-requests-foundation-vary",
-          "conceptId": "es-cafe-requests-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Say “I would like a tea, please” using the full request frame.",
-          "answers": [
-            "Quisiera un té, por favor."
-          ],
-          "explanation": "Keep un with café and té in these requests. Remember the accents in café and té.",
-          "vocabulary": [
-            "es-cafe-requests-word-1",
-            "es-cafe-requests-word-2",
-            "es-cafe-requests-word-3",
-            "es-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "es-first-words-foundation"
-          ]
-        },
-        {
           "id": "es-cafe-requests-foundation-recall",
           "conceptId": "es-cafe-requests-concept",
           "kind": "think",
           "mode": "production",
-          "prompt": "You arrive at a café and want coffee. Make the short request “A coffee, please”.",
+          "prompt": "You reach the counter and want a coffee. Make the short polite request, without the verb.",
           "answers": [
             "Un café, por favor."
           ],
-          "explanation": "The short request still includes please.",
+          "explanation": "Un café, por favor — the short request drops quisiera but keeps por favor.",
           "vocabulary": [
             "es-cafe-requests-word-1",
             "es-cafe-requests-word-2",
@@ -688,42 +933,819 @@
             "es-first-words-foundation"
           ],
           "thinkSeconds": 8
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-numbers-quantities-foundation",
+      "unitId": "es-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Count one to ten, then see how Spanish welds a whole number such as veintiuno into a single written word.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-cafe-requests-foundation"
+      ],
+      "conceptIds": [
+        "es-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "es-numbers-quantities-word-1",
+        "es-numbers-quantities-word-2",
+        "es-numbers-quantities-word-3",
+        "es-numbers-quantities-word-4"
+      ],
+      "explanation": "Spanish counts one to ten straight. The stretch that surprises English speakers is the twenties: veintiuno, veintidós, veintitrés, written as one word, the same way dieciséis and diecisiete glue their parts together. The separate y arrives only at thirty-one, treinta y uno. Because the number agrees with its noun, one is un with a masculine café and una with a feminine manzana.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta un café?",
+          "meaning": "How much does a coffee cost?"
         },
         {
-          "id": "es-cafe-requests-foundation-meaning",
-          "conceptId": "es-cafe-requests-concept",
-          "kind": "translate",
+          "target": "Dos manzanas, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
+      "culturalNote": "Prices may be said quickly. First listen for the number, then the item and the total.",
+      "exercises": [
+        {
+          "id": "es-numbers-quantities-foundation-meet",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "choice",
           "mode": "recognition",
-          "prompt": "Give the English meaning of this complete request: Quisiera un café, por favor.",
+          "prompt": "Three is hiding inside veintitrés, glued to veinte. Which Spanish word is it?",
           "answers": [
-            "I would like a coffee, please.",
-            "I’d like a coffee, please.",
-            "I'd like a coffee, please."
+            "Tres."
           ],
-          "explanation": "This is a polite request, not a statement about having coffee.",
+          "options": [
+            "Dos.",
+            "Tres.",
+            "Seis.",
+            "Diez."
+          ],
+          "explanation": "Tres is three. The twenties simply glue a number onto veinte, so veintitrés is twenty-three.",
           "vocabulary": [
-            "es-cafe-requests-word-1",
-            "es-cafe-requests-word-2",
-            "es-cafe-requests-word-3",
-            "es-cafe-requests-word-4"
+            "es-numbers-quantities-word-1"
           ],
           "reviewOf": [
-            "es-first-words-foundation"
+            "es-cafe-requests-foundation"
+          ]
+        },
+        {
+          "id": "es-numbers-quantities-foundation-read",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the price board. How much is the tea?",
+          "passage": "Café: dos euros.\nTé: tres euros.",
+          "translation": "Coffee: two euros.\nTea: three euros.",
+          "answers": [
+            "Three euros."
+          ],
+          "explanation": "The board prices tea at tres euros. Dos and tres behave here exactly as they did when you counted.",
+          "vocabulary": [
+            "es-numbers-quantities-word-1",
+            "es-cafe-requests-word-3"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-numbers-quantities-foundation-order",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the Spanish words in order to ask the price of one coffee.",
+          "answers": [
+            "¿Cuánto cuesta un café?"
+          ],
+          "explanation": "¿Cuánto cuesta? is the price question as a unit, and the upside-down question mark opens the sentence. Un café follows it.",
+          "vocabulary": [
+            "es-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "tokens": [
+            "¿Cuánto",
+            "cuesta",
+            "un",
+            "café?"
+          ]
+        },
+        {
+          "id": "es-numbers-quantities-foundation-quantity",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say in Spanish: Two apples, please.",
+          "answers": [
+            "Dos manzanas, por favor."
+          ],
+          "explanation": "Manzanas is feminine plural, so 'one' would be una, but two is dos either way, only the word for one changes with the noun.",
+          "vocabulary": [
+            "es-numbers-quantities-word-4",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-numbers-quantities-foundation-think",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8,
+          "prompt": "Think: a fruit seller has one apple but no sign. Ask the price in Spanish, then write the question.",
+          "answers": [
+            "¿Cuánto cuesta una manzana?"
+          ],
+          "explanation": "One apple is una manzana, with the feminine una. The price question itself never changes.",
+          "vocabulary": [
+            "es-numbers-quantities-word-3",
+            "es-numbers-quantities-word-4"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-directions-foundation",
+      "unitId": "es-unit-3",
+      "title": "Asking the way",
+      "objective": "Learn the accent that turns donde into a question, then trace a set of directions step by step.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-numbers-quantities-foundation"
+      ],
+      "conceptIds": [
+        "es-directions-concept"
+      ],
+      "vocabulary": [
+        "es-directions-word-1",
+        "es-directions-word-2",
+        "es-directions-word-3",
+        "es-directions-word-4"
+      ],
+      "explanation": "Spanish writes a question with an opening ¿ and a closing ?, and it puts an accent on donde only when the word is asking: ¿Dónde está la estación? is a question, while donde on its own is not. Places are asked about with estar, and the directions come as ready-made chunks, todo recto and a la izquierda, with luego joining the second step to the first. Perdone literally means 'forgive me' and turns the bare question polite.",
+      "examples": [
+        {
+          "target": "¿Dónde está la estación?",
+          "meaning": "Where is the station?"
+        },
+        {
+          "target": "Todo recto, luego a la izquierda.",
+          "meaning": "Straight ahead, then to the left."
+        },
+        {
+          "target": "Perdone, ¿dónde está el baño?",
+          "meaning": "Excuse me, where is the bathroom?"
+        }
+      ],
+      "culturalNote": "In Spain you open a request to a stranger with Perdone, and you thank them even for one sentence of directions.",
+      "exercises": [
+        {
+          "id": "es-directions-foundation-meet",
+          "conceptId": "es-directions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Three of these give a direction; the fourth is asking. Which single word is the asking one?",
+          "answers": [
+            "dónde"
+          ],
+          "explanation": "Dónde means where, and the written accent is there because the word is asking. Quién does the same job for a person, qué for a thing.",
+          "vocabulary": [
+            "es-directions-word-1",
+            "es-directions-word-2",
+            "es-directions-word-3",
+            "es-directions-word-4"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "options": [
+            "dónde",
+            "izquierda",
+            "derecha",
+            "recto"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-build",
+          "conceptId": "es-directions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the Spanish words in order to ask where the station is.",
+          "answers": [
+            "¿Dónde está la estación?"
+          ],
+          "explanation": "The question opens with ¿ and its asking word dónde, and estar supplies está. Estación is feminine, so its article is la.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "tokens": [
+            "estación?",
+            "la",
+            "está",
+            "¿Dónde"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-ask",
+          "conceptId": "es-directions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask in Spanish where the bathroom is. Baño is masculine.",
+          "answers": [
+            "¿Dónde está el baño?"
+          ],
+          "explanation": "Only the noun and its article change inside ¿Dónde está?; el marks the masculine baño. The accent on dónde stays, because the word is still asking.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-cloze",
+          "conceptId": "es-directions-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the directions: Todo recto, luego a la ___",
+          "answers": [
+            "izquierda"
+          ],
+          "explanation": "Izquierda is left. Derecha is the opposite, and a la is fixed in front of both of them.",
+          "vocabulary": [
+            "es-directions-word-2",
+            "es-directions-word-3"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-vary",
+          "conceptId": "es-directions-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Soften the question by putting Perdone in front: ¿Dónde está la estación?",
+          "answers": [
+            "Perdone, ¿dónde está la estación?"
+          ],
+          "explanation": "Perdone goes ahead of the question and a comma separates it. The accent on dónde stays, because it is still the word asking where.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-read",
+          "conceptId": "es-directions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange and find the first direction the visitor is given.",
+          "answers": [
+            "Straight ahead.",
+            "Straight ahead"
+          ],
+          "explanation": "The first instruction is todo recto, straight ahead. The second follows luego: a la izquierda.",
+          "vocabulary": [
+            "es-directions-word-1",
+            "es-directions-word-2",
+            "es-directions-word-4"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "passage": "Turista: Perdone, ¿dónde está el baño?\nSeñora: Todo recto, luego a la izquierda.\nTurista: ¡Muchas gracias!",
+          "translation": "Tourist: Excuse me, where is the bathroom?\nWoman: Straight ahead, then to the left.\nTourist: Many thanks!"
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-shopping-foundation",
+      "unitId": "es-unit-3",
+      "title": "Prices and paying",
+      "objective": "Ask a price inside Spanish's two question marks, and make costar agree with one thing or with several.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-directions-foundation"
+      ],
+      "conceptIds": [
+        "es-shopping-concept"
+      ],
+      "vocabulary": [
+        "es-shopping-word-1",
+        "es-shopping-word-2",
+        "es-shopping-word-3",
+        "es-shopping-word-4"
+      ],
+      "explanation": "A Spanish question wears two marks, the first one upside down, so ¿Cuánto cuesta? shows itself to be a question before you read a word of it. Costar changes its stem under stress — cuesta for a single item and cuestan for several, never costa. The bill is la cuenta, and por favor is what turns a statement into a polite request.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta el café?",
+          "meaning": "How much does the coffee cost?"
+        },
+        {
+          "target": "Esto es muy caro.",
+          "meaning": "This is very expensive."
+        },
+        {
+          "target": "La cuenta, por favor.",
+          "meaning": "The bill, please."
+        }
+      ],
+      "culturalNote": "In many Spanish bars the bill comes when you ask for it, so la cuenta, por favor is the normal way to end a meal.",
+      "exercises": [
+        {
+          "id": "es-shopping-foundation-meet",
+          "conceptId": "es-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Spanish fences a question with two marks, the first of them upside down. Which of these is asking the price?",
+          "answers": [
+            "¿Cuánto cuesta?"
+          ],
+          "explanation": "¿Cuánto cuesta? is the price question: cuánto asks how much, cuesta comes from costar, and both marks are obligatory.",
+          "vocabulary": [
+            "es-shopping-word-1",
+            "es-shopping-word-2",
+            "es-shopping-word-3",
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "options": [
+            "¿Cómo estás?",
+            "¿Dónde está?",
+            "¿Cuánto cuesta?"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-build",
+          "conceptId": "es-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "The stall is charging more than you expected. Put the words in order to say this is very expensive.",
+          "answers": [
+            "Esto es muy caro."
+          ],
+          "explanation": "Muy sits immediately before caro, and esto is the 'this' that stands alone without a noun after it.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "tokens": [
+            "caro.",
+            "muy",
+            "es",
+            "Esto"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-cloze",
+          "conceptId": "es-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "There is just one coffee, so costar keeps its singular form. Fill the blank: ¿___ cuesta el café?",
+          "answers": [
+            "Cuánto"
+          ],
+          "explanation": "Cuánto cuesta is the fixed frame, and the upside-down mark is already printed in front for you.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-think",
+          "conceptId": "es-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "At a café in Seville you are pricing one coffee only. Ask the question.",
+          "answers": [
+            "¿Cuánto cuesta un café?"
+          ],
+          "explanation": "Cuesta is singular because one coffee is being priced; for several the verb would turn into cuestan.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "es-shopping-foundation-vary",
+          "conceptId": "es-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "You think the price is fair. Turn «Es caro.» into its opposite.",
+          "answers": [
+            "No es caro."
+          ],
+          "explanation": "No goes before the verb es; Spanish never lets the negation wander to the end of the sentence.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-ask",
+          "conceptId": "es-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Dinner in Madrid is over and you want to settle up. Ask the waiter for the bill.",
+          "answers": [
+            "La cuenta, por favor.",
+            "La cuenta por favor."
+          ],
+          "explanation": "Cuenta is feminine, so it takes la, and por favor is what keeps the request polite.",
+          "vocabulary": [
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
           ]
         }
       ],
       "optionalExerciseIds": []
     },
     {
-      "id": "es-numbers-quantities-foundation", "unitId": "es-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["es-cafe-requests-foundation"], "conceptIds": ["es-numbers-quantities-concept"], "vocabulary": ["es-numbers-quantities-word-1", "es-numbers-quantities-word-2", "es-numbers-quantities-word-3", "es-numbers-quantities-word-4"],
-      "explanation": "Count one through ten as two short runs. Then use cuánto cuesta for the price of one thing. You already have por favor from the café; attach it to a quantity to make a small, polite order.", "examples": [{ "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }], "culturalNote": "Prices may be said quickly. First listen for the number, then the item and the total.",
+      "id": "es-time-days-foundation",
+      "unitId": "es-unit-4",
+      "title": "Days and times",
+      "objective": "Five Spanish weekdays are the old planets and gods; learn which two days break that pattern.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-shopping-foundation"
+      ],
+      "conceptIds": [
+        "es-time-days-concept"
+      ],
+      "vocabulary": [
+        "es-time-days-word-1",
+        "es-time-days-word-2",
+        "es-time-days-word-3",
+        "es-time-days-word-4"
+      ],
+      "explanation": "Spanish weekdays are the Roman sky turned into a calendar: lunes is the moon, martes Mars, miércoles Mercury, jueves Jupiter and viernes Venus. Then the naming breaks — sábado comes from the Sabbath and domingo from the Lord’s day. The days are masculine and lower-case, and Spanish needs no separate word for ‘on’: the article el carries it, as in el lunes. Watch out, too: mañana is tomorrow, while la mañana is the morning.",
+      "examples": [
+        {
+          "target": "Hoy es miércoles.",
+          "meaning": "Today is Wednesday."
+        },
+        {
+          "target": "El lunes trabajo.",
+          "meaning": "On Monday I work."
+        },
+        {
+          "target": "Mañana es jueves.",
+          "meaning": "Tomorrow is Thursday."
+        }
+      ],
+      "culturalNote": "Spanish weekdays are not capitalised, which is why lunes looks the same mid-sentence as at the start of one.",
       "exercises": [
-        { "id": "es-numbers-quantities-foundation-meet", "conceptId": "es-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Spanish number means three?", "answers": ["Tres."], "options": ["Dos.", "Tres.", "Seis.", "Diez."], "explanation": "Tres is three.", "vocabulary": ["es-numbers-quantities-word-1"], "reviewOf": ["es-cafe-requests-foundation"] },
-        { "id": "es-numbers-quantities-foundation-order", "conceptId": "es-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["¿Cuánto cuesta un café?"], "explanation": "Cuánto cuesta asks what one thing costs.", "vocabulary": ["es-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["¿Cuánto", "cuesta", "un", "café?"] },
-        { "id": "es-numbers-quantities-foundation-quantity", "conceptId": "es-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Spanish: Two apples, please.", "answers": ["Dos manzanas, por favor."], "explanation": "Dos stays the same before the plural noun manzanas.", "vocabulary": ["es-numbers-quantities-word-4", "es-cafe-requests-word-4"], "reviewOf": [] },
-        { "id": "es-numbers-quantities-foundation-read", "conceptId": "es-numbers-quantities-concept", "kind": "reading", "mode": "recognition", "prompt": "Read the price sign. How many euros is the tea?", "passage": "Café: dos euros. Té: tres euros.", "translation": "Coffee: two euros. Tea: three euros.", "answers": ["Three euros."], "explanation": "Té costs tres euros on this sign.", "vocabulary": ["es-numbers-quantities-word-1", "es-cafe-requests-word-3"], "reviewOf": [] },
-        { "id": "es-numbers-quantities-foundation-think", "conceptId": "es-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: a vendor has one apple. Ask its price, then write the question.", "answers": ["¿Cuánto cuesta una manzana?"], "explanation": "One apple is feminine: una manzana. The price question stays cuánto cuesta.", "vocabulary": ["es-numbers-quantities-word-3", "es-numbers-quantities-word-4"], "reviewOf": [] }
-      ], "optionalExerciseIds": []
+        {
+          "id": "es-time-days-foundation-meet",
+          "conceptId": "es-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Your Madrid phone writes a label above the date. Tap the label for today.",
+          "answers": [
+            "hoy"
+          ],
+          "options": [
+            "hoy",
+            "mañana",
+            "lunes",
+            "semana"
+          ],
+          "explanation": "That is hoy. The decoys mean tomorrow, Monday and the week.",
+          "vocabulary": [
+            "es-time-days-word-1",
+            "es-time-days-word-2",
+            "es-time-days-word-3",
+            "es-time-days-word-4"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-build",
+          "conceptId": "es-time-days-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the Spanish sentence for on Monday I work; the article carries the on.",
+          "answers": [
+            "El lunes trabajo."
+          ],
+          "tokens": [
+            "trabajo.",
+            "lunes",
+            "El"
+          ],
+          "explanation": "El sits in front of the day and means on: el lunes, on Monday.",
+          "vocabulary": [
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-cloze",
+          "conceptId": "es-time-days-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the Spanish for on Mondays, meaning every Monday: ___ lunes trabajo.",
+          "answers": [
+            "Los"
+          ],
+          "explanation": "Spanish uses the plural article for a repeated day: los lunes, on Mondays.",
+          "vocabulary": [
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-think",
+          "conceptId": "es-time-days-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the sentence before you write it: today is Friday.",
+          "answers": [
+            "Hoy es viernes."
+          ],
+          "explanation": "Hoy es plus the day. Viernes still carries the name of Venus.",
+          "vocabulary": [
+            "es-time-days-word-1"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "es-time-days-foundation-meaning",
+          "conceptId": "es-time-days-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: El lunes trabajo.",
+          "answers": [
+            "On Monday I work.",
+            "I work on Monday."
+          ],
+          "explanation": "There is no separate word for on here; the article el does that work in front of the day.",
+          "vocabulary": [
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-notice",
+          "conceptId": "es-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Five Spanish weekdays carry the name of a planet or a god. Which pair leaves that company?",
+          "answers": [
+            "sábado y domingo"
+          ],
+          "options": [
+            "sábado y domingo",
+            "lunes y martes",
+            "jueves y viernes"
+          ],
+          "explanation": "Sábado comes from the Sabbath and domingo from the Lord's day; lunes to viernes are the old sky names.",
+          "vocabulary": [
+            "es-time-days-word-4"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-read",
+          "conceptId": "es-time-days-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the week. Which day does the passage name after the moon?",
+          "answers": [
+            "lunes",
+            "Monday"
+          ],
+          "passage": "El lunes es el día de la Luna. El martes trabajo. El miércoles estudio. El jueves llamo a mi madre. El viernes descanso.",
+          "translation": "Monday is the day of the moon. On Tuesday I work. On Wednesday I study. On Thursday I call my mother. On Friday I rest.",
+          "explanation": "The first line says it: el lunes is the day of la Luna, the moon.",
+          "vocabulary": [
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-family-people-foundation",
+      "unitId": "es-unit-4",
+      "title": "Family and people",
+      "objective": "Say how many brothers and sisters you have, and let mi or mis follow the number you name.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-time-days-foundation"
+      ],
+      "conceptIds": [
+        "es-family-people-concept"
+      ],
+      "vocabulary": [
+        "es-family-people-word-1",
+        "es-family-people-word-2",
+        "es-family-people-word-3",
+        "es-family-people-word-4"
+      ],
+      "explanation": "Spanish shows a noun's gender in its article — el hermano, la hermana — and hides an irregular verb under the simplest sentence, since the I form of tener is tengo and never tene. The possessive mi does not change with who is speaking; it changes with how many are counted, so mi hermana is one sister and mis hermanas is two.",
+      "examples": [
+        {
+          "target": "Tengo un hermano.",
+          "meaning": "I have a brother."
+        },
+        {
+          "target": "Tengo una hermana.",
+          "meaning": "I have a sister."
+        },
+        {
+          "target": "Mis padres viven en Madrid.",
+          "meaning": "My parents live in Madrid."
+        }
+      ],
+      "culturalNote": "Familia in Spanish often stretches to grandparents, aunts and cousins, not just the household.",
+      "exercises": [
+        {
+          "id": "es-family-people-foundation-meet",
+          "conceptId": "es-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "One letter separates the Spanish words for brother and sister. Which of these four is the sister?",
+          "answers": [
+            "la hermana"
+          ],
+          "explanation": "Hermana is the sister; the -a ending marks her feminine, as -o marks hermano. Padres is the pair of parents, and la familia is the household.",
+          "vocabulary": [
+            "es-family-people-word-1",
+            "es-family-people-word-2",
+            "es-family-people-word-3",
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "options": [
+            "el hermano",
+            "los padres",
+            "la familia",
+            "la hermana"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-cloze",
+          "conceptId": "es-family-people-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Parents is plural, and so is the possessive in front of it. Fill the gap: Mis ___ viven en Madrid.",
+          "answers": [
+            "padres"
+          ],
+          "explanation": "Padres is plural, which is why the verb is viven rather than vive.",
+          "vocabulary": [
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-notice",
+          "conceptId": "es-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Hermana is feminine and keeps the same article as the subject. Choose the line that correctly says I have a sister.",
+          "answers": [
+            "Tengo una hermana."
+          ],
+          "explanation": "Una hermana keeps the feminine article una; un hermana and unos hermana are the two ways learners get this wrong.",
+          "vocabulary": [
+            "es-family-people-word-3"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "options": [
+            "Tengo un hermana.",
+            "Tengo unos hermana.",
+            "Tengo una hermana."
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-think",
+          "conceptId": "es-family-people-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You are describing the one brother you have. Predict the form before you write it: I have a brother.",
+          "answers": [
+            "Tengo un hermano."
+          ],
+          "explanation": "Tener is irregular, so the I form is tengo and never tene: Tengo un hermano.",
+          "vocabulary": [
+            "es-family-people-word-2"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "es-family-people-foundation-build",
+          "conceptId": "es-family-people-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Turn the scattered words into a sentence that presents your family.",
+          "answers": [
+            "Esta es mi familia."
+          ],
+          "explanation": "Familia is feminine, so the demonstrative is esta and the possessive is mi: Esta es mi familia.",
+          "vocabulary": [
+            "es-family-people-word-1"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "tokens": [
+            "familia.",
+            "mi",
+            "es",
+            "Esta"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-read",
+          "conceptId": "es-family-people-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read what Ana wrote about her family. Which city are the parents still in?",
+          "answers": [
+            "Madrid.",
+            "Madrid",
+            "In Madrid."
+          ],
+          "explanation": "The brother and sister are in Seville and Valencia; the closing sentence keeps the parents in Madrid.",
+          "vocabulary": [
+            "es-family-people-word-1",
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "passage": "Mi familia no es muy grande. Mi hermano mayor se llama Max y trabaja en Sevilla; mi hermana Ana estudia en Valencia. Mis padres siguen viviendo en Madrid.",
+          "translation": "My family is not very big. My older brother is called Max and works in Seville; my sister Ana studies in Valencia. My parents still live in Madrid."
+        },
+        {
+          "id": "es-family-people-foundation-vary",
+          "conceptId": "es-family-people-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Make the sentence talk about two sisters instead of one: Tengo una hermana.",
+          "answers": [
+            "Tengo dos hermanas."
+          ],
+          "explanation": "The plural adds -s to hermana, and una becomes dos: Tengo dos hermanas.",
+          "vocabulary": [
+            "es-family-people-word-3"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
     }
   ],
   "dialogues": []

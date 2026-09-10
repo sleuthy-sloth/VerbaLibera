@@ -49,3 +49,49 @@ it('checks a missing word from an inline blank without requiring the whole sente
   await user.click(screen.getByRole('button', { name: 'Continue' }));
   expect(save).toHaveBeenCalledWith(expect.objectContaining({ accepted: true }), false);
 });
+
+it("renders and grades a transform exercise, the kind the new units introduced", async () => {
+  // `transform` existed in the schema and was never used by any lesson, so no
+  // component test ever rendered it. The German and Spanish and Portuguese
+  // units now use it for grammar changes ("Change the pattern"), which makes
+  // this the first real exercise of its kind and worth pinning.
+  const pack = validatePack(
+    JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
+  );
+  const exercise = pack.lessons
+    .find((l) => l.id === "de-directions-foundation")!
+    .exercises.find((e) => e.kind === "transform")!;
+  const save = vi.fn().mockResolvedValue(undefined);
+  const user = userEvent.setup();
+  render(<ExerciseView pack={pack} exercise={exercise} onSave={save} />);
+
+  await user.type(screen.getByLabelText(/answer/i), "Entschuldigung, wo ist der Bahnhof?");
+  await user.click(screen.getByRole("button", { name: "Check answer" }));
+  await user.click(screen.getByRole("button", { name: "Continue" }));
+  expect(save).toHaveBeenCalledWith(
+    expect.objectContaining({ accepted: true }),
+    false,
+  );
+});
+
+it("accepts a transform answer whose only error is a letter slip", async () => {
+  // The forgiving grader, exercised through the component rather than the
+  // engine alone: "Bahnhof" typed as "Banhof" is one edit and one word.
+  const pack = validatePack(
+    JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
+  );
+  const exercise = pack.lessons
+    .find((l) => l.id === "de-directions-foundation")!
+    .exercises.find((e) => e.kind === "transform")!;
+  const save = vi.fn().mockResolvedValue(undefined);
+  const user = userEvent.setup();
+  render(<ExerciseView pack={pack} exercise={exercise} onSave={save} />);
+
+  await user.type(screen.getByLabelText(/answer/i), "Entschuldigung, wo ist der Banhof?");
+  await user.click(screen.getByRole("button", { name: "Check answer" }));
+  await user.click(screen.getByRole("button", { name: "Continue" }));
+  expect(save).toHaveBeenCalledWith(
+    expect.objectContaining({ accepted: true, credit: "partial" }),
+    false,
+  );
+});

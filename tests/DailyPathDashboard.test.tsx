@@ -168,7 +168,11 @@ describe('DailyPathDashboard', () => {
       />,
     );
 
-    expect(screen.getByRole('option', { name: '🌐 German · A1' })).toBeInTheDocument();
+    // German was absent from every flag map, so it alone fell back to a globe
+    // while the other languages showed their flags. The old assertion pinned
+    // that omission as expected.
+    expect(screen.getByRole('option', { name: '🇩🇪 German · A1' })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: '🌐 German · A1' })).not.toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-german');
   });
 

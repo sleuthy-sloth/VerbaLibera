@@ -112,18 +112,17 @@ describe("practice feedback", () => {
     expect(feedback.textContent).not.toContain("Say it out loud");
   });
 
-  it("keeps the specific diagnostic when the answer is nearly there", async () => {
-    // Strip the diacritics: the grader classifies it, the learner gets the rule.
+  it("accepts a missing accent and shows the accented form back", async () => {
+    // "frere" for "frère" is the right word with a diacritic missing, so it
+    // counts. The learner is shown the accented form and never sees the
+    // grader's vocabulary, which is the whole point of this module.
     const { feedback } = await answerWith(
       "fr-family-foundation-produce",
       "J’ai un frere.",
     );
-    expect(feedback.querySelector("strong")?.textContent).toBe(
-      "Almost — the accents are off.",
-    );
-    expect(feedback.textContent).toContain(
-      "Check the accents. They can change the meaning or grammatical form.",
-    );
+    expect(feedback.textContent).toContain("J’ai un frère.");
+    expect(feedback.textContent).not.toContain("accent/diacritic");
+    expect(feedback.textContent).not.toMatch(/diacritic/i);
   });
 
   it("advances with a plain Continue, not a save operation", async () => {
