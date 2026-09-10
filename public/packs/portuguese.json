@@ -34,7 +34,7 @@
     {
       "id": "pt-first-words-concept",
       "title": "First words and greetings",
-      "explanation": "Portuguese grew from Latin on the Atlantic edge of Iberia, and thousands of everyday words came into both Portuguese and English from Latin — nação, informação, restaurante, café. You can already recognize them before you speak a word of Portuguese. The words below are the first ones to say out loud: olá opens almost every conversation, obrigado answers kindness, sim and não steer it. Men say obrigado, women say obrigada — match the ending to yourself.",
+      "explanation": "Portuguese greets by the hour, but one word here behaves differently from every language around it: obrigado is not fixed. A man says obrigado and a woman says obrigada, because the word agrees with the person speaking rather than the person being thanked. Get that right on day one and you will sound like yourself rather than like a phrasebook.",
       "examples": [
         {
           "target": "Olá.",
@@ -91,7 +91,20 @@
       "id": "pt-numbers-quantities-concept",
       "title": "Numbers and quantities",
       "explanation": "Learn Brazilian Portuguese numbers as two short runs, then use quanto custa to ask the price of one thing. Use dois with masculine cafés and duas with feminine maçãs. The item tells you which form you need.",
-      "examples": [{ "target": "Um, dois, três, quatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }],
+      "examples": [
+        {
+          "target": "Um, dois, três, quatro, cinco.",
+          "meaning": "One, two, three, four, five."
+        },
+        {
+          "target": "Quanto custa um café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Duas maçãs, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
       "commonError": "Use duas with maçãs and dois with cafés. Keep quanto custa as one learned price question."
     },
     {
@@ -274,10 +287,34 @@
       "partOfSpeech": "word or expression",
       "example": "Um café, por favor."
     },
-    { "id": "pt-numbers-quantities-word-1", "word": "um, dois, três, quatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Um, dois, três, quatro, cinco." },
-    { "id": "pt-numbers-quantities-word-2", "word": "seis, sete, oito, nove, dez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, sete, oito, nove, dez." },
-    { "id": "pt-numbers-quantities-word-3", "word": "quanto custa?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "Quanto custa um café?" },
-    { "id": "pt-numbers-quantities-word-4", "word": "duas maçãs", "meaning": "two apples", "partOfSpeech": "noun phrase", "example": "Duas maçãs, por favor." },
+    {
+      "id": "pt-numbers-quantities-word-1",
+      "word": "um, dois, três, quatro, cinco",
+      "meaning": "one through five",
+      "partOfSpeech": "number phrase",
+      "example": "Um, dois, três, quatro, cinco."
+    },
+    {
+      "id": "pt-numbers-quantities-word-2",
+      "word": "seis, sete, oito, nove, dez",
+      "meaning": "six through ten",
+      "partOfSpeech": "number phrase",
+      "example": "Seis, sete, oito, nove, dez."
+    },
+    {
+      "id": "pt-numbers-quantities-word-3",
+      "word": "quanto custa?",
+      "meaning": "how much does it cost?",
+      "partOfSpeech": "question",
+      "example": "Quanto custa um café?"
+    },
+    {
+      "id": "pt-numbers-quantities-word-4",
+      "word": "duas maçãs",
+      "meaning": "two apples",
+      "partOfSpeech": "noun phrase",
+      "example": "Duas maçãs, por favor."
+    },
     {
       "id": "pt-directions-word-1",
       "word": "onde",
@@ -405,7 +442,7 @@
       "id": "pt-first-words-foundation",
       "unitId": "pt-unit-1",
       "title": "First words",
-      "objective": "Recognize and say your first Portuguese words — greetings and Latin-shared words — before building any sentences.",
+      "objective": "Greet someone in Portuguese, and learn why thanks changes shape depending on who is speaking.",
       "cefr": "A1",
       "prerequisites": [],
       "conceptIds": [
@@ -419,7 +456,7 @@
         "pt-first-words-word-5",
         "pt-first-words-word-6"
       ],
-      "explanation": "You already know hundreds of Portuguese words: nação, informação, restaurante. They came into English and Portuguese from Latin, the common root of Portuguese, Spanish, French and Italian — which is why the Romance languages resemble each other. Today you only say a few out loud: olá, obrigado, sim, não. No sentences yet — those come next.",
+      "explanation": "Portuguese greets by the hour, but one word here behaves differently from every language around it: obrigado is not fixed. A man says obrigado and a woman says obrigada, because the word agrees with the person speaking rather than the person being thanked. Get that right on day one and you will sound like yourself rather than like a phrasebook.",
       "examples": [
         {
           "target": "Olá.",
@@ -445,7 +482,7 @@
           "conceptId": "pt-first-words-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You already know this word — friends say it a dozen times a day in Lisbon. «Olá» — what does it mean?",
+          "prompt": "It opens every conversation in Lisbon. What does «Olá» mean?",
           "answers": [
             "Hello."
           ],
@@ -453,9 +490,9 @@
             "Hello.",
             "Thank you.",
             "Yes.",
-            "Goodbye."
+            "See you."
           ],
-          "explanation": "Olá. is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "explanation": "Olá is hello. It fits any hour, which is why it is the one greeting worth having by heart.",
           "vocabulary": [
             "pt-first-words-word-1"
           ],
@@ -466,34 +503,34 @@
           "conceptId": "pt-first-words-concept",
           "kind": "think",
           "mode": "production",
-          "thinkSeconds": 5,
-          "prompt": "Think: you meet a friend in Lisbon. One word greets them before anything else. Say it in your head — then write it.",
+          "prompt": "You meet a neighbour in Lisbon. Greet them before anything else is said.",
           "answers": [
             "Olá."
           ],
-          "explanation": "Olá. One word, said first, opens the conversation.",
+          "explanation": "One word before anything else. Say it out loud before you check.",
           "vocabulary": [
             "pt-first-words-word-1"
           ],
-          "reviewOf": []
+          "reviewOf": [],
+          "thinkSeconds": 8
         },
         {
-          "id": "pt-first-words-foundation-notice-latin",
+          "id": "pt-first-words-foundation-notice-gender",
           "conceptId": "pt-first-words-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Nação, informação, restaurante — spelled almost the same in English and Portuguese. Why do you already recognize them?",
+          "prompt": "A woman is the one speaking, and she is thanking a colleague. Which form is hers?",
           "answers": [
-            "Portuguese and English share thousands of words from Latin."
+            "Obrigada."
           ],
           "options": [
-            "Portuguese and English share thousands of words from Latin.",
-            "Portuguese borrowed its everyday words from modern English.",
-            "The shared spellings are coincidences."
+            "Obrigada.",
+            "Obrigado.",
+            "Obrigados."
           ],
-          "explanation": "Both languages inherited these words from Latin — the common root of the Romance languages. Recognition comes before production.",
+          "explanation": "Obrigada agrees with the woman speaking. Obrigado is what a man says, and obrigados is for a group.",
           "vocabulary": [
-            "pt-first-words-word-5"
+            "pt-first-words-word-2"
           ],
           "reviewOf": []
         },
@@ -506,7 +543,7 @@
           "answers": [
             "Thank you."
           ],
-          "explanation": "Obrigado is thank you — the second word to say out loud.",
+          "explanation": "This is the masculine speaker form. A woman says obrigada, and both mean the same thing to the person hearing them.",
           "vocabulary": [
             "pt-first-words-word-2"
           ],
@@ -517,33 +554,13 @@
           "conceptId": "pt-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say to a friend: ___",
+          "prompt": "Complete the greeting you say as you arrive: ___",
           "answers": [
             "Olá."
           ],
-          "explanation": "Olá. — said before everything else.",
+          "explanation": "Olá comes before the request, not after it.",
           "vocabulary": [
             "pt-first-words-word-1"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-first-words-foundation-read",
-          "conceptId": "pt-first-words-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the exchange. How many times do you read the word for thank you?",
-          "passage": "— Olá ! — Olá. — Obrigado ? — Sim, obrigado. — Não, obrigado.",
-          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
-          "answers": [
-            "Three times."
-          ],
-          "explanation": "Every word on this page is one you already learned.",
-          "vocabulary": [
-            "pt-first-words-word-1",
-            "pt-first-words-word-2",
-            "pt-first-words-word-3",
-            "pt-first-words-word-4"
           ],
           "reviewOf": []
         },
@@ -552,13 +569,13 @@
           "conceptId": "pt-first-words-concept",
           "kind": "dictation",
           "mode": "listening",
-          "audioId": "pt-first-words-foundation-model",
-          "prompt": "Listen and write the model: first words.",
+          "prompt": "Listen and write exactly what you hear. The speaker is a woman.",
           "answers": [
             "Olá, obrigada.",
             "Olá, obrigado."
           ],
-          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "audioId": "pt-first-words-foundation-model",
+          "explanation": "The recording is a woman speaking, so the thanks she gives is obrigada.",
           "vocabulary": [
             "pt-first-words-word-1",
             "pt-first-words-word-2"
@@ -922,14 +939,114 @@
       "optionalExerciseIds": []
     },
     {
-      "id": "pt-numbers-quantities-foundation", "unitId": "pt-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["pt-cafe-requests-foundation"], "conceptIds": ["pt-numbers-quantities-concept"], "vocabulary": ["pt-numbers-quantities-word-1", "pt-numbers-quantities-word-2", "pt-numbers-quantities-word-3", "pt-numbers-quantities-word-4"],
-      "explanation": "Count one through ten as two short runs. Then use quanto custa for a price and choose dois or duas from the noun that follows.", "examples": [{ "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }], "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
+      "id": "pt-numbers-quantities-foundation",
+      "unitId": "pt-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Recognize one to ten, ask a price, and order a small quantity.",
+      "cefr": "A1",
+      "prerequisites": [
+        "pt-cafe-requests-foundation"
+      ],
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-1",
+        "pt-numbers-quantities-word-2",
+        "pt-numbers-quantities-word-3",
+        "pt-numbers-quantities-word-4"
+      ],
+      "explanation": "Count one through ten as two short runs. Then use quanto custa for a price and choose dois or duas from the noun that follows.",
+      "examples": [
+        {
+          "target": "Quanto custa um café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Duas maçãs, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
+      "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
       "exercises": [
-        { "id": "pt-numbers-quantities-foundation-meet", "conceptId": "pt-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Brazilian Portuguese number means three?", "answers": ["Três."], "options": ["Dois.", "Três.", "Seis.", "Dez."], "explanation": "Três is three.", "vocabulary": ["pt-numbers-quantities-word-1"], "reviewOf": ["pt-cafe-requests-foundation"] },
-        { "id": "pt-numbers-quantities-foundation-order", "conceptId": "pt-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["Quanto custa um café?"], "explanation": "Quanto custa asks what one thing costs.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["Quanto", "custa", "um", "café?"] },
-        { "id": "pt-numbers-quantities-foundation-quantity", "conceptId": "pt-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Brazilian Portuguese: Two apples, please.", "answers": ["Duas maçãs, por favor."], "explanation": "Maçãs is feminine, so use duas.", "vocabulary": ["pt-numbers-quantities-word-4", "pt-cafe-requests-word-4"], "reviewOf": [] },
-        { "id": "pt-numbers-quantities-foundation-think", "conceptId": "pt-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: you want one coffee. Ask its price, then write the question.", "answers": ["Quanto custa um café?"], "explanation": "The learned price question is Quanto custa, followed by the item.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [] }
-      ], "optionalExerciseIds": []
+        {
+          "id": "pt-numbers-quantities-foundation-meet",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which Brazilian Portuguese number means three?",
+          "answers": [
+            "Três."
+          ],
+          "options": [
+            "Dois.",
+            "Três.",
+            "Seis.",
+            "Dez."
+          ],
+          "explanation": "Três is three.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-1"
+          ],
+          "reviewOf": [
+            "pt-cafe-requests-foundation"
+          ]
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-order",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to ask the price of one coffee.",
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "explanation": "Quanto custa asks what one thing costs.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "tokens": [
+            "Quanto",
+            "custa",
+            "um",
+            "café?"
+          ]
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-quantity",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say in Brazilian Portuguese: Two apples, please.",
+          "answers": [
+            "Duas maçãs, por favor."
+          ],
+          "explanation": "Maçãs is feminine, so use duas.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-4",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-think",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8,
+          "prompt": "Think: you want one coffee. Ask its price, then write the question.",
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "explanation": "The learned price question is Quanto custa, followed by the item.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
     },
     {
       "id": "pt-directions-foundation",

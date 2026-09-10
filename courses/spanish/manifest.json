@@ -34,7 +34,7 @@
     {
       "id": "es-first-words-concept",
       "title": "First words and greetings",
-      "explanation": "Spanish grew from Latin in Iberia, and thousands of everyday words came into both Spanish and English from Latin — nación, información, restaurante, café. You can already recognize them before you speak a word of Spanish. The words below are the first ones to say out loud: hola opens almost every conversation, gracias answers kindness, sí and no steer it.",
+      "explanation": "Spanish greets by the hour, and it greets in the plural even for a single morning: buenos días, buenas tardes. The habit worth starting on day one is that Spanish marks a question twice, with an upside-down question mark at the front and an ordinary one at the end, so you can see a question coming before you have read a word of it.",
       "examples": [
         {
           "target": "Hola.",
@@ -442,7 +442,7 @@
       "id": "es-first-words-foundation",
       "unitId": "es-unit-1",
       "title": "First words",
-      "objective": "Recognize and say your first Spanish words — greetings and Latin-shared words — before building any sentences.",
+      "objective": "Greet someone in Spanish, and meet the opening question mark that Spanish puts in front.",
       "cefr": "A1",
       "prerequisites": [],
       "conceptIds": [
@@ -456,7 +456,7 @@
         "es-first-words-word-5",
         "es-first-words-word-6"
       ],
-      "explanation": "You already know hundreds of Spanish words: nación, información, restaurante. They came into English and Spanish from Latin, the common root of Spanish, French, Italian and Portuguese — which is why the Romance languages resemble each other. Today you only say a few out loud: hola, gracias, sí, no. No sentences yet — those come next.",
+      "explanation": "Spanish greets by the hour, and it greets in the plural even for a single morning: buenos días, buenas tardes. The habit worth starting on day one is that Spanish marks a question twice, with an upside-down question mark at the front and an ordinary one at the end, so you can see a question coming before you have read a word of it.",
       "examples": [
         {
           "target": "Hola.",
@@ -482,7 +482,7 @@
           "conceptId": "es-first-words-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You already know this word — friends say it a dozen times a day in Spain. «Hola» — what does it mean?",
+          "prompt": "A friend says this to you in Madrid before anything else is said. What does «Hola» mean?",
           "answers": [
             "Hello."
           ],
@@ -490,11 +490,31 @@
             "Hello.",
             "Thank you.",
             "Yes.",
-            "Goodbye."
+            "Please."
           ],
-          "explanation": "Hola. is hello — the first word to say out loud. The rest of this lesson stays this small.",
+          "explanation": "Hola is hello. It fits any hour, which is why it is the one greeting worth having by heart.",
           "vocabulary": [
             "es-first-words-word-1"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-first-words-foundation-notice-marks",
+          "conceptId": "es-first-words-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Spanish opens a question with an upside-down mark and closes it with an ordinary one. Which of these is asking something?",
+          "answers": [
+            "¿Café?"
+          ],
+          "options": [
+            "¿Café?",
+            "Gracias.",
+            "Sí."
+          ],
+          "explanation": "Only the first line is a question: it carries the upside-down opening mark and the closing one. The other two are statements and need neither.",
+          "vocabulary": [
+            "es-first-words-word-3"
           ],
           "reviewOf": []
         },
@@ -503,62 +523,27 @@
           "conceptId": "es-first-words-concept",
           "kind": "think",
           "mode": "production",
-          "thinkSeconds": 5,
-          "prompt": "Think: you meet a friend in Madrid. One word greets them before anything else. Say it in your head — then write it.",
+          "prompt": "You meet a friend in Madrid. Greet them before anything else is said.",
           "answers": [
             "Hola."
           ],
-          "explanation": "Hola. One word, said first, opens the conversation.",
+          "explanation": "One word before anything else. Say it out loud before you check.",
           "vocabulary": [
             "es-first-words-word-1"
           ],
-          "reviewOf": []
-        },
-        {
-          "id": "es-first-words-foundation-notice-latin",
-          "conceptId": "es-first-words-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Nación, información, restaurante — spelled almost the same in English and Spanish. Why do you already recognize them?",
-          "answers": [
-            "Spanish and English share thousands of words from Latin."
-          ],
-          "options": [
-            "Spanish and English share thousands of words from Latin.",
-            "Spanish borrowed its everyday words from modern English.",
-            "The shared spellings are coincidences."
-          ],
-          "explanation": "Both languages inherited these words from Latin — the common root of the Romance languages. Recognition comes before production.",
-          "vocabulary": [
-            "es-first-words-word-5"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "es-first-words-foundation-meaning",
-          "conceptId": "es-first-words-concept",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Gracias.",
-          "answers": [
-            "Thank you."
-          ],
-          "explanation": "Gracias is thank you — the second word to say out loud.",
-          "vocabulary": [
-            "es-first-words-word-2"
-          ],
-          "reviewOf": []
+          "reviewOf": [],
+          "thinkSeconds": 8
         },
         {
           "id": "es-first-words-foundation-cloze",
           "conceptId": "es-first-words-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the first word you say to a friend: ___",
+          "prompt": "Complete the greeting you give a friend: ___",
           "answers": [
             "Hola."
           ],
-          "explanation": "Hola. — said before everything else.",
+          "explanation": "Hola comes first; the rest of the sentence waits.",
           "vocabulary": [
             "es-first-words-word-1"
           ],
@@ -569,18 +554,19 @@
           "conceptId": "es-first-words-concept",
           "kind": "reading",
           "mode": "recognition",
-          "prompt": "Read the exchange. How many times do you read the word for thank you?",
-          "passage": "— Hola ! — Hola. — Gracias ? — Sí, gracias. — No, gracias.",
-          "translation": "“Hello!” “Hello.” “Thanks?” “Yes, thanks.” “No, thanks.”",
+          "prompt": "Read the exchange and count the questions in it.",
           "answers": [
-            "Three times."
+            "Two.",
+            "2."
           ],
-          "explanation": "Every word on this page is one you already learned.",
+          "passage": "— ¿Hola?\n— Hola.\n— ¿Café?\n— Sí, gracias.\n— ¿Café?\n— No, gracias.",
+          "translation": "“Hello?”\n“Hello.”\n“Coffee?”\n“Yes, thanks.”\n“Coffee?”\n“No, thanks.”",
+          "explanation": "Two of the lines open with the upside-down mark. The other four are statements.",
           "vocabulary": [
-            "es-first-words-word-1",
             "es-first-words-word-2",
             "es-first-words-word-3",
-            "es-first-words-word-4"
+            "es-first-words-word-4",
+            "es-first-words-word-6"
           ],
           "reviewOf": []
         },
@@ -589,12 +575,12 @@
           "conceptId": "es-first-words-concept",
           "kind": "dictation",
           "mode": "listening",
-          "audioId": "es-first-words-foundation-model",
-          "prompt": "Listen and write the model: first words.",
+          "prompt": "Listen and write exactly what you hear, including both words.",
           "answers": [
             "Hola, gracias."
           ],
-          "explanation": "Two words you can say. Replay slowly, then at normal speed.",
+          "audioId": "es-first-words-foundation-model",
+          "explanation": "Two words, both of which you now own.",
           "vocabulary": [
             "es-first-words-word-1",
             "es-first-words-word-2"
