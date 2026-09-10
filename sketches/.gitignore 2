@@ -1,2 +1,0 @@
-# Screenshots are regenerable: `node sketches/shoot.mjs`.
-*.png

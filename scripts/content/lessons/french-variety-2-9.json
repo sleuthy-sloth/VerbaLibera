@@ -1,0 +1,1541 @@
+{
+  "_comment": "Rewrites French lessons 2-9 into their assigned archetypes (F,B,C,E,D,A,F,C) from scripts/content/lessons/FRENCH-VARIETY.md, adding one transform exercise to each archetype B-F lesson (L7/fr-plural is archetype A and gains none). Every existing exercise is carried over verbatim. The archetype tables name seven non-meet slots but each lesson also has a `review` exercise; `review` is kept and placed immediately before the dictation (its position in archetype A), so B-F lessons hold nine exercises, not eight. Applied centrally by scripts/content/differentiate-first-words.py; not run here.",
+  "courses/french/manifest.json": {
+    "lessons": [
+      {
+        "id": "fr-people-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "es"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-people-foundation-meet",
+            "conceptId": "fr-people-concept",
+            "prompt": "Which French word means “are (with tu)”?",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu",
+              "es",
+              "elle",
+              "est"
+            ]
+          },
+          {
+            "conceptId": "fr-people-concept",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-people-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Elle est française.",
+            "answers": [
+              "She is French."
+            ]
+          },
+          {
+            "conceptId": "fr-people-concept",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-people-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Tu ___ Marc.",
+            "answers": [
+              "es"
+            ]
+          },
+          {
+            "conceptId": "fr-people-concept",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-people-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: She is French.",
+            "answers": [
+              "Elle est française."
+            ],
+            "tokens": [
+              "française.",
+              "est",
+              "Elle"
+            ]
+          },
+          {
+            "id": "fr-people-foundation-transform",
+            "conceptId": "fr-people-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you are speaking to Marie instead of speaking about her: Elle est française.",
+            "answers": [
+              "Tu es française."
+            ],
+            "explanation": "Elle est becomes tu es: the verb changes with the subject. Française still agrees with Marie, the person it describes.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-people-concept",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-people-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "You recognize Marc at a café. Address him in French: You are Marc.",
+            "answers": [
+              "Tu es Marc."
+            ],
+            "errors": [
+              {
+                "answer": "Tu est Marc.",
+                "category": "wrong conjugation",
+                "explanation": "With tu, use es. Est belongs with il or elle."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-people-concept",
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-people-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Who is French? (Reading 2)",
+            "passage": "Anna est française. Tu es Marc.",
+            "translation": "Anna is French. You are Marc.",
+            "answers": [
+              "Anna"
+            ]
+          },
+          {
+            "id": "fr-people-foundation-review",
+            "conceptId": "fr-identity-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Names and introductions: I am Anna.",
+            "answers": [
+              "Je suis Anna."
+            ],
+            "explanation": "Je means I. Je suis is the I-form of être (to be). French normally keeps the subject pronoun. Bonjour is a polite greeting; salut is informal. Française describes a French woman; français describes a French man.",
+            "vocabulary": [
+              "fr-identity-word-1",
+              "fr-identity-word-2",
+              "fr-identity-word-3",
+              "fr-identity-word-4"
+            ],
+            "reviewOf": [
+              "fr-identity-foundation"
+            ]
+          },
+          {
+            "id": "fr-people-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-people-concept",
+            "prompt": "Listen and write the model: people and être.",
+            "answers": [
+              "Tu es Marc."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-people-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-family-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "j’ai"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-family-foundation-meet",
+            "conceptId": "fr-family-concept",
+            "prompt": "Which French word means “I have”?",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu as",
+              "un frère",
+              "j’ai",
+              "une sœur"
+            ]
+          },
+          {
+            "conceptId": "fr-family-concept",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-family-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "A new friend asks about your family. Tell them in French: I have a brother.",
+            "answers": [
+              "J’ai un frère."
+            ],
+            "errors": [
+              {
+                "answer": "Je ai un frère.",
+                "category": "incorrect answer",
+                "explanation": "Je contracts before ai: j’ai."
+              }
+            ]
+          },
+          {
+            "id": "fr-family-foundation-transform",
+            "conceptId": "fr-family-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you are talking about yourself instead of about your friend: Tu as une sœur.",
+            "answers": [
+              "J’ai une sœur."
+            ],
+            "explanation": "Tu as becomes j’ai: the form of avoir changes with the subject. Sœur stays sœur either way.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-family-concept",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-family-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: You have a sister.",
+            "answers": [
+              "Tu as une sœur."
+            ],
+            "tokens": [
+              "sœur.",
+              "une",
+              "as",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-family-concept",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-family-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: J’___ un frère.",
+            "answers": [
+              "ai"
+            ]
+          },
+          {
+            "conceptId": "fr-family-concept",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-family-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu as une sœur.",
+            "answers": [
+              "You have a sister.",
+              "You've a sister."
+            ]
+          },
+          {
+            "conceptId": "fr-family-concept",
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-family-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Does Anna have a brother? Answer in English. (Reading 3)",
+            "passage": "Je suis Anna. J’ai un frère. Il est français.",
+            "translation": "I am Anna. I have a brother. He is French.",
+            "answers": [
+              "yes"
+            ]
+          },
+          {
+            "id": "fr-family-foundation-review",
+            "conceptId": "fr-people-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from People and être: You are Marc.",
+            "answers": [
+              "Tu es Marc."
+            ],
+            "explanation": "Tu is informal singular you; elle is she; il is he. Être changes: je suis, tu es, il/elle est. Unlike Italian, French normally needs the subject before the verb. Est and et (and) are different words.",
+            "vocabulary": [
+              "fr-people-word-1",
+              "fr-people-word-2",
+              "fr-people-word-3",
+              "fr-people-word-4"
+            ],
+            "reviewOf": [
+              "fr-people-foundation"
+            ]
+          },
+          {
+            "id": "fr-family-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-family-concept",
+            "prompt": "Listen and write the model: family and avoir.",
+            "answers": [
+              "J’ai un frère."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-family-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-numbers-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "vingt"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-numbers-foundation-meet",
+            "conceptId": "fr-numbers-concept",
+            "prompt": "Which French word means “twenty”?",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "trente",
+              "ans",
+              "quel âge",
+              "vingt"
+            ]
+          },
+          {
+            "conceptId": "fr-numbers-concept",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-numbers-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "How old is the sister? Answer with the French number. (Reading 4)",
+            "passage": "J’ai vingt ans. J’ai une sœur. Elle a trente ans.",
+            "translation": "I am twenty years old. I have a sister. She is thirty years old.",
+            "answers": [
+              "trente"
+            ]
+          },
+          {
+            "conceptId": "fr-numbers-concept",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-numbers-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu as trente ans.",
+            "answers": [
+              "You are thirty years old.",
+              "You're thirty years old."
+            ]
+          },
+          {
+            "id": "fr-numbers-foundation-transform",
+            "conceptId": "fr-numbers-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you are telling your friend’s age instead of your own: J’ai vingt ans.",
+            "answers": [
+              "Tu as vingt ans."
+            ],
+            "explanation": "J’ai becomes tu as: the same age, a different subject, so avoir changes from ai to as.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-numbers-concept",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-numbers-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: You are thirty years old.",
+            "answers": [
+              "Tu as trente ans."
+            ],
+            "tokens": [
+              "ans.",
+              "trente",
+              "as",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-numbers-concept",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-numbers-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: J’___ vingt ans.",
+            "answers": [
+              "ai"
+            ]
+          },
+          {
+            "conceptId": "fr-numbers-concept",
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-numbers-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I am twenty years old.",
+            "answers": [
+              "J’ai vingt ans."
+            ],
+            "errors": [
+              {
+                "answer": "Je suis vingt ans.",
+                "category": "incorrect answer",
+                "explanation": "Use avoir for age: J’ai vingt ans."
+              }
+            ]
+          },
+          {
+            "id": "fr-numbers-foundation-review",
+            "conceptId": "fr-family-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Family and avoir: I have a brother.",
+            "answers": [
+              "J’ai un frère."
+            ],
+            "explanation": "Avoir means to have: j’ai, tu as, il/elle a. Je becomes j’ before ai; keep the apostrophe. Un frère uses a masculine article; une sœur is feminine. Learn the article with each noun.",
+            "vocabulary": [
+              "fr-family-word-1",
+              "fr-family-word-2",
+              "fr-family-word-3",
+              "fr-family-word-4"
+            ],
+            "reviewOf": [
+              "fr-family-foundation"
+            ]
+          },
+          {
+            "id": "fr-numbers-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-numbers-concept",
+            "prompt": "Listen and write the model: numbers and age.",
+            "answers": [
+              "J’ai trente ans.",
+              "J’ai 30 ans."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-numbers-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-home-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "une maison"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-home-foundation-meet",
+            "conceptId": "fr-home-concept",
+            "prompt": "Which French word means “a house”?",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "une maison",
+              "le livre",
+              "à la maison",
+              "la"
+            ]
+          },
+          {
+            "conceptId": "fr-home-concept",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-home-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Le livre est à la maison.",
+            "answers": [
+              "The book is at home."
+            ]
+          },
+          {
+            "id": "fr-home-foundation-transform",
+            "conceptId": "fr-home-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you have a book instead of a house: J’ai une maison.",
+            "answers": [
+              "J’ai un livre."
+            ],
+            "explanation": "Maison is feminine and takes une; livre is masculine, so the article becomes un: J’ai un livre.",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-home-concept",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-home-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Where is the book? Answer in French. (Reading 5)",
+            "passage": "J’ai une maison. Le livre est à la maison.",
+            "translation": "I have a house. The book is at home.",
+            "answers": [
+              "à la maison"
+            ]
+          },
+          {
+            "conceptId": "fr-home-concept",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-home-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: ___ livre est à la maison.",
+            "answers": [
+              "Le"
+            ]
+          },
+          {
+            "conceptId": "fr-home-concept",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-home-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: The book is at home.",
+            "answers": [
+              "Le livre est à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "est",
+              "livre",
+              "Le"
+            ]
+          },
+          {
+            "conceptId": "fr-home-concept",
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-home-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I have a house.",
+            "answers": [
+              "J’ai une maison."
+            ],
+            "errors": [
+              {
+                "answer": "La livre est à la maison.",
+                "category": "incorrect answer",
+                "explanation": "The book is masculine: le livre. La livre is a different noun meaning the pound."
+              }
+            ]
+          },
+          {
+            "id": "fr-home-foundation-review",
+            "conceptId": "fr-numbers-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Numbers and age: I am twenty years old.",
+            "answers": [
+              "J’ai vingt ans."
+            ],
+            "explanation": "French uses avoir for age: j’ai vingt ans literally means I have twenty years. Vingt means twenty and trente means thirty. Ans is years when counting age. Do not use être for a person’s age.",
+            "vocabulary": [
+              "fr-numbers-word-1",
+              "fr-numbers-word-2",
+              "fr-numbers-word-3",
+              "fr-numbers-word-4"
+            ],
+            "reviewOf": [
+              "fr-numbers-foundation"
+            ]
+          },
+          {
+            "id": "fr-home-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-home-concept",
+            "prompt": "Listen and write the model: home and articles.",
+            "answers": [
+              "J’ai une maison."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-home-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-descriptions-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "blanc"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-descriptions-foundation-meet",
+            "conceptId": "fr-descriptions-concept",
+            "prompt": "Which French word means “white (masculine)”?",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "blanche",
+              "blanc",
+              "grand",
+              "grande"
+            ]
+          },
+          {
+            "id": "fr-descriptions-foundation-transform",
+            "conceptId": "fr-descriptions-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so the house is big instead of white: La maison est blanche.",
+            "answers": [
+              "La maison est grande."
+            ],
+            "explanation": "Maison is feminine, so the adjective takes its feminine form: blanche becomes grande. The verb est does not change.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-descriptions-concept",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-descriptions-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: The house is white.",
+            "answers": [
+              "La maison est blanche."
+            ],
+            "errors": [
+              {
+                "answer": "La maison est blanc.",
+                "category": "incorrect answer",
+                "explanation": "Maison is feminine: use blanche."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-descriptions-concept",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-descriptions-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: The book is white.",
+            "answers": [
+              "Le livre est blanc."
+            ],
+            "tokens": [
+              "blanc.",
+              "est",
+              "livre",
+              "Le"
+            ]
+          },
+          {
+            "conceptId": "fr-descriptions-concept",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-descriptions-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: La maison est ___.",
+            "answers": [
+              "blanche"
+            ]
+          },
+          {
+            "conceptId": "fr-descriptions-concept",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-descriptions-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Which thing is big? Answer in French. (Reading 6)",
+            "passage": "La maison est blanche. Le livre est blanc. La maison est grande.",
+            "translation": "The house is white. The book is white. The house is big.",
+            "answers": [
+              "la maison"
+            ]
+          },
+          {
+            "conceptId": "fr-descriptions-concept",
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-descriptions-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Le livre est blanc.",
+            "answers": [
+              "The book is white."
+            ]
+          },
+          {
+            "id": "fr-descriptions-foundation-review",
+            "conceptId": "fr-home-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Home and articles: I have a house.",
+            "answers": [
+              "J’ai une maison."
+            ],
+            "explanation": "Le is a masculine definite article and la is feminine. Both become l’ before a vowel sound. Une maison is a house; le livre is the book. À la maison means at home. The accent on à distinguishes it from a (has).",
+            "vocabulary": [
+              "fr-home-word-1",
+              "fr-home-word-2",
+              "fr-home-word-3",
+              "fr-home-word-4"
+            ],
+            "reviewOf": [
+              "fr-home-foundation"
+            ]
+          },
+          {
+            "id": "fr-descriptions-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-descriptions-concept",
+            "prompt": "Listen and write the model: describing things.",
+            "answers": [
+              "La maison est blanche."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-descriptions-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-plural-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "les livres"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-plural-foundation-meet",
+            "conceptId": "fr-plural-concept",
+            "prompt": "Which French word means “the books”?",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "les maisons",
+              "sont",
+              "les livres",
+              "blancs"
+            ]
+          },
+          {
+            "conceptId": "fr-plural-concept",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plural-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Les maisons sont grandes.",
+            "answers": [
+              "The houses are big."
+            ]
+          },
+          {
+            "conceptId": "fr-plural-concept",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plural-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: The houses are big.",
+            "answers": [
+              "Les maisons sont grandes."
+            ],
+            "tokens": [
+              "grandes.",
+              "sont",
+              "maisons",
+              "Les"
+            ]
+          },
+          {
+            "conceptId": "fr-plural-concept",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plural-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Les livres ___ blancs.",
+            "answers": [
+              "sont"
+            ]
+          },
+          {
+            "conceptId": "fr-plural-concept",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plural-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: The books are white.",
+            "answers": [
+              "Les livres sont blancs."
+            ],
+            "errors": [
+              {
+                "answer": "Les livres est blancs.",
+                "category": "incorrect answer",
+                "explanation": "A plural subject needs sont."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-plural-concept",
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plural-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "What color are the books? Answer in French. (Reading 7)",
+            "passage": "Les maisons sont grandes. Les livres sont blancs.",
+            "translation": "The houses are big. The books are white.",
+            "answers": [
+              "blancs"
+            ]
+          },
+          {
+            "id": "fr-plural-foundation-review",
+            "conceptId": "fr-descriptions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Describing things: The house is white.",
+            "answers": [
+              "La maison est blanche."
+            ],
+            "explanation": "Many feminine adjectives add -e, but some change more: blanc → blanche. A white house is une maison blanche; a white book is un livre blanc. Grand becomes grande with a feminine noun.",
+            "vocabulary": [
+              "fr-descriptions-word-1",
+              "fr-descriptions-word-2",
+              "fr-descriptions-word-3",
+              "fr-descriptions-word-4"
+            ],
+            "reviewOf": [
+              "fr-descriptions-foundation"
+            ]
+          },
+          {
+            "id": "fr-plural-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-plural-concept",
+            "prompt": "Listen and write the model: plural nouns and adjectives.",
+            "answers": [
+              "Les livres sont blancs."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-plural-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-routine-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "j’étudie"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-routine-foundation-meet",
+            "conceptId": "fr-routine-concept",
+            "prompt": "Which French word means “I study”?",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu travailles",
+              "chaque jour",
+              "travailler",
+              "j’étudie"
+            ]
+          },
+          {
+            "conceptId": "fr-routine-concept",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-routine-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu travailles à la maison.",
+            "answers": [
+              "You work at home."
+            ]
+          },
+          {
+            "conceptId": "fr-routine-concept",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-routine-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Tu ___ à la maison.",
+            "answers": [
+              "travailles"
+            ]
+          },
+          {
+            "conceptId": "fr-routine-concept",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-routine-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: You work at home.",
+            "answers": [
+              "Tu travailles à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "travailles",
+              "Tu"
+            ]
+          },
+          {
+            "id": "fr-routine-foundation-transform",
+            "conceptId": "fr-routine-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you are asking about Marc instead of describing yourself: J’étudie chaque jour.",
+            "answers": [
+              "Tu étudies chaque jour."
+            ],
+            "explanation": "J’étudie becomes tu étudies: the -s is the only change, and chaque jour stays put.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-routine-concept",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-routine-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I study every day.",
+            "answers": [
+              "J’étudie chaque jour."
+            ],
+            "errors": [
+              {
+                "answer": "Tu travaille à la maison.",
+                "category": "wrong conjugation",
+                "explanation": "The tu form of travailler ends in -es: travailles."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-routine-concept",
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-routine-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Who studies every day? (Reading 8)",
+            "passage": "Je suis Anna. J’étudie chaque jour. Tu travailles à la maison.",
+            "translation": "I am Anna. I study every day. You work at home.",
+            "answers": [
+              "Anna"
+            ]
+          },
+          {
+            "id": "fr-routine-foundation-review",
+            "conceptId": "fr-plural-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Plural nouns and adjectives: The books are white.",
+            "answers": [
+              "Les livres sont blancs."
+            ],
+            "explanation": "Most French nouns and adjectives add -s in the plural. The definite article becomes les for both genders. The verb être becomes sont with plural third-person subjects. Many final s letters are silent, but matter in writing.",
+            "vocabulary": [
+              "fr-plural-word-1",
+              "fr-plural-word-2",
+              "fr-plural-word-3",
+              "fr-plural-word-4"
+            ],
+            "reviewOf": [
+              "fr-plural-foundation"
+            ]
+          },
+          {
+            "id": "fr-routine-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-routine-concept",
+            "prompt": "Listen and write the model: study and work.",
+            "answers": [
+              "J’étudie chaque jour."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-routine-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-negation-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "je travaille"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-negation-foundation-meet",
+            "conceptId": "fr-negation-concept",
+            "prompt": "Which French word means “I work”?",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "je travaille",
+              "ne … pas",
+              "n’étudie pas",
+              "oui"
+            ]
+          },
+          {
+            "conceptId": "fr-negation-concept",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-negation-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Does the speaker work? Answer in English. (Reading 9)",
+            "passage": "J’étudie chaque jour. Je ne travaille pas.",
+            "translation": "I study every day. I do not work.",
+            "answers": [
+              "no"
+            ]
+          },
+          {
+            "conceptId": "fr-negation-concept",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-negation-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Je n’étudie pas à la maison.",
+            "answers": [
+              "I do not study at home.",
+              "I don't study at home."
+            ]
+          },
+          {
+            "id": "fr-negation-foundation-transform",
+            "conceptId": "fr-negation-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change it so you are asking about your friend instead of describing yourself: Je travaille à la maison.",
+            "answers": [
+              "Tu travailles à la maison."
+            ],
+            "explanation": "Je travaille becomes tu travailles: the positive verb changes with the subject. Nothing here is negative yet.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-negation-concept",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-negation-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: I do not study at home.",
+            "answers": [
+              "Je n’étudie pas à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "pas",
+              "n’étudie",
+              "Je"
+            ]
+          },
+          {
+            "conceptId": "fr-negation-concept",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-negation-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Je ne travaille ___.",
+            "answers": [
+              "pas"
+            ]
+          },
+          {
+            "conceptId": "fr-negation-concept",
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-negation-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I do not work.",
+            "answers": [
+              "Je ne travaille pas."
+            ],
+            "errors": [
+              {
+                "answer": "Je ne pas travaille.",
+                "category": "incorrect answer",
+                "explanation": "Put the finite verb between ne and pas: Je ne travaille pas."
+              }
+            ]
+          },
+          {
+            "id": "fr-negation-foundation-review",
+            "conceptId": "fr-routine-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Study and work: I study every day.",
+            "answers": [
+              "J’étudie chaque jour."
+            ],
+            "explanation": "Regular -er verbs use -e with je and -es with tu: travailler → je travaille, tu travailles. Étudier begins with a vowel sound, so je becomes j’: j’étudie. French uses this present tense for both I study and I am studying.",
+            "vocabulary": [
+              "fr-routine-word-1",
+              "fr-routine-word-2",
+              "fr-routine-word-3",
+              "fr-routine-word-4"
+            ],
+            "reviewOf": [
+              "fr-routine-foundation"
+            ]
+          },
+          {
+            "id": "fr-negation-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-negation-concept",
+            "prompt": "Listen and write the model: making a negative.",
+            "answers": [
+              "Je ne travaille pas."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-negation-foundation-model"
+          }
+        ]
+      }
+    ]
+  }
+}

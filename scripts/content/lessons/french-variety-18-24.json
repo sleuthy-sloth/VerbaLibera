@@ -1,0 +1,1449 @@
+{
+  "_comment": "French variety pass, archetypes over lessons 18-24 (branch feat/fr-it-variety). Each lesson keeps every existing exercise verbatim and is reordered into its assigned archetype; L19 (A) is already in A order and gains no exercise, L18/L20-L24 (B-F) each gain exactly one new `transform`. NOTE: the spec's archetype rows B-F do not name the `review` slot; every lesson keeps it, placed immediately before the closing `dictation` (its position in archetype A and in the current order). Applied by scripts/content/differentiate-first-words.py.",
+  "courses/french/manifest.json": {
+    "lessons": [
+      {
+        "id": "fr-time-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "heure"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-time-foundation-meet",
+            "conceptId": "fr-time-concept",
+            "prompt": "Which French word means “hour”?",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "midi",
+              "heure",
+              "et demie",
+              "moins le quart"
+            ]
+          },
+          {
+            "id": "fr-time-foundation-transform",
+            "conceptId": "fr-time-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "You know the answer. Now write the question that asks for it: Il est trois heures et demie.",
+            "answers": [
+              "Quelle heure est-il ?"
+            ],
+            "explanation": "The question is Quelle heure est-il ? and the reply is Il est … heures. Asking swaps the two roles round: the question word replaces the numbers.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: It is half past three.",
+            "answers": [
+              "Il est trois heures et demie."
+            ],
+            "errors": [
+              {
+                "answer": "Ils sont trois heures et demie.",
+                "category": "incorrect answer",
+                "explanation": "The clock takes il est: Il est trois heures et demie."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: It is half past three.",
+            "answers": [
+              "Il est trois heures et demie."
+            ],
+            "tokens": [
+              "demie.",
+              "heures",
+              "et",
+              "trois",
+              "est",
+              "Il"
+            ]
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete the time: ___ est une heure.",
+            "answers": [
+              "Il"
+            ]
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "When does the train leave? Answer in French. (Reading 18)",
+            "answers": [
+              "à huit heures et demie"
+            ],
+            "passage": "Le train part à huit heures et demie. Il arrive à midi.",
+            "translation": "The train leaves at half past eight. It arrives at midday."
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Il est une heure.",
+            "answers": [
+              "It is one o’clock."
+            ]
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-days-foundation"
+            ],
+            "id": "fr-time-foundation-review",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Days, months and dates: Today is Monday.",
+            "answers": [
+              "Aujourd’hui, c’est lundi."
+            ],
+            "errors": [
+              {
+                "answer": "Aujourd’hui, il est lundi.",
+                "category": "incorrect answer",
+                "explanation": "Days use c’est: Aujourd’hui, c’est lundi."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-time-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "prompt": "Listen and write the model: telling the time.",
+            "answers": [
+              "Il est trois heures et demie."
+            ],
+            "audioId": "fr-time-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-weather-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "froid"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-weather-foundation-meet",
+            "conceptId": "fr-weather-concept",
+            "prompt": "Which French word means “cold”?",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "soleil",
+              "pluie",
+              "froid",
+              "chaud"
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Il y a du soleil.",
+            "answers": [
+              "It is sunny."
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: It is cold today.",
+            "answers": [
+              "Aujourd’hui, il fait froid."
+            ],
+            "tokens": [
+              "froid.",
+              "fait",
+              "il",
+              "Aujourd’hui,"
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete the forecast: Demain, il ___ chaud.",
+            "answers": [
+              "fait"
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: It is cold today.",
+            "answers": [
+              "Aujourd’hui, il fait froid.",
+              "Il fait froid aujourd’hui."
+            ],
+            "errors": [
+              {
+                "answer": "Aujourd’hui, il est froid.",
+                "category": "incorrect answer",
+                "explanation": "Weather uses faire: Aujourd’hui, il fait froid."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "What falls tomorrow? Answer with the French verb. (Reading 19)",
+            "answers": [
+              "pleut"
+            ],
+            "passage": "Aujourd’hui, il y a du soleil et il fait chaud. Demain, il pleut et il fait froid.",
+            "translation": "Today it is sunny and hot. Tomorrow it rains and it is cold."
+          },
+          {
+            "conceptId": "fr-time-concept",
+            "explanation": "Ask the time with Quelle heure est-il ? Answer Il est une heure for one o’clock and Il est plus the number plus heures otherwise: Il est trois heures. Add et demie for half past, et quart for quarter past and moins le quart for quarter to.",
+            "vocabulary": [
+              "fr-time-foundation-word-1",
+              "fr-time-foundation-word-2",
+              "fr-time-foundation-word-3",
+              "fr-time-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-time-foundation"
+            ],
+            "id": "fr-weather-foundation-review",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Telling the time: It is half past three.",
+            "answers": [
+              "Il est trois heures et demie."
+            ],
+            "errors": [
+              {
+                "answer": "Ils sont trois heures et demie.",
+                "category": "incorrect answer",
+                "explanation": "The clock takes il est: Il est trois heures et demie."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-weather-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "prompt": "Listen and write the model: weather and seasons.",
+            "answers": [
+              "Aujourd’hui, il fait froid et il y a du soleil."
+            ],
+            "audioId": "fr-weather-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-market-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "kilo"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-market-foundation-meet",
+            "conceptId": "fr-market-concept",
+            "prompt": "Which French word means “kilo”?",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "marché",
+              "euro",
+              "prix",
+              "kilo"
+            ]
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: How much is a kilo of apples?",
+            "answers": [
+              "Combien coûte un kilo de pommes ?"
+            ],
+            "errors": [
+              {
+                "answer": "Combien coûtent un kilo de pommes ?",
+                "category": "incorrect answer",
+                "explanation": "Un kilo is singular: Combien coûte un kilo de pommes ?"
+              }
+            ]
+          },
+          {
+            "id": "fr-market-foundation-transform",
+            "conceptId": "fr-market-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Ask the same question about two kilos instead of one: Combien coûte un kilo de pommes ?",
+            "answers": [
+              "Combien coûtent deux kilos de pommes ?"
+            ],
+            "explanation": "Two kilos are plural, so the verb agrees with them: Combien coûtent deux kilos de pommes ? With the singular un kilo it stays coûte.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: How much is a kilo of apples?",
+            "answers": [
+              "Combien coûte un kilo de pommes ?"
+            ],
+            "tokens": [
+              "?",
+              "pommes",
+              "de",
+              "kilo",
+              "un",
+              "coûte",
+              "Combien"
+            ]
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete the price: Ça ___ trois euros.",
+            "answers": [
+              "fait"
+            ]
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Ça fait trois euros.",
+            "answers": [
+              "That is three euros."
+            ]
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "How much is the bread? Answer with the French price. (Reading 20)",
+            "answers": [
+              "un euro"
+            ],
+            "passage": "Pommes : deux euros le kilo. Pain : un euro.",
+            "translation": "Apples: two euros per kilo. Bread: one euro."
+          },
+          {
+            "conceptId": "fr-weather-concept",
+            "explanation": "Describe the weather with il fait plus an adjective: il fait chaud for hot, il fait froid for cold. Say il y a du soleil for sunny and il pleut for it rains. Two seasons to know now are l’été (summer, masculine) and l’hiver (winter, masculine).",
+            "vocabulary": [
+              "fr-weather-foundation-word-1",
+              "fr-weather-foundation-word-2",
+              "fr-weather-foundation-word-3",
+              "fr-weather-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-weather-foundation"
+            ],
+            "id": "fr-market-foundation-review",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Weather and seasons: It is cold today.",
+            "answers": [
+              "Aujourd’hui, il fait froid.",
+              "Il fait froid aujourd’hui."
+            ],
+            "errors": [
+              {
+                "answer": "Aujourd’hui, il est froid.",
+                "category": "incorrect answer",
+                "explanation": "Weather uses faire: Aujourd’hui, il fait froid."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-market-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "prompt": "Listen and write the model: market prices.",
+            "answers": [
+              "Combien coûte un kilo de pommes ?"
+            ],
+            "audioId": "fr-market-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-health-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "tête"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-meet",
+            "conceptId": "fr-health-concept",
+            "prompt": "Which French word means “head”?",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tête",
+              "fièvre",
+              "médecin",
+              "mal"
+            ]
+          },
+          {
+            "answers": [
+              "à la tête"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-read",
+            "conceptId": "fr-health-concept",
+            "prompt": "What hurts? Answer with the French body part. (Reading 21)",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Marco a de la fièvre. J’ai mal à la tête, dit-il au médecin.",
+            "translation": "Marco has a fever. “My head hurts,” he tells the doctor."
+          },
+          {
+            "answers": [
+              "I have a fever."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-meaning",
+            "conceptId": "fr-health-concept",
+            "prompt": "Give the English meaning: J’ai de la fièvre.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "id": "fr-health-foundation-transform",
+            "conceptId": "fr-health-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Now it is your friend whose head hurts. Change the subject: J’ai mal à la tête.",
+            "answers": [
+              "Tu as mal à la tête."
+            ],
+            "explanation": "With tu, avoir is as: Tu as mal à la tête. The phrase mal à la tête does not change; only the subject and its verb do.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "answers": [
+              "J’ai mal à la tête."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-order",
+            "conceptId": "fr-health-concept",
+            "prompt": "Arrange the words to say: My head hurts.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "tête.",
+              "la",
+              "à",
+              "mal",
+              "J’ai"
+            ]
+          },
+          {
+            "answers": [
+              "mal"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-cloze",
+            "conceptId": "fr-health-concept",
+            "prompt": "Complete the pain: J’ai ___ à la tête.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "J’ai mal à la tête."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Ma tête est mal.",
+                "category": "incorrect answer",
+                "explanation": "Pain uses avoir mal: J’ai mal à la tête."
+              }
+            ],
+            "id": "fr-health-foundation-produce",
+            "conceptId": "fr-health-concept",
+            "prompt": "Write in French: My head hurts.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "conceptId": "fr-market-concept",
+            "explanation": "Ask the price with Combien coûte ? for one thing and Combien coûtent ? for several: Combien coûte un kilo de pommes ? Answer with the price: Ça fait trois euros. Un kilo is one kilo and le marché is the market.",
+            "vocabulary": [
+              "fr-market-foundation-word-1",
+              "fr-market-foundation-word-2",
+              "fr-market-foundation-word-3",
+              "fr-market-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-market-foundation"
+            ],
+            "id": "fr-health-foundation-review",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from At the market: prices: How much is a kilo of apples?",
+            "answers": [
+              "Combien coûte un kilo de pommes ?"
+            ],
+            "errors": [
+              {
+                "answer": "Combien coûtent un kilo de pommes ?",
+                "category": "incorrect answer",
+                "explanation": "Un kilo is singular: Combien coûte un kilo de pommes ?"
+              }
+            ]
+          },
+          {
+            "answers": [
+              "J’ai mal à la tête."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-health-foundation-listen-model",
+            "conceptId": "fr-health-concept",
+            "prompt": "Listen and write the model: saying where it hurts.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "fr-health-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-pharmacy-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "médicament"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-meet",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Which French word means “medicine”?",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "pharmacie",
+              "médicament",
+              "comprimé",
+              "sirop"
+            ]
+          },
+          {
+            "id": "fr-pharmacy-foundation-transform",
+            "conceptId": "fr-pharmacy-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Ask for a pill instead of medicine, keeping the same polite pattern: Je voudrais un médicament.",
+            "answers": [
+              "Je voudrais un comprimé."
+            ],
+            "explanation": "Je voudrais works with any noun: swap médicament for comprimé and the rest stays. Un comprimé is one pill.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "answers": [
+              "Je voudrais un médicament."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Je voudrais une médicament.",
+                "category": "incorrect answer",
+                "explanation": "Médicament is masculine: un médicament."
+              }
+            ],
+            "id": "fr-pharmacy-foundation-produce",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Write in French: I would like some medicine.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Je voudrais un médicament."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-order",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Arrange the words to say: I would like some medicine.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "médicament.",
+              "un",
+              "voudrais",
+              "Je"
+            ]
+          },
+          {
+            "answers": [
+              "voudrais"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-cloze",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Complete the request: Je ___ un médicament.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "un comprimé"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-read",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "What does Anna take? Answer with the French noun. (Reading 22)",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Anna tousse. Elle prend un comprimé et achète du sirop à la pharmacie.",
+            "translation": "Anna has a cough. She takes a pill and buys syrup at the pharmacy."
+          },
+          {
+            "answers": [
+              "It costs five euros."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-meaning",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Give the English meaning: Ça coûte cinq euros.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "J’ai mal à la tête."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Ma tête est mal.",
+                "category": "incorrect answer",
+                "explanation": "Pain uses avoir mal: J’ai mal à la tête."
+              }
+            ],
+            "id": "fr-pharmacy-foundation-review",
+            "conceptId": "fr-health-concept",
+            "prompt": "Recall from Douleurs et médecin: My head hurts.",
+            "explanation": "Say pain with J’ai mal plus the body part: J’ai mal à la tête. Headache is le mal de tête and fever is la fièvre. Answer Où avez-vous mal? (Where does it hurt?) with J’ai mal plus the spot.",
+            "vocabulary": [
+              "fr-health-foundation-word-1",
+              "fr-health-foundation-word-2",
+              "fr-health-foundation-word-3",
+              "fr-health-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-health-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Je voudrais un médicament."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-pharmacy-foundation-listen-model",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Listen and write the model: asking for medicine.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "fr-pharmacy-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-emergency-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "secours"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-meet",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Which French word means “help”?",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "ambulance",
+              "urgent",
+              "secours",
+              "téléphone"
+            ]
+          },
+          {
+            "answers": [
+              "It is urgent."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-meaning",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Give the English meaning: C’est urgent.",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "id": "fr-emergency-foundation-transform",
+            "conceptId": "fr-emergency-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Two people are hurt, so two ambulances are needed. Make it plural: Au secours ! Appelez une ambulance !",
+            "answers": [
+              "Au secours ! Appelez deux ambulances !"
+            ],
+            "explanation": "The command Appelez stays as it is; only the object changes. Deux ambulances is plural, so ambulance takes an s and une becomes deux.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "answers": [
+              "le cent-douze"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-read",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "What number? Answer with the French number name. (Reading 23)",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Marco appelle le cent-douze. L’ambulance arrive et c’est urgent.",
+            "translation": "Marco calls 112. The ambulance arrives and it is urgent."
+          },
+          {
+            "answers": [
+              "ambulance"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-cloze",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Complete the call: Appelez une ___ !",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Au secours ! Appelez une ambulance !"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-order",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Arrange the words to say: Help! Call an ambulance!",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "ambulance",
+              "!",
+              "Appelez",
+              "secours",
+              "!",
+              "une",
+              "Au"
+            ]
+          },
+          {
+            "answers": [
+              "Au secours ! Appelez une ambulance !"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Au secours ! J’appelle une ambulance !",
+                "category": "incorrect answer",
+                "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+              }
+            ],
+            "id": "fr-emergency-foundation-produce",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Write in French: Help! Call an ambulance!",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Je voudrais un médicament."
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Je voudrais une médicament.",
+                "category": "incorrect answer",
+                "explanation": "Médicament is masculine: un médicament."
+              }
+            ],
+            "id": "fr-emergency-foundation-review",
+            "conceptId": "fr-pharmacy-concept",
+            "prompt": "Recall from À la pharmacie: I would like some medicine.",
+            "explanation": "Ask for medicine with Je voudrais…: Je voudrais un médicament. Un comprimé is a pill and le sirop is syrup. Ask the price with C’est combien ?: Ça coûte cinq euros.",
+            "vocabulary": [
+              "fr-pharmacy-foundation-word-1",
+              "fr-pharmacy-foundation-word-2",
+              "fr-pharmacy-foundation-word-3",
+              "fr-pharmacy-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-pharmacy-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Au secours ! Appelez une ambulance !"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-emergency-foundation-listen-model",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Listen and write the model: calling for help.",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "fr-emergency-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-invitations-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "dîner"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-meet",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Which French word means “dinner”?",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "samedi",
+              "plaisir",
+              "désolé",
+              "dîner"
+            ]
+          },
+          {
+            "answers": [
+              "I am sorry, I cannot."
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-meaning",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Give the English meaning: Désolé, je ne peux pas.",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "recognition"
+          },
+          {
+            "answers": [
+              "venir"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-cloze",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Complete the invitation: Tu veux ___ dîner samedi ?",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "cloze",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Tu veux venir dîner samedi ?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-order",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Arrange the words to say: Do you want to come to dinner Saturday?",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "order",
+            "mode": "production",
+            "tokens": [
+              "samedi",
+              "?",
+              "dîner",
+              "venir",
+              "veux",
+              "Tu"
+            ]
+          },
+          {
+            "id": "fr-invitations-foundation-transform",
+            "conceptId": "fr-invitations-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Turn the invitation round so that it is you who wants to come: Tu veux venir dîner samedi ?",
+            "answers": [
+              "Je veux venir dîner samedi."
+            ],
+            "explanation": "Je veux and tu veux are the same form of vouloir, so only the subject changes: Je veux venir dîner samedi.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "answers": [
+              "Tu veux venir dîner samedi ?"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Tu veux aller dîner samedi ?",
+                "category": "incorrect answer",
+                "explanation": "Aller is to go; invite with venir: Tu veux venir dîner samedi ?"
+              }
+            ],
+            "id": "fr-invitations-foundation-produce",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Write in French: Do you want to come to dinner Saturday?",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "samedi"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-read",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "When is dinner? Answer with the French day. (Reading 24)",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "reading",
+            "mode": "recognition",
+            "passage": "Anna invite Marco : Tu veux venir dîner samedi ? Oui, merci, avec plaisir, dit Marco.",
+            "translation": "Anna invites Marco: Do you want to come to dinner Saturday? “Yes, thanks, gladly,” says Marco."
+          },
+          {
+            "answers": [
+              "Au secours ! Appelez une ambulance !"
+            ],
+            "allowTypo": false,
+            "errors": [
+              {
+                "answer": "Au secours ! J’appelle une ambulance !",
+                "category": "incorrect answer",
+                "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+              }
+            ],
+            "id": "fr-invitations-foundation-review",
+            "conceptId": "fr-emergency-concept",
+            "prompt": "Recall from Urgences: Help! Call an ambulance!",
+            "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+            "vocabulary": [
+              "fr-emergency-foundation-word-1",
+              "fr-emergency-foundation-word-2",
+              "fr-emergency-foundation-word-3",
+              "fr-emergency-foundation-word-4"
+            ],
+            "reviewOf": [
+              "fr-emergency-foundation"
+            ],
+            "kind": "translate",
+            "mode": "production"
+          },
+          {
+            "answers": [
+              "Tu veux venir dîner samedi ?"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-invitations-foundation-listen-model",
+            "conceptId": "fr-invitations-concept",
+            "prompt": "Listen and write the model: inviting and replying.",
+            "explanation": "Invite with Tu veux venir… ?: Tu veux venir dîner ? Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+            "vocabulary": [
+              "fr-invitations-foundation-word-1",
+              "fr-invitations-foundation-word-2",
+              "fr-invitations-foundation-word-3",
+              "fr-invitations-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "fr-invitations-foundation-model"
+          }
+        ]
+      }
+    ]
+  }
+}

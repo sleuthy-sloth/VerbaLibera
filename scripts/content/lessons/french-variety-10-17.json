@@ -1,0 +1,1570 @@
+{
+  "_comment": "Rewrites French lessons 10-17 into the six-archetype variety plan in scripts/content/lessons/FRENCH-VARIETY.md. Each lesson keeps every exercise it already had, in the archetype's slot order with the -meet choice first and the listening model last, and gains exactly one new `transform` exercise built only from material the lesson (or its prerequisites) already teaches. Existing exercises are byte-identical to the manifest. Applied by scripts/content/differentiate-first-words.py; do not edit courses/ by hand.",
+  "courses/french/manifest.json": {
+    "lessons": [
+      {
+        "id": "fr-questions-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "est-ce que"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-questions-foundation-meet",
+            "conceptId": "fr-questions-concept",
+            "prompt": "Which French word means “yes/no question opening”?",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu étudies",
+              "est-ce que",
+              "qui",
+              "où"
+            ]
+          },
+          {
+            "conceptId": "fr-questions-concept",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-questions-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: Do you work?",
+            "answers": [
+              "Est-ce que tu travailles ?"
+            ],
+            "errors": [
+              {
+                "answer": "Est-ce que tu travaille ?",
+                "category": "incorrect answer",
+                "explanation": "Keep the tu ending -es: tu travailles."
+              }
+            ]
+          },
+          {
+            "id": "fr-questions-foundation-transform",
+            "conceptId": "fr-questions-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Turn the statement into a question with Est-ce que: Tu travailles à la maison.",
+            "answers": [
+              "Est-ce que tu travailles à la maison ?"
+            ],
+            "explanation": "Est-ce que goes in front and nothing else moves: tu stays in front of the verb and travailles keeps its -s. Est-ce que tu travailles à la maison ?",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-questions-concept",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-questions-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: Do you study at home?",
+            "answers": [
+              "Est-ce que tu étudies à la maison ?"
+            ],
+            "tokens": [
+              "?",
+              "maison",
+              "la",
+              "à",
+              "étudies",
+              "tu",
+              "que",
+              "Est-ce"
+            ]
+          },
+          {
+            "conceptId": "fr-questions-concept",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-questions-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Est-ce que tu ___ ?",
+            "answers": [
+              "travailles"
+            ]
+          },
+          {
+            "conceptId": "fr-questions-concept",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-questions-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Est-ce que tu étudies à la maison ?",
+            "answers": [
+              "Do you study at home?"
+            ]
+          },
+          {
+            "conceptId": "fr-questions-concept",
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-questions-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Where does the respondent study? Answer in French. (Reading 10)",
+            "passage": "Est-ce que tu travailles ? Je ne travaille pas. J’étudie à la maison.",
+            "translation": "Do you work? I do not work. I study at home.",
+            "answers": [
+              "à la maison"
+            ]
+          },
+          {
+            "id": "fr-questions-foundation-review",
+            "conceptId": "fr-negation-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Making a negative: I do not work.",
+            "answers": [
+              "Je ne travaille pas."
+            ],
+            "explanation": "In careful written French, put ne before the verb and pas after it. Ne becomes n’ before a vowel: je n’étudie pas. Spoken French often omits ne, but this lesson practises the complete written form.",
+            "vocabulary": [
+              "fr-negation-word-1",
+              "fr-negation-word-2",
+              "fr-negation-word-3",
+              "fr-negation-word-4"
+            ],
+            "reviewOf": [
+              "fr-negation-foundation"
+            ]
+          },
+          {
+            "id": "fr-questions-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-questions-concept",
+            "prompt": "Listen and write the model: asking simple questions.",
+            "answers": [
+              "Est-ce que tu travailles ?"
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-questions-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-food-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "je prends"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-food-foundation-meet",
+            "conceptId": "fr-food-concept",
+            "prompt": "Which French word means “I take / I will have”?",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu prends",
+              "un café",
+              "je prends",
+              "un thé"
+            ]
+          },
+          {
+            "conceptId": "fr-food-concept",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-food-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu prends un thé ?",
+            "answers": [
+              "Will you have a tea?"
+            ]
+          },
+          {
+            "id": "fr-food-foundation-transform",
+            "conceptId": "fr-food-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Say the same thing about your friend instead of yourself: Je prends un café.",
+            "answers": [
+              "Tu prends un café."
+            ],
+            "explanation": "Prendre is irregular, but je and tu happen to share one form: je prends, tu prends. So only the subject changes: Tu prends un café.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-food-concept",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-food-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "What does the other person take? Answer in French. (Reading 11)",
+            "passage": "Je prends un café. Tu prends un thé.",
+            "translation": "I will have a coffee. You will have a tea.",
+            "answers": [
+              "un thé"
+            ]
+          },
+          {
+            "conceptId": "fr-food-concept",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-food-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Je ___ un café.",
+            "answers": [
+              "prends"
+            ]
+          },
+          {
+            "conceptId": "fr-food-concept",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-food-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: Will you have a tea?",
+            "answers": [
+              "Tu prends un thé ?"
+            ],
+            "tokens": [
+              "?",
+              "thé",
+              "un",
+              "prends",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-food-concept",
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-food-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I will have a coffee.",
+            "answers": [
+              "Je prends un café."
+            ],
+            "errors": [
+              {
+                "answer": "Je prend un café.",
+                "category": "wrong conjugation",
+                "explanation": "With je, prendre is prends, including the final s."
+              }
+            ]
+          },
+          {
+            "id": "fr-food-foundation-review",
+            "conceptId": "fr-questions-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Asking simple questions: Do you work?",
+            "answers": [
+              "Est-ce que tu travailles ?"
+            ],
+            "explanation": "Est-ce que introduces a yes/no question without changing subject-verb order: Est-ce que tu travailles ? You can also ask Tu travailles ? with rising intonation. Qui asks who. This lesson uses the est-ce que frame.",
+            "vocabulary": [
+              "fr-questions-word-1",
+              "fr-questions-word-2",
+              "fr-questions-word-3",
+              "fr-questions-word-4"
+            ],
+            "reviewOf": [
+              "fr-questions-foundation"
+            ]
+          },
+          {
+            "id": "fr-food-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-food-concept",
+            "prompt": "Listen and write the model: ordering and prendre.",
+            "answers": [
+              "Je prends un café."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-food-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-possession-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "mon"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-possession-foundation-meet",
+            "conceptId": "fr-possession-concept",
+            "prompt": "Which French word means “my (masculine singular)”?",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "ma",
+              "mes",
+              "ton",
+              "mon"
+            ]
+          },
+          {
+            "id": "fr-possession-foundation-transform",
+            "conceptId": "fr-possession-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "The book belongs to the person you are speaking to now. Say it with ton: Mon livre est blanc.",
+            "answers": [
+              "Ton livre est blanc."
+            ],
+            "explanation": "Ton is the masculine singular possessive for your, so it takes the place of mon and nothing else changes: Ton livre est blanc. It agrees with livre, the thing owned, not with the owner.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-possession-concept",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-possession-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: My house is white.",
+            "answers": [
+              "Ma maison est blanche."
+            ],
+            "errors": [
+              {
+                "answer": "Mon maison est blanche.",
+                "category": "incorrect answer",
+                "explanation": "Maison is feminine and begins with a consonant: ma maison."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-possession-concept",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-possession-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: My book is white.",
+            "answers": [
+              "Mon livre est blanc."
+            ],
+            "tokens": [
+              "blanc.",
+              "est",
+              "livre",
+              "Mon"
+            ]
+          },
+          {
+            "conceptId": "fr-possession-concept",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-possession-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: ___ maison est blanche.",
+            "answers": [
+              "Ma"
+            ]
+          },
+          {
+            "conceptId": "fr-possession-concept",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-possession-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "What is white? Name the house in French. (Reading 12)",
+            "passage": "Ma maison est blanche. Mon livre est blanc.",
+            "translation": "My house is white. My book is white.",
+            "answers": [
+              "ma maison"
+            ]
+          },
+          {
+            "conceptId": "fr-possession-concept",
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-possession-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Mon livre est blanc.",
+            "answers": [
+              "My book is white."
+            ]
+          },
+          {
+            "id": "fr-possession-foundation-review",
+            "conceptId": "fr-food-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Ordering and prendre: I will have a coffee.",
+            "answers": [
+              "Je prends un café."
+            ],
+            "explanation": "Prendre is irregular: je prends, tu prends. In a café, je prends un café can mean I will have a coffee. Un thé is a tea. Keep the accents in café and thé. Je voudrais is a polite fixed frame meaning I would like.",
+            "vocabulary": [
+              "fr-food-word-1",
+              "fr-food-word-2",
+              "fr-food-word-3",
+              "fr-food-word-4"
+            ],
+            "reviewOf": [
+              "fr-food-foundation"
+            ]
+          },
+          {
+            "id": "fr-possession-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-possession-concept",
+            "prompt": "Listen and write the model: possession and agreement.",
+            "answers": [
+              "Ma maison est blanche."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-possession-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-transport-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "je vais"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-transport-foundation-meet",
+            "conceptId": "fr-transport-concept",
+            "prompt": "Which French word means “I go”?",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "je vais",
+              "tu vas",
+              "à la gare",
+              "à Paris"
+            ]
+          },
+          {
+            "conceptId": "fr-transport-concept",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-transport-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu vas à Paris ?",
+            "answers": [
+              "Are you going to Paris?"
+            ]
+          },
+          {
+            "conceptId": "fr-transport-concept",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-transport-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: Are you going to Paris?",
+            "answers": [
+              "Tu vas à Paris ?"
+            ],
+            "tokens": [
+              "?",
+              "Paris",
+              "à",
+              "vas",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-transport-concept",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-transport-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Je ___ à la gare.",
+            "answers": [
+              "vais"
+            ]
+          },
+          {
+            "conceptId": "fr-transport-concept",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-transport-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: I am going to the station.",
+            "answers": [
+              "Je vais à la gare."
+            ],
+            "errors": [
+              {
+                "answer": "Je vas à la gare.",
+                "category": "wrong conjugation",
+                "explanation": "With je, aller is vais."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-transport-concept",
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-transport-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Where is the speaker going? Answer in French. (Reading 13)",
+            "passage": "Je vais à la gare. Tu vas à Paris.",
+            "translation": "I am going to the station. You are going to Paris.",
+            "answers": [
+              "à la gare"
+            ]
+          },
+          {
+            "id": "fr-transport-foundation-review",
+            "conceptId": "fr-possession-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Possession and agreement: My house is white.",
+            "answers": [
+              "Ma maison est blanche."
+            ],
+            "explanation": "Mon and ma mean my; they agree with the thing owned, not the owner. Use mon livre and ma maison. French does not put le or la before these possessives. Mes is plural for either gender.",
+            "vocabulary": [
+              "fr-possession-word-1",
+              "fr-possession-word-2",
+              "fr-possession-word-3",
+              "fr-possession-word-4"
+            ],
+            "reviewOf": [
+              "fr-possession-foundation"
+            ]
+          },
+          {
+            "id": "fr-transport-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-transport-concept",
+            "prompt": "Listen and write the model: going places with aller.",
+            "answers": [
+              "Tu vas à Paris ?"
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-transport-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-requests-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "je peux"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-requests-foundation-meet",
+            "conceptId": "fr-requests-concept",
+            "prompt": "Which French word means “I can”?",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "tu peux",
+              "je peux",
+              "prendre",
+              "s’il vous plaît"
+            ]
+          },
+          {
+            "conceptId": "fr-requests-concept",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-requests-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "What does the speaker want? Answer in French. (Reading 14)",
+            "passage": "Est-ce que je peux prendre un café ? Je ne prends pas un thé.",
+            "translation": "Can I have a coffee? I am not having a tea.",
+            "answers": [
+              "un café"
+            ]
+          },
+          {
+            "conceptId": "fr-requests-concept",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-requests-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu peux étudier à la maison.",
+            "answers": [
+              "You can study at home."
+            ]
+          },
+          {
+            "id": "fr-requests-foundation-transform",
+            "conceptId": "fr-requests-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Make it negative: Tu peux étudier à la maison.",
+            "answers": [
+              "Tu ne peux pas étudier à la maison."
+            ],
+            "explanation": "Ne goes in front of the conjugated verb and pas behind it, so peux is wrapped in the middle. The infinitive étudier does not change: Tu ne peux pas étudier à la maison.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-requests-concept",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-requests-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: You can study at home.",
+            "answers": [
+              "Tu peux étudier à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "étudier",
+              "peux",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-requests-concept",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-requests-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Je peux ___ un café.",
+            "answers": [
+              "prendre"
+            ]
+          },
+          {
+            "conceptId": "fr-requests-concept",
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-requests-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: Can I have a coffee?",
+            "answers": [
+              "Est-ce que je peux prendre un café ?"
+            ],
+            "errors": [
+              {
+                "answer": "Je peux prends un café.",
+                "category": "incorrect answer",
+                "explanation": "After peux, use the infinitive prendre."
+              }
+            ]
+          },
+          {
+            "id": "fr-requests-foundation-review",
+            "conceptId": "fr-transport-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Going places with aller: I am going to the station.",
+            "answers": [
+              "Je vais à la gare."
+            ],
+            "explanation": "Aller is irregular: je vais, tu vas. À introduces destinations. À + le contracts to au; à la stays separate. Use à Paris with a city. À la gare means to the station.",
+            "vocabulary": [
+              "fr-transport-word-1",
+              "fr-transport-word-2",
+              "fr-transport-word-3",
+              "fr-transport-word-4"
+            ],
+            "reviewOf": [
+              "fr-transport-foundation"
+            ]
+          },
+          {
+            "id": "fr-requests-foundation-listen",
+            "conceptId": "fr-requests-concept",
+            "kind": "dictation",
+            "mode": "listening",
+            "audioId": "fr-polite-coffee-audio",
+            "prompt": "Listen to the polite coffee request and write what you hear.",
+            "answers": [
+              "Je voudrais un café, s’il vous plaît."
+            ],
+            "explanation": "Use the polite request introduced in the worked examples. Keep the accents and the complete phrase.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "id": "fr-requests-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-requests-concept",
+            "prompt": "Listen and write the model: can i? modal requests.",
+            "answers": [
+              "Est-ce que je peux prendre un café ?"
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-requests-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-past-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "hier"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-past-foundation-meet",
+            "conceptId": "fr-past-concept",
+            "prompt": "Which French word means “yesterday”?",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "étudié",
+              "travaillé",
+              "hier",
+              "j’ai étudié"
+            ]
+          },
+          {
+            "conceptId": "fr-past-concept",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-past-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: J’ai travaillé à la maison.",
+            "answers": [
+              "I worked at home."
+            ]
+          },
+          {
+            "conceptId": "fr-past-concept",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-past-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete the past action: Hier, j’___ étudié.",
+            "answers": [
+              "ai"
+            ]
+          },
+          {
+            "conceptId": "fr-past-concept",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-past-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: I worked at home.",
+            "answers": [
+              "J’ai travaillé à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "travaillé",
+              "J’ai"
+            ]
+          },
+          {
+            "id": "fr-past-foundation-transform",
+            "conceptId": "fr-past-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Tell the same thing about your friend instead of yourself: Hier, j’ai étudié.",
+            "answers": [
+              "Hier, tu as étudié."
+            ],
+            "explanation": "In the passé composé the auxiliary changes with the subject: j’ai becomes tu as, while the participle étudié stays exactly as it is. Hier, tu as étudié.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-past-concept",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-past-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: Yesterday I studied.",
+            "answers": [
+              "Hier, j’ai étudié."
+            ],
+            "errors": [
+              {
+                "answer": "Je suis étudié.",
+                "category": "incorrect answer",
+                "explanation": "Étudier uses avoir here: j’ai étudié."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-past-concept",
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-past-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Where did the speaker work? Answer in French. (Reading 15)",
+            "passage": "Hier, j’ai étudié. J’ai travaillé à la maison.",
+            "translation": "Yesterday I studied. I worked at home.",
+            "answers": [
+              "à la maison"
+            ]
+          },
+          {
+            "id": "fr-past-foundation-review",
+            "conceptId": "fr-requests-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Can I? Modal requests: Can I have a coffee?",
+            "answers": [
+              "Est-ce que je peux prendre un café ?"
+            ],
+            "explanation": "Pouvoir means can or be able to: je peux, tu peux. After it, use the infinitive: je peux prendre. Do not conjugate both verbs. Est-ce que makes the request a question. S’il vous plaît adds politeness.",
+            "vocabulary": [
+              "fr-requests-word-1",
+              "fr-requests-word-2",
+              "fr-requests-word-3",
+              "fr-requests-word-4"
+            ],
+            "reviewOf": [
+              "fr-requests-foundation"
+            ]
+          },
+          {
+            "id": "fr-past-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-past-concept",
+            "prompt": "Listen and write the model: a first look at passé composé.",
+            "answers": [
+              "Hier, j’ai étudié."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-past-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-plans-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "demain"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-plans-foundation-meet",
+            "conceptId": "fr-plans-concept",
+            "prompt": "Which French word means “tomorrow”?",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "étudier",
+              "aujourd’hui",
+              "ce soir",
+              "demain"
+            ]
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plans-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: Tomorrow I am going to study.",
+            "answers": [
+              "Demain, je vais étudier."
+            ],
+            "errors": [
+              {
+                "answer": "Demain, je vais étudie.",
+                "category": "incorrect answer",
+                "explanation": "After vais for a plan, keep the infinitive étudier."
+              }
+            ]
+          },
+          {
+            "id": "fr-plans-foundation-transform",
+            "conceptId": "fr-plans-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Make the same plan for your friend instead of yourself: Demain, je vais étudier.",
+            "answers": [
+              "Demain, tu vas étudier."
+            ],
+            "explanation": "The near future keeps aller conjugated and the second verb in the infinitive. Only aller changes with the subject: je vais becomes tu vas, and étudier stays an infinitive. Demain, tu vas étudier.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plans-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: You are going to work at home.",
+            "answers": [
+              "Tu vas travailler à la maison."
+            ],
+            "tokens": [
+              "maison.",
+              "la",
+              "à",
+              "travailler",
+              "vas",
+              "Tu"
+            ]
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plans-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete: Demain, je vais ___.",
+            "answers": [
+              "étudier"
+            ]
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plans-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Tu vas travailler à la maison.",
+            "answers": [
+              "You are going to work at home.",
+              "You're going to work at home."
+            ]
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-plans-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "When will the speaker study? Answer in French. (Reading 16)",
+            "passage": "Aujourd’hui, je travaille à la maison. Demain, je vais étudier.",
+            "translation": "Today I work at home. Tomorrow I am going to study.",
+            "answers": [
+              "demain"
+            ]
+          },
+          {
+            "id": "fr-plans-foundation-review",
+            "conceptId": "fr-past-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from A first look at passé composé: Yesterday I studied.",
+            "answers": [
+              "Hier, j’ai étudié."
+            ],
+            "explanation": "The passé composé joins an auxiliary with a past participle. With étudier, use avoir: j’ai étudié. Regular -er participles end in -é. Hier means yesterday. This lesson introduces only avoir with the I-form; other auxiliaries come later.",
+            "vocabulary": [
+              "fr-past-word-1",
+              "fr-past-word-2",
+              "fr-past-word-3",
+              "fr-past-word-4"
+            ],
+            "reviewOf": [
+              "fr-past-foundation"
+            ]
+          },
+          {
+            "id": "fr-plans-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "conceptId": "fr-plans-concept",
+            "prompt": "Listen and write the model: near-future plans.",
+            "answers": [
+              "Demain, je vais étudier."
+            ],
+            "explanation": "Compare the words you heard with the model sentence. Replay slowly, then at normal speed.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [],
+            "audioId": "fr-plans-foundation-model"
+          }
+        ]
+      },
+      {
+        "id": "fr-days-foundation",
+        "exercises": [
+          {
+            "answers": [
+              "lundi"
+            ],
+            "allowTypo": false,
+            "errors": [],
+            "id": "fr-days-foundation-meet",
+            "conceptId": "fr-days-concept",
+            "prompt": "Which French word means “Monday”?",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "kind": "choice",
+            "mode": "recognition",
+            "options": [
+              "lundi",
+              "vendredi",
+              "aujourd’hui",
+              "demain"
+            ]
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-meaning",
+            "kind": "translate",
+            "mode": "recognition",
+            "prompt": "Give the English meaning: Demain, c’est vendredi.",
+            "answers": [
+              "Tomorrow is Friday."
+            ]
+          },
+          {
+            "id": "fr-days-foundation-transform",
+            "conceptId": "fr-days-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Make it negative: Demain, c’est vendredi.",
+            "answers": [
+              "Demain, ce n’est pas vendredi."
+            ],
+            "explanation": "Ne wraps the verb est and elides to n’ before a vowel: ce n’est pas. The subject ce stays in front, and c’est keeps its apostrophe: Demain, ce n’est pas vendredi.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": []
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-read",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "When is Anna’s birthday? Answer with the French date. (Reading 17)",
+            "answers": [
+              "le trois mai"
+            ],
+            "passage": "Aujourd’hui, c’est lundi. Demain, c’est mardi. L’anniversaire d’Anna est le trois mai.",
+            "translation": "Today is Monday. Tomorrow is Tuesday. Anna’s birthday is May third."
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-cloze",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Complete the date: L’anniversaire est le ___ mai.",
+            "answers": [
+              "trois"
+            ]
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-order",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say: Today is Monday.",
+            "answers": [
+              "Aujourd’hui, c’est lundi."
+            ],
+            "tokens": [
+              "lundi.",
+              "c’est",
+              "Aujourd’hui,"
+            ]
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-produce",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Write in French: Today is Monday.",
+            "answers": [
+              "Aujourd’hui, c’est lundi."
+            ],
+            "errors": [
+              {
+                "answer": "Aujourd’hui, il est lundi.",
+                "category": "incorrect answer",
+                "explanation": "Days use c’est: Aujourd’hui, c’est lundi."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-plans-concept",
+            "explanation": "French often expresses a plan with aller + infinitive: je vais étudier means I am going to study. Keep vais conjugated, and leave étudier in the infinitive. Demain means tomorrow. This differs from je vais à Paris, which names a destination.",
+            "vocabulary": [
+              "fr-plans-word-1",
+              "fr-plans-word-2",
+              "fr-plans-word-3",
+              "fr-plans-word-4"
+            ],
+            "reviewOf": [
+              "fr-plans-foundation"
+            ],
+            "id": "fr-days-foundation-review",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Recall from Near-future plans: Tomorrow I am going to study.",
+            "answers": [
+              "Demain, je vais étudier."
+            ],
+            "errors": [
+              {
+                "answer": "Demain, je vais étudie.",
+                "category": "incorrect answer",
+                "explanation": "After vais for a plan, keep the infinitive étudier."
+              }
+            ]
+          },
+          {
+            "conceptId": "fr-days-concept",
+            "explanation": "French days and months are masculine and written lowercase: lundi, mai. Give the date with le, the number and the month: le trois mai. Aujourd’hui, demain and hier frame any plan.",
+            "vocabulary": [
+              "fr-days-foundation-word-1",
+              "fr-days-foundation-word-2",
+              "fr-days-foundation-word-3",
+              "fr-days-foundation-word-4"
+            ],
+            "reviewOf": [],
+            "id": "fr-days-foundation-listen-model",
+            "kind": "dictation",
+            "mode": "listening",
+            "prompt": "Listen and write the model: days and dates.",
+            "answers": [
+              "Aujourd’hui, c’est lundi."
+            ],
+            "audioId": "fr-days-foundation-model"
+          }
+        ]
+      }
+    ]
+  }
+}
