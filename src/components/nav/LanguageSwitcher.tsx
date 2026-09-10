@@ -9,6 +9,9 @@ function courseShortName(title: string): string {
 
 const FLAG_BY_LANGUAGE: Record<string, string> = {
   french: '🇫🇷', italian: '🇮🇹', spanish: '🇪🇸', portuguese: '🇵🇹',
+  // German was missing, so the foundation course fell back to a globe while
+  // the other four showed flags.
+  german: '🇩🇪',
 };
 
 function courseLevel(slug: string): string {

@@ -30,6 +30,7 @@ const FLAG_BY_LANGUAGE: Record<string, string> = {
   italian: '🇮🇹',
   spanish: '🇪🇸',
   portuguese: '🇵🇹',
+  german: '🇩🇪',
 };
 
 function isOnboardingState(value: unknown): value is OnboardingState {

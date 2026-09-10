@@ -319,6 +319,95 @@ Flat solid #fbf4e6 background, edge to edge, no border, no shadow, no people.
 
 ---
 
+## Framing: how much of its box the drawing actually uses
+
+A generated illustration arrives with uneven baked-in cream. Inside a bordered
+layout box that reads as a small mark floating in dead space, which is what
+"tossed in" looks like. `scripts/brand/frame-audit.py` measures it: for each
+asset, the drawing's bounding box as a share of the frame and the margin on all
+four sides.
+
+Measured on the shipped set:
+
+| asset | art fills | margins L/R/T/B |
+|---|---|---|
+| logo-mark | 64% × 41% | 18 / 18 / 30 / 30 |
+| logo-lockup | 15% × 34% | 9 / 76 / 33 / 33 (correct: the wordmark goes in the right side) |
+| hero-banner | 48% × 68% | 26 / 26 / 17 / 16 |
+| empty-journal | 73% × 61% | 17 / 9 / 15 / **24** |
+| courses/french | 79% × 90% | 19 / 2 / 7 / 3 |
+
+`scripts/brand/tighten-frame.py --margin 0.06 <files>` fixes them: it finds the
+drawing, centres it in a crop of the SAME aspect ratio (so no declared
+width/height has to change anywhere), and scales back to the original pixel
+size. Re-snaps the ground afterwards, because rescaling resamples flat cream.
+
+Applied to `empty-journal` (74%×61% → 88%×72%, margins even at 6/6/14/14),
+`hero-banner` (48%×68% → 62%×87%) and `logo-mark` (64%×41% → 88%×56%).
+
+Do not apply it to the course banners: their art already fills 87-93% of the
+height, so the same-aspect crop cannot be any smaller than the frame and the
+script correctly leaves them alone.
+
+**Check the logo change in place before reverting it.** The mark looked fine at
+64% of its tile and only when rendered next to the Fraunces wordmark did it read
+as undersized, a footnote to the type rather than a lockup. An A/B of the real
+header settled it; the measurements alone would not have.
+
+**Next's dev image cache is `.next/dev/cache/images`, not `.next/cache/images`.**
+Replacing a file in `public/` and re-capturing screenshots without clearing that
+directory silently serves the OLD optimised image, so the new screenshots come
+out byte-identical to the old ones. Check `git status` for the screenshots you
+expect to have changed; identical hashes after an asset swap mean the cache, not
+a no-op.
+
+## The German banner
+
+The generated German banner was the one asset that did not work, and it needed a
+re-frame rather than a crop of the excess margin:
+
+- **36% empty cream on the left** against 19-31% on the other four.
+- The scene **ran off the right edge through a distinct building** rather than
+  ending on it. This is not the same as the Italian banner, which also reaches
+  the right edge: Italian's crop falls on a flat continuing façade, so it reads
+  as a scene continuing past the frame. German's cut through a half-timbered
+  house with a strong silhouette, roof, framing and window, which reads as an
+  error.
+
+Column analysis found the complete part of the scene ends just past the tree
+(x≈1890), with a different building starting at x≈1899 and running to the frame.
+Cropping there removes the sliced building.
+
+The re-frame centres the complete 1160px scene: 22% cream each side, no art in
+either outermost column, and the left void down from 36% to 22%. The trade-off,
+recorded honestly: the other four bleed to the right edge and this one does not,
+so it reads as a framed vignette beside four friezes. Matching the set exactly
+needs the art regenerated wider, which is a generation job, not a crop:
+
+```
+[STYLE BLOCK]
+
+A wide horizontal frieze of a German town square, drawn as simple flat vector
+shapes arranged evenly ACROSS THE FULL WIDTH of the frame. From left to right:
+a single low stone fountain, a bare beech tree, a modest two-storey
+half-timbered house with a plain painted sign board and no lettering, and a
+distant gabled roofline. Keep to four or five objects in total.
+
+Critically: the scene ENDS well inside the frame. Every building and tree is
+completely contained, with plain cream on both the left and right sides. No
+object may touch, cross, or be cut by any edge of the image.
+
+The left third is the emptiest part of the composition, because a title sits
+there.
+
+Palette: #fbf4e6 ground; shapes in #2f2a24, #e0d3ba, #6b5f4b; terracotta #a8511f
+as the one accent; muted sage #2f6b3f for the tree only.
+
+Flat solid #fbf4e6 background, edge to edge, no border, no text, no lettering.
+
+4:1 aspect ratio (very wide, 2064x512), 2K output.
+```
+
 ## 7. Vocabulary images (32 files, `public/images/vocab/*.jpg`)
 
 These are already complete — 32 expected, 32 present, no orphans — at 800×449 in
