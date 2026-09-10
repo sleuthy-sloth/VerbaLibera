@@ -2,104 +2,99 @@
 
 [![CI](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml/badge.svg)](https://github.com/sleuthy-sloth/VerbaLibera/actions/workflows/ci.yml)
 [![GitHub release](https://img.shields.io/github/v/release/sleuthy-sloth/VerbaLibera)](https://github.com/sleuthy-sloth/VerbaLibera/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](LICENSE)
-[![Live demo](https://img.shields.io/badge/demo-live-teal)](https://verbalibera.vercel.app)
-[![Offline PWA](https://img.shields.io/badge/offline-PWA-teal)](public/sw.js)
-[![No runtime AI](https://img.shields.io/badge/runtime_AI-none-teal)](docs/astra/phase-status.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
+[![Live demo](https://img.shields.io/badge/demo-live-orange)](https://verbalibera.vercel.app)
 
-Language learning through practical sentence construction. VerbaLibera introduces a pattern, asks you to build it yourself, then lets you reveal a model answer — no timers, no punishing progress bars.
+Language learning through practical sentence construction. VerbaLibera introduces a pattern, asks you to build it yourself, then offers a model answer when you want it. No timers, no streak, no lost hearts.
 
-Live demo: [verbalibera.vercel.app](https://verbalibera.vercel.app)
+Live demo: [verbalibera.vercel.app](https://verbalibera.vercel.app), offline PWA, no runtime AI.
+
+![The VerbaLibera landing page](docs/screenshots/warm-studio/home-1440.png)
 
 ## What this is
 
-VerbaLibera is a free, offline-capable language app built on the [Language Transfer](https://www.languagetransfer.org/) Thinking Method: discover the pattern first, think before answering, never memorize in isolation. It covers French, German, Italian, Portuguese, and Spanish at the A1 foundation level.
+A free, offline-capable language app built on the [Language Transfer](https://www.languagetransfer.org/) Thinking Method: notice the pattern first, think before you answer, then use it. It covers French, German, Italian, Portuguese, and Spanish at A1.
 
-The course workspace is available as:
+The course workspace runs three ways:
 
-- **Web app** — the hosted demo above, or run locally with `npm run dev`
-- **Portable HTML** — one file you can keep on your desktop and open in any browser
-- **Desktop app** — unsigned Apple Silicon DMG with local PostgreSQL storage
+- **Web app**: the hosted demo above, or `npm run dev` locally
+- **Portable HTML**: one file you keep on a desktop and open in any browser
+- **Desktop app**: unsigned Apple Silicon build with local PostgreSQL storage
 
-None of these require an account, server, or internet connection for practice. Guest progress stays in your browser.
+None of these need an account, a server, or a connection to practise. Guest progress stays in your browser.
+
+## Screenshots
+
+Building a sentence from word tiles, and the audio-only path:
+
+| Sentence building | Audio lessons |
+| --- | --- |
+| ![Tapping word tiles to build a French sentence](docs/screenshots/warm-studio/lesson-390.png) | ![The Listen player showing a ten minute track](docs/screenshots/warm-studio/listen-390.png) |
+
+The daily path, showing what is next and what needs review:
+
+![The daily path dashboard](docs/screenshots/warm-studio/dashboard-1440.png)
 
 ## Course structure
 
-Each foundation lesson follows the same loop: explanation and worked examples → zero-recall word choice → sentence building → listening track. The **Course path** shows what's next, what's unlocked, and what needs review.
+French and Italian have full structured A1 foundations at 25 lessons each. German, Portuguese, and Spanish open with four lessons covering introductions, ordering, and numbers.
 
-French and Italian have the broadest coverage. German, Portuguese, and Spanish each have a four-lesson route through introductions, café requests, and numbers.
+Each lesson runs one loop: explanation and worked examples, a zero-recall word choice, sentence building, then listening.
 
 ### Listen tracks
 
-The **Listen** tab has audio-only Thinking Method tracks for walks and screen-off study. Each track is ~10 minutes with think-pauses and target-language reveals. Current tracks:
+The **Listen** tab carries audio-only Thinking Method tracks for walks and screen-off study. Each runs 10 to 13 minutes with think-pauses and target-language reveals:
 
-- 🇫🇷 French — Identity and introductions
-- 🇮🇹 Italian — At the market
-- 🇪🇸 Spanish — Introductions and café
-- 🇧🇷 Portuguese — Introductions and café
-- 🇩🇪 German — Introductions and café
+- French: Names and introductions (10:17)
+- Italian: At the market (11:03)
+- German: Introductions and a first café visit (12:40)
+- Portuguese: Introductions and a first café visit (12:45)
+- Spanish: Introductions and a first café visit (12:52)
 
-Tracks are built locally with Kokoro TTS and can be saved as MP3s. Provenance and transcription review are in `docs/audio-provenance/`.
+Tracks are built locally with Kokoro TTS and can be saved as MP3s. Provenance and review notes live in `docs/audio-provenance/`.
+
+## The interface
+
+One warm system throughout: cream stock, a single terracotta accent, Fraunces for display and Instrument Sans for text. Depth is a hard offset shadow on flat shapes, never a blur. [DESIGN.md](DESIGN.md) documents the tokens and `tests/design-tokens.test.ts` holds every stylesheet to them.
 
 ## Building from source
 
-You need Node.js 22+ and npm. PostgreSQL is optional.
-
-### Quick start
+You need Node.js 22.13 or newer. PostgreSQL is optional.
 
 ```bash
 npm install
 cp .env.example .env
-npm run dev
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-### With Docker
+With Docker, `docker compose up --build`, then once: `docker compose run --rm app npx prisma migrate deploy`.
 
 ```bash
-cp .env.example .env
-docker compose up --build
-# first run only — apply schema migrations:
-docker compose run --rm app npx prisma migrate deploy
-```
-
-### Tests
-
-```bash
-npm run test          # unit + component
+npm run test          # unit and component
 npm run test:e2e      # Chromium
-npm run test:e2e:portable  # single-file artifact
+npm run test:e2e:portable
 npm run content:validate
 npm run lint
 npm run typecheck
+npm run shots         # regenerate the README screenshots (dev server running)
 ```
 
-### Voice sidecar (optional)
-
-Local TTS/STT with Kokoro, no API keys needed:
-
-```bash
-cd services/voice
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-```
-
-See [docs/local-voice.md](docs/local-voice.md) for the full setup.
+Optional local TTS and STT with Kokoro, no API keys: see [docs/local-voice.md](docs/local-voice.md).
 
 ## Accounts
 
-Passkey accounts (WebAuthn, no passwords) are optional. Guest visitors see honest blank state — no placeholder progress. Signing in persists reviews and derived lesson completion across devices via Prisma/PostgreSQL.
+Passkey accounts (WebAuthn, no passwords) are optional. Guest visitors see honest blank state, never placeholder progress. Signing in persists reviews and derived lesson completion across devices via Prisma and PostgreSQL.
 
 Privacy: no learner audio is stored by default. The voice route returns only a transcript and discards the recording. Typed answers are checked locally in the browser.
 
 ## Known limits
 
-- Partial A1 only — no B1 content yet
-- Foundation lessons are machine-authored and consistency-checked; native-speaker review is still open
-- Placement is a rough starting suggestion, not a CEFR certification
-- Physical iPhone testing (Add to Home Screen, offline relaunch, background/foreground) is still open
-- No hosted voice service — the sidecar is local-only
+- Partial A1 only. No B1 content yet.
+- Foundation lessons are machine-authored and consistency-checked. Native-speaker review is still open, and the audio player says so.
+- Placement is a rough starting suggestion, not a CEFR certification.
+- Physical iPhone testing (Add to Home Screen, offline relaunch, background and foreground) is still open.
+- No hosted voice service. The sidecar is local-only.
+- Contrast over `color-mix()` values is not machine-verified. axe reports those nodes as undetermined, and `npm run a11y:audit` prints how many went unchecked.
 
 If you spot an unnatural phrase or mistake, [file a content correction](https://github.com/sleuthy-sloth/VerbaLibera/issues/new?template=content-correction.yml) with the lesson, the prompt, and what it should say.
 
@@ -107,20 +102,14 @@ If you spot an unnatural phrase or mistake, [file a content correction](https://
 
 1. Create a free Postgres at [neon.tech](https://neon.tech)
 2. Import `sleuthy-sloth/VerbaLibera` into a personal Hobby Vercel project
-3. Set env vars: `DATABASE_URL`, `AUTH_JWT_PRIVATE_KEY`/`AUTH_JWT_PUBLIC_KEY`, `WEBAUTHN_RP_ID`, `WEBAUTHN_ORIGIN`
-4. Deploy — `vercel.json` handles migrations and build
+3. Set `DATABASE_URL`, `AUTH_JWT_PRIVATE_KEY`, `AUTH_JWT_PUBLIC_KEY`, `WEBAUTHN_RP_ID`, `WEBAUTHN_ORIGIN`
+4. Deploy. `vercel.json` handles migrations and build
 
-Generate the ES256 key pair:
-
-```bash
-openssl ecparam -genkey -name prime256v1 -noout -out private.pem
-openssl pkcs8 -topk8 -nocrypt -in private.pem -out private-pkcs8.pem
-openssl ec -in private.pem -pubout -out public.pem
-```
+Generate the ES256 key pair with `openssl ecparam -genkey -name prime256v1 -noout -out private.pem`, then `openssl pkcs8 -topk8 -nocrypt -in private.pem -out private-pkcs8.pem` and `openssl ec -in private.pem -pubout -out public.pem`.
 
 ## Status
 
-VerbaLibera is in active development. See [docs/astra/phase-status.md](docs/astra/phase-status.md) for what's next. The design and implementation plan lives in [docs/superpowers/](docs/superpowers/).
+Active development. See [docs/astra/phase-status.md](docs/astra/phase-status.md) for what is next, and [docs/superpowers/](docs/superpowers/) for the design and implementation plans.
 
 ## License
 

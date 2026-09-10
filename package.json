@@ -1,6 +1,6 @@
 {
   "name": "verbalibera",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "main": "desktop-dist/main.js",
@@ -34,6 +34,7 @@
     "prebuild": "npm run content:check-deployment-imports && npm run content:build",
     "predev": "npm run content:build",
     "test:e2e:webkit": "playwright test --config playwright.mobile.config.ts",
+    "shots": "node scripts/screenshots/capture.mjs",
     "portable:build": "tsx scripts/portable/build.ts",
     "portable:verify": "tsx scripts/portable/verify.ts",
     "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts",

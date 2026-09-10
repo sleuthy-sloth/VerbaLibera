@@ -126,7 +126,7 @@ function ListeningInput(props: InputProps) {
       <audio
         ref={ref}
         controls
-        preload="none"
+        preload="metadata"
         src={media ? props.resolveMedia(media.url) : undefined}
         onError={() => setUnavailable(true)}
         aria-label="Dictation audio"

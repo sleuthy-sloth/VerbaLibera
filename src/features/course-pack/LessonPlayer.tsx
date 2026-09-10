@@ -293,7 +293,7 @@ function AudioContext({
         onCanPlay={() => onAvailabilityChange(false)}
         className="lp-audio"
         controls
-        preload="none"
+        preload="metadata"
         src={resolveSrc(media.url)}
         aria-label="Lesson audio"
       />
