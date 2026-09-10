@@ -245,67 +245,55 @@
       "thinkSeconds": 8
     },
     {
-      "heading": "Ask for a table at a restaurant",
-      "teacher": "Your café pattern now works in a restaurant. Imagine entering in the evening and asking for a table for two. The phrase you will hear means a table for two, please. It ends with the polite word you already know. The middle block means for two and stays together as one unit. Listen first to hear where that polite ending sits.",
+      "heading": "Numbers: one through five",
+      "teacher": "Let's add numbers. One is uno. Two is dos. Three is tres. Four is cuatro. Five is cinco. Listen to the rhythm: uno, dos, tres, cuatro, cinco. Notice that dos sounds like the English word two, and tres sounds like the English word three. Spanish kept close echoes of the Latin numbers, just like English did.",
       "target": {
-        "text": "Una mesa para dos, por favor.",
-        "meaning": "A table for two, please."
+        "text": "Uno, dos, tres, cuatro, cinco.",
+        "meaning": "One, two, three, four, five."
       }
     },
     {
-      "heading": "Order a main dish",
-      "teacher": "Once seated you order food exactly as you ordered drinks. The opening meaning I would like works for any dish. Keep that opening, then a dish block, then the polite ending. During the pause, say I would like the paella, please. You know the frame; the dish name is the only new piece in the middle.",
+      "heading": "Think: How many?",
+      "teacher": "Think. Someone asks cuántos? — how many? You want to say three coffees. You know coffee is café. You know three is tres. Build it: tres cafés. The s on café makes it plural. One café, two cafés, three cafés. The number stays the same, only the noun changes.",
       "target": {
-        "text": "Quisiera la paella, por favor.",
-        "meaning": "I would like the paella, please."
-      },
-      "thinkSeconds": 8
+        "text": "Tres cafés.",
+        "meaning": "Three coffees."
+      }
     },
     {
-      "heading": "Transfer your order to a new dish",
-      "teacher": "Transfer the same frame to a different choice. The new dish is a salad. Keep the I would like opening and the polite ending, but replace only the dish block. During the pause, say I would like the salad, please. You reuse the whole sentence and swap one interior block. Listen afterward to check you changed only what was needed.",
-      "target": {
-        "text": "Quisiera la ensalada, por favor.",
-        "meaning": "I would like the salad, please."
-      },
-      "thinkSeconds": 8
-    },
-    {
-      "heading": "Ask what time it is — think",
-      "teacher": "A different need is asking about time. Imagine you have a reservation. The question you will hear means what time is it. The answer means it is three o'clock, starting with a phrase meaning it is, then the number and the word for hours. During the pause, try asking what time is it from memory, then listen to the full question and answer together.",
+      "heading": "Telling time",
+      "teacher": "Now time. ¿Qué hora es? means what time is it. The answer starts with son las for most hours. Son las dos means it is two o'clock. For one o'clock, it's singular: es la una. Two onward uses las: son las dos, son las tres. Same number system, just applied to the clock.",
       "target": {
         "text": "¿Qué hora es? Son las tres.",
         "meaning": "What time is it? It is three o'clock."
-      },
-      "thinkSeconds": 8
-    },
-    {
-      "heading": "Tell time — half past",
-      "teacher": "Time often uses halves, not only whole hours. The phrase you will hear means it is three-thirty, or half past three. It keeps the it is opening and adds a phrase meaning and a half. Say it is three-thirty from memory during the pause. The opening stays identical; only the ending shows the extra half hour.",
-      "target": {
-        "text": "Son las tres y media.",
-        "meaning": "It is three-thirty."
       }
     },
     {
-      "heading": "Introduce your family — think",
-      "teacher": "The last topic is family, useful beyond yourself. The phrase you will hear means my mother and my father. Think of it as two blocks joined by the word for and, each with the ownership word before the family noun. During the pause, say my brother from memory — same ownership word, new noun. One pattern covers any family member.",
+      "heading": "Think: Your schedule",
+      "teacher": "Think. You have a meeting at four. Son las cuatro. Your friend asks when. Son las cuatro, you say. Simple. Now it's one o'clock — the singular trick. Es la una. That's the only irregular one. After that it's regular.",
       "target": {
-        "text": "Mi madre y mi padre. Mi hermano.",
-        "meaning": "My mother and my father. My brother."
-      },
-      "thinkSeconds": 8
+        "text": "Es la una. / Son las cuatro.",
+        "meaning": "It is one o'clock. / It is four o'clock."
+      }
     },
     {
-      "heading": "Full dialogue — evening at the restaurant",
-      "teacher": "Rehearse a complete evening linking everything. You greet, introduce yourself, ask for a table for two, order a main dish, ask what time it is, mention your family waiting, ask for the bill, and thank the server. Listen once through, then replay and speak your parts after each sentence, hearing how greetings, requests, time, and family flow in one visit.",
+      "heading": "Transfer: Restaurant arrival",
+      "teacher": "Let's stack everything. You walk into a restaurant at three o'clock. Hola. Quisiera una mesa, por favor. — I would like a table, please. Son las tres. You sit down. Quisiera un café y un pastel. — I would like a coffee and a cake. Cuatro euros. Gracias. You just used greetings, politeness, numbers, and time in one real transaction.",
       "target": {
-        "text": "Hola. Me llamo Ana. Una mesa para dos, por favor. Quisiera la paella, por favor. ¿Qué hora es? Son las tres y media. Mi madre y mi padre están aquí. La cuenta, por favor. Gracias.",
-        "meaning": "Hello. My name is Ana. A table for two, please. I would like the paella, please. What time is it? It is three-thirty. My mother and my father are here. The bill, please. Thank you."
+        "text": "Hola. Quisiera una mesa, por favor.",
+        "meaning": "Hello. I would like a table, please."
+      }
+    },
+    {
+      "heading": "Full dialogue: The restaurant",
+      "teacher": "Let's do the full exchange. Hola, buenas tardes. Quisiera un café, por favor. ¿Cuántos? Uno, por favor. Cuatro euros. Aquí tiene. Gracias. Hasta luego. Buenas tardes means good afternoon. Aquí tiene means here you go. Hasta luego means see you later. You just had a complete restaurant conversation using blocks from the entire lesson.",
+      "target": {
+        "text": "Hola, buenas tardes. Quisiera un café, por favor.",
+        "meaning": "Hello, good afternoon. I would like a coffee, please."
       }
     }
   ],
   "audioUrl": "/audio/spanish-foundations/es-introductions-foundation-listen.mp3",
-  "durationS": 618.35,
+  "durationS": 772.73,
   "reviewPending": true
 }

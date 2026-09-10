@@ -2,6 +2,9 @@
   "lessonId": "it-market-foundation",
   "courseSlug": "italian",
   "lessonTitle": "Italian Market Foundations",
+  "language": "it",
+  "voice": "if_sara",
+  "authoringStatus": "draft",
   "sections": [
     {
       "heading": "Part 1: Welcome",
@@ -235,8 +238,5 @@
       "heading": "Part 30: Closing",
       "teacher": "And that is ten minutes. You weighed produce by the kilo and the hundred grams, asked singular and plural prices, ordered with the politest verb and closed with please and thank you. Then you transferred those same verbs to the restaurant, named the bill, introduced father, mother, brother, sister, and parents with the matching my, and told time from one through twelve using numbers you knew before today. A handful of blocks, recombined. Next time, you will add past tense to say what you ate."
     }
-  ],
-  "audioUrl": "/audio/italian-foundations/it-market-foundation-listen.mp3",
-  "durationS": 663.92,
-  "reviewPending": true
+  ]
 }

@@ -2,6 +2,9 @@
   "lessonId": "fr-identity-foundation",
   "courseSlug": "french",
   "lessonTitle": "French Identity Foundations",
+  "language": "fr",
+  "voice": "bf_emma",
+  "authoringStatus": "draft",
   "sections": [
     {
       "heading": "Welcome",
@@ -211,8 +214,5 @@
         "meaning": "See you soon."
       }
     }
-  ],
-  "audioUrl": "/audio/french-foundations/fr-identity-listen.mp3",
-  "durationS": 617.58,
-  "reviewPending": true
+  ]
 }

@@ -16,8 +16,8 @@ import subprocess
 import tempfile
 import wave
 
-VOICES = {"es": "ef_dora", "pt": "pf_dora", "de": "de_DE-thorsten-medium"}
-CODES = {"en": "a", "es": "e", "pt": "p"}
+VOICES = {"es": "ef_dora", "pt": "pf_dora", "de": "de_DE-thorsten-medium", "fr": "bf_emma", "it": "if_sara"}
+CODES = {"en": "a", "es": "e", "pt": "p", "fr": "f", "it": "i"}
 
 
 def plan(script):

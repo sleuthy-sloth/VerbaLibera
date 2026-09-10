@@ -6,7 +6,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { LISTEN_TRACKS } from "@/features/listen/tracks";
 import { listenedAt, markListened } from "@/features/listen/listened";
 import { ListenPlayer } from "@/components/listen/ListenPlayer";
-import marketSections from "@/features/listen/generated/italian.json";
+import italianData from "@/features/listen/generated/italian.json";
+const marketSections = italianData.sections;
 
 describe("listen tracks", () => {
   it.each(["spanish", "portuguese", "german"])("%s has a long recording built from its displayed script", (language) => {

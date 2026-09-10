@@ -1,8 +1,8 @@
-import italianMarketSections from "./generated/italian.json";
-import frenchSections from "./generated/french.json";
-import spanishIntroductions from "./generated/spanish.json";
-import portugueseIntroductions from "./generated/portuguese.json";
-import germanIntroductions from "./generated/german.json";
+import frenchTrack from "./generated/french.json";
+import italianTrack from "./generated/italian.json";
+import spanishTrack from "./generated/spanish.json";
+import portugueseTrack from "./generated/portuguese.json";
+import germanTrack from "./generated/german.json";
 // Audio-only Thinking Method tracks. Each track is a static file synthesized
 // at author time (never at runtime): a teacher guide plus target-language
 // reveals with think-pauses baked in. Lessons without a track yet render an
@@ -22,26 +22,11 @@ export type ListenTrack = {
   sections: ListenSection[];
 };
 export const LISTEN_TRACKS: ListenTrack[] = [
-  {
-    lessonId: "fr-identity-foundation",
-    courseSlug: "french",
-    lessonTitle: "Names and introductions",
-    audioUrl: "/audio/french-foundations/fr-identity-listen.mp3",
-    durationS: 600,
-    sections: frenchSections,
-  },
-  {
-    lessonId: "it-market-foundation",
-    courseSlug: "italian",
-    lessonTitle: "At the market: prices",
-    audioUrl: "/audio/italian-foundations/it-market-listen.mp3",
-    durationS: 600,
-    reviewPending: true,
-    sections: italianMarketSections,
-  },
-  spanishIntroductions,
-  portugueseIntroductions,
-  germanIntroductions,
+  frenchTrack,
+  italianTrack,
+  spanishTrack,
+  portugueseTrack,
+  germanTrack,
 ];
 export const trackForLesson = (lessonId: string) =>
   LISTEN_TRACKS.find((t) => t.lessonId === lessonId);

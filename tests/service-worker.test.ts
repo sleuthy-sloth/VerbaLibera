@@ -252,7 +252,7 @@ it.each([
   const event = {
     request: {
       method: 'GET', mode: 'cors',
-      url: 'https://verbalibera.test/audio/italian-foundations/it-market-listen.mp3',
+      url: 'https://verbalibera.test/audio/italian-foundations/it-market-foundation-listen.mp3',
     },
     respondWith: vi.fn(), waitUntil: vi.fn(),
   };
