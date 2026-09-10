@@ -17,7 +17,7 @@ things to know before you start are in **Read this first**.
 | Logo Mark | 1024×1024 | ✅ open book + speech bubble, monoline, no text — in `public/brand/` |
 | Logo Lockup | 1792×592 | ✅ symbol only, left, 90% empty right — wordmark still goes on in code |
 | App Icon | 1024×1024 | ✅ drove the 512/192/maskable icons, apple-touch 180 and the RGBA favicon |
-| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — one set, quiet left third, no baked text |
+| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — one set, no baked text, full-width composition (no reserved zone; see § 2) |
 | Hero Banner | 1584×672 | ✅ dashboard artwork |
 | Empty Journal | 1024×1024 | ✅ journal + seedling from the spine, blank pages |
 | Social Card | 1200×630 | ✅ 16:9 cropped to the OG ratio; text verified verbatim |
@@ -184,12 +184,23 @@ top — never let the model draw them.
 ## 2. Course banner template
 
 Five exist now — `public/brand/courses/{french,italian,spanish,portuguese,german}.jpg`,
-all 2064×512. German was missing and is not wired into the lesson view yet; see
-*Wiring the German banner* below.
+all 2064×512.
 
-The banner is a *background band*, not a poster: it sits behind the lesson title,
-so keep the left third quiet and put no faces or fine detail in the middle.
-Generate one per language by swapping the last line.
+**No zone is reserved for a title, and no title is overlaid on any banner.** An
+earlier version of this brief reserved the left third "because a title sits
+there". That overlay was never built: on the course page the course name is a
+heading ABOVE the banner, and on the landing cards it sits BELOW the art. Worse,
+the five shipped banners do not deliver the reservation anyway — measured with
+`scripts/brand/quiet-zone-audit.py`, they leave **19-31%** quiet on the left, a
+fifth to a quarter rather than a third, so a title dropped in "the left third"
+would land on artwork.
+
+So: **compose across the full width.** The banner is a decorative band beneath a
+heading that already names the course, and reserving space nothing consumes only
+costs composition. Re-introduce a quiet zone only when a title is genuinely going
+on top of the art, and then state it as a measurable requirement ("keep the left
+33% free of artwork, cream ground only") and verify with the audit script rather
+than trusting the render. Generate one per language by swapping the subject line.
 
 ```
 [STYLE BLOCK]
@@ -198,9 +209,8 @@ A wide horizontal illustrated frieze, like the cover band of a 1960s language
 textbook. Subject: a quiet street scene in Paris — a cafe terrace with two empty
 chairs and a small round table, a zinc bar counter visible through a window, a
 bicycle leaning on a wall, a plane tree, chimney pots on a roofline. Drawn as
-simple flat vector shapes, wide and calm, arranged along the middle band of the
-image. The left third is almost empty — just cream ground and a single roofline —
-because a title sits there.
+simple flat vector shapes, wide and calm, filling the full width of the frame
+from left to right along the middle band.
 
 Palette: cream #fbf4e6 ground, shapes in #2f2a24, #e0d3ba, #6b5f4b and
 terracotta #a8511f as the one accent (the cafe awning). Muted sage green #2f6b3f
@@ -397,8 +407,9 @@ Critically: the scene ENDS well inside the frame. Every building and tree is
 completely contained, with plain cream on both the left and right sides. No
 object may touch, cross, or be cut by any edge of the image.
 
-The left third is the emptiest part of the composition, because a title sits
-there.
+No title is overlaid on this banner, so there is no zone to reserve. The
+containment above exists to stop the scene being sliced by the frame edge, not
+to leave room for type.
 
 Palette: #fbf4e6 ground; shapes in #2f2a24, #e0d3ba, #6b5f4b; terracotta #a8511f
 as the one accent; muted sage #2f6b3f for the tree only.
