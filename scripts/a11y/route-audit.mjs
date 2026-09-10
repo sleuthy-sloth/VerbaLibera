@@ -48,6 +48,19 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const browser = await chromium.launch();
 const records = [];
 let violationCount = 0;
+const errored = [];
+
+// Preflight. Without this, an unreachable server makes every route throw, the
+// loop below records the error and counts no violations, and the script prints
+// "No axe violations" and exits 0 — a green result for an audit that never ran.
+try {
+  const probe = await fetch(BASE, { redirect: 'manual' });
+  if (!probe.ok && probe.status >= 500) throw new Error(`HTTP ${probe.status}`);
+} catch (error) {
+  console.error(`\nNo audit ran. Nothing is serving ${BASE}.\n  ${String(error).slice(0, 160)}\n\nStart the app first:\n  npm run dev -- --port 3100 -H localhost\n`);
+  await browser.close();
+  process.exit(2);
+}
 
 for (const viewport of VIEWPORTS) {
   const context = await browser.newContext({
@@ -149,6 +162,7 @@ for (const viewport of VIEWPORTS) {
       violationCount += record.violations.length;
     } catch (error) {
       record.error = String(error).slice(0, 300);
+      errored.push(`${viewport.name} ${route}`);
     }
     records.push(record);
     const status = record.error ? 'ERROR' : `${(record.violations ?? []).length} violation type(s)`;
@@ -165,9 +179,44 @@ if (jsonOut) {
   console.log(`\nwrote ${jsonOut}`);
 }
 
-console.log(
-  violationCount === 0
-    ? '\nNo axe violations. Tab order and structure are in the JSON if you asked for it.'
-    : `\n${violationCount} route(s) with violations.`,
+// An audit that could not run its routes is not a passing audit. Counting only
+// violations meant an unreachable server produced "No axe violations" and exit
+// 0 — a green badge for zero coverage.
+const ran = records.length - errored.length;
+
+// axe's `incomplete` results are the ones it could not decide. For contrast that
+// means it could not resolve the effective background — which is what happens
+// with `color-mix()`, used throughout the Warm Studio palette, and with text
+// over a background image. Reporting only "0 violations" implies those elements
+// were verified. They were not.
+const undetermined = records.reduce(
+  (sum, record) => sum + (record.incomplete ?? []).reduce((n, item) => n + item.nodes, 0),
+  0,
 );
-process.exit(violationCount === 0 ? 0 : 1);
+
+if (errored.length) {
+  console.log(`\n${errored.length} of ${records.length} route/viewport combinations did not run:`);
+  for (const entry of errored) console.log(`  ${entry}`);
+}
+
+if (errored.length && ran === 0) {
+  console.log('\nNo audit ran at all.');
+  process.exit(2);
+}
+if (errored.length || violationCount) {
+  console.log(
+    `\n${violationCount} route(s) with violations; ${ran}/${records.length} combinations ran.`,
+  );
+  process.exit(1);
+}
+console.log(
+  `\nNo axe violations across all ${ran} route/viewport combinations. Tab order and structure are in the JSON if you asked for it.`,
+);
+if (undetermined) {
+  console.log(
+    `\nNot verified: ${undetermined} node(s) came back "incomplete", where axe could not ` +
+      'determine the effective colour. Contrast over `color-mix()` and over background ' +
+      'images lands here. Check those by hand — they are unknown, not passing.',
+  );
+}
+process.exit(0);
