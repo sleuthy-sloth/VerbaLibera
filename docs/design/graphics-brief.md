@@ -10,23 +10,28 @@ things to know before you start are in **Read this first**.
 
 ## Status
 
-**Generated and checked (7 files, ~/Downloads):**
+**All assets generated, installed and verified (2026-09-10).** Commit `9dbb328`.
 
 | Asset | Size | State |
 |---|---|---|
-| Logo Mark | 1024×1024 | ✅ open book + speech bubble, monoline, no text |
-| App Icon | 1024×1024 | ✅ same emblem, safe margins |
-| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — read as a set, quiet left third, no baked text |
+| Logo Mark | 1024×1024 | ✅ open book + speech bubble, monoline, no text — in `public/brand/` |
+| Logo Lockup | 1792×592 | ✅ symbol only, left, 90% empty right — wordmark still goes on in code |
+| App Icon | 1024×1024 | ✅ drove the 512/192/maskable icons, apple-touch 180 and the RGBA favicon |
+| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — one set, quiet left third, no baked text |
+| Hero Banner | 1584×672 | ✅ dashboard artwork |
+| Empty Journal | 1024×1024 | ✅ journal + seedling from the spine, blank pages |
+| Social Card | 1200×630 | ✅ 16:9 cropped to the OG ratio; text verified verbatim |
 
-**Still to generate (4):** logo-lockup, hero-banner, empty-journal, og-card —
-sections 1a, 5, 6 and 4 below.
+Four of the five came back pixel-exact at the sizes the code needs; only the
+social card needed cropping. Every ground needed snapping.
 
-**Derived, never generated:** the 512/192/maskable icons, apple-touch and
-favicon come out of the app icon via `scripts/brand/from-generated.sh`.
+Install and re-snap with `scripts/brand/install-generated.py` — it maps each
+prompt's output to the geometry the app expects and refuses to silently rescale
+anything whose aspect ratio is wrong.
 
-**One measured flaw in everything generated so far:** the ground cream comes
-back consistently off — see *Read this first* item 3. `scripts/brand/snap-ground.py`
-fixes it deterministically.
+**Still worth doing (not blocking):** the 32 vocabulary images are photographs,
+which is now the largest remaining mismatch with an illustration system. Section
+7 has the template and the subject list if you want them redrawn.
 
 ---
 
