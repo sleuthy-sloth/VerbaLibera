@@ -29,7 +29,9 @@ const errorCategories = z.enum([
 
 const answerSpecSchema = z.object({
   answers: z.array(text).min(1).max(20),
-  allowTypo: z.boolean().default(false),
+  // Forgiving by default, matching the v1 answer schema: an exercise that is
+  // testing spelling itself opts into strictness with `allowTypo: false`.
+  allowTypo: z.boolean().default(true),
   errors: z
     .array(
       z.object({

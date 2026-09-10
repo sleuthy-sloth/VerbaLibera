@@ -1,9 +1,23 @@
 import type { AnswerSpec } from "./schema";
+/**
+ * `credit` says how much of the answer the learner actually produced. It is
+ * deliberately separate from `accepted`, which only answers "does this advance
+ * the lesson?" A missing accent is worth partial credit and acceptance, because
+ * the learner produced the right word and a typography layer got in the way.
+ */
+export type Credit = "full" | "partial" | "none";
 export type Evaluation = {
   accepted: boolean;
+  credit: Credit;
   category: string;
   explanation: string;
   model: string;
+  /**
+   * The form to show back when the answer was accepted with something to fix.
+   * Only set when there is a specific thing to see, so the UI can render a
+   * correction instead of a bare acknowledgement.
+   */
+  correction?: string;
 };
 export function normalize(text: string): string {
   return text
@@ -40,7 +54,9 @@ export function evaluateAnswer(response: string, spec: AnswerSpec): Evaluation {
     category: string,
     explanation: string,
     accepted = false,
-  ): Evaluation => ({ category, explanation, accepted, model });
+    credit: Credit = "none",
+    correction?: string,
+  ): Evaluation => ({ category, explanation, accepted, credit, model, correction });
   if (!input || input.length > 1000)
     return result(
       "incorrect answer",
@@ -57,15 +73,40 @@ export function evaluateAnswer(response: string, spec: AnswerSpec): Evaluation {
         ? "That is the answer."
         : "That is one of the accepted forms.",
       true,
+      "full",
     );
   const error = spec.errors?.find((e) => normalize(e.answer) === input);
   if (error) return result(error.category, error.explanation);
-  for (const answer of spec.answers)
-    if (unaccent(normalize(answer)) === unaccent(input))
-      return result(
-        "accent/diacritic issue",
-        "Check the accents. They can change the meaning or grammatical form.",
-      );
+  // Accents are a typography layer, not knowledge, so a missing one is accepted
+  // with the accented form shown back rather than counted wrong. But only where
+  // the accent decorates a word: in Italian "e" (and) and "è" (is), in French
+  // "a" (has) and "à" (to), "ou" (or) and "où" (where), are different words, and
+  // forgiving those erases the grammar the accent is carrying. So the rule is
+  // judged per DIFFERING word and only above a length floor, which leaves short
+  // words elsewhere in the sentence ("un", "a") free to stay short.
+  for (const answer of spec.answers) {
+    const expected = normalize(answer);
+    if (unaccent(expected) !== unaccent(input)) continue;
+    const a = input.split(" ");
+    const b = expected.split(" ");
+    if (a.length !== b.length) continue;
+    const forgiving = a.every((word, i) => {
+      if (word === b[i]) return true;
+      const bare = unaccent(word);
+      return bare === unaccent(b[i]) && bare.length >= 4;
+    });
+    if (!a.some((word, i) => word !== b[i])) continue;
+    // The diagnostic is worth giving either way: a learner who wrote "e" for
+    // "è" has an accent problem and should be told so. Only the acceptance is
+    // withheld, because there the accent is the whole word.
+    return result(
+      "accent/diacritic issue",
+      "Right word — the written form carries accents. They change the meaning or grammatical form.",
+      forgiving,
+      forgiving ? "partial" : "none",
+      forgiving ? answer : undefined,
+    );
+  }
   for (const answer of spec.answers) {
     const expected = normalize(answer);
     const a = input.split(" ");
@@ -100,27 +141,38 @@ export function evaluateAnswer(response: string, spec: AnswerSpec): Evaluation {
   }
   for (const answer of spec.answers) {
     const expected = normalize(answer);
-    if (expected.length <= 1000 && distance(input, expected) <= 1) {
-      // Even an opted-in typo never forgives a one-letter grammar word.
-      const a = input.split(" "),
-        b = expected.split(" ");
-      const changed = a.filter((w, i) => w !== b[i]);
-      const safe =
-        a.length === b.length &&
-        changed.length === 1 &&
-        changed[0].length >= 5 &&
-        b[a.findIndex((w, i) => w !== b[i])]?.length >= 5;
-      if (spec.allowTypo && safe)
+    if (expected.length > 1000) continue;
+    const a = input.split(" "),
+      b = expected.split(" ");
+    // Only a same-length answer with exactly one altered word can be forgiven,
+    // so a dropped or reordered word is never laundered into "a typo".
+    if (a.length !== b.length || a.length === 0) continue;
+    const idx = a.findIndex((w, i) => w !== b[i]);
+    if (idx < 0) continue;
+    if (a.filter((w, i) => w !== b[i]).length !== 1) continue;
+    const wrong = a[idx],
+      right = b[idx];
+    // Both forms need enough letters to carry meaning: forgiving a one- or
+    // two-letter slip would forgive a grammar word, which changes the sentence.
+    if (wrong.length < 4 || right.length < 4) continue;
+    const edited = distance(wrong, right);
+    // A longer word earns one more edit, because "common misspelling" scales
+    // with length and a single-slip rule rejects real typos in long words.
+    const allowed = wrong.length >= 8 && right.length >= 8 ? 2 : 1;
+    if (edited <= allowed)
+      if (spec.allowTypo)
         return result(
           "correct with typo",
           "Meaning accepted with a small spelling slip; study the exact spelling.",
           true,
+          "partial",
+          answer,
         );
-      return result(
-        "nearly correct",
-        "A small spelling or grammar difference remains. Compare the model.",
-      );
-    }
+      else
+        return result(
+          "nearly correct",
+          "A small spelling or grammar difference remains. Compare the model.",
+        );
   }
   return result(
     "incorrect answer",

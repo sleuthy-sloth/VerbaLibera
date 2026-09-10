@@ -18,7 +18,10 @@ export const errorCategories = [
 ] as const;
 export const answerSchema = z.object({
   answers: z.array(text).min(1).max(20),
-  allowTypo: z.boolean().default(false),
+  // Forgiving by default. A learner who produced the right word with a slipped
+  // letter or a missing accent got the answer; the rare exercise that tests
+  // spelling itself opts into strictness with `allowTypo: false`.
+  allowTypo: z.boolean().default(true),
   errors: z
     .array(
       z.object({

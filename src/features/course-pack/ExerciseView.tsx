@@ -261,6 +261,8 @@ export function ExerciseView({
               if (!result)
                 setResult({
                   accepted: false,
+                  // Revealing is not an answer: it earns no credit either way.
+                  credit: "none",
                   category: "model revealed",
                   explanation: "Here is the model answer. Compare it with yours before moving on.",
                   model: exercise.answers[0],

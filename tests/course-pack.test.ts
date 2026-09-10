@@ -92,18 +92,23 @@ describe("deterministic answers", () => {
     });
     expect(evaluateAnswer("Non ho mangiato", exercise).accepted).toBe(false);
   });
-  it("does not erase grammatical accents or accept fuzzy answers", () => {
+  it("keeps short grammatical accents strict, and accepts a slip on a real word", () => {
+    // "e" (and) and "è" (is) are different words: there the accent is not
+    // decoration, it is the word, so the answer still does not count.
     expect(evaluateAnswer("e", { answers: ["è"] }).category).toBe(
       "accent/diacritic issue",
     );
     expect(evaluateAnswer("e", { answers: ["è"] }).accepted).toBe(false);
-    expect(evaluateAnswer("mangaito", { answers: ["mangiato"] }).accepted).toBe(
-      false,
-    );
+    // A misspelling of a real word is forgiven by default, and an exercise can
+    // still ask for strict spelling.
     expect(
       evaluateAnswer("mangaito", { answers: ["mangiato"], allowTypo: true })
         .category,
     ).toBe("correct with typo");
+    expect(
+      evaluateAnswer("mangaito", { answers: ["mangiato"], allowTypo: false })
+        .accepted,
+    ).toBe(false);
   });
   it("classifies missing/extra/order errors without counting them correct", () => {
     expect(evaluateAnswer("ho", exercise).category).toBe("missing word");
