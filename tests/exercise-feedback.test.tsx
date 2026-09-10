@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
 import { validatePack } from "@/features/course-pack/schema";
 import { ExerciseView } from "@/features/course-pack/ExerciseView";
+import { producesTargetLanguage } from "@/features/course-pack/feedback";
 
 /**
  * The grader talks in taxonomy — "accent/diacritic issue", "acceptable
@@ -157,5 +158,25 @@ describe("practice feedback", () => {
     const feedback = document.querySelector(".study-feedback") as HTMLElement;
     expect(feedback.getAttribute("data-outcome")).toBe("neutral");
     expect(feedback.querySelector("strong")?.textContent).toBe("Here's the model.");
+  });
+
+  it("only counts target-language answers as language the learner used", async () => {
+    // The running "used this session" list is labelled as French output, and the
+    // lesson summary says "You used N expressions in French". A `choice` asks
+    // for the English meaning ("Hello.") and a `reading` is answered in English,
+    // so neither may be counted — the first pass counted both.
+    expect(producesTargetLanguage("choice")).toBe(false);
+    expect(producesTargetLanguage("reading")).toBe(false);
+    expect(producesTargetLanguage("think")).toBe(true);
+    expect(producesTargetLanguage("translate")).toBe(true);
+    expect(producesTargetLanguage("cloze")).toBe(true);
+    expect(producesTargetLanguage("order")).toBe(true);
+    expect(producesTargetLanguage("dictation")).toBe(true);
+    expect(producesTargetLanguage("transform")).toBe(true);
+
+    // And the model a choice grades against really is English, not French.
+    const choice = byId("fr-first-words-foundation-meet");
+    expect(choice.answers[0]).toBe("Hello.");
+    expect(producesTargetLanguage(choice.kind)).toBe(false);
   });
 });

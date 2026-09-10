@@ -37,6 +37,15 @@ const PRODUCTIVE: ReadonlySet<Exercise["kind"]> = new Set([
   "dictation",
 ]);
 
+/**
+ * Whether a correct answer to this kind is a form in the language being
+ * learned, rather than a comprehension answer in the learner's own language.
+ * A `choice` asks for the English meaning and a `reading` is answered in
+ * English, so neither can go in a list the UI labels as target-language output.
+ */
+export const producesTargetLanguage = (kind: Exercise["kind"]): boolean =>
+  PRODUCTIVE.has(kind);
+
 const SPOKEN_NUDGE = "Say it out loud once before you continue.";
 
 const HEADLINES: Record<string, string> = {

@@ -19,6 +19,7 @@ import { decodeBackup } from "./storage";
 import { DialogueView } from "./DialogueView";
 import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
+import { producesTargetLanguage } from "./feedback";
 import type { CourseEnvironment } from "./environment";
 
 /** Workspace views. Also the `/courses/<language>/<view>` URL segment values. */
@@ -257,7 +258,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
     };
     await environment.practice.write([event], scope);
     setEvents((old) => mergeEvents(old, [event]));
-    if (result.accepted && result.model.trim())
+    if (result.accepted && producesTargetLanguage(activeExercise.kind) && result.model.trim())
       setUsedPhrases((old) =>
         old.includes(result.model) ? old : [...old, result.model],
       );
@@ -456,7 +457,10 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           ) : null}
           <div className="study-session-progress">
             <span>Practice {step + 1} of {session.length}</span>
-            <progress aria-label="Practice progress" max={session.length} value={step} />
+            {/* `value={step}` showed an empty bar beside the label "Practice 1
+                of 7" — the text and the bar disagreed. The bar counts the step
+                you are on, so it matches the label. */}
+            <progress aria-label="Practice progress" max={session.length} value={step + 1} />
           </div>
           {usedPhrases.length ? (
             <p className="study-used" aria-live="polite">

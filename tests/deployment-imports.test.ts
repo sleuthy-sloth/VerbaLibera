@@ -32,7 +32,9 @@ function runGuardInTemp(files: Record<string, string>): { code: number; output: 
   }
 }
 
-describe("deployment import guard", () => {
+// Each test shells out to `npx tsx` in a temp project; see the note in
+// tests/desktop-packaging.test.ts about subprocess-heavy budgets.
+describe("deployment import guard", { timeout: 20_000 }, () => {
   it("passes when no production import reaches an ignored directory", () => {
     const result = runGuardInTemp({
       "src/features/listen/tracks.ts":

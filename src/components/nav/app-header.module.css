@@ -10,10 +10,8 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  border-bottom: 1px solid var(--glass-edge);
-  background: var(--glass-fill-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--edge);
+  background: var(--stock);
 }
 
 .inner {
@@ -55,7 +53,7 @@
   min-height: 44px;
   padding: 0 0.85rem;
   border-radius: var(--radius-pill);
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
   font: 700 0.78rem/1 var(--font-utility);
   letter-spacing: 0.04em;
   text-transform: uppercase;

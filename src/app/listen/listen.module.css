@@ -8,7 +8,7 @@
  * page silently fell back to inherited ink. The global token exists now. */
 .eyebrow {
   margin: 0 0 0.5rem;
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
   font: 700 var(--text-min, 0.75rem)/1.2 var(--font-utility);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -23,7 +23,7 @@
 .lede {
   max-width: 56ch;
   margin: 0.9rem 0 1.25rem;
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
   font-size: 1.02rem;
   line-height: 1.6;
 }
@@ -52,12 +52,10 @@
   gap: 12px;
   padding: 10px 14px;
   margin-bottom: 8px;
-  border: 1px solid var(--glass-edge);
+  border: 1.5px solid var(--edge);
   border-radius: 16px;
-  background: var(--glass-fill);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  box-shadow: var(--glass-highlight);
+  background: var(--stock);
+  box-shadow: var(--lift-sm);
 }
 .list li button {
   display: grid;
@@ -77,11 +75,11 @@
 }
 .itemMeta {
   font-size: 0.85rem;
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
 }
 .itemState {
   font-size: 0.85rem;
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
   white-space: nowrap;
 }
 .back {
@@ -97,7 +95,7 @@
 .empty,
 .note {
   max-width: 56ch;
-  color: var(--muted-foreground, #586360);
+  color: var(--muted-foreground, #6b5f4b);
   line-height: 1.6;
 }
 .note {

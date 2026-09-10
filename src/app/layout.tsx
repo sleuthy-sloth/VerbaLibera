@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Instrument_Sans, Newsreader } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
 import { QuickNav } from "@/components/nav/QuickNav";
 import { AppHeader } from "@/components/nav/AppHeader";
@@ -7,8 +7,14 @@ import { RouteAnnouncer } from "@/components/nav/RouteAnnouncer";
 import { QueryProvider } from "@/lib/query-provider";
 import "./globals.css";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+/**
+ * Display face. Warm Studio sets headings in Fraunces — a softer, slightly
+ * quirkier serif than the Newsreader it replaces. Everything that asks for
+ * `var(--font-display)` follows automatically, and every call site already
+ * carries a `Georgia, serif` fallback for the offline bundle.
+ */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -79,7 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${newsreader.variable} ${instrumentSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${instrumentSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         <a href="#main-content" className="skip-link">

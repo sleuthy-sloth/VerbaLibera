@@ -1,8 +1,12 @@
 .study {
-  --paper: #f5f3ee;
-  --ink: #222e2c;
-  --muted: #536560;
-  --accent: #176a61;
+  /* Warm Studio. These MIRROR the tokens in globals.css because the
+   * portable/offline bundle ships study.css without globals.css. Keep them
+   * equal — `tests/design-tokens.test.ts` asserts it, which is what stops the
+   * three-palette drift this file used to have. */
+  --paper: #fbf4e6;
+  --ink: #2f2a24;
+  --muted: #6b5f4b;
+  --accent: #a8511f;
   box-sizing: border-box;
   background: var(--paper);
   color: var(--ink);
@@ -70,12 +74,11 @@
 .study select,
 .study-import {
   min-height: 46px;
-  padding: 10px 18px;
-  border: 1px solid #899b95;
-  background: #fffdfa;
+  padding: 10px 18px; border: 1px solid var(--edge-soft, #e0d3ba);
+  background: var(--stock, #fffdf7);
   color: var(--ink);
   border-radius: 999px;
-  box-shadow: 0 2px 12px color-mix(in srgb, #222e2c 10%, transparent);
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
 }
 .study button {
   cursor: pointer;
@@ -94,12 +97,9 @@
   outline-offset: 4px;
 }
 .study .study-primary {
-  background: linear-gradient(to bottom, #1e7a70, var(--accent));
-  color: white;
-  border-color: color-mix(in srgb, var(--accent) 55%, #ffffff);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 35%),
-    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
+  background: var(--accent, #a8511f);
+  color: var(--stock, #fffdf7); border: 1.5px solid var(--edge, #2f2a24);
+  box-shadow: var(--lift-sm, 2px 2px 0 #2f2a24);
 }
 .study-header,
 .study-actions {
@@ -124,24 +124,22 @@
 .study input:not([type="radio"]):not([type="file"]) {
   display: block;
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #899b95;
+  padding: 12px 16px; border: 1px solid var(--edge-soft, #e0d3ba);
   border-radius: 14px;
-  background: #fffdfa;
+  background: var(--stock, #fffdf7);
   color: var(--ink);
 }
 .study-tabs {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  border-block: 1px solid #a8b4ad;
+  border-block: 1px solid var(--edge-soft, #e0d3ba);
   padding: 16px 0;
   margin: 28px 0;
 }
 .study-tabs button,
 .study-tabs a {
-  min-height: 44px;
-  border: 0;
+  min-height: 44px; border: 0;
   color: var(--ink);
   text-decoration: none;
 }
@@ -155,7 +153,7 @@
 }
 .study-tabs button[aria-current="page"],
 .study-tabs a[aria-current="page"] {
-  background: #dfebe4;
+  background: var(--accent-soft, #f6e3cd);
 }
 .study-eyebrow {
   font-size: 12px;
@@ -179,16 +177,11 @@
 }
 .study-listen-first {
   padding: 12px 16px;
-  margin: 12px 0;
-  border: 1px solid rgb(255 255 255 / 55%);
-  border-left: 4px solid var(--accent, #2e7d5b);
-  background: color-mix(in srgb, #eef4ef 82%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
-  backdrop-filter: blur(22px) saturate(1.8);
-  border-radius: 0 20px 20px 0;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 65%),
-    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
+  margin: 12px 0; border: 1.5px solid var(--edge, #2f2a24);
+  border-left: 4px solid var(--accent, var(--state-correct-line, #2f6b3f));
+  background: var(--stock, #fffdf7);
+  border-radius: 0 var(--radius-hand, 22px 24px 20px 26px) var(--radius-hand, 22px 24px 20px 26px) 0;
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
 }
 .study-listen-first p {
   margin: 0 0 8px;
@@ -202,12 +195,9 @@
 }
 .study-think-gate {
   padding: 12px 16px;
-  margin: 12px 0;
-  border: 1px dashed var(--accent, #2e7d5b);
+  margin: 12px 0; border: 1px dashed var(--accent, var(--state-correct-line, #2f6b3f));
   border-radius: 20px;
-  background: color-mix(in srgb, #f4f8f4 82%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
-  backdrop-filter: blur(22px) saturate(1.8);
+  background: var(--stock, #fffdf7);
 }
 .study-think-gate p {
   margin: 0 0 8px;
@@ -218,14 +208,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  background: color-mix(in srgb, #e5ece5 82%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
-  backdrop-filter: blur(22px) saturate(1.8);
-  border: 1px solid rgb(255 255 255 / 55%);
-  border-radius: 20px;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 65%),
-    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
+  background: var(--stock, #fffdf7); border: 1.5px solid var(--edge, #2f2a24);
+  border-radius: var(--radius-hand, 22px 24px 20px 26px);
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
 }
 .study-lessons {
   padding: 0;
@@ -235,16 +220,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #c2cbc5;
+  border-bottom: 1px solid var(--edge-soft, #e0d3ba);
   gap: 12px;
   padding: 8px 0;
 }
 .study-path {
   margin: 40px 0;
-  padding: clamp(18px, 4vw, 30px);
-  border: 1px solid #c2cbc5;
+  padding: clamp(18px, 4vw, 30px); border: 1px solid var(--edge-soft, #e0d3ba);
   border-radius: 20px;
-  background: #fffdfa;
+  background: var(--stock, #fffdf7);
 }
 .study-path-heading {
   display: flex;
@@ -261,10 +245,10 @@
 .study-path-unit h3 { margin: 0; }
 .study-path-unit > p { color: var(--muted); font-size: 14px; }
 .study-path .study-lessons li { min-height: 62px; }
-.study-path-number { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #dce8e1; color: var(--accent); font-weight: bold; }
-.study-path .study-lessons li.is-next { border-left: 3px solid var(--accent); padding-left: 10px; background: #eff5f1; }
+.study-path-number { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: var(--stock-3, #f2ead7); color: var(--accent); font-weight: bold; }
+.study-path .study-lessons li.is-next { border-left: 3px solid var(--accent); padding-left: 10px; background: var(--stock, #fffdf7); }
 .study-path .study-lessons li.is-complete .study-path-number { background: var(--accent); color: #fff; }
-/* Locked lessons used to be `opacity: .72`, which composited --muted (#536560,
+/* Locked lessons used to be `opacity: .72`, which composited --muted (var(--muted, #6b5f4b),
  * 5.57:1 on its own) down to 3.27:1 — that is what axe was flagging on 24 nodes
  * per course page. Locked state is now a border + pill instead of a dimmer, so
  * the prerequisite sentence stays readable. `.is-ready` (unlocked, not the next
@@ -276,13 +260,12 @@
 }
 .study-path .study-lessons li.is-locked { border-left: 3px solid color-mix(in srgb, var(--muted) 45%, transparent); padding-left: 10px; }
 .study-path .study-lessons li.is-ready { border-left: 3px solid transparent; padding-left: 10px; }
-.study-path .study-lessons li.is-locked .study-path-number { background: #e8e6df; color: #4a5451; }
+.study-path .study-lessons li.is-locked .study-path-number { background: var(--edge-soft, #e0d3ba); color: var(--muted, #6b5f4b); }
 .study-lock {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 9px;
-  border: 1px solid color-mix(in srgb, var(--muted) 55%, transparent);
+  padding: 2px 9px; border: 1px solid color-mix(in srgb, var(--muted) 55%, transparent);
   border-radius: 999px;
   font-size: 13px;
 }
@@ -311,7 +294,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  border-bottom: 1px solid #c2cbc5;
+  border-bottom: 1px solid var(--edge-soft, #e0d3ba);
   padding: 8px 0;
 }
 .study dd {
@@ -320,14 +303,9 @@
 .study-feedback {
   padding: 20px 24px;
   margin: 24px 0;
-  background: color-mix(in srgb, #e5ece5 82%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
-  backdrop-filter: blur(22px) saturate(1.8);
-  border: 1px solid rgb(255 255 255 / 55%);
-  border-radius: 20px;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 65%),
-    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
+  background: var(--stock, #fffdf7); border: 1.5px solid var(--edge, #2f2a24);
+  border-radius: var(--radius-hand, 22px 24px 20px 26px);
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
 }
 .study-feedback strong {
   /* Headlines are authored sentences now ("That's it."), not grader slugs.
@@ -359,11 +337,11 @@
 }
 .study-vocabulary article,
 .study-grammar {
-  border-bottom: 1px solid #b4c0b9;
+  border-bottom: 1px solid var(--edge-soft, #e0d3ba);
   padding: 16px 0;
 }
 .study-storage {
-  border-top: 1px solid #a8b4ad;
+  border-top: 1px solid var(--edge-soft, #e0d3ba);
   margin-top: 54px;
   padding-top: 22px;
 }
@@ -379,11 +357,11 @@
   min-height: 44px;
 }
 .study [role="alert"] {
-  border-left: 3px solid #9a342e;
+  border-left: 3px solid var(--state-attention-ink, #8f4b3a);
   padding: 16px;
 }
 .study fieldset {
-  border: 1px solid #899b95;
+  border: 1px solid var(--edge-soft, #e0d3ba);
 }
 .study input[type="radio"] {
   margin-right: 12px;
@@ -433,7 +411,7 @@
 }
 body:has(#study-root) {
   margin: 0;
-  background: #f5f3ee;
+  background: var(--canvas, #fbf4e6);
 }
 
 @media (max-width: 600px) {
@@ -462,17 +440,12 @@ body:has(#study-root) {
 /* Activity forms are different tools: choices, movable words, a sentence gap,
    and a reading passage. Keep the surrounding Quiet Ink canvas restrained. */
 .study-download {
-  scroll-margin-top: 24px;
-  border: 1px solid rgb(255 255 255 / 55%);
+  scroll-margin-top: 24px; border: 1.5px solid var(--edge, #2f2a24);
   border-left: 5px solid var(--accent);
   padding: 20px 24px;
-  background: color-mix(in srgb, #edf3ef 85%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.8);
-  backdrop-filter: blur(22px) saturate(1.8);
+  background: var(--stock, #fffdf7);
   border-radius: 0 20px 20px 0;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 65%),
-    0 2px 12px color-mix(in srgb, #222e2c 12%, transparent);
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
 }
 .study .study-download h2 { font-size: 24px; margin-top: 0; }
 .study-download-heading { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
@@ -499,12 +472,12 @@ body:has(#study-root) {
    text (the headline already states the outcome), and they read the same in
    the app and in the offline bundle. */
 .study-feedback[data-outcome="correct"] {
-  background: var(--state-correct-fill, #e3efec);
-  border-color: var(--state-correct-line, #1e6563);
+  background: var(--state-correct-fill, #e9f0e2);
+  border-color: var(--state-correct-line, #2f6b3f);
 }
 .study-feedback[data-outcome="attention"] {
   background: var(--state-attention-fill, #f7ece7);
-  border-color: var(--state-attention-line, #d8b3a6);
+  border-color: var(--state-attention-line, var(--state-attention-ink, #8f4b3a));
 }
 .study-feedback[data-outcome="attention"] strong {
   color: var(--state-attention-ink, #8f4b3a);
@@ -518,24 +491,25 @@ body:has(#study-root) {
   line-height: 1.5;
   padding: 18px 22px;
   border-left: 4px solid var(--accent);
-  background: color-mix(in srgb, #e5ece5 70%, transparent);
-  border-radius: 0 16px 16px 0;
+  background: var(--stock, #fffdf7);
+  border-radius: 0 var(--radius-hand, 22px 24px 20px 26px) var(--radius-hand, 22px 24px 20px 26px) 0;
 }
 .study-finished .study-actions { margin-top: 22px; }
 .study .practice-panel { border-top: 3px solid var(--accent); padding-top: 12px; }
 .study .practice-panel h2 { max-width: 32ch; }
 .study .practice-panel fieldset { border: 0; padding: 0; }
-.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border: 1px solid #899b95; border-radius: 16px; background: #fffdfa; cursor: pointer; box-shadow: 0 2px 12px color-mix(in srgb, #222e2c 10%, transparent); }
-.study .study-choice:has(:checked) { border-color: var(--accent); background: #dfebe4; box-shadow: inset 4px 0 var(--accent); }
+.study .study-choice { display: flex; align-items: center; gap: 12px; padding: 15px 17px; border: 1.5px solid var(--edge-soft, #e0d3ba); border-radius: var(--radius-control, 16px); background: var(--stock, #fffdf7); cursor: pointer; box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba); transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+.study .study-choice:hover { transform: translate(-1px, -1px); box-shadow: var(--lift, 4px 4px 0 var(--edge-soft, #e0d3ba)); }
+.study .study-choice:has(:checked) { border-color: var(--edge, #2f2a24); background: var(--accent-soft, #f6e3cd); box-shadow: var(--lift-sm, 2px 2px 0 #2f2a24); }
 .study .study-choice input { margin: 0; accent-color: var(--accent); }
-.study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: color-mix(in srgb, #e7eef4 82%, transparent); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); border: 1px solid rgb(255 255 255 / 55%); border-bottom: 2px solid #426886; border-radius: 20px; }
-.study .sentence-workbench button { background: #fffdfa; border-color: #426886; }
-.study .word-bank button { border-radius: 24px; background: #fffdfa; padding-inline: 18px; }
+.study .sentence-workbench { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; min-height: 90px; background: var(--stock-2, #fdf7ea); border: 1.5px solid var(--edge, #2f2a24); border-bottom: 2px solid var(--edge, #2f2a24); border-radius: var(--radius-hand, 22px 24px 20px 26px); }
+.study .sentence-workbench button { background: var(--stock, #fffdf7); border-color: var(--edge, #2f2a24); }
+.study .word-bank button { border-radius: 24px; background: var(--stock, #fffdf7); padding-inline: 18px; }
 .study-cloze-sentence { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; padding: 20px 24px; font-family: var(--font-display, Georgia, serif);
   font-size: 28px;
-  line-height: 1.6; background: color-mix(in srgb, #f4ecdc 85%, transparent); -webkit-backdrop-filter: blur(22px) saturate(1.8); backdrop-filter: blur(22px) saturate(1.8); border: 1px solid rgb(255 255 255 / 55%); border-radius: 20px; box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%), 0 2px 12px color-mix(in srgb, #222e2c 12%, transparent); }
-.study .study-cloze-sentence input { display: inline-block; width: 8ch; min-width: 100px; flex: 0 1 180px; border: 0; border-bottom: 2px solid #805c29; border-radius: 0; padding: 6px; }
-.study .activity-reading blockquote { background: #fffdfa; padding: 24px; line-height: 1.8; }
+  line-height: 1.6; background: var(--stock-2, #fdf7ea); border: 1.5px solid var(--edge, #2f2a24); border-radius: var(--radius-hand, 22px 24px 20px 26px); box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba); }
+.study .study-cloze-sentence input { display: inline-block; width: 8ch; min-width: 100px; flex: 0 1 180px; border: 0; border-bottom: 2px solid var(--accent, #a8511f); border-radius: 0; padding: 6px; }
+.study .activity-reading blockquote { background: var(--stock, #fffdf7); padding: 24px; line-height: 1.8; }
 @media (max-width: 600px) {
   .study-download { padding: 16px; }
   .study .study-download h2 { font-size: 23px; }
@@ -560,8 +534,7 @@ body:has(#study-root) {
   align-items: center;
   gap: 6px;
   margin-bottom: 18px;
-  padding: 6px 14px;
-  border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
+  padding: 6px 14px; border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
   border-radius: 999px;
   background: none;
   color: var(--ink);
@@ -593,7 +566,7 @@ body:has(#study-root) {
 .study-provenance {
   margin-top: 54px;
   padding-top: 18px;
-  border-top: 1px solid #b4c0b9;
+  border-top: 1px solid var(--edge-soft, #e0d3ba);
   color: var(--muted);
   font-size: 14px;
 }
@@ -601,4 +574,87 @@ body:has(#study-root) {
 .study-provenance a {
   color: var(--accent-strong);
   text-underline-offset: 4px;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * Native widgets, brought onto the palette.
+ *
+ * `<audio controls>` and `<progress>` render UA shadow-DOM widgets: flat,
+ * translucent grey, iOS-ish. They were the last surfaces ignoring the design
+ * system and they read as "someone else's component" in the middle of a lesson.
+ *
+ * These are styled rather than replaced. The e2e suite asserts against the real
+ * <audio> element (`getByLabel('Lesson audio')`, `el.currentTime`, playback
+ * spies), so swapping in a custom player would trade a colour mismatch for a
+ * broken contract. Chromium and Safari expose vendor pseudo-elements for these
+ * widgets; Firefox ignores them and keeps its own control, which is the honest
+ * limit of this approach.
+ * ------------------------------------------------------------------------- */
+
+.study audio {
+  width: 100%;
+  height: 44px;
+  border-radius: var(--radius-control, 16px);
+  background: var(--stock-2, #fdf7ea);
+  border: 1.5px solid var(--edge, #2f2a24);
+  box-shadow: var(--lift-sm, 2px 2px 0 #e0d3ba);
+}
+
+.study audio::-webkit-media-controls-enclosure {
+  background: var(--stock-2, #fdf7ea);
+  border-radius: var(--radius-control, 14px);
+  border: 0;
+}
+
+.study audio::-webkit-media-controls-panel {
+  background: var(--stock-2, #fdf7ea);
+}
+
+.study audio::-webkit-media-controls-play-button,
+.study audio::-webkit-media-controls-pause-button {
+  background-color: var(--accent, #a8511f);
+  border-radius: 50%;
+}
+
+.study audio::-webkit-media-controls-current-time-display,
+.study audio::-webkit-media-controls-time-remaining-display {
+  color: var(--ink, #2f2a24);
+  font-family: var(--font-utility, monospace);
+  font-size: 12px;
+}
+
+.study audio::-webkit-media-controls-timeline,
+.study audio::-webkit-media-controls-volume-slider {
+  accent-color: var(--accent, #a8511f);
+}
+
+/* A progress element is a promise about how far you have come; the browser
+ * default renders it as a flat grey bar with no relationship to anything. */
+.study progress,
+.lesson-player progress {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 10px;
+  border: 1.5px solid var(--edge, #2f2a24);
+  border-radius: 99px;
+  background: var(--stock-3, #f2ead7);
+  overflow: hidden;
+}
+
+.study progress::-webkit-progress-bar,
+.lesson-player progress::-webkit-progress-bar {
+  background: var(--stock-3, #f2ead7);
+}
+
+.study progress::-webkit-progress-value,
+.lesson-player progress::-webkit-progress-value {
+  background: var(--accent, #a8511f);
+  border-radius: 99px;
+}
+
+.study progress::-moz-progress-bar,
+.lesson-player progress::-moz-progress-bar {
+  background: var(--accent, #a8511f);
+  border-radius: 99px;
 }
