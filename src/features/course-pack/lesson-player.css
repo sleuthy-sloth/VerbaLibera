@@ -596,6 +596,18 @@
   color: var(--lp-muted);
 }
 
+/* Shown the moment a reveal lands, before the answer is checked. */
+.lp-assist-notice {
+  margin: 0.85rem 0 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  background: var(--lp-surface);
+  border: 1px solid var(--lp-border);
+  border-left: 3px solid var(--lp-accent);
+  font-size: 0.9rem;
+  color: var(--lp-muted);
+}
+
 /* ---------------------------------------------------------------- controls */
 
 .lp-controls {

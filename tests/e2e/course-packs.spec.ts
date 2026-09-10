@@ -75,18 +75,27 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
   await page.getByRole("button", { name: "Begin practice", exact: true }).click();
-  // A resumed lesson may land on an information step or straight on the first
-  // practice step; dismiss the info step only if it is actually showing.
-  const resumeContinue = page.getByRole("button", { name: "Continue", exact: true });
-  if ((await resumeContinue.count()) > 0) await resumeContinue.click();
-  await expect(page.getByRole("radio", { name: "sono", exact: true })).toBeVisible();
+  // The resumed lesson continues at the first incomplete step — the two steps
+  // answered online are still counted, so practice picks up on the third.
+  await expect(
+    page.getByRole("heading", {
+      name: "Give the English meaning: Sono italiana.",
+      exact: true,
+    }),
+  ).toBeVisible({ timeout: 15000 });
+  await expect(page.getByText("2 of 7 steps completed")).toBeVisible();
   await page.reload();
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
   await page.getByRole("button", { name: "Begin practice", exact: true }).click();
-  if ((await resumeContinue.count()) > 0) await resumeContinue.click();
-  await expect(page.getByRole("radio", { name: "sono", exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Give the English meaning: Sono italiana.",
+      exact: true,
+    }),
+  ).toBeVisible({ timeout: 15000 });
+  await expect(page.getByText("2 of 7 steps completed")).toBeVisible();
 });
 
 test("French references and mobile navigation are usable", async ({ page }) => {
@@ -139,6 +148,14 @@ test("a complete French lesson unlocks the next lesson and a dialogue can recove
     .click();
   for (const answer of ["Je suis Marc.", "Je suis française.", "Je suis Sophie."]) {
     if (answer === "Je suis française.") {
+      // The notice step asks what changed between française and français —
+      // pick the -e ending before checking.
+      await page
+        .getByRole("radio", {
+          name: "The woman's word ends in -e; the man's does not.",
+          exact: true,
+        })
+        .check();
       await page
         .getByRole("button", { name: "Check answer", exact: true })
         .click();

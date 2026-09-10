@@ -1075,6 +1075,25 @@ function LessonPlayerSession({
       </div>
     ) : null;
 
+  // A reveal taints the attempt the moment an evidence-bearing kind is used,
+  // not only once it is saved — the same rule evaluateActivity applies, so the
+  // learner hears it while they can still choose to answer from memory.
+  const gradedActivity = session.activeSupportActivityId ? supportActivity : activity;
+  const assistKinds =
+    gradedActivity && "assistanceAffectsEvidence" in gradedActivity
+      ? gradedActivity.assistanceAffectsEvidence
+      : [];
+  const assistanceTaints = [
+    ...new Set([...session.accumulatedAssistance, ...assistanceUsed]),
+  ].some((kind) => kind === "model" || assistKinds.includes(kind));
+  const assistedNotice =
+    !session.currentEvaluation && assistanceTaints ? (
+      <p role="status" className="lp-assist-notice">
+        Assisted practice — help was shown on this step, so this attempt will not
+        count toward independent review.
+      </p>
+    ) : null;
+
   const trail = walkTrail(lesson, session.selectedBranches);
   const stepById = new Map(lesson.steps.map((s) => [s.id, s]));
   const requiredTrail = trail.filter(
@@ -1169,6 +1188,7 @@ function LessonPlayerSession({
 
       {layoutNode}
       {feedbackNode}
+      {assistedNotice}
 
       <div className="lp-controls">
         {step.supportActivityId && !supportOpen && !stepCompleted && (

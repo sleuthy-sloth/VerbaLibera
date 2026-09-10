@@ -2,7 +2,15 @@ import '@testing-library/jest-dom/vitest';
 
 // Node 25 provides a minimal globalThis.localStorage that lacks setItem/getItem/clear.
 // Replace it with a proper in-memory implementation so vitest jsdom tests can use it.
-if (!localStorage.setItem) {
+//
+// Read it off globalThis rather than the bare `localStorage` identifier: suites
+// that opt into the node environment (desktop lifecycle, portable builder,
+// postgres runtime) have no such global at all, and a bare read throws
+// ReferenceError while the setup file runs — which fails the whole file at
+// collection time, before a single test executes. Those suites keep their
+// environment untouched.
+const existing = (globalThis as { localStorage?: Storage }).localStorage;
+if (existing && typeof existing.setItem !== 'function') {
   const store = new Map<string, string>();
   const localStorageShim: Storage = {
     get length() { return store.size; },
