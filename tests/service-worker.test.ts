@@ -71,6 +71,7 @@ describe('static PWA service worker contract', () => {
       '/brand/courses/italian.jpg',
       '/brand/courses/spanish.jpg',
       '/brand/courses/portuguese.jpg',
+      '/brand/courses/german.jpg',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
       '/audio/french-foundations/fr-identity-listen.mp3',

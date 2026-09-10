@@ -186,7 +186,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           </Link>.
         </p>
         <div className={styles.introArtwork}>
-          <Image alt="" height={1024} src="/brand/hero-banner.jpg" width={1536} />
+          <Image alt="" height={672} src="/brand/hero-banner.jpg" width={1584} />
         </div>
       </section>
 

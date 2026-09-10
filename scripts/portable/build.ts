@@ -46,7 +46,7 @@ export async function buildPortableHtml(root: string): Promise<string> {
     join(root, "src/features/course-pack/study.css"),
     "utf8",
   ) + "\n" + result.outputFiles.filter(file => file.path.endsWith(".css")).map(file => file.text).join("\n")).replace(/<\/style/gi, "<\\/style");
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f3ee"><meta http-equiv="Content-Security-Policy" content="${CSP}"><title>VerbaLibera Portable</title><style>${style}</style></head><body><div id="study-root"><p>Opening your courses…</p></div><script>${script}</script></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fbf4e6"><meta http-equiv="Content-Security-Policy" content="${CSP}"><title>VerbaLibera Portable</title><style>${style}</style></head><body><div id="study-root"><p>Opening your courses…</p></div><script>${script}</script></body></html>`;
 }
 
 async function main() {

@@ -12,7 +12,7 @@
 .form h2 { font: 600 1.8rem/1.15 var(--font-display), Georgia, serif; margin: 1rem 0; }
 .form p { line-height: 1.6; margin: 0.8rem 0; }
 .form label { display: block; font-weight: 600; margin: 1.5rem 0 0.5rem; }
-.form input { width: 100%; min-height: 48px; padding: 0.7rem 1rem; border: 1px solid #768a82; border-radius: 14px; background: white; font: inherit; }
+.form input { width: 100%; min-height: 48px; padding: 0.7rem 1rem; border: 1.5px solid var(--edge-soft); border-radius: var(--radius-card); background: var(--stock); font: inherit; }
 .form button { width: 100%; min-height: 48px; padding: 0.8rem 1rem; margin-top: 0.75rem; border: 1px solid var(--accent); border-radius: var(--radius-pill); color: var(--accent-strong); background: white; font: inherit; font-weight: 600; cursor: pointer; }
 .form button.primary { background: var(--accent); border-color: var(--edge); box-shadow: var(--lift-sm); color: white; }
 .form button:disabled { opacity: 0.6; cursor: wait; }

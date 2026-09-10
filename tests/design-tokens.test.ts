@@ -42,6 +42,71 @@ function allStylesheets(dir = join(root, 'src')): string[] {
 
 const stripComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, ' ');
 
+/** Comments in any syntax, so a file may name the values it forbids. */
+const stripAllComments = (text: string) =>
+  text
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/^\s*\/\/.*$/gm, ' ');
+
+/**
+ * Identity-bearing files that are NOT stylesheets under `src/`.
+ *
+ * The guards below used to read only `src/**\/*.css`. That left a hole wide
+ * enough to hide a whole second identity in: `src/app/manifest.ts` (the PWA
+ * theme colour), `public/offline.html` (precached, so the first thing an
+ * offline learner sees), `public/study.html` and the portable bundle (both
+ * *emitted* by build scripts, so fixing the output alone silently reverts on the
+ * next prebuild), and the desktop shell's HTML, which still had real glass —
+ * `backdrop-filter` and gradient buttons — after the migration claimed there was
+ * none left in the tree.
+ *
+ * Generated artifacts are excluded on purpose: `public/study.js` is a minified
+ * bundle whose contents come from node_modules, and `public/study.css` is a
+ * copy of a file already checked at its source.
+ */
+const GENERATED = new Set(['study.js', 'study.css', 'sw.js']);
+
+function identityFiles(dir = root, out: string[] = []): string[] {
+  const SKIP = new Set([
+    'node_modules', 'dist', 'docs', 'sketches', 'out', 'public', // public handled below
+    // Compiled desktop output: `desktop:compile` copies desktop/ui/*.html here.
+    // Checking it would only ever report staleness, never a real regression.
+    'desktop-dist',
+  ]);
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name.startsWith('.') || SKIP.has(entry.name)) continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) identityFiles(full, out);
+    else if (/\.(css|ts|tsx|html)$/.test(entry.name)) {
+      // The guards themselves name every retired value.
+      if (entry.name.endsWith('.test.ts') || entry.name.endsWith('.test.tsx')) continue;
+      out.push(full);
+    }
+  }
+  return out.sort();
+}
+
+/** Hand-written shipped HTML: the offline fallback, the manifest, the desktop shell. */
+function shippedHtml(): string[] {
+  const found: string[] = [];
+  const pub = join(root, 'public');
+  for (const entry of readdirSync(pub, { withFileTypes: true })) {
+    if (entry.isFile() && entry.name.endsWith('.html') && !GENERATED.has(entry.name)) {
+      found.push(join(pub, entry.name));
+    }
+  }
+  const desktop = join(root, 'desktop');
+  for (const entry of readdirSync(desktop, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name.startsWith('.')) continue;
+    const sub = join(desktop, entry.name);
+    for (const f of readdirSync(sub, { withFileTypes: true })) {
+      if (f.isFile() && f.name.endsWith('.html')) found.push(join(sub, f.name));
+    }
+  }
+  return found.sort();
+}
+
 /** Literal `--token: #hex` declarations from the `:root` block of globals.css. */
 function canonicalTokens(): Map<string, string> {
   const css = read(GLOBALS);
@@ -143,5 +208,66 @@ describe('design tokens', () => {
         if (css.includes(token)) offenders.push(`${file}: ${token}`);
     }
     expect(offenders, `Retired glass vocabulary still referenced:\n${offenders.join('\n')}`).toHaveLength(0);
+  });
+
+  it('has retired the previous palettes outside the stylesheets too', () => {
+    // The stylesheet guard above was scoped to src/, and a whole second
+    // identity lived outside it: the PWA theme colour, the precached offline
+    // page, and two build scripts that *emit* HTML. This checks the files the
+    // first version never opened.
+    //
+    // Deliberately narrower than the list above: `#ffffff` and `#fbf9f3` are too
+    // generic to assert on outside CSS, and the Tailwind greys `#9ca3af`,
+    // `#d1d5db`, `#1f2937` are not distinctive enough to be conclusive.
+    const retired = [
+      '#f4f3ee', '#f5f3ee', '#1a1f1e', '#0f1312', '#222e2c',
+      '#586360', '#536560', '#666c66',
+      '#1e6563', '#176a61', '#174b4a', '#e4edeb',
+      '#46534f', '#111827', '#6b7280', '#e5e7eb', '#4f46e5',
+      '#768a82', '#899b95', '#8a7c62', '#c2662f',
+    ];
+    const files = [...identityFiles(), ...shippedHtml()];
+    // Break caught: the walker silently returns nothing and every check passes.
+    expect(files.length).toBeGreaterThan(20);
+    expect(files.some((f) => f.endsWith('manifest.ts'))).toBe(true);
+    expect(files.some((f) => f.endsWith('offline.html'))).toBe(true);
+
+    const offenders: string[] = [];
+    for (const file of files) {
+      const text = stripAllComments(readFileSync(file, 'utf8')).toLowerCase();
+      for (const hex of retired) if (text.includes(hex)) offenders.push(`${file.replace(root + '/', '')}: ${hex}`);
+    }
+    expect(offenders, `Retired palette values outside the stylesheets:\n${offenders.join('\n')}`).toHaveLength(0);
+  });
+
+  it('keeps blur out of the identity and gradients out of the shipped pages', () => {
+    // Warm Studio's depth is a hard offset with zero blur, so the only valid
+    // `backdrop-filter` is one switching itself off. The desktop setup screen
+    // kept `blur(22px) saturate(1.8)` and gradient buttons through the whole
+    // migration, because nothing read `desktop/`.
+    //
+    // Gradients are asserted on the shipped pages only. `session.module.css`
+    // has one `linear-gradient(transparent → --canvas)` scrim, which is a mask
+    // rather than a decorative fill; it is knowingly allowed here.
+    const blurOffenders: string[] = [];
+    for (const file of [...identityFiles(), ...shippedHtml()]) {
+      const text = stripAllComments(readFileSync(file, 'utf8'));
+      for (const [, value] of text.matchAll(/backdrop-filter:\s*([^;}]+)/g)) {
+        if (value.trim() !== 'none' && value.trim() !== 'none !important') {
+          blurOffenders.push(`${file.replace(root + '/', '')}: backdrop-filter: ${value.trim()}`);
+        }
+      }
+    }
+    expect(blurOffenders, `Blurred surfaces are back:\n${blurOffenders.join('\n')}`).toHaveLength(0);
+
+    const gradientOffenders: string[] = [];
+    for (const file of shippedHtml()) {
+      const text = stripAllComments(readFileSync(file, 'utf8'));
+      if (/gradient\(/.test(text)) gradientOffenders.push(file.replace(root + '/', ''));
+    }
+    expect(
+      gradientOffenders,
+      `Shipped pages use a gradient; the identity is flat:\n${gradientOffenders.join('\n')}`,
+    ).toHaveLength(0);
   });
 });

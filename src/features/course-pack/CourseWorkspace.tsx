@@ -31,6 +31,7 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
   italian: "/brand/courses/italian.jpg",
   spanish: "/brand/courses/spanish.jpg",
   portuguese: "/brand/courses/portuguese.jpg",
+  german: "/brand/courses/german.jpg",
 };
 export type CourseWorkspaceProps = {
   initialLanguage?: string;

@@ -144,5 +144,49 @@ Both now use `--muted-foreground`.
 - **No dark mode.** Stacked paper needs a warm dark ground, not an inversion.
 - **`--lp-*` indirection in `lesson-player.css`.** It now reads the shared tokens,
   but through its own alias layer. Correct and guarded; could be collapsed.
-- **The brand logo mark** is still a flat grey tile that does not take the accent
-  — a real asset decision, not a token change, so it was left alone.
+- **The brand logo mark** was a flat grey tile that did not take the accent. This
+  was resolved on 2026-09-10 — see the follow-up below.
+
+## Follow-up: what the guards missed (2026-09-10)
+
+The migration verified `src/` and stopped there. Everything below is the same
+identity drift, in a file the guards did not read. All found by sweeping the
+whole tree for the retired hexes rather than trusting the previous pass:
+
+| Where | Was | Why the guard missed it |
+|---|---|---|
+| `src/app/manifest.ts` | `#f4f3ee` for the PWA `theme_color` and `background_color` | `manifest.ts` is a `.ts` config object, and the guard reads stylesheets. The PWA tints the status bar with this. |
+| `public/offline.html` | the entire Quiet Ink palette, plus `#899b95` | Shipped from `public/`, not `src/`. It is **precached by the service worker**, so it is the first thing an offline learner sees. |
+| `public/study.html` (via `scripts/content.ts`) | `theme-color #f5f3ee` | Generated into `public/` by a build script. |
+| `dist` path: `scripts/portable/build.ts` | `theme-color #f5f3ee` | Same — a generator, not a stylesheet. |
+| `src/app/login/login.module.css` | `border: 1px solid #768a82` | A hardcoded hex on a token-consuming rule; the guard checks fallbacks and the retired list, and `#768a82` was not on the list. |
+| `desktop/ui/{setup,recovery}.html` | Quiet Ink, **plus `linear-gradient` buttons and `backdrop-filter: blur(22px) saturate(1.8)`** | The desktop shell's HTML is outside `src/`. The migration's headline claim was "0 blurred shadows and no glass vocabulary"; the desktop setup screen had real glass. |
+
+Two lessons, both now enforced:
+
+- **A guard scoped to one directory is a guard with a hole in it.** The retired
+  list belongs in a sweep over the whole tracked tree, not over `src/`.
+- **Anything that is *emitted* needs the identity checked at the template**, not
+  at the output. `public/study.html` is regenerated on every `prebuild`, so
+  editing the artifact alone would have silently reverted.
+
+## Brand art (2026-09-10)
+
+The identity's graphics were generated and installed, replacing assets that
+predated Warm Studio:
+
+- `logo-mark.jpg`, `logo-lockup.jpg`, `hero-banner.jpg`, `empty-journal.jpg`
+- `brand/courses/{french,italian,spanish,portuguese,german}.jpg`
+- `og-card.jpg`, plus the icon set and RGBA favicon from the app icon
+
+German's banner did not exist, and `CourseWorkspace.tsx` resolves the in-lesson
+banner from a hardcoded map rather than from the slug — so `/courses/german`
+would have rendered no banner even once the file landed. Added, along with the
+service-worker precache entry (cache bumped `v8` → `v9`, since a changed
+`STATIC_ASSETS` under an unchanged cache name never reaches existing clients).
+
+Generated grounds drift 7–14 off `#fbf4e6`, which reads as a faint rectangle
+wherever an asset is an opaque tile on the cream page — most visibly on
+`logo-mark.jpg`, rendered at 32×32 inside the nav header. `snap-ground.py` and
+`install-generated.py` handle that; the prompts used are in
+`docs/design/graphics-brief.md`.
