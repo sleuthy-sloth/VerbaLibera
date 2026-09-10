@@ -1,0 +1,467 @@
+{
+  "manifest": "courses/portuguese/manifest.json",
+  "version": "0.4.0",
+  "units": [
+    {
+      "id": "pt-unit-3",
+      "title": "Finding your way",
+      "objective": "Ask where things are and follow spoken directions."
+    },
+    {
+      "id": "pt-unit-4",
+      "title": "Everyday life",
+      "objective": "Talk about days, times, and the people around you."
+    }
+  ],
+  "concepts": [
+    {
+      "id": "pt-directions-concept",
+      "title": "Asking the way",
+      "explanation": "Onde means where. Portuguese often asks about a place with ficar, which means to stay or to be situated: Onde fica a estação? Directions come as short chunks worth learning whole: em frente (straight ahead), à esquerda (to the left), à direita (to the right). The accent on à is a contraction of a plus a, and it is what makes the phrase mean to the left rather than the left. Starting with Desculpe turns a bare question into a polite one.",
+      "examples": [
+        { "target": "Onde fica a estação?", "meaning": "Where is the station?" },
+        { "target": "Em frente, depois à esquerda.", "meaning": "Straight ahead, then to the left." },
+        { "target": "Desculpe, onde fica o banheiro?", "meaning": "Excuse me, where is the bathroom?" }
+      ],
+      "commonError": "Onde asks where. Quem asks who and o que asks what. Keep the accent on à, which distinguishes to the left from the left."
+    },
+    {
+      "id": "pt-shopping-concept",
+      "title": "Prices and paying",
+      "explanation": "Quanto custa asks how much something costs, and it is the standard price question. Answer with a number and euros. Caro means expensive and barato means inexpensive. To disagree, put não before the verb: Não é caro. The bill is a conta, a feminine noun, and por favor turns it into a request.",
+      "examples": [
+        { "target": "Quanto custa o café?", "meaning": "How much does the coffee cost?" },
+        { "target": "Isto é muito caro.", "meaning": "This is very expensive." },
+        { "target": "A conta, por favor.", "meaning": "The bill, please." }
+      ],
+      "commonError": "Não goes before the verb. Portuguese also uses isto for this as a standalone thing, and este before a noun."
+    },
+    {
+      "id": "pt-time-days-concept",
+      "title": "Days and times",
+      "explanation": "Hoje means today and amanhã means tomorrow. Portuguese weekdays are numbered rather than named: segunda-feira is the second fair, Monday, and the sequence runs to sexta-feira. They are feminine and take na when you mean on that day: na segunda-feira, on Monday. Amanhã also carries the meaning of morning in some phrases, and the article separates them.",
+      "examples": [
+        { "target": "Hoje é quarta-feira.", "meaning": "Today is Wednesday." },
+        { "target": "Na segunda-feira trabalho.", "meaning": "On Monday I work." },
+        { "target": "Amanhã é quinta-feira.", "meaning": "Tomorrow is Thursday." }
+      ],
+      "commonError": "Use na with feminine weekdays: na segunda-feira. The tildes on amanhã and the hyphen in segunda-feira both matter."
+    },
+    {
+      "id": "pt-family-people-concept",
+      "title": "Family and people",
+      "explanation": "Portuguese nouns are masculine or feminine, and the article changes with them: o irmão (brother), a irmã (sister), os pais (parents). The verb ter is irregular in the I form: tenho, I have. Possessives normally take an article, which English does not do: a minha família is my family, literally the my family, and os meus pais is my parents.",
+      "examples": [
+        { "target": "Tenho um irmão.", "meaning": "I have a brother." },
+        { "target": "Tenho uma irmã.", "meaning": "I have a sister." },
+        { "target": "Os meus pais vivem em Lisboa.", "meaning": "My parents live in Lisbon." }
+      ],
+      "commonError": "Portuguese keeps the article with a possessive: a minha família, not minha família. It is one of the commonest things learners drop."
+    }
+  ],
+  "vocabulary": [
+    { "id": "pt-directions-word-1", "word": "onde", "meaning": "where", "partOfSpeech": "word or expression", "example": "Onde fica a estação?" },
+    { "id": "pt-directions-word-2", "word": "à esquerda", "meaning": "to the left", "partOfSpeech": "word or expression", "example": "Em frente, depois à esquerda." },
+    { "id": "pt-directions-word-3", "word": "à direita", "meaning": "to the right", "partOfSpeech": "word or expression", "example": "Depois à direita." },
+    { "id": "pt-directions-word-4", "word": "em frente", "meaning": "straight ahead", "partOfSpeech": "word or expression", "example": "Em frente, depois à esquerda." },
+    { "id": "pt-shopping-word-1", "word": "Quanto custa?", "meaning": "How much does it cost?", "partOfSpeech": "word or expression", "example": "Quanto custa o café?" },
+    { "id": "pt-shopping-word-2", "word": "caro", "meaning": "expensive", "partOfSpeech": "word or expression", "example": "Isto é muito caro." },
+    { "id": "pt-shopping-word-3", "word": "barato", "meaning": "inexpensive", "partOfSpeech": "word or expression", "example": "O café é barato." },
+    { "id": "pt-shopping-word-4", "word": "a conta", "meaning": "the bill", "partOfSpeech": "word or expression", "example": "A conta, por favor." },
+    { "id": "pt-time-days-word-1", "word": "hoje", "meaning": "today", "partOfSpeech": "word or expression", "example": "Hoje é quarta-feira." },
+    { "id": "pt-time-days-word-2", "word": "amanhã", "meaning": "tomorrow", "partOfSpeech": "word or expression", "example": "Amanhã é quinta-feira." },
+    { "id": "pt-time-days-word-3", "word": "a segunda-feira", "meaning": "Monday", "partOfSpeech": "word or expression", "example": "Na segunda-feira trabalho." },
+    { "id": "pt-time-days-word-4", "word": "a semana", "meaning": "the week", "partOfSpeech": "word or expression", "example": "A semana tem sete dias." },
+    { "id": "pt-family-people-word-1", "word": "a família", "meaning": "the family", "partOfSpeech": "word or expression", "example": "A minha família é pequena." },
+    { "id": "pt-family-people-word-2", "word": "o irmão", "meaning": "the brother", "partOfSpeech": "word or expression", "example": "Tenho um irmão." },
+    { "id": "pt-family-people-word-3", "word": "a irmã", "meaning": "the sister", "partOfSpeech": "word or expression", "example": "Tenho uma irmã." },
+    { "id": "pt-family-people-word-4", "word": "os pais", "meaning": "the parents", "partOfSpeech": "word or expression", "example": "Os meus pais vivem em Lisboa." }
+  ],
+  "lessons": [
+    {
+      "id": "pt-directions-foundation",
+      "unitId": "pt-unit-3",
+      "title": "Asking the way",
+      "objective": "Ask where something is and follow a two-step direction.",
+      "cefr": "A1",
+      "prerequisites": ["pt-numbers-quantities-foundation"],
+      "conceptIds": ["pt-directions-concept"],
+      "vocabulary": ["pt-directions-word-1", "pt-directions-word-2", "pt-directions-word-3", "pt-directions-word-4"],
+      "explanation": "Onde means where. Portuguese often asks about a place with ficar, which means to stay or to be situated: Onde fica a estação? Directions come as short chunks worth learning whole: em frente (straight ahead), à esquerda (to the left), à direita (to the right). The accent on à is a contraction of a plus a, and it is what makes the phrase mean to the left rather than the left. Starting with Desculpe turns a bare question into a polite one.",
+      "examples": [
+        { "target": "Onde fica a estação?", "meaning": "Where is the station?" },
+        { "target": "Em frente, depois à esquerda.", "meaning": "Straight ahead, then to the left." },
+        { "target": "Desculpe, onde fica o banheiro?", "meaning": "Excuse me, where is the bathroom?" }
+      ],
+      "culturalNote": "Ouça and Desculpe both open a request in Portugal; in Brazil you will hear Com licença just as often.",
+      "exercises": [
+        {
+          "id": "pt-directions-foundation-meet",
+          "conceptId": "pt-directions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You need to ask where something is. Which word does that?",
+          "answers": ["onde"],
+          "explanation": "Onde asks about a place. Quem asks who, and o que asks what.",
+          "vocabulary": ["pt-directions-word-1", "pt-directions-word-2", "pt-directions-word-3", "pt-directions-word-4"],
+          "reviewOf": ["pt-numbers-quantities-foundation"],
+          "options": ["onde", "esquerda", "direita", "frente"]
+        },
+        {
+          "id": "pt-directions-foundation-read",
+          "conceptId": "pt-directions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. Which direction comes first?",
+          "answers": ["Straight ahead.", "Straight ahead"],
+          "explanation": "The first instruction is em frente; à esquerda comes after depois, as the second step.",
+          "vocabulary": ["pt-directions-word-1", "pt-directions-word-2", "pt-directions-word-4"],
+          "reviewOf": ["pt-numbers-quantities-foundation"],
+          "passage": "Turista: Desculpe, onde fica a estação?\nTranseunte: Em frente, depois à esquerda.\nTurista: Obrigado!",
+          "translation": "Tourist: Excuse me, where is the station?\nPasser-by: Straight ahead, then to the left.\nTourist: Thank you!"
+        },
+        {
+          "id": "pt-directions-foundation-build",
+          "conceptId": "pt-directions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the question that asks where the station is.",
+          "answers": ["Onde fica a estação?"],
+          "explanation": "Ficar is the usual verb for where something is situated, and estação is feminine, so the article is a.",
+          "vocabulary": ["pt-directions-word-1"],
+          "reviewOf": ["pt-numbers-quantities-foundation"],
+          "tokens": ["estação?", "a", "fica", "Onde"]
+        },
+        {
+          "id": "pt-directions-foundation-ask",
+          "conceptId": "pt-directions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask where the bathroom is.",
+          "answers": ["Onde fica o banheiro?"],
+          "explanation": "Banheiro is masculine, so the article is o.",
+          "vocabulary": ["pt-directions-word-1"],
+          "reviewOf": ["pt-numbers-quantities-foundation"]
+        },
+        {
+          "id": "pt-directions-foundation-cloze",
+          "conceptId": "pt-directions-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the directions: Em frente, depois à ___",
+          "answers": ["esquerda"],
+          "explanation": "Esquerda is left. Direita would send the learner the other way.",
+          "vocabulary": ["pt-directions-word-2", "pt-directions-word-3"],
+          "reviewOf": ["pt-numbers-quantities-foundation"]
+        },
+        {
+          "id": "pt-directions-foundation-vary",
+          "conceptId": "pt-directions-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Make the question polite by putting Desculpe in front: Onde fica a estação?",
+          "answers": ["Desculpe, onde fica a estação?"],
+          "explanation": "Desculpe leads the sentence and a comma separates it from the question.",
+          "vocabulary": ["pt-directions-word-1"],
+          "reviewOf": ["pt-numbers-quantities-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-shopping-foundation",
+      "unitId": "pt-unit-3",
+      "title": "Prices and paying",
+      "objective": "Ask what something costs, react to the price, and ask for the bill.",
+      "cefr": "A1",
+      "prerequisites": ["pt-directions-foundation"],
+      "conceptIds": ["pt-shopping-concept"],
+      "vocabulary": ["pt-shopping-word-1", "pt-shopping-word-2", "pt-shopping-word-3", "pt-shopping-word-4"],
+      "explanation": "Quanto custa asks how much something costs, and it is the standard price question. Answer with a number and euros. Caro means expensive and barato means inexpensive. To disagree, put não before the verb: Não é caro. The bill is a conta, a feminine noun, and por favor turns it into a request.",
+      "examples": [
+        { "target": "Quanto custa o café?", "meaning": "How much does the coffee cost?" },
+        { "target": "Isto é muito caro.", "meaning": "This is very expensive." },
+        { "target": "A conta, por favor.", "meaning": "The bill, please." }
+      ],
+      "culturalNote": "In Portuguese cafés the bill usually arrives when you ask for it, so a conta, por favor ends the visit.",
+      "exercises": [
+        {
+          "id": "pt-shopping-foundation-meet",
+          "conceptId": "pt-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which question asks the price of something?",
+          "answers": ["Quanto custa?"],
+          "explanation": "Quanto asks how much and custa comes from custar, to cost.",
+          "vocabulary": ["pt-shopping-word-1", "pt-shopping-word-2", "pt-shopping-word-3", "pt-shopping-word-4"],
+          "reviewOf": ["pt-directions-foundation"],
+          "options": ["Como está?", "Onde fica?", "Quanto custa?"]
+        },
+        {
+          "id": "pt-shopping-foundation-vary",
+          "conceptId": "pt-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Say that it is not expensive: É caro.",
+          "answers": ["Não é caro."],
+          "explanation": "Não goes before the verb in Portuguese.",
+          "vocabulary": ["pt-shopping-word-2"],
+          "reviewOf": ["pt-directions-foundation"]
+        },
+        {
+          "id": "pt-shopping-foundation-think",
+          "conceptId": "pt-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You want to know what a coffee costs. Ask the question.",
+          "answers": ["Quanto custa um café?"],
+          "explanation": "Custa is singular because one coffee is being priced.",
+          "vocabulary": ["pt-shopping-word-1"],
+          "reviewOf": ["pt-directions-foundation"],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "pt-shopping-foundation-build",
+          "conceptId": "pt-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is very expensive.",
+          "answers": ["Isto é muito caro."],
+          "explanation": "Muito means very and it sits directly before the adjective.",
+          "vocabulary": ["pt-shopping-word-2"],
+          "reviewOf": ["pt-directions-foundation"],
+          "tokens": ["caro.", "muito", "é", "Isto"]
+        },
+        {
+          "id": "pt-shopping-foundation-ask",
+          "conceptId": "pt-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for the bill.",
+          "answers": ["A conta, por favor.", "A conta por favor."],
+          "explanation": "Conta is feminine, so the article is a.",
+          "vocabulary": ["pt-shopping-word-4"],
+          "reviewOf": ["pt-directions-foundation"]
+        },
+        {
+          "id": "pt-shopping-foundation-cloze",
+          "conceptId": "pt-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the price question: ___ custa o café?",
+          "answers": ["Quanto"],
+          "explanation": "Quanto custa is the fixed frame for asking a price.",
+          "vocabulary": ["pt-shopping-word-1"],
+          "reviewOf": ["pt-directions-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-time-days-foundation",
+      "unitId": "pt-unit-4",
+      "title": "Days and times",
+      "objective": "Name days, place an action on a day, and say what today is.",
+      "cefr": "A1",
+      "prerequisites": ["pt-shopping-foundation"],
+      "conceptIds": ["pt-time-days-concept"],
+      "vocabulary": ["pt-time-days-word-1", "pt-time-days-word-2", "pt-time-days-word-3", "pt-time-days-word-4"],
+      "explanation": "Hoje means today and amanhã means tomorrow. Portuguese weekdays are numbered rather than named: segunda-feira is the second fair, Monday, and the sequence runs to sexta-feira. They are feminine and take na when you mean on that day: na segunda-feira, on Monday. Amanhã also carries the meaning of morning in some phrases, and the article separates them.",
+      "examples": [
+        { "target": "Hoje é quarta-feira.", "meaning": "Today is Wednesday." },
+        { "target": "Na segunda-feira trabalho.", "meaning": "On Monday I work." },
+        { "target": "Amanhã é quinta-feira.", "meaning": "Tomorrow is Thursday." }
+      ],
+      "culturalNote": "The numbered weekdays come from the church calendar, where Sunday was the first fair and Monday the second.",
+      "exercises": [
+        {
+          "id": "pt-time-days-foundation-meet",
+          "conceptId": "pt-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which word means today?",
+          "answers": ["hoje"],
+          "explanation": "Hoje is today. Amanhã is tomorrow, and segunda is Monday.",
+          "vocabulary": ["pt-time-days-word-1", "pt-time-days-word-2", "pt-time-days-word-3", "pt-time-days-word-4"],
+          "reviewOf": ["pt-shopping-foundation"],
+          "options": ["amanhã", "segunda", "hoje", "semana"]
+        },
+        {
+          "id": "pt-time-days-foundation-read",
+          "conceptId": "pt-time-days-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the week. What day is it today?",
+          "answers": ["Wednesday.", "Wednesday", "It is Wednesday."],
+          "explanation": "Hoje é quarta-feira gives the answer directly in the third sentence.",
+          "vocabulary": ["pt-time-days-word-1", "pt-time-days-word-2"],
+          "reviewOf": ["pt-shopping-foundation"],
+          "passage": "Na segunda-feira trabalho. Na terça-feira aprendo português. Hoje é quarta-feira. Amanhã é quinta-feira.",
+          "translation": "On Monday I work. On Tuesday I learn Portuguese. Today is Wednesday. Tomorrow is Thursday."
+        },
+        {
+          "id": "pt-time-days-foundation-notice",
+          "conceptId": "pt-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "According to the week you just read, which day comes next?",
+          "answers": ["quinta-feira"],
+          "explanation": "Amanhã é quinta-feira names the following day.",
+          "vocabulary": ["pt-time-days-word-2"],
+          "reviewOf": ["pt-shopping-foundation"],
+          "options": ["segunda-feira", "terça-feira", "quinta-feira"]
+        },
+        {
+          "id": "pt-time-days-foundation-build",
+          "conceptId": "pt-time-days-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says today is Wednesday.",
+          "answers": ["Hoje é quarta-feira."],
+          "explanation": "Hoje first, then é, then the day, with its hyphen intact.",
+          "vocabulary": ["pt-time-days-word-1"],
+          "reviewOf": ["pt-shopping-foundation"],
+          "tokens": ["quarta-feira.", "é", "Hoje"]
+        },
+        {
+          "id": "pt-time-days-foundation-cloze",
+          "conceptId": "pt-time-days-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Amanhã ___ quinta-feira.",
+          "answers": ["é"],
+          "explanation": "The same frame as Hoje é quarta-feira, with amanhã in place of hoje.",
+          "vocabulary": ["pt-time-days-word-2"],
+          "reviewOf": ["pt-shopping-foundation"]
+        },
+        {
+          "id": "pt-time-days-foundation-think",
+          "conceptId": "pt-time-days-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the sentence before you write it: today is Monday.",
+          "answers": ["Hoje é segunda-feira."],
+          "explanation": "Hoje é plus the day name, the same frame as the model.",
+          "vocabulary": ["pt-time-days-word-1", "pt-time-days-word-3"],
+          "reviewOf": ["pt-shopping-foundation"],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "pt-time-days-foundation-meaning",
+          "conceptId": "pt-time-days-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Na segunda-feira trabalho.",
+          "answers": ["On Monday I work.", "I work on Monday."],
+          "explanation": "Portuguese marks on with na before a feminine weekday rather than a separate word.",
+          "vocabulary": ["pt-time-days-word-3"],
+          "reviewOf": ["pt-shopping-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "pt-family-people-foundation",
+      "unitId": "pt-unit-4",
+      "title": "Family and people",
+      "objective": "Name close family members and say who you have, with the right article.",
+      "cefr": "A1",
+      "prerequisites": ["pt-time-days-foundation"],
+      "conceptIds": ["pt-family-people-concept"],
+      "vocabulary": ["pt-family-people-word-1", "pt-family-people-word-2", "pt-family-people-word-3", "pt-family-people-word-4"],
+      "explanation": "Portuguese nouns are masculine or feminine, and the article changes with them: o irmão (brother), a irmã (sister), os pais (parents). The verb ter is irregular in the I form: tenho, I have. Possessives normally take an article, which English does not do: a minha família is my family, literally the my family, and os meus pais is my parents.",
+      "examples": [
+        { "target": "Tenho um irmão.", "meaning": "I have a brother." },
+        { "target": "Tenho uma irmã.", "meaning": "I have a sister." },
+        { "target": "Os meus pais vivem em Lisboa.", "meaning": "My parents live in Lisbon." }
+      ],
+      "culturalNote": "A família in Portuguese often includes grandparents and cousins, and it is the standard answer to tell me about yourself.",
+      "exercises": [
+        {
+          "id": "pt-family-people-foundation-meet",
+          "conceptId": "pt-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one means the sister?",
+          "answers": ["a irmã"],
+          "explanation": "Irmã is the sister. Irmão is the brother, and pais are the parents.",
+          "vocabulary": ["pt-family-people-word-1", "pt-family-people-word-2", "pt-family-people-word-3", "pt-family-people-word-4"],
+          "reviewOf": ["pt-time-days-foundation"],
+          "options": ["o irmão", "os pais", "a família", "a irmã"]
+        },
+        {
+          "id": "pt-family-people-foundation-think",
+          "conceptId": "pt-family-people-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the form before you write it: I have a brother.",
+          "answers": ["Tenho um irmão."],
+          "explanation": "Ter is irregular, so the I form is tenho rather than tene.",
+          "vocabulary": ["pt-family-people-word-2"],
+          "reviewOf": ["pt-time-days-foundation"],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "pt-family-people-foundation-notice",
+          "conceptId": "pt-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one is correct for I have a sister?",
+          "answers": ["Tenho uma irmã."],
+          "explanation": "Irmã is feminine, so the article is uma.",
+          "vocabulary": ["pt-family-people-word-3"],
+          "reviewOf": ["pt-time-days-foundation"],
+          "options": ["Tenho um irmã.", "Tenho uns irmã.", "Tenho uma irmã."]
+        },
+        {
+          "id": "pt-family-people-foundation-build",
+          "conceptId": "pt-family-people-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is my family.",
+          "answers": ["Esta é a minha família."],
+          "explanation": "Portuguese keeps the article with the possessive, so it is a minha família.",
+          "vocabulary": ["pt-family-people-word-1"],
+          "reviewOf": ["pt-time-days-foundation"],
+          "tokens": ["família.", "minha", "a", "é", "Esta"]
+        },
+        {
+          "id": "pt-family-people-foundation-vary",
+          "conceptId": "pt-family-people-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Change one sister into two sisters: Tenho uma irmã.",
+          "answers": ["Tenho duas irmãs."],
+          "explanation": "The plural adds -s to irmã, and uma becomes duas.",
+          "vocabulary": ["pt-family-people-word-3"],
+          "reviewOf": ["pt-time-days-foundation"]
+        },
+        {
+          "id": "pt-family-people-foundation-cloze",
+          "conceptId": "pt-family-people-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Os meus ___ vivem em Lisboa.",
+          "answers": ["pais"],
+          "explanation": "Pais is plural, and it still takes the article os with the possessive.",
+          "vocabulary": ["pt-family-people-word-4"],
+          "reviewOf": ["pt-time-days-foundation"]
+        },
+        {
+          "id": "pt-family-people-foundation-read",
+          "conceptId": "pt-family-people-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read about the family. Where do the parents live?",
+          "answers": ["Lisbon.", "Lisbon", "In Lisbon."],
+          "explanation": "The last sentence places the parents in Lisbon.",
+          "vocabulary": ["pt-family-people-word-1", "pt-family-people-word-4"],
+          "reviewOf": ["pt-time-days-foundation"],
+          "passage": "A minha família é pequena. O meu irmão chama-se Max. A minha irmã chama-se Ana. Os meus pais vivem em Lisboa.",
+          "translation": "My family is small. My brother is called Max. My sister is called Ana. My parents live in Lisbon."
+        }
+      ],
+      "optionalExerciseIds": []
+    }
+  ]
+}

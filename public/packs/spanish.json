@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "es-foundations",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "language": "es",
   "status": "active",
   "title": "Spanish foundations",
@@ -18,6 +18,16 @@
       "id": "es-unit-2",
       "title": "Getting around",
       "objective": "Understand prices and quantities in everyday errands."
+    },
+    {
+      "id": "es-unit-3",
+      "title": "Finding your way",
+      "objective": "Ask where things are and follow spoken directions."
+    },
+    {
+      "id": "es-unit-4",
+      "title": "Everyday life",
+      "objective": "Talk about days, times, and the people around you."
     }
   ],
   "concepts": [
@@ -83,6 +93,86 @@
       "explanation": "Spanish numbers are useful as chunks before you calculate with them. Learn one through ten in two short runs, then use cuánto cuesta to ask a price. One coffee costs one euro; two coffees cost two euros. Un changes to una before a feminine noun such as manzana.",
       "examples": [{ "target": "Uno, dos, tres, cuatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }],
       "commonError": "Use cuánto for the price of one item. Keep una with manzana because it is feminine."
+    },
+    {
+      "id": "es-directions-concept",
+      "title": "Asking the way",
+      "explanation": "Dónde means where, and it carries a written accent because it is asking a question: ¿Dónde está la estación? Directions come as short chunks worth learning whole: todo recto (straight ahead), a la izquierda (to the left), a la derecha (to the right). Spanish puts the first step first and then the next one after luego. Starting with Perdone turns a bare question into a polite one, the way excuse me does in English.",
+      "examples": [
+        {
+          "target": "¿Dónde está la estación?",
+          "meaning": "Where is the station?"
+        },
+        {
+          "target": "Todo recto, luego a la izquierda.",
+          "meaning": "Straight ahead, then to the left."
+        },
+        {
+          "target": "Perdone, ¿dónde está el baño?",
+          "meaning": "Excuse me, where is the bathroom?"
+        }
+      ],
+      "commonError": "Dónde asks where. Quién asks who and qué asks what. The accent on dónde marks the question and drops in the middle of a sentence."
+    },
+    {
+      "id": "es-shopping-concept",
+      "title": "Prices and paying",
+      "explanation": "Cuánto cuesta asks how much something costs, and it is the standard price question. Answer with a number and euros. Caro means expensive and barato means inexpensive. To disagree, put no before the verb: No es caro. The bill is la cuenta, a feminine noun, and por favor turns it into a request.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta el café?",
+          "meaning": "How much does the coffee cost?"
+        },
+        {
+          "target": "Esto es muy caro.",
+          "meaning": "This is very expensive."
+        },
+        {
+          "target": "La cuenta, por favor.",
+          "meaning": "The bill, please."
+        }
+      ],
+      "commonError": "Spanish puts no before the verb, never after it. Cost is cuesta for one thing and cuestan for several."
+    },
+    {
+      "id": "es-time-days-concept",
+      "title": "Days and times",
+      "explanation": "Hoy means today and mañana means tomorrow. Weekdays are masculine and take el in front when you mean on that day: el lunes, on Monday. Spanish does not need a word for on here; the article does that work. Notice that mañana also means morning, and only the article and context separate them.",
+      "examples": [
+        {
+          "target": "Hoy es miércoles.",
+          "meaning": "Today is Wednesday."
+        },
+        {
+          "target": "El lunes trabajo.",
+          "meaning": "On Monday I work."
+        },
+        {
+          "target": "Mañana es jueves.",
+          "meaning": "Tomorrow is Thursday."
+        }
+      ],
+      "commonError": "Mañana is both tomorrow and morning. La mañana is the morning; mañana alone in a schedule usually means tomorrow."
+    },
+    {
+      "id": "es-family-people-concept",
+      "title": "Family and people",
+      "explanation": "Spanish nouns are masculine or feminine, and the article changes with them: el hermano (brother), la hermana (sister), los padres (parents). The verb tener is irregular in the I form: tengo, I have. Possessives agree with the thing owned rather than the owner, so mi familia is my family and mis padres is my parents.",
+      "examples": [
+        {
+          "target": "Tengo un hermano.",
+          "meaning": "I have a brother."
+        },
+        {
+          "target": "Tengo una hermana.",
+          "meaning": "I have a sister."
+        },
+        {
+          "target": "Mis padres viven en Madrid.",
+          "meaning": "My parents live in Madrid."
+        }
+      ],
+      "commonError": "Tengo, not tene. Tener is irregular in the I form and it is the form you use most when talking about family."
     }
   ],
   "vocabulary": [
@@ -187,7 +277,119 @@
     { "id": "es-numbers-quantities-word-1", "word": "uno, dos, tres, cuatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Uno, dos, tres, cuatro, cinco." },
     { "id": "es-numbers-quantities-word-2", "word": "seis, siete, ocho, nueve, diez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, siete, ocho, nueve, diez." },
     { "id": "es-numbers-quantities-word-3", "word": "¿Cuánto cuesta?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "¿Cuánto cuesta un café?" },
-    { "id": "es-numbers-quantities-word-4", "word": "una manzana", "meaning": "one apple", "partOfSpeech": "noun phrase", "example": "Una manzana, por favor." }
+    { "id": "es-numbers-quantities-word-4", "word": "una manzana", "meaning": "one apple", "partOfSpeech": "noun phrase", "example": "Una manzana, por favor." },
+    {
+      "id": "es-directions-word-1",
+      "word": "dónde",
+      "meaning": "where",
+      "partOfSpeech": "word or expression",
+      "example": "¿Dónde está la estación?"
+    },
+    {
+      "id": "es-directions-word-2",
+      "word": "a la izquierda",
+      "meaning": "to the left",
+      "partOfSpeech": "word or expression",
+      "example": "Todo recto, luego a la izquierda."
+    },
+    {
+      "id": "es-directions-word-3",
+      "word": "a la derecha",
+      "meaning": "to the right",
+      "partOfSpeech": "word or expression",
+      "example": "Luego a la derecha."
+    },
+    {
+      "id": "es-directions-word-4",
+      "word": "todo recto",
+      "meaning": "straight ahead",
+      "partOfSpeech": "word or expression",
+      "example": "Todo recto, luego a la izquierda."
+    },
+    {
+      "id": "es-shopping-word-1",
+      "word": "¿Cuánto cuesta?",
+      "meaning": "How much does it cost?",
+      "partOfSpeech": "word or expression",
+      "example": "¿Cuánto cuesta el café?"
+    },
+    {
+      "id": "es-shopping-word-2",
+      "word": "caro",
+      "meaning": "expensive",
+      "partOfSpeech": "word or expression",
+      "example": "Esto es muy caro."
+    },
+    {
+      "id": "es-shopping-word-3",
+      "word": "barato",
+      "meaning": "inexpensive",
+      "partOfSpeech": "word or expression",
+      "example": "El café es barato."
+    },
+    {
+      "id": "es-shopping-word-4",
+      "word": "la cuenta",
+      "meaning": "the bill",
+      "partOfSpeech": "word or expression",
+      "example": "La cuenta, por favor."
+    },
+    {
+      "id": "es-time-days-word-1",
+      "word": "hoy",
+      "meaning": "today",
+      "partOfSpeech": "word or expression",
+      "example": "Hoy es miércoles."
+    },
+    {
+      "id": "es-time-days-word-2",
+      "word": "mañana",
+      "meaning": "tomorrow",
+      "partOfSpeech": "word or expression",
+      "example": "Mañana es jueves."
+    },
+    {
+      "id": "es-time-days-word-3",
+      "word": "el lunes",
+      "meaning": "Monday",
+      "partOfSpeech": "word or expression",
+      "example": "El lunes trabajo."
+    },
+    {
+      "id": "es-time-days-word-4",
+      "word": "la semana",
+      "meaning": "the week",
+      "partOfSpeech": "word or expression",
+      "example": "La semana tiene siete días."
+    },
+    {
+      "id": "es-family-people-word-1",
+      "word": "la familia",
+      "meaning": "the family",
+      "partOfSpeech": "word or expression",
+      "example": "Mi familia es pequeña."
+    },
+    {
+      "id": "es-family-people-word-2",
+      "word": "el hermano",
+      "meaning": "the brother",
+      "partOfSpeech": "word or expression",
+      "example": "Tengo un hermano."
+    },
+    {
+      "id": "es-family-people-word-3",
+      "word": "la hermana",
+      "meaning": "the sister",
+      "partOfSpeech": "word or expression",
+      "example": "Tengo una hermana."
+    },
+    {
+      "id": "es-family-people-word-4",
+      "word": "los padres",
+      "meaning": "the parents",
+      "partOfSpeech": "word or expression",
+      "example": "Mis padres viven en Madrid."
+    }
   ],
   "media": [
     {
@@ -724,6 +926,690 @@
         { "id": "es-numbers-quantities-foundation-read", "conceptId": "es-numbers-quantities-concept", "kind": "reading", "mode": "recognition", "prompt": "Read the price sign. How many euros is the tea?", "passage": "Café: dos euros. Té: tres euros.", "translation": "Coffee: two euros. Tea: three euros.", "answers": ["Three euros."], "explanation": "Té costs tres euros on this sign.", "vocabulary": ["es-numbers-quantities-word-1", "es-cafe-requests-word-3"], "reviewOf": [] },
         { "id": "es-numbers-quantities-foundation-think", "conceptId": "es-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: a vendor has one apple. Ask its price, then write the question.", "answers": ["¿Cuánto cuesta una manzana?"], "explanation": "One apple is feminine: una manzana. The price question stays cuánto cuesta.", "vocabulary": ["es-numbers-quantities-word-3", "es-numbers-quantities-word-4"], "reviewOf": [] }
       ], "optionalExerciseIds": []
+    },
+    {
+      "id": "es-directions-foundation",
+      "unitId": "es-unit-3",
+      "title": "Asking the way",
+      "objective": "Ask where something is and follow a two-step direction.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-numbers-quantities-foundation"
+      ],
+      "conceptIds": [
+        "es-directions-concept"
+      ],
+      "vocabulary": [
+        "es-directions-word-1",
+        "es-directions-word-2",
+        "es-directions-word-3",
+        "es-directions-word-4"
+      ],
+      "explanation": "Dónde means where, and it carries a written accent because it is asking a question: ¿Dónde está la estación? Directions come as short chunks worth learning whole: todo recto (straight ahead), a la izquierda (to the left), a la derecha (to the right). Spanish puts the first step first and then the next one after luego. Starting with Perdone turns a bare question into a polite one, the way excuse me does in English.",
+      "examples": [
+        {
+          "target": "¿Dónde está la estación?",
+          "meaning": "Where is the station?"
+        },
+        {
+          "target": "Todo recto, luego a la izquierda.",
+          "meaning": "Straight ahead, then to the left."
+        },
+        {
+          "target": "Perdone, ¿dónde está el baño?",
+          "meaning": "Excuse me, where is the bathroom?"
+        }
+      ],
+      "culturalNote": "In Spain you open a request to a stranger with Perdone, and you thank them even for one sentence of directions.",
+      "exercises": [
+        {
+          "id": "es-directions-foundation-meet",
+          "conceptId": "es-directions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You need to ask where something is. Which word does that?",
+          "answers": [
+            "dónde"
+          ],
+          "explanation": "Dónde asks about a place. Quién asks who, and qué asks what.",
+          "vocabulary": [
+            "es-directions-word-1",
+            "es-directions-word-2",
+            "es-directions-word-3",
+            "es-directions-word-4"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "options": [
+            "dónde",
+            "izquierda",
+            "derecha",
+            "recto"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-read",
+          "conceptId": "es-directions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. Which direction comes first?",
+          "answers": [
+            "Straight ahead.",
+            "Straight ahead"
+          ],
+          "explanation": "The first instruction is todo recto; a la izquierda comes after luego, as the second step.",
+          "vocabulary": [
+            "es-directions-word-1",
+            "es-directions-word-2",
+            "es-directions-word-4"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "passage": "Turista: Perdone, ¿dónde está la estación?\nTranseúnte: Todo recto, luego a la izquierda.\nTurista: ¡Gracias!",
+          "translation": "Tourist: Excuse me, where is the station?\nPasser-by: Straight ahead, then to the left.\nTourist: Thank you!"
+        },
+        {
+          "id": "es-directions-foundation-build",
+          "conceptId": "es-directions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the question that asks where the station is.",
+          "answers": [
+            "¿Dónde está la estación?"
+          ],
+          "explanation": "The opening question mark goes at the front in Spanish, and estación is feminine, so the article is la.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ],
+          "tokens": [
+            "estación?",
+            "la",
+            "está",
+            "¿Dónde"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-ask",
+          "conceptId": "es-directions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask where the bathroom is.",
+          "answers": [
+            "¿Dónde está el baño?"
+          ],
+          "explanation": "Baño is masculine, so the article is el.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-cloze",
+          "conceptId": "es-directions-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the directions: Todo recto, luego a la ___",
+          "answers": [
+            "izquierda"
+          ],
+          "explanation": "Izquierda is left. Derecha would send the learner the other way.",
+          "vocabulary": [
+            "es-directions-word-2",
+            "es-directions-word-3"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        },
+        {
+          "id": "es-directions-foundation-vary",
+          "conceptId": "es-directions-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Make the question polite by putting Perdone in front: ¿Dónde está la estación?",
+          "answers": [
+            "Perdone, ¿dónde está la estación?"
+          ],
+          "explanation": "Perdone leads the sentence, and the accent on dónde drops when it is no longer opening the question.",
+          "vocabulary": [
+            "es-directions-word-1"
+          ],
+          "reviewOf": [
+            "es-numbers-quantities-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-shopping-foundation",
+      "unitId": "es-unit-3",
+      "title": "Prices and paying",
+      "objective": "Ask what something costs, react to the price, and ask for the bill.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-directions-foundation"
+      ],
+      "conceptIds": [
+        "es-shopping-concept"
+      ],
+      "vocabulary": [
+        "es-shopping-word-1",
+        "es-shopping-word-2",
+        "es-shopping-word-3",
+        "es-shopping-word-4"
+      ],
+      "explanation": "Cuánto cuesta asks how much something costs, and it is the standard price question. Answer with a number and euros. Caro means expensive and barato means inexpensive. To disagree, put no before the verb: No es caro. The bill is la cuenta, a feminine noun, and por favor turns it into a request.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta el café?",
+          "meaning": "How much does the coffee cost?"
+        },
+        {
+          "target": "Esto es muy caro.",
+          "meaning": "This is very expensive."
+        },
+        {
+          "target": "La cuenta, por favor.",
+          "meaning": "The bill, please."
+        }
+      ],
+      "culturalNote": "In many Spanish bars the bill comes when you ask for it, so la cuenta, por favor is the normal way to end a meal.",
+      "exercises": [
+        {
+          "id": "es-shopping-foundation-meet",
+          "conceptId": "es-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which question asks the price of something?",
+          "answers": [
+            "¿Cuánto cuesta?"
+          ],
+          "explanation": "Cuánto asks how much and cuesta comes from costar, to cost.",
+          "vocabulary": [
+            "es-shopping-word-1",
+            "es-shopping-word-2",
+            "es-shopping-word-3",
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "options": [
+            "¿Cómo estás?",
+            "¿Dónde está?",
+            "¿Cuánto cuesta?"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-vary",
+          "conceptId": "es-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Say that it is not expensive: Es caro.",
+          "answers": [
+            "No es caro."
+          ],
+          "explanation": "No goes before the verb in Spanish.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-think",
+          "conceptId": "es-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You want to know what a coffee costs. Ask the question.",
+          "answers": [
+            "¿Cuánto cuesta un café?"
+          ],
+          "explanation": "Cuesta is singular because one coffee is being priced.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "es-shopping-foundation-build",
+          "conceptId": "es-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is very expensive.",
+          "answers": [
+            "Esto es muy caro."
+          ],
+          "explanation": "Muy means very and it sits directly before the adjective.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "tokens": [
+            "caro.",
+            "muy",
+            "es",
+            "Esto"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-ask",
+          "conceptId": "es-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for the bill.",
+          "answers": [
+            "La cuenta, por favor.",
+            "La cuenta por favor."
+          ],
+          "explanation": "Cuenta is feminine, so the article is la.",
+          "vocabulary": [
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-cloze",
+          "conceptId": "es-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the price question: ¿___ cuesta el café?",
+          "answers": [
+            "Cuánto"
+          ],
+          "explanation": "Cuánto cuesta is the fixed frame for asking a price.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-time-days-foundation",
+      "unitId": "es-unit-4",
+      "title": "Days and times",
+      "objective": "Name days, place an action on a day, and say what today is.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-shopping-foundation"
+      ],
+      "conceptIds": [
+        "es-time-days-concept"
+      ],
+      "vocabulary": [
+        "es-time-days-word-1",
+        "es-time-days-word-2",
+        "es-time-days-word-3",
+        "es-time-days-word-4"
+      ],
+      "explanation": "Hoy means today and mañana means tomorrow. Weekdays are masculine and take el in front when you mean on that day: el lunes, on Monday. Spanish does not need a word for on here; the article does that work. Notice that mañana also means morning, and only the article and context separate them.",
+      "examples": [
+        {
+          "target": "Hoy es miércoles.",
+          "meaning": "Today is Wednesday."
+        },
+        {
+          "target": "El lunes trabajo.",
+          "meaning": "On Monday I work."
+        },
+        {
+          "target": "Mañana es jueves.",
+          "meaning": "Tomorrow is Thursday."
+        }
+      ],
+      "culturalNote": "Spanish weekdays are not capitalised, which is why lunes looks the same mid-sentence as at the start of one.",
+      "exercises": [
+        {
+          "id": "es-time-days-foundation-meet",
+          "conceptId": "es-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which word means today?",
+          "answers": [
+            "hoy"
+          ],
+          "explanation": "Hoy is today. Mañana is tomorrow, and lunes is Monday.",
+          "vocabulary": [
+            "es-time-days-word-1",
+            "es-time-days-word-2",
+            "es-time-days-word-3",
+            "es-time-days-word-4"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "options": [
+            "mañana",
+            "lunes",
+            "hoy",
+            "semana"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-read",
+          "conceptId": "es-time-days-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the week. What day is it today?",
+          "answers": [
+            "Wednesday.",
+            "Wednesday",
+            "It is Wednesday."
+          ],
+          "explanation": "Hoy es miércoles gives the answer directly in the third sentence.",
+          "vocabulary": [
+            "es-time-days-word-1",
+            "es-time-days-word-2"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "passage": "El lunes trabajo. El martes aprendo español. Hoy es miércoles. Mañana es jueves.",
+          "translation": "On Monday I work. On Tuesday I learn Spanish. Today is Wednesday. Tomorrow is Thursday."
+        },
+        {
+          "id": "es-time-days-foundation-notice",
+          "conceptId": "es-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "According to the week you just read, which day comes next?",
+          "answers": [
+            "jueves"
+          ],
+          "explanation": "Mañana es jueves names the following day.",
+          "vocabulary": [
+            "es-time-days-word-2"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "options": [
+            "lunes",
+            "martes",
+            "jueves"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-build",
+          "conceptId": "es-time-days-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says today is Wednesday.",
+          "answers": [
+            "Hoy es miércoles."
+          ],
+          "explanation": "Hoy first, then es, then the day.",
+          "vocabulary": [
+            "es-time-days-word-1"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "tokens": [
+            "miércoles.",
+            "es",
+            "Hoy"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-cloze",
+          "conceptId": "es-time-days-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Mañana ___ jueves.",
+          "answers": [
+            "es"
+          ],
+          "explanation": "The same frame as Hoy es miércoles, with mañana in place of hoy.",
+          "vocabulary": [
+            "es-time-days-word-2"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        },
+        {
+          "id": "es-time-days-foundation-think",
+          "conceptId": "es-time-days-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the sentence before you write it: today is Monday.",
+          "answers": [
+            "Hoy es lunes."
+          ],
+          "explanation": "Hoy es plus the day name, the same frame as the model.",
+          "vocabulary": [
+            "es-time-days-word-1",
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "es-time-days-foundation-meaning",
+          "conceptId": "es-time-days-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: El lunes trabajo.",
+          "answers": [
+            "On Monday I work.",
+            "I work on Monday."
+          ],
+          "explanation": "Spanish marks on with the article el rather than a separate word.",
+          "vocabulary": [
+            "es-time-days-word-3"
+          ],
+          "reviewOf": [
+            "es-shopping-foundation"
+          ]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "es-family-people-foundation",
+      "unitId": "es-unit-4",
+      "title": "Family and people",
+      "objective": "Name close family members and say who you have, with the right article.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-time-days-foundation"
+      ],
+      "conceptIds": [
+        "es-family-people-concept"
+      ],
+      "vocabulary": [
+        "es-family-people-word-1",
+        "es-family-people-word-2",
+        "es-family-people-word-3",
+        "es-family-people-word-4"
+      ],
+      "explanation": "Spanish nouns are masculine or feminine, and the article changes with them: el hermano (brother), la hermana (sister), los padres (parents). The verb tener is irregular in the I form: tengo, I have. Possessives agree with the thing owned rather than the owner, so mi familia is my family and mis padres is my parents.",
+      "examples": [
+        {
+          "target": "Tengo un hermano.",
+          "meaning": "I have a brother."
+        },
+        {
+          "target": "Tengo una hermana.",
+          "meaning": "I have a sister."
+        },
+        {
+          "target": "Mis padres viven en Madrid.",
+          "meaning": "My parents live in Madrid."
+        }
+      ],
+      "culturalNote": "Familia in Spanish often stretches to grandparents, aunts and cousins, not just the household.",
+      "exercises": [
+        {
+          "id": "es-family-people-foundation-meet",
+          "conceptId": "es-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one means the sister?",
+          "answers": [
+            "la hermana"
+          ],
+          "explanation": "Hermana is the sister. Hermano is the brother, and padres are the parents.",
+          "vocabulary": [
+            "es-family-people-word-1",
+            "es-family-people-word-2",
+            "es-family-people-word-3",
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "options": [
+            "el hermano",
+            "los padres",
+            "la familia",
+            "la hermana"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-think",
+          "conceptId": "es-family-people-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the form before you write it: I have a brother.",
+          "answers": [
+            "Tengo un hermano."
+          ],
+          "explanation": "Tener is irregular, so the I form is tengo rather than tene.",
+          "vocabulary": [
+            "es-family-people-word-2"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "es-family-people-foundation-notice",
+          "conceptId": "es-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one is correct for I have a sister?",
+          "answers": [
+            "Tengo una hermana."
+          ],
+          "explanation": "Hermana is feminine, so the article is una.",
+          "vocabulary": [
+            "es-family-people-word-3"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "options": [
+            "Tengo un hermana.",
+            "Tengo unos hermana.",
+            "Tengo una hermana."
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-build",
+          "conceptId": "es-family-people-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is my family.",
+          "answers": [
+            "Esta es mi familia."
+          ],
+          "explanation": "Familia is feminine, so the demonstrative is esta and the possessive is mi.",
+          "vocabulary": [
+            "es-family-people-word-1"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "tokens": [
+            "familia.",
+            "mi",
+            "es",
+            "Esta"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-vary",
+          "conceptId": "es-family-people-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Change one sister into two sisters: Tengo una hermana.",
+          "answers": [
+            "Tengo dos hermanas."
+          ],
+          "explanation": "The plural adds -s to hermana, and una becomes dos.",
+          "vocabulary": [
+            "es-family-people-word-3"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-cloze",
+          "conceptId": "es-family-people-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Mis ___ viven en Madrid.",
+          "answers": [
+            "padres"
+          ],
+          "explanation": "Padres is plural, which is why the verb is viven rather than vive.",
+          "vocabulary": [
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ]
+        },
+        {
+          "id": "es-family-people-foundation-read",
+          "conceptId": "es-family-people-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read about the family. Where do the parents live?",
+          "answers": [
+            "Madrid.",
+            "Madrid",
+            "In Madrid."
+          ],
+          "explanation": "The last sentence places the parents in Madrid.",
+          "vocabulary": [
+            "es-family-people-word-1",
+            "es-family-people-word-4"
+          ],
+          "reviewOf": [
+            "es-time-days-foundation"
+          ],
+          "passage": "Mi familia es pequeña. Mi hermano se llama Max. Mi hermana se llama Ana. Mis padres viven en Madrid.",
+          "translation": "My family is small. My brother is called Max. My sister is called Ana. My parents live in Madrid."
+        }
+      ],
+      "optionalExerciseIds": []
     }
   ],
   "dialogues": []

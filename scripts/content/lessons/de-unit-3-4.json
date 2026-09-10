@@ -1,0 +1,467 @@
+{
+  "manifest": "courses/german/manifest.json",
+  "version": "0.4.0",
+  "units": [
+    {
+      "id": "de-unit-3",
+      "title": "Finding your way",
+      "objective": "Ask where things are and follow spoken directions."
+    },
+    {
+      "id": "de-unit-4",
+      "title": "Everyday life",
+      "objective": "Talk about days, times, and the people around you."
+    }
+  ],
+  "concepts": [
+    {
+      "id": "de-directions-concept",
+      "title": "Asking the way",
+      "explanation": "Wo means where, and it asks about a place: Wo ist der Bahnhof? Directions arrive as short chunks worth learning whole: geradeaus (straight ahead), links (left), rechts (right). German puts the direction first and then the next step, separated by dann: Geradeaus, dann links. Adding Entschuldigung at the front turns a bare question into a polite one, the way excuse me does in English.",
+      "examples": [
+        { "target": "Wo ist der Bahnhof?", "meaning": "Where is the station?" },
+        { "target": "Geradeaus, dann links.", "meaning": "Straight ahead, then left." },
+        { "target": "Entschuldigung, wo ist die Toilette?", "meaning": "Excuse me, where is the toilet?" }
+      ],
+      "commonError": "Wo asks where. Wer asks who, and was asks what. Mixing up wo and wer sends you to the wrong question entirely."
+    },
+    {
+      "id": "de-shopping-concept",
+      "title": "Prices and paying",
+      "explanation": "Was kostet ...? literally asks what does something cost, and it is the standard way to ask a price. Answer it with a number and Euro. Teuer means expensive and günstig means inexpensive. To disagree, put nicht before the adjective: Es ist nicht teuer. The bill is die Rechnung, a feminine noun, and it takes bitte to become a request.",
+      "examples": [
+        { "target": "Was kostet der Kaffee?", "meaning": "How much does the coffee cost?" },
+        { "target": "Das ist zu teuer.", "meaning": "That is too expensive." },
+        { "target": "Die Rechnung, bitte.", "meaning": "The bill, please." }
+      ],
+      "commonError": "Nicht goes before the adjective it negates: nicht teuer. Putting it after changes the sentence into something German does not say."
+    },
+    {
+      "id": "de-time-days-concept",
+      "title": "Days and times",
+      "explanation": "Heute means today and morgen means tomorrow. Weekday names are masculine and take am when you mean on that day: am Montag, on Monday. German word order puts the time first when it is the topic of the sentence: Am Montag arbeite ich, on Monday I work, with the verb in second position and ich after it.",
+      "examples": [
+        { "target": "Heute ist Mittwoch.", "meaning": "Today is Wednesday." },
+        { "target": "Am Montag arbeite ich.", "meaning": "On Monday I work." },
+        { "target": "Morgen ist Donnerstag.", "meaning": "Tomorrow is Thursday." }
+      ],
+      "commonError": "Morgen means tomorrow. Der Morgen means the morning. The article is the whole difference, and the capital letter marks the noun."
+    },
+    {
+      "id": "de-family-people-concept",
+      "title": "Family and people",
+      "explanation": "German nouns carry one of three genders, and the article changes with them: der Bruder (masculine), die Schwester (feminine), die Eltern (plural). When you say you have something, the article shifts to the accusative: Ich habe einen Bruder, but Ich habe eine Schwester, and the plural takes no article change. Meine Familie is my family; possessives follow the same gender pattern as the nouns.",
+      "examples": [
+        { "target": "Ich habe einen Bruder.", "meaning": "I have a brother." },
+        { "target": "Ich habe eine Schwester.", "meaning": "I have a sister." },
+        { "target": "Meine Eltern wohnen in Berlin.", "meaning": "My parents live in Berlin." }
+      ],
+      "commonError": "Einen Bruder, not ein Bruder: the direct object takes the accusative, and only masculine nouns change."
+    }
+  ],
+  "vocabulary": [
+    { "id": "de-directions-word-1", "word": "wo", "meaning": "where", "partOfSpeech": "word or expression", "example": "Wo ist der Bahnhof?" },
+    { "id": "de-directions-word-2", "word": "links", "meaning": "left", "partOfSpeech": "word or expression", "example": "Geradeaus, dann links." },
+    { "id": "de-directions-word-3", "word": "rechts", "meaning": "right", "partOfSpeech": "word or expression", "example": "Dann rechts." },
+    { "id": "de-directions-word-4", "word": "geradeaus", "meaning": "straight ahead", "partOfSpeech": "word or expression", "example": "Geradeaus, dann links." },
+    { "id": "de-shopping-word-1", "word": "Was kostet das?", "meaning": "How much does that cost?", "partOfSpeech": "word or expression", "example": "Was kostet der Kaffee?" },
+    { "id": "de-shopping-word-2", "word": "teuer", "meaning": "expensive", "partOfSpeech": "word or expression", "example": "Das ist zu teuer." },
+    { "id": "de-shopping-word-3", "word": "günstig", "meaning": "inexpensive", "partOfSpeech": "word or expression", "example": "Der Kaffee ist günstig." },
+    { "id": "de-shopping-word-4", "word": "die Rechnung", "meaning": "the bill", "partOfSpeech": "word or expression", "example": "Die Rechnung, bitte." },
+    { "id": "de-time-days-word-1", "word": "heute", "meaning": "today", "partOfSpeech": "word or expression", "example": "Heute ist Mittwoch." },
+    { "id": "de-time-days-word-2", "word": "morgen", "meaning": "tomorrow", "partOfSpeech": "word or expression", "example": "Morgen ist Donnerstag." },
+    { "id": "de-time-days-word-3", "word": "der Montag", "meaning": "Monday", "partOfSpeech": "word or expression", "example": "Am Montag arbeite ich." },
+    { "id": "de-time-days-word-4", "word": "die Woche", "meaning": "the week", "partOfSpeech": "word or expression", "example": "Die Woche hat sieben Tage." },
+    { "id": "de-family-people-word-1", "word": "die Familie", "meaning": "the family", "partOfSpeech": "word or expression", "example": "Meine Familie ist klein." },
+    { "id": "de-family-people-word-2", "word": "der Bruder", "meaning": "the brother", "partOfSpeech": "word or expression", "example": "Ich habe einen Bruder." },
+    { "id": "de-family-people-word-3", "word": "die Schwester", "meaning": "the sister", "partOfSpeech": "word or expression", "example": "Ich habe eine Schwester." },
+    { "id": "de-family-people-word-4", "word": "die Eltern", "meaning": "the parents", "partOfSpeech": "word or expression", "example": "Meine Eltern wohnen in Berlin." }
+  ],
+  "lessons": [
+    {
+      "id": "de-directions-foundation",
+      "unitId": "de-unit-3",
+      "title": "Asking the way",
+      "objective": "Ask where something is and follow a two-step direction.",
+      "cefr": "A1",
+      "prerequisites": ["de-numbers-quantities-foundation"],
+      "conceptIds": ["de-directions-concept"],
+      "vocabulary": ["de-directions-word-1", "de-directions-word-2", "de-directions-word-3", "de-directions-word-4"],
+      "explanation": "Wo means where, and it asks about a place: Wo ist der Bahnhof? Directions arrive as short chunks worth learning whole: geradeaus (straight ahead), links (left), rechts (right). German puts the direction first and then the next step, separated by dann: Geradeaus, dann links. Adding Entschuldigung at the front turns a bare question into a polite one, the way excuse me does in English.",
+      "examples": [
+        { "target": "Wo ist der Bahnhof?", "meaning": "Where is the station?" },
+        { "target": "Geradeaus, dann links.", "meaning": "Straight ahead, then left." },
+        { "target": "Entschuldigung, wo ist die Toilette?", "meaning": "Excuse me, where is the toilet?" }
+      ],
+      "culturalNote": "In a German city you ask a stranger with Entschuldigung first and danke after, even for a single sentence of directions.",
+      "exercises": [
+        {
+          "id": "de-directions-foundation-meet",
+          "conceptId": "de-directions-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "You need to ask where something is. Which word does that?",
+          "answers": ["wo"],
+          "explanation": "Wo asks about a place. Wer asks who, and was asks what.",
+          "vocabulary": ["de-directions-word-1", "de-directions-word-2", "de-directions-word-3", "de-directions-word-4"],
+          "reviewOf": ["de-numbers-quantities-foundation"],
+          "options": ["wo", "links", "rechts", "geradeaus"]
+        },
+        {
+          "id": "de-directions-foundation-read",
+          "conceptId": "de-directions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. Which direction comes first?",
+          "answers": ["Straight ahead.", "Straight ahead"],
+          "explanation": "The first instruction is geradeaus; links comes after dann, as the second step.",
+          "vocabulary": ["de-directions-word-1", "de-directions-word-2", "de-directions-word-3", "de-directions-word-4"],
+          "reviewOf": ["de-numbers-quantities-foundation"],
+          "passage": "Tourist: Entschuldigung, wo ist der Bahnhof?\nPasser-by: Geradeaus, dann links.\nTourist: Danke!",
+          "translation": "Tourist: Excuse me, where is the station?\nPasser-by: Straight ahead, then left.\nTourist: Thank you!"
+        },
+        {
+          "id": "de-directions-foundation-build",
+          "conceptId": "de-directions-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the question that asks where the station is.",
+          "answers": ["Wo ist der Bahnhof?"],
+          "explanation": "Wo opens the question, the verb ist comes second, and der Bahnhof closes it.",
+          "vocabulary": ["de-directions-word-1"],
+          "reviewOf": ["de-numbers-quantities-foundation"],
+          "tokens": ["Bahnhof?", "ist", "der", "Wo"]
+        },
+        {
+          "id": "de-directions-foundation-ask",
+          "conceptId": "de-directions-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask where the toilet is.",
+          "answers": ["Wo ist die Toilette?"],
+          "explanation": "Toilette is feminine, so the article is die.",
+          "vocabulary": ["de-directions-word-1"],
+          "reviewOf": ["de-numbers-quantities-foundation"]
+        },
+        {
+          "id": "de-directions-foundation-cloze",
+          "conceptId": "de-directions-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the directions: Geradeaus, dann ___",
+          "answers": ["links"],
+          "explanation": "Links is left. Rechts would send the learner the other way.",
+          "vocabulary": ["de-directions-word-2", "de-directions-word-3", "de-directions-word-4"],
+          "reviewOf": ["de-numbers-quantities-foundation"]
+        },
+        {
+          "id": "de-directions-foundation-vary",
+          "conceptId": "de-directions-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Make the question polite by putting Entschuldigung in front: Wo ist der Bahnhof?",
+          "answers": ["Entschuldigung, wo ist der Bahnhof?"],
+          "explanation": "Entschuldigung leads the sentence and a comma separates it from the question.",
+          "vocabulary": ["de-directions-word-1"],
+          "reviewOf": ["de-numbers-quantities-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "de-shopping-foundation",
+      "unitId": "de-unit-3",
+      "title": "Prices and paying",
+      "objective": "Ask what something costs, react to the price, and ask for the bill.",
+      "cefr": "A1",
+      "prerequisites": ["de-directions-foundation"],
+      "conceptIds": ["de-shopping-concept"],
+      "vocabulary": ["de-shopping-word-1", "de-shopping-word-2", "de-shopping-word-3", "de-shopping-word-4"],
+      "explanation": "Was kostet ...? literally asks what does something cost, and it is the standard way to ask a price. Answer it with a number and Euro. Teuer means expensive and günstig means inexpensive. To disagree, put nicht before the adjective: Es ist nicht teuer. The bill is die Rechnung, a feminine noun, and it takes bitte to become a request.",
+      "examples": [
+        { "target": "Was kostet der Kaffee?", "meaning": "How much does the coffee cost?" },
+        { "target": "Das ist zu teuer.", "meaning": "That is too expensive." },
+        { "target": "Die Rechnung, bitte.", "meaning": "The bill, please." }
+      ],
+      "culturalNote": "German cafés often expect you to ask for the bill rather than bringing it unasked.",
+      "exercises": [
+        {
+          "id": "de-shopping-foundation-meet",
+          "conceptId": "de-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which question asks the price of something?",
+          "answers": ["Was kostet das?"],
+          "explanation": "Kostet comes from kosten, to cost, and was asks what.",
+          "vocabulary": ["de-shopping-word-1", "de-shopping-word-2", "de-shopping-word-3", "de-shopping-word-4"],
+          "reviewOf": ["de-directions-foundation"],
+          "options": ["Wie geht es?", "Wo ist das?", "Was kostet das?"]
+        },
+        {
+          "id": "de-shopping-foundation-vary",
+          "conceptId": "de-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Say that it is not expensive: Es ist teuer.",
+          "answers": ["Es ist nicht teuer."],
+          "explanation": "Nicht goes directly before the adjective it negates.",
+          "vocabulary": ["de-shopping-word-2"],
+          "reviewOf": ["de-directions-foundation"]
+        },
+        {
+          "id": "de-shopping-foundation-think",
+          "conceptId": "de-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You want to know what a coffee costs. Ask the question.",
+          "answers": ["Was kostet ein Kaffee?"],
+          "explanation": "Kaffee is masculine, and here it is the subject, so the article stays ein.",
+          "vocabulary": ["de-shopping-word-1"],
+          "reviewOf": ["de-directions-foundation"],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "de-shopping-foundation-build",
+          "conceptId": "de-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is too expensive.",
+          "answers": ["Das ist zu teuer."],
+          "explanation": "Zu means too here, and it sits before the adjective.",
+          "vocabulary": ["de-shopping-word-2"],
+          "reviewOf": ["de-directions-foundation"],
+          "tokens": ["teuer.", "zu", "ist", "Das"]
+        },
+        {
+          "id": "de-shopping-foundation-ask",
+          "conceptId": "de-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Ask for the bill.",
+          "answers": ["Die Rechnung, bitte.", "Die Rechnung bitte."],
+          "explanation": "Rechnung is feminine, so the article is die.",
+          "vocabulary": ["de-shopping-word-4"],
+          "reviewOf": ["de-directions-foundation"]
+        },
+        {
+          "id": "de-shopping-foundation-cloze",
+          "conceptId": "de-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the price question: ___ kostet der Kaffee?",
+          "answers": ["Was"],
+          "explanation": "Was kostet is the fixed frame for asking a price.",
+          "vocabulary": ["de-shopping-word-1"],
+          "reviewOf": ["de-directions-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "de-time-days-foundation",
+      "unitId": "de-unit-4",
+      "title": "Days and times",
+      "objective": "Name days, place an action on a day, and say what today is.",
+      "cefr": "A1",
+      "prerequisites": ["de-shopping-foundation"],
+      "conceptIds": ["de-time-days-concept"],
+      "vocabulary": ["de-time-days-word-1", "de-time-days-word-2", "de-time-days-word-3", "de-time-days-word-4"],
+      "explanation": "Heute means today and morgen means tomorrow. Weekday names are masculine and take am when you mean on that day: am Montag, on Monday. German word order puts the time first when it is the topic of the sentence: Am Montag arbeite ich, on Monday I work, with the verb in second position and ich after it.",
+      "examples": [
+        { "target": "Heute ist Mittwoch.", "meaning": "Today is Wednesday." },
+        { "target": "Am Montag arbeite ich.", "meaning": "On Monday I work." },
+        { "target": "Morgen ist Donnerstag.", "meaning": "Tomorrow is Thursday." }
+      ],
+      "culturalNote": "The week in Germany starts on Monday, so Montag is the first working day.",
+      "exercises": [
+        {
+          "id": "de-time-days-foundation-meet",
+          "conceptId": "de-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which word means today?",
+          "answers": ["heute"],
+          "explanation": "Heute is today. Morgen is tomorrow, and Montag is Monday.",
+          "vocabulary": ["de-time-days-word-1", "de-time-days-word-2", "de-time-days-word-3", "de-time-days-word-4"],
+          "reviewOf": ["de-shopping-foundation"],
+          "options": ["morgen", "Montag", "heute", "Woche"]
+        },
+        {
+          "id": "de-time-days-foundation-read",
+          "conceptId": "de-time-days-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the week. What day is it today?",
+          "answers": ["Wednesday.", "Wednesday", "It is Wednesday."],
+          "explanation": "Heute ist Mittwoch gives the answer directly in the third sentence.",
+          "vocabulary": ["de-time-days-word-1", "de-time-days-word-2"],
+          "reviewOf": ["de-shopping-foundation"],
+          "passage": "Am Montag arbeite ich. Am Dienstag lerne ich Deutsch. Heute ist Mittwoch. Morgen ist Donnerstag.",
+          "translation": "On Monday I work. On Tuesday I learn German. Today is Wednesday. Tomorrow is Thursday."
+        },
+        {
+          "id": "de-time-days-foundation-notice",
+          "conceptId": "de-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "According to the week you just read, which day comes next?",
+          "answers": ["Donnerstag"],
+          "explanation": "Morgen ist Donnerstag names the following day.",
+          "vocabulary": ["de-time-days-word-2"],
+          "reviewOf": ["de-shopping-foundation"],
+          "options": ["Montag", "Dienstag", "Donnerstag"]
+        },
+        {
+          "id": "de-time-days-foundation-build",
+          "conceptId": "de-time-days-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says today is Wednesday.",
+          "answers": ["Heute ist Mittwoch."],
+          "explanation": "The time comes first and the verb second.",
+          "vocabulary": ["de-time-days-word-1"],
+          "reviewOf": ["de-shopping-foundation"],
+          "tokens": ["Mittwoch.", "ist", "Heute"]
+        },
+        {
+          "id": "de-time-days-foundation-cloze",
+          "conceptId": "de-time-days-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Morgen ___ Donnerstag.",
+          "answers": ["ist"],
+          "explanation": "The same frame as Heute ist Mittwoch, with morgen in place of heute.",
+          "vocabulary": ["de-time-days-word-2"],
+          "reviewOf": ["de-shopping-foundation"]
+        },
+        {
+          "id": "de-time-days-foundation-think",
+          "conceptId": "de-time-days-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the sentence before you write it: today is Monday.",
+          "answers": ["Heute ist Montag."],
+          "explanation": "Heute ist plus the day name, the same frame as the model.",
+          "vocabulary": ["de-time-days-word-1", "de-time-days-word-3"],
+          "reviewOf": ["de-shopping-foundation"],
+          "thinkSeconds": 8
+        },
+        {
+          "id": "de-time-days-foundation-meaning",
+          "conceptId": "de-time-days-concept",
+          "kind": "translate",
+          "mode": "recognition",
+          "prompt": "Give the English meaning: Am Montag arbeite ich.",
+          "answers": ["On Monday I work.", "I work on Monday."],
+          "explanation": "German puts the day first and the verb second; English usually puts the subject first.",
+          "vocabulary": ["de-time-days-word-3"],
+          "reviewOf": ["de-shopping-foundation"]
+        }
+      ],
+      "optionalExerciseIds": []
+    },
+    {
+      "id": "de-family-people-foundation",
+      "unitId": "de-unit-4",
+      "title": "Family and people",
+      "objective": "Name close family members and say who you have, with the right article.",
+      "cefr": "A1",
+      "prerequisites": ["de-time-days-foundation"],
+      "conceptIds": ["de-family-people-concept"],
+      "vocabulary": ["de-family-people-word-1", "de-family-people-word-2", "de-family-people-word-3", "de-family-people-word-4"],
+      "explanation": "German nouns carry one of three genders, and the article changes with them: der Bruder (masculine), die Schwester (feminine), die Eltern (plural). When you say you have something, the article shifts to the accusative: Ich habe einen Bruder, but Ich habe eine Schwester, and the plural takes no article change. Meine Familie is my family; possessives follow the same gender pattern as the nouns.",
+      "examples": [
+        { "target": "Ich habe einen Bruder.", "meaning": "I have a brother." },
+        { "target": "Ich habe eine Schwester.", "meaning": "I have a sister." },
+        { "target": "Meine Eltern wohnen in Berlin.", "meaning": "My parents live in Berlin." }
+      ],
+      "culturalNote": "Familie covers close relatives, and Germans usually name parents and siblings before anyone else.",
+      "exercises": [
+        {
+          "id": "de-family-people-foundation-meet",
+          "conceptId": "de-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one means the sister?",
+          "answers": ["die Schwester"],
+          "explanation": "Schwester is the sister. Bruder is the brother, and Eltern are the parents.",
+          "vocabulary": ["de-family-people-word-1", "de-family-people-word-2", "de-family-people-word-3", "de-family-people-word-4"],
+          "reviewOf": ["de-time-days-foundation"],
+          "options": ["der Bruder", "die Eltern", "die Familie", "die Schwester"]
+        },
+        {
+          "id": "de-family-people-foundation-think",
+          "conceptId": "de-family-people-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "Predict the form before you write it: I have a brother.",
+          "answers": ["Ich habe einen Bruder."],
+          "explanation": "Bruder is masculine and it is the direct object, so ein becomes einen.",
+          "vocabulary": ["de-family-people-word-2"],
+          "reviewOf": ["de-time-days-foundation"],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "de-family-people-foundation-notice",
+          "conceptId": "de-family-people-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which one is correct for I have a sister?",
+          "answers": ["Ich habe eine Schwester."],
+          "explanation": "Schwester is feminine, and feminine nouns keep ein as eine in the accusative.",
+          "vocabulary": ["de-family-people-word-3"],
+          "reviewOf": ["de-time-days-foundation"],
+          "options": ["Ich habe einen Schwester.", "Ich habe ein Schwester.", "Ich habe eine Schwester."]
+        },
+        {
+          "id": "de-family-people-foundation-build",
+          "conceptId": "de-family-people-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Build the sentence that says this is my family.",
+          "answers": ["Das ist meine Familie."],
+          "explanation": "Familie is feminine, so my is meine.",
+          "vocabulary": ["de-family-people-word-1"],
+          "reviewOf": ["de-time-days-foundation"],
+          "tokens": ["Familie.", "meine", "ist", "Das"]
+        },
+        {
+          "id": "de-family-people-foundation-vary",
+          "conceptId": "de-family-people-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Change one sister into two sisters: Ich habe eine Schwester.",
+          "answers": ["Ich habe zwei Schwestern."],
+          "explanation": "The plural add -n to Schwester, and eine becomes zwei.",
+          "vocabulary": ["de-family-people-word-3"],
+          "reviewOf": ["de-time-days-foundation"]
+        },
+        {
+          "id": "de-family-people-foundation-cloze",
+          "conceptId": "de-family-people-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Complete the sentence: Meine ___ wohnen in Berlin.",
+          "answers": ["Eltern"],
+          "explanation": "Eltern is plural, which is why the verb is wohnen rather than wohnt.",
+          "vocabulary": ["de-family-people-word-4"],
+          "reviewOf": ["de-time-days-foundation"]
+        },
+        {
+          "id": "de-family-people-foundation-read",
+          "conceptId": "de-family-people-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read about the family. Where do the parents live?",
+          "answers": ["Berlin.", "Berlin", "In Berlin."],
+          "explanation": "The last sentence places the parents in Berlin.",
+          "vocabulary": ["de-family-people-word-1", "de-family-people-word-4"],
+          "reviewOf": ["de-time-days-foundation"],
+          "passage": "Meine Familie ist klein. Mein Bruder heißt Max. Meine Schwester heißt Anna. Meine Eltern wohnen in Berlin.",
+          "translation": "My family is small. My brother is called Max. My sister is called Anna. My parents live in Berlin."
+        }
+      ],
+      "optionalExerciseIds": []
+    }
+  ]
+}
