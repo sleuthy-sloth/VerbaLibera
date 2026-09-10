@@ -1,0 +1,1264 @@
+{
+  "_comment": "Differentiates the shopping and family-people lessons across German, Spanish and Portuguese, which were one lesson with the language swapped: identical objectives, near-identical prompts and one exercise shape. Each language now teaches what is distinctive about it, in its own shape. The plural 'concepts'/'lessons' arrays carry both topics; the singular 'concept'/'lesson' repeat the first (shopping) entry for a documented-shape reader, so applying either form is equivalent and idempotent. Applied by the central integrator.",
+  "courses/german/manifest.json": {
+    "concepts": [
+      {
+        "id": "de-shopping-concept",
+        "explanation": "German writes a price with a comma where English writes a point, and hangs the Euro sign after the number: 3,50 € is three euros fifty. The price question is verb-second — Was kostet das? puts the question word first and the verb straight behind it. Günstig praises the value; billig also means cheap but it hints at shoddy goods, so the two are not interchangeable in a shop."
+      },
+      {
+        "id": "de-family-people-concept",
+        "explanation": "German sorts every noun into one of three genders and shows it in the article: der Bruder, die Schwester, die Eltern. Only the masculine nouns reveal the accusative when they are the thing you have — Ich habe einen Bruder but Ich habe eine Schwester. Eltern is plural with no singular at all, and Geschwister does the same job for brothers and sisters together: German keeps one plural word for siblings and no word for a single sibling."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "de-shopping-foundation",
+        "objective": "Read a German price tag out loud, ask what something costs, and choose the word for cheap a shopkeeper will not wince at.",
+        "explanation": "German writes its prices with a comma where English writes a point and puts the Euro sign afterwards, so 3,50 € reads three euros fifty. The price question is a verb-second question: Was kostet das? places the question word first and the verb right behind it. Günstig means good value, while billig also means cheap but carries a hint of shoddy goods, and the shopkeeper will hear the difference.",
+        "exercises": [
+          {
+            "id": "de-shopping-foundation-meet",
+            "conceptId": "de-shopping-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "German puts the verb straight after the question word. Which of these lines asks what something costs?",
+            "answers": [
+              "Was kostet das?"
+            ],
+            "explanation": "Was kostet das? is the price question: Was first, then the verb kostet. Wie geht es? asks after someone's health, and Wo ist das? asks where something is.",
+            "vocabulary": [
+              "de-shopping-word-1",
+              "de-shopping-word-2",
+              "de-shopping-word-3",
+              "de-shopping-word-4"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ],
+            "options": [
+              "Wie geht es?",
+              "Wo ist das?",
+              "Was kostet das?"
+            ]
+          },
+          {
+            "id": "de-shopping-foundation-vary",
+            "conceptId": "de-shopping-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Nicht stands in front of the adjective it cancels. Make «Es ist teuer.» say the opposite.",
+            "answers": [
+              "Es ist nicht teuer."
+            ],
+            "explanation": "Es ist nicht teuer puts nicht immediately before teuer; German will not let the nicht drift to the end of the sentence the way English lets the not.",
+            "vocabulary": [
+              "de-shopping-word-2"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ]
+          },
+          {
+            "id": "de-shopping-foundation-think",
+            "conceptId": "de-shopping-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You are at a Berlin café counter with a single Kaffee in mind. Ask what it costs.",
+            "answers": [
+              "Was kostet ein Kaffee?"
+            ],
+            "explanation": "Kaffee is masculine and is the subject here, so the article stays ein and the question reads Was kostet ein Kaffee?",
+            "vocabulary": [
+              "de-shopping-word-1"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "de-shopping-foundation-build",
+            "conceptId": "de-shopping-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The loaf on the counter is priced at six euros. Arrange the words into a complaint that it is too expensive.",
+            "answers": [
+              "Das ist zu teuer."
+            ],
+            "explanation": "Zu is the 'too', and it stands right before teuer, so the whole line becomes Das ist zu teuer.",
+            "vocabulary": [
+              "de-shopping-word-2"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ],
+            "tokens": [
+              "teuer.",
+              "zu",
+              "ist",
+              "Das"
+            ]
+          },
+          {
+            "id": "de-shopping-foundation-ask",
+            "conceptId": "de-shopping-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "You have finished eating in a German restaurant. Ask for the bill.",
+            "answers": [
+              "Die Rechnung, bitte.",
+              "Die Rechnung bitte."
+            ],
+            "explanation": "Rechnung is feminine, so it takes die, and a bare bitte after it turns the statement into a request.",
+            "vocabulary": [
+              "de-shopping-word-4"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ]
+          },
+          {
+            "id": "de-shopping-foundation-cloze",
+            "conceptId": "de-shopping-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "The price frame is fixed. Fill its missing first word: ___ kostet der Kaffee?",
+            "answers": [
+              "Was"
+            ],
+            "explanation": "Was kostet is the frame every German price question uses, and kostet agrees with der Kaffee.",
+            "vocabulary": [
+              "de-shopping-word-1"
+            ],
+            "reviewOf": [
+              "de-directions-foundation"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "de-family-people-foundation",
+        "objective": "Give each relative the right article, move the masculine article into the accusative, and meet the plural words German keeps.",
+        "explanation": "German puts each noun into one of three genders and shows it in the article: der Bruder, die Schwester, die Eltern. The accusative only shows on masculine nouns — Ich habe einen Bruder, but Ich habe eine Schwester. Eltern has no singular, and Geschwister packs brothers and sisters into a single plural with no singular of its own, so German can say siblings in one word and cannot say one sibling in one word.",
+        "exercises": [
+          {
+            "id": "de-family-people-foundation-meet",
+            "conceptId": "de-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "All four of these are nouns, so all four wear a capital letter. Which one is the sister?",
+            "answers": [
+              "die Schwester"
+            ],
+            "explanation": "Schwester is the sister. Bruder is the brother, and Eltern are the parents, with Familie sitting behind all of them.",
+            "vocabulary": [
+              "de-family-people-word-1",
+              "de-family-people-word-2",
+              "de-family-people-word-3",
+              "de-family-people-word-4"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ],
+            "options": [
+              "der Bruder",
+              "die Eltern",
+              "die Familie",
+              "die Schwester"
+            ]
+          },
+          {
+            "id": "de-family-people-foundation-think",
+            "conceptId": "de-family-people-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You have exactly one brother, and he is the object of your sentence. Predict the form before you write it: I have a brother.",
+            "answers": [
+              "Ich habe einen Bruder."
+            ],
+            "explanation": "Bruder is masculine and is the direct object, so ein becomes einen: Ich habe einen Bruder.",
+            "vocabulary": [
+              "de-family-people-word-2"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "de-family-people-foundation-notice",
+            "conceptId": "de-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Bruder is masculine and moves to einen as an object; Schwester does not move. Pick the sentence that says I have a sister.",
+            "answers": [
+              "Ich habe eine Schwester."
+            ],
+            "explanation": "Schwester is feminine, so the article stays eine in the accusative. Only masculine nouns change, which is why einen Schwester cannot be right.",
+            "vocabulary": [
+              "de-family-people-word-3"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ],
+            "options": [
+              "Ich habe einen Schwester.",
+              "Ich habe ein Schwester.",
+              "Ich habe eine Schwester."
+            ]
+          },
+          {
+            "id": "de-family-people-foundation-build",
+            "conceptId": "de-family-people-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Arrange the words to say this is my family.",
+            "answers": [
+              "Das ist meine Familie."
+            ],
+            "explanation": "Familie is feminine, so the possessive is meine, and the whole line reads Das ist meine Familie.",
+            "vocabulary": [
+              "de-family-people-word-1"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ],
+            "tokens": [
+              "Familie.",
+              "meine",
+              "ist",
+              "Das"
+            ]
+          },
+          {
+            "id": "de-family-people-foundation-vary",
+            "conceptId": "de-family-people-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Give the sentence a second sister: Ich habe eine Schwester.",
+            "answers": [
+              "Ich habe zwei Schwestern."
+            ],
+            "explanation": "The plural adds -n to Schwester, and eine becomes zwei: Ich habe zwei Schwestern.",
+            "vocabulary": [
+              "de-family-people-word-3"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ]
+          },
+          {
+            "id": "de-family-people-foundation-cloze",
+            "conceptId": "de-family-people-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "The word for parents is plural and has no singular. Fill it in: Meine ___ wohnen in Berlin.",
+            "answers": [
+              "Eltern"
+            ],
+            "explanation": "Eltern is plural, which is why the verb is wohnen and not wohnt.",
+            "vocabulary": [
+              "de-family-people-word-4"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ]
+          },
+          {
+            "id": "de-family-people-foundation-read",
+            "conceptId": "de-family-people-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the note about a family that has scattered. Which city have the parents stayed in?",
+            "answers": [
+              "Berlin.",
+              "Berlin",
+              "In Berlin."
+            ],
+            "explanation": "The last sentence leaves the parents in Berlin while the brother and sister are elsewhere.",
+            "vocabulary": [
+              "de-family-people-word-1",
+              "de-family-people-word-4"
+            ],
+            "reviewOf": [
+              "de-time-days-foundation"
+            ],
+            "passage": "Ich habe eine kleine Familie: einen Bruder und eine Schwester. Mein Bruder wohnt noch in Hamburg, meine Schwester ist nach Wien gezogen. Nur meine Eltern sind in Berlin geblieben.",
+            "translation": "I have a small family: one brother and one sister. My brother still lives in Hamburg, my sister has moved to Vienna. Only my parents have stayed in Berlin."
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "de-shopping-concept",
+      "explanation": "German writes a price with a comma where English writes a point, and hangs the Euro sign after the number: 3,50 € is three euros fifty. The price question is verb-second — Was kostet das? puts the question word first and the verb straight behind it. Günstig praises the value; billig also means cheap but it hints at shoddy goods, so the two are not interchangeable in a shop."
+    },
+    "lesson": {
+      "id": "de-shopping-foundation",
+      "objective": "Read a German price tag out loud, ask what something costs, and choose the word for cheap a shopkeeper will not wince at.",
+      "explanation": "German writes its prices with a comma where English writes a point and puts the Euro sign afterwards, so 3,50 € reads three euros fifty. The price question is a verb-second question: Was kostet das? places the question word first and the verb right behind it. Günstig means good value, while billig also means cheap but carries a hint of shoddy goods, and the shopkeeper will hear the difference.",
+      "exercises": [
+        {
+          "id": "de-shopping-foundation-meet",
+          "conceptId": "de-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "German puts the verb straight after the question word. Which of these lines asks what something costs?",
+          "answers": [
+            "Was kostet das?"
+          ],
+          "explanation": "Was kostet das? is the price question: Was first, then the verb kostet. Wie geht es? asks after someone's health, and Wo ist das? asks where something is.",
+          "vocabulary": [
+            "de-shopping-word-1",
+            "de-shopping-word-2",
+            "de-shopping-word-3",
+            "de-shopping-word-4"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ],
+          "options": [
+            "Wie geht es?",
+            "Wo ist das?",
+            "Was kostet das?"
+          ]
+        },
+        {
+          "id": "de-shopping-foundation-vary",
+          "conceptId": "de-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "Nicht stands in front of the adjective it cancels. Make «Es ist teuer.» say the opposite.",
+          "answers": [
+            "Es ist nicht teuer."
+          ],
+          "explanation": "Es ist nicht teuer puts nicht immediately before teuer; German will not let the nicht drift to the end of the sentence the way English lets the not.",
+          "vocabulary": [
+            "de-shopping-word-2"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ]
+        },
+        {
+          "id": "de-shopping-foundation-think",
+          "conceptId": "de-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You are at a Berlin café counter with a single Kaffee in mind. Ask what it costs.",
+          "answers": [
+            "Was kostet ein Kaffee?"
+          ],
+          "explanation": "Kaffee is masculine and is the subject here, so the article stays ein and the question reads Was kostet ein Kaffee?",
+          "vocabulary": [
+            "de-shopping-word-1"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "de-shopping-foundation-build",
+          "conceptId": "de-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "The loaf on the counter is priced at six euros. Arrange the words into a complaint that it is too expensive.",
+          "answers": [
+            "Das ist zu teuer."
+          ],
+          "explanation": "Zu is the 'too', and it stands right before teuer, so the whole line becomes Das ist zu teuer.",
+          "vocabulary": [
+            "de-shopping-word-2"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ],
+          "tokens": [
+            "teuer.",
+            "zu",
+            "ist",
+            "Das"
+          ]
+        },
+        {
+          "id": "de-shopping-foundation-ask",
+          "conceptId": "de-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "You have finished eating in a German restaurant. Ask for the bill.",
+          "answers": [
+            "Die Rechnung, bitte.",
+            "Die Rechnung bitte."
+          ],
+          "explanation": "Rechnung is feminine, so it takes die, and a bare bitte after it turns the statement into a request.",
+          "vocabulary": [
+            "de-shopping-word-4"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ]
+        },
+        {
+          "id": "de-shopping-foundation-cloze",
+          "conceptId": "de-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "The price frame is fixed. Fill its missing first word: ___ kostet der Kaffee?",
+          "answers": [
+            "Was"
+          ],
+          "explanation": "Was kostet is the frame every German price question uses, and kostet agrees with der Kaffee.",
+          "vocabulary": [
+            "de-shopping-word-1"
+          ],
+          "reviewOf": [
+            "de-directions-foundation"
+          ]
+        }
+      ]
+    }
+  },
+  "courses/spanish/manifest.json": {
+    "concepts": [
+      {
+        "id": "es-shopping-concept",
+        "explanation": "A Spanish question wears two marks, an upside-down one at the front and an ordinary one at the end, so ¿Cuánto cuesta? announces itself before you read a word. Costar changes its stem under stress: cuesta for a single item, cuestan for several, and never costa. The bill is la cuenta, a feminine noun, and por favor is the politeness that travels with it."
+      },
+      {
+        "id": "es-family-people-concept",
+        "explanation": "Spanish shows a noun's gender in its article — el hermano, la hermana — and hides an irregular verb under the simplest sentence: yo tengo, never yo tene. The possessive mi does not change with who is speaking; it changes with how many people are being counted, so mi hermana is one sister and mis hermanas is two, whoever the speaker is."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "es-shopping-foundation",
+        "objective": "Ask a price inside Spanish's two question marks, and make costar agree with one thing or with several.",
+        "explanation": "A Spanish question wears two marks, the first one upside down, so ¿Cuánto cuesta? shows itself to be a question before you read a word of it. Costar changes its stem under stress — cuesta for a single item and cuestan for several, never costa. The bill is la cuenta, and por favor is what turns a statement into a polite request.",
+        "exercises": [
+          {
+            "id": "es-shopping-foundation-meet",
+            "conceptId": "es-shopping-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Spanish fences a question with two marks, the first of them upside down. Which of these is asking the price?",
+            "answers": [
+              "¿Cuánto cuesta?"
+            ],
+            "explanation": "¿Cuánto cuesta? is the price question: cuánto asks how much, cuesta comes from costar, and both marks are obligatory.",
+            "vocabulary": [
+              "es-shopping-word-1",
+              "es-shopping-word-2",
+              "es-shopping-word-3",
+              "es-shopping-word-4"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ],
+            "options": [
+              "¿Cómo estás?",
+              "¿Dónde está?",
+              "¿Cuánto cuesta?"
+            ]
+          },
+          {
+            "id": "es-shopping-foundation-build",
+            "conceptId": "es-shopping-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "The stall is charging more than you expected. Put the words in order to say this is very expensive.",
+            "answers": [
+              "Esto es muy caro."
+            ],
+            "explanation": "Muy sits immediately before caro, and esto is the 'this' that stands alone without a noun after it.",
+            "vocabulary": [
+              "es-shopping-word-2"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ],
+            "tokens": [
+              "caro.",
+              "muy",
+              "es",
+              "Esto"
+            ]
+          },
+          {
+            "id": "es-shopping-foundation-cloze",
+            "conceptId": "es-shopping-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "There is just one coffee, so costar keeps its singular form. Fill the blank: ¿___ cuesta el café?",
+            "answers": [
+              "Cuánto"
+            ],
+            "explanation": "Cuánto cuesta is the fixed frame, and the upside-down mark is already printed in front for you.",
+            "vocabulary": [
+              "es-shopping-word-1"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ]
+          },
+          {
+            "id": "es-shopping-foundation-think",
+            "conceptId": "es-shopping-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "At a café in Seville you are pricing one coffee only. Ask the question.",
+            "answers": [
+              "¿Cuánto cuesta un café?"
+            ],
+            "explanation": "Cuesta is singular because one coffee is being priced; for several the verb would turn into cuestan.",
+            "vocabulary": [
+              "es-shopping-word-1"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "es-shopping-foundation-vary",
+            "conceptId": "es-shopping-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "You think the price is fair. Turn «Es caro.» into its opposite.",
+            "answers": [
+              "No es caro."
+            ],
+            "explanation": "No goes before the verb es; Spanish never lets the negation wander to the end of the sentence.",
+            "vocabulary": [
+              "es-shopping-word-2"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ]
+          },
+          {
+            "id": "es-shopping-foundation-ask",
+            "conceptId": "es-shopping-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "Dinner in Madrid is over and you want to settle up. Ask the waiter for the bill.",
+            "answers": [
+              "La cuenta, por favor.",
+              "La cuenta por favor."
+            ],
+            "explanation": "Cuenta is feminine, so it takes la, and por favor is what keeps the request polite.",
+            "vocabulary": [
+              "es-shopping-word-4"
+            ],
+            "reviewOf": [
+              "es-directions-foundation"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "es-family-people-foundation",
+        "objective": "Say how many brothers and sisters you have, and let mi or mis follow the number you name.",
+        "explanation": "Spanish shows a noun's gender in its article — el hermano, la hermana — and hides an irregular verb under the simplest sentence, since the I form of tener is tengo and never tene. The possessive mi does not change with who is speaking; it changes with how many are counted, so mi hermana is one sister and mis hermanas is two.",
+        "exercises": [
+          {
+            "id": "es-family-people-foundation-meet",
+            "conceptId": "es-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "One letter separates the Spanish words for brother and sister. Which of these four is the sister?",
+            "answers": [
+              "la hermana"
+            ],
+            "explanation": "Hermana is the sister; the -a ending marks her feminine, as -o marks hermano. Padres is the pair of parents, and la familia is the household.",
+            "vocabulary": [
+              "es-family-people-word-1",
+              "es-family-people-word-2",
+              "es-family-people-word-3",
+              "es-family-people-word-4"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ],
+            "options": [
+              "el hermano",
+              "los padres",
+              "la familia",
+              "la hermana"
+            ]
+          },
+          {
+            "id": "es-family-people-foundation-cloze",
+            "conceptId": "es-family-people-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Parents is plural, and so is the possessive in front of it. Fill the gap: Mis ___ viven en Madrid.",
+            "answers": [
+              "padres"
+            ],
+            "explanation": "Padres is plural, which is why the verb is viven rather than vive.",
+            "vocabulary": [
+              "es-family-people-word-4"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ]
+          },
+          {
+            "id": "es-family-people-foundation-notice",
+            "conceptId": "es-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Hermana is feminine and keeps the same article as the subject. Choose the line that correctly says I have a sister.",
+            "answers": [
+              "Tengo una hermana."
+            ],
+            "explanation": "Una hermana keeps the feminine article una; un hermana and unos hermana are the two ways learners get this wrong.",
+            "vocabulary": [
+              "es-family-people-word-3"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ],
+            "options": [
+              "Tengo un hermana.",
+              "Tengo unos hermana.",
+              "Tengo una hermana."
+            ]
+          },
+          {
+            "id": "es-family-people-foundation-think",
+            "conceptId": "es-family-people-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "You are describing the one brother you have. Predict the form before you write it: I have a brother.",
+            "answers": [
+              "Tengo un hermano."
+            ],
+            "explanation": "Tener is irregular, so the I form is tengo and never tene: Tengo un hermano.",
+            "vocabulary": [
+              "es-family-people-word-2"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "es-family-people-foundation-build",
+            "conceptId": "es-family-people-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Turn the scattered words into a sentence that presents your family.",
+            "answers": [
+              "Esta es mi familia."
+            ],
+            "explanation": "Familia is feminine, so the demonstrative is esta and the possessive is mi: Esta es mi familia.",
+            "vocabulary": [
+              "es-family-people-word-1"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ],
+            "tokens": [
+              "familia.",
+              "mi",
+              "es",
+              "Esta"
+            ]
+          },
+          {
+            "id": "es-family-people-foundation-read",
+            "conceptId": "es-family-people-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read what Ana wrote about her family. Which city are the parents still in?",
+            "answers": [
+              "Madrid.",
+              "Madrid",
+              "In Madrid."
+            ],
+            "explanation": "The brother and sister are in Seville and Valencia; the closing sentence keeps the parents in Madrid.",
+            "vocabulary": [
+              "es-family-people-word-1",
+              "es-family-people-word-4"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ],
+            "passage": "Mi familia no es muy grande. Mi hermano mayor se llama Max y trabaja en Sevilla; mi hermana Ana estudia en Valencia. Mis padres siguen viviendo en Madrid.",
+            "translation": "My family is not very big. My older brother is called Max and works in Seville; my sister Ana studies in Valencia. My parents still live in Madrid."
+          },
+          {
+            "id": "es-family-people-foundation-vary",
+            "conceptId": "es-family-people-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Make the sentence talk about two sisters instead of one: Tengo una hermana.",
+            "answers": [
+              "Tengo dos hermanas."
+            ],
+            "explanation": "The plural adds -s to hermana, and una becomes dos: Tengo dos hermanas.",
+            "vocabulary": [
+              "es-family-people-word-3"
+            ],
+            "reviewOf": [
+              "es-time-days-foundation"
+            ]
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "es-shopping-concept",
+      "explanation": "A Spanish question wears two marks, an upside-down one at the front and an ordinary one at the end, so ¿Cuánto cuesta? announces itself before you read a word. Costar changes its stem under stress: cuesta for a single item, cuestan for several, and never costa. The bill is la cuenta, a feminine noun, and por favor is the politeness that travels with it."
+    },
+    "lesson": {
+      "id": "es-shopping-foundation",
+      "objective": "Ask a price inside Spanish's two question marks, and make costar agree with one thing or with several.",
+      "explanation": "A Spanish question wears two marks, the first one upside down, so ¿Cuánto cuesta? shows itself to be a question before you read a word of it. Costar changes its stem under stress — cuesta for a single item and cuestan for several, never costa. The bill is la cuenta, and por favor is what turns a statement into a polite request.",
+      "exercises": [
+        {
+          "id": "es-shopping-foundation-meet",
+          "conceptId": "es-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Spanish fences a question with two marks, the first of them upside down. Which of these is asking the price?",
+          "answers": [
+            "¿Cuánto cuesta?"
+          ],
+          "explanation": "¿Cuánto cuesta? is the price question: cuánto asks how much, cuesta comes from costar, and both marks are obligatory.",
+          "vocabulary": [
+            "es-shopping-word-1",
+            "es-shopping-word-2",
+            "es-shopping-word-3",
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "options": [
+            "¿Cómo estás?",
+            "¿Dónde está?",
+            "¿Cuánto cuesta?"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-build",
+          "conceptId": "es-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "The stall is charging more than you expected. Put the words in order to say this is very expensive.",
+          "answers": [
+            "Esto es muy caro."
+          ],
+          "explanation": "Muy sits immediately before caro, and esto is the 'this' that stands alone without a noun after it.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "tokens": [
+            "caro.",
+            "muy",
+            "es",
+            "Esto"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-cloze",
+          "conceptId": "es-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "There is just one coffee, so costar keeps its singular form. Fill the blank: ¿___ cuesta el café?",
+          "answers": [
+            "Cuánto"
+          ],
+          "explanation": "Cuánto cuesta is the fixed frame, and the upside-down mark is already printed in front for you.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-think",
+          "conceptId": "es-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "At a café in Seville you are pricing one coffee only. Ask the question.",
+          "answers": [
+            "¿Cuánto cuesta un café?"
+          ],
+          "explanation": "Cuesta is singular because one coffee is being priced; for several the verb would turn into cuestan.",
+          "vocabulary": [
+            "es-shopping-word-1"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "es-shopping-foundation-vary",
+          "conceptId": "es-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "You think the price is fair. Turn «Es caro.» into its opposite.",
+          "answers": [
+            "No es caro."
+          ],
+          "explanation": "No goes before the verb es; Spanish never lets the negation wander to the end of the sentence.",
+          "vocabulary": [
+            "es-shopping-word-2"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        },
+        {
+          "id": "es-shopping-foundation-ask",
+          "conceptId": "es-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Dinner in Madrid is over and you want to settle up. Ask the waiter for the bill.",
+          "answers": [
+            "La cuenta, por favor.",
+            "La cuenta por favor."
+          ],
+          "explanation": "Cuenta is feminine, so it takes la, and por favor is what keeps the request polite.",
+          "vocabulary": [
+            "es-shopping-word-4"
+          ],
+          "reviewOf": [
+            "es-directions-foundation"
+          ]
+        }
+      ]
+    }
+  },
+  "courses/portuguese/manifest.json": {
+    "concepts": [
+      {
+        "id": "pt-shopping-concept",
+        "explanation": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. The softened way to order or ask is the imperfect: Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, a feminine noun, and por favor completes the request."
+      },
+      {
+        "id": "pt-family-people-concept",
+        "explanation": "Portuguese keeps the definite article in front of a possessive, which English does not do: a minha família, os meus pais, literally the my family and the my parents. Drop the article and the phrase sounds unfinished. The possessive also agrees in gender with the relative being described, so o meu irmão for a brother and a minha irmã for a sister."
+      }
+    ],
+    "lessons": [
+      {
+        "id": "pt-shopping-foundation",
+        "objective": "Ask what something costs, keep the price frame singular for one item, and hear why Portuguese orders with a softened verb.",
+        "explanation": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. Portuguese also softens a request by stepping into the imperfect — Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, and por favor carries the politeness on its own.",
+        "exercises": [
+          {
+            "id": "pt-shopping-foundation-meet",
+            "conceptId": "pt-shopping-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "One of these lines will get a price out of a shopkeeper in Lisbon. Which one is it?",
+            "answers": [
+              "Quanto custa?"
+            ],
+            "explanation": "Quanto custa? is the price question: quanto asks how much, and custa is the form of custar that fits one item.",
+            "vocabulary": [
+              "pt-shopping-word-1",
+              "pt-shopping-word-2",
+              "pt-shopping-word-3",
+              "pt-shopping-word-4"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ],
+            "options": [
+              "Como está?",
+              "Onde fica?",
+              "Quanto custa?"
+            ]
+          },
+          {
+            "id": "pt-shopping-foundation-ask",
+            "conceptId": "pt-shopping-concept",
+            "kind": "translate",
+            "mode": "production",
+            "prompt": "The meal is over and you want to pay in a Portuguese restaurant. Ask for the bill.",
+            "answers": [
+              "A conta, por favor.",
+              "A conta por favor."
+            ],
+            "explanation": "Conta is feminine and takes a, and por favor carries the politeness on its own.",
+            "vocabulary": [
+              "pt-shopping-word-4"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ]
+          },
+          {
+            "id": "pt-shopping-foundation-vary",
+            "conceptId": "pt-shopping-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "You find the price reasonable and want to say as much. Negate «É caro.»",
+            "answers": [
+              "Não é caro."
+            ],
+            "explanation": "Não goes ahead of the verb é, and the tilde on não is part of the word, never an optional flourish.",
+            "vocabulary": [
+              "pt-shopping-word-2"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ]
+          },
+          {
+            "id": "pt-shopping-foundation-cloze",
+            "conceptId": "pt-shopping-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Fill the blank in the question you would put to a stallholder: ___ custa o café?",
+            "answers": [
+              "Quanto"
+            ],
+            "explanation": "Quanto custa is the frame to memorise, and it stays singular while a single thing is being priced.",
+            "vocabulary": [
+              "pt-shopping-word-1"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ]
+          },
+          {
+            "id": "pt-shopping-foundation-think",
+            "conceptId": "pt-shopping-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "At a pastelaria counter in Lisbon you want the price of one coffee. Ask it.",
+            "answers": [
+              "Quanto custa um café?"
+            ],
+            "explanation": "Custa agrees with the one item, um café, so the question stays in the singular.",
+            "vocabulary": [
+              "pt-shopping-word-1"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "pt-shopping-foundation-build",
+            "conceptId": "pt-shopping-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "A shop is asking a fortune for something small. Arrange the words into a sentence that calls it very expensive.",
+            "answers": [
+              "Isto é muito caro."
+            ],
+            "explanation": "Muito stands directly before caro, and isto is Portuguese's standalone 'this', the one used with no noun beside it.",
+            "vocabulary": [
+              "pt-shopping-word-2"
+            ],
+            "reviewOf": [
+              "pt-directions-foundation"
+            ],
+            "tokens": [
+              "caro.",
+              "muito",
+              "é",
+              "Isto"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "pt-family-people-foundation",
+        "objective": "Introduce your relatives, and keep the small article Portuguese plants in front of a possessive.",
+        "explanation": "Portuguese keeps the definite article in front of a possessive, which English does not do: a minha família, os meus pais, literally the my family and the my parents. Leave the article out and the phrase sounds cut short. The possessive agrees in gender with the relative, so o meu irmão for a brother and a minha irmã for a sister.",
+        "exercises": [
+          {
+            "id": "pt-family-people-foundation-meet",
+            "conceptId": "pt-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Portuguese marks the sister with a tilde. Which of these four words is she?",
+            "answers": [
+              "a irmã"
+            ],
+            "explanation": "The word for sister is irmã, tilde and all; strip its nasal sound and you get irmão, the brother. Pais is the parents, and família the family.",
+            "vocabulary": [
+              "pt-family-people-word-1",
+              "pt-family-people-word-2",
+              "pt-family-people-word-3",
+              "pt-family-people-word-4"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ],
+            "options": [
+              "o irmão",
+              "os pais",
+              "a família",
+              "a irmã"
+            ]
+          },
+          {
+            "id": "pt-family-people-foundation-notice",
+            "conceptId": "pt-family-people-concept",
+            "kind": "choice",
+            "mode": "recognition",
+            "prompt": "Irmã is feminine. Which line says I have a sister with the article that matches her?",
+            "answers": [
+              "Tenho uma irmã."
+            ],
+            "explanation": "Uma irmã is the feminine form; um irmã and uns irmã both mismatch the article to the noun.",
+            "vocabulary": [
+              "pt-family-people-word-3"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ],
+            "options": [
+              "Tenho um irmã.",
+              "Tenho uns irmã.",
+              "Tenho uma irmã."
+            ]
+          },
+          {
+            "id": "pt-family-people-foundation-vary",
+            "conceptId": "pt-family-people-concept",
+            "kind": "transform",
+            "mode": "production",
+            "prompt": "Change the sentence from one sister to two: Tenho uma irmã.",
+            "answers": [
+              "Tenho duas irmãs."
+            ],
+            "explanation": "The plural adds -s to irmã, and uma becomes duas: Tenho duas irmãs.",
+            "vocabulary": [
+              "pt-family-people-word-3"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ]
+          },
+          {
+            "id": "pt-family-people-foundation-read",
+            "conceptId": "pt-family-people-concept",
+            "kind": "reading",
+            "mode": "recognition",
+            "prompt": "Read the family note. In which city did the parents stay?",
+            "answers": [
+              "Lisbon.",
+              "Lisbon",
+              "In Lisbon."
+            ],
+            "explanation": "The brother and sister have moved on; the parents are the ones still in Lisbon.",
+            "vocabulary": [
+              "pt-family-people-word-1",
+              "pt-family-people-word-4"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ],
+            "passage": "Somos quatro em casa, mas só eu e a minha irmã vivemos no Porto. O meu irmão Max mudou-se para Coimbra no ano passado. Os meus pais ficaram em Lisboa, na casa antiga.",
+            "translation": "There are four of us at home, but only my sister and I live in Porto. My brother Max moved to Coimbra last year. My parents stayed in Lisbon, in the old house."
+          },
+          {
+            "id": "pt-family-people-foundation-cloze",
+            "conceptId": "pt-family-people-concept",
+            "kind": "cloze",
+            "mode": "production",
+            "prompt": "Write the plural word for parents, article and all, into the gap: Os meus ___ vivem em Lisboa.",
+            "answers": [
+              "pais"
+            ],
+            "explanation": "Pais is plural and still keeps the article os alongside the possessive meus.",
+            "vocabulary": [
+              "pt-family-people-word-4"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ]
+          },
+          {
+            "id": "pt-family-people-foundation-think",
+            "conceptId": "pt-family-people-concept",
+            "kind": "think",
+            "mode": "production",
+            "prompt": "Predict the form before you write it: I have a brother. (ter is irregular in the I form.)",
+            "answers": [
+              "Tenho um irmão."
+            ],
+            "explanation": "Ter is irregular, so the I form is tenho and not tene: Tenho um irmão.",
+            "vocabulary": [
+              "pt-family-people-word-2"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ],
+            "thinkSeconds": 10
+          },
+          {
+            "id": "pt-family-people-foundation-build",
+            "conceptId": "pt-family-people-concept",
+            "kind": "order",
+            "mode": "production",
+            "prompt": "Put the words in order to say this is my family, keeping the article Portuguese wants.",
+            "answers": [
+              "Esta é a minha família."
+            ],
+            "explanation": "Portuguese keeps the article with the possessive, so the sentence is Esta é a minha família.",
+            "vocabulary": [
+              "pt-family-people-word-1"
+            ],
+            "reviewOf": [
+              "pt-time-days-foundation"
+            ],
+            "tokens": [
+              "família.",
+              "minha",
+              "a",
+              "é",
+              "Esta"
+            ]
+          }
+        ]
+      }
+    ],
+    "concept": {
+      "id": "pt-shopping-concept",
+      "explanation": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. The softened way to order or ask is the imperfect: Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, a feminine noun, and por favor completes the request."
+    },
+    "lesson": {
+      "id": "pt-shopping-foundation",
+      "objective": "Ask what something costs, keep the price frame singular for one item, and hear why Portuguese orders with a softened verb.",
+      "explanation": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. Portuguese also softens a request by stepping into the imperfect — Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, and por favor carries the politeness on its own.",
+      "exercises": [
+        {
+          "id": "pt-shopping-foundation-meet",
+          "conceptId": "pt-shopping-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "One of these lines will get a price out of a shopkeeper in Lisbon. Which one is it?",
+          "answers": [
+            "Quanto custa?"
+          ],
+          "explanation": "Quanto custa? is the price question: quanto asks how much, and custa is the form of custar that fits one item.",
+          "vocabulary": [
+            "pt-shopping-word-1",
+            "pt-shopping-word-2",
+            "pt-shopping-word-3",
+            "pt-shopping-word-4"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "options": [
+            "Como está?",
+            "Onde fica?",
+            "Quanto custa?"
+          ]
+        },
+        {
+          "id": "pt-shopping-foundation-ask",
+          "conceptId": "pt-shopping-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "The meal is over and you want to pay in a Portuguese restaurant. Ask for the bill.",
+          "answers": [
+            "A conta, por favor.",
+            "A conta por favor."
+          ],
+          "explanation": "Conta is feminine and takes a, and por favor carries the politeness on its own.",
+          "vocabulary": [
+            "pt-shopping-word-4"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ]
+        },
+        {
+          "id": "pt-shopping-foundation-vary",
+          "conceptId": "pt-shopping-concept",
+          "kind": "transform",
+          "mode": "production",
+          "prompt": "You find the price reasonable and want to say as much. Negate «É caro.»",
+          "answers": [
+            "Não é caro."
+          ],
+          "explanation": "Não goes ahead of the verb é, and the tilde on não is part of the word, never an optional flourish.",
+          "vocabulary": [
+            "pt-shopping-word-2"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ]
+        },
+        {
+          "id": "pt-shopping-foundation-cloze",
+          "conceptId": "pt-shopping-concept",
+          "kind": "cloze",
+          "mode": "production",
+          "prompt": "Fill the blank in the question you would put to a stallholder: ___ custa o café?",
+          "answers": [
+            "Quanto"
+          ],
+          "explanation": "Quanto custa is the frame to memorise, and it stays singular while a single thing is being priced.",
+          "vocabulary": [
+            "pt-shopping-word-1"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ]
+        },
+        {
+          "id": "pt-shopping-foundation-think",
+          "conceptId": "pt-shopping-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "At a pastelaria counter in Lisbon you want the price of one coffee. Ask it.",
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "explanation": "Custa agrees with the one item, um café, so the question stays in the singular.",
+          "vocabulary": [
+            "pt-shopping-word-1"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "thinkSeconds": 10
+        },
+        {
+          "id": "pt-shopping-foundation-build",
+          "conceptId": "pt-shopping-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "A shop is asking a fortune for something small. Arrange the words into a sentence that calls it very expensive.",
+          "answers": [
+            "Isto é muito caro."
+          ],
+          "explanation": "Muito stands directly before caro, and isto is Portuguese's standalone 'this', the one used with no noun beside it.",
+          "vocabulary": [
+            "pt-shopping-word-2"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "tokens": [
+            "caro.",
+            "muito",
+            "é",
+            "Isto"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -20,7 +20,7 @@
     {
       "id": "de-introductions-concept",
       "title": "Introducing yourself",
-      "explanation": "Ich heiße introduces your name: Ich heiße Anna. Ich bin means I am and can also introduce you: Ich bin Anna. Ask a peer Wie heißt du? Notice the ending: ich heiße, but du heißt. Freut mich is a short way to say nice to meet you. Keep ich when you write these complete statements.",
+      "explanation": "German introduces you with heißen, 'to be called': Ich heiße Anna. The verb changes with the person — ich heiße, du heißt — and keeps its ß. A question simply moves the verb in front of the person: Wie heißt du? Ich bin Anna is the alternative, built on plain 'to be'.",
       "examples": [
         {
           "target": "Ich heiße Anna.",
@@ -40,7 +40,7 @@
     {
       "id": "de-cafe-requests-concept",
       "title": "Polite café requests",
-      "explanation": "Ich möchte means I would like. Learn einen Kaffee and einen Tee as complete request chunks: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns. Here they are the requested objects, so the article is einen. You will explore that pattern later; for now, swap the drink and keep einen. Bitte adds please; danke expresses thanks.",
+      "explanation": "German requests a drink with Ich möchte, 'I would like'. Once the drink is what is being asked for, the article turns into einen: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns and keep their capitals.",
       "examples": [
         {
           "target": "Ich möchte einen Kaffee, bitte.",
@@ -60,7 +60,7 @@
     {
       "id": "de-numbers-quantities-concept",
       "title": "Numbers and quantities",
-      "explanation": "German numbers are useful as short runs before you calculate with them. Learn one through ten, then use Was kostet? to ask the price of one thing. One apple is ein Apfel; two apples are zwei Äpfel. Keep each noun's capital letter.",
+      "explanation": "German numbers are worth having as short runs before you calculate with them, and they take a turn at twenty: einundzwanzig is 'one-and-twenty', with the smaller number spoken first and welded to the ten by und. Learn one through ten first, then ask a price with Was kostet?. Expect the article in front of the noun to change with the job it does, and keep the noun's capital wherever it sits.",
       "examples": [
         {
           "target": "Eins, zwei, drei, vier, fünf.",
@@ -80,7 +80,7 @@
     {
       "id": "de-directions-concept",
       "title": "Asking the way",
-      "explanation": "Wo means where, and it asks about a place: Wo ist der Bahnhof? Directions arrive as short chunks worth learning whole: geradeaus (straight ahead), links (left), rechts (right). German puts the direction first and then the next step, separated by dann: Geradeaus, dann links. Adding Entschuldigung at the front turns a bare question into a polite one, the way excuse me does in English.",
+      "explanation": "German builds the names of its places out of smaller nouns stuck together, and that is why the article is worth noticing: der Bahnhof is Bahn plus Hof, a 'rail-yard', and it stays a capitalised der wherever it sits. To ask about it, German puts the verb straight after the question word, Wo ist der Bahnhof?, because the question word takes the first slot and the verb must take the second. Directions then arrive as chunks worth learning whole: geradeaus, links, rechts, with dann linking one step to the next.",
       "examples": [
         {
           "target": "Wo ist der Bahnhof?",
@@ -100,7 +100,7 @@
     {
       "id": "de-shopping-concept",
       "title": "Prices and paying",
-      "explanation": "Was kostet ...? literally asks what does something cost, and it is the standard way to ask a price. Answer it with a number and Euro. Teuer means expensive and günstig means inexpensive. To disagree, put nicht before the adjective: Es ist nicht teuer. The bill is die Rechnung, a feminine noun, and it takes bitte to become a request.",
+      "explanation": "German writes a price with a comma where English writes a point, and hangs the Euro sign after the number: 3,50 € is three euros fifty. The price question is verb-second — Was kostet das? puts the question word first and the verb straight behind it. Günstig praises the value; billig also means cheap but it hints at shoddy goods, so the two are not interchangeable in a shop.",
       "examples": [
         {
           "target": "Was kostet der Kaffee?",
@@ -120,7 +120,7 @@
     {
       "id": "de-time-days-concept",
       "title": "Days and times",
-      "explanation": "Heute means today and morgen means tomorrow. Weekday names are masculine and take am when you mean on that day: am Montag, on Monday. German word order puts the time first when it is the topic of the sentence: Am Montag arbeite ich, on Monday I work, with the verb in second position and ich after it.",
+      "explanation": "The German week is named, not numbered: Sonntag and Montag for the sun and the moon, Dienstag and Donnerstag and Freitag for old gods, and Mittwoch, the odd one out, which just marks the middle. Weekdays are masculine, so am Montag. Say morgen and you mean tomorrow; say der Morgen and you mean the morning.",
       "examples": [
         {
           "target": "Heute ist Mittwoch.",
@@ -140,7 +140,7 @@
     {
       "id": "de-family-people-concept",
       "title": "Family and people",
-      "explanation": "German nouns carry one of three genders, and the article changes with them: der Bruder (masculine), die Schwester (feminine), die Eltern (plural). When you say you have something, the article shifts to the accusative: Ich habe einen Bruder, but Ich habe eine Schwester, and the plural takes no article change. Meine Familie is my family; possessives follow the same gender pattern as the nouns.",
+      "explanation": "German sorts every noun into one of three genders and shows it in the article: der Bruder, die Schwester, die Eltern. Only the masculine nouns reveal the accusative when they are the thing you have — Ich habe einen Bruder but Ich habe eine Schwester. Eltern is plural with no singular at all, and Geschwister does the same job for brothers and sisters together: German keeps one plural word for siblings and no word for a single sibling.",
       "examples": [
         {
           "target": "Ich habe einen Bruder.",
@@ -217,7 +217,7 @@
             "Yes.",
             "Goodbye."
           ],
-          "explanation": "Hallo is hello. It works at any hour, which is why it is the one greeting worth having by heart.",
+          "explanation": "Hallo is hello. German keeps one greeting for every hour of the day, which is why this is the one to learn cold.",
           "vocabulary": [
             "de-first-words-word-1"
           ],
@@ -232,7 +232,7 @@
           "answers": [
             "Hallo."
           ],
-          "explanation": "One word before anything else. Say it out loud before you check.",
+          "explanation": "Say it before you look. One word is all this needs.",
           "vocabulary": [
             "de-first-words-word-1"
           ],
@@ -301,12 +301,12 @@
           "conceptId": "de-first-words-concept",
           "kind": "dictation",
           "mode": "listening",
-          "prompt": "Listen and write exactly what you hear, including both words.",
+          "prompt": "Type the greeting and the thanks you hear, in that order.",
           "answers": [
             "Hallo, danke."
           ],
           "audioId": "de-first-words-foundation-model",
-          "explanation": "Two words, both of which you now own.",
+          "explanation": "Hallo opens it and danke closes it.",
           "vocabulary": [
             "de-first-words-word-1",
             "de-first-words-word-2"
@@ -320,7 +320,7 @@
       "id": "de-introductions-foundation",
       "unitId": "de-unit-1",
       "title": "Introducing yourself",
-      "objective": "Introduce yourself, ask a name, and respond to an introduction.",
+      "objective": "Introduce yourself with the verb heißen, and ask a question by moving the verb in front of the person.",
       "cefr": "A1",
       "prerequisites": [
         "de-first-words-foundation"
@@ -334,7 +334,7 @@
         "de-introductions-word-3",
         "de-introductions-word-4"
       ],
-      "explanation": "Ich heiße introduces your name: Ich heiße Anna. Ich bin means I am and can also introduce you: Ich bin Anna. Ask a peer Wie heißt du? Notice the ending: ich heiße, but du heißt. Freut mich is a short way to say nice to meet you. Keep ich when you write these complete statements.",
+      "explanation": "German does not say 'my name is'. It uses heißen, which means 'to be called', so Ich heiße Anna is literally 'I am called Anna'. The verb changes shape with the person: ich heiße, but du heißt, and the ß stays in both. A statement puts the verb second (Ich heiße Anna); to ask, German moves the verb in front of the person behind a question word — Wie heißt du? Ich bin Anna is the other introduction, and there you use plain 'to be'.",
       "examples": [
         {
           "target": "Ich heiße Anna.",
@@ -356,11 +356,11 @@
           "conceptId": "de-introductions-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which phrase asks another person their name in German?",
+          "prompt": "German has a verb that means 'to be called'. Which of these introduces you with that verb?",
           "answers": [
-            "Wie heißt du?"
+            "Ich heiße Anna."
           ],
-          "explanation": "Use the complete name question when meeting someone.",
+          "explanation": "Ich heiße Anna is literally 'I am called Anna'. Ich bin Anna also gives a name, but it uses plain 'to be', and Wie heißt du? is the question, not an introduction.",
           "vocabulary": [
             "de-introductions-word-1",
             "de-introductions-word-2",
@@ -372,20 +372,41 @@
           ],
           "options": [
             "Ich heiße Anna.",
-            "Wie heißt du?",
-            "Freut mich."
+            "Ich bin Anna.",
+            "Wie heißt du?"
           ]
+        },
+        {
+          "id": "de-introductions-foundation-recall",
+          "conceptId": "de-introductions-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You meet a neighbour and give your name with the verb that means 'to be called'.",
+          "answers": [
+            "Ich heiße Anna."
+          ],
+          "explanation": "Ich heiße, not Ich bin, when the verb 'to be called' carries the name.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "thinkSeconds": 8
         },
         {
           "id": "de-introductions-foundation-build",
           "conceptId": "de-introductions-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Put the words in order to introduce Anna by name.",
+          "prompt": "The three words are out of order. Build the sentence in which Anna is called by name using heißen.",
           "answers": [
             "Ich heiße Anna."
           ],
-          "explanation": "Use heiße with ich and heißt with du. Keep the capital letter at the beginning of a sentence.",
+          "explanation": "Use heiße with ich and heißt with du. The verb sits second, and Ich keeps its capital as it opens the sentence.",
           "vocabulary": [
             "de-introductions-word-1",
             "de-introductions-word-2",
@@ -402,38 +423,15 @@
           ]
         },
         {
-          "id": "de-introductions-foundation-read",
-          "conceptId": "de-introductions-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the first meeting. Who gives their own name?",
-          "answers": [
-            "Anna",
-            "Anna."
-          ],
-          "explanation": "The person who uses the name phrase introduces themself.",
-          "vocabulary": [
-            "de-introductions-word-1",
-            "de-introductions-word-2",
-            "de-introductions-word-3",
-            "de-introductions-word-4"
-          ],
-          "reviewOf": [
-            "de-first-words-foundation"
-          ],
-          "passage": "Anna: Hallo. Ich heiße Anna.\nLeo: Hallo. Freut mich.",
-          "translation": "Anna: Hello. My name is Anna.\nLeo: Hello. Nice to meet you."
-        },
-        {
           "id": "de-introductions-foundation-reply",
           "conceptId": "de-introductions-concept",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Say “Nice to meet you” using the short expression taught here.",
+          "prompt": "Your new colleague has introduced himself. Answer with the short German phrase for 'Nice to meet you'.",
           "answers": [
             "Freut mich."
           ],
-          "explanation": "Use this short response after an introduction.",
+          "explanation": "Freut mich is the short reply German uses straight after an introduction.",
           "vocabulary": [
             "de-introductions-word-1",
             "de-introductions-word-2",
@@ -443,38 +441,17 @@
           "reviewOf": [
             "de-first-words-foundation"
           ]
-        },
-        {
-          "id": "de-introductions-foundation-recall",
-          "conceptId": "de-introductions-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "Imagine meeting a new classmate. Introduce yourself as Anna, using the phrase that means “My name is”.",
-          "answers": [
-            "Ich heiße Anna."
-          ],
-          "explanation": "Use heiße with ich and heißt with du. Keep the capital letter at the beginning of a sentence.",
-          "vocabulary": [
-            "de-introductions-word-1",
-            "de-introductions-word-2",
-            "de-introductions-word-3",
-            "de-introductions-word-4"
-          ],
-          "reviewOf": [
-            "de-first-words-foundation"
-          ],
-          "thinkSeconds": 8
         },
         {
           "id": "de-introductions-foundation-ask",
           "conceptId": "de-introductions-concept",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Ask a peer “What is your name?” using the complete question taught here.",
+          "prompt": "Learn a classmate's name by asking the question in which the verb comes before the person.",
           "answers": [
             "Wie heißt du?"
           ],
-          "explanation": "This is the name question from the lesson; recall it as a whole.",
+          "explanation": "German forms this question by putting heißt before du, with Wie in front — no extra helping word is needed.",
           "vocabulary": [
             "de-introductions-word-1",
             "de-introductions-word-2",
@@ -484,6 +461,29 @@
           "reviewOf": [
             "de-first-words-foundation"
           ]
+        },
+        {
+          "id": "de-introductions-foundation-read",
+          "conceptId": "de-introductions-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the exchange. The first line puts the verb before the person to ask something. Whose name is being asked for?",
+          "answers": [
+            "Leo",
+            "Leo."
+          ],
+          "explanation": "The opening Wie heißt du? asks the second speaker, Leo, for his name, and he answers with the same verb.",
+          "vocabulary": [
+            "de-introductions-word-1",
+            "de-introductions-word-2",
+            "de-introductions-word-3",
+            "de-introductions-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "passage": "— Wie heißt du?\n— Ich heiße Leo. Und du?\n— Ich heiße Anna.\n— Freut mich, Anna.",
+          "translation": "— What are you called?\n— I am called Leo. And you?\n— I am called Anna.\n— Nice to meet you, Anna."
         }
       ],
       "optionalExerciseIds": []
@@ -492,7 +492,7 @@
       "id": "de-cafe-requests-foundation",
       "unitId": "de-unit-1",
       "title": "At the café",
-      "objective": "Choose a drink and make a polite café request from memory.",
+      "objective": "Order a drink and meet the article that changes shape once the drink is the object: einen.",
       "cefr": "A1",
       "prerequisites": [
         "de-introductions-foundation"
@@ -506,7 +506,7 @@
         "de-cafe-requests-word-3",
         "de-cafe-requests-word-4"
       ],
-      "explanation": "Ich möchte means I would like. Learn einen Kaffee and einen Tee as complete request chunks: Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine nouns. Here they are the requested objects, so the article is einen. You will explore that pattern later; for now, swap the drink and keep einen. Bitte adds please; danke expresses thanks.",
+      "explanation": "Ich möchte is the polite 'I would like'. The small surprise is the article: German says ein Kaffee, but once the coffee is what you are ordering, the article becomes einen — Ich möchte einen Kaffee, bitte. Kaffee and Tee are masculine, and a masculine noun takes einen in the object position. Swap the drink and keep the form: einen Tee, bitte. Both drinks are nouns, so both keep their capital letter.",
       "examples": [
         {
           "target": "Ich möchte einen Kaffee, bitte.",
@@ -528,11 +528,11 @@
           "conceptId": "de-cafe-requests-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You want tea. Which complete request matches your intention?",
+          "prompt": "Which request uses the article German gives a masculine drink when it is the thing being ordered?",
           "answers": [
-            "Ich möchte einen Tee, bitte."
+            "Ich möchte einen Kaffee, bitte."
           ],
-          "explanation": "Change the drink while keeping the polite request frame.",
+          "explanation": "Einen is the form a masculine noun takes as the object being ordered. Ein would leave the coffee standing as a bare subject.",
           "vocabulary": [
             "de-cafe-requests-word-1",
             "de-cafe-requests-word-2",
@@ -544,20 +544,41 @@
           ],
           "options": [
             "Ich möchte einen Kaffee, bitte.",
-            "Ich möchte einen Tee, bitte.",
+            "Ich möchte ein Kaffee, bitte.",
             "Ich heiße Anna."
           ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-recall",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "think",
+          "mode": "production",
+          "prompt": "You are at the counter and coffee is what you want. Make the short request, keeping the article in its object form.",
+          "answers": [
+            "Einen Kaffee, bitte."
+          ],
+          "explanation": "Einen Kaffee, bitte — the object form einen survives even in the short request.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "thinkSeconds": 8
         },
         {
           "id": "de-cafe-requests-foundation-build",
           "conceptId": "de-cafe-requests-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the full polite request for one coffee.",
+          "prompt": "The words are shuffled. Build the full polite request for one coffee.",
           "answers": [
             "Ich möchte einen Kaffee, bitte."
           ],
-          "explanation": "Use einen in these requests, not ein. German nouns keep their capitals: Kaffee and Tee.",
+          "explanation": "The verb möchte comes second and the object einen Kaffee follows it; bitte closes the request.",
           "vocabulary": [
             "de-cafe-requests-word-1",
             "de-cafe-requests-word-2",
@@ -576,39 +597,15 @@
           ]
         },
         {
-          "id": "de-cafe-requests-foundation-read",
-          "conceptId": "de-cafe-requests-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the café exchange. Which drink does the customer request?",
-          "answers": [
-            "Tea.",
-            "Tea",
-            "A tea."
-          ],
-          "explanation": "The customer requests tea; the thanks closes the exchange.",
-          "vocabulary": [
-            "de-cafe-requests-word-1",
-            "de-cafe-requests-word-2",
-            "de-cafe-requests-word-3",
-            "de-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "de-first-words-foundation"
-          ],
-          "passage": "Customer: Hallo. Einen Tee, bitte.\nServer: Einen Tee?\nCustomer: Ja. Danke.",
-          "translation": "Customer: Hello. A tea, please.\nServer: A tea?\nCustomer: Yes. Thank you."
-        },
-        {
           "id": "de-cafe-requests-foundation-vary",
           "conceptId": "de-cafe-requests-concept",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Say “I would like a tea, please” using the full request frame.",
+          "prompt": "Order a tea the same polite way, changing only the drink and keeping the object article.",
           "answers": [
             "Ich möchte einen Tee, bitte."
           ],
-          "explanation": "Use einen in these requests, not ein. German nouns keep their capitals: Kaffee and Tee.",
+          "explanation": "Same frame, different drink: einen Tee. The article stays einen because Tee is masculine too.",
           "vocabulary": [
             "de-cafe-requests-word-1",
             "de-cafe-requests-word-2",
@@ -618,40 +615,19 @@
           "reviewOf": [
             "de-first-words-foundation"
           ]
-        },
-        {
-          "id": "de-cafe-requests-foundation-recall",
-          "conceptId": "de-cafe-requests-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "You arrive at a café and want coffee. Make the short request “A coffee, please”.",
-          "answers": [
-            "Einen Kaffee, bitte."
-          ],
-          "explanation": "The short request still includes please.",
-          "vocabulary": [
-            "de-cafe-requests-word-1",
-            "de-cafe-requests-word-2",
-            "de-cafe-requests-word-3",
-            "de-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "de-first-words-foundation"
-          ],
-          "thinkSeconds": 8
         },
         {
           "id": "de-cafe-requests-foundation-meaning",
           "conceptId": "de-cafe-requests-concept",
           "kind": "translate",
           "mode": "recognition",
-          "prompt": "Give the English meaning of this complete request: Ich möchte einen Kaffee, bitte.",
+          "prompt": "Give the English meaning: Ich möchte einen Kaffee, bitte.",
           "answers": [
             "I would like a coffee, please.",
             "I’d like a coffee, please.",
             "I'd like a coffee, please."
           ],
-          "explanation": "This is a polite request, not a statement about having coffee.",
+          "explanation": "A request, not a statement about possession: möchte is 'would like'.",
           "vocabulary": [
             "de-cafe-requests-word-1",
             "de-cafe-requests-word-2",
@@ -661,6 +637,28 @@
           "reviewOf": [
             "de-first-words-foundation"
           ]
+        },
+        {
+          "id": "de-cafe-requests-foundation-read",
+          "conceptId": "de-cafe-requests-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the café exchange. Which word marks the drink as the thing being ordered?",
+          "answers": [
+            "einen"
+          ],
+          "explanation": "Einen is the object form of the article; the coffee is what is being requested.",
+          "vocabulary": [
+            "de-cafe-requests-word-1",
+            "de-cafe-requests-word-2",
+            "de-cafe-requests-word-3",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "de-first-words-foundation"
+          ],
+          "passage": "— Guten Tag. Ich möchte einen Kaffee, bitte.\n— Sofort. Und etwas dazu?\n— Nein, danke.",
+          "translation": "— Good day. I would like a coffee, please.\n— Right away. And something with it?\n— No, thank you."
         }
       ],
       "optionalExerciseIds": []
@@ -669,7 +667,7 @@
       "id": "de-numbers-quantities-foundation",
       "unitId": "de-unit-2",
       "title": "Numbers and quantities",
-      "objective": "Recognize one to ten, ask a price, and order a small quantity.",
+      "objective": "Count one to ten, then meet the point where German turns its numbers around: twenty-one is one-and-twenty.",
       "cefr": "A1",
       "prerequisites": [
         "de-cafe-requests-foundation"
@@ -683,7 +681,7 @@
         "de-numbers-quantities-word-3",
         "de-numbers-quantities-word-4"
       ],
-      "explanation": "Count one through ten as two short runs. Then use Was kostet for a price and keep German noun capitals as you order a quantity.",
+      "explanation": "German counts one to ten in two short runs. From twenty upward the system turns around: einundzwanzig is literally 'one-and-twenty', the unit spoken before the ten and joined to it by und. Ask a price with Was kostet? and mind the noun that follows, because German capitalises it and makes the article agree: ein Kaffee is a label, einen Kaffee is the one you want.",
       "examples": [
         {
           "target": "Was kostet ein Kaffee?",
@@ -701,7 +699,7 @@
           "conceptId": "de-numbers-quantities-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which German number means three?",
+          "prompt": "Start on the first run of five. Which German word is the number three?",
           "answers": [
             "Drei."
           ],
@@ -711,7 +709,7 @@
             "Sechs.",
             "Zehn."
           ],
-          "explanation": "Drei is three.",
+          "explanation": "Drei is three, and it sits in the first run, eins to fünf. The second run, sechs to zehn, only begins after that.",
           "vocabulary": [
             "de-numbers-quantities-word-1"
           ],
@@ -724,11 +722,11 @@
           "conceptId": "de-numbers-quantities-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Put the words in order to ask the price of one coffee.",
+          "prompt": "Put the German words in order to ask what one coffee costs.",
           "answers": [
             "Was kostet ein Kaffee?"
           ],
-          "explanation": "Was kostet asks what one thing costs.",
+          "explanation": "Was kostet goes first as a fixed pair, then the thing being priced. Ein Kaffee here is the label form of 'one coffee'.",
           "vocabulary": [
             "de-numbers-quantities-word-3"
           ],
@@ -749,7 +747,7 @@
           "answers": [
             "Zwei Äpfel, bitte."
           ],
-          "explanation": "Äpfel is plural and remains capitalized.",
+          "explanation": "Äpfel is a noun, so it keeps its capital and takes a plural ending on top of it. The number itself stays zwei.",
           "vocabulary": [
             "de-numbers-quantities-word-4",
             "de-cafe-requests-word-4"
@@ -762,11 +760,11 @@
           "kind": "think",
           "mode": "production",
           "thinkSeconds": 8,
-          "prompt": "Think: you want one coffee. Ask its price, then write the question.",
+          "prompt": "Think: you want one coffee and no price is on the board. Ask the question in German, then write it.",
           "answers": [
             "Was kostet ein Kaffee?"
           ],
-          "explanation": "The learned price question is Was kostet, followed by the item.",
+          "explanation": "Was kostet asks the price of one thing, and you have just built this question. Say it aloud before you check.",
           "vocabulary": [
             "de-numbers-quantities-word-3"
           ],
@@ -779,7 +777,7 @@
       "id": "de-directions-foundation",
       "unitId": "de-unit-3",
       "title": "Asking the way",
-      "objective": "Ask where something is and follow a two-step direction.",
+      "objective": "Ask about any place with German's one fixed question frame, then walk a route given in two chunks.",
       "cefr": "A1",
       "prerequisites": [
         "de-numbers-quantities-foundation"
@@ -793,7 +791,7 @@
         "de-directions-word-3",
         "de-directions-word-4"
       ],
-      "explanation": "Wo means where, and it asks about a place: Wo ist der Bahnhof? Directions arrive as short chunks worth learning whole: geradeaus (straight ahead), links (left), rechts (right). German puts the direction first and then the next step, separated by dann: Geradeaus, dann links. Adding Entschuldigung at the front turns a bare question into a polite one, the way excuse me does in English.",
+      "explanation": "German asks where by putting wo first and the verb immediately after it: Wo ist der Bahnhof? The station is a compound noun, Bahn glued to Hof, which is why it wears a capital even halfway through a sentence. Directions come as ready-made chunks, geradeaus, links, rechts, with dann joining the second step to the first. Open with Entschuldigung and the bare question turns polite.",
       "examples": [
         {
           "target": "Wo ist der Bahnhof?",
@@ -815,11 +813,11 @@
           "conceptId": "de-directions-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "You need to ask where something is. Which word does that?",
+          "prompt": "German's question word takes the front slot and the verb has to follow it. Which of these words is 'where'?",
           "answers": [
             "wo"
           ],
-          "explanation": "Wo asks about a place. Wer asks who, and was asks what.",
+          "explanation": "Wo asks about a place, and it takes the front slot so that ist can take the second. Wer is its counterpart for a person, was for a thing.",
           "vocabulary": [
             "de-directions-word-1",
             "de-directions-word-2",
@@ -841,12 +839,12 @@
           "conceptId": "de-directions-concept",
           "kind": "reading",
           "mode": "recognition",
-          "prompt": "Read the exchange. Which direction comes first?",
+          "prompt": "Read the exchange and pick out the very first direction the passer-by gives.",
           "answers": [
             "Straight ahead.",
             "Straight ahead"
           ],
-          "explanation": "The first instruction is geradeaus; links comes after dann, as the second step.",
+          "explanation": "The first step is geradeaus, straight ahead. The second one, after dann, is rechts.",
           "vocabulary": [
             "de-directions-word-1",
             "de-directions-word-2",
@@ -856,19 +854,19 @@
           "reviewOf": [
             "de-numbers-quantities-foundation"
           ],
-          "passage": "Tourist: Entschuldigung, wo ist der Bahnhof?\nPasser-by: Geradeaus, dann links.\nTourist: Danke!",
-          "translation": "Tourist: Excuse me, where is the station?\nPasser-by: Straight ahead, then left.\nTourist: Thank you!"
+          "passage": "Tourist: Entschuldigung, wo ist die Toilette?\nPasser-by: Geradeaus, dann rechts.\nTourist: Vielen Dank!",
+          "translation": "Tourist: Excuse me, where is the toilet?\nPasser-by: Straight ahead, then right.\nTourist: Many thanks!"
         },
         {
           "id": "de-directions-foundation-build",
           "conceptId": "de-directions-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the question that asks where the station is.",
+          "prompt": "Put the German words in order to ask where the station is.",
           "answers": [
             "Wo ist der Bahnhof?"
           ],
-          "explanation": "Wo opens the question, the verb ist comes second, and der Bahnhof closes it.",
+          "explanation": "Wo takes the first slot, so ist must follow immediately. Bahnhof is a compound noun and keeps its capital and its masculine der.",
           "vocabulary": [
             "de-directions-word-1"
           ],
@@ -887,11 +885,11 @@
           "conceptId": "de-directions-concept",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Ask where the toilet is.",
+          "prompt": "Ask in German where the toilet is. Toilette is feminine.",
           "answers": [
             "Wo ist die Toilette?"
           ],
-          "explanation": "Toilette is feminine, so the article is die.",
+          "explanation": "The frame Wo ist does not change; only the noun and its article do, and die marks the feminine Toilette.",
           "vocabulary": [
             "de-directions-word-1"
           ],
@@ -908,7 +906,7 @@
           "answers": [
             "links"
           ],
-          "explanation": "Links is left. Rechts would send the learner the other way.",
+          "explanation": "Links is left. Rechts would send you the other way, and it is the word the second step used in the exchange you read.",
           "vocabulary": [
             "de-directions-word-2",
             "de-directions-word-3",
@@ -923,11 +921,11 @@
           "conceptId": "de-directions-concept",
           "kind": "transform",
           "mode": "production",
-          "prompt": "Make the question polite by putting Entschuldigung in front: Wo ist der Bahnhof?",
+          "prompt": "Turn the bare question into a polite one by putting Entschuldigung first: Wo ist der Bahnhof?",
           "answers": [
             "Entschuldigung, wo ist der Bahnhof?"
           ],
-          "explanation": "Entschuldigung leads the sentence and a comma separates it from the question.",
+          "explanation": "Entschuldigung takes the very front, ahead of wo, and a comma separates it from the question it softens.",
           "vocabulary": [
             "de-directions-word-1"
           ],
@@ -942,7 +940,7 @@
       "id": "de-shopping-foundation",
       "unitId": "de-unit-3",
       "title": "Prices and paying",
-      "objective": "Ask what something costs, react to the price, and ask for the bill.",
+      "objective": "Read a German price tag out loud, ask what something costs, and choose the word for cheap a shopkeeper will not wince at.",
       "cefr": "A1",
       "prerequisites": [
         "de-directions-foundation"
@@ -956,7 +954,7 @@
         "de-shopping-word-3",
         "de-shopping-word-4"
       ],
-      "explanation": "Was kostet ...? literally asks what does something cost, and it is the standard way to ask a price. Answer it with a number and Euro. Teuer means expensive and günstig means inexpensive. To disagree, put nicht before the adjective: Es ist nicht teuer. The bill is die Rechnung, a feminine noun, and it takes bitte to become a request.",
+      "explanation": "German writes its prices with a comma where English writes a point and puts the Euro sign afterwards, so 3,50 € reads three euros fifty. The price question is a verb-second question: Was kostet das? places the question word first and the verb right behind it. Günstig means good value, while billig also means cheap but carries a hint of shoddy goods, and the shopkeeper will hear the difference.",
       "examples": [
         {
           "target": "Was kostet der Kaffee?",
@@ -978,11 +976,11 @@
           "conceptId": "de-shopping-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which question asks the price of something?",
+          "prompt": "German puts the verb straight after the question word. Which of these lines asks what something costs?",
           "answers": [
             "Was kostet das?"
           ],
-          "explanation": "Kostet comes from kosten, to cost, and was asks what.",
+          "explanation": "Was kostet das? is the price question: Was first, then the verb kostet. Wie geht es? asks after someone's health, and Wo ist das? asks where something is.",
           "vocabulary": [
             "de-shopping-word-1",
             "de-shopping-word-2",
@@ -1003,11 +1001,11 @@
           "conceptId": "de-shopping-concept",
           "kind": "transform",
           "mode": "production",
-          "prompt": "Say that it is not expensive: Es ist teuer.",
+          "prompt": "Nicht stands in front of the adjective it cancels. Make «Es ist teuer.» say the opposite.",
           "answers": [
             "Es ist nicht teuer."
           ],
-          "explanation": "Nicht goes directly before the adjective it negates.",
+          "explanation": "Es ist nicht teuer puts nicht immediately before teuer; German will not let the nicht drift to the end of the sentence the way English lets the not.",
           "vocabulary": [
             "de-shopping-word-2"
           ],
@@ -1020,11 +1018,11 @@
           "conceptId": "de-shopping-concept",
           "kind": "think",
           "mode": "production",
-          "prompt": "You want to know what a coffee costs. Ask the question.",
+          "prompt": "You are at a Berlin café counter with a single Kaffee in mind. Ask what it costs.",
           "answers": [
             "Was kostet ein Kaffee?"
           ],
-          "explanation": "Kaffee is masculine, and here it is the subject, so the article stays ein.",
+          "explanation": "Kaffee is masculine and is the subject here, so the article stays ein and the question reads Was kostet ein Kaffee?",
           "vocabulary": [
             "de-shopping-word-1"
           ],
@@ -1038,11 +1036,11 @@
           "conceptId": "de-shopping-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the sentence that says this is too expensive.",
+          "prompt": "The loaf on the counter is priced at six euros. Arrange the words into a complaint that it is too expensive.",
           "answers": [
             "Das ist zu teuer."
           ],
-          "explanation": "Zu means too here, and it sits before the adjective.",
+          "explanation": "Zu is the 'too', and it stands right before teuer, so the whole line becomes Das ist zu teuer.",
           "vocabulary": [
             "de-shopping-word-2"
           ],
@@ -1061,12 +1059,12 @@
           "conceptId": "de-shopping-concept",
           "kind": "translate",
           "mode": "production",
-          "prompt": "Ask for the bill.",
+          "prompt": "You have finished eating in a German restaurant. Ask for the bill.",
           "answers": [
             "Die Rechnung, bitte.",
             "Die Rechnung bitte."
           ],
-          "explanation": "Rechnung is feminine, so the article is die.",
+          "explanation": "Rechnung is feminine, so it takes die, and a bare bitte after it turns the statement into a request.",
           "vocabulary": [
             "de-shopping-word-4"
           ],
@@ -1079,11 +1077,11 @@
           "conceptId": "de-shopping-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the price question: ___ kostet der Kaffee?",
+          "prompt": "The price frame is fixed. Fill its missing first word: ___ kostet der Kaffee?",
           "answers": [
             "Was"
           ],
-          "explanation": "Was kostet is the fixed frame for asking a price.",
+          "explanation": "Was kostet is the frame every German price question uses, and kostet agrees with der Kaffee.",
           "vocabulary": [
             "de-shopping-word-1"
           ],
@@ -1098,7 +1096,7 @@
       "id": "de-time-days-foundation",
       "unitId": "de-unit-4",
       "title": "Days and times",
-      "objective": "Name days, place an action on a day, and say what today is.",
+      "objective": "Meet the sun, the moon and the old gods hiding in the German week, and the one weekday that names nobody.",
       "cefr": "A1",
       "prerequisites": [
         "de-shopping-foundation"
@@ -1112,7 +1110,7 @@
         "de-time-days-word-3",
         "de-time-days-word-4"
       ],
-      "explanation": "Heute means today and morgen means tomorrow. Weekday names are masculine and take am when you mean on that day: am Montag, on Monday. German word order puts the time first when it is the topic of the sentence: Am Montag arbeite ich, on Monday I work, with the verb in second position and ich after it.",
+      "explanation": "Most German weekdays are a small pantheon. Sonntag and Montag carry the sun and the moon; Dienstag, Donnerstag and Freitag keep the names of old gods, and only Mittwoch names nobody at all — it simply marks the middle of the week. The days are masculine, so ‘on Monday’ is am Montag. And mind the capital letter: morgen is tomorrow, but der Morgen is the morning.",
       "examples": [
         {
           "target": "Heute ist Mittwoch.",
@@ -1134,11 +1132,17 @@
           "conceptId": "de-time-days-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which word means today?",
+          "prompt": "A Berlin calendar marks each day with one word. Which is the word for today?",
           "answers": [
             "heute"
           ],
-          "explanation": "Heute is today. Morgen is tomorrow, and Montag is Monday.",
+          "options": [
+            "heute",
+            "morgen",
+            "Mittwoch",
+            "Woche"
+          ],
+          "explanation": "Heute is the one. Morgen, Mittwoch and Woche name tomorrow, Wednesday and the week.",
           "vocabulary": [
             "de-time-days-word-1",
             "de-time-days-word-2",
@@ -1147,12 +1151,28 @@
           ],
           "reviewOf": [
             "de-shopping-foundation"
+          ]
+        },
+        {
+          "id": "de-time-days-foundation-notice",
+          "conceptId": "de-time-days-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Most German weekdays carry a sun, a moon or a god. Which one names nobody and simply marks the middle of the week?",
+          "answers": [
+            "Mittwoch"
           ],
           "options": [
-            "morgen",
-            "Montag",
-            "heute",
-            "Woche"
+            "Mittwoch",
+            "Donnerstag",
+            "Sonntag"
+          ],
+          "explanation": "Mittwoch is literally mid-week. Donnerstag thunders with Donar and Sonntag belongs to the sun.",
+          "vocabulary": [
+            "de-time-days-word-4"
+          ],
+          "reviewOf": [
+            "de-shopping-foundation"
           ]
         },
         {
@@ -1160,43 +1180,20 @@
           "conceptId": "de-time-days-concept",
           "kind": "reading",
           "mode": "recognition",
-          "prompt": "Read the week. What day is it today?",
+          "prompt": "Read the week. Which day does the passage place in the middle?",
           "answers": [
-            "Wednesday.",
-            "Wednesday",
-            "It is Wednesday."
+            "Mittwoch",
+            "Wednesday"
           ],
-          "explanation": "Heute ist Mittwoch gives the answer directly in the third sentence.",
+          "passage": "Sonntag ist der Tag der Sonne. Am Montag arbeite ich. Am Dienstag lerne ich Deutsch. Mittwoch ist die Mitte der Woche. Am Donnerstag regnet es.",
+          "translation": "Sunday is the day of the sun. On Monday I work. On Tuesday I learn German. Wednesday is the middle of the week. On Thursday it rains.",
+          "explanation": "The fourth sentence says it outright: Mittwoch ist die Mitte der Woche.",
           "vocabulary": [
-            "de-time-days-word-1",
-            "de-time-days-word-2"
+            "de-time-days-word-3",
+            "de-time-days-word-4"
           ],
           "reviewOf": [
             "de-shopping-foundation"
-          ],
-          "passage": "Am Montag arbeite ich. Am Dienstag lerne ich Deutsch. Heute ist Mittwoch. Morgen ist Donnerstag.",
-          "translation": "On Monday I work. On Tuesday I learn German. Today is Wednesday. Tomorrow is Thursday."
-        },
-        {
-          "id": "de-time-days-foundation-notice",
-          "conceptId": "de-time-days-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "According to the week you just read, which day comes next?",
-          "answers": [
-            "Donnerstag"
-          ],
-          "explanation": "Morgen ist Donnerstag names the following day.",
-          "vocabulary": [
-            "de-time-days-word-2"
-          ],
-          "reviewOf": [
-            "de-shopping-foundation"
-          ],
-          "options": [
-            "Montag",
-            "Dienstag",
-            "Donnerstag"
           ]
         },
         {
@@ -1204,21 +1201,22 @@
           "conceptId": "de-time-days-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the sentence that says today is Wednesday.",
+          "prompt": "Build the German sentence for on Monday I work, with the day in first position.",
           "answers": [
-            "Heute ist Mittwoch."
+            "Am Montag arbeite ich."
           ],
-          "explanation": "The time comes first and the verb second.",
+          "tokens": [
+            "ich.",
+            "arbeite",
+            "Montag",
+            "Am"
+          ],
+          "explanation": "German likes the day in front: Am Montag, then the verb arbeite, then ich.",
           "vocabulary": [
-            "de-time-days-word-1"
+            "de-time-days-word-3"
           ],
           "reviewOf": [
             "de-shopping-foundation"
-          ],
-          "tokens": [
-            "Mittwoch.",
-            "ist",
-            "Heute"
           ]
         },
         {
@@ -1226,11 +1224,11 @@
           "conceptId": "de-time-days-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the sentence: Morgen ___ Donnerstag.",
+          "prompt": "Complete with the noun for the morning, not the word for tomorrow: Der ___ ist kalt.",
           "answers": [
-            "ist"
+            "Morgen"
           ],
-          "explanation": "The same frame as Heute ist Mittwoch, with morgen in place of heute.",
+          "explanation": "Der Morgen, with the capital letter and the article, is the morning; morgen alone means tomorrow.",
           "vocabulary": [
             "de-time-days-word-2"
           ],
@@ -1243,14 +1241,13 @@
           "conceptId": "de-time-days-concept",
           "kind": "think",
           "mode": "production",
-          "prompt": "Predict the sentence before you write it: today is Monday.",
+          "prompt": "Predict the sentence before you write it: today is Sunday.",
           "answers": [
-            "Heute ist Montag."
+            "Heute ist Sonntag."
           ],
-          "explanation": "Heute ist plus the day name, the same frame as the model.",
+          "explanation": "Heute ist plus the day. Sonntag is the sun's day, the name sitting in plain sight.",
           "vocabulary": [
-            "de-time-days-word-1",
-            "de-time-days-word-3"
+            "de-time-days-word-1"
           ],
           "reviewOf": [
             "de-shopping-foundation"
@@ -1267,7 +1264,7 @@
             "On Monday I work.",
             "I work on Monday."
           ],
-          "explanation": "German puts the day first and the verb second; English usually puts the subject first.",
+          "explanation": "German opens with the day and puts the verb straight after it: am Montag, then arbeite.",
           "vocabulary": [
             "de-time-days-word-3"
           ],
@@ -1282,7 +1279,7 @@
       "id": "de-family-people-foundation",
       "unitId": "de-unit-4",
       "title": "Family and people",
-      "objective": "Name close family members and say who you have, with the right article.",
+      "objective": "Give each relative the right article, move the masculine article into the accusative, and meet the plural words German keeps.",
       "cefr": "A1",
       "prerequisites": [
         "de-time-days-foundation"
@@ -1296,7 +1293,7 @@
         "de-family-people-word-3",
         "de-family-people-word-4"
       ],
-      "explanation": "German nouns carry one of three genders, and the article changes with them: der Bruder (masculine), die Schwester (feminine), die Eltern (plural). When you say you have something, the article shifts to the accusative: Ich habe einen Bruder, but Ich habe eine Schwester, and the plural takes no article change. Meine Familie is my family; possessives follow the same gender pattern as the nouns.",
+      "explanation": "German puts each noun into one of three genders and shows it in the article: der Bruder, die Schwester, die Eltern. The accusative only shows on masculine nouns — Ich habe einen Bruder, but Ich habe eine Schwester. Eltern has no singular, and Geschwister packs brothers and sisters into a single plural with no singular of its own, so German can say siblings in one word and cannot say one sibling in one word.",
       "examples": [
         {
           "target": "Ich habe einen Bruder.",
@@ -1318,11 +1315,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which one means the sister?",
+          "prompt": "All four of these are nouns, so all four wear a capital letter. Which one is the sister?",
           "answers": [
             "die Schwester"
           ],
-          "explanation": "Schwester is the sister. Bruder is the brother, and Eltern are the parents.",
+          "explanation": "Schwester is the sister. Bruder is the brother, and Eltern are the parents, with Familie sitting behind all of them.",
           "vocabulary": [
             "de-family-people-word-1",
             "de-family-people-word-2",
@@ -1344,11 +1341,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "think",
           "mode": "production",
-          "prompt": "Predict the form before you write it: I have a brother.",
+          "prompt": "You have exactly one brother, and he is the object of your sentence. Predict the form before you write it: I have a brother.",
           "answers": [
             "Ich habe einen Bruder."
           ],
-          "explanation": "Bruder is masculine and it is the direct object, so ein becomes einen.",
+          "explanation": "Bruder is masculine and is the direct object, so ein becomes einen: Ich habe einen Bruder.",
           "vocabulary": [
             "de-family-people-word-2"
           ],
@@ -1362,11 +1359,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Which one is correct for I have a sister?",
+          "prompt": "Bruder is masculine and moves to einen as an object; Schwester does not move. Pick the sentence that says I have a sister.",
           "answers": [
             "Ich habe eine Schwester."
           ],
-          "explanation": "Schwester is feminine, and feminine nouns keep ein as eine in the accusative.",
+          "explanation": "Schwester is feminine, so the article stays eine in the accusative. Only masculine nouns change, which is why einen Schwester cannot be right.",
           "vocabulary": [
             "de-family-people-word-3"
           ],
@@ -1384,11 +1381,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "order",
           "mode": "production",
-          "prompt": "Build the sentence that says this is my family.",
+          "prompt": "Arrange the words to say this is my family.",
           "answers": [
             "Das ist meine Familie."
           ],
-          "explanation": "Familie is feminine, so my is meine.",
+          "explanation": "Familie is feminine, so the possessive is meine, and the whole line reads Das ist meine Familie.",
           "vocabulary": [
             "de-family-people-word-1"
           ],
@@ -1407,11 +1404,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "transform",
           "mode": "production",
-          "prompt": "Change one sister into two sisters: Ich habe eine Schwester.",
+          "prompt": "Give the sentence a second sister: Ich habe eine Schwester.",
           "answers": [
             "Ich habe zwei Schwestern."
           ],
-          "explanation": "The plural add -n to Schwester, and eine becomes zwei.",
+          "explanation": "The plural adds -n to Schwester, and eine becomes zwei: Ich habe zwei Schwestern.",
           "vocabulary": [
             "de-family-people-word-3"
           ],
@@ -1424,11 +1421,11 @@
           "conceptId": "de-family-people-concept",
           "kind": "cloze",
           "mode": "production",
-          "prompt": "Complete the sentence: Meine ___ wohnen in Berlin.",
+          "prompt": "The word for parents is plural and has no singular. Fill it in: Meine ___ wohnen in Berlin.",
           "answers": [
             "Eltern"
           ],
-          "explanation": "Eltern is plural, which is why the verb is wohnen rather than wohnt.",
+          "explanation": "Eltern is plural, which is why the verb is wohnen and not wohnt.",
           "vocabulary": [
             "de-family-people-word-4"
           ],
@@ -1441,13 +1438,13 @@
           "conceptId": "de-family-people-concept",
           "kind": "reading",
           "mode": "recognition",
-          "prompt": "Read about the family. Where do the parents live?",
+          "prompt": "Read the note about a family that has scattered. Which city have the parents stayed in?",
           "answers": [
             "Berlin.",
             "Berlin",
             "In Berlin."
           ],
-          "explanation": "The last sentence places the parents in Berlin.",
+          "explanation": "The last sentence leaves the parents in Berlin while the brother and sister are elsewhere.",
           "vocabulary": [
             "de-family-people-word-1",
             "de-family-people-word-4"
@@ -1455,8 +1452,8 @@
           "reviewOf": [
             "de-time-days-foundation"
           ],
-          "passage": "Meine Familie ist klein. Mein Bruder heißt Max. Meine Schwester heißt Anna. Meine Eltern wohnen in Berlin.",
-          "translation": "My family is small. My brother is called Max. My sister is called Anna. My parents live in Berlin."
+          "passage": "Ich habe eine kleine Familie: einen Bruder und eine Schwester. Mein Bruder wohnt noch in Hamburg, meine Schwester ist nach Wien gezogen. Nur meine Eltern sind in Berlin geblieben.",
+          "translation": "I have a small family: one brother and one sister. My brother still lives in Hamburg, my sister has moved to Vienna. Only my parents have stayed in Berlin."
         }
       ],
       "optionalExerciseIds": []
