@@ -772,6 +772,30 @@ button.lp-secondary:disabled {
   accent-color: var(--accent, #a8511f);
 }
 
+/* The speaking step's recorder. It sits above the model reveal so the learner
+ * produces the line before seeing it; see activities/SelfCompareActivity.tsx. */
+.lp-record {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1.5px solid var(--lp-border);
+  border-radius: 10px;
+  background: var(--lp-surface);
+}
+
+.lp-record-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.lp-record-note {
+  margin: 0;
+  color: var(--lp-muted);
+  font-size: 12px;
+}
+
 /* A progress element is a promise about how far you have come; the browser
  * default renders it as a flat grey bar with no relationship to anything. */
 .lesson-player progress,

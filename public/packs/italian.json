@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "id": "it-foundations",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "language": "it",
   "status": "active",
   "title": "Italian foundations",
@@ -10699,6 +10699,464 @@
         "grazie"
       ],
       "multiple": false
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-people-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-people-concept"
+      ],
+      "vocabulary": [
+        "it-people-word-1",
+        "it-people-word-2",
+        "it-people-word-3",
+        "it-people-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "You recognize Marco at a café. Address him in Italian: You are Marco.",
+      "modelText": "Tu sei Marco.",
+      "modelAudioId": "it-people-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-family-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-family-concept"
+      ],
+      "vocabulary": [
+        "it-family-word-1",
+        "it-family-word-2",
+        "it-family-word-3",
+        "it-family-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "A new friend asks about your family. Tell them in Italian: I have a brother.",
+      "modelText": "Ho un fratello.",
+      "modelAudioId": "it-family-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-numbers-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-numbers-concept"
+      ],
+      "vocabulary": [
+        "it-numbers-word-1",
+        "it-numbers-word-2",
+        "it-numbers-word-3",
+        "it-numbers-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I am twenty years old.",
+      "modelText": "Ho venti anni.",
+      "modelAudioId": "it-numbers-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-home-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-home-concept"
+      ],
+      "vocabulary": [
+        "it-home-word-1",
+        "it-home-word-2",
+        "it-home-word-3",
+        "it-home-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I have a house.",
+      "modelText": "Ho una casa.",
+      "modelAudioId": "it-home-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-descriptions-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-descriptions-concept"
+      ],
+      "vocabulary": [
+        "it-descriptions-word-1",
+        "it-descriptions-word-2",
+        "it-descriptions-word-3",
+        "it-descriptions-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: The house is white.",
+      "modelText": "La casa è bianca.",
+      "modelAudioId": "it-descriptions-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-plural-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-plural-concept"
+      ],
+      "vocabulary": [
+        "it-plural-word-1",
+        "it-plural-word-2",
+        "it-plural-word-3",
+        "it-plural-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: The books are white.",
+      "modelText": "I libri sono bianchi.",
+      "modelAudioId": "it-plural-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-routine-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-routine-concept"
+      ],
+      "vocabulary": [
+        "it-routine-word-1",
+        "it-routine-word-2",
+        "it-routine-word-3",
+        "it-routine-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I study every day.",
+      "modelText": "Studio ogni giorno.",
+      "modelAudioId": "it-routine-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-negation-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-negation-concept"
+      ],
+      "vocabulary": [
+        "it-negation-word-1",
+        "it-negation-word-2",
+        "it-negation-word-3",
+        "it-negation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I do not work at home.",
+      "modelText": "Non lavoro in casa.",
+      "modelAudioId": "it-negation-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-food-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-food-concept"
+      ],
+      "vocabulary": [
+        "it-food-word-1",
+        "it-food-word-2",
+        "it-food-word-3",
+        "it-food-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I will have a coffee.",
+      "modelText": "Prendo un caffè.",
+      "modelAudioId": "it-food-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-possession-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-possession-concept"
+      ],
+      "vocabulary": [
+        "it-possession-word-1",
+        "it-possession-word-2",
+        "it-possession-word-3",
+        "it-possession-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: My house is white.",
+      "modelText": "La mia casa è bianca.",
+      "modelAudioId": "it-possession-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-transport-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-transport-concept"
+      ],
+      "vocabulary": [
+        "it-transport-word-1",
+        "it-transport-word-2",
+        "it-transport-word-3",
+        "it-transport-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I am going to the station.",
+      "modelText": "Vado alla stazione.",
+      "modelAudioId": "it-transport-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-requests-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-requests-concept"
+      ],
+      "vocabulary": [
+        "it-requests-word-1",
+        "it-requests-word-2",
+        "it-requests-word-3",
+        "it-requests-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Can I have a coffee?",
+      "modelText": "Posso prendere un caffè?",
+      "modelAudioId": "it-requests-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-reflexive-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-reflexive-concept"
+      ],
+      "vocabulary": [
+        "it-reflexive-word-1",
+        "it-reflexive-word-2",
+        "it-reflexive-word-3",
+        "it-reflexive-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I get up at seven.",
+      "modelText": "Mi alzo alle sette.",
+      "modelAudioId": "it-reflexive-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-past-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-past-concept"
+      ],
+      "vocabulary": [
+        "it-past-word-1",
+        "it-past-word-2",
+        "it-past-word-3",
+        "it-past-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Yesterday I ate.",
+      "modelText": "Ieri ho mangiato."
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-plans-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-plans-concept"
+      ],
+      "vocabulary": [
+        "it-plans-word-1",
+        "it-plans-word-2",
+        "it-plans-word-3",
+        "it-plans-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Tomorrow I am going to Rome.",
+      "modelText": "Domani vado a Roma.",
+      "modelAudioId": "it-plans-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-days-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-days-concept"
+      ],
+      "vocabulary": [
+        "it-days-foundation-word-1",
+        "it-days-foundation-word-2",
+        "it-days-foundation-word-3",
+        "it-days-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Today is Monday.",
+      "modelText": "Oggi è lunedì.",
+      "modelAudioId": "it-days-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-time-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-time-concept"
+      ],
+      "vocabulary": [
+        "it-time-foundation-word-1",
+        "it-time-foundation-word-2",
+        "it-time-foundation-word-3",
+        "it-time-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: It is half past three.",
+      "modelText": "Sono le tre e mezza.",
+      "modelAudioId": "it-time-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-weather-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-weather-concept"
+      ],
+      "vocabulary": [
+        "it-weather-foundation-word-1",
+        "it-weather-foundation-word-2",
+        "it-weather-foundation-word-3",
+        "it-weather-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: It is cold today.",
+      "modelText": "Oggi fa freddo."
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-market-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-market-concept"
+      ],
+      "vocabulary": [
+        "it-market-foundation-word-1",
+        "it-market-foundation-word-2",
+        "it-market-foundation-word-3",
+        "it-market-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: How much is a kilo of apples?",
+      "modelText": "Quanto costa un chilo di mele?",
+      "modelAudioId": "it-market-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-health-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-health-concept"
+      ],
+      "vocabulary": [
+        "it-health-foundation-word-1",
+        "it-health-foundation-word-2",
+        "it-health-foundation-word-3",
+        "it-health-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: My head hurts.",
+      "modelText": "Mi fa male la testa.",
+      "modelAudioId": "it-health-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-pharmacy-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-pharmacy-concept"
+      ],
+      "vocabulary": [
+        "it-pharmacy-foundation-word-1",
+        "it-pharmacy-foundation-word-2",
+        "it-pharmacy-foundation-word-3",
+        "it-pharmacy-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: I need some medicine.",
+      "modelText": "Ho bisogno di una medicina.",
+      "modelAudioId": "it-pharmacy-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-emergency-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-emergency-concept"
+      ],
+      "vocabulary": [
+        "it-emergency-foundation-word-1",
+        "it-emergency-foundation-word-2",
+        "it-emergency-foundation-word-3",
+        "it-emergency-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Help! Call an ambulance!",
+      "modelText": "Aiuto! Chiami un’ambulanza!",
+      "modelAudioId": "it-emergency-foundation-model"
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-invitations-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-invitations-concept"
+      ],
+      "vocabulary": [
+        "it-invitations-foundation-word-1",
+        "it-invitations-foundation-word-2",
+        "it-invitations-foundation-word-3",
+        "it-invitations-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
+      "modelText": "Vuoi venire a cena sabato?",
+      "modelAudioId": "it-invitations-foundation-model"
     }
   ],
   "lessons": [
@@ -11261,7 +11719,15 @@
           "purpose": "practice",
           "activityId": "it-people-foundation-produce",
           "required": true,
-          "nextStepId": "it-people-foundation-step-it-people-foundation-read"
+          "nextStepId": "it-people-foundation-step-say"
+        },
+        {
+          "id": "it-people-foundation-step-say",
+          "activityId": "it-people-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-people-foundation-step-it-people-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-people-foundation-step-it-people-foundation-read",
@@ -11538,7 +12004,15 @@
           "purpose": "practice",
           "activityId": "it-family-foundation-produce",
           "required": true,
-          "nextStepId": "it-family-foundation-step-it-family-foundation-order"
+          "nextStepId": "it-family-foundation-step-say"
+        },
+        {
+          "id": "it-family-foundation-step-say",
+          "activityId": "it-family-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-family-foundation-step-it-family-foundation-order",
+          "branches": {}
         },
         {
           "id": "it-family-foundation-step-it-family-foundation-order",
@@ -11865,7 +12339,15 @@
           "purpose": "practice",
           "activityId": "it-numbers-foundation-produce",
           "required": true,
-          "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-review"
+          "nextStepId": "it-numbers-foundation-step-say"
+        },
+        {
+          "id": "it-numbers-foundation-step-say",
+          "activityId": "it-numbers-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-numbers-foundation-step-it-numbers-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-numbers-foundation-step-it-numbers-foundation-review",
@@ -12165,7 +12647,15 @@
           "purpose": "practice",
           "activityId": "it-home-foundation-produce",
           "required": true,
-          "nextStepId": "it-home-foundation-step-it-home-foundation-review"
+          "nextStepId": "it-home-foundation-step-say"
+        },
+        {
+          "id": "it-home-foundation-step-say",
+          "activityId": "it-home-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-home-foundation-step-it-home-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-home-foundation-step-it-home-foundation-review",
@@ -12452,7 +12942,15 @@
           "purpose": "practice",
           "activityId": "it-descriptions-foundation-produce",
           "required": true,
-          "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-read"
+          "nextStepId": "it-descriptions-foundation-step-say"
+        },
+        {
+          "id": "it-descriptions-foundation-step-say",
+          "activityId": "it-descriptions-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-descriptions-foundation-step-it-descriptions-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-descriptions-foundation-step-it-descriptions-foundation-read",
@@ -12758,7 +13256,15 @@
           "purpose": "practice",
           "activityId": "it-plural-foundation-produce",
           "required": true,
-          "nextStepId": "it-plural-foundation-step-it-plural-foundation-read"
+          "nextStepId": "it-plural-foundation-step-say"
+        },
+        {
+          "id": "it-plural-foundation-step-say",
+          "activityId": "it-plural-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-plural-foundation-step-it-plural-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-plural-foundation-step-it-plural-foundation-read",
@@ -13056,7 +13562,15 @@
           "purpose": "practice",
           "activityId": "it-routine-foundation-produce",
           "required": true,
-          "nextStepId": "it-routine-foundation-step-it-routine-foundation-read"
+          "nextStepId": "it-routine-foundation-step-say"
+        },
+        {
+          "id": "it-routine-foundation-step-say",
+          "activityId": "it-routine-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-routine-foundation-step-it-routine-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-routine-foundation-step-it-routine-foundation-read",
@@ -13361,7 +13875,15 @@
           "purpose": "practice",
           "activityId": "it-negation-foundation-produce",
           "required": true,
-          "nextStepId": "it-negation-foundation-step-it-negation-foundation-review"
+          "nextStepId": "it-negation-foundation-step-say"
+        },
+        {
+          "id": "it-negation-foundation-step-say",
+          "activityId": "it-negation-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-negation-foundation-step-it-negation-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-negation-foundation-step-it-negation-foundation-review",
@@ -13655,7 +14177,15 @@
           "purpose": "practice",
           "activityId": "it-food-foundation-produce",
           "required": true,
-          "nextStepId": "it-food-foundation-step-it-food-foundation-order"
+          "nextStepId": "it-food-foundation-step-say"
+        },
+        {
+          "id": "it-food-foundation-step-say",
+          "activityId": "it-food-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-food-foundation-step-it-food-foundation-order",
+          "branches": {}
         },
         {
           "id": "it-food-foundation-step-it-food-foundation-order",
@@ -13989,7 +14519,15 @@
           "purpose": "practice",
           "activityId": "it-possession-foundation-produce",
           "required": true,
-          "nextStepId": "it-possession-foundation-step-it-possession-foundation-review"
+          "nextStepId": "it-possession-foundation-step-say"
+        },
+        {
+          "id": "it-possession-foundation-step-say",
+          "activityId": "it-possession-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-possession-foundation-step-it-possession-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-possession-foundation-step-it-possession-foundation-review",
@@ -14275,7 +14813,15 @@
           "purpose": "practice",
           "activityId": "it-transport-foundation-produce",
           "required": true,
-          "nextStepId": "it-transport-foundation-step-it-transport-foundation-read"
+          "nextStepId": "it-transport-foundation-step-say"
+        },
+        {
+          "id": "it-transport-foundation-step-say",
+          "activityId": "it-transport-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-transport-foundation-step-it-transport-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-transport-foundation-step-it-transport-foundation-read",
@@ -14580,7 +15126,15 @@
           "purpose": "practice",
           "activityId": "it-requests-foundation-produce",
           "required": true,
-          "nextStepId": "it-requests-foundation-step-it-requests-foundation-read"
+          "nextStepId": "it-requests-foundation-step-say"
+        },
+        {
+          "id": "it-requests-foundation-step-say",
+          "activityId": "it-requests-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-requests-foundation-step-it-requests-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-requests-foundation-step-it-requests-foundation-read",
@@ -14943,7 +15497,15 @@
           "purpose": "practice",
           "activityId": "it-reflexive-foundation-produce",
           "required": true,
-          "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-review"
+          "nextStepId": "it-reflexive-foundation-step-say"
+        },
+        {
+          "id": "it-reflexive-foundation-step-say",
+          "activityId": "it-reflexive-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-reflexive-foundation-step-it-reflexive-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-reflexive-foundation-step-it-reflexive-foundation-review",
@@ -15236,7 +15798,15 @@
           "purpose": "practice",
           "activityId": "it-past-foundation-produce",
           "required": true,
-          "nextStepId": "it-past-foundation-step-it-past-foundation-read"
+          "nextStepId": "it-past-foundation-step-say"
+        },
+        {
+          "id": "it-past-foundation-step-say",
+          "activityId": "it-past-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-past-foundation-step-it-past-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-past-foundation-step-it-past-foundation-read",
@@ -15513,7 +16083,15 @@
           "purpose": "practice",
           "activityId": "it-plans-foundation-produce",
           "required": true,
-          "nextStepId": "it-plans-foundation-step-it-plans-foundation-order"
+          "nextStepId": "it-plans-foundation-step-say"
+        },
+        {
+          "id": "it-plans-foundation-step-say",
+          "activityId": "it-plans-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-plans-foundation-step-it-plans-foundation-order",
+          "branches": {}
         },
         {
           "id": "it-plans-foundation-step-it-plans-foundation-order",
@@ -15839,7 +16417,15 @@
           "purpose": "practice",
           "activityId": "it-days-foundation-produce",
           "required": true,
-          "nextStepId": "it-days-foundation-step-it-days-foundation-review"
+          "nextStepId": "it-days-foundation-step-say"
+        },
+        {
+          "id": "it-days-foundation-step-say",
+          "activityId": "it-days-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-days-foundation-step-it-days-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-days-foundation-step-it-days-foundation-review",
@@ -16128,7 +16714,15 @@
           "purpose": "practice",
           "activityId": "it-time-foundation-produce",
           "required": true,
-          "nextStepId": "it-time-foundation-step-it-time-foundation-read"
+          "nextStepId": "it-time-foundation-step-say"
+        },
+        {
+          "id": "it-time-foundation-step-say",
+          "activityId": "it-time-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-time-foundation-step-it-time-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-time-foundation-step-it-time-foundation-read",
@@ -16442,7 +17036,15 @@
           "purpose": "practice",
           "activityId": "it-weather-foundation-produce",
           "required": true,
-          "nextStepId": "it-weather-foundation-step-it-weather-foundation-read"
+          "nextStepId": "it-weather-foundation-step-say"
+        },
+        {
+          "id": "it-weather-foundation-step-say",
+          "activityId": "it-weather-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-weather-foundation-step-it-weather-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-weather-foundation-step-it-weather-foundation-read",
@@ -16766,7 +17368,15 @@
           "purpose": "practice",
           "activityId": "it-market-foundation-produce",
           "required": true,
-          "nextStepId": "it-market-foundation-step-it-market-foundation-order"
+          "nextStepId": "it-market-foundation-step-say"
+        },
+        {
+          "id": "it-market-foundation-step-say",
+          "activityId": "it-market-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-market-foundation-step-it-market-foundation-order",
+          "branches": {}
         },
         {
           "id": "it-market-foundation-step-it-market-foundation-order",
@@ -17101,7 +17711,15 @@
           "purpose": "practice",
           "activityId": "it-health-foundation-produce",
           "required": true,
-          "nextStepId": "it-health-foundation-step-it-health-foundation-review"
+          "nextStepId": "it-health-foundation-step-say"
+        },
+        {
+          "id": "it-health-foundation-step-say",
+          "activityId": "it-health-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-health-foundation-step-it-health-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-health-foundation-step-it-health-foundation-review",
@@ -17392,7 +18010,15 @@
           "purpose": "practice",
           "activityId": "it-pharmacy-foundation-produce",
           "required": true,
-          "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-read"
+          "nextStepId": "it-pharmacy-foundation-step-say"
+        },
+        {
+          "id": "it-pharmacy-foundation-step-say",
+          "activityId": "it-pharmacy-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-pharmacy-foundation-step-it-pharmacy-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-pharmacy-foundation-step-it-pharmacy-foundation-read",
@@ -17711,7 +18337,15 @@
           "purpose": "practice",
           "activityId": "it-emergency-foundation-produce",
           "required": true,
-          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-review"
+          "nextStepId": "it-emergency-foundation-step-say"
+        },
+        {
+          "id": "it-emergency-foundation-step-say",
+          "activityId": "it-emergency-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-emergency-foundation-step-it-emergency-foundation-review",
+          "branches": {}
         },
         {
           "id": "it-emergency-foundation-step-it-emergency-foundation-review",
@@ -18007,7 +18641,15 @@
           "purpose": "practice",
           "activityId": "it-invitations-foundation-produce",
           "required": true,
-          "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-read"
+          "nextStepId": "it-invitations-foundation-step-say"
+        },
+        {
+          "id": "it-invitations-foundation-step-say",
+          "activityId": "it-invitations-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-invitations-foundation-step-it-invitations-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-invitations-foundation-step-it-invitations-foundation-read",
