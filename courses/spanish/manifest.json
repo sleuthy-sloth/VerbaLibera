@@ -91,7 +91,20 @@
       "id": "es-numbers-quantities-concept",
       "title": "Numbers and quantities",
       "explanation": "Spanish numbers are useful as chunks before you calculate with them. Learn one through ten in two short runs, then use cuánto cuesta to ask a price. One coffee costs one euro; two coffees cost two euros. Un changes to una before a feminine noun such as manzana.",
-      "examples": [{ "target": "Uno, dos, tres, cuatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }],
+      "examples": [
+        {
+          "target": "Uno, dos, tres, cuatro, cinco.",
+          "meaning": "One, two, three, four, five."
+        },
+        {
+          "target": "¿Cuánto cuesta un café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Dos manzanas, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
       "commonError": "Use cuánto for the price of one item. Keep una with manzana because it is feminine."
     },
     {
@@ -274,10 +287,34 @@
       "partOfSpeech": "word or expression",
       "example": "Un café, por favor."
     },
-    { "id": "es-numbers-quantities-word-1", "word": "uno, dos, tres, cuatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Uno, dos, tres, cuatro, cinco." },
-    { "id": "es-numbers-quantities-word-2", "word": "seis, siete, ocho, nueve, diez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, siete, ocho, nueve, diez." },
-    { "id": "es-numbers-quantities-word-3", "word": "¿Cuánto cuesta?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "¿Cuánto cuesta un café?" },
-    { "id": "es-numbers-quantities-word-4", "word": "una manzana", "meaning": "one apple", "partOfSpeech": "noun phrase", "example": "Una manzana, por favor." },
+    {
+      "id": "es-numbers-quantities-word-1",
+      "word": "uno, dos, tres, cuatro, cinco",
+      "meaning": "one through five",
+      "partOfSpeech": "number phrase",
+      "example": "Uno, dos, tres, cuatro, cinco."
+    },
+    {
+      "id": "es-numbers-quantities-word-2",
+      "word": "seis, siete, ocho, nueve, diez",
+      "meaning": "six through ten",
+      "partOfSpeech": "number phrase",
+      "example": "Seis, siete, ocho, nueve, diez."
+    },
+    {
+      "id": "es-numbers-quantities-word-3",
+      "word": "¿Cuánto cuesta?",
+      "meaning": "how much does it cost?",
+      "partOfSpeech": "question",
+      "example": "¿Cuánto cuesta un café?"
+    },
+    {
+      "id": "es-numbers-quantities-word-4",
+      "word": "una manzana",
+      "meaning": "one apple",
+      "partOfSpeech": "noun phrase",
+      "example": "Una manzana, por favor."
+    },
     {
       "id": "es-directions-word-1",
       "word": "dónde",
@@ -917,15 +954,133 @@
       "optionalExerciseIds": []
     },
     {
-      "id": "es-numbers-quantities-foundation", "unitId": "es-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["es-cafe-requests-foundation"], "conceptIds": ["es-numbers-quantities-concept"], "vocabulary": ["es-numbers-quantities-word-1", "es-numbers-quantities-word-2", "es-numbers-quantities-word-3", "es-numbers-quantities-word-4"],
-      "explanation": "Count one through ten as two short runs. Then use cuánto cuesta for the price of one thing. You already have por favor from the café; attach it to a quantity to make a small, polite order.", "examples": [{ "target": "¿Cuánto cuesta un café?", "meaning": "How much does a coffee cost?" }, { "target": "Dos manzanas, por favor.", "meaning": "Two apples, please." }], "culturalNote": "Prices may be said quickly. First listen for the number, then the item and the total.",
+      "id": "es-numbers-quantities-foundation",
+      "unitId": "es-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Recognize one to ten, ask a price, and order a small quantity.",
+      "cefr": "A1",
+      "prerequisites": [
+        "es-cafe-requests-foundation"
+      ],
+      "conceptIds": [
+        "es-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "es-numbers-quantities-word-1",
+        "es-numbers-quantities-word-2",
+        "es-numbers-quantities-word-3",
+        "es-numbers-quantities-word-4"
+      ],
+      "explanation": "Count one through ten as two short runs. Then use cuánto cuesta for the price of one thing. You already have por favor from the café; attach it to a quantity to make a small, polite order.",
+      "examples": [
+        {
+          "target": "¿Cuánto cuesta un café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Dos manzanas, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
+      "culturalNote": "Prices may be said quickly. First listen for the number, then the item and the total.",
       "exercises": [
-        { "id": "es-numbers-quantities-foundation-meet", "conceptId": "es-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Spanish number means three?", "answers": ["Tres."], "options": ["Dos.", "Tres.", "Seis.", "Diez."], "explanation": "Tres is three.", "vocabulary": ["es-numbers-quantities-word-1"], "reviewOf": ["es-cafe-requests-foundation"] },
-        { "id": "es-numbers-quantities-foundation-order", "conceptId": "es-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["¿Cuánto cuesta un café?"], "explanation": "Cuánto cuesta asks what one thing costs.", "vocabulary": ["es-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["¿Cuánto", "cuesta", "un", "café?"] },
-        { "id": "es-numbers-quantities-foundation-quantity", "conceptId": "es-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Spanish: Two apples, please.", "answers": ["Dos manzanas, por favor."], "explanation": "Dos stays the same before the plural noun manzanas.", "vocabulary": ["es-numbers-quantities-word-4", "es-cafe-requests-word-4"], "reviewOf": [] },
-        { "id": "es-numbers-quantities-foundation-read", "conceptId": "es-numbers-quantities-concept", "kind": "reading", "mode": "recognition", "prompt": "Read the price sign. How many euros is the tea?", "passage": "Café: dos euros. Té: tres euros.", "translation": "Coffee: two euros. Tea: three euros.", "answers": ["Three euros."], "explanation": "Té costs tres euros on this sign.", "vocabulary": ["es-numbers-quantities-word-1", "es-cafe-requests-word-3"], "reviewOf": [] },
-        { "id": "es-numbers-quantities-foundation-think", "conceptId": "es-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: a vendor has one apple. Ask its price, then write the question.", "answers": ["¿Cuánto cuesta una manzana?"], "explanation": "One apple is feminine: una manzana. The price question stays cuánto cuesta.", "vocabulary": ["es-numbers-quantities-word-3", "es-numbers-quantities-word-4"], "reviewOf": [] }
-      ], "optionalExerciseIds": []
+        {
+          "id": "es-numbers-quantities-foundation-meet",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which Spanish number means three?",
+          "answers": [
+            "Tres."
+          ],
+          "options": [
+            "Dos.",
+            "Tres.",
+            "Seis.",
+            "Diez."
+          ],
+          "explanation": "Tres is three.",
+          "vocabulary": [
+            "es-numbers-quantities-word-1"
+          ],
+          "reviewOf": [
+            "es-cafe-requests-foundation"
+          ]
+        },
+        {
+          "id": "es-numbers-quantities-foundation-order",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to ask the price of one coffee.",
+          "answers": [
+            "¿Cuánto cuesta un café?"
+          ],
+          "explanation": "Cuánto cuesta asks what one thing costs.",
+          "vocabulary": [
+            "es-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "tokens": [
+            "¿Cuánto",
+            "cuesta",
+            "un",
+            "café?"
+          ]
+        },
+        {
+          "id": "es-numbers-quantities-foundation-quantity",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say in Spanish: Two apples, please.",
+          "answers": [
+            "Dos manzanas, por favor."
+          ],
+          "explanation": "Dos stays the same before the plural noun manzanas.",
+          "vocabulary": [
+            "es-numbers-quantities-word-4",
+            "es-cafe-requests-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-numbers-quantities-foundation-read",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "reading",
+          "mode": "recognition",
+          "prompt": "Read the price sign. How many euros is the tea?",
+          "passage": "Café: dos euros. Té: tres euros.",
+          "translation": "Coffee: two euros. Tea: three euros.",
+          "answers": [
+            "Three euros."
+          ],
+          "explanation": "Té costs tres euros on this sign.",
+          "vocabulary": [
+            "es-numbers-quantities-word-1",
+            "es-cafe-requests-word-3"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "es-numbers-quantities-foundation-think",
+          "conceptId": "es-numbers-quantities-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8,
+          "prompt": "Think: a vendor has one apple. Ask its price, then write the question.",
+          "answers": [
+            "¿Cuánto cuesta una manzana?"
+          ],
+          "explanation": "One apple is feminine: una manzana. The price question stays cuánto cuesta.",
+          "vocabulary": [
+            "es-numbers-quantities-word-3",
+            "es-numbers-quantities-word-4"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
     },
     {
       "id": "es-directions-foundation",

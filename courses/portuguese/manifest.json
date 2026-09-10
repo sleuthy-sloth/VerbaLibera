@@ -91,7 +91,20 @@
       "id": "pt-numbers-quantities-concept",
       "title": "Numbers and quantities",
       "explanation": "Learn Brazilian Portuguese numbers as two short runs, then use quanto custa to ask the price of one thing. Use dois with masculine cafés and duas with feminine maçãs. The item tells you which form you need.",
-      "examples": [{ "target": "Um, dois, três, quatro, cinco.", "meaning": "One, two, three, four, five." }, { "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }],
+      "examples": [
+        {
+          "target": "Um, dois, três, quatro, cinco.",
+          "meaning": "One, two, three, four, five."
+        },
+        {
+          "target": "Quanto custa um café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Duas maçãs, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
       "commonError": "Use duas with maçãs and dois with cafés. Keep quanto custa as one learned price question."
     },
     {
@@ -274,10 +287,34 @@
       "partOfSpeech": "word or expression",
       "example": "Um café, por favor."
     },
-    { "id": "pt-numbers-quantities-word-1", "word": "um, dois, três, quatro, cinco", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Um, dois, três, quatro, cinco." },
-    { "id": "pt-numbers-quantities-word-2", "word": "seis, sete, oito, nove, dez", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Seis, sete, oito, nove, dez." },
-    { "id": "pt-numbers-quantities-word-3", "word": "quanto custa?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "Quanto custa um café?" },
-    { "id": "pt-numbers-quantities-word-4", "word": "duas maçãs", "meaning": "two apples", "partOfSpeech": "noun phrase", "example": "Duas maçãs, por favor." },
+    {
+      "id": "pt-numbers-quantities-word-1",
+      "word": "um, dois, três, quatro, cinco",
+      "meaning": "one through five",
+      "partOfSpeech": "number phrase",
+      "example": "Um, dois, três, quatro, cinco."
+    },
+    {
+      "id": "pt-numbers-quantities-word-2",
+      "word": "seis, sete, oito, nove, dez",
+      "meaning": "six through ten",
+      "partOfSpeech": "number phrase",
+      "example": "Seis, sete, oito, nove, dez."
+    },
+    {
+      "id": "pt-numbers-quantities-word-3",
+      "word": "quanto custa?",
+      "meaning": "how much does it cost?",
+      "partOfSpeech": "question",
+      "example": "Quanto custa um café?"
+    },
+    {
+      "id": "pt-numbers-quantities-word-4",
+      "word": "duas maçãs",
+      "meaning": "two apples",
+      "partOfSpeech": "noun phrase",
+      "example": "Duas maçãs, por favor."
+    },
     {
       "id": "pt-directions-word-1",
       "word": "onde",
@@ -922,14 +959,114 @@
       "optionalExerciseIds": []
     },
     {
-      "id": "pt-numbers-quantities-foundation", "unitId": "pt-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["pt-cafe-requests-foundation"], "conceptIds": ["pt-numbers-quantities-concept"], "vocabulary": ["pt-numbers-quantities-word-1", "pt-numbers-quantities-word-2", "pt-numbers-quantities-word-3", "pt-numbers-quantities-word-4"],
-      "explanation": "Count one through ten as two short runs. Then use quanto custa for a price and choose dois or duas from the noun that follows.", "examples": [{ "target": "Quanto custa um café?", "meaning": "How much does a coffee cost?" }, { "target": "Duas maçãs, por favor.", "meaning": "Two apples, please." }], "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
+      "id": "pt-numbers-quantities-foundation",
+      "unitId": "pt-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Recognize one to ten, ask a price, and order a small quantity.",
+      "cefr": "A1",
+      "prerequisites": [
+        "pt-cafe-requests-foundation"
+      ],
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-1",
+        "pt-numbers-quantities-word-2",
+        "pt-numbers-quantities-word-3",
+        "pt-numbers-quantities-word-4"
+      ],
+      "explanation": "Count one through ten as two short runs. Then use quanto custa for a price and choose dois or duas from the noun that follows.",
+      "examples": [
+        {
+          "target": "Quanto custa um café?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Duas maçãs, por favor.",
+          "meaning": "Two apples, please."
+        }
+      ],
+      "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
       "exercises": [
-        { "id": "pt-numbers-quantities-foundation-meet", "conceptId": "pt-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which Brazilian Portuguese number means three?", "answers": ["Três."], "options": ["Dois.", "Três.", "Seis.", "Dez."], "explanation": "Três is three.", "vocabulary": ["pt-numbers-quantities-word-1"], "reviewOf": ["pt-cafe-requests-foundation"] },
-        { "id": "pt-numbers-quantities-foundation-order", "conceptId": "pt-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["Quanto custa um café?"], "explanation": "Quanto custa asks what one thing costs.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["Quanto", "custa", "um", "café?"] },
-        { "id": "pt-numbers-quantities-foundation-quantity", "conceptId": "pt-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in Brazilian Portuguese: Two apples, please.", "answers": ["Duas maçãs, por favor."], "explanation": "Maçãs is feminine, so use duas.", "vocabulary": ["pt-numbers-quantities-word-4", "pt-cafe-requests-word-4"], "reviewOf": [] },
-        { "id": "pt-numbers-quantities-foundation-think", "conceptId": "pt-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: you want one coffee. Ask its price, then write the question.", "answers": ["Quanto custa um café?"], "explanation": "The learned price question is Quanto custa, followed by the item.", "vocabulary": ["pt-numbers-quantities-word-3"], "reviewOf": [] }
-      ], "optionalExerciseIds": []
+        {
+          "id": "pt-numbers-quantities-foundation-meet",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which Brazilian Portuguese number means three?",
+          "answers": [
+            "Três."
+          ],
+          "options": [
+            "Dois.",
+            "Três.",
+            "Seis.",
+            "Dez."
+          ],
+          "explanation": "Três is three.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-1"
+          ],
+          "reviewOf": [
+            "pt-cafe-requests-foundation"
+          ]
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-order",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to ask the price of one coffee.",
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "explanation": "Quanto custa asks what one thing costs.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "tokens": [
+            "Quanto",
+            "custa",
+            "um",
+            "café?"
+          ]
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-quantity",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say in Brazilian Portuguese: Two apples, please.",
+          "answers": [
+            "Duas maçãs, por favor."
+          ],
+          "explanation": "Maçãs is feminine, so use duas.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-4",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-think",
+          "conceptId": "pt-numbers-quantities-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8,
+          "prompt": "Think: you want one coffee. Ask its price, then write the question.",
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "explanation": "The learned price question is Quanto custa, followed by the item.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
     },
     {
       "id": "pt-directions-foundation",

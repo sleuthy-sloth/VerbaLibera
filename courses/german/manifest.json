@@ -61,7 +61,20 @@
       "id": "de-numbers-quantities-concept",
       "title": "Numbers and quantities",
       "explanation": "German numbers are useful as short runs before you calculate with them. Learn one through ten, then use Was kostet? to ask the price of one thing. One apple is ein Apfel; two apples are zwei Äpfel. Keep each noun's capital letter.",
-      "examples": [{ "target": "Eins, zwei, drei, vier, fünf.", "meaning": "One, two, three, four, five." }, { "target": "Was kostet ein Kaffee?", "meaning": "How much does a coffee cost?" }, { "target": "Zwei Äpfel, bitte.", "meaning": "Two apples, please." }],
+      "examples": [
+        {
+          "target": "Eins, zwei, drei, vier, fünf.",
+          "meaning": "One, two, three, four, five."
+        },
+        {
+          "target": "Was kostet ein Kaffee?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Zwei Äpfel, bitte.",
+          "meaning": "Two apples, please."
+        }
+      ],
       "commonError": "Use ein with one masculine Apfel and zwei with plural Äpfel. German nouns are capitalized."
     },
     {
@@ -666,14 +679,114 @@
       "optionalExerciseIds": []
     },
     {
-      "id": "de-numbers-quantities-foundation", "unitId": "de-unit-2", "title": "Numbers and quantities", "objective": "Recognize one to ten, ask a price, and order a small quantity.", "cefr": "A1", "prerequisites": ["de-cafe-requests-foundation"], "conceptIds": ["de-numbers-quantities-concept"], "vocabulary": ["de-numbers-quantities-word-1", "de-numbers-quantities-word-2", "de-numbers-quantities-word-3", "de-numbers-quantities-word-4"],
-      "explanation": "Count one through ten as two short runs. Then use Was kostet for a price and keep German noun capitals as you order a quantity.", "examples": [{ "target": "Was kostet ein Kaffee?", "meaning": "How much does a coffee cost?" }, { "target": "Zwei Äpfel, bitte.", "meaning": "Two apples, please." }], "culturalNote": "A price question can be brief and direct; bitte still makes a request polite.",
+      "id": "de-numbers-quantities-foundation",
+      "unitId": "de-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Recognize one to ten, ask a price, and order a small quantity.",
+      "cefr": "A1",
+      "prerequisites": [
+        "de-cafe-requests-foundation"
+      ],
+      "conceptIds": [
+        "de-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "de-numbers-quantities-word-1",
+        "de-numbers-quantities-word-2",
+        "de-numbers-quantities-word-3",
+        "de-numbers-quantities-word-4"
+      ],
+      "explanation": "Count one through ten as two short runs. Then use Was kostet for a price and keep German noun capitals as you order a quantity.",
+      "examples": [
+        {
+          "target": "Was kostet ein Kaffee?",
+          "meaning": "How much does a coffee cost?"
+        },
+        {
+          "target": "Zwei Äpfel, bitte.",
+          "meaning": "Two apples, please."
+        }
+      ],
+      "culturalNote": "A price question can be brief and direct; bitte still makes a request polite.",
       "exercises": [
-        { "id": "de-numbers-quantities-foundation-meet", "conceptId": "de-numbers-quantities-concept", "kind": "choice", "mode": "recognition", "prompt": "Which German number means three?", "answers": ["Drei."], "options": ["Zwei.", "Drei.", "Sechs.", "Zehn."], "explanation": "Drei is three.", "vocabulary": ["de-numbers-quantities-word-1"], "reviewOf": ["de-cafe-requests-foundation"] },
-        { "id": "de-numbers-quantities-foundation-order", "conceptId": "de-numbers-quantities-concept", "kind": "order", "mode": "production", "prompt": "Put the words in order to ask the price of one coffee.", "answers": ["Was kostet ein Kaffee?"], "explanation": "Was kostet asks what one thing costs.", "vocabulary": ["de-numbers-quantities-word-3"], "reviewOf": [], "tokens": ["Was", "kostet", "ein", "Kaffee?"] },
-        { "id": "de-numbers-quantities-foundation-quantity", "conceptId": "de-numbers-quantities-concept", "kind": "translate", "mode": "production", "prompt": "Say in German: Two apples, please.", "answers": ["Zwei Äpfel, bitte."], "explanation": "Äpfel is plural and remains capitalized.", "vocabulary": ["de-numbers-quantities-word-4", "de-cafe-requests-word-4"], "reviewOf": [] },
-        { "id": "de-numbers-quantities-foundation-think", "conceptId": "de-numbers-quantities-concept", "kind": "think", "mode": "production", "thinkSeconds": 8, "prompt": "Think: you want one coffee. Ask its price, then write the question.", "answers": ["Was kostet ein Kaffee?"], "explanation": "The learned price question is Was kostet, followed by the item.", "vocabulary": ["de-numbers-quantities-word-3"], "reviewOf": [] }
-      ], "optionalExerciseIds": []
+        {
+          "id": "de-numbers-quantities-foundation-meet",
+          "conceptId": "de-numbers-quantities-concept",
+          "kind": "choice",
+          "mode": "recognition",
+          "prompt": "Which German number means three?",
+          "answers": [
+            "Drei."
+          ],
+          "options": [
+            "Zwei.",
+            "Drei.",
+            "Sechs.",
+            "Zehn."
+          ],
+          "explanation": "Drei is three.",
+          "vocabulary": [
+            "de-numbers-quantities-word-1"
+          ],
+          "reviewOf": [
+            "de-cafe-requests-foundation"
+          ]
+        },
+        {
+          "id": "de-numbers-quantities-foundation-order",
+          "conceptId": "de-numbers-quantities-concept",
+          "kind": "order",
+          "mode": "production",
+          "prompt": "Put the words in order to ask the price of one coffee.",
+          "answers": [
+            "Was kostet ein Kaffee?"
+          ],
+          "explanation": "Was kostet asks what one thing costs.",
+          "vocabulary": [
+            "de-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "tokens": [
+            "Was",
+            "kostet",
+            "ein",
+            "Kaffee?"
+          ]
+        },
+        {
+          "id": "de-numbers-quantities-foundation-quantity",
+          "conceptId": "de-numbers-quantities-concept",
+          "kind": "translate",
+          "mode": "production",
+          "prompt": "Say in German: Two apples, please.",
+          "answers": [
+            "Zwei Äpfel, bitte."
+          ],
+          "explanation": "Äpfel is plural and remains capitalized.",
+          "vocabulary": [
+            "de-numbers-quantities-word-4",
+            "de-cafe-requests-word-4"
+          ],
+          "reviewOf": []
+        },
+        {
+          "id": "de-numbers-quantities-foundation-think",
+          "conceptId": "de-numbers-quantities-concept",
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8,
+          "prompt": "Think: you want one coffee. Ask its price, then write the question.",
+          "answers": [
+            "Was kostet ein Kaffee?"
+          ],
+          "explanation": "The learned price question is Was kostet, followed by the item.",
+          "vocabulary": [
+            "de-numbers-quantities-word-3"
+          ],
+          "reviewOf": []
+        }
+      ],
+      "optionalExerciseIds": []
     },
     {
       "id": "de-directions-foundation",
@@ -1497,10 +1610,34 @@
       "partOfSpeech": "word or expression",
       "example": "Einen Kaffee, bitte."
     },
-    { "id": "de-numbers-quantities-word-1", "word": "eins, zwei, drei, vier, fünf", "meaning": "one through five", "partOfSpeech": "number phrase", "example": "Eins, zwei, drei, vier, fünf." },
-    { "id": "de-numbers-quantities-word-2", "word": "sechs, sieben, acht, neun, zehn", "meaning": "six through ten", "partOfSpeech": "number phrase", "example": "Sechs, sieben, acht, neun, zehn." },
-    { "id": "de-numbers-quantities-word-3", "word": "Was kostet?", "meaning": "how much does it cost?", "partOfSpeech": "question", "example": "Was kostet ein Kaffee?" },
-    { "id": "de-numbers-quantities-word-4", "word": "zwei Äpfel", "meaning": "two apples", "partOfSpeech": "noun phrase", "example": "Zwei Äpfel, bitte." },
+    {
+      "id": "de-numbers-quantities-word-1",
+      "word": "eins, zwei, drei, vier, fünf",
+      "meaning": "one through five",
+      "partOfSpeech": "number phrase",
+      "example": "Eins, zwei, drei, vier, fünf."
+    },
+    {
+      "id": "de-numbers-quantities-word-2",
+      "word": "sechs, sieben, acht, neun, zehn",
+      "meaning": "six through ten",
+      "partOfSpeech": "number phrase",
+      "example": "Sechs, sieben, acht, neun, zehn."
+    },
+    {
+      "id": "de-numbers-quantities-word-3",
+      "word": "Was kostet?",
+      "meaning": "how much does it cost?",
+      "partOfSpeech": "question",
+      "example": "Was kostet ein Kaffee?"
+    },
+    {
+      "id": "de-numbers-quantities-word-4",
+      "word": "zwei Äpfel",
+      "meaning": "two apples",
+      "partOfSpeech": "noun phrase",
+      "example": "Zwei Äpfel, bitte."
+    },
     {
       "id": "de-directions-word-1",
       "word": "wo",
