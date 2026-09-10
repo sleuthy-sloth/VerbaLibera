@@ -449,6 +449,22 @@ const contextLabelFor = (family: Family): string =>
 
 /* -------------------------------------------------------------------- shell */
 
+/**
+ * Returns a short hint string for the current practice step.
+ * For cloze steps, returns the first letter of the first accepted answer.
+ * For other exercise types, returns a generic prompt.
+ */
+export function showHint(activity: { kind: string; blanks?: Record<string, { answers: string[] }> } | null): string {
+  if (!activity) return 'Try it';
+  if (activity.kind === "inline-cloze" && activity.blanks) {
+    const firstBlank = Object.values(activity.blanks)[0];
+    if (firstBlank?.answers?.[0]) {
+      return firstBlank.answers[0][0].toUpperCase();
+    }
+  }
+  return 'Try it';
+}
+
 export function LessonPlayer(props: LessonPlayerProps) {
   const [identity, setIdentity] = useState({ pack: props.pack, environment: props.environment,
     lessonId: props.lessonId, generation: 0 });
@@ -477,6 +493,7 @@ function LessonPlayerSession({
   const checkpointQueue = useRef<Promise<void>>(Promise.resolve());
   const [restartNotice, setRestartNotice] = useState<string | null>(null);
   const [resumedComplete, setResumedComplete] = useState(false);
+  const [hintVisible, setHintVisible] = useState(false);
   const [durability, setDurability] = useState<PracticeDurability>(() =>
     environment.practice.getDurability(),
   );
@@ -1163,6 +1180,16 @@ function LessonPlayerSession({
             Help
           </button>
         )}
+        {!stepCompleted && activity.kind !== 'information' && (
+          <button
+            type="button"
+            className="lp-secondary lp-hint"
+            aria-describedby={hintVisible ? `hint-${step.id}` : undefined}
+            onClick={() => setHintVisible(true)}
+          >
+            Hint
+          </button>
+        )}
         <button
           type="button"
           className="lp-primary"
@@ -1172,6 +1199,11 @@ function LessonPlayerSession({
           {primaryLabel}
         </button>
       </div>
+      {hintVisible && (
+        <p id={`hint-${step.id}`} className="lp-hint-text" role="note">
+          {showHint(activity)}
+        </p>
+      )}
     </div>
   );
 }
