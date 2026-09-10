@@ -8,6 +8,28 @@ things to know before you start are in **Read this first**.
 
 ---
 
+## Status
+
+**Generated and checked (7 files, ~/Downloads):**
+
+| Asset | Size | State |
+|---|---|---|
+| Logo Mark | 1024×1024 | ✅ open book + speech bubble, monoline, no text |
+| App Icon | 1024×1024 | ✅ same emblem, safe margins |
+| Course Banner ×5 | 2064×512 | ✅ fr, it, es, pt, **de** — read as a set, quiet left third, no baked text |
+
+**Still to generate (4):** logo-lockup, hero-banner, empty-journal, og-card —
+sections 1a, 5, 6 and 4 below.
+
+**Derived, never generated:** the 512/192/maskable icons, apple-touch and
+favicon come out of the app icon via `scripts/brand/from-generated.sh`.
+
+**One measured flaw in everything generated so far:** the ground cream comes
+back consistently off — see *Read this first* item 3. `scripts/brand/snap-ground.py`
+fixes it deterministically.
+
+---
+
 ## Read this first
 
 ### 1. Never ask for a transparent background
@@ -30,6 +52,40 @@ in a font that is *nearly* Fraunces, and a near-miss typeface on the one mark
 that appears everywhere is the most expensive mistake available. Generate the
 symbol alone and set "VerbaLibera" in Fraunces in code. The existing lockup is a
 1792×592 JPG with the words baked in at whatever typeface was to hand.
+
+### 3. Expect the ground cream to come back wrong, and snap it
+
+Measured across the seven assets actually generated, the model's colour fidelity
+is excellent for everything *except* the ground:
+
+| | generated | target | off by |
+|---|---|---|---|
+| ink (banner) | `#2f2b22` | `#2f2a24` | 2 |
+| accent (banner) | `#a2521f` | `#a8511f` | 6 |
+| **ground (logo mark)** | `#f6eed9` | `#fbf4e6` | **13** |
+| **ground (app icon)** | `#f5edd8` | `#fbf4e6` | **14** |
+| ground (banners) | `#f8f1df` | `#fbf4e6` | 7–8 |
+
+Ink and accent are effectively exact — do not spend effort there, and do not
+believe a vision model that says otherwise: the vision-estimated hex was off
+from the true modal pixel colour by more than the real error in every case.
+
+The ground matters because these assets are **opaque tiles laid on the cream
+page**. `logo-mark.jpg` renders at 32×32 inside the nav header, where a 13-unit
+drift reads as a faint rectangle around the mark. Snap it:
+
+```bash
+scripts/brand/snap-ground.py --check  ~/Downloads/*.jpeg   # report only, exit 1 if off
+scripts/brand/snap-ground.py          public/brand/*.jpg   # rewrite in place
+```
+
+It finds the modal ground, remaps every pixel within 10 of it to exactly
+`#fbf4e6`, and reports how much it touched. Verified on the real files: the mark
+remapped 93.6% of its pixels (the ground), the in-memory result is exact, and a
+re-read of the saved JPEG lands within 1 unit — JPEG rounding, invisible. The
+risk was checked too: at 32px the mark's shape is unchanged and the tile edge
+disappears into the header. Max per-pixel movement is 28, on 0.85% of pixels,
+all of them anti-aliased stroke edges.
 
 ---
 
@@ -92,11 +148,39 @@ the cut-out, the icon set and the RGBA favicon.
 
 ---
 
+## 1a. Logo lockup — do NOT generate this one
+
+Used in `FirstRunOnboarding` at 480×160 (3:1) — the first screen a new learner
+ever sees. The existing `logo-lockup.jpg` is 1792×592 with the words baked in at
+some earlier typeface.
+
+Generating it means asking the image model for the wordmark, and you will get a
+serif that is *almost* Fraunces. The lockup is the one place a near-miss
+typeface is most exposed: 480px wide, with nothing else on screen to draw the
+eye, next to real Fraunces text in the heading below it.
+
+**Build it instead** — the mark is a PNG, and the wordmark is type:
+
+```
+[mark PNG]   VerbaLibera
+             Learn a language by building sentences.
+```
+
+The snapped mark composites cleanly on cream (that is what item 3 buys you), and
+the text is real Fraunces at whatever size the layout wants, crisp on every
+display. Roughly twenty lines in `FirstRunOnboarding.tsx`, no new asset.
+
+If you still want a raster lockup for something outside the app, generate the
+symbol alone with generous space to its right and set the words in code over the
+top — never let the model draw them.
+
+---
+
 ## 2. Course banner template
 
-Four exist at `public/brand/courses/{french,italian,spanish,portuguese}.jpg`,
-all 2064×512. **German has no banner** and `courses/page.tsx` builds the path
-from the slug, so it will 404 the moment German appears in the catalogue.
+Five exist now — `public/brand/courses/{french,italian,spanish,portuguese,german}.jpg`,
+all 2064×512. German was missing and is not wired into the lesson view yet; see
+*Wiring the German banner* below.
 
 The banner is a *background band*, not a poster: it sits behind the lesson title,
 so keep the left third quiet and put no faces or fine detail in the middle.
@@ -264,7 +348,15 @@ filename identical or the app will 404 the image.
 
 ## After generating: the technical pass
 
-Two footguns in this repo, both already solved by `scripts/brand/from-generated.sh`:
+**Step 0 — snap the ground** (see *Read this first* item 3), or every asset
+carries a faint rectangle against the page:
+
+```bash
+scripts/brand/snap-ground.py --check ~/Downloads/*.jpeg   # expect exit 1 today
+scripts/brand/snap-ground.py -o public/brand/logo-mark.jpg ~/Downloads/"Logo Mark.jpeg"
+```
+
+Then two footguns, both already solved by `scripts/brand/from-generated.sh`:
 
 1. **`src/app/favicon.ico` must be RGBA.** PIL defaults to RGB, and Next 500s
    *every page* with `The PNG is not in RGBA format`. The script always
@@ -286,6 +378,41 @@ At the end, check nothing in the layout broke:
 npx vitest run tests/service-worker.test.ts   # pins the precache asset list
 npm run a11y:audit                            # images must keep their alt text
 ```
+
+## Wiring the German banner
+
+The asset now exists, but `src/features/course-pack/CourseWorkspace.tsx` resolves
+the in-lesson banner from a hardcoded map, not from the slug:
+
+```ts
+const BANNER_BY_LANGUAGE: Record<string, string> = {
+  french: "/brand/courses/french.jpg",
+  italian: "/brand/courses/italian.jpg",
+  spanish: "/brand/courses/spanish.jpg",
+  portuguese: "/brand/courses/portuguese.jpg",
+};
+```
+
+`/courses/german` and the landing showcase both build the path from the slug, so
+they pick the new file up automatically — but the lesson view silently renders no
+banner (line 389 returns `null` for an unknown language). One line:
+
+```ts
+  german: "/brand/courses/german.jpg",
+```
+
+## Fix the declared image dimensions while you are in here
+
+Next reserves layout space from the declared `width`/`height`, so a wrong pair
+causes a visible shift when the real image loads:
+
+| File | Declared in code | Actual on disk |
+|---|---|---|
+| `hero-banner.jpg` | 1536×1024 (`DailyPathDashboard.tsx:189`) | 1584×672 |
+| `empty-journal.jpg` | 1024×683 (`FirstRunOnboarding.tsx:12`) | 1024×1024 |
+
+Both are decoration, so the mismatch is currently costing a layout shift for no
+benefit. Correct them when you swap the artwork in.
 
 ## Housekeeping, not generation
 
