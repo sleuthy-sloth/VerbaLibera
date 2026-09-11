@@ -292,6 +292,51 @@ test("German teaches on the v2 player after the 2B flip, pause intact", async ({
   );
 });
 
+test("a migrated course's scripted dialogue is reachable, and its absence is not faked", async ({
+  page,
+}) => {
+  const frenchDialogues = JSON.parse(
+    readFileSync("courses/french/manifest.json", "utf8"),
+  ).dialogues;
+  const germanDialogues = JSON.parse(
+    readFileSync("courses/german/manifest.json", "utf8"),
+  ).dialogues;
+  expect(frenchDialogues.length).toBeGreaterThan(0);
+  expect(germanDialogues.length).toBe(0);
+
+  // French: v2 like German, so before this the conversations were in the pack
+  // and unreachable through the UI — DialogueView was legacy-shell only.
+  await page.goto("/courses/french");
+  const dialogues = page.getByRole("region", { name: "Use it in a conversation" });
+  await expect(dialogues).toBeVisible();
+  const meeting = frenchDialogues.find(
+    (dialogue: { id: string }) => dialogue.id === "fr-meeting",
+  );
+  const startNode = meeting.nodes.find(
+    (node: { id: string }) => node.id === meeting.start,
+  );
+  const article = dialogues.locator("article", { hasText: meeting.title });
+  await expect(article.getByText(startNode.line)).toBeVisible();
+  // A branch advances the line, and the terminal node offers the conversation
+  // again rather than dead-ending.
+  await article
+    .getByRole("button", { name: startNode.choices[0].text })
+    .click();
+  const nextNode = meeting.nodes.find(
+    (node: { id: string }) => node.id === startNode.choices[0].next,
+  );
+  await expect(article.getByText(nextNode.line)).toBeVisible();
+  if (nextNode.complete)
+    await expect(
+      article.getByRole("button", { name: "Try the conversation again" }),
+    ).toBeVisible();
+
+  // German: the same shell, no authored conversations, so no section at all.
+  await page.goto("/courses/german");
+  await expect(page.getByRole("navigation", { name: "Course path" })).toBeVisible();
+  await expect(dialogues).toHaveCount(0);
+});
+
 test("Italian lesson audio plays and the listening step can be reached", async ({
   page,
 }) => {
