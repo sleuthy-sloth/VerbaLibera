@@ -822,6 +822,75 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### The minor-emergency scene and the course map (`b255217`)
+
+Two more approved illustrations, and both went somewhere the app already had a place
+for — one into the situation model, one onto the progress surface that describes a
+route.
+
+**The emergency scene** takes the lesson-scene contract (1200×896 → **800×600**, the
+frame the other six are drawn in) and is **not** ground-snapped: its most common
+colour is the drawn flagstone paving (`#dcc99f`, 71 units from the canvas), so the
+script's premise ("the most common colour is the flat ground") fails here, exactly as
+it did for `key.jpg` and the bill scene. It joins `scenes.ts` as the sixth situation,
+`minor-emergency`, reached both ways the module already supports:
+
+- the authored scenario **"Getting help in an emergency"** — a travel pattern in all
+  four languages, so all four get the picture;
+- the lesson-id segment **`emergency`** — `fr-emergency-foundation` and
+  `it-emergency-foundation` exist; German, Spanish and Portuguese ship no emergency
+  lesson, and the lookup simply renders nothing there rather than reaching for a
+  near-miss.
+
+The two lookups being updated together is the point: adding a picture to one and not
+the other is how a scene ends up reachable in a session but not in a course.
+
+**The course map** is 1264×848 (1.49:1) and was resized on width alone to **800×537**,
+matching the set's 800px width without cropping the route: its six stations run to the
+frame's edges, so forcing it into the scenes' 4:3 would cut the flashcards and the
+notebook off the ends of the path. Its ground was snapped (the parchment field,
+`#f9f1dc`, 10 units off, remapped on 58% of the frame).
+
+It went to `/learn/<course>/plan`, and the reason is that this is the app's **one
+progress surface that describes a route**: the daily path and the course path are
+lists of what is unlocked, with up-next, complete and locked rows marked in words and
+tokens, while the plan page lays the course out week by week and is titled "Your …
+study plan". It renders under the heading, in the same 34rem column as the lesson
+scenes and with the same 12px radius, declared at its own 800×537 so the checklist
+below it does not move when the picture arrives. Measured in a browser at 390px:
+358×240, ratio **1.49 against the file's own 1.49**, `alt=""`, no horizontal overflow.
+The e2e walks it as a guest, because the page renders the map before anyone signs in.
+
+**What was deferred, and said so rather than invented.** Three things:
+
+1. The map is deliberately **absent from the portable and downloaded editions**. The
+   plan page is a hosted account surface (`src/app/learn/[courseSlug]/plan/page.tsx`
+   reads a session cookie), so there is nothing to embed; those editions carry the
+   course path and the audio lessons. `course-map.ts` records that in the module
+   rather than leaving it to be discovered by someone porting the page.
+2. The map is **not a situation scene**, so it did not go into `scenes.ts`: it lives in
+   `src/features/course-pack/course-map.ts` with a comment explaining why the two
+   shapes differ.
+3. The **emergency situation is wired only where the content exists**. The scene
+   mapping covers the four travel patterns and the two foundation lessons the packs
+   ship; adding it to the German, Spanish or Portuguese courses would need authored
+   lessons there, not a code change.
+
+**Artwork text: both files measured clean.** The emergency scene's wall plaque is
+blank, the clock has tick marks and no numerals, and the map's books, cards and
+notebook are all blank. The one piece of lettering in the whole approved set is still
+the hotel scene's reception sign, and it is still absent from `src/`.
+
+**Tests.** `tests/scenes.test.ts` moved from five situations to six, with the
+emergency in *both* lookups and a near-miss pinned as unmapped
+(`"Finding a place quickly"` must not resolve); `tests/image-dimensions.test.ts` pins
+six scenes at 800×600 plus the map at 800×537; `tests/course-map.test.ts` (new) pins
+the file against the constant and — the half that drifts — that the plan page imports,
+declares and renders it decoratively; `tests/asset-provenance.test.ts` now counts
+13 CC0, 9 project illustrations, 6 scenes and 1 map, and checks **all 28 recorded
+hashes** against disk. The e2e gained two course-map tests (its own size on a phone,
+and that it does not widen the column) and one emergency-scene walk.
+
 ### Ten more approved assets, and the first lesson scenes in the app (`f0513bc`)
 
 Five vocabulary pictures and five lesson scenes, all supplied as files, normalised
@@ -1171,6 +1240,16 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `npx vitest run` (post-commit, this block) | **153 files passed, 1 skipped; 1187 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/scenes.test.ts tests/image-dimensions.test.ts tests/course-map.test.ts tests/asset-provenance.test.ts` | 4 files, **25 passed** |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **96 passed, 3 skipped** (+3: two course-map walks, one emergency-scene walk) |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/course-map.spec.ts` | **2 passed** — its own size on the plan page, and no phone-column overflow |
+| `npx playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** |
+| `npm run portable:build` + `--config playwright.portable.config.ts` | build exit 0; **10 passed** (Chromium and WebKit); artifact 18.2 MB → **18.4 MB** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| `npm run content:validate` / `content:audio-check` | exit 0 / exit 0 |
+| Browser check of the plan page and the emergency session (390px) | map 358×240 at ratio 1.49 against the file's own 1.49, `alt=""`, 12px radius, no overflow; the emergency session renders `/images/scenes/minor-emergency.jpg` at 800×600 declared = natural |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` | 0 errors, 30 warnings / exit 0 / exit 0 |
 | `python3 .vl-snap-decide`-style check (modal colour vs the canvas) | ten files: eight cream grounds 9–14 off, snapped; `key.jpg` (129 off) and the bill scene (82 off) left alone by hand |
 | `npx vitest run` (post-commit, this block) | **152 files passed, 1 skipped; 1184 passed, 6 skipped, 0 failed** |
 | `npx vitest run tests/scenes.test.ts` (alone) | **6 passed** — files, both lookups, coverage both ways, portable embedding, the lettering rule |
@@ -1279,6 +1358,8 @@ also skips the config's own `webServer`.
 | `99970d6` | **The approved vocabulary pictures ship, and the German banner becomes its approved reference** — normalised and ground-snapped, alt text corrected to match the drawings, crop re-measured, `study.js` regenerated, provenance split in two and pinned by hashes |
 | `8e09fb8` | Run record — the vocabulary pictures and the German banner |
 | `f0513bc` | **Five more vocabulary pictures and the app's first lesson scenes** — the situation-keyed `scenes.ts`, three lesson surfaces wired, scenes embedded in the portable edition and cached offline, the artwork's own lettering kept out of `src/`, provenance split three ways and every hash checked against disk |
+| `85dc920` | Run record — the ten approved assets and the first lesson scenes |
+| `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -1315,11 +1396,13 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    behaviour on a physical device is the same device pass the Phase 3A gate waits on; the lock-screen
    *metadata* now carries the course artwork, and whether it renders as intended on iOS is part of
    that pass.
-6. **More situations, if you want them.** Five scenes cover five situations; the app teaches eight
+6. **More situations, if you want them.** Six scenes cover six situations; the app teaches eight
    travel patterns per language plus 25 foundation lessons per language, and the mapping deliberately
-   maps only exact matches (`food-foundation` is not a café counter). A sixth approved scene —
-   greetings, buying food at a market, an emergency — would need one table entry and one file, and
-   `tests/scenes.test.ts` checks the folder has no orphans.
+   maps only exact matches (`food-foundation` is not a café counter). A further approved scene —
+   greetings, buying food at a market, finding a place — would need one table entry and one file, and
+   `tests/scenes.test.ts` checks the folder has no orphans. Note the gap the emergency scene exposed:
+   German, Spanish and Portuguese ship no emergency *lesson*, so that picture reaches those courses
+   only through the travel sessions — closing it is authored content, not code.
 7. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
 8. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
