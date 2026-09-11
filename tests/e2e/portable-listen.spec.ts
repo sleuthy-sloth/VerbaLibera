@@ -58,6 +58,14 @@ test("a portable file built with the audio plays its Listen track offline", asyn
   await track.click();
   const player = page.getByLabel("Play the audio lesson: Names and introductions");
   await expect(player).toHaveAttribute("src", /^blob:/);
+  // The lock-screen artwork travels in the single file too: the banner is
+  // embedded and resolved to a blob, like the audio.
+  const artwork = await page.evaluate(() => {
+    const metadata = navigator.mediaSession?.metadata;
+    return metadata ? metadata.artwork.map((a) => a.src) : null;
+  });
+  expect(artwork, "the portable file set no lock-screen artwork").not.toBeNull();
+  expect(artwork![0]).toMatch(/^blob:/);
   await player.evaluate(async (audio: HTMLAudioElement) => {
     audio.load();
     await new Promise<void>((resolve, reject) => {

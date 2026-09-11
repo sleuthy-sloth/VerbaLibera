@@ -35,6 +35,28 @@ export const BANNER_BY_LANGUAGE: Record<string, string> = {
 /** The frame the banners were drawn in; also the no-course fallback. */
 export const BANNER_FULL_ASPECT = crops.fullAspect;
 
+/** Every banner is 2064x512; used where a real pixel size has to be declared. */
+export const BANNER_SOURCE = (Object.values(crops.courses)[0] as { source: { width: number; height: number } })
+  .source;
+
+/**
+ * The lock-screen artwork entry for a track's course.
+ *
+ * `navigator.mediaSession.metadata.artwork` is what a phone shows on the lock
+ * screen and in the notification shade — the "screen-off" surface, which for an
+ * audio lesson is most of the time it is playing. The artwork is the course
+ * banner, so the lock screen identifies the course the same way the course page
+ * does, and the declared `sizes` is the file's real size because a wrong pair
+ * makes the platform pick a bad fit.
+ */
+export const bannerArtwork = (url: string) => [
+  {
+    src: url,
+    sizes: `${BANNER_SOURCE.width}x${BANNER_SOURCE.height}`,
+    type: "image/jpeg",
+  },
+];
+
 type BannerCrop = { cropAspect: number; focusX: number };
 
 const cropFor = (language: string): BannerCrop | undefined =>

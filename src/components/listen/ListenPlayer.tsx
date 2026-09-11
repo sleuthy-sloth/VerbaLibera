@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ListenTrack } from "@/features/listen/tracks";
 import { langCodeFor } from "@/features/course-pack/language-code";
+import { bannerArtwork } from "@/features/course-pack/banners";
 import { listenedAt, markListened } from "@/features/listen/listened";
 import {
   clearPosition,
@@ -43,10 +44,18 @@ export function ListenPlayer({
   track,
   courseTitle,
   lessonTitle,
+  coverUrl,
 }: {
   track: ListenTrack;
   courseTitle: string;
   lessonTitle?: string;
+  /**
+   * The course banner, already resolved by the edition (a plain path hosted and
+   * downloaded, an embedded blob in the portable file). It is what the lock
+   * screen and the notification shade show while the track plays — the surface a
+   * learner actually looks at when they are walking and the screen is off.
+   */
+  coverUrl?: string;
 }) {
   const audio = useRef<HTMLAudioElement>(null);
   const [heard, setHeard] = useState<string | null>(null);
@@ -136,11 +145,14 @@ export function ListenPlayer({
         title: `${title} · audio lesson`,
         artist: "VerbaLibera",
         album: courseTitle,
+        // Artwork is advisory: a platform that cannot fetch it still shows the
+        // three lines above.
+        ...(coverUrl ? { artwork: bannerArtwork(coverUrl) } : {}),
       });
     } catch {
       // Older browsers: the player still works, just without lock-screen art.
     }
-  }, [track.lessonId, title, courseTitle]);
+  }, [track.lessonId, title, courseTitle, coverUrl]);
 
   const seekTo = (value: number): void => {
     const element = audio.current;

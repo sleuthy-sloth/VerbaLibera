@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import type { ListenTrack } from "@/features/listen/tracks";
+import { bannerFor } from "@/features/course-pack/banners";
 import { listenedAt } from "@/features/listen/listened";
 import { ListenPlayer } from "./ListenPlayer";
 import styles from "./listen-library.module.css";
@@ -50,6 +51,13 @@ export function ListenLibrary({
 }) {
   const [selected, setSelected] = useState(initialLessonId);
   const track = tracks.find((candidate) => candidate.lessonId === selected);
+  // The lock-screen artwork: the course banner, resolved through the same
+  // resolver the audio uses so the portable edition hands back its embedded blob.
+  const coverFor = (slug: string): string | undefined => {
+    const banner = bannerFor(slug);
+    if (!banner) return undefined;
+    return resolveAudioSrc ? resolveAudioSrc(banner) : banner;
+  };
 
   if (track) {
     return (
@@ -70,6 +78,7 @@ export function ListenLibrary({
             }
             courseTitle={courseTitle}
             lessonTitle={track.title}
+            coverUrl={coverFor(track.courseSlug)}
           />
         )}
       </>

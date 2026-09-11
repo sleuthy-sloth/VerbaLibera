@@ -23,6 +23,19 @@ for (const course of ["spanish", "portuguese", "german"]) {
     expect(await player.evaluate((audio: HTMLAudioElement) => audio.duration)).toBeGreaterThan(480);
     // The card follows the element it is driving.
     await expect(page.getByRole("button", { name: "Pause the audio lesson" })).toBeVisible();
+    // The lock screen is the surface a walker actually looks at, so the course
+    // artwork has to be in the media metadata, not just on the page.
+    const artwork = await page.evaluate(() => {
+      const metadata = navigator.mediaSession?.metadata;
+      return metadata
+        ? { title: metadata.title, album: metadata.album, artwork: metadata.artwork.map((a) => ({ src: a.src, sizes: a.sizes })) }
+        : null;
+    });
+    expect(artwork, `${course}: no media metadata`).not.toBeNull();
+    expect(artwork!.album).toContain("foundations");
+    expect(artwork!.artwork.length).toBeGreaterThan(0);
+    expect(artwork!.artwork[0].src).toContain(`/brand/courses/${course}.jpg`);
+    expect(artwork!.artwork[0].sizes).toBe("2064x512");
     await player.evaluate((audio: HTMLAudioElement) => audio.pause());
     const link = page.getByRole("link", { name: "Save audio for offline listening" });
     await expect(link).toHaveAttribute("download", "");
