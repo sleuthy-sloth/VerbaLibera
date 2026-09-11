@@ -105,7 +105,11 @@ describe("the asset provenance document", () => {
       record.indexOf("## The project's own"),
     );
     const ownTable = record.slice(record.indexOf("## The project's own"), record.indexOf("## The lesson scenes"));
-    const sceneTable = record.slice(record.indexOf("## The lesson scenes"));
+    const sceneTable = record.slice(
+      record.indexOf("## The lesson scenes"),
+      record.indexOf("## The course map"),
+    );
+    const mapTable = record.slice(record.indexOf("## The course map"));
 
     const rowsOf = (block: string, dir: string): string[] =>
       [...block.matchAll(new RegExp(`^\\| \\\`([\\w.-]+)\\.jpg\\\` \\|`, "gm"))].map(
@@ -114,9 +118,11 @@ describe("the asset provenance document", () => {
     const cc0 = rowsOf(cc0Table, "vocab");
     const own = rowsOf(ownTable, "vocab");
     const scenes = rowsOf(sceneTable, "scenes");
+    const map = [...mapTable.matchAll(/^\| `([\w.-]+)\.jpg` \|/gm)].map((match) => `map/${match[1]}.jpg`);
     expect(cc0.length, "the CC0 table lost rows").toBe(13);
     expect(own.length, "the project-artwork table lost rows").toBe(9);
-    expect(scenes.length, "the scene table lost rows").toBe(5);
+    expect(scenes.length, "the scene table lost rows").toBe(6);
+    expect(map.length, "the course map is not recorded").toBe(1);
     // The tables have to be disjoint: a file that is the project's own artwork
     // cannot still be listed as a Wikimedia photograph.
     expect(cc0).not.toContain("vocab/piggybank.jpg");
@@ -135,15 +141,20 @@ describe("the asset provenance document", () => {
       ...hashRows(cc0Table, "vocab"),
       ...hashRows(ownTable, "vocab"),
       ...hashRows(sceneTable, "scenes"),
+      // The map's row has no column for an alt text, so it is read by hand: the
+      // table's shape is the file, dimensions, bytes, sha256.
+      ...mapTable
+        .matchAll(/^\| `([\w.-]+)\.jpg` \|.*\| `([0-9a-f]{64})` \|$/gm)
+        .map(([, name, hash]) => ({ dir: "__map", name, hash })),
     ];
     expect(recorded.length, "a table row has no recorded hash").toBe(
-      cc0.length + own.length + scenes.length,
+      cc0.length + own.length + scenes.length + map.length,
     );
     for (const { dir, name, hash } of recorded) {
-      const onDisk = createHash("sha256")
-        .update(readFileSync(join(ROOT, `public/images/${dir}/${name}.jpg`)))
-        .digest("hex");
-      expect(onDisk, `${dir}/${name}.jpg no longer matches its recorded hash`).toBe(hash);
+      const path =
+        dir === "__map" ? `public/images/${name}.jpg` : `public/images/${dir}/${name}.jpg`;
+      const onDisk = createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
+      expect(onDisk, `${path} no longer matches its recorded hash`).toBe(hash);
     }
 
     // And the alt text the record quotes is the alt text the fixture ships.

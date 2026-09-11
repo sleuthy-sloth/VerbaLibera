@@ -5,6 +5,7 @@ import Link from 'next/link';
 import sessionStyles from '@/components/session/session.module.css';
 import { PlanBuilder } from '@/components/plan/PlanBuilder';
 import { PlanOverview } from '@/components/plan/PlanOverview';
+import { COURSE_MAP } from '@/features/course-pack/course-map';
 import { initialCourses } from '@/features/curriculum/fixture';
 import type { CEFRLevel } from '@/features/curriculum/types';
 import { parseStoredPlan } from '@/features/study-plan/parse';
@@ -140,6 +141,18 @@ export function PlanSection({ courseSlug, userId = null }: Readonly<{ courseSlug
       </p>
       <h1>Your {course?.title ?? 'course'} study plan</h1>
       <p>{userId ? 'Your plan is saved to your account and follows you across devices.' : 'Your plan and checklist stay in this browser.'}</p>
+      {/* The path this page describes, as a picture. Decorative: the heading names
+          the course and the checklist below is the actual route. Plain <img> with
+          the file's own size declared, so the row reserves its space before the
+          picture arrives. */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- static file, size declared */}
+      <img
+        className={sessionStyles.courseMap}
+        src={COURSE_MAP.url}
+        width={COURSE_MAP.width}
+        height={COURSE_MAP.height}
+        alt=""
+      />
       {error ? <p role="alert">{error}</p> : null}
       <fieldset disabled={busy} style={{ border: 0, padding: 0, minWidth: 0 }}>
       {plan ? (

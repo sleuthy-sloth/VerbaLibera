@@ -208,7 +208,7 @@ describe("the vocabulary pictures", () => {
 /**
  * The lesson scenes.
  *
- * Five situation pictures at 800x600 — the frame the supplied art is drawn in, so
+ * Six situation pictures at 800x600 — the frame the supplied art is drawn in, so
  * the lesson surfaces render them with `height: auto` and never crop or stretch.
  * `tests/scenes.test.ts` owns the mapping; this owns the files, including the rule
  * that the folder has no orphans: a picture no situation names is artwork nobody
@@ -221,10 +221,24 @@ describe("the lesson scenes", () => {
     const files = readdirSync(dir)
       .filter((name) => name.endsWith(".jpg"))
       .sort();
-    expect(files.length, "no lesson scenes were found").toBe(5);
+    expect(files.length, "no lesson scenes were found").toBe(6);
     for (const name of files) {
       const size = imageDimensions(join(dir, name))!;
       expect([size.width, size.height], `${name} is not 800x600`).toEqual([800, 600]);
     }
+  });
+});
+
+/**
+ * The course map.
+ *
+ * One picture for the plan page, and its size is its own: 800x537 is the frame it is
+ * drawn in (1.49:1), against the 4:3 of the lesson scenes it shares a column with.
+ * `tests/course-map.test.ts` owns the wiring; this owns the file.
+ */
+describe("the course map", () => {
+  it("is 800x537, the frame it is drawn in", () => {
+    const size = imageDimensions(join(ROOT, "public/images/course-map.jpg"))!;
+    expect([size.width, size.height]).toEqual([800, 537]);
   });
 });

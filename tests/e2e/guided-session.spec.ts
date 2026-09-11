@@ -254,3 +254,18 @@ test('the situation picture shows for the pattern that has one, and nowhere else
   await expect(page.getByRole('heading', { name: 'Practice one useful pattern.' })).toBeVisible();
   await expect(page.locator('img[src^="/images/scenes/"]')).toHaveCount(0);
 });
+
+test('the emergency pattern shows the emergency scene', async ({ page }) => {
+  // The sixth situation: "Getting help in an emergency" is a travel pattern like the
+  // others, and its picture is the one with the first-aid kit. The scene is keyed by
+  // the authored scenario, so this also guards that the mapping covers every pattern
+  // whose situation has art rather than just the first few.
+  await page.goto('/learn/english-to-french?concept=fr-emergency-help');
+  const scene = page.locator('img[src="/images/scenes/minor-emergency.jpg"]');
+  await expect(scene).toBeVisible();
+  await expect(scene, 'the scene is decorative on this surface').toHaveAttribute('alt', '');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+  await assertNoHorizontalOverflow(page);
+});

@@ -2,10 +2,11 @@
  * Lesson scenes: the situation picture, keyed by the situation.
  *
  * The app teaches situations — "Ordering coffee or food", "Paying", "Checking in
- * at a hotel" — and its lessons and travel patterns already carry that label as
- * authored data (`scenario` in `src/features/curriculum/fixture.ts`, and lesson ids
- * like `de-cafe-requests-foundation` in the packs). This module maps those to the
- * approved scene illustrations so a lesson can show the situation it is about.
+ * at a hotel", "Getting help in an emergency" — and its lessons and travel patterns
+ * already carry that label as authored data (`scenario` in
+ * `src/features/curriculum/fixture.ts`, and lesson ids like
+ * `de-cafe-requests-foundation` in the packs). This module maps those to the approved
+ * scene illustrations so a lesson can show the situation it is about.
  *
  * **Keyed by situation, not by lesson.** The same picture serves every language's
  * café lesson, and the scenario strings are shared verbatim across French,
@@ -27,7 +28,7 @@
  * twice is noise. Where a picture *is* the question — the vocabulary drills — the
  * alt text is the accessible name (see the fixture).
  *
- * Two of the ten approved files carry artwork text, recorded in
+ * One of the approved files carries artwork text, recorded in
  * `docs/image-provenance.md` rather than reproduced here: the hotel scene has a
  * reception sign printed in Spanish, and no other scene file has any lettering.
  * That text is never rendered as copy, never used as a label, and is deliberately
@@ -45,7 +46,8 @@ export type SituationId =
   | "asking-for-the-bill"
   | "hotel-checkin"
   | "directions"
-  | "station-counter";
+  | "station-counter"
+  | "minor-emergency";
 
 export type Scene = Readonly<{
   situation: SituationId;
@@ -77,6 +79,10 @@ const SCENE_BY_SITUATION: Record<SituationId, Omit<Scene, "situation" | "url" | 
     file: "station-counter.jpg",
     label: "A clerk and a customer exchanging a ticket across a counter window",
   },
+  "minor-emergency": {
+    file: "minor-emergency.jpg",
+    label: "Two people on a street corner beside a first-aid kit and a phone on the pavement",
+  },
 };
 
 /**
@@ -90,6 +96,7 @@ const SCENE_BY_SITUATION: Record<SituationId, Omit<Scene, "situation" | "url" | 
  */
 const SITUATION_BY_SCENARIO: Record<string, SituationId> = {
   "Ordering coffee or food": "ordering-coffee",
+  "Getting help in an emergency": "minor-emergency",
   Paying: "asking-for-the-bill",
   "Checking in at a hotel": "hotel-checkin",
   "Asking for directions": "directions",
@@ -106,6 +113,7 @@ const SITUATION_BY_SCENARIO: Record<string, SituationId> = {
  */
 const SITUATION_BY_LESSON_KEY: Record<string, SituationId> = {
   "cafe-requests": "ordering-coffee",
+  emergency: "minor-emergency",
   directions: "directions",
   transport: "station-counter",
 };
@@ -133,7 +141,7 @@ export const sceneForScenario = (scenario: string): Scene | undefined => {
   return situation ? sceneFor(situation) : undefined;
 };
 
-/** The scene for a lesson id, or `undefined` when the lesson is not one of the five situations. */
+/** The scene for a lesson id, or `undefined` when the lesson is not one of the six situations. */
 export const sceneForLessonId = (lessonId: string): Scene | undefined => {
   const key = lessonId.replace(/^[a-z]{2}-/, "").replace(/-foundation$/, "");
   const situation = SITUATION_BY_LESSON_KEY[key];

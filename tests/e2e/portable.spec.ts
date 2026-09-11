@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -112,15 +113,16 @@ test('the approved lesson scenes are embedded in the single file', async () => {
   // to be inside it. Read from the built artifact rather than re-derived from the
   // source, which is the same rule the banner check follows.
   const html = await readFile(artifact, "utf8");
-  for (const name of [
-    "ordering-coffee",
-    "asking-for-the-bill",
-    "hotel-checkin",
-    "directions",
-    "station-counter",
-  ]) {
-    expect(html, `/images/scenes/${name}.jpg is not embedded in the portable file`).toContain(
-      `/images/scenes/${name}.jpg`,
+  // Read the folder rather than a hand-written list: a scene added to the app and
+  // forgotten here would be a picture the portable shell throws on, so the check has
+  // to follow the files.
+  const sceneNames = readdirSync(join(process.cwd(), "public/images/scenes"))
+    .filter((name) => name.endsWith(".jpg"))
+    .sort();
+  expect(sceneNames.length, "no lesson scenes were found to check").toBeGreaterThanOrEqual(6);
+  for (const name of sceneNames) {
+    expect(html, `/images/scenes/${name} is not embedded in the portable file`).toContain(
+      `/images/scenes/${name}`,
     );
   }
   // Embedded, not linked: the audit already refuses an external media reference,

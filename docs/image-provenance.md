@@ -85,9 +85,9 @@ Both decisions are recorded rather than automated: `scripts/brand/snap-ground.py
 --check` reports them as "off", which is correct and expected, and nothing in the
 tree runs that check as a gate.
 
-## The lesson scenes (5)
+## The lesson scenes (6)
 
-Five approved situation pictures, one per situation the courses teach, under
+Six approved situation pictures, one per situation the courses teach, under
 `public/images/scenes/` at **800×600** — the 4:3 frame they are drawn in, so the
 lesson surfaces render them with `height: auto` and never crop or stretch them.
 They map to situations in `src/features/course-pack/scenes.ts`, which is what
@@ -100,17 +100,21 @@ decides *where* each one appears; this table is what they are.
 | `hotel-checkin.jpg` | hotel check-in | a guest with a suitcase at a reception desk, receptionist behind the counter, register book, key and bell | 800×600 | 136,103 B | `15397060811e2df6048f8f73c4db1dfcf2cbeec622b767e90a3f809d65fd8c6e` |
 | `directions.jpg` | asking for directions | two people pointing at a large street map mounted on a wall, a table with an open map and a pen | 800×600 | 142,932 B | `f1f431423f7aed352cda9fa5c982c6a30e00248dd65babf7feb13b7a7baa1784` |
 | `station-counter.jpg` | buying a ticket at a counter | a clerk and a customer exchanging a ticket through a glass counter window, coin tray, wall clock | 800×600 | 178,759 B | `0bb740222cb58697ace5294a15b22e7ff1afa11d30bbf26cd5edfe0a25ad8247` |
+| `minor-emergency.jpg` | getting help in an emergency | two people on a street corner: one crouching and pointing at a phone on the pavement, a messenger bag beside it, a red first-aid kit with a white cross at their feet | 800×600 | 136,968 B | `847d14d69d6a341fa692b68d84ffb7e631cc2113770e01bd031bf709bc5bb5ed` |
 
-Four of the five were snapped to the canvas ground (their most common colour is a
-cream field 9–12 units off it, remapped on 17–47% of the frame);
-`asking-for-the-bill.jpg` was not, for the reason recorded above. Each was re-read
+Five of the six were snapped to the canvas ground (their most common colour is a
+cream field 9–12 units off it, remapped on 17–58% of the frame);
+`asking-for-the-bill.jpg` and `minor-emergency.jpg` were not, for the reason recorded
+above — the emergency scene's most common colour is the drawn flagstone paving
+(`#dcc99f`, 71 units from the canvas), so snapping it would have repainted the
+pavement cream. Each was re-read
 for coherence after snapping — outlines, colour containment and shadows unchanged —
 and the check below was run against the final bytes rather than the supplied
 sources.
 
 ### The lettering inside the artwork
 
-The supplied files were checked one by one for baked-in text, because instructional
+Every supplied file was checked one by one for baked-in text, because instructional
 copy must not live in a picture and artwork lettering must never be duplicated into
 the UI:
 
@@ -137,5 +141,27 @@ The scenes are **decorative on the lesson surfaces** — every one renders with
 already say what the picture shows in words. Where a picture *is* the question (the
 vocabulary drills), the alt text is the accessible name and is recorded above.
 
+## The course map (1)
+
+One picture for the surface that shows the path ahead: `public/images/course-map.jpg`,
+rendered at the head of `/learn/<course>/plan` — the one progress surface that
+describes a route through the course rather than a list of what is unlocked
+(`src/features/course-pack/course-map.ts`). It is resized on width alone to **800×537**,
+which is the file's own 1.49:1 frame: the six stations on the route run to its edges,
+so cropping it to the 4:3 of the lesson scenes would cut the flashcards and the
+notebook off the ends of the path. Its ground was snapped (its most common colour is
+the parchment field, `#f9f1dc`, 10 units off the canvas, remapped on 58% of the
+frame).
+
+| file | depicts | dimensions | bytes | sha256 |
+| ---- | ------- | ---------- | ----- | ------ |
+| `course-map.jpg` | a winding path linking six study stations: an open book, headphones, flashcards, a stack of books, an audio player and a notebook with a pencil | 800×537 | 100,789 B | `1df8cbdee211f279dcc524dac332081cd4f158bb5721e5f5689c01c22fc5d28b` |
+
+It is **decorative** on that page — the heading names the course and the checklist
+below is the actual route — and it is deliberately absent from the portable and
+downloaded editions, because the plan page is a hosted account surface that needs a
+session cookie; those editions carry the course path and the audio lessons instead.
+Its artwork contains no lettering: the books, cards and notebook are all blank.
+
 Re-verify hashes any time with:
-`shasum -a 256 public/images/vocab/*.jpg public/images/scenes/*.jpg`
+`shasum -a 256 public/images/vocab/*.jpg public/images/scenes/*.jpg public/images/course-map.jpg`

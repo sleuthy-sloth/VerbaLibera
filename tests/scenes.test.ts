@@ -45,7 +45,7 @@ const sceneFiles = () =>
 
 describe("lesson scenes", () => {
   it("ships the picture each situation names, at the contract size", () => {
-    expect(SCENES.length, "the situation table lost entries").toBe(5);
+    expect(SCENES.length, "the situation table lost entries").toBe(6);
     expect(SCENE_SOURCE).toEqual({ width: 800, height: 600 });
     for (const scene of SCENES) {
       const path = join(ROOT, "public", scene.url.replace(/^\//, ""));
@@ -73,6 +73,7 @@ describe("lesson scenes", () => {
       ["Checking in at a hotel", "hotel-checkin"],
       ["Asking for directions", "directions"],
       ["Finding a place", "directions"],
+      ["Getting help in an emergency", "minor-emergency"],
     ];
     for (const [scenario, situation] of expected) {
       // The guard that matters: the scenario string has to exist in the fixture.
@@ -83,8 +84,8 @@ describe("lesson scenes", () => {
       expect(sceneForScenario(scenario)?.situation, `${scenario} maps to the wrong scene`).toBe(situation);
     }
     // A situation with no scene is not guessed at.
-    expect(sceneForScenario("Getting help in an emergency")).toBeUndefined();
     expect(sceneForScenario("Greeting politely")).toBeUndefined();
+    expect(sceneForScenario("Finding a place quickly")).toBeUndefined();
     expect(sceneForScenario("")).toBeUndefined();
   });
 
@@ -94,6 +95,7 @@ describe("lesson scenes", () => {
       ["de-directions-foundation", "directions"],
       ["fr-transport-foundation", "station-counter"],
       ["it-transport-foundation", "station-counter"],
+      ["fr-emergency-foundation", "minor-emergency"],
     ];
     for (const [lessonId, situation] of expected)
       expect(sceneForLessonId(lessonId)?.situation, `${lessonId} maps to the wrong scene`).toBe(situation);
@@ -114,7 +116,13 @@ describe("lesson scenes", () => {
     // Coverage in the other direction: a situation table entry nothing can reach
     // is a picture shipped for no one.
     const reachable = new Set<string>();
-    for (const scenario of ["Ordering coffee or food", "Paying", "Checking in at a hotel", "Asking for directions"])
+    for (const scenario of [
+      "Ordering coffee or food",
+      "Paying",
+      "Checking in at a hotel",
+      "Asking for directions",
+      "Getting help in an emergency",
+    ])
       reachable.add(sceneForScenario(scenario)!.situation);
     for (const lessonId of ["de-cafe-requests-foundation", "fr-transport-foundation"])
       reachable.add(sceneForLessonId(lessonId)!.situation);
