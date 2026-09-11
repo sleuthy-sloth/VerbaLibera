@@ -288,6 +288,18 @@ const lessonSchemaV2 = z.object({
   unitId: id,
   title: text,
   objective: text,
+  /**
+   * The authored CEFR tag carried over from the v1 lesson.
+   *
+   * v1 wrote `cefr: "A1"` on every lesson; the v2 shape had no field for it, so
+   * the French migration dropped 25 of them and the reports said so
+   * (`authoredCefrTags` went to zero for a v2 pack while the v1 packs kept
+   * theirs). It is optional because a v2 pack authored from scratch may
+   * genuinely have no level claim — but a migrated pack must keep the claim the
+   * author made, which is what `migratePackV1ToV2` now guarantees and
+   * `tests/pack-migration-cefr.test.ts` holds it to.
+   */
+  cefr: z.literal("A1").optional(),
   family: z.enum([
     "discovery",
     "story",
