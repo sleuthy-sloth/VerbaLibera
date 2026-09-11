@@ -822,6 +822,70 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Stage 3a: the Portuguese flip, and how little it changed (`e1b0db5`)
+
+Portuguese went from schemaVersion 1 to 2 through the documented procedure
+(`npx tsx scripts/migrate-pack-v1-v2.ts courses/portuguese/manifest.json`), and the
+measurement is the point of the block: **the two packs were authored to the same shape,
+so the flip changed nothing but the schema.**
+
+What the migration did to the file:
+
+- `schemaVersion` 1 → 2, and it gained exactly two top-level keys (`activities`,
+  `stimuli`). Nothing was lost: no key disappeared.
+- Lessons 8 → 8, units 4 → 4, concepts 8 → 8, vocabulary 34 → 34, media 1 → 1,
+  dialogues 0 → 0 — with **every id identical in order** in each list.
+- The written file equals a fresh in-memory `migratePackV1ToV2()` of the v1 source,
+  byte for byte, and the script now refuses to run again ("not a schemaVersion 1 pack").
+- `content:validate` accepts it, and `npm run content:build` regenerated
+  `public/packs/portuguese.json` and `docs/astra/reports/portuguese.json`.
+
+The runtime census, against German, which flipped last block:
+
+| | German | Portuguese, after |
+| --- | --- | --- |
+| lessons / units / concepts | 8 / 4 / 8 | **8 / 4 / 8** |
+| retained v1 exercises | 48 | **48** |
+| reachable activities | 56 | **56** |
+| retrieval links | 39 | **39** |
+| lessons with prerequisites | 7 | **7** |
+| authored CEFR tags / cultural notes | 8 / 8 | **8 / 8** |
+
+The generated reports agree too: every numeric field in the Portuguese report matches the
+German one **except four that are content-intrinsic** — the reading/translate exercise mix
+(5/9 vs 6/8), the audio bytes and the pack bytes. That is what parity on real content looks
+like, and it is why the CEFR and `culturalNote` fields survived: the lessons already
+carried them.
+
+Test retargeting (step 6 of the procedure), all of it mechanical:
+
+- `migrated-pack-parity.test.ts`: PENDING becomes `["spanish"]`; Portuguese joins
+  MIGRATED_PACKS with the measured figures above.
+- `migrated-pack-replay.test.tsx`: PACKS gains `portuguese`, so stored history is proven
+  to replay against the flipped pack.
+- `pack-migration-cefr.test.ts`: V1_LANGUAGES becomes `["spanish"]`, Portuguese joins
+  CARRIED_PACKS. The four cases that *re-run* the migration now read one named
+  `V1_SOURCE` — Spanish, the last v1 pack — instead of hard-coding a language that has
+  since flipped.
+- `pack-migration-fields.test.ts`: V1_PACKS becomes `["spanish"]`; Portuguese joins
+  FLIPPED_PACKS as `{ lessons: 8, notes: 8, tags: 8 }`.
+- `pack-flip-rehearsal.test.tsx`: PENDING becomes `['spanish']`.
+
+Step 5 was not quite empty this time. The legacy-engine suites were already hosted on
+Spanish (the choice made when German flipped), but `tests/course-pack.test.ts` had three
+Portuguese *content* cases that still went through `validatePack(...)`, the v1 validator,
+which rightly refuses a v2 pack. They now read a `readAuthoredPack()` helper that follows
+the file's schema: it restores `legacyExercises` to `exercises` and flattens v2
+prerequisites (`{ lessonId, requirement }`) back to ids, so every assertion — and the
+legacy selectors they call — keeps the types it was written with. The legacy-engine half of
+the "new foundation packs" block stays on Spanish, because that is the one pack the v1
+engine still has.
+
+**Next flip — Spanish, the last one.** `readLegacyPack()` (Spanish), `V1_SOURCE` (Spanish)
+and the six legacy-engine suites all have to move at once, onto
+`tests/fixtures/lesson-variety.ts`. The procedure note predicts exactly this and says to
+extend the fixture rather than delete the assertions; nothing about the flip itself changes.
+
 ### Stage 2: the first-run block, rebalanced for a 320px phone (`5f52fa6`)
 
 The complaint was that the blank learner's block opened with the wide raster logo lockup,
@@ -1504,6 +1568,12 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
 | lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
 | measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
+| `npx vitest run` (Stage 3a: the Portuguese flip) | **155 passed | 1 skipped (156); 1197 passed | 6 skipped (1203)** |
+| `npx playwright test --project=chromium` | **101 passed (2.2m), 3 skipped** |
+| `playwright test --config playwright.offline.config.ts` | **11 passed (19.0s)** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
+| measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
 | `npx vitest run` (stage 1) | **154 passed | 1 skipped (155); 1193 passed | 6 skipped (1199)** |
 | `npx playwright test --project=chromium` | **99 passed, 3 skipped** |
 | `playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** |
@@ -1659,6 +1729,7 @@ also skips the config's own `webServer`.
 | `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 | `2f08a38` | Run record — the emergency scene and the course map |
 | `5f52fa6` | **Stage 2: the first-run block rebalanced** |
+| `e1b0db5` | **Stage 3a: the Portuguese flip** |
 | `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
