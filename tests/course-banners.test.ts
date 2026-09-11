@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import catalog from "@/features/course-pack/catalog.json";
+import { collectPortableContent } from "../scripts/portable/content";
 
 /**
  * Course banner coverage.
@@ -99,5 +100,19 @@ describe("course banners", () => {
     expect([...mapped].sort()).toEqual(catalogSlugs());
     for (const slug of mapped)
       expect(fs.existsSync(bannerFor(slug)), `lesson banner ${slug}.jpg is missing`).toBe(true);
+  });
+
+  it("embeds a banner for every catalogued language in the offline bundle", () => {
+    // The portable edition is one HTML file under `img-src blob: data:`, so a
+    // banner the collector does not embed cannot load at all — no broken-image
+    // icon, no request, just an empty frame. The collector used to hand-list four
+    // paths and skipped missing files silently, so German was absent offline
+    // while every other surface showed it.
+    const { assets } = collectPortableContent(ROOT);
+    for (const slug of catalogSlugs())
+      expect(
+        assets[`/brand/courses/${slug}.jpg`],
+        `the offline bundle does not embed public/brand/courses/${slug}.jpg`,
+      ).toBeDefined();
   });
 });

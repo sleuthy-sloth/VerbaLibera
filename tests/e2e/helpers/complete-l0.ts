@@ -93,10 +93,11 @@ async function walk(page: Page, steps: Step[], runtime: boolean) {
       }
       await check();
     } else {
-      if (step.think && !runtime)
-        await page
-          .getByRole("button", { name: /i've thought about it/i })
-          .click();
+      // A prediction is gated in both players — the legacy `think` exercise and
+      // the v2 `predict` step — so clear the pause wherever it is actually
+      // showing rather than trusting which engine we think we are on.
+      const gate = page.getByRole("button", { name: /i've thought about it/i });
+      if ((await gate.count()) > 0) await gate.click();
       await page.getByLabel(/^(Your answer|Missing word)$/).fill(step.text);
       await check();
     }
@@ -135,11 +136,19 @@ async function completeLesson(page: Page, answers: LessonAnswers) {
   }
 }
 
+// French runs the v2 player since the 2026-09-10 migration, so the step list is
+// the runtime one. Both engines consume the same authored order (the v1→v2
+// adapter preserves it), which is why one list describes both — but `legacy` is
+// now unreachable for French and is left empty rather than kept as a stale copy.
+// Step 3 is a `predict` step: the v2 player gates it behind the think-first
+// pause (see tests/thinking-lesson.spec.ts), so the walk clears that gate before
+// typing. `walk` clears it for the legacy player only, hence the explicit click.
 export async function completeFrenchL0(page: Page) {
   await page.goto("/courses/french");
   await completeLesson(page, {
     title: "First words",
-    legacy: [
+    legacy: [],
+    runtime: [
       { kind: "choice", name: "Hello." },
       { kind: "text", text: "Bonjour.", think: true },
       {
@@ -151,7 +160,6 @@ export async function completeFrenchL0(page: Page) {
       { kind: "text", text: "Three times." },
       { kind: "text", text: "Bonjour, merci." },
     ],
-    runtime: [],
   });
 }
 

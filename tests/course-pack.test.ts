@@ -9,9 +9,19 @@ import {
   projectProgress,
   selectDaily,
 } from "@/features/course-pack/progress";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 
-const readPack = () =>
-  JSON.parse(readFileSync("courses/french/manifest.json", "utf8"));
+/**
+ * The v1 pack these validator and daily-selection cases run against.
+ *
+ * French used to be the host, and is now schemaVersion 2 — it renders in the v2
+ * player and the v1 validator rightly refuses it. German is the remaining v1
+ * pack with the widest spread of kinds (choice, think, cloze, reading, dictation,
+ * order, translate, transform), so the legacy engine keeps real-content coverage
+ * instead of falling back to a synthetic fixture.
+ */
+const readLegacyPack = () =>
+  JSON.parse(readFileSync("courses/german/manifest.json", "utf8"));
 describe("course packs", () => {
   it.each(["italian", "french"])(
     "validates original %s foundation content",
@@ -42,7 +52,7 @@ describe("course packs", () => {
     },
   );
   it("rejects incompatible versions and missing answers", () => {
-    const p = readPack();
+    const p = readLegacyPack();
     p.schemaVersion = 2;
     expect(() => validatePack(p)).toThrow();
     p.schemaVersion = 1;
@@ -50,13 +60,13 @@ describe("course packs", () => {
     expect(() => validatePack(p)).toThrow();
   });
   it("rejects cycles, unknown concepts and vocabulary overload", () => {
-    const p = readPack();
+    const p = readLegacyPack();
     p.lessons[0].prerequisites = [p.lessons[1].id];
     expect(() => validatePack(p)).toThrow(/prerequisite/i);
-    const q = readPack();
+    const q = readLegacyPack();
     q.lessons[0].exercises[0].conceptId = "unknown";
     expect(() => validatePack(q)).toThrow(/concept/i);
-    const r = readPack();
+    const r = readLegacyPack();
     r.lessons[0].vocabulary = Array.from(
       { length: 10 },
       (_, i) => `unknown-${i}`,
@@ -120,7 +130,7 @@ describe("deterministic answers", () => {
 });
 describe("learning evidence", () => {
   it("is idempotent, separates modalities and discounts answer reveal", () => {
-    const p = validatePack(readPack());
+    const p = validatePack(readLegacyPack());
     const e = p.lessons[0].exercises[0];
     const event = {
       id: "one",
@@ -140,7 +150,7 @@ describe("learning evidence", () => {
     expect(Object.keys(state)).toEqual([e.id]);
   });
   it("starts by teaching and never schedules practice before prerequisites", () => {
-    const p = validatePack(readPack());
+    const p = validatePack(readLegacyPack());
     const session = selectDaily(p, [], 5, new Date("2026-09-05"));
     expect(session.lessonId).toBe(p.lessons[0].id);
     expect(
@@ -151,7 +161,7 @@ describe("learning evidence", () => {
   });
 });
 it("daily selection advances past successful items and recovered mistakes", () => {
-  const p = validatePack(readPack()),
+  const p = validatePack(readLegacyPack()),
     first = p.lessons[0];
   const events = first.exercises.flatMap((e, i) => [
     {
@@ -214,7 +224,7 @@ it.each([["italian", "it-identity-foundation"], ["french", "fr-identity-foundati
   },
 );
 it("keeps recognition separate in concept summaries", () => {
-  const p = validatePack(readPack()),
+  const p = validatePack(readLegacyPack()),
     e = p.lessons[0].exercises.find((e) => e.mode === "recognition")!;
   const event = {
     id: "recognition",
@@ -230,19 +240,52 @@ it("keeps recognition separate in concept summaries", () => {
   expect(summary[e.conceptId].production.successes).toBe(0);
 });
 it("validates dialogue recovery branches and rejects dangling nodes", () => {
-  const raw = readPack();
+  // No real pack carries dialogues at v1 any more: French and Italian — the only
+  // two that ever had them — are both schemaVersion 2, and the v2 schema
+  // validates a dialogue's shape but not its node graph. The v1 validator still
+  // ships for the packs that have not migrated, so its graph checks are pinned
+  // against the synthetic v1 fixture with a dialogue attached.
+  const raw = {
+    ...makeLegacyRawPack(),
+    dialogues: [
+      {
+        id: "lg-dialogue",
+        title: "Al bar",
+        prerequisite: "lg-lesson",
+        goal: "Ordinare un caffè.",
+        start: "n-greet",
+        nodes: [
+          {
+            id: "n-greet",
+            line: "Buongiorno!",
+            meaning: "Good morning!",
+            complete: false,
+            choices: [{ text: "Buongiorno!", next: "n-order", feedback: "Formale." }],
+          },
+          {
+            id: "n-order",
+            line: "Vorrei un caffè.",
+            meaning: "I would like a coffee.",
+            complete: true,
+            choices: [],
+          },
+        ],
+      },
+    ],
+  };
   expect(validatePack(raw).dialogues.length).toBeGreaterThan(0);
-  raw.dialogues[0].nodes[0].choices[0].next = "missing-node";
-  expect(() => validatePack(raw)).toThrow(/dialogue/i);
+  const broken = structuredClone(raw);
+  broken.dialogues[0].nodes[0].choices[0].next = "missing-node";
+  expect(() => validatePack(broken)).toThrow(/dialogue/i);
 });
 
 it('rejects optional exercise references outside their lesson', () => {
-  const raw = readPack();
+  const raw = readLegacyPack();
   Object.assign(raw.lessons[0], { optionalExerciseIds: ['nonexistent-listening'] });
   expect(() => validatePack(raw)).toThrow(/optional/);
 });
 it('optional listening does not relock previously completed text lessons', () => {
-  const raw = readPack();
+  const raw = readLegacyPack();
   Object.assign(raw.lessons[0], { optionalExerciseIds: [raw.lessons[0].exercises.at(-1)!.id] });
   const pack = validatePack(raw);
   const events = pack.lessons[0].exercises.slice(0, -1).map((e, i) => ({
@@ -340,7 +383,7 @@ describe('new foundation packs', () => {
     expect(() => validatePack(raw)).toThrow(/coming-soon/);
   });
   it('rejects an active pack with no lessons', () => {
-    const raw = readPack();
+    const raw = readLegacyPack();
     raw.lessons = [];
     expect(() => validatePack(raw)).toThrow(/units, concepts and lessons/);
   });

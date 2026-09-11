@@ -342,7 +342,12 @@ function adaptV1(
       },
       ...lesson.exercises.map((exercise, i) => ({
         id: `${lesson.id}-step-${exercise.id}`,
-        purpose: "practice" as const,
+        // A `think` exercise asks the learner to produce the answer before
+        // seeing any input, so the step carries the `predict` purpose and the
+        // v2 player keeps the gate. Everything else is plain practice.
+        purpose: (exercise.kind === "think" ? "predict" : "practice") as
+          | "predict"
+          | "practice",
         activityId: exercise.id,
         required: !lesson.optionalExerciseIds.includes(exercise.id),
         nextStepId:

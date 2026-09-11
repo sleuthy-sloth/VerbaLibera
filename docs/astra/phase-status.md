@@ -7,7 +7,7 @@ Numbers in this file come from the generated reports in `docs/astra/reports/`, n
 | Phase | Status and remaining work |
 | --- | --- |
 | 1 Audit | Completed initial audit and baseline verification. |
-| 2 Content architecture | Versioned JSON packs, schema and references implemented; richer level/stage/skill metadata remains partial — the Italian v2 pack carries no `cefr` tag on its lessons or concepts. |
+| 2 Content architecture | Versioned JSON packs, schema and references implemented; richer level/stage/skill metadata remains partial. French migrated from schemaVersion 1 to 2 on 2026-09-10 through `migratePackV1ToV2()` with identity parity and history replay proven by test; German, Portuguese and Spanish remain v1. The v2 schema has no `cefr` field, so a migrated pack loses the v1 per-lesson `cefr: "A1"` tags — decide the field's fate before the next flip. |
 | 3 Curriculum | French and Italian: 25 lessons each (L0 words-first opener + Units 1–6); partial A1. German, Portuguese and Spanish ship as active starter packs (8 lessons each, v0.4.0, 48–49 practice activities). More domains, depth and native-speaker review remain. |
 | 4 Exercises | Reusable registry and seven contracts; five populated forms. French has 222 practice activities, Italian 233. `transform` now exists in French, German, Spanish and Portuguese. Full proposed catalogue remains partial. |
 | 5 Answer evaluator | Deterministic variants, normalization, authored errors and conservative typo handling implemented; broader morphology data remains. |

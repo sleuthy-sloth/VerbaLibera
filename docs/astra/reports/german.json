@@ -84,7 +84,8 @@
   },
   "purposeMix": {
     "notice": 8,
-    "practice": 48
+    "practice": 41,
+    "predict": 7
   },
   "prerequisites": {
     "basis": "lessons declaring a prerequisite; chain depth is the longest prerequisite path; vocabulary counts distinct entries introduced by a lesson's direct prerequisites",
@@ -98,6 +99,6 @@
     "note": "Neither review has been performed. Audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
   },
   "answerCoverage": "100%",
-  "packBytes": 131687,
+  "packBytes": 131680,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }

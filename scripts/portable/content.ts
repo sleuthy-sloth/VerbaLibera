@@ -10,6 +10,7 @@ import { validatePack } from "../../src/features/course-pack/schema";
 import type { CoursePack } from "../../src/features/course-pack/schema";
 import { validateV2Pack } from "../../src/features/course-pack/schema-v2";
 import type { AuthoredV2Pack } from "../../src/features/course-pack/schema-v2";
+import catalog from "../../src/features/course-pack/catalog.json";
 
 export type EmbeddedAsset = {
   mime: string;
@@ -27,12 +28,14 @@ export type PortableContent = {
   assets: Record<string, EmbeddedAsset>;
 };
 
-const COURSE_BANNERS = [
-  "/brand/courses/french.jpg",
-  "/brand/courses/italian.jpg",
-  "/brand/courses/portuguese.jpg",
-  "/brand/courses/spanish.jpg",
-] as const;
+/**
+ * The offline bundle embeds one banner per catalogued course. Derived from the
+ * generated catalog rather than hand-listed: the previous hand-written list of
+ * four silently omitted German, and because a missing file is skipped rather
+ * than fatal, the German banner was simply absent from the portable edition.
+ * A course without art now fails `tests/course-banners.test.ts` instead.
+ */
+const COURSE_BANNERS = catalog.map((entry) => `/brand/courses/${entry.slug}.jpg`);
 
 const MIME_BY_EXTENSION: Record<string, string> = {
   ".jpg": "image/jpeg",

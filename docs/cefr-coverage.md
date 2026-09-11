@@ -19,7 +19,7 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 
 | Course | Schema | Lessons | Practice activities | Notice steps | Target-language production | Speaking steps | Lessons with model audio | Authored CEFR tags |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| French | v1 | 25 | 222 | 25 | 119 | 0 | 25/25 | A1 × 25 lessons |
+| French | v2 | 25 | 222 | 25 | 119 | 0 | 25/25 | none on the pack |
 | Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
 | German | v1 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Portuguese | v1 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
@@ -27,18 +27,26 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 
 Totals: 74 lessons, 600 practice activities, 23 speaking steps.
 
-Three findings this table makes visible:
+Four findings this table makes visible:
 
-1. **The Italian v2 pack carries no authored `cefr` tag on its lessons or
-   concepts.** That is a metadata gap in the pack, not evidence that the
-   material sits outside A1; the tags simply were not carried across when the
-   pack moved to schema v2. Nothing in the product promotes a level from
-   lesson counts, and the dashboard copy stays descriptive.
-2. **Speaking is Italian-only** — 23 of the 600 practice activities. The other
-   four courses are schemaVersion 1 and have no self-assessed exercise kind at
-   all, so this is a player-capability gap, not a content omission.
-3. **Audio coverage is French/Italian-only.** German, Portuguese and Spanish
-   carry model audio in one lesson out of eight.
+1. **The v2 packs carry no authored `cefr` tag on their lessons or concepts.** The tag exists
+   only in the v1 schema (`cefr: z.literal("A1")` on a lesson), the v2 schema has no field for it,
+   and `migratePackV1ToV2()` builds its output from the runtime shape — so migrating French dropped
+   25 authored "A1" lesson tags. Nothing in the product read them (no source file consumes
+   `lesson.cefr` from a pack; the dashboard's level vocabulary comes from the curriculum fixture),
+   but the reporting column above changed from "A1 × 25 lessons" to "none", and that is a real
+   documentation loss. Either the v2 schema grows a `cefr` field or the remaining packs lose their
+   tags on migration too; decide before the German/Portuguese/Spanish flip.
+2. **Speaking is Italian-only** — 23 of the 600 practice activities. German, Portuguese and Spanish
+   are schemaVersion 1 and have no self-assessed exercise kind at all, so for them this is a
+   player-capability gap, not a content omission. French now runs the v2 player and *could* carry
+   speaking steps, but none are authored.
+3. **Audio coverage is French/Italian-only.** German, Portuguese and Spanish carry model audio in
+   one lesson out of eight.
+4. **The migrated French pack reports every lesson as `family: "discovery"`.** The v1 schema had no
+   family field, and the adapter assigns one default, so the v2 player's lesson-rhythm vocabulary
+   says nothing about French yet. Italian's authored families (22 discovery, 1 story, 1
+   conversation, 1 listening) are the target shape.
 
 ## Travel fixture (unchanged since 2026-09-03)
 
