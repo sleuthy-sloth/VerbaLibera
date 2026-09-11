@@ -1,5 +1,5 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages -- Also bundled outside Next for offline cold starts. */
+/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element -- Also bundled outside Next for offline cold starts. */
 /* Public offline entry shares this component. Keep Next/account imports out. */
 import { useEffect, useState, type ReactNode } from 'react';
 import type { CourseEnvironment } from './environment';
@@ -7,6 +7,7 @@ import type { RuntimePack } from './lesson-runtime';
 import { mergeLearningEvents, projectLessonEvidence, type LessonEvidence } from './attempts';
 import { LessonPlayer } from './LessonPlayer';
 import { DialogueView } from './DialogueView';
+import { bannerFor, bannerStyle } from './banners';
 import { OfflineDownload } from './OfflineDownload';
 import catalog from './catalog.json';
 
@@ -100,6 +101,20 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
    <label>Learning language<select value={language} onChange={e=>onLanguageChange(e.target.value)}>{catalog.map(c=><option key={c.slug} value={c.slug}>{c.title}</option>)}</select></label>
   </header>
   <h1>{pack.title}</h1><p className="study-lede">{pack.description}</p>
+  {bannerFor(language) ? (
+   /* The course page's own artwork. This shell shipped without it, so a course
+      lost its banner the moment it migrated to v2 while the library kept showing
+      the same file. Decorative: the heading above names the course, and the
+      library is where the picture carries meaning (its alt text names the scene).
+      Plain <img> because this component is bundled outside Next for offline cold
+      starts, so next/image is unavailable here. */
+   <img
+    className="course-banner"
+    src={environment.resolveMedia(bannerFor(language)!)}
+    style={bannerStyle(language)}
+    alt=""
+   />
+  ) : null}
   {durability === "temporary" && (
    <p role="alert">Progress is temporary in this browser. Export a backup before closing this file.</p>
   )}

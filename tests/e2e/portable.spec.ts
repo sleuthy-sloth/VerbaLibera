@@ -48,6 +48,14 @@ test("opens from one file, stays offline, and reloads durable progress", async (
   await expect(
     page.getByRole("heading", { name: "Italian foundations", exact: true }),
   ).toBeVisible();
+  // The course artwork travels in the single file too: the banner is embedded as
+  // a data URL and handed to the shell as a blob, so it renders with every http
+  // request aborted above.
+  const banner = page.locator("img.course-banner");
+  await expect(banner).toHaveAttribute("src", /^blob:/);
+  await expect
+    .poll(() => banner.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
   await openFirstLesson(page, true);
 
   // The v2 runtime player shows completed steps on its own progress bar

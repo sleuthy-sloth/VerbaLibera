@@ -28,6 +28,14 @@ test('downloaded v2 language can be opened from the PWA offline welcome page', a
   await page.getByRole('link', { name: 'Italian' }).click();
   await expect(page.getByRole('heading', { name: 'Italian foundations', exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Course path' })).toBeVisible();
+  // The course page's artwork is part of the offline promise too: the service
+  // worker precaches every banner, and the course page used to render none for a
+  // v2 course — so "downloaded" meant a page with no picture on it.
+  const banner = page.locator('img.course-banner');
+  await expect(banner).toHaveAttribute('src', /\/brand\/courses\/italian\.jpg/);
+  await expect
+    .poll(() => banner.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
   const firstLesson = page.getByRole('button', { name: 'First words', exact: true });
   await expect(firstLesson).toBeEnabled();
   await firstLesson.click();
