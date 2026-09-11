@@ -61,19 +61,42 @@ if (command === "build") {
     JSON.stringify(catalog, null, 2) + "\n",
   );
   const { build } = await import("esbuild");
-  await build({
+  // `write: false`: the bundle's own outputs are composed into the generated
+  // artifacts explicitly. The previous version read the PREVIOUS
+  // `public/study.css` back off disk, so the generated stylesheet depended on
+  // generated output and prepended the source stylesheet again on every build
+  // whenever the esbuild CSS output stopped landing at that exact path.
+  const bundle = await build({
     entryPoints: ["src/features/course-pack/offline-entry.tsx"],
     bundle: true,
     minify: true,
-    outfile: "public/study.js",
+    write: false,
+    outfile: "study.js",
     platform: "browser",
     format: "iife",
     target: ["safari15"],
     define: { "process.env.NODE_ENV": '"production"' },
     legalComments: "eof",
   });
-  const playerStyles = readFileSync("public/study.css", "utf8");
-  writeFileSync("public/study.css", readFileSync("src/features/course-pack/study.css", "utf8") + "\n" + playerStyles);
+  const emitted = (extension: ".js" | ".css"): string =>
+    bundle.outputFiles
+      .filter((file) => file.path.endsWith(extension))
+      .map((file) => file.text)
+      .join("\n");
+  const script = emitted(".js");
+  if (script === "") throw new Error("offline bundle produced no JavaScript");
+  const playerStyles = emitted(".css");
+  if (playerStyles === "")
+    throw new Error(
+      "offline bundle produced no CSS: lesson-player styles would be missing from public/study.css",
+    );
+  writeFileSync("public/study.js", script);
+  // Composed from canonical source only: the lesson stylesheet plus the
+  // lesson-player styles the offline bundle just produced.
+  writeFileSync(
+    "public/study.css",
+    readFileSync("src/features/course-pack/study.css", "utf8") + "\n" + playerStyles,
+  );
   writeFileSync(
     "public/study.html",
     '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fbf4e6"><title>VerbaLibera · Offline study</title><link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="/study.css"></head><body><div id="study-root"><p>Opening your course. If it is not downloaded, connect once to install it.</p></div><script src="/study.js" defer></script></body></html>',

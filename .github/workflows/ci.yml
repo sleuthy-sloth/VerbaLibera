@@ -54,6 +54,19 @@ jobs:
       - name: Validate and build course packs
         run: npm run content:build
 
+      - name: Deployment-import guard
+        # Fails when production TS imports a path excluded by .vercelignore —
+        # the class of bug that passes locally and explodes in the Vercel build
+        # context. Also runs inside `npm run build`'s prebuild.
+        run: npm run content:check-deployment-imports
+
+      - name: Voice-service contract tests
+        # The speech and translation engines are imported lazily, so the
+        # contract suite runs without the multi-gigabyte local model
+        # environment (and CI must never download one). Dependency set matches
+        # the contract-test half of services/voice/requirements.txt.
+        run: python -m pytest services/voice/tests -q
+
       - name: Lint
         run: npm run lint
 
@@ -61,8 +74,11 @@ jobs:
         run: npx vitest run
 
       - name: Next build
-        # npm run build invokes next build deterministically
-        run: npx next build
+        # `npm run build` (not `npx next build`): it runs the prebuild checks and
+        # pins `next build --webpack`, which is the path that ships. Vercel's
+        # Turbopack output omits .next/next-server.js.nft.json and crashes its
+        # file-tracing step, so a Turbopack build here would prove nothing.
+        run: npm run build
         env:
           # Use dummy DATABASE_URL for build; prisma generate already validated schema
           DATABASE_URL: postgresql://user:pass@localhost:5432/verbalibera_ci

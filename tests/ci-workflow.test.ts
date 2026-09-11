@@ -97,9 +97,23 @@ describe("CI workflow", () => {
     expect(c).toMatch(/prisma generate/);
     // vitest run: either 'vitest run' or 'npm run test' or 'npm test' that invokes vitest
     expect(c).toMatch(/vitest run/);
-    // next build: either 'next build' or 'npm run build'
-    expect(c).toMatch(/next build/);
+    // The SHIPPING build path, not a bare `next build`: `npm run build` runs
+    // prebuild (deployment-import guard + content build) and pins
+    // `next build --webpack`, which is what Vercel's file tracing needs.
+    expect(c).toMatch(/run: npm run build\b/);
+    expect(c).not.toMatch(/run: npx next build\b/);
     expect(c).toMatch(/playwright test/);
+  });
+
+  it("exercises the deployment-import guard and the voice-service contract tests", () => {
+    const c = readWorkflow();
+    // Explicit named steps, so a failure reads as the guard failing rather than
+    // as something inside the Next build.
+    expect(c).toMatch(/run: npm run content:check-deployment-imports\b/);
+    expect(c).toMatch(/run: npm run content:build\b/);
+    // Model engines are lazily imported, so the contract suite needs no
+    // multi-gigabyte model environment.
+    expect(c).toMatch(/run: python -m pytest services\/voice\/tests\b/);
   });
 
   it("installs playwright browsers with deps and runs chromium project", () => {
