@@ -10,19 +10,19 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0 and 1A complete. Phase 2A complete — the French pack is migrated and verified. The
-graphics acceptance item is fixed.**
+**Phases 0, 1A, 1B and 2A complete. Phase 3A started — Listen remembers where a long track was left.**
 
-Phase 1B (the short entry sequence) and Phase 3A (standalone offline Listen) are the next packages.
+Phase 3A's remaining work (the downloaded/portable entry points, the size reporting, and the full
+offline matrix) and then 3B / Phase 4 are the next packages. Phase 7 stays behind its evidence gates.
 
 ## Phase status
 
 | Phase | State | Notes |
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
-| 1 — complete the first ten minutes | **1A complete, 1B not started** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short French/Italian entry sequence. The gate's observed five-user pilot is a human session and stays pending. |
+| 1 — complete the first ten minutes | **1A and 1B complete** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short first-win sequence for French and Italian, text-first and sound-optional, with resume and a concrete recap. The gate's observed five-user pilot is a human session and stays pending. |
 | 2 — consistent activities and progress | **2A complete** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. 2B content work is a separate package. |
-| 3 — listening and speaking everywhere | 3A next | Standalone offline Listen is the next engineering package; 3B audio expansion needs the human listening checklist |
+| 3 — listening and speaking everywhere | **3A started** | 3A slice 1: persisted playback position, resume, "start over", and a cold-start e2e (`2d00afd`). Remaining: the downloaded/portable entry points, size reporting, and the offline matrix (full cached responses, range requests, interrupted download, reconnect, WebKit). 3B audio expansion still needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
 | 6 — verified releases | Not started | Physical-device QA and signing decisions are human tasks |
@@ -225,6 +225,71 @@ Known consequences, recorded not hidden (also in `docs/cefr-coverage.md`):
 - `<details>` reference browsing and the language switcher were verified at 320/390/430/844px with
   no horizontal overflow in `tests/e2e/course-packs.spec.ts`.
 
+### Phase 1B — the short first win (`9e69a44`)
+
+A beginner who picks French or Italian now spends one short sequence with the language before the
+course opens: hear the phrase, recognise it, build it, optionally say it, concrete recap. Four
+practice steps plus the recap, pinned by test so the sequence cannot quietly grow into a lesson.
+
+- **Content comes from the course.** `src/features/onboarding/first-win.ts` holds the two sequences,
+  the same shape as the authored placement sets and with the same capability predicate: French and
+  Italian have one, Spanish, Portuguese and German go straight to lesson 1 as before. Each sequence
+  uses its course's first-lesson words and the pack's existing model recording
+  (`fr-first-words-foundation-model.wav`, `it-first-words-foundation-model.wav`), so the welcome
+  cannot drift from the course, and adds **no new audio** — which matters, because new audio would
+  need a native-speaker pass of its own. Tests assert the reuse, the file sizes on disk, that the
+  recognition answer is a meaning the learner was just given, and that the build step leaves exactly
+  one distractor.
+- **Preparation, not a lesson.** `FirstWinFlow` takes no practice store, no environment, and imports
+  nothing from `course-pack`; a source assertion pins that. The e2e walks the whole sequence and
+  asserts `localStorage` still holds no practice/lesson key — before *and* after landing in the
+  lesson, because landing in a lesson is not practising it.
+- **Text-first and sound-optional.** Nothing autoplays, the clip is `preload="none"` and loads only
+  when pressed, a failed load degrades to a note with the transcript still on screen, no step touches
+  a microphone, and the say step is skippable. The muted-audio e2e case blocks the **service worker**
+  so aborting the audio route actually reaches the player — the PWA precaches pack audio and a
+  worker-served response is not a page-level route, which is why the first version of that test
+  passed against a clip that had loaded fine.
+- **The completion transition still happens once.** Choosing the beginner path writes
+  `welcome-in-progress` with `entryIntent: 'beginner'` and opens the sequence;
+  `completeOnboarding` runs on the recap's action. `onboardingResumeScreen` returns `first-win` only
+  where a sequence is authored, and Back drops the recorded path so a reload does not reopen it.
+- **The recap ends on three named actions** — start lesson 1, look around the course, run through it
+  again — and says in plain words that this was not lesson 1 and nothing here counts as finished.
+
+The pilot's other conditions are covered by test rather than by claim: 390px (the e2e runs the whole
+walk there and asserts no horizontal overflow), keyboard alone (tab order is asserted through the
+play control, the words and the action), reduced motion (no transforms anywhere in the module, plus
+the module's own `prefers-reduced-motion` block — the app-wide kill-switch in `globals.css` does not
+reach the portable bundle, so modules that can ship offline carry their own), muted audio and a
+broken recording (above), and no microphone (nothing asks for one). The **observed five-user pilot**
+remains a human session and is not claimed anywhere.
+
+### Phase 3A — standalone offline Listen, first slice (`2d00afd`)
+
+An eleven-minute track that forgets where you stopped is one you never finish.
+`src/features/listen/position.ts` now stores the position browser-locally, with the same rules as
+every other local record here (session mirror when storage is denied; never a claim of progress — a
+position is not listening, and listening is not mastery). Two rules keep the stored value honest:
+under `MIN_RESUME_SECONDS` it is a stray tap and is dropped; within `COMPLETE_WITHIN_SECONDS` of the
+end the track is finished, so it is cleared rather than resuming the learner into the last seconds of
+something they already heard.
+
+The player says where it will pick up before playing, seeks on metadata, offers "start over" as one
+tap, saves on pause / seek / a throttled `timeupdate` / `pagehide` (the usual way a long track ends),
+and drops a stored position that is past the end of the file — reachable when a track is re-encoded
+shorter. `tests/ListenPosition.test.tsx` (14 tests) pins the store and the player; the roadmap's
+cold-start case is now in `tests/e2e/listen.spec.ts`: play, really seek to 4:00, reload the page,
+pick the lesson again, find the place kept, then "start over" clears it for good.
+
+**Still open in 3A, and not implied to be done:** exposing Listen from the **portable** single-file
+edition needs the long tracks embedded in that bundle, and they are not in pack media yet — which is
+also the roadmap's size-reporting item ("include every advertised downloadable track in pack media
+and size reporting; allow learners to understand the storage cost"). Inlining five multi-megabyte
+tracks as base64 into one HTML file is a real design decision, not a mechanical edit, so it is
+deliberately not rushed here. The offline matrix (full cached responses, range requests, interrupted
+download, recovery after reconnect, WebKit) is untouched, and so is the gate's device pass.
+
 ### Graphics acceptance item — the German banner
 
 The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
@@ -288,13 +353,14 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run content:validate` (runs inside every `content:*` command; verifies every declared media hash) | exit 0, five packs |
 | `npm run content:build` ×3 before the fix | exit 0, `public/study.css` stable at 34142 bytes — masked accumulation, reproduced separately (22492 → 44879 → 67266 → 89653 bytes) |
 | `npm run content:build` ×2 after the fix | exit 0, byte-identical, pinned by test |
-| `npx vitest run` (after the French flip, `473b90d`) | **134 files passed, 1 skipped; 1011 passed, 6 skipped** |
+| `npx vitest run` (after 1B and the 3A slice, `2d00afd`) | **137 files passed, 1 skipped; 1061 passed, 6 skipped** |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
 | `npm run lint` | exit 0 (0 errors, 27 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
-| `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment) |
-| `npm run portable:build && npm run portable:verify` | exit 0, digest `c0197aa4730eec773a3e8a17affc61046b282ac92047aae79776eb1fcf02cc2e` |
-| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after the flip) | **70 passed, 3 skipped** — the 3 are the account specs that need `E2E_ACCOUNT_TEST` and a disposable Postgres. This is the first run in which `tests/e2e/portable.spec.ts` actually ran: it had been failing on `ERR_FILE_NOT_FOUND` because the portable artifact is built by `npm run portable:build`, a CI step the earlier local runs did not reproduce. |
+| `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment; unchanged this run — the voice service was not touched) |
+| `npm run portable:build && npm run portable:verify` | exit 0, digest `c0197aa4730eec773a3e8a17affc61046b282ac92047aae79776eb1fcf02cc2e` (built during the French flip; the portable bundle was not rebuilt after 1B/3A, neither of which it uses yet) |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after 1B and 3A) | **74 passed, 3 skipped** — the 3 are the account specs that need `E2E_ACCOUNT_TEST` and a disposable Postgres. `tests/e2e/portable.spec.ts` ran for the first time here: it had been failing on `ERR_FILE_NOT_FOUND` because the portable artifact is built by `npm run portable:build`, a CI step the earlier local runs did not reproduce. |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/onboarding.spec.ts` (alone) | **13 passed** — the phase's own gate conditions (390px, keyboard, muted audio, resume) read worst-case when run on their own |
 
 Earlier phases' runs (onboarding 10 passed, landing-page 8 passed) are in the Phase 0/1A sections
 above; the numbers in this table are the post-flip state and supersede them.
@@ -322,34 +388,58 @@ also skips the config's own `webServer`.
 | `8abc711` | Placement capability on the course library (same class as the Phase 1A bug) |
 | `64ba98a` | Graphics acceptance item — German's banner restored on both surfaces, with unit + e2e guards |
 | `473b90d` | **Phase 2A — French migrated to schemaVersion 2**, the shared think-first gate, retargeted legacy suites and e2e walks, the offline banner fix |
+| `02aa8d6` | Run record — the French flip, its evidence and its losses |
+| `9e69a44` | **Phase 1B — the short first-win sequence** for French and Italian, text-first and sound-optional, with resume and a concrete recap |
+| `2d00afd` | **Phase 3A slice 1 — Listen remembers where a long track was left**, and resumes there across a cold start |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
-1. **Phase 1B — the short entry sequence.** One genuinely short French and Italian opening
-   (hear/see → recognise → construct → optionally say → recap), text-first and silent equivalents,
-   a clear next action at the end. Then Spanish, Portuguese and German after usability checks.
-2. **Phase 3A — standalone offline Listen** from the downloaded and portable entry points,
-   independent of prerequisite unlocks, with persisted playback position and a cold-start/seek test.
-3. **Phase 3B — audio expansion** for German/Spanish/Portuguese. Blocked on the human listening
-   checklist; can be prepared but not closed here.
-4. **The remaining three packs' flip** (German, Portuguese, Spanish). Do not start it before
-   deciding the `cefr` question: each of those packs still carries per-lesson `cefr: "A1"` tags that
-   the v2 schema has no field for, so flipping them is lossy in the same way French just was.
+1. **Phase 3A, the rest of it.** In order of value: (a) embed every advertised long track in pack
+   media and report its size in the learner-facing storage view — that is also what the portable
+   entry needs; (b) expose the track catalog and player from the offline and portable entry points
+   (`offline-entry.tsx`, `portable-entry.tsx`, `scripts/portable/content.ts`); (c) the offline matrix
+   the roadmap lists: full cached responses, range requests, cold offline navigation, seek,
+   interrupted download, recovery after reconnect; (d) the gate's device pass on WebKit and a
+   physical iPhone.
+2. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+   language. Blocked on the human listening checklist; can be prepared but not closed here.
+3. **Phase 2B — the remaining packs' flip** (German, Portuguese, Spanish). Decide the `cefr` question
+   first: each still carries per-lesson `cefr: "A1"` tags the v2 schema has no field for, so flipping
+   them is lossy in the same way French just was.
+4. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
 5. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
    surfaces (landing, course library, lesson view, offline bundle); the brief's "commission new art"
    half is a design decision for the user, and the file is still untracked.
 
 ## Precise continuation instructions
 
-### To start Phase 1B (the short entry sequence)
+### To finish Phase 3A (standalone offline Listen)
 
-The 1A state machine supports it: add the short welcome as a screen between `choice` and
-completion, move `completeOnboarding()` to the end of that sequence, and extend
-`onboardingResumeScreen()` with the new screen. Do not claim the two-minute first phrase in copy
-until the sequence exists — the current copy deliberately does not. `tests/onboarding-state.test.ts`
-is the place the resume rules are pinned; extend it rather than adding a parallel suite.
+1. Size reporting first, because the portable decision depends on the number. The long tracks live in
+   `src/features/listen/generated/*.json` as `audioUrl` + `durationS`, and the files are under
+   `public/audio/*-foundations/*-listen.mp3`; they are **not** in any pack's `media` array. Add them
+   (or a parallel manifest) so the reports can total bytes per course, then surface that in the Listen
+   page — "this course's audio is N MB" — before adding anything to the offline bundle.
+2. Then the entry points. `scripts/portable/content.ts` already embeds pack media as blob URLs and
+   `portable-environment.resolveMedia` resolves them; embedding the long tracks is the same mechanism
+   with a much larger payload (base64 in one HTML file), so measure the artifact size and decide
+   whether the portable edition should embed them or link them. Record whichever answer you choose.
+3. Then the matrix, in `tests/e2e/listen.spec.ts` and `tests/service-worker.test.ts`: a fully cached
+   response playing with the network off, a range request (the SW already refuses to cache 206s — see
+   the comment in `public/sw.js`), a cold offline navigation straight to `/listen`, an interrupted
+   download that resumes, and recovery after reconnect.
+4. The gate itself is a human device pass. Nothing in this repository can close it.
+
+### To start Phase 1B for another language
+
+`src/features/onboarding/first-win.ts` is the only file to edit: add an entry keyed by course slug
+and it becomes available, because the flow asks `firstWinFor(slug)` rather than listing languages.
+Reuse the course's own first-lesson words and its existing model recording — new audio needs a
+native-speaker pass, which is why neither existing sequence records anything. `tests/first-win.test.ts`
+asserts the invariants for every authored sequence, so a new one is covered by adding it to
+`AUTHORED`.
 
 ### To flip the next pack (German, Portuguese, Spanish)
 
@@ -398,6 +488,16 @@ build.
   it renders for a v1 pack that has dialogues — of which there are none. Either the v2 shell grows a
   dialogue view or the feature is retired deliberately; do not delete the data, the migration
   preserves it.
+- **Found, not fixed (app-wide layout):** on a ≤767px viewport the floating bottom tabs own the last
+  ~84px of the screen. `globals.css` reserves that space at the *end of the document*, which does not
+  stop a control that happens to land in that band mid-page from being partly covered: measured at
+  390×844, `elementFromPoint` at the centre of the first win's "Skip this step" button returned the
+  tab bar, so a centre-tap goes to the tabs. A human taps the visible part, and the tests scroll a
+  control to the viewport centre before tapping (`tests/e2e/helpers/first-win.ts`), but the band is
+  real for every screen and worth a proper fix — `scroll-padding-bottom` on the scrolling container,
+  or making the tab bar part of the layout instead of floating over it.
+- **Found, not fixed:** the long Listen tracks are not in any pack's `media` array, so the offline
+  bundles and the size reporting cannot see them; see the 3A continuation steps.
 - **Found, not fixed:** `authoredCefrTags` is now empty for both v2 packs (Italian always, French
   since the flip) while the three v1 packs still carry their tags. The metadata gap is reported
   rather than hidden; closing it is either a schema field or a content edit, and it should be
