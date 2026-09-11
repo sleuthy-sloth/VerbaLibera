@@ -822,6 +822,66 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Stage 4: the German course-universe plan, the human-review gates, and the Spanish flip set aside (`fdf49f3`)
+
+Three things, in the order they were asked for.
+
+**The German course-universe follow-up, made ready to review rather than half-built.**
+`docs/superpowers/plans/2026-09-11-german-course-universe.md` writes out what "German has a
+pack but no dashboard presence" actually costs. The crux is not a missing list entry: the
+dashboard and the packs use **two course identity systems** — `english-to-french` from the
+travel fixture versus `french` from the pack catalogue — and the onboarding record validates
+its stored `courseSlug` against the fixture's list, so a slug change without a migration
+sends every existing learner back to the language step. The plan gives three steps that can
+each ship alone (one identity map, no behaviour change; the dashboard reads the catalogue;
+new writes use the pack slug with the old one still accepted), the test that would catch each
+regression, and an explicit out-of-scope list. It is a Phase-1B change, not a Phase-1A fix,
+which is why it is a plan and not a patch.
+
+**The human review work, written down as work.** `docs/human-review-gates.md` collects the
+six gates that no suite can close — native-speaker review of the prose, human listening
+review of the audio, the observed five-user pilot, physical-device QA, the signed/notarised
+distribution decision, and the content that does not exist yet — each with what it applies
+to, why it is still open, what "done" means, and where the result goes. Every gate is
+recorded as **not performed**. The point is that a green run cannot be mistaken for one of
+them, which is exactly how the previous record's blockers list was being read.
+
+**The Spanish flip: measured, and set aside.** Spanish is the last schemaVersion 1 pack, and
+the migration itself is proven: `schemaVersion` 1 → 2, `activities` and `stimuli` gained, no
+key lost, 8 lessons / 4 units / 8 concepts / 34 vocabulary / 1 media / 0 dialogues with every
+id in order, the file byte-equal to a fresh in-memory migration, and all 8 authored CEFR tags
+and 8 cultural notes carried. The only differences from German's report are content-intrinsic:
+49 exercises rather than 48, and its own audio and pack bytes.
+
+What stopped it was the consequence the procedure predicted, arriving in full. With no v1
+pack left, the migration-evidence suites needed the fixture — and the fixture needed four
+things it did not have, each found by a real assertion failing:
+
+1. `culturalNote`, because the carry proves two fields and it only had `cefr`.
+2. A **second lesson**, because `reviewOf` must name an *earlier lesson*: the first lesson
+   cannot carry a retrieval link at all, and the parity case that proves review survives as
+   retrieval is guarded against a vacuous pass.
+3. **Six exercises per lesson**, up from four: one legacy case marks a single exercise
+   optional, after which the v1 schema requires four *required* exercises to remain, and
+   another indexes `exercises[5]`.
+4. The extra exercises had to reuse `choice` and `translate`. `cloze` and `text` failed the
+   v1 schema for missing per-kind fields — an adapter fixture is not the place to invent
+   field shapes.
+
+Then eight legacy-engine suites turned out to read `courses/spanish/manifest.json` through
+`validatePack(...)`. Five were converted to a shared schema-aware reader
+(`tests/helpers/authored-pack.ts`, which restores `legacyExercises` to `exercises` and
+flattens v2 prerequisites back to ids), and their remaining failures were down to
+content-coupled assertions of their own — the point where the work stopped being mechanical.
+
+So the tree was **reverted to the stage-3a state, which is green**, and the whole flip is
+saved as a patch (`/tmp/vl-spanish-flip.patch`, ~9,600 lines) with the reader alongside it
+(`/tmp/vl-authored-pack.ts`). Nothing about the flip is lost: the migration is one command,
+the fixture extension is described above, and the remaining three suites are
+`LessonScenes.test.tsx`, `lesson-attempts.test.ts` and `think-gate-migration.test.tsx` plus
+three e2e cases in `course-map.spec.ts` and `study-plan.spec.ts`. Spanish stays v1 until that
+tail is finished — which is worse-looking than a half-landed flip and better than one.
+
 ### Stage 3a: the Portuguese flip, and how little it changed (`e1b0db5`)
 
 Portuguese went from schemaVersion 1 to 2 through the documented procedure
@@ -1569,6 +1629,12 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
 | measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
 | `npx vitest run` (Stage 3a: the Portuguese flip) | **155 passed | 1 skipped (156); 1197 passed | 6 skipped (1203)** |
+| `npx playwright test --project=chromium` | **101 passed, 3 skipped** — from the stage-3a tree, whose code this documentation does not touch |
+| `playwright test --config playwright.offline.config.ts` | **11 passed** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
+| measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
+| `npx vitest run` (stage 4) | **155 files passed, 1 skipped; 1197 passed, 6 skipped, 0 failed** |
 | `npx playwright test --project=chromium` | **101 passed (2.2m), 3 skipped** |
 | `playwright test --config playwright.offline.config.ts` | **11 passed (19.0s)** |
 | `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
@@ -1730,6 +1796,7 @@ also skips the config's own `webServer`.
 | `2f08a38` | Run record — the emergency scene and the course map |
 | `5f52fa6` | **Stage 2: the first-run block rebalanced** |
 | `e1b0db5` | **Stage 3a: the Portuguese flip** |
+| `fdf49f3` | **Stage 4: the German plan, the review gates, and the Spanish flip set aside** |
 | `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
