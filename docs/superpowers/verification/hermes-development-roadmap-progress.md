@@ -24,6 +24,14 @@ showed metadata with no artwork** while an audio lesson played. It also cleared 
 leftovers: declared image dimensions are guarded now, and a 1MB asset from another project is out of
 `public/brand`.
 
+The graphics block continued with two things: **every shipped asset verified against the approved
+references in `~/Downloads`** (measured, not asserted — the four other course banners and the lockup
+are byte-faithful re-encodes, and `german.jpg` turns out to be the approved art *re-framed* 278px
+inside its frame, which is documented in the design brief but had never been measured), and the
+**offline reconnect page given the app's own state mark** so the one screen that has to work with no
+network is not a bare card. `docs/asset-provenance.md`, which described two files that no longer
+exist and none of the current set, is rewritten around the measurements.
+
 The next packages, in the order they are written up below: **2B continues** — flip Portuguese, then
 Spanish, now a mechanical repeat of the playbook below (German's flip is the worked example) — **3B**
 (audio expansion, blocked on the human listening checklist, and the only thing standing between the
@@ -47,11 +55,12 @@ stays behind its evidence gates.
 
 - Native-speaker review of any lesson or audio clip (`review.nativeSpeaker` stays `"pending"` in
   every generated report).
-- **Art direction** (added by the graphics pass): whether German's banner is regenerated as a wide
-  frieze to match the other four, whether the 22 vocabulary photographs are redrawn as illustrations,
-  and the lesson-scene illustration set the brief lists. All three need an image model and a human
-  eye; the crop work this block shipped makes the *existing* art legible on a phone instead, which is
-  the part that can be settled in code.
+- **Art direction** (added by the graphics pass): whether the shipped German banner keeps its
+  re-frame or returns to the approved framing (measured 278px apart — see the next-tasks item),
+  whether it is regenerated as a wide frieze to match the other four, whether the 22 vocabulary
+  photographs are redrawn as illustrations, and the lesson-scene illustration set the brief lists.
+  All of these need an image model and a human eye; making the *existing* art legible on a phone is
+  the part that could be settled in code, and it was.
 - The human listening checklist for audio (`review.audioListening` stays `"pending"`).
 - The Phase 1 gate's observed pilot with five new users.
 - Physical iPhone / Safari PWA QA, and any signed or notarised distribution decision.
@@ -794,6 +803,132 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Graphics pass 3 — the German banner verified against its approved reference (`d73c34f`)
+
+The correction this block started from: the German banner exists and is approved,
+its reference is `~/Downloads/Course Banner German.jpeg`, and nothing about the
+illustration was to be generated, replaced or redesigned. So this is verification,
+and the answer is not the one the brief implies.
+
+**The shipped file is not the approved framing.** All ten brand assets were
+compared against their references by searching for the horizontal shift that
+minimises the grey difference (`scripts/brand/compare-reference.py`, which
+separates "re-encoded" from "moved inside the frame" from "different picture"):
+
+| Shipped | Difference at rest | Best shift | Verdict |
+| --- | ---: | ---: | --- |
+| `courses/french.jpg` | 1.09 | 0 px | the reference, re-encoded |
+| `courses/italian.jpg` | 1.68 | 0 px | the reference, re-encoded |
+| `courses/spanish.jpg` | 1.42 | 0 px | the reference, re-encoded |
+| `courses/portuguese.jpg` | 1.36 | 0 px | the reference, re-encoded |
+| **`courses/german.jpg`** | **71.10** | **+278 px** | **re-framed** |
+| `hero-banner.jpg` | 25.77 | −31 px | re-framed (`tighten-frame.py`) |
+| `empty-journal.jpg` | 25.51 | −14 px | re-framed (`tighten-frame.py`) |
+| `logo-mark.jpg` | 31.04 | 0 px | re-framed and rescaled |
+| `logo-lockup.jpg` | 4.71 | 0 px | the reference, re-encoded |
+| `og-card.jpg` | 28.32 | 0 px | cropped to the specified 1200×630 |
+
+The four other banners and the lockup are byte-faithful re-encodes. German is the
+outlier: it is the approved art translated 278 px inside the same 2064×512 frame
+and re-snapped. That is the re-frame `docs/design/graphics-brief.md` documents —
+the original scene ran off the right edge through a distinct building (the brief's
+column analysis puts the complete scene's end at x≈1890 and a different building
+from x≈1899), so the scene was centred instead. The design brief called it a
+trade-off at the time; what nobody had measured is that it is *not* the approved
+file, which is worth knowing before anyone compares the app to the reference
+artwork side by side.
+
+**Its measured consequence** (`--crops`): the shipped file needs a phone window of
+aspect 2.39 anchored at 50.4%, the untouched reference would need 2.75 at 100%.
+Both windows hold the whole drawing, so nothing is cut either way — the re-frame
+made the composition narrower and centred, so the crop has further to travel. The
+other four need the same window whichever file is in place. Restoring the approved
+framing means copying the reference over the file and re-running
+`python3 scripts/brand/banner-crops.py`; that is an art decision, so it is recorded
+and left.
+
+**The rest of German's integration is correct, re-verified in a browser this
+block** at 390 px and 1280 px:
+
+| Surface | 390 px | Desktop | Alt | Crop |
+| --- | --- | --- | --- | --- |
+| Landing card | 344×85 | 544×135 | "A half-timbered German street with a fountain" | full frame |
+| Course library card | (lazy) | 281×70 | same | full frame |
+| **Course page** | **350×146**, ratio 2.39 | 872×216, ratio 4.03 | `""` (decorative) | applied below 768px only |
+| Lesson shell (`?start=1`) | none | none | — | — |
+
+No horizontal overflow on any of them. The lesson shell showing no banner while
+practising is deliberate in both shells.
+
+**Icons are clean** (`scripts/brand/icon-audit.py`): the maskable icon's artwork
+sits at x 26–74%, y 32–68% — inside the central 80% safe circle — while the
+non-maskable icons reach past it, which is correct because only a maskable icon is
+cropped to a launcher shape. Every icon is within 6–8 mean grey of the approved
+square; the maskable one differs most because that difference *is* the safe zone.
+
+The document that should have answered this in the first place,
+`docs/asset-provenance.md`, described two files that no longer exist and named
+none of the Warm Studio set. It is rewritten around the measurements above, with a
+"removed files" section that keeps the retired Signal Pop prompts so the history is
+not a mystery.
+
+### Graphics pass 3 — the offline page's state mark (`d4566a7`)
+
+The brief's "empty, loading, offline, and microphone-denied illustrations that
+explain the state without adding clutter": the offline reconnect page — the screen
+a learner lands on when nothing else can load — was a bare card with no image in
+it. It now carries the journal the rest of the app uses for "nothing here yet",
+at the dashboard's own treatment (rounded, width-capped, `alt=""`, declared
+1024×1024), `min(150px, 40%)` so a 320px phone gets the card first and the picture
+second: measured at 82/110/150 px at 320/390/1280 with no overflow.
+
+No new bytes: `empty-journal.jpg` is already in the service worker's precache,
+which is what makes it available on the one page where the network is gone by
+definition. That coupling is the fragile part and is now pinned —
+`tests/service-worker.test.ts` requires every `<img src>` in `public/offline.html`
+to be in `STATIC_ASSETS`, **proved non-vacuous by injection**: dropping
+`/brand/empty-journal.jpg` from the list fails with "/brand/empty-journal.jpg is
+not precached, so it cannot load offline". `tests/image-dimensions.test.ts` now
+scans `public/*.html` too, so the page's declared dimensions are checked by the
+same rule as a JSX element's, and it asserts that half of the scan really found
+the mark. `tests/e2e/offline.spec.ts` asserts the mark decodes with the network
+emulated off **and** that `caches.match` served it.
+
+One fix the change forced: the eyebrow's styling was `main > p:first-child`, which
+the new image broke by taking the first-child slot. It is a `.eyebrow` class now —
+styling should not depend on the order of a card's children — verified in a
+browser (uppercase, 1.75px tracking, `#a8511f`, 12.48px).
+
+### Graphics pass 3 — what was audited and deliberately left alone
+
+- **The library and landing cards.** They still show the full 4:1 frame on a phone
+  (German's card is 344×85 at 390px), which is the strip the course page no longer
+  has. A *uniform* crop would fit: every banner's artwork fits a window of 3.34 or
+  wider, which would make the cards ~21% taller and keep them all the same height
+  (per-card crops would leave a column of ragged cards). It is not done here
+  because the margin for Italian — whose artwork fills 81% of the frame — would be
+  about 3.6%, so a measurement wobble clips real art on a surface where the picture
+  is the point. Recorded as an art-direction option with its numbers rather than
+  taken.
+- **The course path's "next step"** already carries a token-only marker that the
+  brief asks for: the up-next row gets a terracotta left rule and stock background,
+  a completed row an accent number chip, a locked row a muted rule plus a pill with
+  the prerequisite sentence. Nothing to add.
+- **Microphone-denied and loading.** Both explain themselves in words — the
+  speaking step keeps its self-assessment when recording is refused
+  (`SelfCompareActivity`), and Listen says "Opening the course…" while it reads.
+  An image on either would be the clutter the brief warns against.
+- **The Listen cover treatment.** The card's two-letter language mark is the
+  brief's "restrained cover treatment", and the picture that earns its place is the
+  lock-screen artwork shipped in the previous block (the course banner at
+  2064×512). Per-track art in a list of eight tracks of the same course would be
+  wallpaper.
+- **Vocabulary context visuals.** The 22 CC0 photographs already carry the picture
+  drills in the travel fixture with authored alt text. Mapping course vocabulary to
+  them would be new authoring, and the design brief's own §7 is explicit that
+  regenerating them on-palette is a generation job: not invented here.
+
+
 ## Test evidence
 
 Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
@@ -831,6 +966,16 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
 | `python3 scripts/brand/banner-crops.py --check` | exit 0 — the committed crop data matches a fresh measurement of every banner |
+| `python3 scripts/brand/compare-reference.py --crops` | exit 0 — ten shipped assets against their approved references: nine re-encoded or re-framed as documented, and `german.jpg` measured 71.10 at rest against 13.54 at a +278px shift |
+| `python3 scripts/brand/icon-audit.py` | exit 0 — the maskable icon's artwork inside the 80% safe circle, the other three within 6-8 mean grey of the approved square |
+| `npx vitest run tests/asset-provenance.test.ts` (alone) | **6 passed** — every tracked asset named in the document, nothing documented that is missing, the removed files only in the removed section, the German deviation and its crop consequence stated, every table row with dimensions and a size |
+| `npx vitest run tests/service-worker.test.ts` (alone) | **13 passed** — including "precaches every image the offline page renders", proved non-vacuous by dropping `/brand/empty-journal.jpg` from `STATIC_ASSETS` (fails by name) and restoring it |
+| `npx vitest run` (final, this block, `d4566a7`) | **150 files passed, 1 skipped; 1170 passed, 6 skipped, 0 failed** |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — the reconnect page now asserts its state mark decodes with the network off and came from `caches.match` |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** |
+| `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) |
+| Browser check of `/offline.html` at 320/390/1280 | mark 82/110/150px, no horizontal overflow, eyebrow style intact after the class change |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` | exit 0 (0 errors, 30 warnings) / exit 0 / exit 0 |
 | `npm run lint` / `npx tsc --noEmit` / `npm run build` (after the graphics pass) | exit 0 (0 errors, 30 warnings — the same count the block started with) / exit 0 / exit 0 |
 | `npx vitest run tests/DialoguesView.test.tsx` (alone) | **4 passed** — the authored dialogues, one played to its terminal node and restarted, the no-content guard against German, and every prerequisite id resolving to a real lesson |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (final) | **85 passed, 3 skipped** — the German v2 walk and the dialogue walk included |
@@ -893,6 +1038,9 @@ also skips the config's own `webServer`.
 | `de7d463` | **Graphics pass 2 — the course page keeps its artwork, and a phone gets the drawing**: the shared banner map, the measured narrow-viewport crop, both shells rendering it, and the responsive/e2e/offline/portable guards |
 | `e1c229f` | **Declared image dimensions guarded**, the foreign 1MB asset out of `public/brand`, and the design brief's stale items corrected |
 | `70a9482` | **Lock-screen artwork for the listening lessons** — the course banner in the media metadata, in all three editions |
+| `59adb4d` | Run record — the graphics pass |
+| `d73c34f` | **Every asset verified against its approved reference** — the comparison and icon-audit tools, the asset inventory script, `docs/asset-provenance.md` rewritten around the measurements, and the test that keeps document and tree in step |
+| `d4566a7` | **The offline page gets the app's own state mark**, with the precache coupling and the declared-dimension rule extended to plain HTML |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -902,23 +1050,30 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
+2. **Two graphics decisions for you, both measured and neither taken.** (a) `german.jpg` is the
+   approved artwork re-framed 278px inside its 2064×512 frame (the design brief's sliced-building
+   fix); restoring the approved framing is a copy plus `python3 scripts/brand/banner-crops.py`, and
+   the record carries what each window would be (2.39 @ 50.4% shipped, 2.75 @ 100% restored).
+   (b) The library and landing cards still show the full 4:1 frame on a phone. A uniform crop of 3.34
+   would make every card ~21% taller with all five artworks intact, but leaves Italian only ~3.6%
+   margin, so it was recorded rather than taken.
+3. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
    guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
    other four, redrawing the 22 vocabulary photographs as on-palette illustrations, and the
    lesson-scene illustration set. Each needs an image model and a reviewer. `docs/design/graphics-brief.md`
    now records the constraint new banner art must respect.
-3. **A second opinion on the German flip's content.** The migration is mechanical and the file is
+4. **A second opinion on the German flip's content.** The migration is mechanical and the file is
    verified, but nothing here reads German prose for naturalness: the 8 lessons' German and English
    strings are the same ones that were reviewed (or not) as v1, and the native-speaker gate stays
    open. Re-running the *content* gates on the flipped file (`npm run content:validate`,
    `content:audio-check`) is the mechanical half and passes; the reading half is human.
-4. **The Listen brief's remaining item** — nothing outstanding in code. AirPlay and lock-screen
+5. **The Listen brief's remaining item** — nothing outstanding in code. AirPlay and lock-screen
    behaviour on a physical device is the same device pass the Phase 3A gate waits on; the lock-screen
    *metadata* now carries the course artwork, and whether it renders as intended on iOS is part of
    that pass.
-5. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+6. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
-6. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
+7. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
 
 Closed since this list was written, so it stays closed: **the v2 dialogue gap** (`adc939b`, closed in
 the previous block — the plan below is history), and **the German banner defect** on all four surfaces
