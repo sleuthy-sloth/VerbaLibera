@@ -38,6 +38,7 @@
     "portable:build": "tsx scripts/portable/build.ts",
     "portable:verify": "tsx scripts/portable/verify.ts",
     "test:e2e:portable": "npm run portable:build && playwright test --config playwright.portable.config.ts",
+    "test:e2e:offline": "playwright test --config playwright.offline.config.ts",
     "postgres:prepare": "bash scripts/desktop/prepare-postgres.sh",
     "postgres:verify": "tsx scripts/desktop/verify-postgres.ts",
     "electron:verify": "tsx scripts/desktop/verify-artifact.ts",

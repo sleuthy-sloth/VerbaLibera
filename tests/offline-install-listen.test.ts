@@ -98,6 +98,48 @@ it("refuses to install audio whose bytes do not match the digest, and leaves not
   expect([...stores.values()].some((store) => store.has("/__course_pack_ready__"))).toBe(false);
 });
 
+it("a download that fails partway leaves nothing installed and can be retried", async () => {
+  // The mid-flight case: the pack and the study bundle arrive, the audio
+  // transfer dies. This is the deterministic half of "an interrupted download"
+  // — Playwright cannot interrupt it from outside, because the service worker
+  // answers the page's fetch (see tests/e2e/offline-matrix.spec.ts).
+  let attempt = 0;
+  const stores = await withInstall(
+    async (url) => {
+      if (url.endsWith(".mp3") && attempt === 0) {
+        throw new TypeError("Failed to fetch");
+      }
+      return responseFor(url, "bytes");
+    },
+    async () => {
+      const { installPack } = await import("@/features/course-pack/storage");
+      const digest = await sha256("bytes");
+      const assets = FRENCH.map((asset) => ({ ...asset, sha256: digest }));
+      await expect(installPack(pack, "french", assets)).rejects.toThrow(/failed to fetch/i);
+    },
+  );
+  // No ready marker means the service worker will not serve the half-course,
+  // and no pack cache is left holding bytes nobody can use.
+  expect([...stores.values()].some((store) => store.has("/__course_pack_ready__"))).toBe(false);
+  expect([...stores.values()].some((store) => store.has(FRENCH[0].url))).toBe(false);
+
+  // Retrying with the network back installs cleanly.
+  attempt = 1;
+  const retryStores = await withInstall(
+    async (url) => responseFor(url, "bytes"),
+    async () => {
+      const { installPack } = await import("@/features/course-pack/storage");
+      const digest = await sha256("bytes");
+      await installPack(
+        pack,
+        "french",
+        FRENCH.map((asset) => ({ ...asset, sha256: digest })),
+      );
+    },
+  );
+  expect([...retryStores.values()].some((store) => store.has("/__course_pack_ready__"))).toBe(true);
+});
+
 it("a download with no extras still installs (older courses, no audio)", async () => {
   const stores = await withInstall(
     async (url) => responseFor(url, "bytes"),

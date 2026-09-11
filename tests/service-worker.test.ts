@@ -262,3 +262,92 @@ it.each([
   await Promise.all(event.waitUntil.mock.calls.map(([pending]) => pending));
   expect(cachePut).toHaveBeenCalledTimes(stored ? 1 : 0);
 });
+
+/**
+ * The offline matrix's failure half (roadmap 3A).
+ *
+ * The happy path — install a course, disconnect, open it — is covered by
+ * `tests/e2e/offline.spec.ts` against a real service worker. These cases are the
+ * ones that are hard to reach from outside: what the worker serves when the
+ * network is gone, and what it refuses to serve when a download never finished.
+ * A partially installed course that still answered would be worse than no
+ * course at all, because the learner would hear a track that stops halfway.
+ */
+describe('the offline matrix: what the worker serves when the network is gone', () => {
+  const PACK_CACHE = 'verbalibera-pack-fr-foundations-1.0.0-abc';
+  const READY = '/__course_pack_ready__';
+
+  /** An installed cache: the ready marker plus one asset. */
+  function installed(assetPath: string, asset: Response, ready = true) {
+    return (key: unknown) =>
+      Promise.resolve(
+        key === READY ? (ready ? new Response('1.0.0') : undefined) : key === assetPath ? asset : undefined,
+      );
+  }
+
+  it('serves a saved course pack with the network down', async () => {
+    const saved = new Response('{"schemaVersion":2}');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', saved));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(saved);
+  });
+
+  it('serves the long audio lesson from the installed pack, not only from the static cache', async () => {
+    // The track is cached by the download (`installPack`), not by a first play.
+    const track = new Response('mp3 bytes');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(
+      installed('/audio/french-foundations/fr-identity-listen.mp3', track),
+    );
+    const event = {
+      request: {
+        method: 'GET',
+        mode: 'cors',
+        url: 'https://verbalibera.test/audio/french-foundations/fr-identity-listen.mp3',
+      },
+      respondWith: vi.fn(),
+      waitUntil: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(track);
+  });
+
+  it('refuses to serve a download that never finished', async () => {
+    // No ready marker means `installPack` never committed: the cache belongs to
+    // an interrupted download, and serving from it is how a learner ends up
+    // with half a course.
+    const orphaned = new Response('{"schemaVersion":2,"truncated":true}');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', orphaned, false));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    const served = await event.respondWith.mock.calls[0][0];
+    // An error response, not the orphaned bytes.
+    expect(served.status).toBe(0);
+    expect(served).not.toBe(orphaned);
+  });
+
+  it('does not treat another app\u2019s pack cache as an installation', async () => {
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker(['verbalibera-static-v9']);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', new Response('bytes')));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    const served = await event.respondWith.mock.calls[0][0];
+    expect(served.status).toBe(0);
+  });
+});

@@ -57,7 +57,18 @@ export function OfflineDownload({ pack, language, environment }: {
             await environment.install(pack, language, listenAssetsFor(language));
             setDownloaded(true);
           } catch (e) {
-            setError(e instanceof Error ? e.message : 'Download failed. Retry when connected.');
+            // `installPack` throws messages it has already made actionable
+            // (integrity check failed, the pack changed, a named URL would not
+            // load). A bare `TypeError: Failed to fetch` — or Safari's "Load
+            // failed", or Firefox's "NetworkError" — means the request never
+            // reached the server, and telling a learner "Failed to fetch" is
+            // telling them nothing.
+            const message = e instanceof Error ? e.message : '';
+            setError(
+              /failed to fetch|load failed|networkerror|err_internet/i.test(message)
+                ? 'Download failed — check your connection and try again. Nothing was saved.'
+                : message || 'Download failed. Retry when connected.',
+            );
           } finally {
             setInstalling(false);
           }
