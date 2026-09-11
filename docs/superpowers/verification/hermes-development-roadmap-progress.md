@@ -822,6 +822,62 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Stage 1: the seven supplied replacements, and the last three photographs (`b61ffa2`)
+
+Seven of the ten CC0 photographs are now the project's own illustrations, supplied as
+files and adopted against the exact mapping given: door, museum, street, map, card,
+wallet and hotel. `station.jpg`, `phone.jpg` and `passport.jpg` stay as they are —
+station and phone because the user approved them and said so, passport because it was
+never in the list.
+
+| file | source | shipped | ground |
+| --- | --- | --- | --- |
+| `door.jpg` | `1-Photo-1.jpg` | 800×449, 61,729 B | snapped (the plain wall, 6 → 1, 27% remapped) |
+| `museum.jpg` | `3-Photo-3.jpg` | 800×449, 104,772 B | snapped (17 → 1, 28%) |
+| `street.jpg` | `4-Photo-4.jpg` | 800×449, 115,426 B | snapped (20 → 1, 25%) |
+| `map.jpg` | `5-Photo-5.jpg` | 800×449, 153,327 B | **left alone** — its most common colour is the drawn wooden tabletop (`#d9bb87`, 95 off) |
+| `card.jpg` | `8-Photo-8.jpg` | 800×449, 110,021 B | snapped (24 → 1, 39%) |
+| `wallet.jpg` | `9-Photo-9.jpg` | 800×449, 99,301 B | snapped (27 → 1, 34%) |
+| `hotel.jpg` | `10-Photo-10.jpg` | 800×449, 73,776 B | snapped (11 → 1, 41%) |
+
+Six of the seven are snapped even where the background was 17–27 units off the canvas,
+because in those files the most common colour is the picture's **background field** (the
+wall, the cream margin, the cream table surround) rather than a drawn object — which is
+the distinction the script is for. `map.jpg` is the fifth file where it is the other way
+round, after `key.jpg`'s door, `bill.jpg`'s leather folder, `hospital.jpg`'s tan facade
+and the player card's wooden table. Every source was checked at full size for baked
+lettering and **all seven are clean**: blank screens, blank keypads, a blank hanging
+sign, blank sign bands, an unlabelled map, blank cards and blank coins. Nothing had to be
+guarded this time, unlike the hotel scene's reception sign.
+
+Two alt texts were wrong rather than stale, and both are the same class of error as the
+shopkeeper's last block:
+
+- `card.jpg` claimed "A bank card in a payment terminal". The drawing is a terminal with a
+  **blank screen and no card inserted**, so the picture never supported the words. It now
+  reads "A card payment terminal on a table".
+- `wallet.jpg` claimed "A quilted purse" — the photograph's subject, not the drawing's. It
+  now reads "A wallet with cards and coins".
+
+The rest were reworded to describe what is actually there: a shop door under an awning, a
+museum with columns and steps, a city street of shopfronts, a city map spread out with a
+compass, a hotel entrance with a luggage cart. The second `door.jpg` occurrence sits in
+the "entrance" drill, where the alt is now "A doorway with a step up to it" — the same
+drawing, described so the two drills stay distinguishable.
+
+`docs/image-provenance.md` moves from ten CC0 photographs and twelve illustrations to
+**three and nineteen**, names each replaced source file, and records the three that
+remain. A new guard, `tests/vocab-ground.test.ts`, runs `scripts/brand/snap-ground.py
+--check` over all 28 pictures the app draws and asserts *both* halves: the nineteen that
+sit on the canvas pass, and the nine that do not are exactly the recorded exceptions, each
+with its reason written down. Proven non-vacuous by snapping `map.jpg` and watching it
+fail.
+
+The old non-vacuity case in `tests/image-dimensions.test.ts` reported its own
+obsolescence: it asserted the folder held more than three distinct sizes, and with
+nineteen files at the contract size only three remain. It now pins what still matters —
+that the three pictures outside the 16:9 list are exactly the three kept photographs.
+
 ### The player's own artwork: a cover on the card, a square on the lock screen (`da2b3dc`)
 
 The Listen player had one mark and no picture, deliberately: the stylesheet said an image
@@ -1403,6 +1459,13 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `npx vitest run` (stage 1) | **154 passed | 1 skipped (155); 1193 passed | 6 skipped (1199)** |
+| `npx playwright test --project=chromium` | **99 passed, 3 skipped** |
+| `playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| lint / tsc / build / content:validate / content:audio-check | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 / exit 0 |
+| `tests/vocab-ground.test.ts` non-vacuity | snapping `map.jpg` makes it fail (the OK list gains the map, the "left alone" set changes); restored byte-for-byte |
+| ground check across all 28 pictures | 19 on the canvas at 1 unit off; 9 recorded exceptions, six of them drawings and three the kept photographs |
 | `npx vitest run` (the player artwork block) | **153 files passed, 1 skipped; 1191 passed, 6 skipped, 0 failed** |
 | `npx playwright test --project=chromium` | **99 passed, 3 skipped** |
 | `playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** — the cover image included |
@@ -1550,6 +1613,7 @@ also skips the config's own `webServer`.
 | `85dc920` | Run record — the ten approved assets and the first lesson scenes |
 | `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 | `2f08a38` | Run record — the emergency scene and the course map |
+| `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
@@ -1562,7 +1626,17 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **Twelve of the 22 vocabulary pictures are the project's own now; ten are still photographs.**
+2. **Nineteen of the 22 vocabulary pictures are the project's own now; three are photographs.**
+   `station.jpg`, `phone.jpg` and `passport.jpg` are the three the user approved or left out of
+   the replacement list; the other nineteen are illustrations. The pass is settled and worked
+   six times: supply at any size, `sips --resampleHeightWidth 449 800`, snap the ground **only
+   if** the file's most common colour really is a background field (check it — five files are the
+   other way round, and `tests/vocab-ground.test.ts` now enforces both halves), correct any alt
+   the picture contradicts, extend the tables in `docs/image-provenance.md`, and let
+   `tests/asset-provenance.test.ts` check the hashes.
+   **Superseded — nothing is waiting on artwork now.** The older text below is kept for the
+   record of how the pass worked:
+   ~~Twelve of the 22 vocabulary pictures are the project's own now; ten are still photographs.~~
    Both of the two that were blocked arrived as standalone files and are shipped, so nothing
    is waiting on artwork. The remaining ten are the CC0 set the design brief calls "the single
    biggest mismatch with the illustration system", and the pass is settled and worked four
