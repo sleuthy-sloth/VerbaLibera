@@ -79,11 +79,11 @@ describe("portable course assets", () => {
       createObjectURL: vi.fn(() => "blob:portable-audio"),
     });
     const pack = validatePack(
-      JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
+      JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
     );
     const mediaPath = pack.media[0].url;
     const content: PortableContent = {
-      packs: { german: pack },
+      packs: { spanish: pack },
       assets: {
         [mediaPath]: {
           mime: "audio/wav",
@@ -98,7 +98,7 @@ describe("portable course assets", () => {
       indexedDB: undefined,
     });
 
-    expect((await environment.loadPack!("german")).id).toBe(pack.id);
+    expect((await environment.loadPack!("spanish")).id).toBe(pack.id);
     expect(environment.resolveMedia(mediaPath)).toBe("blob:portable-audio");
     await expect(environment.loadPack!("french")).rejects.toThrow(
       /not embedded/i,

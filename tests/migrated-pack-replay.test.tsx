@@ -21,11 +21,12 @@ import {
 } from "@/features/course-pack/environment";
 
 /**
- * Phase 2A step 2, after the flip: the claim a learner cares about.
+ * The claim a learner cares about, after a flip.
  *
  * Parity of pack objects is not the thing that matters to somebody who has been
- * using the course. Two histories are replayed against the **migrated** French
- * pack and must still produce credit, evidence and participation:
+ * using the course. Two histories are replayed against each **migrated** pack —
+ * French (the pilot) and German (the second) — and must still produce credit,
+ * evidence and participation:
  *
  * 1. legacy `PracticeEvent` rows, written by the v1 player and keyed by exercise
  *    id — this is the pre-migration learner;
@@ -37,11 +38,15 @@ import {
  * course path that has silently reset.
  */
 
-const FRENCH = path.join(process.cwd(), "courses/french/manifest.json");
+const PACKS = ["french", "german"] as const;
 const AT = "2026-09-08T09:00:00.000Z";
 
-const pack = (): RuntimePack =>
-  normalizePack(JSON.parse(readFileSync(FRENCH, "utf8")) as unknown);
+const packFor = (language: string): RuntimePack =>
+  normalizePack(
+    JSON.parse(
+      readFileSync(path.join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
+    ) as unknown,
+  );
 
 /** A correct response for the activity, plus the evaluator's own verdict. */
 function correctAnswer(activity: Activity): {
@@ -153,7 +158,10 @@ function lessonHistory(
   return events;
 }
 
-describe("migrated French: stored history still counts", () => {
+describe.each(PACKS)("migrated %s: stored history still counts", (language) => {
+  /** The migrated pack under test, bound to this describe's language. */
+  const pack = () => packFor(language);
+
   it("keeps legacy credit for a learner whose practice predates the v2 pack", () => {
     const host = pack();
     const events = [...legacyHistory(host, 0), ...legacyHistory(host, 1)];
@@ -226,7 +234,8 @@ describe("migrated French: stored history still counts", () => {
   });
 });
 
-describe("migrated French: the course path remembers a pre-migration learner", () => {
+describe.each(PACKS)("migrated %s: the course path remembers a pre-migration learner", (language) => {
+  const pack = () => packFor(language);
   const environment = (events: PracticeEvent[]): CourseEnvironment => ({
     capabilities: {
       accounts: false,

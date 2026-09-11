@@ -49,7 +49,7 @@ These counts are generated, not hand-maintained: `npm run content:stats` prints 
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | French | v2 | 25 | 222 | 25 | 0 | 25/25 | 26 | 102 |
 | Italian | v2 | 25 | 233 | 26 | 23 | 25/25 | 27 | 102 |
-| German | v1 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
+| German | v2 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
 | Portuguese | v1 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
 | Spanish | v1 | 8 | 49 | 8 | 0 | 1/8 | 1 | 34 |
 
@@ -114,9 +114,9 @@ Privacy: no learner audio is stored by default. The voice route returns only a t
 ## Known limits
 
 - Partial A1 only. No B1 content yet. The 25-lesson French and Italian courses are a partial syllabus, not a finished A1 one.
-- The exercise MIX is still lopsided and mid-repair. `translate` and typed text answers remain the most common activity in every course, and only 23 of 600 practice activities ask the learner to speak — all of them Italian. German, Portuguese and Spanish are still schemaVersion 1 and have no self-assessed exercise kind at all, so adding speaking to them is a player feature, not a content edit. French now runs the schemaVersion 2 player and could carry speaking steps, but none are authored yet.
+- The exercise MIX is still lopsided and mid-repair. `translate` and typed text answers remain the most common activity in every course, and only 23 of 600 practice activities ask the learner to speak — all of them Italian. Portuguese and Spanish are still schemaVersion 1 and have no self-assessed exercise kind at all, so adding speaking to them is a player feature, not a content edit. French and German now run the schemaVersion 2 player and could carry speaking steps, but none are authored yet.
 - Audio coverage is uneven in the same direction: French and Italian carry model audio in every lesson, while German, Portuguese, and Spanish have model audio in one lesson each out of eight.
-- French migrated to schemaVersion 2 on 2026-09-10 (`scripts/migrate-pack-v1-v2.ts`). Lesson, step and exercise identities, media hashes and prerequisite links are proven unchanged, and stored practice replays, but the v1 lesson `cefr: "A1"` tags had no home in the v2 schema and were dropped — see [docs/cefr-coverage.md](docs/cefr-coverage.md).
+- French and German migrated to schemaVersion 2 on 2026-09-10 (`scripts/migrate-pack-v1-v2.ts`). Lesson, step and exercise identities, media hashes and prerequisite links are proven unchanged, and stored practice replays. The first flip dropped the authored `cefr: "A1"` lesson tags and the authored `culturalNote`s, because the v2 lesson shape had no fields for them; the schema has both now and the migration carries them, so German kept all 8 of its tags and its 8 notes. French and Italian were flipped before the fields existed and still report none — re-running the migration from their v1 source would restore them, and that is a data decision, not a silent one. See [docs/cefr-coverage.md](docs/cefr-coverage.md).
 - Foundation lessons are machine-authored and consistency-checked. Native-speaker review is still open, and the audio player says so.
 - Placement is a rough starting suggestion, not a CEFR certification.
 - Physical iPhone testing (Add to Home Screen, offline relaunch, background and foreground) is still open.

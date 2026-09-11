@@ -14,14 +14,15 @@ import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 /**
  * The v1 pack these validator and daily-selection cases run against.
  *
- * French used to be the host, and is now schemaVersion 2 — it renders in the v2
- * player and the v1 validator rightly refuses it. German is the remaining v1
- * pack with the widest spread of kinds (choice, think, cloze, reading, dictation,
- * order, translate, transform), so the legacy engine keeps real-content coverage
- * instead of falling back to a synthetic fixture.
+ * French used to be the host, then German, and both are now schemaVersion 2 —
+ * they render in the v2 player and the v1 validator rightly refuses them.
+ * Spanish is the remaining v1 pack with the widest spread of kinds (choice,
+ * think, cloze, reading, dictation, order, translate, transform), so the legacy
+ * engine keeps real-content coverage instead of falling back to a synthetic
+ * fixture.
  */
 const readLegacyPack = () =>
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8"));
+  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8"));
 describe("course packs", () => {
   it.each(["italian", "french"])(
     "validates original %s foundation content",
@@ -311,9 +312,7 @@ it('accepts ordinary numeric notation in listening answers without changing mean
   }
 });
 describe('new foundation packs', () => {
-  const readGerman = () =>
-    JSON.parse(readFileSync('courses/german/manifest.json', 'utf8'));
-  it.each(['german', 'spanish', 'portuguese'])('preserves the %s words-first entry and advances through introductions to café requests', (language) => {
+  it.each(['spanish', 'portuguese'])('preserves the %s words-first entry and advances through introductions to café requests', (language) => {
     const pack = validatePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
     expect(pack.status).toBe('active');
     const prefix = pack.language;
@@ -378,7 +377,7 @@ describe('new foundation packs', () => {
   });
 
   it('rejects authored content in a coming-soon pack', () => {
-    const raw = readGerman();
+    const raw = readLegacyPack();
     raw.status = 'coming-soon';
     expect(() => validatePack(raw)).toThrow(/coming-soon/);
   });

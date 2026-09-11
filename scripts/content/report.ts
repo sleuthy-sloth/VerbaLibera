@@ -244,7 +244,7 @@ export function buildContentReport(
     concepts: pack.concepts.length,
     authoredCefrTags: {
       basis:
-        "authored cefr tags on lessons and concepts; the v2 packs carry none, which is a documentation gap rather than an absence of A1 material",
+        "authored cefr tags on lessons and concepts; an empty count means the file carries no authored tag, which is the case for packs migrated before the field existed, not an absence of A1 material",
       counts: cefrTags,
     },
     lessonFamilies,

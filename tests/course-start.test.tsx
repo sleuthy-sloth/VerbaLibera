@@ -7,7 +7,9 @@ import type { CourseEnvironment } from '@/features/course-pack/environment';
 import { validatePack } from '@/features/course-pack/schema';
 import type { PracticeEvent } from '@/features/course-pack/progress';
 
-const pack = validatePack(JSON.parse(readFileSync('courses/german/manifest.json', 'utf8')));
+// The legacy course engine, so a v1 pack: German was the last one and has been
+// flipped to schemaVersion 2, which makes Spanish the host for these cases.
+const pack = validatePack(JSON.parse(readFileSync('courses/spanish/manifest.json', 'utf8')));
 function environment(events: PracticeEvent[] = [], install = async () => {}): CourseEnvironment {
   return {
     capabilities: { accounts: false, synchronization: false, offlineInstall: true, hostedNavigation: false },
@@ -44,7 +46,7 @@ describe('foundation entry', () => {
       id: `saved-${i}`, packId: pack.id, version: pack.version, exerciseId: e.id,
       at: '2026-09-06T12:00:00.000Z', correct: true, revealed: false,
     }));
-    render(<CourseWorkspace environment={environment(events)} initialLanguage="german" />);
+    render(<CourseWorkspace environment={environment(events)} initialLanguage="spanish" />);
     // Was: "N practice results on this device · N/25 lessons practised
     // successfully. Device practice is separate from account progress." — two
     // sentences about which layer holds your progress, above the course path.
@@ -59,19 +61,19 @@ describe('foundation entry', () => {
     let finish!: () => void;
     const install = () => new Promise<void>(resolve => { finish = resolve; });
     const user = userEvent.setup();
-    render(<CourseWorkspace environment={environment([], install)} initialLanguage="german" />);
-    const panel = await screen.findByRole('region', { name: /Download German/i });
+    render(<CourseWorkspace environment={environment([], install)} initialLanguage="spanish" />);
+    const panel = await screen.findByRole('region', { name: /Download Spanish/i });
     await user.click(within(panel).getByRole('button', { name: 'Download for offline study' }));
     expect(within(panel).getByRole('button', { name: /Downloading/ })).toBeDisabled();
     expect(within(panel).queryByRole('link', { name: 'Open offline study' })).toBeNull();
     await act(async () => finish());
-    expect(within(panel).getByRole('link', { name: 'Open offline study' })).toHaveAttribute('href', '/study.html?language=german');
+    expect(within(panel).getByRole('link', { name: 'Open offline study' })).toHaveAttribute('href', '/study.html?language=spanish');
   });
 
   it('keeps a failed download retryable without claiming it is ready', async () => {
     const user = userEvent.setup();
     render(<CourseWorkspace environment={environment([], async () => { throw new Error('Connection lost. Retry when connected.'); })} />);
-    const panel = await screen.findByRole('region', { name: /Download German/i });
+    const panel = await screen.findByRole('region', { name: /Download Spanish/i });
     await user.click(within(panel).getByRole('button', { name: 'Download for offline study' }));
     expect(await within(panel).findByRole('alert')).toHaveTextContent('Connection lost');
     expect(within(panel).getByRole('button', { name: 'Download for offline study' })).toBeEnabled();

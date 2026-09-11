@@ -10,15 +10,17 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0, 1A, 1B, 2A and 3A are complete apart from the gate's physical-device pass.** This block
-closed the Listen player brief (`4043f14`), the offline matrix's failure half plus WebKit coverage
-(`bfc61d5`), and prepared the next flip with a rehearsal test.
+**Phases 0, 1A, 1B, 2A, 2B (German) and 3A are complete apart from the gate's physical-device pass.**
+This block flipped German to schemaVersion 2 through the CEFR-preserving migration, after first fixing
+the second field the migration was dropping (`culturalNote`) and adding a census test so the class of
+loss cannot recur silently. It also retargeted every suite that was pinned to German as the last v1
+host onto Spanish, and renamed the two migration evidence suites to match what they now cover.
 
-The next packages, in the order they are written up below: **2B** (flip German, Portuguese or Spanish
-— the CEFR gate is cleared, the pack-level parity and the shell rehearsal are proven, and the work
-left is retargeting the suites pinned to the remaining v1 packs), **3B** (audio expansion, blocked on
-the human listening checklist), the **dialogue gap** (a plan is written up), and **Phase 4**. Phase 7
-stays behind its evidence gates.
+The next packages, in the order they are written up below: **2B continues** — flip Portuguese or
+Spanish, which is now a mechanical repeat of the playbook below (no new gate, no new test machinery:
+German's flip is the rehearsal) — **3B** (audio expansion, blocked on the human listening checklist),
+the **dialogue gap** (a plan is written up, no content needed), and **Phase 4**. Phase 7 stays behind
+its evidence gates.
 
 ## Phase status
 
@@ -26,7 +28,7 @@ stays behind its evidence gates.
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
 | 1 — complete the first ten minutes | **1A and 1B complete** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short first-win sequence for French and Italian, text-first and sound-optional, with resume and a concrete recap. The gate's observed five-user pilot is a human session and stays pending. |
-| 2 — consistent activities and progress | **2A complete; 2B's blocker cleared and rehearsed** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. The CEFR loss that blocked the remaining flips is fixed in the migration (`4bac558`). A rehearsal (`tests/pack-flip-rehearsal.test.tsx`) now drives the v2 shell over each remaining v1 pack in memory, and the legacy shell over the unflipped pack, so the flip's remaining risk is the suite retargeting below. 2B content work is a separate package. |
+| 2 — consistent activities and progress | **2A and the first 2B flip (German) complete; Portuguese and Spanish remain** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. German followed through the same migration, keeping all 8 authored CEFR tags and all 8 `culturalNote`s, both of which the migration used to drop (`4bac558` for the tags, then the schema + census fix for the notes). Portuguese and Spanish stay v1 until their turn; `tests/pack-flip-rehearsal.test.tsx` drives the v2 shell over each of them in memory and over the flipped packs as stored. |
 | 3 — listening and speaking everywhere | **3A complete except the device pass** | Position, resume and cold start (`2d00afd`); the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions (`e34973a`); the player card the brief asked for (`4043f14`); the offline failure matrix and WebKit coverage (`bfc61d5`). The gate's physical-device pass is human. 3B needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
@@ -161,7 +163,7 @@ session and nothing in this repository can close it.
 ### Phase 2A — French migration pilot: the evidence
 
 The proof was written before any content moved, which is what made the flip reviewable:
-`tests/french-pack-migration-parity.test.ts` (all five packs) and
+`tests/migrated-pack-parity.test.ts` (all five packs) and
 `tests/french-migration-replay.test.tsx` (history replay). Both were then rewritten to describe the
 world after the flip — the parity file now runs its real-content equality assertions against the
 three packs still at v1 and pins the migrated French pack's own identities, and the replay file
@@ -480,7 +482,7 @@ run them on Chromium and WebKit on their own port, so no run can reuse another s
 
 ### Phase 2B preparation: a flip rehearsal, so the next flip is mechanical (`tests/pack-flip-rehearsal.test.tsx`)
 
-`tests/french-pack-migration-parity.test.ts` proves the migration is *identical* for each pack still
+`tests/migrated-pack-parity.test.ts` proves the migration is *identical* for each pack still
 at v1 (same lessons, steps, reachable activities, media hashes, retrieval links) and
 `tests/pack-migration-cefr.test.ts` proves the authored CEFR tags survive. Identical runtime output is
 not the same claim as "the course still runs", though — the French flip needed a compensating
@@ -490,16 +492,77 @@ open the first lesson, begin practice, clear any information steps, answer the f
 (whichever kind the content uses), and require an outcome. It also walks the *unflipped* pack through
 the legacy shell, because the flip must leave the old engine working for progress and replay.
 
-**What a flip still costs** (the inventory, so it is not rediscovered): the suites pinned to German as
-the remaining v1 host are `tests/CourseExercise.test.tsx`, `exercise-feedback.test.tsx`,
-`course-start.test.tsx`, `course-environment.test.ts`, `course-storage.test.ts`, `course-pack.test.ts`
-plus `think-gate-migration.test.tsx`, `portable-environment.test.ts`, `DailyPathDashboard.test.tsx`,
-`course-banners.test.ts`, and in e2e `course-packs.spec.ts`'s walks. Flipping German without moving
-them would either fail them or, worse, leave them silently testing the v1 engine against a v2 pack.
-Portuguese and Spanish become the new hosts, and when the last v1 pack goes,
-`tests/fixtures/lesson-variety.ts` has to become the host for those suites — that is the moment to
-extend the fixture rather than delete the assertions.
+**What a flip still costs** (the inventory, corrected by actually doing it): the suites pinned to
+German as the last v1 host were `tests/CourseExercise.test.tsx`, `exercise-feedback.test.tsx`,
+`course-start.test.tsx`, `course-environment.test.ts`, `course-storage.test.ts`, `course-pack.test.ts`,
+`think-gate-migration.test.tsx`, `portable-environment.test.ts`, plus the four migration-evidence
+suites that list the v1 packs by name. `DailyPathDashboard.test.tsx` and `course-banners.test.ts` were
+listed here as German-pinned and are not: they read the travel fixture and the banner catalog. No e2e
+spec walks German (checked: `tests/e2e/*` mention it only as static-media and banner data), so the
+browser half of the retarget was empty — worth checking again after the next flip rather than assumed.
+Spanish was chosen as the new host because all three v1 packs have an identical shape (8 lessons, 48-49
+exercises, the same kind census, ids of the form `<xx>-<topic>-foundation`), so the retarget was
+mechanical and the assertions kept real content. When the last v1 pack goes,
+`tests/fixtures/lesson-variety.ts` has to become the host — that is the moment to extend the fixture
+rather than delete the assertions.
 
+
+### Phase 2B — the German flip, and the second field the migration was dropping
+
+**The loss found before the flip, not after.** Preparing German turned up the same class of defect the
+CEFR tags were: a v1 lesson field with no home in v2. `explanation` and `examples` look dropped if you
+compare lesson objects — they are not, `adaptV1` relocates them into the lesson's opening
+`information` activity body and an `examples` stimulus, which is what the v2 player renders. The one
+field that really did vanish is `culturalNote` (8 on German, 1 on French, which the French flip lost
+unnoticed). Nothing in either shell renders it, so no learner could have seen the loss — which is
+exactly why it needed a test rather than an eye. The v2 lesson schema now carries it as an optional
+field and `migratePackV1ToV2()` re-attaches it from the authored source, alongside `cefr`.
+
+**The census, so the class cannot recur.** `tests/pack-migration-fields.test.ts` enumerates every
+authored lesson field on each pack still at v1 and requires each one to either appear on the migrated
+lesson or have a stated route (`explanation` → the information activity body, `examples` → the examples
+stimulus, `exercises` → `legacyExercises`, `optionalExerciseIds` → `legacyCompletionExerciseIds`). A
+new authored field with no route fails the test by name, and a non-vacuity case injects one to prove
+the check can fail. The same file asserts the flipped German file still holds its 8 notes, and the CEFR
+suite asserts its 8 tags, so a future re-migration that regressed either would be caught.
+
+**The flip.** `npx tsx scripts/migrate-pack-v1-v2.ts courses/german/manifest.json`, then
+`npm run content:build`. Measured before and after: 8 lessons, 4 units, 8 concepts, 34 vocabulary
+entries, 1 media asset with an unchanged hash, 48 exercises retained under their own ids, 7 think-first
+pauses mapped to `predict` steps, 56 reachable activities (48 practice + 8 notice), 39 review links,
+7 of 8 lessons still carrying a prerequisite, and the 8 tags and 8 notes preserved. The stored file is
+byte-identical to a fresh in-memory migration, so nothing in the script is unreproducible.
+
+**What the retarget cost.** Six suites drove the legacy engine through German and now drive it through
+Spanish: `CourseExercise.test.tsx`, `exercise-feedback.test.tsx`, `course-start.test.tsx`,
+`course-environment.test.ts`, `course-storage.test.ts`, `course-pack.test.ts`. Two things were worth
+more than a find-and-replace:
+
+- `exercise-feedback.test.tsx` no longer writes a German sentence into a test that is about wording:
+  it reads the authored answer for `es-cafe-requests-foundation-vary` ("Quisiera un té, por favor."),
+  derives the missing-accent variant by stripping diacritics, and asserts the two differ before using
+  them — so the diacritic case fails loudly instead of quietly testing nothing if that answer changes.
+- `cross-language-variety.test.ts`, which pins that German/Spanish/Portuguese are not the same lesson
+  three times, read raw v1 fields and compared an **empty list** for German after the flip: 32
+  assertions would have passed vacuously. It now reads both shapes (`legacyExercises`, and the
+  explanation from the `-intro` activity body) with a non-vacuity case that fails if either accessor
+  stops finding text. `scripts/content/cross-language-similarity.py`, which the test mirrors, reads both
+  shapes too — it would otherwise have printed every German pair as 0% similar.
+
+**The evidence suites now describe reality.** `tests/french-pack-migration-parity.test.ts` →
+`tests/migrated-pack-parity.test.ts` and `tests/french-migration-replay.test.tsx` →
+`tests/migrated-pack-replay.test.tsx`. The parity suite keeps its v1 half for Portuguese and Spanish
+and its "migrated pack" half is parameterised over French and German with per-pack counts (identities,
+reachable activities, media hashes, prerequisite chains, retrieval links). The replay suite replays
+both history shapes against both flipped packs and walks both course paths, proving a pre-migration
+learner still sees their finished lesson and their unlocked next one. `tests/pack-flip-rehearsal.test.tsx`
+rehearses the two packs still waiting and walks the two flipped packs as stored.
+
+**Recorded, not hidden:** French and Italian were flipped before `cefr` and `culturalNote` had a home
+in the v2 lesson, so they still report none of either (25 tags, 1 note). Re-running their migration
+from the v1 source would restore them. That is a data change to authored content, so it is the user's
+call, pinned in `tests/pack-migration-cefr.test.ts` and `tests/pack-migration-fields.test.ts` as the
+expected zero rather than an accident.
 
 ### Graphics acceptance item — the German banner
 
@@ -687,28 +750,38 @@ native-speaker pass, which is why neither existing sequence records anything. `t
 asserts the invariants for every authored sequence, so a new one is covered by adding it to
 `AUTHORED`.
 
-### To flip the next pack (German, Portuguese, Spanish)
+### To flip the next pack (Portuguese, then Spanish) — the played-out version
 
-Everything before the retargeting is proven and rehearsed: CEFR tags survive (`4bac558`), the runtime
-boundary is identical (`tests/french-pack-migration-parity.test.ts`, parameterised over the remaining
-v1 packs), and the course still runs after a flip (`tests/pack-flip-rehearsal.test.tsx` — v2 shell
-after an in-memory migration, legacy shell unflipped). What is left is the same list the French flip
-paid:
+German is the worked example; this is the sequence that actually ran, in order:
 
-1. The migration itself is mechanical: `npx tsx scripts/migrate-pack-v1-v2.ts
-   courses/<language>/manifest.json`, then `npm run content:build`. Recover the v1 file if you need to
-   re-run after an adapter change:
-   `git show <commit>:courses/<language>/manifest.json`, then `git diff --no-index` the two
-   migration outputs and check the delta is exactly what you changed and nothing else.
-2. Move every legacy-engine suite that reads the pack onto a pack that is still v1. After all five
-   are flipped there is no such pack left, and `tests/fixtures/lesson-variety.ts` becomes the only
-   host for those suites — that is the moment to extend the fixture rather than delete the
-   assertions.
-3. Rewrite the e2e walks for that language as v2 walks (`tests/e2e/helpers/complete-l0.ts` has the
-   pattern) and re-check the course-page assertions in `tests/e2e/course-packs.spec.ts`, which
-   describe the v2 shell's disclosure rather than the legacy links.
-4. Run the whole suite, not the language's specs: the reports and the portable bundle are generated
-   across all five packs, and `tests/content-reporting.test.ts` will catch a stale report.
+1. `git show HEAD:courses/<language>/manifest.json > /tmp/<language>-v1.json` (the v1 source, for the
+   before/after diff — after the flip it exists only in git history).
+2. `npx tsx scripts/migrate-pack-v1-v2.ts courses/<language>/manifest.json`
+3. Confirm the written file equals a fresh in-memory `migratePackV1ToV2()` result, and that the counts
+   match the backup captured in step 1 (lessons, units, concepts, vocabulary, media hashes, retained
+   exercises, think→predict count, reachable activities, review links, prerequisites, tags, notes).
+4. `npm run content:build` — regenerates `public/packs/<language>.json`, the per-course reports,
+   `src/features/course-pack/catalog.json` and the portable bundles.
+5. Retarget the legacy-engine suites onto the next v1 pack (`spanish` then `portuguese`): the six files
+   listed in the 2B section, plus `think-gate-migration.test.tsx` and `portable-environment.test.ts`.
+6. Update the pack lists in `tests/migrated-pack-parity.test.ts` (move the language from
+   `PENDING_PACKS` into `MIGRATED_PACKS` with its measured counts), `tests/migrated-pack-replay.test.tsx`
+   (`PACKS`), `tests/pack-migration-cefr.test.ts` (`V1_LANGUAGES` / `CARRIED_PACKS`),
+   `tests/pack-migration-fields.test.ts` (`V1_PACKS` / `FLIPPED_PACKS` with notes+tags counts) and
+   `tests/pack-flip-rehearsal.test.tsx` (`PENDING` / `FLIPPED`).
+7. `npx vitest run`, `npm run lint`, `npm run build`, `npx tsc --noEmit`, then the e2e suites.
+8. Update `README.md`, `docs/cefr-coverage.md` and `docs/astra/phase-status.md` (schema column, the
+   findings that name packs as v1, the migration note) and this record.
+
+When the last v1 pack flips, the six legacy suites have no real v1 content left to run against:
+extend `tests/fixtures/lesson-variety.ts` rather than deleting the assertions.
+
+Everything before the retargeting is proven: the authored tags and notes survive (`4bac558` plus the
+fields commit), the runtime boundary is identical (`tests/migrated-pack-parity.test.ts`, parameterised
+over the remaining v1 packs *and* the flipped ones), the course still runs after a flip
+(`tests/pack-flip-rehearsal.test.tsx`), and stored history still counts against the flipped pack
+(`tests/migrated-pack-replay.test.tsx`). Step 5 of the list above was empty in practice for German —
+no e2e spec walks that course — so do not budget for it without checking.
 
 ### To run the e2e suite here (the trap that cost a cycle twice)
 

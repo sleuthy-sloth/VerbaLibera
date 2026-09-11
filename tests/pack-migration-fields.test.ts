@@ -23,7 +23,20 @@ import { validateV2Pack } from "@/features/course-pack/schema-v2";
  * it — the fixture is the mail carrier for exactly this kind of guarantee.
  */
 
-const V1_PACKS = ["german", "portuguese", "spanish"] as const;
+const V1_PACKS = ["portuguese", "spanish"] as const;
+/**
+ * Flipped already, and read from the tree rather than migrated in memory.
+ *
+ * French and Italian were flipped before `cefr` and `culturalNote` had a home in
+ * the v2 lesson, so their authored tags and notes are the recorded, unfixed loss
+ * (French authored one cultural note; it is not in the file). German was flipped
+ * with both fields in place, which is what `expected` pins. Restoring French and
+ * Italian is a data change: it is the user's call, not something to do quietly.
+ */
+const FLIPPED_PACKS = [
+  { language: "german", lessons: 8, notes: 8, tags: 8 },
+  { language: "french", lessons: 25, notes: 0, tags: 0 },
+] as const;
 
 const readRaw = (language: string): Record<string, unknown> =>
   JSON.parse(readFileSync(join(process.cwd(), "courses", language, "manifest.json"), "utf8")) as Record<string, unknown>;
@@ -101,6 +114,24 @@ describe("what the v1→v2 migration does with every authored lesson field", () 
       );
     }
   });
+
+  it.each(FLIPPED_PACKS)(
+    "$language: the flipped file still carries the fields the schema has a home for",
+    ({ language, lessons: expectedLessons, notes, tags }) => {
+      // The migration is not re-run for these: the point is what the stored
+      // artifact holds. A re-migration that dropped culturalNote or cefr would
+      // pass every other test in the tree and fail this one.
+      const raw = readRaw(language);
+      const lessons = raw.lessons as Array<Record<string, unknown>>;
+      expect(lessons).toHaveLength(expectedLessons);
+      const withNote = lessons.filter(
+        (lesson) => typeof lesson.culturalNote === "string" && lesson.culturalNote.length > 0,
+      );
+      const withTag = lessons.filter((lesson) => typeof lesson.cefr === "string");
+      expect(withNote.length, `${language} lessons carrying a cultural note`).toBe(notes);
+      expect(withTag.length, `${language} lessons carrying a CEFR tag`).toBe(tags);
+    },
+  );
 
   it("the census can fail: a field with no route is caught", () => {
     // Non-vacuity. Take a real v1 pack, add a field the migration has never

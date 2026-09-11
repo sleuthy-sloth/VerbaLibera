@@ -21,11 +21,10 @@ import type { RuntimePack } from "@/features/course-pack/lesson-runtime";
  * kept every identity learner history and review are keyed by, and that the
  * file is no longer migratable (re-running the script would be a silent no-op
  * otherwise). The history-replay half of the evidence lives in
- * `tests/french-migration-replay.test.ts`.
+ * `tests/migrated-pack-replay.test.tsx`.
  */
 
-const PENDING_PACKS = ["german", "portuguese", "spanish"] as const;
-const FRENCH = path.join(process.cwd(), "courses/french/manifest.json");
+const PENDING_PACKS = ["portuguese", "spanish"] as const;
 
 const readPack = (language: string): Record<string, unknown> =>
   JSON.parse(
@@ -61,6 +60,43 @@ const retrievalLinks = (pack: RuntimePack): string[] =>
       .filter((exercise) => exercise.reviewOf.length > 0)
       .map((exercise) => [exercise.id, ...exercise.reviewOf].join(">")),
   );
+
+/**
+ * The packs that have migrated.
+ *
+ * French went first, German second. The migration is not re-run for either —
+ * what is pinned is that the stored artifact kept every identity learner history
+ * and review are keyed by, and that the file refuses to migrate again (re-running
+ * the script would otherwise be a silent no-op). The history-replay half of the
+ * evidence lives in `tests/migrated-pack-replay.test.tsx` and
+ * `tests/german-migration-replay.test.tsx`.
+ */
+const MIGRATED_PACKS = [
+  {
+    language: "french",
+    lessons: 25,
+    units: 6,
+    concepts: 25,
+    vocabulary: 102,
+    media: 26,
+    withPrerequisites: 24,
+    retainedExercises: 200, // lower bound: asserted as "more than"
+    reachable: 247,
+    retrieval: 23,
+  },
+  {
+    language: "german",
+    lessons: 8,
+    units: 4,
+    concepts: 8,
+    vocabulary: 34,
+    media: 1,
+    withPrerequisites: 7,
+    retainedExercises: 40, // lower bound
+    reachable: 56,
+    retrieval: 39,
+  },
+] as const;
 
 describe.each(PENDING_PACKS)("%s v1→v2 migration parity (real content)", (language) => {
   const source = () => readPack(language);
@@ -145,59 +181,64 @@ describe.each(PENDING_PACKS)("%s v1→v2 migration parity (real content)", (lang
   });
 });
 
-describe("French is the migrated pilot", () => {
-  const stored = () => {
-    const raw = readPack("french");
-    return { raw, pack: normalizePack(raw) };
-  };
+describe.each(MIGRATED_PACKS)(
+  "$language is a migrated pack",
+  ({ language, ...expected }) => {
+    const stored = () => {
+      const raw = readPack(language);
+      return { raw, pack: normalizePack(raw) };
+    };
 
-  it("is schemaVersion 2, and refuses to be migrated a second time", () => {
-    const { raw } = stored();
-    expect(raw.schemaVersion).toBe(2);
-    // The migration script exits loudly on a v2 pack; this is the same guard
-    // from the test side, so a half-applied flip cannot look clean.
-    expect(() => migratePackV1ToV2(raw)).toThrow(/schemaVersion 1/);
-    expect(() => validateV2Pack(raw)).not.toThrow();
-  });
+    it("is schemaVersion 2, and refuses to be migrated a second time", () => {
+      const { raw } = stored();
+      expect(raw.schemaVersion).toBe(2);
+      // The migration script exits loudly on a v2 pack; this is the same guard
+      // from the test side, so a half-applied flip cannot look clean.
+      expect(() => migratePackV1ToV2(raw)).toThrow(/schemaVersion 1/);
+      expect(() => validateV2Pack(raw)).not.toThrow();
+    });
 
-  it("keeps one activity per retained exercise, under the same id", () => {
-    // This is what makes stored practice replay: the old player wrote events
-    // keyed by exercise id, and the v2 player grades the activity with that
-    // same id.
-    const { pack } = stored();
-    const retained = pack.lessons.flatMap((lesson) => lesson.legacyExercises.map((e) => e.id));
-    expect(retained.length).toBeGreaterThan(200);
-    for (const exerciseId of retained) {
-      expect(pack.activities[exerciseId], `${exerciseId} has no activity`).toBeDefined();
-      expect(pack.exercisesById[exerciseId], `${exerciseId} has no retained record`).toBeDefined();
-      expect(pack.activities[exerciseId].id).toBe(exerciseId);
-    }
-    expect(Object.keys(pack.exercisesById).sort()).toEqual([...retained].sort());
-  });
-
-  it("lets every reachable activity carry the exercise identity review is keyed by", () => {
-    const { pack } = stored();
-    for (const lesson of pack.lessons)
-      for (const step of lesson.steps) {
-        const activity = pack.activities[step.activityId];
-        expect(activity, `${step.activityId} missing`).toBeDefined();
-        if (activity.kind === "information" || activity.kind === "self-compare") continue;
-        expect(activity.evidenceKey).toBe(activity.id);
-        expect(pack.exercisesById[activity.evidenceKey]).toBeDefined();
+    it("keeps one activity per retained exercise, under the same id", () => {
+      // This is what makes stored practice replay: the old player wrote events
+      // keyed by exercise id, and the v2 player grades the activity with that
+      // same id.
+      const { pack } = stored();
+      const retained = pack.lessons.flatMap((lesson) => lesson.legacyExercises.map((e) => e.id));
+      expect(retained.length).toBeGreaterThan(expected.retainedExercises);
+      for (const exerciseId of retained) {
+        expect(pack.activities[exerciseId], `${exerciseId} has no activity`).toBeDefined();
+        expect(pack.exercisesById[exerciseId], `${exerciseId} has no retained record`).toBeDefined();
+        expect(pack.activities[exerciseId].id).toBe(exerciseId);
       }
-  });
+      expect(Object.keys(pack.exercisesById).sort()).toEqual([...retained].sort());
+    });
 
-  it("keeps every lesson, prerequisite chain and media hash it had as v1", () => {
-    const { pack } = stored();
-    expect(pack.lessons).toHaveLength(25);
-    expect(pack.units).toHaveLength(6);
-    expect(pack.concepts).toHaveLength(25);
-    expect(pack.vocabulary).toHaveLength(102);
-    expect(pack.media).toHaveLength(26);
-    expect(pack.lessons.filter((lesson) => lesson.prerequisites.length > 0)).toHaveLength(24);
-    // The reachable set is the 222 exercises plus one notice step per lesson.
-    expect(reachableActivityIds(pack)).toHaveLength(247);
-    expect(retrievalLinks(pack)).toHaveLength(23);
-    for (const asset of pack.media) expect(asset.sha256).toMatch(/^[0-9a-f]{64}$/);
-  });
-});
+    it("lets every reachable activity carry the exercise identity review is keyed by", () => {
+      const { pack } = stored();
+      for (const lesson of pack.lessons)
+        for (const step of lesson.steps) {
+          const activity = pack.activities[step.activityId];
+          expect(activity, `${step.activityId} missing`).toBeDefined();
+          if (activity.kind === "information" || activity.kind === "self-compare") continue;
+          expect(activity.evidenceKey).toBe(activity.id);
+          expect(pack.exercisesById[activity.evidenceKey]).toBeDefined();
+        }
+    });
+
+    it("keeps every lesson, prerequisite chain and media hash it had as v1", () => {
+      const { pack } = stored();
+      expect(pack.lessons).toHaveLength(expected.lessons);
+      expect(pack.units).toHaveLength(expected.units);
+      expect(pack.concepts).toHaveLength(expected.concepts);
+      expect(pack.vocabulary).toHaveLength(expected.vocabulary);
+      expect(pack.media).toHaveLength(expected.media);
+      expect(pack.lessons.filter((lesson) => lesson.prerequisites.length > 0)).toHaveLength(
+        expected.withPrerequisites,
+      );
+      // The reachable set is the exercises plus one notice step per lesson.
+      expect(reachableActivityIds(pack)).toHaveLength(expected.reachable);
+      expect(retrievalLinks(pack)).toHaveLength(expected.retrieval);
+      for (const asset of pack.media) expect(asset.sha256).toMatch(/^[0-9a-f]{64}$/);
+    });
+  },
+);

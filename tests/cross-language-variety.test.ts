@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { join } from "node:path";
 
 /**
  * German, Spanish and Portuguese teach the same topics, which is right. What is
@@ -11,6 +12,13 @@ import { describe, expect, it } from "vitest";
  * Rewriting that is easy to undo by accident, and impossible to notice by
  * reading one lesson, so it is pinned here. The measurement is the same one
  * `scripts/content/cross-language-similarity.py` prints; keep the two in step.
+ *
+ * German is schemaVersion 2 as of the 2B flip, so the authored text has to be
+ * read through both lesson shapes: v1 keeps the exercises and the explanation on
+ * the lesson, v2 keeps the retained records in `legacyExercises` and relocates
+ * the explanation into the lesson's opening `information` activity. Reading only
+ * the v1 shape made every German comparison compare an empty list, which is the
+ * kind of vacuous pass this file exists to prevent.
  */
 
 const LANGS = ["german", "spanish", "portuguese"] as const;
@@ -29,16 +37,31 @@ type Lesson = {
   id: string;
   objective?: string;
   explanation?: string;
-  exercises: Exercise[];
+  exercises?: Exercise[];
+  legacyExercises?: Exercise[];
+};
+type RawPack = {
+  lessons: Lesson[];
+  activities?: Array<{ id: string; body?: string }>;
 };
 
-const load = (lang: string): Lesson[] =>
-  JSON.parse(readFileSync(`courses/${lang}/manifest.json`, "utf8")).lessons;
+const load = (lang: string): RawPack =>
+  JSON.parse(readFileSync(join(process.cwd(), "courses", lang, "manifest.json"), "utf8"));
+
+/** The authored exercises, whichever schema the pack is on. */
+const exercisesOf = (pack: RawPack, lesson: Lesson): Exercise[] =>
+  lesson.exercises ?? lesson.legacyExercises ?? [];
+
+/** The authored lesson prose, whichever schema the pack is on. */
+const explanationOf = (pack: RawPack, lesson: Lesson): string =>
+  lesson.explanation ??
+  pack.activities?.find((activity) => activity.id === `${lesson.id}-intro`)?.body ??
+  "";
 
 /** Every authored English field, by position, so pairs line up field for field. */
-function fields(lesson: Lesson): string[] {
-  const out = [lesson.objective ?? "", lesson.explanation ?? ""];
-  for (const ex of lesson.exercises)
+function fields(pack: RawPack, lesson: Lesson): string[] {
+  const out = [lesson.objective ?? "", explanationOf(pack, lesson)];
+  for (const ex of exercisesOf(pack, lesson))
     for (const key of ["prompt", "explanation", "passage", "translation"] as const) {
       const value = ex[key];
       if (typeof value === "string" && value) out.push(value);
@@ -63,19 +86,19 @@ function similarity(a: string, b: string): number {
 
 const packs = Object.fromEntries(LANGS.map((l) => [l, load(l)])) as Record<
   (typeof LANGS)[number],
-  Lesson[]
+  RawPack
 >;
 
 const pairs: Array<{ topic: string; a: (typeof LANGS)[number]; b: (typeof LANGS)[number] }> = [];
 for (let i = 0; i < LANGS.length; i += 1)
   for (let j = i + 1; j < LANGS.length; j += 1) {
-    const seen = new Set(packs[LANGS[i]].map((l) => topicOf(l.id)));
-    for (const topic of packs[LANGS[j]].map((l) => topicOf(l.id)))
+    const seen = new Set(packs[LANGS[i]].lessons.map((l) => topicOf(l.id)));
+    for (const topic of packs[LANGS[j]].lessons.map((l) => topicOf(l.id)))
       if (seen.has(topic)) pairs.push({ topic, a: LANGS[i], b: LANGS[j] });
   }
 
 const lessonFor = (lang: (typeof LANGS)[number], topic: string) => {
-  const found = packs[lang].find((l) => topicOf(l.id) === topic);
+  const found = packs[lang].lessons.find((l) => topicOf(l.id) === topic);
   if (!found) throw new Error(`${lang} has no lesson for ${topic}`);
   return found;
 };
@@ -87,12 +110,33 @@ describe("cross-language lesson variety", () => {
     expect(pairs.length).toBeGreaterThanOrEqual(24);
   });
 
+  it("reads the authored text of a migrated pack, not an empty list", () => {
+    // Non-vacuity for the dual-schema accessors: German is v2, and if the
+    // accessors stopped finding its exercises or its explanation every German
+    // comparison above would pass while measuring nothing.
+    for (const lang of LANGS) {
+      const pack = packs[lang];
+      for (const lesson of pack.lessons) {
+        expect(exercisesOf(pack, lesson).length, `${lang}/${lesson.id} exercises`).toBeGreaterThan(
+          0,
+        );
+        expect(explanationOf(pack, lesson).length, `${lang}/${lesson.id} explanation`).toBeGreaterThan(
+          0,
+        );
+      }
+    }
+  });
+
   it.each(pairs.map((p) => [`${p.a}/${p.b}`, p.topic] as const))(
     "%s share no exercise shape for %s",
     (pairLabel, topic) => {
       const [a, b] = pairLabel.split("/") as [(typeof LANGS)[number], (typeof LANGS)[number]];
-      const shapeA = lessonFor(a, topic).exercises.map((e) => e.kind).join(" > ");
-      const shapeB = lessonFor(b, topic).exercises.map((e) => e.kind).join(" > ");
+      const shapeA = exercisesOf(packs[a], lessonFor(a, topic))
+        .map((e) => e.kind)
+        .join(" > ");
+      const shapeB = exercisesOf(packs[b], lessonFor(b, topic))
+        .map((e) => e.kind)
+        .join(" > ");
       expect(shapeA, `${topic}: both are "${shapeA}"`).not.toBe(shapeB);
     },
   );
@@ -101,8 +145,8 @@ describe("cross-language lesson variety", () => {
     "%s are not the same lesson in two languages for %s",
     (pairLabel, topic) => {
       const [a, b] = pairLabel.split("/") as [(typeof LANGS)[number], (typeof LANGS)[number]];
-      const fa = fields(lessonFor(a, topic));
-      const fb = fields(lessonFor(b, topic));
+      const fa = fields(packs[a], lessonFor(a, topic));
+      const fb = fields(packs[b], lessonFor(b, topic));
       const shared = Math.min(fa.length, fb.length);
       const scores: number[] = [];
       for (let i = 0; i < shared; i += 1) scores.push(similarity(fa[i], fb[i]));

@@ -9,8 +9,11 @@ import type { CourseEnvironment } from "@/features/course-pack/environment";
 import { createHostedEnvironment } from "@/features/course-pack/hosted-environment";
 import { validatePack } from "@/features/course-pack/schema";
 
-const german = validatePack(
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
+// A v1 pack, because this fixture renders the legacy course engine through a
+// portable environment. German was the last one and has since been flipped, so
+// the fixture reads Spanish.
+const spanish = validatePack(
+  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
 );
 
 function portableFixtureEnvironment(
@@ -29,7 +32,7 @@ function portableFixtureEnvironment(
       read: async () => [],
       write: async () => {},
     },
-    loadPack: async () => german,
+    loadPack: async () => spanish,
     resolveMedia: (url) => `blob:portable${url}`,
   };
 }
@@ -53,7 +56,7 @@ describe("portable course environment", () => {
       }),
     );
 
-    await screen.findByRole("heading", { name: "German foundations" });
+    await screen.findByRole("heading", { name: "Spanish foundations" });
     expect(screen.queryByRole("region", { name: "Practice account" })).toBeNull();
     expect(screen.queryByRole("button", { name: /Download/i })).toBeNull();
     expect(screen.queryByRole("link", { name: /Daily path/i })).toBeNull();
