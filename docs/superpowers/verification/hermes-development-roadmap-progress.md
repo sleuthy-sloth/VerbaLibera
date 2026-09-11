@@ -32,6 +32,15 @@ inside its frame, which is documented in the design brief but had never been mea
 network is not a bare card. `docs/asset-provenance.md`, which described two files that no longer
 exist and none of the current set, is rewritten around the measurements.
 
+Then the two approved assets the user supplied landed: **four vocabulary pictures** normalised to
+the 16:9 contract and ground-snapped, with the alt text corrected where the old photograph's wording
+no longer described the drawing (the drill's accessible name is that alt text), and the **German
+banner restored to its approved framing** — measured at a 0px shift against the reference where the
+re-framed file it replaced needed +278 px, with the narrow-viewport crop re-measured to 2.749 @ 100%
+and the regenerated `study.js` carrying exactly those two numbers of change. The German banner
+decision recorded as open in the previous block is therefore closed, and the four pictures are the
+worked example for converting the remaining eighteen photographs.
+
 The next packages, in the order they are written up below: **2B continues** — flip Portuguese, then
 Spanish, now a mechanical repeat of the playbook below (German's flip is the worked example) — **3B**
 (audio expansion, blocked on the human listening checklist, and the only thing standing between the
@@ -55,9 +64,9 @@ stays behind its evidence gates.
 
 - Native-speaker review of any lesson or audio clip (`review.nativeSpeaker` stays `"pending"` in
   every generated report).
-- **Art direction** (added by the graphics pass): whether the shipped German banner keeps its
-  re-frame or returns to the approved framing (measured 278px apart — see the next-tasks item),
-  whether it is regenerated as a wide frieze to match the other four, whether the 22 vocabulary
+- **Art direction** (added by the graphics pass): whether the German banner's approved framing needs
+  a wide-frieze regeneration to match the other four (it is the approved artwork now; the question is
+  only whether that artwork should be redrawn wider), whether the remaining 18 vocabulary
   photographs are redrawn as illustrations, and the lesson-scene illustration set the brief lists.
   All of these need an image model and a human eye; making the *existing* art legible on a phone is
   the part that could be settled in code, and it was.
@@ -803,6 +812,88 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### The approved vocabulary pictures and the German banner (`99970d6`)
+
+Two approved assets landed in the app, both normalised through the existing brand
+scripts rather than redrawn, and the German banner decision from the last block is
+now taken: it **is** the approved reference.
+
+**Four vocabulary pictures.** The supplied 1280×714 sources became the app's 16:9
+contract at **800×449** (`sips --resampleHeightWidth 449 800`) and then had their
+flat ground snapped to the canvas cream (`scripts/brand/snap-ground.py`), which
+measured 7, 10, 10 and 16 units off before and reads back exact after, remapping
+59–71% of each frame:
+
+| file | bytes | ground before → after |
+| --- | ---: | --- |
+| `piggybank.jpg` | 87,393 B | 7 → 1 |
+| `tea.jpg` | 70,608 B | 10 → 1 |
+| `coffee.jpg` | 69,716 B | 16 → 1 |
+| `table.jpg` | 75,844 B | 10 → 1 |
+
+The **alt text had to change with them**, and not as polish: the drill's accessible
+name *is* the alt (`PictureChoice` puts it on the radio), so "A pink piggy bank"
+would have announced the wrong colour for a white pig on a table with coins. All
+six occurrences in the fixture were corrected — piggy bank, teapot, saucer, two
+chairs — and `tests/asset-provenance.test.ts` now checks the record's quoted alt
+text against the fixture so the two cannot drift.
+
+**The drill's 4:3 box was measured, not assumed.** `PictureChoice` renders these in
+a 4:3 box with `object-fit: cover`, so a 16:9 file is cropped to its middle 75% of
+width. In the browser at 390px the four choices render 285×214 each and the
+approved compositions survive whole — the piggy bank, coins, table and plant are
+all inside, and only the background cloth behind the piggy bank is clipped. No
+layout change was needed, which is the useful half of that finding. A supplied
+six-panel contact sheet in the same delivery was **not** used: one of its panels has
+the word "BILL" drawn into the artwork, and a supplied picture is not worth baked-in
+text.
+
+**The German banner is now the approved framing.** The reference was snapped
+(ground 7 → 1, 53.2% of pixels remapped) straight into `public/brand/courses/german.jpg`
+at the same 2064×512 contract, and the two measurements that matter moved with it:
+
+| | re-framed file (before) | approved framing (now) |
+| --- | ---: | ---: |
+| `compare-reference.py` difference at rest | 71.10 | **1.54** |
+| best horizontal shift | +278 px | **0 px** |
+| narrow-viewport window | 2.391 @ 50.42% | **2.749 @ 100%** |
+| rendered on a 390px course page | 350×146 | 350×127 |
+| rendered on a 1280px course page | 872×216 | 872×216 |
+
+The history stays in `docs/asset-provenance.md` rather than being deleted: the
+re-frame existed because the approved scene runs off the right edge through a
+distinct building (the brief's column analysis, complete scene to x≈1890), and a
+future maintainer comparing app against artwork needs to know both that they now
+match and why they once did not.
+
+**The phone crop was checked for clipping by measuring the render**, because the
+band got shorter (146 → 127px) and the window wider: the first non-ground column in
+the screenshotted band sits at **19px of 350 (5.4%)**, against the 5.6% the crop data
+predicts — so the whole drawing is inside the window with a breathing margin, not
+clipped at the edge. The library card (281×70, full frame, descriptive alt) and the
+lesson shell (no banner while practising, by design) are unchanged, and there is no
+horizontal overflow on any surface.
+
+**The generated bundle moved, and by exactly two numbers.** `banner-crops.json`
+feeds `banners.ts`, which is bundled into `public/study.js`, so the committed
+artifact had to be regenerated. Extracting the crop block from `HEAD`'s bundle and
+the new one shows German `2.391@50.42` → `2.749@100` as the whole of the data
+change (831,028 → 831,026 bytes), which is what `content:build` was re-run to
+produce. The full suite's generated-artifact guard caught this before the commit —
+its message is the instruction, and it was followed rather than suppressed.
+
+**Guards, and the one that needed proving.** `tests/banner-crops.test.ts` now
+asserts German grows more than every other course and that its 320px band stays over
+100px, instead of the fixed ×1.6 multiplier that only the re-framed file produced —
+the approved framing measures ×1.47, and an assertion tied to the old artwork would
+have been a lie the tests told. `tests/image-dimensions.test.ts` gained three cases:
+the 800px ceiling for all 22 files, exactly 800×449 for the four approved ones, and
+a check that the folder holds more than three distinct sizes so the 16:9 assertion
+is discriminating rather than a rule the whole folder already follows.
+`tests/asset-provenance.test.ts` pins the four sha256 values against the bytes on
+disk — **proved non-vacuous**: corrupting one recorded hash fails with "tea.jpg no
+longer matches its recorded hash", and restoring it passes.
+
 ### Graphics pass 3 — the German banner verified against its approved reference (`d73c34f`)
 
 The correction this block started from: the German banner exists and is approved,
@@ -965,7 +1056,22 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
-| `python3 scripts/brand/banner-crops.py --check` | exit 0 — the committed crop data matches a fresh measurement of every banner |
+| `python3 scripts/brand/snap-ground.py` (the four pictures) | 7/10/10/16 → 1 before/after; `--check` exit 0 — the ground is the canvas cream |
+| `python3 scripts/brand/snap-ground.py` (the German reference) | 7 → 1, 53.2% of pixels remapped; `--check` exit 0 |
+| `python3 scripts/brand/compare-reference.py` (after the swap) | `courses/german.jpg` at **1.54 with a 0px shift** (was 71.10 at +278 px); the other nine unchanged |
+| `python3 scripts/brand/banner-crops.py` | re-measured german **2.749 @ 100%** (was 2.391 @ 50.42%); french/italian/spanish/portuguese unchanged |
+| crop block extracted from `HEAD:public/study.js` vs the regenerated one | the only data change is german `2.391@50.42` → `2.749@100`; 831,028 → 831,026 bytes |
+| `npx vitest run` (post-commit, this block) | **150 files passed, 1 skipped; 1174 passed, 6 skipped, 0 failed** |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **90 passed, 3 skipped** |
+| `npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** |
+| `npm run portable:build` + `--config playwright.portable.config.ts` | build exit 0; **8 passed** (Chromium and WebKit) |
+| `npm run a11y:audit` (the brief's alt-text step) | **0 axe violations** across 20 route/viewport combinations |
+| `npm run content:validate` / `content:audio-check` | exit 0 / exit 0 |
+| Browser check of the German banner (390 and 1280) | course page 350×127 with `--banner-crop: 2.749` @ 100%, 872×216 full frame at 1280, library 281×70, lesson shell none, no horizontal overflow |
+| Rendered-band measurement (first non-ground column) | 19px of 350 (5.4%) against the 5.6% the crop data predicts — the drawing is inside the window, not clipped |
+| Browser check of the picture drill at 390 | four choices 285×214, `object-fit: cover`, all four approved compositions whole, alt text rendering as the caption |
+| `npx vitest run tests/{banner-crops,image-dimensions,asset-provenance,curriculum-fixture,PictureChoice,service-worker}.test.*` | 6 files, **67 passed** (focused, before the commit) |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` | 0 errors, 30 warnings / exit 0 / exit 0 |
 | `python3 scripts/brand/compare-reference.py --crops` | exit 0 — ten shipped assets against their approved references: nine re-encoded or re-framed as documented, and `german.jpg` measured 71.10 at rest against 13.54 at a +278px shift |
 | `python3 scripts/brand/icon-audit.py` | exit 0 — the maskable icon's artwork inside the 80% safe circle, the other three within 6-8 mean grey of the approved square |
 | `npx vitest run tests/asset-provenance.test.ts` (alone) | **6 passed** — every tracked asset named in the document, nothing documented that is missing, the removed files only in the removed section, the German deviation and its crop consequence stated, every table row with dimensions and a size |
@@ -1041,6 +1147,8 @@ also skips the config's own `webServer`.
 | `59adb4d` | Run record — the graphics pass |
 | `d73c34f` | **Every asset verified against its approved reference** — the comparison and icon-audit tools, the asset inventory script, `docs/asset-provenance.md` rewritten around the measurements, and the test that keeps document and tree in step |
 | `d4566a7` | **The offline page gets the app's own state mark**, with the precache coupling and the declared-dimension rule extended to plain HTML |
+| `d3b8b49` | Run record — the reference audit and the offline state mark |
+| `99970d6` | **The approved vocabulary pictures ship, and the German banner becomes its approved reference** — normalised and ground-snapped, alt text corrected to match the drawings, crop re-measured, `study.js` regenerated, provenance split in two and pinned by hashes |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -1050,13 +1158,16 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **Two graphics decisions for you, both measured and neither taken.** (a) `german.jpg` is the
-   approved artwork re-framed 278px inside its 2064×512 frame (the design brief's sliced-building
-   fix); restoring the approved framing is a copy plus `python3 scripts/brand/banner-crops.py`, and
-   the record carries what each window would be (2.39 @ 50.4% shipped, 2.75 @ 100% restored).
-   (b) The library and landing cards still show the full 4:1 frame on a phone. A uniform crop of 3.34
-   would make every card ~21% taller with all five artworks intact, but leaves Italian only ~3.6%
-   margin, so it was recorded rather than taken.
+2. **The vocabulary set is now half-converted, and that is the pattern to continue.** Four of the 22
+   pictures are the project's own 16:9 illustrations; the other eighteen are still the CC0 photographs
+   the design brief calls "the single biggest mismatch with the illustration system". The four landed
+   as one commit with the normalise-and-snap pass, the alt-text check and the provenance update, so
+   the next four are a repeat: supply at any size, `sips --resampleHeightWidth 449 800`,
+   `snap-ground.py`, correct any alt the picture contradicts, extend the tables in
+   `docs/image-provenance.md` and let `tests/asset-provenance.test.ts` check the hashes.
+   One library decision is still open: the landing and library cards show the full 4:1 frame on a
+   phone, and a uniform crop of 3.34 would make every card ~21% taller with all five artworks intact
+   — but it leaves Italian only ~3.6% margin, so it is recorded rather than taken.
 3. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
    guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
    other four, redrawing the 22 vocabulary photographs as on-palette illustrations, and the
