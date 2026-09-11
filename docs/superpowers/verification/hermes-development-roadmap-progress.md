@@ -10,16 +10,15 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0, 1A, 1B, 2A and 3A-v1 are complete. Phase 3A's offline and portable entry points landed —
-Listen now exists in all three editions.** The remaining 3A items are the offline matrix (range
-requests, interrupted download, recovery after reconnect), WebKit's offline service-worker run, and
-the gate's physical-device pass, which is human work.
+**Phases 0, 1A, 1B, 2A and 3A are complete apart from the gate's physical-device pass.** This block
+closed the Listen player brief (`4043f14`), the offline matrix's failure half plus WebKit coverage
+(`bfc61d5`), and prepared the next flip with a rehearsal test.
 
-The next packages, in the order they are written up below: **3B** (audio expansion, blocked on the
-human listening checklist), **2B** (the German/Portuguese/Spanish flip — its CEFR gate is now cleared,
-so it is mechanical work plus one decision about repairing French and Italian), the new **Listen
-player brief** (`docs/superpowers/briefs/listen-player-design.md`, which appeared in the tree mid-run),
-and **Phase 4**. Phase 7 stays behind its evidence gates.
+The next packages, in the order they are written up below: **2B** (flip German, Portuguese or Spanish
+— the CEFR gate is cleared, the pack-level parity and the shell rehearsal are proven, and the work
+left is retargeting the suites pinned to the remaining v1 packs), **3B** (audio expansion, blocked on
+the human listening checklist), the **dialogue gap** (a plan is written up), and **Phase 4**. Phase 7
+stays behind its evidence gates.
 
 ## Phase status
 
@@ -27,8 +26,8 @@ and **Phase 4**. Phase 7 stays behind its evidence gates.
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
 | 1 — complete the first ten minutes | **1A and 1B complete** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short first-win sequence for French and Italian, text-first and sound-optional, with resume and a concrete recap. The gate's observed five-user pilot is a human session and stays pending. |
-| 2 — consistent activities and progress | **2A complete; 2B's blocker cleared** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. The CEFR loss that blocked the remaining flips is fixed in the migration (`4bac558`). 2B content work is a separate package. |
-| 3 — listening and speaking everywhere | **3A substantially complete** | Position, resume and cold start (`2d00afd`); then the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions (`e34973a`). Remaining: the offline matrix's failure cases, WebKit service-worker coverage, and the device pass. 3B needs the human listening checklist |
+| 2 — consistent activities and progress | **2A complete; 2B's blocker cleared and rehearsed** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. The CEFR loss that blocked the remaining flips is fixed in the migration (`4bac558`). A rehearsal (`tests/pack-flip-rehearsal.test.tsx`) now drives the v2 shell over each remaining v1 pack in memory, and the legacy shell over the unflipped pack, so the flip's remaining risk is the suite retargeting below. 2B content work is a separate package. |
+| 3 — listening and speaking everywhere | **3A complete except the device pass** | Position, resume and cold start (`2d00afd`); the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions (`e34973a`); the player card the brief asked for (`4043f14`); the offline failure matrix and WebKit coverage (`bfc61d5`). The gate's physical-device pass is human. 3B needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
 | 6 — verified releases | Not started | Physical-device QA and signing decisions are human tasks |
@@ -404,6 +403,104 @@ data change to an already-shipped pack (with its own parity/replay re-verificati
 an explicit choice. Flipping German, Portuguese and Spanish is now non-lossy, which was the gate.
 
 
+### The Listen player card — the visual brief, implemented (`4043f14`)
+
+`docs/superpowers/briefs/listen-player-design.md` asked for a compact Warm Studio card: cream paper,
+dark outline, terracotta primary play, the existing hard-offset shadow, a readable progress bar with a
+large scrubber, 15-second skips, a speed control, a transcript toggle, a visible download/offline
+state, and mobile sizing that does not become a full-screen player — while preserving the native audio
+element's accessibility role, the URLs, the caching and the stored position.
+
+**What it renders now.** A header with a language mark (`FR`, `IT`, …) where cover art would go — an
+image per track is bytes the offline bundle would carry and a licence nobody has checked — the lesson
+title, the course, the length. Then the states (provenance note, heard, resume), a transport row of
+±15s and one terracotta play/pause button, a real `input[type=range]` scrubber over a painted fill
+with a time readout, a speed select (1×, 0.75×, 1.25×, 1.5×), and the offline line.
+
+**The native element is still the layer.** `<audio controls>` keeps its `controls`, its `src` and its
+`preload="metadata"`, and the card's controls only call into it. It is visually hidden now (the card
+is the visible UI), which is a real decision: the custom controls are all genuine buttons, a select
+and a range input, so keyboard and screen-reader users get the same transport, and the element remains
+what a browser without our JavaScript falls back to. The e2e asserts the element is still attached
+with the right source and label.
+
+**The offline line reports Cache Storage**, the same store the service worker reads, so "saved on this
+device" means what it means offline; a device that is offline with an unsaved track says exactly that.
+The manual save link and the `download` attribute are untouched.
+
+**Two defects found by the tests, not by eye:**
+
+- the settings row's `flex-basis: 15rem` became a *240px-tall empty paragraph* in the phone layout, so
+  the card was 756px on a 390px screen. The new e2e measures the card and caught it; it is now 571px,
+  well under the brief's "not full-screen".
+- ±15s read React state rather than the element, so a skip after any external seek moved from the
+  wrong place.
+
+**Copy change:** the resume state now reads "Resume from 4:32" (the brief's wording) instead of "You
+stopped at 4:32", so the unit and e2e suites that pinned the old sentence were updated with it.
+
+**Tests:** `tests/ListenPlayer.test.tsx` (18 cases: the transport drives the element, skips clamp at
+both ends, the scrubber seeks and announces a time, speed changes playback, the offline line in all
+four states — saved, unsaved, offline-unsaved, no Cache Storage — and the native element still
+present), plus a new e2e case that measures every transport target at 390px, seeks, changes speed,
+opens the transcript and checks the card's size. The portable run covers the same card in both engines,
+which is where Safari's engine actually gets exercised.
+
+### The offline matrix, and what WebKit will and will not do (`bfc61d5`)
+
+The failure half of the roadmap's gate, plus the engine question. Four unit cases in
+`tests/service-worker.test.ts` (a saved pack served with the network down; the long track served from
+the *installed pack* rather than only the static cache; a download that never finished refused rather
+than half-served; another app's cache not mistaken for an installation), one in
+`tests/offline-install-listen.test.ts` (the transfer dies after the pack arrived — nothing left
+installed, retry installs cleanly), and `tests/e2e/offline-matrix.spec.ts` for the browser cases:
+a failed download that leaves nothing behind and succeeds on retry, an offline track that plays from
+the saved copy while storing nothing partial, recovery when the connection returns, and a cold offline
+start straight into Listen. `playwright.offline.config.ts` (`npm run test:e2e:offline`) and a CI step
+run them on Chromium and WebKit on their own port, so no run can reuse another server.
+
+**Three findings worth more than the tests themselves.**
+
+1. **The download control told learners "Failed to fetch".** With no connection, `installPack`'s first
+   fetch rejects before any of its own messages, and the component rendered the engine's words. It now
+   says "Download failed — check your connection and try again. Nothing was saved.", keeps the
+   actionable messages for the failures `installPack` detects, and `tests/OfflineDownload.test.tsx`
+   covers all four ways that goes.
+2. **Playwright cannot interrupt a download from outside.** `installPack` runs in the page but the
+   service worker answers the fetch, and Playwright's routing does not see worker-initiated requests —
+   probed: 0 routes matched and the install completed. So the mid-flight case lives at the unit level
+   where it is deterministic, and the e2e covers the failure a learner can actually produce.
+3. **Playwright's WebKit cannot navigate with the network emulated off** — any `goto` or `reload`
+   raises "WebKit encountered an internal error", with no app code involved, and it cannot play media
+   out of Cache Storage while offline either. The WebKit project therefore runs the cases it can
+   express (install, Cache Storage contents, the failure copy) and the rest skip *with that reason in
+   the test*, rather than being quietly dropped. **This is a tooling limitation, not a verdict on the
+   app**: the gate's WebKit/iPhone pass remains human work, and the portable WebKit run — a file with
+   no network to reach for — already covers "plays with no network at all" in both engines.
+
+### Phase 2B preparation: a flip rehearsal, so the next flip is mechanical (`tests/pack-flip-rehearsal.test.tsx`)
+
+`tests/french-pack-migration-parity.test.ts` proves the migration is *identical* for each pack still
+at v1 (same lessons, steps, reachable activities, media hashes, retrieval links) and
+`tests/pack-migration-cefr.test.ts` proves the authored CEFR tags survive. Identical runtime output is
+not the same claim as "the course still runs", though — the French flip needed a compensating
+think-first gate for exactly that reason — so the rehearsal drives the **v2 shell over each pack as if
+it had been flipped**, with the manifest on disk untouched: migrate in memory, validate the result,
+open the first lesson, begin practice, clear any information steps, answer the first practice surface
+(whichever kind the content uses), and require an outcome. It also walks the *unflipped* pack through
+the legacy shell, because the flip must leave the old engine working for progress and replay.
+
+**What a flip still costs** (the inventory, so it is not rediscovered): the suites pinned to German as
+the remaining v1 host are `tests/CourseExercise.test.tsx`, `exercise-feedback.test.tsx`,
+`course-start.test.tsx`, `course-environment.test.ts`, `course-storage.test.ts`, `course-pack.test.ts`
+plus `think-gate-migration.test.tsx`, `portable-environment.test.ts`, `DailyPathDashboard.test.tsx`,
+`course-banners.test.ts`, and in e2e `course-packs.spec.ts`'s walks. Flipping German without moving
+them would either fail them or, worse, leave them silently testing the v1 engine against a v2 pack.
+Portuguese and Spanish become the new hosts, and when the last v1 pack goes,
+`tests/fixtures/lesson-variety.ts` has to become the host for those suites — that is the moment to
+extend the fixture rather than delete the assertions.
+
+
 ### Graphics acceptance item — the German banner
 
 The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
@@ -470,6 +567,12 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npx vitest run` (after 1B and the 3A slice, `2d00afd`) | **137 files passed, 1 skipped; 1061 passed, 6 skipped** |
 | `npx vitest run` (after the 3A entry points, `0acc977`) | **140 files passed, 1 skipped; 1081 passed, 6 skipped, 0 failed** (an intermediate run showed one red file, `content-build-reproducibility`, reporting the not-yet-committed regenerated bundles — see the note under the table) |
 | `npx vitest run` (after the CEFR carry, `4bac558`) | **141 files passed, 1 skipped; 1089 passed, 6 skipped, 0 failed** — the same reproducibility file was red until the regenerated `public/study.js` was committed with it |
+| `npx vitest run` (after the player card and the offline matrix, `bfc61d5`) | **144 files passed, 1 skipped; 1120 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/pack-flip-rehearsal.test.tsx` (alone) | **6 passed** — three remaining v1 packs, each driven through the v2 shell after an in-memory migration, and through the legacy shell unflipped |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1 tests/e2e/listen.spec.ts` | **6 passed** — including the new phone/keyboard case that measures every transport target at 390px (the card is 571px tall there; it was 756px before the flex-basis fix) |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium: the failure matrix, the cold offline start and the three existing offline cases; WebKit: the failed download and the install-and-Cache-Storage case, with the three it cannot express skipped and the reason in each test |
+| `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — the player card in the single-file edition, both artifacts |
+| `npx vitest run tests/service-worker.test.ts` (alone) | **12 passed** — the 206 guard plus the four offline-matrix cases |
 | `npx vitest run tests/pack-migration-cefr.test.ts` (alone) | **9 passed** — three v1 packs' tags carried, the untagged v2 case quiet, `B2` refused, and a non-vacuity case |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
 | `npm run lint` | exit 0 (0 errors, 31 pre-existing warnings) |
@@ -519,56 +622,51 @@ also skips the config's own `webServer`.
 | `0acc977` | ListenView rewritten to satisfy the React Compiler lint rules structurally; portable Listen spec drives the real CLI |
 | `0fb7889` | Run record — the Listen slice, its numbers and what is left |
 | `4bac558` | **The v1→v2 migration carries the authored CEFR tag** (Phase 2B's blocker, resolved in code with tests, without flipping a pack) |
+| `4043f14` | **The Listen player card** — the visual brief implemented, with the phone-layout and skip defects its tests found |
+| `bfc61d5` | **The offline matrix's failure half** plus WebKit coverage, and the download control's learner-facing failure message |
+| `df64349` | Run record — the dialogue gap's plan |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
-1. **Phase 3A, the remainder.** (a) the offline matrix's failure cases in `tests/e2e/listen.spec.ts`
-   and `tests/service-worker.test.ts`: a range request (the SW already refuses to cache 206s — see
-   the comment in `public/sw.js`), an interrupted download that resumes, recovery after reconnect,
-   and a cold offline navigation straight to the Listen view; (b) the same offline walk on **WebKit**
-   (the WebKit coverage that exists is the portable file, not the service-worker path); (c) the gate's
-   physical-device pass, which is human work.
-2. **The Listen player brief** (`docs/superpowers/briefs/listen-player-design.md`, appeared in the
-   tree mid-run and is still untracked): a Warm Studio player card with 15-second back/forward,
-   playback speed, a transcript toggle and a visible download/offline state, preserving the position
-   and offline behaviour above. The player has the transcript and the save-audio link today; the
-   transport controls and the speed control are new work, and the brief asks for focused component
-   tests plus updated e2e coverage. This is the natural next slice — it is the same surface, and it
-   should land before any further Listen expansion.
-3. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+1. **Phase 2B — flip German (or Portuguese/Spanish).** Everything that made the French flip risky is
+   now proven: the migration is identical at the runtime boundary, the CEFR tags survive, and
+   `tests/pack-flip-rehearsal.test.tsx` drives the v2 shell over each pack in memory and the legacy
+   shell over the unflipped one. What is left is the retargeting in the rehearsal section above: move
+   the German-pinned suites onto Portuguese or Spanish, rewrite `course-packs.spec.ts`'s German walk as
+   a v2 walk, re-run `content:build` and the whole suite (the reports and the portable bundle are
+   generated across all five packs), and keep the migrated manifest's parity test green.
+2. **The Listen player's remaining brief item** — nothing outstanding: the brief is implemented. Its
+   follow-ups are the two it deliberately leaves out (AirPlay/lock-screen behaviour on a real device,
+   and any per-track artwork), both human/design decisions.
+3. **The v2 dialogue gap** — the plan is in the blockers section below: a Dialogues view fed from
+   `pack.dialogues`, guarded on content, reusing `DialogueView`. No new content needed.
+4. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
-4. **Phase 2B — the remaining packs' flip** (German, Portuguese, Spanish). **The `cefr` gate is
-   cleared** (`4bac558`): the migration carries the authored tag and three tests prove it against the
-   packs still at v1, so a flip is no longer lossy. What remains is the mechanical work the French
-   flip paid for (see the flip section below) — and one decision: whether to repair French's and
-   Italian's committed manifests by re-migrating them from their v1 sources.
 5. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
 6. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
-   surfaces (landing, course library, lesson view, offline bundle); the brief's "commission new art"
-   half is a design decision for the user, and the file is still untracked.
+   surfaces; the brief's "commission new art" half is a design decision for the user, and both brief
+   files are still untracked.
 
 ## Precise continuation instructions
 
 ### To finish Phase 3A (standalone offline Listen)
 
-Landing status: the audio is installed with the download and Listen is reachable in the hosted,
-downloaded and portable editions, with position kept in all three. What is left is the failure side
-of the matrix and the device pass.
+Landing status: **done apart from the physical-device pass.** The audio installs with the download,
+Listen is reachable in the hosted, downloaded and portable editions, the player is the card the brief
+asked for, and the failure matrix is covered at the unit level and in the browser on two engines. The
+gate's remaining item is a human device pass — nothing in this repository can close it.
 
-1. Range requests. `public/sw.js` already refuses to cache a 206 (`response.status === 200` guard) —
-   assert it: play a track, seek, confirm a 206 came back and that nothing partial was stored in
-   `verbalibera-static-*`. A cached 206 is how a long track would come back truncated offline.
-2. Interrupted download. `installPack` deletes its own cache on any failure and only writes
-   `/__course_pack_ready__` last, so an interrupted install is invisible to the SW — prove it with an
-   aborted `fetch` (Playwright `route.abort()` mid-sequence) and then a successful retry.
-3. Recovery after reconnect, and a cold offline navigation straight to `/study.html?view=listen` with
-   the app never having been online since install.
-4. WebKit service-worker run: the portable config covers WebKit; the offline spec runs Chromium only.
-   Add a WebKit project for `offline.spec.ts` (the dev server must be started from this worktree, or
-   Playwright reuses the main tree's — see the e2e section below).
-5. The rest of the gate is a human device pass. Nothing in this repository can close it.
+If you touch this area again, the two things to know:
+
+1. **Playwright cannot see requests the service worker answers**, so `page.route` cannot interrupt an
+   install or throttle the audio. Do mid-flight failures at the unit level
+   (`tests/offline-install-listen.test.ts`).
+2. **Playwright's WebKit cannot navigate with the network emulated off** ("internal error") and cannot
+   play media out of Cache Storage while offline. `playwright.offline.config.ts` runs it on the cases
+   it can express; the skips carry their reason in the test. If a future Playwright fixes this, delete
+   the skips and widen the WebKit project's `testMatch` to include `offline.spec.ts`.
 
 ### To extend Listen to another course or edition
 
@@ -591,16 +689,15 @@ asserts the invariants for every authored sequence, so a new one is covered by a
 
 ### To flip the next pack (German, Portuguese, Spanish)
 
-The CEFR gate is cleared as of `4bac558` — the migration carries the authored tag, and
-`tests/pack-migration-cefr.test.ts` proves it on the packs still at v1. Re-run that test after a flip:
-it will then be asserting the *committed* v2 manifest carries the tags, which is the check that the
-French flip failed silently.
+Everything before the retargeting is proven and rehearsed: CEFR tags survive (`4bac558`), the runtime
+boundary is identical (`tests/french-pack-migration-parity.test.ts`, parameterised over the remaining
+v1 packs), and the course still runs after a flip (`tests/pack-flip-rehearsal.test.tsx` — v2 shell
+after an in-memory migration, legacy shell unflipped). What is left is the same list the French flip
+paid:
 
-The migration itself is mechanical — `npx tsx scripts/migrate-pack-v1-v2.ts
-courses/<language>/manifest.json`, then `npm run content:build`. What costs the time is the same
-list the French flip paid:
-
-1. Recover the v1 file if you need to re-run after an adapter change:
+1. The migration itself is mechanical: `npx tsx scripts/migrate-pack-v1-v2.ts
+   courses/<language>/manifest.json`, then `npm run content:build`. Recover the v1 file if you need to
+   re-run after an adapter change:
    `git show <commit>:courses/<language>/manifest.json`, then `git diff --no-index` the two
    migration outputs and check the delta is exactly what you changed and nothing else.
 2. Move every legacy-engine suite that reads the pack onto a pack that is still v1. After all five
@@ -665,12 +762,19 @@ build.
   measured into `src/features/listen/catalog.json`, cached by the download, embedded by the portable
   build on request, and totalled in the content reports. The earlier note ("not in any pack's `media`
   array, so the offline bundles and the size reporting cannot see them") no longer holds.
-- **`docs/superpowers/briefs/listen-player-design.md`** (untracked, appeared in the tree mid-run while
-  this run was working on the same surface) is **not implemented**. It asks for a Warm Studio player
-  card with 15-second back/forward, playback speed, a transcript toggle and a visible offline state,
-  preserving position and offline behaviour. The player already has the transcript, the save-audio
-  link and the resume state; the transport and speed controls are new work. The brief's own
-  constraints are sensible and it should be the next slice — it is written up as such in "Next tasks".
+- **Playwright's WebKit, not the app, blocks part of the offline gate.** Any navigation with the
+  network emulated off raises "WebKit encountered an internal error" (probed with `goto`, `reload` and
+  a cold open, no app code involved), and media cannot be played out of Cache Storage while offline
+  there either. The WebKit project runs what it can express and the rest skip with the reason in the
+  test. **The gate's WebKit and physical-iPhone pass therefore remains open human work** — this run
+  did not close it and does not claim to.
+- **Untracked duplicates in the working tree, not written by this run:** `README 2.md`,
+  `scripts/content 2.ts`, `src/features/course-pack/{ExerciseView,OfflineDownload,environment} 2.*`,
+  `tests/{CourseExercise.test,use-review-mutation 2}*`, `tests/e2e/{course-packs,onboarding}.spec 2.ts`.
+  They are macOS-style copies dated before this block and are untracked, so nothing ships them; vitest
+  and Playwright cannot pick them up (their names do not match the test patterns), and `tsc`/`next
+  build` are green with them present. Left alone rather than deleted: they are not this run's files.
+  Worth removing by hand.
 - **Found and fixed this run:** `authoredCefrTags` is no longer empty for migrated packs — the v1→v2
   migration carries the tag (`4bac558`). The three packs still at v1 will keep it when they flip.
   The two packs already flipped (French, Italian) have no tags in their committed manifests; repairing
