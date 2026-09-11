@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getLiveCourseData } from '@/features/curriculum/live-course-data';
+import { hasAuthoredPlacement } from '@/features/placement/items';
 import { tracksForCourse } from '@/features/listen/tracks';
 import styles from './courses.module.css';
 
@@ -108,7 +109,7 @@ function CourseGrid({ courses, live }: { courses: CourseCard[]; live: Map<string
                 {course.kind === 'foundations' ? `Open ${course.language}` : `Start ${course.language}`}
                 <span aria-hidden="true">→</span>
               </Link>
-              {course.kind === 'foundations' ? (
+              {hasAuthoredPlacement(course.slug) ? (
                 <Link className={styles.secondary} href={`/learn/english-to-${course.slug}/placement`}>
                   Already know some {course.language}? Find your starting point
                 </Link>
