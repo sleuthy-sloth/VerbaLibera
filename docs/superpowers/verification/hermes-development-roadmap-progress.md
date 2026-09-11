@@ -10,7 +10,9 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0 and 1A complete; Phase 2A evidence complete, the pack flip deliberately not started.**
+**Phases 0 and 1A complete; Phase 2A evidence complete, the pack flip deliberately not started; the
+graphics acceptance item fixed.**
+
 Phase 1B (the short entry sequence) and the 2A flip are the next packages.
 
 ## Phase status
@@ -177,6 +179,47 @@ Gate check — "existing learner histories replay without loss or inflated maste
 projection level. "web, offline and portable editions interpret the same pack consistently" is
 **not yet verified** and belongs with the flip.
 
+### Graphics acceptance item — the German banner
+
+The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
+banner defect on mobile. Diagnosis first, because "the banner looks wrong" has three different
+causes:
+
+- **Not the asset.** `public/brand/courses/german.jpg` is a finished 2064×512 illustration (a
+  half-timbered street with a fountain), subject horizontally centred and filling 85–95% of the
+  frame height, identical geometry to the other four banners.
+- **Not the crop.** At 390px the banner renders 390×96.7px from `aspect-ratio: 2064 / 512` — the
+  same as the four that already worked.
+- **The two hand-maintained "no art" flags.** German was the only course with no banner on the
+  landing page (`noArt: true` in `CourseShowcase.tsx`, which skips the whole `<Image>`) and in the
+  course library (`alt: ''` in `src/app/courses/page.tsx`, where the banner is gated on a truthy
+  `alt`). Both surfaces encoded a filesystem fact as a flag to keep in step, and neither had been
+  updated since the artwork landed.
+
+Fixed by removing the flag and its now-unreachable badge branch (the type no longer accepts
+`noArt`, so re-adding it fails `tsc`) and giving German real alt text on both surfaces. The German
+card now carries the same `Structured · A1` badge as the other four.
+
+Guards, both proven to fail: `tests/course-banners.test.ts` (7 tests) compares both listings against
+`public/brand/courses/` in both directions and against the lesson-view `BANNER_BY_LANGUAGE` map;
+`tests/e2e/landing-page.spec.ts` gained the assertion the existing loop could not make — that loop
+asserts every image on the landing page loads, which passes trivially for a card with no image. The
+new one asserts the opposite: every course card has a visible banner taller than 60px at 390px on
+`/` and in `/courses`.
+
+The injection proof itself was worth the two attempts. Re-adding `noArt: true` left the e2e test
+green, and the reason was not staleness: with the flag's consumer deleted, the JSX ignores the flag,
+so the banner still rendered — the removed branch is what makes the flag unreachable. A second
+injection that actually skipped the German `<Image>` turned the e2e test red at
+"german has no banner on the landing page". A guard proved with an injection that no longer reaches
+the code it is supposed to protect proves nothing.
+
+Two related findings, one fixed in the same pass: the course library's "Already know some German?"
+placement link was gated on `kind === 'foundations'` rather than placement capability — the same
+class as the Phase 1A bug, and correct today only by coincidence. German's absence from
+`progress.courses` still stands (see the blockers).
+
+
 
 ## Test evidence
 
@@ -187,12 +230,13 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run content:validate` (runs inside every `content:*` command; verifies every declared media hash) | exit 0, five packs |
 | `npm run content:build` ×3 before the fix | exit 0, `public/study.css` stable at 34142 bytes — masked accumulation, reproduced separately (22492 → 44879 → 67266 → 89653 bytes) |
 | `npm run content:build` ×2 after the fix | exit 0, byte-identical, pinned by test |
-| `npx vitest run` | **132 files passed, 1 skipped; 972 passed, 6 skipped** |
-| `npx tsc --noEmit` | exit 0, no output |
+| `npx vitest run` | **133 files passed, 1 skipped; 979 passed, 6 skipped** |
+| `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
 | `npm run lint` | exit 0 |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
 | `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/onboarding.spec.ts --project=chromium --workers=1` | **10 passed** |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/landing-page.spec.ts --project=chromium --workers=1` | **8 passed** |
 
 Full record with artifact digests: `docs/superpowers/verification/2026-09-10-phase-0-baseline.md`.
 The template for future notes is `docs/superpowers/verification/RELEASE-VERIFICATION-TEMPLATE.md`.
@@ -213,6 +257,9 @@ also skips the config's own `webServer`.
 | `0f9cbe3` | Phase 0B — `public/study.css` composed from source, reproducibility test, CI on the shipping build path, voice-service CI coverage |
 | `b355e51` | Phase 1A — onboarding completion/resume/capability, generated catalog facts, updated unit + e2e specs |
 | `e29fdb8` | Phase 2A evidence — French migration parity and history-replay proof |
+| `9239350` | Run record — evidence, blockers and continuation instructions |
+| `8abc711` | Placement capability on the course library (same class as the Phase 1A bug) |
+| `64ba98a` | Graphics acceptance item — German's banner restored on both surfaces, with unit + e2e guards |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -227,8 +274,8 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    independent of prerequisite unlocks, with persisted playback position and a cold-start/seek test.
 4. **Phase 3B — audio expansion** for German/Spanish/Portuguese. Blocked on the human listening
    checklist; can be prepared but not closed here.
-5. **The graphics acceptance item** (`docs/superpowers/briefs/graphics-review.md`, untracked, not
-   written by this run): the German course banner on mobile. See the blockers section.
+5. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed (see the
+   graphics section); the brief's "commission new art" half is a design decision for the user.
 
 ## Precise continuation instructions
 
@@ -268,15 +315,18 @@ until the sequence exists — the current copy deliberately does not.
 
 - **Human work that cannot be closed here:** native-speaker review, the observed five-user pilot,
   the audio listening checklist, physical-device QA, and any signed/notarised distribution decision.
-- **`docs/superpowers/briefs/graphics-review.md`** appeared in this worktree as an untracked file
-  during the run (German course banner on mobile, plus a broader graphics pass). It is not part of
-  this branch's committed work and was left untracked rather than silently absorbed. It needs
-  screenshots at 320/390/430 plus desktop to separate a source-art defect from an `object-fit`/crop
-  one, and its own commit.
+- **`docs/superpowers/briefs/graphics-review.md`** (untracked, not written by this run) is now
+  **actioned**: see the graphics section above. Its broader "audit the existing graphics and
+  consider commissioning new art" half is a design decision, not a defect fix, and is untouched.
+  The brief itself is still untracked — decide whether it belongs in the repository.
 - **Found, not fixed (out of the packages above):** German has a foundation pack and a course page
   but is absent from `progress.courses` (the travel fixture's four slugs), so it never appears in
-  the dashboard's language switcher or the welcome flow. Adding it means changing the dashboard's
-  course universe, which is a Phase 1B-scale change, not a Phase 1A fix.
+  the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
+  besides a direct URL. Adding it means changing the dashboard's course universe — a Phase 1B-scale
+  change, not a Phase 1A fix.
 - **Found, not fixed:** `authoredCefrTags` shows the Italian v2 pack carries no `cefr` tag on its
   lessons or concepts, while the French/German/Portuguese/Spanish v1 packs do. The metadata gap is
   now reported rather than hidden; closing it is a content edit.
+- **Found and fixed in passing:** the course library's placement link was gated on `kind ===
+  'foundations'`; German's two "no art" flags. Both are the same disease as the Phase 1A bugs —
+  a capability encoded as a hand-maintained flag rather than derived from data.
