@@ -36,3 +36,62 @@ test('downloaded v2 language can be opened from the PWA offline welcome page', a
   await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeVisible({ timeout: 15000 });
   await expect(page.getByRole('heading', { name: 'First words', exact: true })).toBeVisible();
 });
+
+// Roadmap 3A: standalone offline Listen. The audio-lesson path used to exist
+// only inside the hosted app — a learner who saved a language for offline study
+// lost Listen entirely, and the long track was not in any pack's media array, so
+// the download never cached it either. Now the download takes the audio with it
+// and Listen is a view in the downloaded edition.
+test('the downloaded edition can listen to the audio lesson with the network off', async ({ page, context }) => {
+  await page.goto('/courses/french#offline-download');
+  await page.getByRole('button', { name: 'Download for offline study', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Open offline study' })).toBeVisible({ timeout: 30000 });
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+
+  // The audio came with the download, not with a first play: the track is in the
+  // installed pack cache before the network is ever switched off, and the size
+  // was quoted to the learner before they pressed download.
+  await expect(page.getByText(/and 4\.9 MB of audio lessons/)).toBeVisible();
+  const cached = await page.evaluate(async () => {
+    const keys = await caches.keys();
+    for (const key of keys.filter((name) => name.startsWith('verbalibera-pack-'))) {
+      const cache = await caches.open(key);
+      if (await cache.match('/audio/french-foundations/fr-identity-listen.mp3')) return true;
+    }
+    return false;
+  });
+  expect(cached).toBe(true);
+
+  await context.setOffline(true);
+  await page.goto('/study.html?language=french&view=listen');
+  await expect(page.getByRole('heading', { name: 'Listen', exact: true })).toBeVisible();
+  await expect(page.getByText(/Saved on this device: 4\.9 MB of audio lessons/)).toBeVisible();
+  const track = page.getByRole('button', { name: 'Names and introductions', exact: true });
+  await track.click();
+  const player = page.getByLabel('Play the audio lesson: Names and introductions');
+  await expect(player).toHaveAttribute('src', '/audio/french-foundations/fr-identity-listen.mp3');
+  // A real decode with no connection at all — the point of the whole slice.
+  await player.evaluate(async (audio: HTMLAudioElement) => {
+    audio.load();
+    await new Promise<void>((resolve, reject) => {
+      audio.addEventListener('loadedmetadata', () => resolve(), { once: true });
+      audio.addEventListener('error', () => reject(new Error('Audio failed to decode offline')), { once: true });
+    });
+    await audio.play();
+  });
+  expect(await player.evaluate((audio: HTMLAudioElement) => audio.duration)).toBeGreaterThan(480);
+  await expect.poll(() => player.evaluate((audio: HTMLAudioElement) => audio.currentTime)).toBeGreaterThan(0);
+
+  // Position is kept offline too, and a cold start picks it up.
+  await player.evaluate((audio: HTMLAudioElement) => {
+    audio.currentTime = 300;
+  });
+  await expect.poll(() =>
+    page.evaluate(() => localStorage.getItem('verbalibera_listen_position:fr-identity-foundation')),
+  ).toBe('300');
+  await player.evaluate((audio: HTMLAudioElement) => audio.pause());
+  await page.goto('/study.html?language=french&view=listen');
+  await page.getByRole('button', { name: 'Names and introductions', exact: true }).click();
+  await expect(page.getByText(/(stopped at|resumed at) 5:00/i)).toBeVisible();
+  await context.setOffline(false);
+});

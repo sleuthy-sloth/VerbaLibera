@@ -91,6 +91,7 @@ describe("portable course assets", () => {
           base64: "aGVsbG8=",
         },
       },
+      listen: [],
     };
 
     const environment = await createPortableEnvironment(content, {
@@ -114,6 +115,7 @@ describe("portable course assets", () => {
       // shape, re-validated and normalized at load time.
       packs: { french: validateV2Pack(raw) },
       assets: {},
+      listen: [],
     };
     const environment = await createPortableEnvironment(content, {
       indexedDB: undefined,

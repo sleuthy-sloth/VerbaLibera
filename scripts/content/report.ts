@@ -1,4 +1,5 @@
 import type { Activity, RuntimePack, Skill } from "../../src/features/course-pack/lesson-runtime";
+import { LISTEN_CATALOG_BASIS } from "./listen";
 
 /**
  * Schema-aware content reporting.
@@ -71,6 +72,16 @@ export type ContentReport = {
     lessons: number;
     lessonsTotal: number;
     lessonCoveragePercent: number;
+  };
+  /**
+   * The long-form audio lessons (the Listen tab), measured from the shipped
+   * files. `bytes` is what a learner's device stores for this course's tracks,
+   * which is the number the download and portable bundles quote.
+   */
+  listen: {
+    basis: string;
+    tracks: number;
+    bytes: number;
   };
   retrieval: {
     basis: string;
@@ -156,7 +167,12 @@ function maxPrerequisiteDepth(pack: RuntimePack): number {
   return pack.lessons.reduce((max, lesson) => Math.max(max, depth(lesson.id, new Set())), 0);
 }
 
-export function buildContentReport(raw: unknown, pack: RuntimePack): ContentReport {
+export function buildContentReport(
+  raw: unknown,
+  pack: RuntimePack,
+  /** Shipped long-form audio for this course, measured from the files. */
+  listen: { tracks: number; bytes: number } = { tracks: 0, bytes: 0 },
+): ContentReport {
   const authored = (raw ?? {}) as AuthoredManifest;
   const activityIds = reachableActivityIds(pack);
   const activities = activityIds
@@ -313,6 +329,11 @@ export function buildContentReport(raw: unknown, pack: RuntimePack): ContentRepo
       note:
         "Neither review has been performed. Audio integrity checks are mechanical, and the " +
         "in-app player says the content is machine-authored.",
+    },
+    listen: {
+      basis: LISTEN_CATALOG_BASIS,
+      tracks: listen.tracks,
+      bytes: listen.bytes,
     },
     answerCoverage: "100%",
     packBytes: Buffer.byteLength(JSON.stringify(pack)),

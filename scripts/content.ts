@@ -2,10 +2,20 @@ import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { normalizePack } from "../src/features/course-pack/normalize-pack";
 import { buildContentReport } from "./content/report";
+import {
+  buildListenCatalog,
+  listenBytesFor,
+  listenCatalogMismatches,
+  listenTracksFor,
+} from "./content/listen";
 const languages = readdirSync("courses", { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
   .sort();
+// Measured from the shipped files, once, before any pack is reported on: the
+// long-form Listen tracks are the largest audio in the repository and were
+// invisible to both the download flow and these reports.
+const listenCatalog = buildListenCatalog();
 const catalog: {
   slug: string;
   title: string;
@@ -34,7 +44,12 @@ for (const language of languages) {
   }
   // Schema-aware: reachable runtime activities and retained v1 records are
   // counted separately, each with its own basis. See scripts/content/report.ts.
-  const report = buildContentReport(raw, pack);
+  const report = buildContentReport(raw, pack, {
+    // The catalog is keyed by course directory, which is what the editions and
+    // the UI pass around ("french"), not the pack's internal id.
+    tracks: listenTracksFor(listenCatalog, language),
+    bytes: listenBytesFor(listenCatalog, language),
+  });
   // The catalog carries the pack facts the UI derives honest capability labels
   // from, so a screen never hardcodes which languages have structured courses.
   catalog.push({
@@ -74,6 +89,26 @@ if (command === "build") {
     "src/features/course-pack/catalog.json",
     JSON.stringify(catalog, null, 2) + "\n",
   );
+  // The Listen catalog: the shipped long-form tracks with their real sizes and
+  // digests, so the download flow can cache them, the offline bundles can embed
+  // them, and the app can tell a learner what the audio costs.
+  writeFileSync(
+    "src/features/listen/catalog.json",
+    JSON.stringify(listenCatalog, null, 2) + "\n",
+  );
+} else {
+  // Every command but `build` re-derives the catalog from the files and refuses
+  // to run against a stale one: a re-recorded, truncated or renamed track would
+  // otherwise keep quoting its old size, and a track that is not in the catalog
+  // is a track the download flow will not cache.
+  const mismatches = listenCatalogMismatches(listenCatalog);
+  if (mismatches.length > 0) {
+    throw new Error(
+      `Listen catalog is stale (run \`npm run content:build\`):\n  ${mismatches.join("\n  ")}`,
+    );
+  }
+}
+if (command === "build") {
   const { build } = await import("esbuild");
   // `write: false`: the bundle's own outputs are composed into the generated
   // artifacts explicitly. The previous version read the PREVIOUS
@@ -89,6 +124,10 @@ if (command === "build") {
     platform: "browser",
     format: "iife",
     target: ["safari15"],
+    // The listen components import through the `@/` alias the app uses. The
+    // bundle has no Next resolver, so it is declared here rather than by
+    // rewriting every import to a relative path.
+    alias: { "@": "./src" },
     define: { "process.env.NODE_ENV": '"production"' },
     legalComments: "eof",
   });

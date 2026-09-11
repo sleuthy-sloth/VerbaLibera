@@ -8,7 +8,7 @@ import {
   type LearningEvent,
   type LessonCheckpoint,
 } from "./attempts";
-import type { OfflineInstallablePack } from "./environment";
+import type { OfflineExtraAsset, OfflineInstallablePack } from "./environment";
 const DB = "verbalibera-course-practice";
 const DB_VERSION = 2;
 const legacyBackupEventSchema = learningEventSchema.transform((event, ctx): PracticeEvent => {
@@ -244,6 +244,14 @@ export async function readCheckpoint(
 export async function installPack(
   pack: OfflineInstallablePack,
   language: string,
+  /**
+   * Course audio the download must cache but that is not in `pack.media` — the
+   * long-form Listen tracks. They are the largest files a learner stores, so
+   * they are verified against the catalog digest like any other asset: a
+   * download that ends with a Listen tab whose track will not play offline is a
+   * download that lied.
+   */
+  extras: readonly OfflineExtraAsset[] = [],
 ): Promise<void> {
   if (!("serviceWorker" in navigator) || !("caches" in window))
     throw new Error(
@@ -268,11 +276,14 @@ export async function installPack(
       "/study.css",
       `/packs/${language}.json`,
       ...pack.media.map((m) => m.url),
+      ...extras.map((asset) => asset.url),
     ]) {
       const response = await fetch(url, { cache: "no-store" });
       if (!response.ok)
         throw new Error(`Download failed: ${url}. Retry when connected.`);
-      const media = pack.media.find((m) => m.url === url);
+      const media =
+        pack.media.find((m) => m.url === url) ??
+        extras.find((asset) => asset.url === url);
       if (media) {
         const digest = await crypto.subtle.digest(
           "SHA-256",

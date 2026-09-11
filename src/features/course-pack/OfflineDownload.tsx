@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import type { CourseEnvironment, OfflineInstallablePack } from './environment';
+import { formatBytes, listenAssetsFor, listenBytesFor } from '@/features/listen/catalog';
 
 /** What the shared download control needs beyond the install shape. Both
  * `CoursePack` and `RuntimePack` satisfy this structurally. */
@@ -18,6 +19,9 @@ export function OfflineDownload({ pack, language, environment }: {
   const [installing, setInstalling] = useState(false);
   const [error, setError] = useState('');
   const name = pack.title.replace(/ foundations$/, '');
+  // What the audio lessons cost on this device, measured from the shipped
+  // files. Quoted before the download so the number is not a surprise after it.
+  const listenBytes = listenBytesFor(language);
 
   useEffect(() => {
     let active = true;
@@ -34,7 +38,11 @@ export function OfflineDownload({ pack, language, environment }: {
       <div className="study-download-heading">
         <div>
           <h2 id="download-title">Download {name} for offline study</h2>
-          <p>{pack.lessons.length} lessons, practice and recorded audio. Save this language on this device before you go offline.</p>
+          <p>
+            {pack.lessons.length} lessons, practice, recorded audio
+            {listenBytes > 0 ? ` and ${formatBytes(listenBytes)} of audio lessons` : ""}. Save this
+            language on this device before you go offline.
+          </p>
         </div>
         <span className="study-download-state" aria-live="polite">
           {installing ? 'Saving your language…' : checking ? 'Checking this device…' : downloaded ? 'Downloaded on this device' : 'Not downloaded yet'}
@@ -46,7 +54,7 @@ export function OfflineDownload({ pack, language, environment }: {
           setError('');
           try {
             if (!environment.install) throw new Error('Offline installation is unavailable in this browser.');
-            await environment.install(pack, language);
+            await environment.install(pack, language, listenAssetsFor(language));
             setDownloaded(true);
           } catch (e) {
             setError(e instanceof Error ? e.message : 'Download failed. Retry when connected.');

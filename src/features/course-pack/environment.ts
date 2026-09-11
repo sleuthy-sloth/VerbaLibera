@@ -30,6 +30,14 @@ export type OfflineInstallablePack = {
   media: Array<{ url: string; sha256: string }>;
 };
 
+/**
+ * An asset the download should cache that is not in the pack's own `media`
+ * array — today, the course's long-form Listen tracks. They carry a digest so
+ * the download verifies them exactly like pack media; a track that fails the
+ * check must fail the download rather than be silently absent offline.
+ */
+export type OfflineExtraAsset = { url: string; sha256: string };
+
 export interface CourseEnvironment {
   capabilities: CourseCapabilities;
   practice: PracticeStore;
@@ -40,7 +48,11 @@ export interface CourseEnvironment {
   loadPack(language: string): Promise<CoursePack>;
   loadCourse?(language: string): Promise<CoursePack | RuntimePack>;
   resolveMedia(url: string): string;
-  install?(pack: OfflineInstallablePack, language: string): Promise<void>;
+  install?(
+    pack: OfflineInstallablePack,
+    language: string,
+    extras?: readonly OfflineExtraAsset[],
+  ): Promise<void>;
   isInstalled?(language: string): Promise<boolean>;
 }
 

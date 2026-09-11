@@ -15,7 +15,10 @@ const read = (p: string) => readFile(path.join(process.cwd(), p), "utf8");
 const GLOBALS = "src/app/globals.css";
 const STUDY = "src/features/course-pack/study.css";
 const COURSES = "src/app/courses/courses.module.css";
-const LISTEN = "src/app/listen/listen.module.css";
+// The paper cards of the Listen tab moved into the shared library stylesheet
+// when the three editions (hosted, downloaded, portable) started rendering the
+// same list; the page module keeps only chrome now.
+const LISTEN = "src/components/listen/listen-library.module.css";
 
 describe("paper motion", () => {
   it("defines the motion tokens an animation must use", async () => {

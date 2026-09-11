@@ -4,6 +4,7 @@ import path from "node:path";
 
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import { buildContentReport, type ContentReport } from "../scripts/content/report";
+import { buildListenCatalog, listenBytesFor, listenTracksFor } from "../scripts/content/listen";
 
 /**
  * The reporting regression this file guards: `scripts/content.ts` used to count
@@ -20,12 +21,21 @@ import { buildContentReport, type ContentReport } from "../scripts/content/repor
 
 const ROOT = process.cwd();
 const LANGUAGES = ["french", "german", "italian", "portuguese", "spanish"] as const;
+const catalog = buildListenCatalog(ROOT);
 
 function loadPack(language: string): { raw: Record<string, unknown>; report: ContentReport } {
   const raw = JSON.parse(
     fs.readFileSync(path.join(ROOT, "courses", language, "manifest.json"), "utf8"),
   ) as Record<string, unknown>;
-  return { raw, report: buildContentReport(raw, normalizePack(raw)) };
+  // The listen figures are measured from the shipped mp3s, exactly as
+  // scripts/content.ts passes them — the report has to describe the audio that
+  // exists, not the audio a pack's `media` array happens to mention (the long
+  // tracks are in no pack's media array, which is why they went uncounted).
+  const listen = {
+    tracks: listenTracksFor(catalog, language),
+    bytes: listenBytesFor(catalog, language),
+  };
+  return { raw, report: buildContentReport(raw, normalizePack(raw), listen) };
 }
 
 /** Independent census: every activity id a lesson's steps can reach. */
