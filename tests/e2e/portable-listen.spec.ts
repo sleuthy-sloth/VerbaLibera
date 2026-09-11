@@ -1,10 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-
-import { buildPortableHtml } from "../../scripts/portable/build";
-import { auditPortableHtml } from "../../scripts/portable/verify";
 
 /**
  * Listen in the portable single file (roadmap 3A).
@@ -12,47 +10,50 @@ import { auditPortableHtml } from "../../scripts/portable/verify";
  * The file has no network by construction (`connect-src 'none'`), so the audio
  * has to be inside it. Embedding is a build-time choice — all five tracks would
  * add ~37 MB of base64 to a file that is already 17 MB — so these two cases
- * cover both sides of it: a build asked for the French audio plays it, and the
- * default build says plainly which tracks it cannot play instead of rendering a
+ * cover both sides of it: a file built for the French audio plays it, and the
+ * default file says plainly which tracks it cannot play instead of rendering a
  * player that fails.
  *
- * Building here rather than relying on a prebuilt artifact keeps the claim
- * honest: what is tested is the builder in this working tree.
+ * The audio file is built here by the real CLI (`--with-listen=french`) and
+ * audited with the release checker, so what is tested is the flag as shipped,
+ * not a hand-assembled bundle.
  */
 
 const root = process.cwd();
-const artifacts: Record<"silent" | "audio", string> = {
-  silent: join(root, "dist/portable-e2e/VerbaLibera-Portable.html"),
-  audio: join(root, "dist/portable-e2e/VerbaLibera-Portable-audio.html"),
-};
+const silent = join(root, "dist/portable/VerbaLibera-Portable.html");
+const audio = join(root, "dist/portable/VerbaLibera-Portable-audio.html");
 
-let built = false;
-
-test.beforeAll(async () => {
-  test.setTimeout(180_000);
-  if (built) return;
-  mkdirSync(join(root, "dist/portable-e2e"), { recursive: true });
-  const silent = await buildPortableHtml(root);
-  const audio = await buildPortableHtml(root, { withListen: ["french"] });
-  auditPortableHtml(silent);
-  auditPortableHtml(audio);
+test.beforeAll(() => {
+  test.setTimeout(240_000);
+  if (!existsSync(silent)) {
+    throw new Error(
+      "Run `npm run portable:build` before this suite: the default artifact is what the " +
+        "without-audio case reads.",
+    );
+  }
+  execFileSync(process.execPath, [join(root, "node_modules/.bin/tsx"), "scripts/portable/build.ts", "--with-listen=french"], {
+    cwd: root,
+    stdio: "pipe",
+  });
+  execFileSync(
+    process.execPath,
+    [join(root, "node_modules/.bin/tsx"), "scripts/portable/verify.ts", audio],
+    { cwd: root, stdio: "pipe" },
+  );
   // The choice is visible in the artifact: the audio build is a third bigger.
-  expect(audio.length).toBeGreaterThan(silent.length * 1.2);
-  writeFileSync(artifacts.silent, silent);
-  writeFileSync(artifacts.audio, audio);
-  built = true;
+  expect(statSync(audio).size).toBeGreaterThan(statSync(silent).size * 1.2);
 });
 
 async function openListen(page: Page, artifact: string) {
-  // No network is routed away on purpose: the file's own CSP forbids it, and a
-  // bundle that quietly reached for a URL would fail right here.
+  // No network is routed anywhere: the file's own CSP forbids it, and a bundle
+  // that quietly reached for a URL would fail right here.
   await page.goto(`${pathToFileURL(artifact).href}?language=french&view=listen`);
   await expect(page.getByRole("heading", { name: "Listen", exact: true })).toBeVisible();
   return page.getByRole("button", { name: "Names and introductions", exact: true });
 }
 
 test("a portable file built with the audio plays its Listen track offline", async ({ page }) => {
-  const track = await openListen(page, artifacts.audio);
+  const track = await openListen(page, audio);
   await expect(page.getByText(/This file carries 4\.9 MB of audio lessons/)).toBeVisible();
   await track.click();
   const player = page.getByLabel("Play the audio lesson: Names and introductions");
@@ -83,7 +84,7 @@ test("a portable file built with the audio plays its Listen track offline", asyn
 });
 
 test("the default portable file says which tracks it cannot play", async ({ page }) => {
-  const track = await openListen(page, artifacts.silent);
+  const track = await openListen(page, silent);
   await expect(
     page.getByText(/built without the audio lessons, so Listen shows what exists/),
   ).toBeVisible();

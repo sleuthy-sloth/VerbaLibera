@@ -58,46 +58,67 @@ export function ListenView({
   /** Extra copy above the list — the size of the audio, an offline notice. */
   children?: ReactNode;
 }) {
-  const [titles, setTitles] = useState<Record<string, string>>({});
-  const [error, setError] = useState("");
+  // Results are tagged with the course they belong to rather than cleared when
+  // the course changes, so nothing is set during render and there is no blank
+  // frame between one course and the next.
+  const [loaded, setLoaded] = useState<{
+    course: string;
+    titles: Record<string, string>;
+  } | null>(null);
+  const [failed, setFailed] = useState<{ course: string; message: string } | null>(null);
+
   // Held in a ref so an inline `readCourse` prop cannot restart the load on
-  // every render — the effect depends on the course, not on the closure.
+  // every render — the effect below is keyed to the course, not the closure.
   const readCourseRef = useRef(readCourse);
-  readCourseRef.current = readCourse;
+  useEffect(() => {
+    readCourseRef.current = readCourse;
+  });
 
   useEffect(() => {
     let active = true;
-    setTitles({});
-    setError("");
     readCourseRef
       .current(courseSlug)
       .then((pack) => {
         if (!active) return;
-        setTitles(Object.fromEntries(pack.lessons.map((lesson) => [lesson.id, lesson.title])));
+        setLoaded({
+          course: courseSlug,
+          titles: Object.fromEntries(pack.lessons.map((lesson) => [lesson.id, lesson.title])),
+        });
+        setFailed(null);
       })
       .catch((reason: unknown) => {
-        if (active) setError(reason instanceof Error ? reason.message : "Could not open the course.");
+        if (!active) return;
+        setFailed({
+          course: courseSlug,
+          message: reason instanceof Error ? reason.message : "Could not open the course.",
+        });
       });
     return () => {
       active = false;
     };
   }, [courseSlug]);
 
+  const titles = loaded?.course === courseSlug ? loaded.titles : null;
+  const error = failed?.course === courseSlug ? failed.message : "";
+
   const courseTracks = useMemo(() => tracksForCourse(courseSlug), [courseSlug]);
   const listItems: ListenListItem[] = useMemo(
     () =>
-      courseTracks
-        // Wait for the pack so every row carries the lesson's own title.
-        .filter((track) => titles[track.lessonId] !== undefined)
-        .map((track) => ({
-          ...track,
-          title: titles[track.lessonId],
-          unavailable: unavailableFor?.(track) ?? null,
-        })),
+      titles
+        ? courseTracks
+            // A track whose lesson is not in the pack is not listable: there is
+            // no title the learner would recognise.
+            .filter((track) => titles[track.lessonId] !== undefined)
+            .map((track) => ({
+              ...track,
+              title: titles[track.lessonId],
+              unavailable: unavailableFor?.(track) ?? null,
+            }))
+        : [],
     [courseTracks, titles, unavailableFor],
   );
 
-  const lessonCount = Object.keys(titles).length;
+  const lessonCount = titles ? Object.keys(titles).length : 0;
   const missingCount = Math.max(0, lessonCount - listItems.length);
   const audioBytes = listenBytesFor(courseSlug);
 
@@ -111,8 +132,8 @@ export function ListenView({
       </p>
       {children}
       {error ? <p role="alert">{error}</p> : null}
-      {!error && lessonCount === 0 ? <p className={styles.note}>Opening the course…</p> : null}
-      {!error && lessonCount > 0 ? (
+      {!error && !titles ? <p className={styles.note}>Opening the course…</p> : null}
+      {!error && titles ? (
         <ListenLibrary
           courseTitle={courseTitle}
           tracks={listItems}
