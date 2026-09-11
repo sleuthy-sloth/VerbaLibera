@@ -1,6 +1,7 @@
 // @vitest-environment node
 
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -72,21 +73,63 @@ describe("the asset provenance document", () => {
       expect(live).not.toContain(`\`${gone}\``);
   });
 
-  it("records the German banner's deviation from its approved reference", () => {
+  it("records the German banner as its approved reference, with the re-frame as history", () => {
     // Measured, not asserted from memory: scripts/brand/compare-reference.py
-    // reports the shipped file as the reference shifted ~278px, while the other
-    // four course banners re-encode cleanly. The document has to say so, because
-    // the alternative is somebody discovering it from a screenshot.
+    // reports the shipped file at shift 0 against its reference (the ground-snap
+    // re-encode shows up as ~1.5 mean grey, the same order as the other four),
+    // where it was 71.10 at a +278px shift while the re-framed file shipped. The
+    // document has to carry both: the verdict, because a future maintainer
+    // comparing app against artwork needs to know they now match, and the history,
+    // because the brief's column analysis is why the re-frame existed.
     const references = doc.slice(doc.indexOf("## Approved references"));
-    expect(references).toContain("+278 px");
     expect(references).toContain("courses/german.jpg");
+    expect(references, "the shipped file's verdict is missing").toContain(
+      "the reference, ground snapped to the canvas",
+    );
+    expect(references, "the re-frame's history is missing").toContain("+278 px");
     for (const language of ["french", "italian", "spanish", "portuguese"])
       expect(references, `${language} is not in the comparison table`).toContain(
         `courses/${language}.jpg`,
       );
-    // The re-frame's consequence is the part a future maintainer needs.
-    expect(references).toMatch(/2\.39/);
+    // Both crop windows, because which one applies is exactly what the swap
+    // changed: 2.75 at 100% now ships, 2.39 at 50.4% is what the re-frame needed.
     expect(references).toMatch(/2\.75/);
+    expect(references).toMatch(/100%/);
+    expect(references).toMatch(/2\.39/);
+  });
+
+  it("keeps the vocabulary record honest about which pictures are whose", () => {
+    const record = readFileSync(join(ROOT, "docs/image-provenance.md"), "utf8");
+    const cc0Table = record.slice(record.indexOf("## CC0 and public-domain"), record.indexOf("## The project's own"));
+    const ownTable = record.slice(record.indexOf("## The project's own"));
+
+    const rows = (block: string): string[] =>
+      [...block.matchAll(/^\| `([\w.]+)\.jpg` \|/gm)].map((match) => match[1]);
+    expect(rows(cc0Table).length, "the CC0 table lost rows").toBe(18);
+    expect(rows(ownTable).length, "the project-artwork table lost rows").toBe(4);
+    expect(rows(cc0Table)).not.toContain("piggybank");
+
+    // The four hashes in the document, against the files: a silent swap of one of
+    // these pictures fails here rather than in a screenshot months later.
+    const hashes = [...ownTable.matchAll(/\| \`(\w+)\.jpg\` \|[^|]+\|[^|]+\|[^|]+\|[^|]+\| \`([0-9a-f]{64})\` \|/g)];
+    expect(hashes.length, "the four pictures have no recorded hashes").toBe(4);
+    for (const [, name, recorded] of hashes) {
+      const onDisk = createHash("sha256")
+        .update(readFileSync(join(ROOT, `public/images/vocab/${name}.jpg`)))
+        .digest("hex");
+      expect(onDisk, `${name}.jpg no longer matches its recorded hash`).toBe(recorded);
+    }
+    // And the alt text the record quotes is the alt text the fixture ships.
+    const fixture = readFileSync(join(ROOT, "src/features/curriculum/fixture.ts"), "utf8");
+    for (const alt of [
+      "A piggy bank with coins on a table",
+      "A teapot and a cup of tea",
+      "A cup of coffee on a saucer",
+      "A café table with two chairs",
+    ]) {
+      expect(ownTable, `the record does not quote "${alt}"`).toContain(alt);
+      expect(fixture, `the fixture no longer uses "${alt}"`).toContain(alt);
+    }
   });
 
   it("gives every shipped asset a dimension and a size", () => {

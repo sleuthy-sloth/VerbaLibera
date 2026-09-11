@@ -13,8 +13,9 @@ import { BANNER_FULL_ASPECT, bannerFor, bannerStyle } from "@/features/course-pa
  *
  * Each course banner is 2064x512 and the drawing inside it is narrower than the
  * frame. Rendered at the width of a phone the whole 4:1 picture is an ~85px
- * strip and the drawing is illegible — worst on German, whose artwork fills 56%
- * of the frame with empty ground either side.
+ * strip and the drawing is illegible — worst on German, whose artwork fills 64%
+ * of the frame and starts a third of the way in, after the approved re-framing
+ * put the scene's left margin back.
  *
  * `scripts/brand/banner-crops.py` measures the artwork and writes
  * `banner-crops.json`; this file re-derives the visible window from that data and
@@ -82,7 +83,7 @@ describe("the course banner's narrow crop", () => {
     expect(artShare).toBeLessThan(0.97);
   });
 
-  it("makes the drawing meaningfully larger on a phone, and much larger for German", () => {
+  it("makes the drawing meaningfully larger on a phone, most of all for German", () => {
     // A 320px viewport leaves 280px of column (`.study` pads clamp(20px, 5vw, 64px)).
     const column = 280;
     const growth = (slug: string) => {
@@ -94,12 +95,17 @@ describe("the course banner's narrow crop", () => {
     };
     for (const slug of slugs)
       expect(growth(slug), `${slug} renders no larger than the full frame`).toBeGreaterThanOrEqual(1.15);
-    // The banner the brief flags: its artwork is 56% of the frame, so the crop
-    // buys it the most.
-    expect(growth("german"), "German's artwork barely grew").toBeGreaterThanOrEqual(1.6);
-    expect(heightAt(column, crops.courses.german.cropAspect)).toBeGreaterThan(
-      heightAt(column, crops.fullAspect) * 1.6,
-    );
+    // German is the banner the brief flags and the one this crop buys the most:
+    // its artwork is 64% of the frame with a wide empty margin to its left.
+    // Measured against the other courses rather than against a fixed number, so
+    // the assertion follows the artwork — the approved re-framing moved this
+    // from x1.69 to x1.47, and the ordering is what actually matters.
+    for (const slug of slugs.filter((slug) => slug !== "german"))
+      expect(growth("german"), `${slug} grows more than German`).toBeGreaterThan(growth(slug));
+    // And the numbers behind it: the band stays legible on the narrowest phone.
+    const germanHeight = heightAt(column, crops.courses.german.cropAspect);
+    expect(germanHeight).toBeGreaterThan(heightAt(column, crops.fullAspect) * 1.4);
+    expect(germanHeight, "the German band is still a strip on a small phone").toBeGreaterThan(100);
   });
 
   it("would fail if the crop were the identity, which is what shipped before", () => {

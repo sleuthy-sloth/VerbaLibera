@@ -1,22 +1,24 @@
 # Image provenance — picture-choice vocab (all 8 patterns)
 
-Every image under `public/images/vocab/` is CC0 or public domain (no
-attribution required) sourced from Wikimedia Commons. License verified per
-file page before download. Files were verified visually (each clearly
-depicts its word), resized to max 800px (`sips -Z 800`), and served from
-the app's own `public/` dir — no hotlinking. The SW caches `/images/**`
-like `/audio/**`.
+Twenty-two images live under `public/images/vocab/`.
 
-Rejected during visual review (not shipped): a train-interior shot
-mislabeled as a station, a too-dark bar photo for shopkeeper, and the
-Greenwich Hospital building (ambiguous — replaced by Hakodate Red Cross
-Hospital with its rooftop cross).
+**Eighteen are CC0 or public domain** (no attribution required) sourced from
+Wikimedia Commons. License verified per file page before download. Files were
+verified visually (each clearly depicts its word), resized to max 800px
+(`sips -Z 800`), and served from the app's own `public/` dir — no hotlinking. The
+SW caches `/images/**` like `/audio/**`.
+
+**Four are the project's own artwork** — the approved illustrations recorded in the
+second table below.
+
+Rejected during visual review (not shipped): a train-interior shot mislabeled as a
+station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
+(ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
+
+## CC0 and public-domain photographs (18)
 
 | file | depicts | source | license | sha256 |
 | ---- | ------- | ------ | ------- | ------ |
-| `coffee.jpg` | white cup of black coffee on a wooden table | `File:Cup Coffee.jpg` | CC0 | `09e2de3303e1324d97d386a63f336263a2aef4ada207f89a383cd9c722648192` |
-| `tea.jpg` | two steel cups of milky chai, top-down | `File:Cup of tea image.jpg` | CC0 | `b2936d849a8a5b1f0db7612f02501fbc8f8f8fcd39bf5dbbcbff7634af82809c` |
-| `table.jpg` | set café tables in a restaurant interior | `File:Empty cozy café (Unsplash).jpg` | CC0 | `be9cd1f3ab19aa626dd0ef68c12186735accee16cfae4bdd03ae20080f46e9f0` |
 | `bill.jpg` | itemized restaurant receipt with total | `File:HK SYP … bill receipt January 2026 N13P 02.jpg` | CC0 | `18cb31c12fa0ff5d4f917ecb5c5183c237807a4156457ea95a56c2c392eb9db1` |
 | `shopkeeper.jpg` | market vendor at his stall with goods | `File:Elderly street vendor (Unsplash).jpg` | CC0 | `cc6a1b0540783cb5310b16df1ef809950615f483e3edbe35ba066a510f37f1a2` |
 | `door.jpg` | wooden door close-up with handles | `File:Wooden door (Unsplash).jpg` | CC0 | `538f36b2bfe8aeaab5ee5e7bd40f608294373755febd6112c99611d7cbea53af` |
@@ -27,7 +29,6 @@ Hospital with its rooftop cross).
 | `phone.jpg` | hand holding a smartphone | `File:Black smartphone in hand (Unsplash).jpg` | CC0 | `c352e46e9a3555db14fbb7e0a2942cbaf38716d3b0c85048a43cefc7bb5a6bac` |
 | `passport.jpg` | Canadian passport on a desk | `File:Passport documents desk (Unsplash).jpg` | CC0 | `2816d49c4cd8cd32b7b876ac22e398a64438c82d7d5bb0c54b772683c9476427` |
 | `card.jpg` | bank card in a payment terminal | `File:Card Payment (176811287).jpeg` | CC0 | `2db27853236640e8a69e0a661e9f3abb72264765d9f1e7590eaecc302b77733b` |
-| `piggybank.jpg` | pink piggy bank on white | `File:Cute piggy bank (Unsplash).jpg` | CC0 | `982917ba8c7563ae0c1b90bafba818de68cf3128` |
 | `wallet.jpg` | quilted purse held by a woman | `File:Checking Her Purse (Unsplash).jpg` | CC0 | `05dad81edc77f8a73a17b9b3bd9772f2f002cbffa28e28faa44b91c23b5d7b31` |
 | `hotel.jpg` | turquoise hotel building with palms | `File:Blue hotel building (Unsplash).jpg` | CC0 | `32289b712d4fe093f529c25f345cc40a57e6f53998cdfd57686cc3afef326016` |
 | `key.jpg` | key on a chain | `File:Engraved key on a branch (Unsplash).jpg` | CC0 | `a2f6d35a32674b7afd112369fb7de08cba8df266e0818650885169872a1ace91` |
@@ -40,6 +41,36 @@ Hospital with its rooftop cross).
 Source pages: `https://commons.wikimedia.org/wiki/<File:name>` for each
 title above. If a source file's license ever changes upstream, replace the
 image — the CC0 / public-domain status at time of download is recorded here.
+
+## The project's own illustrations (4)
+
+Replaced the four café-and-money photographs with the approved flat illustrations —
+the same illustration system as the course banners, which answers the mismatch
+`docs/design/graphics-brief.md` §7 records ("they are currently photographs, which
+is the single biggest mismatch with the illustration system"). They arrived at
+1280×714 and were normalised to that section's generation contract, **16:9 at
+800×449**, with `sips --resampleHeightWidth 449 800` and then
+`scripts/brand/snap-ground.py` — the flat ground measured 7–16 units off the canvas
+cream before snapping and reads back exact afterwards, which is what stops each one
+showing a faint rectangle against the page.
+
+They are project artwork: no third-party licence, no attribution, nothing to
+re-verify upstream. Each was checked against what it actually depicts (subject,
+ground, and no baked-in text — one supplied contact sheet in this set carries the
+word "BILL" on a receipt panel and was not used for that reason), and the alt text
+in `src/features/curriculum/fixture.ts` was corrected where the old photograph's
+wording no longer described the picture.
+
+| file | depicts | alt text | dimensions | bytes | sha256 |
+| ---- | ------- | -------- | ---------- | ----- | ------ |
+| `piggybank.jpg` | white piggy bank, coins and a card on a wooden table, plant and cloth behind | A piggy bank with coins on a table | 800×449 | 87,393 B | `31ae4814adf705d183894dbae79695df2e64af96dce0db67499e2b2b9f3d4aa6` |
+| `tea.jpg` | teapot and a cup of tea on a mat, with a leaf | A teapot and a cup of tea | 800×449 | 70,608 B | `1d07d4d43bc58b1c8c7943ba5630b503587c5bab9fce13f52f4c8e59f2288f2b` |
+| `coffee.jpg` | cup of coffee on a saucer with a spoon and a lidded sugar bowl | A cup of coffee on a saucer | 800×449 | 69,716 B | `bdf3db8c674afca57e2967ab0f4020296a5b77b63b1c30f1d78499d116c3fa98` |
+| `table.jpg` | round café table with two chairs, a cup and a folded napkin | A café table with two chairs | 800×449 | 75,844 B | `884631285eda7d9e9d44c25a8eeaab663f1f965f1b672ce07be64c011917e8b7` |
+
+`tests/image-dimensions.test.ts` pins the 800×449 size of these four and the 800px
+ceiling for the folder; `tests/asset-provenance.test.ts` pins the four hashes above
+against the files on disk.
 
 Re-verify hashes any time with:
 `shasum -a 256 public/images/vocab/*.jpg`

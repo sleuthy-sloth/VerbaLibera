@@ -146,3 +146,51 @@ describe("images next/image reserves space for", () => {
     ).toEqual([]);
   });
 });
+
+/**
+ * The vocabulary pictures the picture drill draws.
+ *
+ * Four of the twenty-two were replaced with the project's own approved
+ * illustrations, supplied at 1280x714 and normalised to the contract the design
+ * brief's generation template names: 16:9, 800x449. The drill renders them in a
+ * 4:3 box with `object-fit: cover`, so a file that arrives at the wrong size is
+ * silently cropped on every screen — measured in a browser, the approved
+ * compositions survive that crop, but only because they were normalised first.
+ */
+describe("the vocabulary pictures", () => {
+  const dir = join(ROOT, "public/images/vocab");
+  const files = readdirSync(dir)
+    .filter((name) => name.endsWith(".jpg"))
+    .sort();
+
+  it("keeps every file inside the 800px generation contract", () => {
+    expect(files.length, "no vocabulary pictures were found").toBe(22);
+    for (const name of files) {
+      const size = imageDimensions(join(dir, name));
+      expect(size, `${name} cannot be read`).not.toBeUndefined();
+      expect(size!.width, `${name} is wider than the 800px ceiling`).toBeLessThanOrEqual(800);
+      expect(size!.height, `${name} is taller than the 800px ceiling`).toBeLessThanOrEqual(800);
+    }
+  });
+
+  it("ships the four approved pictures at the 16:9 contract size", () => {
+    for (const name of ["piggybank", "tea", "coffee", "table"]) {
+      const size = imageDimensions(join(dir, `${name}.jpg`))!;
+      expect([size.width, size.height], `${name}.jpg is not 800x449`).toEqual([800, 449]);
+    }
+  });
+
+  it("would not pass on a folder that had only ever held 16:9 files", () => {
+    // Non-vacuity: the other eighteen are 800x533, 600x800 and similar, so the
+    // assertion above discriminates between files rather than restating a rule
+    // the whole folder already follows — and the supplied sources' own 1280x714
+    // does not match the contract either, which is what normalising fixes.
+    const sizes = files.map((name) => {
+      const size = imageDimensions(join(dir, name))!;
+      return `${size.width}x${size.height}`;
+    });
+    expect(new Set(sizes).size, "every file in the folder is the same size").toBeGreaterThan(3);
+    expect(sizes).toContain("800x533");
+    expect(sizes).not.toContain("1280x714");
+  });
+});

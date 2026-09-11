@@ -24,7 +24,7 @@ file below is missing from the tree or a tracked asset is missing from this file
 | `public/brand/hero-banner.jpg` | 1584×672 | 153,866 B | tracked |
 | `public/brand/empty-journal.jpg` | 1024×1024 | 74,150 B | tracked |
 | `public/brand/courses/french.jpg` | 2064×512 | 184,583 B | tracked |
-| `public/brand/courses/german.jpg` | 2064×512 | 177,114 B | tracked |
+| `public/brand/courses/german.jpg` | 2064×512 | 197,108 B | tracked |
 | `public/brand/courses/italian.jpg` | 2064×512 | 177,245 B | tracked |
 | `public/brand/courses/spanish.jpg` | 2064×512 | 260,877 B | tracked |
 | `public/brand/courses/portuguese.jpg` | 2064×512 | 265,091 B | tracked |
@@ -60,29 +60,40 @@ python3 scripts/brand/compare-reference.py --crops
 | `courses/italian.jpg` | Course Banner Italian | 1.68 | 0 px | the reference, re-encoded |
 | `courses/spanish.jpg` | Course Banner Spanish | 1.42 | 0 px | the reference, re-encoded |
 | `courses/portuguese.jpg` | Course Banner Portugal | 1.36 | 0 px | the reference, re-encoded |
-| **`courses/german.jpg`** | **Course Banner German** | **71.10** | **+278 px** | **re-framed, not the reference framing** |
+| `courses/german.jpg` | Course Banner German | 1.54 | 0 px | the reference, ground snapped to the canvas |
 | `hero-banner.jpg` | Hero Banner | 25.77 | −31 px | re-framed (`tighten-frame.py`) |
 | `empty-journal.jpg` | Empty Journal | 25.51 | −14 px | re-framed (`tighten-frame.py`) |
 | `logo-mark.jpg` | Logo Mark | 31.04 | 0 px | re-framed and rescaled (`tighten-frame.py`) |
 | `logo-lockup.jpg` | Logo Lockup | 4.71 | 0 px | the reference, re-encoded |
 | `og-card.jpg` | Social Card | 28.32 | 0 px | cropped to the specified 1200×630 (reference is 1376×768) |
 
-The re-frames are deliberate and documented in `docs/design/graphics-brief.md`:
-`tighten-frame.py` centres the drawing inside a crop of the *same* aspect ratio so
-no declared dimension had to change, and the German banner needed a re-frame
-rather than a tighter crop because its scene ran off the right edge through a
-distinct building (the brief records the column analysis: the complete scene ends
-at x≈1890, a different building starts at x≈1899).
+The remaining re-frames are deliberate and documented in
+`docs/design/graphics-brief.md`: `tighten-frame.py` centres the drawing inside a
+crop of the *same* aspect ratio so no declared dimension had to change.
 
-**The German banner's measured consequence** (`--crops`): the shipped file needs a
-narrow-viewport window of aspect **2.39 anchored at 50.4%**, while the untouched
-reference would need **2.75 at 100%** — the re-frame made the scene narrower and
-centred, so the phone crop has further to travel to fill the frame. Both windows
-keep the whole drawing (`tests/banner-crops.test.ts` re-derives that from the
-pixels); the four other banners need the same window either way. Restoring the
-approved framing would mean copying the reference over the shipped file and
-re-running `python3 scripts/brand/banner-crops.py`; that is an art decision, not a
-technical one, and nothing in the tree needs it to work.
+**The German banner is no longer one of them.** It shipped re-framed — the
+approved artwork moved +278 px inside its frame, which is what the earlier
+measurement of this table recorded as "71.10 at rest, best shift +278 px" — and it
+now **is** the approved reference, with its ground snapped to the canvas
+(`scripts/brand/snap-ground.py`, which is also what keeps the flat cream field
+from reading as a faint rectangle against the page). The history is worth keeping
+because the re-frame was not arbitrary: the approved scene runs off the right edge
+through a distinct building, and the brief's column analysis (the complete scene
+ends at x≈1890, a different building starts at x≈1899) is why the re-frame
+centred it instead. That trade-off has now been reverted deliberately, artwork
+preserved exactly as approved.
+
+**Its measured consequence** (`--crops`): the approved framing needs a
+narrow-viewport window of aspect **2.75 anchored at 100%** — the window sits at the
+frame's right edge, which is where the drawing runs to — against **2.39 at 50.4%**
+for the re-framed file that used to ship. Both windows keep the whole drawing
+(`tests/banner-crops.test.ts` re-derives that from the pixels), and the crop is
+re-measured by `python3 scripts/brand/banner-crops.py`, which is the only step
+needed if the file is ever swapped again.
+
+The picture drill's vocabulary pictures have their own record in
+`docs/image-provenance.md`, which now also covers the four that were replaced with
+the project's own approved illustrations.
 
 ## Icons
 
