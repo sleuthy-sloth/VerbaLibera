@@ -6,7 +6,13 @@ const languages = readdirSync("courses", { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
   .sort();
-const catalog: { slug: string; title: string }[] = [];
+const catalog: {
+  slug: string;
+  title: string;
+  lessons: number;
+  units: number;
+  practiceActivities: number;
+}[] = [];
 const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
@@ -19,7 +25,6 @@ for (const language of languages) {
     if (createHash("sha256").update(bytes).digest("hex") !== media.sha256)
       throw new Error(`Invalid audio hash: ${media.url}`);
   }
-  catalog.push({ slug: language, title: pack.title });
   // Retained v1 records keep the duplicate-answer census stable across versions.
   const exercises = pack.lessons.flatMap((l) => l.legacyExercises);
   const answerSets = new Map<string, string[]>();
@@ -30,6 +35,15 @@ for (const language of languages) {
   // Schema-aware: reachable runtime activities and retained v1 records are
   // counted separately, each with its own basis. See scripts/content/report.ts.
   const report = buildContentReport(raw, pack);
+  // The catalog carries the pack facts the UI derives honest capability labels
+  // from, so a screen never hardcodes which languages have structured courses.
+  catalog.push({
+    slug: language,
+    title: pack.title,
+    lessons: report.lessons,
+    units: report.units,
+    practiceActivities: report.runtimeActivities.practice,
+  });
   console.log(
     JSON.stringify(
       command === "duplicates"

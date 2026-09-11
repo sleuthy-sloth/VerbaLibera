@@ -1,22 +1,37 @@
 [
   {
     "slug": "french",
-    "title": "French foundations"
+    "title": "French foundations",
+    "lessons": 25,
+    "units": 6,
+    "practiceActivities": 222
   },
   {
     "slug": "german",
-    "title": "German foundations"
+    "title": "German foundations",
+    "lessons": 8,
+    "units": 4,
+    "practiceActivities": 48
   },
   {
     "slug": "italian",
-    "title": "Italian foundations"
+    "title": "Italian foundations",
+    "lessons": 25,
+    "units": 6,
+    "practiceActivities": 233
   },
   {
     "slug": "portuguese",
-    "title": "Portuguese foundations"
+    "title": "Portuguese foundations",
+    "lessons": 8,
+    "units": 4,
+    "practiceActivities": 48
   },
   {
     "slug": "spanish",
-    "title": "Spanish foundations"
+    "title": "Spanish foundations",
+    "lessons": 8,
+    "units": 4,
+    "practiceActivities": 49
   }
 ]

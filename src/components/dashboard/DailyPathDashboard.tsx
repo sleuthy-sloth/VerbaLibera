@@ -11,10 +11,11 @@ import type { StudyPlan } from '@/features/study-plan/types';
 import { dashboardBadgeCopy, planStatusCopy, planTodayCopy } from '@/lib/progress/copy';
 import { FirstRunOnboarding } from './FirstRunOnboarding';
 import { WelcomeFlow } from '@/components/onboarding/WelcomeFlow';
-import { readOnboardingState } from '@/features/onboarding/state';
+import { readOnboardingOutcome, type OnboardingState } from '@/features/onboarding/state';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
 import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
+import { hasAuthoredPlacement } from '@/features/placement/items';
 
 function useDebugFlag(): boolean {
   if (typeof window === 'undefined') return false;
@@ -70,15 +71,30 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(initialCourseIndex);
   const selectedCourse = progress.courses[selectedCourseIndex] ?? progress.courses[0];
   const [guestPlan, setGuestPlan] = useState<GuestPlanStatus | null>(null);
-  // `null` = still reading storage (renders the returning-learner card, never a
-  // flash of onboarding); 'unseen' = genuinely new learner.
-  const [onboardingSeen, setOnboardingSeen] = useState<boolean | null>(true);
+  /**
+   * `loading` renders the returning-learner card, never a flash of onboarding.
+   * `unseen`/`invalid` open the flow; `in-progress` resumes it; `completed`
+   * never opens it again.
+   */
+  const [onboarding, setOnboarding] = useState<
+    'loading' | 'unseen' | 'invalid' | 'in-progress' | 'completed'
+  >('loading');
+  // The stored record itself, so the flow resumes where the learner left off
+  // instead of restarting at the language screen.
+  const [onboardingState, setOnboardingState] = useState<OnboardingState | null>(null);
   useEffect(() => {
     if (typeof window === 'undefined') return;
     // Deferred like the plan builder: read storage after paint so the effect
     // never sets state synchronously (cascading-render lint).
     const timer = setTimeout(() => {
-      setOnboardingSeen(readOnboardingState(initialCourses) !== null);
+      const outcome = readOnboardingOutcome(initialCourses);
+      if (outcome.kind === 'stored') {
+        setOnboardingState(outcome.state);
+        setOnboarding(outcome.state.status === 'completed' ? 'completed' : 'in-progress');
+        return;
+      }
+      setOnboardingState(null);
+      setOnboarding(outcome.kind === 'invalid' ? 'invalid' : 'unseen');
     }, 0);
     return () => clearTimeout(timer);
   }, []);
@@ -137,9 +153,13 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   // old code showed "Session preview coming soon" here — a status message where
   // a next step belonged, with no way forward from it.
   const foundationHref = language ? foundationStartHref(selectedCourse.slug) : null;
-  // An explicit ?course= means the learner has already chosen, so the welcome
-  // flow would be asking a question they just answered.
-  const showWelcome = isBlank && onboardingSeen === false && !(requestedCourseSlug && requestedCourseIndex >= 0);
+  // An explicit ?course= deep link means the learner has already chosen, so the
+  // welcome flow would be asking a question they just answered. A record left
+  // mid-flow resumes; a completed one never reopens.
+  const showWelcome =
+    isBlank &&
+    (onboarding === 'unseen' || onboarding === 'invalid' || onboarding === 'in-progress') &&
+    !(requestedCourseSlug && requestedCourseIndex >= 0);
 
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
@@ -180,10 +200,20 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         </h1>
         <p className={styles.introCopy}>
           Learn how the language works, practise one useful pattern, and make it part of your
-          everyday vocabulary. Already know some?{' '}
-          <Link href={`/learn/${selectedCourse.slug}/placement`}>
-            Take the 3-minute placement quiz
-          </Link>.
+          everyday vocabulary.{' '}
+          {hasAuthoredPlacement(selectedCourse.slug) ? (
+            <>
+              Already know some?{' '}
+              <Link href={`/learn/${selectedCourse.slug}/placement`}>
+                Take the 3-minute placement quiz
+              </Link>.
+            </>
+          ) : (
+            <>
+              Not sure this is the right level?{' '}
+              <Link href={`/courses/${language}`}>Look through the {languageName} lessons first</Link>.
+            </>
+          )}
         </p>
         <div className={styles.introArtwork}>
           <Image alt="" height={672} src="/brand/hero-banner.jpg" width={1584} />
@@ -231,6 +261,12 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
           {showWelcome ? (
             <WelcomeFlow
               courses={progress.courses}
+              initialState={onboardingState}
+              notice={
+                onboarding === 'invalid'
+                  ? 'We could not read a saved choice on this device, so here it is again. Choosing will replace it.'
+                  : null
+              }
               onComplete={(destination) => {
                 // Full navigation rather than router.push: this fires once per
                 // learner, and it matches how LanguageSwitcher already leaves a

@@ -525,3 +525,28 @@ describe('DailyPathDashboard study-plan status', () => {
     expect(screen.getByText(/keep your useful phrases moving/i)).toBeInTheDocument();
   });
 });
+
+describe('DailyPathDashboard placement capability', () => {
+  it('links to the placement quiz only for a language with an authored assessment', () => {
+    render(<DailyPathDashboard progress={demoProgress} />);
+    expect(screen.getByRole('link', { name: /take the 3-minute placement quiz/i })).toHaveAttribute(
+      'href',
+      '/learn/english-to-french/placement',
+    );
+  });
+
+  it('offers the course page instead of a quiz that cannot assess the language', () => {
+    render(
+      <DailyPathDashboard
+        progress={{ ...demoProgress, selectedCourseSlug: 'english-to-spanish' }}
+      />,
+    );
+    // The old copy sent every language at /learn/<course>/placement: a dead link
+    // for German and a quiz with no A2/B1 items for Spanish and Portuguese.
+    expect(screen.queryByRole('link', { name: /take the 3-minute placement quiz/i })).toBeNull();
+    expect(screen.getByRole('link', { name: /look through the spanish lessons first/i })).toHaveAttribute(
+      'href',
+      '/courses/spanish',
+    );
+  });
+});
