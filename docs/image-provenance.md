@@ -3,13 +3,13 @@
 Twenty-two vocabulary pictures live under `public/images/vocab/`, and five lesson
 scenes under `public/images/scenes/`.
 
-**Ten of the vocabulary pictures are CC0 or public domain** (no attribution
+**Three of the vocabulary pictures are CC0 or public domain** (no attribution
 required) sourced from Wikimedia Commons. License verified per file page before
 download. Files were verified visually (each clearly depicts its word), resized to
 max 800px (`sips -Z 800`), and served from the app's own `public/` dir — no
 hotlinking. The SW caches `/images/**` like `/audio/**`.
 
-**Twelve vocabulary pictures and all six lesson scenes are the project's own approved
+**Nineteen vocabulary pictures and all six lesson scenes are the project's own approved
 artwork**, supplied as files and normalised here — the tables below.
 
 Two further files are the audio player's own artwork rather than lesson material —
@@ -19,25 +19,24 @@ Rejected during visual review (not shipped): a train-interior shot mislabeled as
 station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
 (ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
 
-Three of those photographs have since been replaced outright by the project's own
-artwork: the Hakodate hospital building, the Wikimedia receipt photo (`File:HK SYP … bill
-receipt January 2026 N13P 02.jpg`) and the Unsplash street vendor (`File:Elderly street
-vendor (Unsplash).jpg`), the last two recorded in the illustrations table below.
+Ten of those photographs have since been replaced outright by the project's own artwork.
+The first three were the Hakodate hospital building, the Wikimedia receipt photo (`File:HK
+SYP … bill receipt January 2026 N13P 02.jpg`) and the Unsplash street vendor (`File:Elderly
+street vendor (Unsplash).jpg`). The seven below followed as supplied files: the shop door
+(`File:Wooden door (Unsplash).jpg`), the museum (`File:AfricaMuseum in Tervuren
+(Belgium).jpg`), the street (`File:Quaint City Streets (Unsplash).jpg`), the map (`File:Map
+with colorful pins (Unsplash).jpg`), the card terminal (`File:Card Payment (176811287).jpeg`),
+the purse (`File:Checking Her Purse (Unsplash).jpg`) and the hotel (`File:Blue hotel
+building (Unsplash).jpg`). Three photographs remain — `station.jpg`, `phone.jpg` and
+`passport.jpg` — each approved by the user and deliberately left alone.
 
-## CC0 and public-domain photographs (10)
+## CC0 and public-domain photographs (3)
 
 | file | depicts | source | license | sha256 |
 | ---- | ------- | ------ | ------- | ------ |
-| `door.jpg` | wooden door close-up with handles | `File:Wooden door (Unsplash).jpg` | CC0 | `538f36b2bfe8aeaab5ee5e7bd40f608294373755febd6112c99611d7cbea53af` |
 | `station.jpg` | Taipei Station hall with station signage | `File:Taipei Railway station interior (Unsplash).jpg` | CC0 | `df6a6a0a66e43ec2c89f0870a3941a67fc0ed0ef162a936f68fc2394da0d2de6` |
-| `museum.jpg` | grand museum palace building | `File:AfricaMuseum in Tervuren (Belgium).jpg` | CC0 | `6a41c020f22d3c7021417e1b7a8ff6a05324f438eed4f2bf8b432c517c03064b` |
-| `street.jpg` | quaint cobblestone city street | `File:Quaint City Streets (Unsplash).jpg` | CC0 | `4dcc6bbabb74511798a84ef201986c5e6a6d14f4b1c29c2c68568b77b986d9db` |
-| `map.jpg` | map with colorful push-pins | `File:Map with colorful pins (Unsplash).jpg` | CC0 | `05042861c06d61f85d70bdd81033330641b4b70ff0678409fbdb654d00b6c0de` |
 | `phone.jpg` | hand holding a smartphone | `File:Black smartphone in hand (Unsplash).jpg` | CC0 | `c352e46e9a3555db14fbb7e0a2942cbaf38716d3b0c85048a43cefc7bb5a6bac` |
 | `passport.jpg` | Canadian passport on a desk | `File:Passport documents desk (Unsplash).jpg` | CC0 | `2816d49c4cd8cd32b7b876ac22e398a64438c82d7d5bb0c54b772683c9476427` |
-| `card.jpg` | bank card in a payment terminal | `File:Card Payment (176811287).jpeg` | CC0 | `2db27853236640e8a69e0a661e9f3abb72264765d9f1e7590eaecc302b77733b` |
-| `wallet.jpg` | quilted purse held by a woman | `File:Checking Her Purse (Unsplash).jpg` | CC0 | `05dad81edc77f8a73a17b9b3bd9772f2f002cbffa28e28faa44b91c23b5d7b31` |
-| `hotel.jpg` | turquoise hotel building with palms | `File:Blue hotel building (Unsplash).jpg` | CC0 | `32289b712d4fe093f529c25f345cc40a57e6f53998cdfd57686cc3afef326016` |
 
 Source pages: `https://commons.wikimedia.org/wiki/<File:name>` for each
 title above. If a source file's license ever changes upstream, replace the
@@ -109,6 +108,13 @@ reading oddly.
 | `bill.jpg` | an open dark leather bill folder with a **blank** sheet of paper, a pencil, five small coins and the base of a metal cup, on a wooden table | A restaurant bill in a folder on a table | 800×449 | 103,418 B | `cee25dd1159e6a4ccd49be9fa3c6f2a6596ff8cb8ca127b2d62deea8634569a8` |
 | `shopkeeper.jpg` | a market produce stall: green-and-cream striped awning, baskets of potatoes, green apples, onions and red apples, burlap sacks, a brass balance scale with weights, and a **blank** hanging sign — **no vendor or customer in the picture** | A market stall with baskets of fruit and vegetables | 800×449 | 124,093 B | `44c5bc4850eb18a2d851aed35d1bce533f8beb6f8fe2233ffa6f6ae00796aca0` |
 
+| `door.jpg` | a green shop door under a tan awning, three amber windows above a recessed panel, a lever handle with a keyhole and a low step | A shop door under an awning | 800×449 | 61,729 B | `a382804ebba6fa118ba52b72a0b6214d4b2feec6c1408c47abeeb89dd253abc5` |
+| `museum.jpg` | a classical entrance: a pedimented portico on four olive columns, arched teal double doors under a fanlight, brick-lined tan walls and a potted plant | A museum with columns and steps | 800×449 | 104,772 B | `ab129b0e9e1ea0f1faa2bae65c3e2acc6f6cf5e5da6479b41926b487c9c7f692` |
+| `street.jpg` | a row of joined townhouse facades along a pavement, a shopfront with a grid window and a blank sign band, a bicycle leaning against a wall and a potted tree | A city street of shopfronts | 800×449 | 115,426 B | `66aeef260c56cdffc4e54de68ad3711e6787942d5dd92ba75d8687a2eddd796b` |
+| `map.jpg` | an unfolded, unlabelled street map on a wooden table, roads radiating from a roundabout, a brass pocket compass and two green pencils | A city map spread out with a compass | 800×449 | 153,327 B | `e7b85d95d44772f7aa217246c0ff47c509673f0aced470446a3ddcb0600951b7` |
+| `card.jpg` | a blank card payment terminal with an empty screen and keypad on a wooden table, a coiled cable, a characterless slab and a curled blank receipt | A card payment terminal on a table | 800×449 | 110,021 B | `7a1edc32d754d6c23207a2bf48ea2e6853dd04d75918550417e50fe500914054` |
+| `wallet.jpg` | a closed brown wallet on a wooden table with two blank cards behind it and about ten blank coins scattered beside it | A wallet with cards and coins | 800×449 | 99,301 B | `1fe34a3b3fccf71cf65a104258ac887d11335e53cd25f9cb891640b383ad37bc` |
+| `hotel.jpg` | a hotel entrance: a panelled door in an olive frame, a blank hanging sign, a potted plant and a brass luggage cart holding two suitcases | A hotel entrance with a luggage cart | 800×449 | 73,776 B | `523967293b783c5c0542f5eb1471039a0c2140d84d30522046750d1447a4aa0a` |
 ### Snapping the ground, and the one file that must not be
 
 Snapping makes a flat cream field exactly the canvas colour, so the picture does

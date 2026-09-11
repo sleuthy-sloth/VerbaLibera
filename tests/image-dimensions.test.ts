@@ -150,8 +150,7 @@ describe("images next/image reserves space for", () => {
 /**
  * The vocabulary pictures the picture drill draws.
  *
- * Four of the twenty-two were replaced with the project's own approved
- * illustrations, supplied at 1280x714 and normalised to the contract the design
+ * Nineteen of the twenty-two are the project's own approved illustrations, supplied at 1280x714 and normalised to the contract the design
  * brief's generation template names: 16:9, 800x449. The drill renders them in a
  * 4:3 box with `object-fit: cover`, so a file that arrives at the wrong size is
  * silently cropped on every screen — measured in a browser, the approved
@@ -187,23 +186,39 @@ describe("the vocabulary pictures", () => {
       "hospital",
       "bill",
       "shopkeeper",
+      "door",
+      "museum",
+      "street",
+      "map",
+      "card",
+      "wallet",
+      "hotel",
     ]) {
       const size = imageDimensions(join(dir, `${name}.jpg`))!;
       expect([size.width, size.height], `${name}.jpg is not 800x449`).toEqual([800, 449]);
     }
   });
 
-  it("would not pass on a folder that had only ever held 16:9 files", () => {
-    // Non-vacuity: the other pictures are 800x533, 600x800 and similar, so the
-    // assertion above discriminates between files rather than restating a rule
-    // the whole folder already follows — and the supplied sources' own 1280x714
-    // does not match the contract either, which is what normalising fixes.
+  it("still holds three professional photographs, and they are the approved ones", () => {
+    // Non-vacuity, in the form the folder now takes. Nineteen of the twenty-two
+    // are 16:9 contract files, so "the folder has more than three distinct sizes"
+    // stopped discriminating anything; what still matters is that the list above
+    // is a real subset rather than a restatement of the folder, and that the
+    // three files outside it are the three the user approved and asked to keep.
+    const outside = files.filter((name) => {
+      const size = imageDimensions(join(dir, name))!;
+      return size.width !== 800 || size.height !== 449;
+    });
+    expect(outside.sort(), "the non-contract pictures are not the three kept photographs").toEqual([
+      "passport.jpg",
+      "phone.jpg",
+      "station.jpg",
+    ]);
+    // And no supplied source ever ships at its delivered size.
     const sizes = files.map((name) => {
       const size = imageDimensions(join(dir, name))!;
       return `${size.width}x${size.height}`;
     });
-    expect(new Set(sizes).size, "every file in the folder is the same size").toBeGreaterThan(3);
-    expect(sizes).toContain("800x533");
     expect(sizes).not.toContain("1280x714");
   });
 });

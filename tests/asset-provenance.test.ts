@@ -123,8 +123,8 @@ describe("the asset provenance document", () => {
     const own = rowsOf(ownTable, "vocab");
     const scenes = rowsOf(sceneTable, "scenes");
     const map = [...mapTable.matchAll(/^\| `([\w.-]+)\.jpg` \|/gm)].map((match) => `map/${match[1]}.jpg`);
-    expect(cc0.length, "the CC0 table lost rows").toBe(10);
-    expect(own.length, "the project-artwork table lost rows").toBe(12);
+    expect(cc0.length, "the CC0 table lost rows").toBe(3);
+    expect(own.length, "the project-artwork table lost rows").toBe(19);
     expect(scenes.length, "the scene table lost rows").toBe(6);
     expect(map.length, "the course map is not recorded").toBe(1);
     // The tables have to be disjoint: a file that is the project's own artwork
@@ -196,6 +196,13 @@ describe("the asset provenance document", () => {
       "A hospital entrance",
       "A restaurant bill in a folder on a table",
       "A market stall with baskets of fruit and vegetables",
+      "A shop door under an awning",
+      "A museum with columns and steps",
+      "A city street of shopfronts",
+      "A city map spread out with a compass",
+      "A card payment terminal on a table",
+      "A wallet with cards and coins",
+      "A hotel entrance with a luggage cart",
     ]) {
       expect(ownTable, `the record does not quote "${alt}"`).toContain(alt);
       expect(fixture, `the fixture no longer uses "${alt}"`).toContain(alt);
