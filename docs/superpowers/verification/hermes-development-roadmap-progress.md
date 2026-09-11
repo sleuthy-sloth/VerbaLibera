@@ -822,6 +822,45 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### The last two pictures: bill and shopkeeper (`2632799`)
+
+The two drill pictures that were still photographs are now illustrations, because the user
+supplied them as standalone files. That is the whole fix, and the block's job was to land
+them and to keep the *reason* the approved six-panel sheet was never the source, since
+that reasoning is the answer to "why not just crop the sheet".
+
+| | source | shipped | ground | alt text |
+| --- | --- | --- | --- | --- |
+| `bill.jpg` | 1280×714 | 800×449, 103,418 B | **not snapped** (dark leather `#41392c`, 187 off — the largest miss in the set) | "A restaurant bill" → "A restaurant bill in a folder on a table" |
+| `shopkeeper.jpg` | 1280×714 | 800×449, 124,093 B | snapped, 10 → 1, 35% remapped | "A market vendor at his stall" → "A market stall with baskets of fruit and vegetables" |
+
+The shopkeeper alt is the block's one correctness fix rather than a wording preference:
+**the approved drawing has no vendor in it at all** — it is the stall, with a striped
+awning, baskets of potatoes, green apples, onions and red apples, burlap sacks, a brass
+balance scale and a blank hanging sign. The old wording announced a person who is not in
+the picture. The pairing with "un commerçant" is unchanged and still approved; it is the
+picture's subject that moved from the seller to the stall.
+
+The bill drawing is a leather folder with a **blank** sheet, a pencil, coins and the base
+of a metal cup on a wooden table, and that blankness is the point: the photograph it
+replaces was a receipt full of legible text, and a bill with readable figures would be
+copy living inside an image — the same rule that keeps the hotel scene's reception sign
+and the sheet's "BILL" out of the UI. Nothing anywhere in either new file is written on;
+the shopkeeper's tags, labels, crate markings and papers were checked panel by panel.
+
+`docs/image-provenance.md` moves from ten CC0 photographs and twelve illustrations, names
+the two Wikimedia/Unsplash photographs these replace in the history paragraph, and turns
+the waiting note into "The last two pictures, and why the six-panel sheet was never the
+source". `tests/asset-provenance.test.ts` checks 10/12/6/1, both new hashes, both new alt
+texts, and pins the sheet's reasoning so a later reader cannot delete the only explanation
+of why the collage was not cut up. `tests/image-dimensions.test.ts` pins both at 800×449.
+
+Nothing generated moved: `content:build` leaves `study.css` and `study.js` byte-identical.
+
+**Still open from the earlier inventory:** six supplied illustrations have never been
+assigned (see Next tasks), which is now the only remaining artwork the app has files for
+and no home.
+
 ### The hospital picture, and the two pictures that still need artwork (`b8ca6c3`)
 
 The last of the three assets this pass asked for landed; the other two do not exist,
@@ -1302,7 +1341,15 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
-| `npx vitest run` (this block) | **153 files passed, 1 skipped; 1187 passed, 6 skipped, 0 failed** |
+| `npx vitest run` (the bill/shopkeeper block) | **153 files passed, 1 skipped; 1187 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/asset-provenance.test.ts tests/image-dimensions.test.ts tests/curriculum-fixture.test.ts` | 3 files, **36 passed** (10/12/6/1, both new hashes, both new alts, the sheet's reasoning still pinned) |
+| `npm run content:build` | exit 0 and **no generated artifact changed** — `study.css` and `study.js` byte-identical |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **97 passed, 3 skipped** |
+| `npx playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** |
+| `npx playwright test --config playwright.portable.config.ts` | **10 passed** (Chromium and WebKit) |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| `npm run content:validate` / `content:audio-check` | exit 0 / exit 0 |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` | 0 errors, 30 warnings / exit 0 / exit 0 |
 | `npm run content:build` | exit 0 and **no generated artifact changed** — `study.css` and `study.js` stay byte-identical, which is the confirmation the vocabulary pictures are in neither bundle |
 | `npx vitest run tests/asset-provenance.test.ts tests/image-dimensions.test.ts tests/curriculum-fixture.test.ts` | 3 files, **36 passed** (12 CC0 / 10 project / 6 scenes / 1 map, all 28 hashes, the not-snapped decisions) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **97 passed, 3 skipped** (+1: the emergency drill's hospital picture) |
@@ -1433,6 +1480,7 @@ also skips the config's own `webServer`.
 | `85dc920` | Run record — the ten approved assets and the first lesson scenes |
 | `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 | `2f08a38` | Run record — the emergency scene and the course map |
+| `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
@@ -1443,30 +1491,24 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **Ten of the 22 vocabulary pictures are the project's own now; twelve are still photographs.**
-   The pattern is settled and worked three times: supply at any size,
-   `sips --resampleHeightWidth 449 800`, snap the ground **only if** the file's most common colour
-   really is a ground (check it — `key.jpg`'s was the drawn door and `hospital.jpg`'s the tan
-   facade), correct any alt the picture contradicts, extend the tables in
-   `docs/image-provenance.md`, and let `tests/asset-provenance.test.ts` check the hashes.
-   Two of the twelve cannot be finished without new files, and the record says so:
-   `bill.jpg` and `shopkeeper.jpg` have no standalone artwork anywhere on this machine, and the
-   approved six-panel sheet that contains both subjects is a collage with "BILL" drawn into the
-   receipt panel — unusable as an asset and not to be cut up.
-   **Waiting on you, and cheap when you get to it:** ten supplied illustrations have never been
-   assigned. Six look like standalone art for options the drills still show as photographs — the
-   shop door (`door.jpg`), the card payment terminal (`card.jpg`), the map with a compass
-   (`map.jpg`), the wallet with cards and coins (`wallet.jpg`), the hotel entrance with a luggage
-   cart (`hotel.jpg`, unmistakably a hotel) and the street of facades (`street.jpg`, probably) —
-   and they are the obvious next batch, since each is the same four steps as the last three
-   replacements. Two describe a desk rather than any word the drills teach, and the last two are
-   entrances ambiguous between museum, station and shop; both need your label rather than a guess.
-   Two decisions are still yours. (a) The landing and library cards show the full 4:1 frame on a
-   phone; a uniform crop of 3.34 would make every card ~21% taller with all five artworks intact, but
-   it leaves Italian only ~3.6% margin, so it is recorded rather than taken. (b) The hotel scene's
-   reception sign reads RECEPCIÓN in Spanish, and that picture sits inside French, Italian and
-   German lessons as well as the Spanish one — an art decision, not a code one, and the lettering
-   itself is already barred from every rendered string.
+2. **Twelve of the 22 vocabulary pictures are the project's own now; ten are still photographs.**
+   Both of the two that were blocked arrived as standalone files and are shipped, so nothing
+   is waiting on artwork. The remaining ten are the CC0 set the design brief calls "the single
+   biggest mismatch with the illustration system", and the pass is settled and worked four
+   times: supply at any size, `sips --resampleHeightWidth 449 800`, snap the ground **only if**
+   the file's most common colour really is a ground (check it — `key.jpg`'s was the drawn door,
+   `hospital.jpg`'s the tan facade and the vocabulary bill's the dark leather folder),
+   correct any alt the picture contradicts (the shopkeeper one announced a person who is not in
+   the drawing), extend the tables in `docs/image-provenance.md`, and let
+   `tests/asset-provenance.test.ts` check the hashes.
+   **Waiting on you, and cheap when you get to it:** six supplied illustrations have never been
+   assigned — the shop door (`door.jpg`), the card payment terminal (`card.jpg`), the map with
+   a compass (`map.jpg`), the wallet with cards and coins (`wallet.jpg`), the hotel entrance
+   with a luggage cart (`hotel.jpg`, unmistakably a hotel) and the street of facades
+   (`street.jpg`, probably). Each is the same four steps as the last four replacements. Two
+   further supplied files describe a desk rather than any word the drills teach, and two are
+   entrances ambiguous between museum, station and shop; those need your label rather than a
+   guess.
 3. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
    guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
    other four, redrawing the remaining 13 vocabulary photographs as on-palette illustrations, and the
