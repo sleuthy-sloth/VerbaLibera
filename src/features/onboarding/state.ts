@@ -4,6 +4,7 @@ import type { CourseFixture } from '@/features/curriculum/types';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { foundationCatalogEntry, foundationStartHref } from '@/features/course-pack/navigation';
 import { hasAuthoredPlacement } from '@/features/placement/items';
+import { hasFirstWin } from '@/features/onboarding/first-win';
 
 export type OnboardingStatus = 'unseen' | 'welcome-in-progress' | 'completed';
 /** What the learner asked for. `preview` is the truthful alternative to a placement quiz. */
@@ -133,13 +134,39 @@ export function completeOnboarding(courseSlug: string, entryIntent: EntryIntent)
 
 /**
  * Which screen a returning learner resumes on. `null` means onboarding is
- * finished and the flow must not open again. `welcome-in-progress` with a
- * course recorded means the language was chosen, so the starting-point screen
- * is where they left off.
+ * finished and the flow must not open again.
+ *
+ * - `welcome-in-progress` with the beginner path recorded resumes inside the
+ *   first-win sequence (roadmap 1B) — only where one is authored, so a language
+ *   without a sequence falls back to the starting-point screen rather than to a
+ *   screen that would render empty.
+ * - `welcome-in-progress` on its own means the language was chosen and the
+ *   decision not yet made, so the starting-point screen is where they left off.
  */
-export function onboardingResumeScreen(state: OnboardingState | null): 'language' | 'choice' | null {
+export type OnboardingScreen = 'language' | 'choice' | 'first-win';
+
+export function onboardingResumeScreen(state: OnboardingState | null): OnboardingScreen | null {
   if (!state || state.status === 'completed') return null;
-  return state.status === 'welcome-in-progress' ? 'choice' : 'language';
+  if (state.status === 'welcome-in-progress') {
+    if (state.entryIntent === 'beginner' && hasFirstWin(state.courseSlug)) return 'first-win';
+    return 'choice';
+  }
+  return 'language';
+}
+
+/**
+ * Records the beginner path being under way, before the first-win sequence has
+ * finished. Still not a completion: only `completeOnboarding` writes that.
+ */
+export function beginFirstWin(courseSlug: string): OnboardingState {
+  const state: OnboardingState = {
+    version: 1,
+    courseSlug,
+    status: 'welcome-in-progress',
+    entryIntent: 'beginner',
+  };
+  saveOnboardingState(state);
+  return state;
 }
 
 export function setSelectedCourse(courseSlug: string): void {

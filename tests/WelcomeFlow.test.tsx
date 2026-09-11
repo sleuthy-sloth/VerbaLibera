@@ -66,18 +66,104 @@ describe('WelcomeFlow', () => {
     expect(screen.getByRole('button', { name: /show me the course first/i })).toBeInTheDocument();
   });
 
-  it('completes onboarding and forwards the destination it chose', async () => {
+  it('runs the first win before completing, for a language that has one', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
     render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
+
+    // Not finished yet: choosing the beginner path starts the short sequence.
+    expect(onComplete).not.toHaveBeenCalled();
+    expect(screen.getByText(/step 1 of 5/i)).toBeInTheDocument();
+    expect(screen.getByText('Ciao')).toBeInTheDocument();
+    // The decision is recorded, but nothing is called complete.
+    const begun = JSON.parse(localStorage.getItem('verbalibera_onboarding:v1') ?? 'null');
+    expect(begun?.status).toBe('welcome-in-progress');
+    expect(begun?.entryIntent).toBe('beginner');
+
+    await user.click(screen.getByRole('button', { name: /^continue$/i }));
+    await user.click(screen.getByRole('radio', { name: 'Hi — and bye.' }));
+    await user.click(screen.getByRole('button', { name: /^check$/i }));
+    await user.click(screen.getByRole('button', { name: /^continue$/i }));
+    for (const token of ['Ciao,', 'grazie.'])
+      await user.click(screen.getByRole('button', { name: token }));
+    await user.click(screen.getByRole('button', { name: /^check$/i }));
+    await user.click(screen.getByRole('button', { name: /^continue$/i }));
+    await user.click(screen.getByRole('button', { name: /skip this step/i }));
+    await user.click(screen.getByRole('button', { name: /start lesson 1/i }));
+
     expect(onComplete).toHaveBeenCalledWith('/courses/italian?start=1');
-    // The completion transition is written by the decision, not by the visit.
+    // And only now is the completion transition written.
     const stored = JSON.parse(localStorage.getItem('verbalibera_onboarding:v1') ?? 'null');
     expect(stored?.status).toBe('completed');
     expect(stored?.entryIntent).toBe('beginner');
+  });
+
+  it('completes immediately for a language with no first win', async () => {
+    const user = userEvent.setup();
+    const onComplete = vi.fn();
+    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    await user.click(screen.getByRole('radio', { name: /Spanish/i }));
+    await user.click(screen.getByRole('button', { name: /continue with spanish/i }));
+    await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
+    expect(onComplete).toHaveBeenCalledWith('/courses/spanish?start=1');
+    const stored = JSON.parse(localStorage.getItem('verbalibera_onboarding:v1') ?? 'null');
+    expect(stored?.status).toBe('completed');
+  });
+
+  it('resumes inside the first win for a learner who left mid-sequence', () => {
+    render(
+      <WelcomeFlow
+        courses={initialCourses}
+        initialState={{
+          version: 1,
+          courseSlug: 'english-to-french',
+          status: 'welcome-in-progress',
+          entryIntent: 'beginner',
+        }}
+        onComplete={() => {}}
+      />,
+    );
+    expect(screen.getByText(/step 1 of 5/i)).toBeInTheDocument();
+    expect(screen.getByText('Bonjour')).toBeInTheDocument();
+  });
+
+  it('does not reopen the first win for a language that has none', () => {
+    // A stored record can name the beginner path for a language with no
+    // sequence; the flow falls back to the starting-point screen rather than
+    // rendering a screen with nothing on it.
+    render(
+      <WelcomeFlow
+        courses={initialCourses}
+        initialState={{
+          version: 1,
+          courseSlug: 'english-to-spanish',
+          status: 'welcome-in-progress',
+          entryIntent: 'beginner',
+        }}
+        onComplete={() => {}}
+      />,
+    );
+    expect(screen.getByRole('heading', { name: /where should we start/i })).toBeInTheDocument();
+    expect(screen.queryByText(/step 1 of 5/i)).toBeNull();
+  });
+
+  it('backs out of the first win to the choice screen without finishing', async () => {
+    const user = userEvent.setup();
+    const onComplete = vi.fn();
+    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    await user.click(screen.getByRole('radio', { name: /Italian/i }));
+    await user.click(screen.getByRole('button', { name: /continue with italian/i }));
+    await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
+    await user.click(screen.getByRole('button', { name: /^back$/i }));
+    expect(screen.getByRole('heading', { name: /where should we start/i })).toBeInTheDocument();
+    expect(onComplete).not.toHaveBeenCalled();
+    // The recorded path is dropped, so a reload does not reopen the sequence.
+    const stored = JSON.parse(localStorage.getItem('verbalibera_onboarding:v1') ?? 'null');
+    expect(stored?.status).toBe('welcome-in-progress');
+    expect(stored?.entryIntent).toBeUndefined();
   });
 
   it('sends an unsupported placement choice to the course page', async () => {
