@@ -4,6 +4,7 @@
 import catalog from "./catalog.json";
 import { OfflineDownload } from "./OfflineDownload";
 import { BANNER_BY_LANGUAGE, bannerStyle } from "./banners";
+import { sceneForLessonId } from "./scenes";
 import { useEffect, useState, type ReactNode } from "react";
 import type { CoursePack, Lesson } from "./schema";
 import {
@@ -273,6 +274,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
   // re-rendered instead of the exercise.
   if (lesson && !practising) {
     const lessonUnlocked = lesson.prerequisites.every((id) => completed.has(id));
+    const scene = sceneForLessonId(lesson.id);
     const modelClip = pack.media.find((m) =>
       lesson.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
     );
@@ -288,6 +290,19 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
         <p>
           <strong>Your aim:</strong> {lesson.objective}
         </p>
+        {scene ? (
+          /* The situation this lesson is about, resolved through the environment
+             so the same lesson works in every edition. Decorative: the heading
+             and the aim above say it in words. */
+          // eslint-disable-next-line @next/next/no-img-element -- also bundled outside Next for offline cold starts
+          <img
+            className="lesson-scene"
+            src={environment.resolveMedia(scene.url)}
+            width={scene.width}
+            height={scene.height}
+            alt=""
+          />
+        ) : null}
         <p>{lesson.explanation}</p>
         <h2>Worked examples</h2>
         {lesson.examples.map((ex) => (

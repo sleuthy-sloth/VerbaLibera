@@ -52,6 +52,18 @@
   line-height: 0.94;
 }
 
+/* The approved situation picture for the pattern this session teaches. 800x600 is
+   the frame it was drawn in, so it never crops or stretches; the heading above
+   names the situation in words, so the image is decorative. */
+.sessionScene {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: 1.5rem 0 0;
+  border-radius: 12px;
+}
+
 .sessionProgress {
   margin: 2.75rem 0 2rem;
 }

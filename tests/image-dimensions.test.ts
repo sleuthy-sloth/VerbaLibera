@@ -173,15 +173,25 @@ describe("the vocabulary pictures", () => {
     }
   });
 
-  it("ships the four approved pictures at the 16:9 contract size", () => {
-    for (const name of ["piggybank", "tea", "coffee", "table"]) {
+  it("ships the vocabulary pictures at the 16:9 contract size", () => {
+    for (const name of [
+      "piggybank",
+      "tea",
+      "coffee",
+      "table",
+      "key",
+      "bed",
+      "suitcase",
+      "ambulance",
+      "police",
+    ]) {
       const size = imageDimensions(join(dir, `${name}.jpg`))!;
       expect([size.width, size.height], `${name}.jpg is not 800x449`).toEqual([800, 449]);
     }
   });
 
   it("would not pass on a folder that had only ever held 16:9 files", () => {
-    // Non-vacuity: the other eighteen are 800x533, 600x800 and similar, so the
+    // Non-vacuity: the other pictures are 800x533, 600x800 and similar, so the
     // assertion above discriminates between files rather than restating a rule
     // the whole folder already follows — and the supplied sources' own 1280x714
     // does not match the contract either, which is what normalising fixes.
@@ -192,5 +202,29 @@ describe("the vocabulary pictures", () => {
     expect(new Set(sizes).size, "every file in the folder is the same size").toBeGreaterThan(3);
     expect(sizes).toContain("800x533");
     expect(sizes).not.toContain("1280x714");
+  });
+});
+
+/**
+ * The lesson scenes.
+ *
+ * Five situation pictures at 800x600 — the frame the supplied art is drawn in, so
+ * the lesson surfaces render them with `height: auto` and never crop or stretch.
+ * `tests/scenes.test.ts` owns the mapping; this owns the files, including the rule
+ * that the folder has no orphans: a picture no situation names is artwork nobody
+ * can reach.
+ */
+describe("the lesson scenes", () => {
+  const dir = join(ROOT, "public/images/scenes");
+
+  it("are all 800x600, and all named by a situation", () => {
+    const files = readdirSync(dir)
+      .filter((name) => name.endsWith(".jpg"))
+      .sort();
+    expect(files.length, "no lesson scenes were found").toBe(5);
+    for (const name of files) {
+      const size = imageDimensions(join(dir, name))!;
+      expect([size.width, size.height], `${name} is not 800x600`).toEqual([800, 600]);
+    }
   });
 });

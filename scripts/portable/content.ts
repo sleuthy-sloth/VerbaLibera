@@ -11,6 +11,7 @@ import type { CoursePack } from "../../src/features/course-pack/schema";
 import { validateV2Pack } from "../../src/features/course-pack/schema-v2";
 import type { AuthoredV2Pack } from "../../src/features/course-pack/schema-v2";
 import catalog from "../../src/features/course-pack/catalog.json";
+import { SCENE_URLS } from "../../src/features/course-pack/scenes";
 import { listenCatalogEntries } from "../../src/features/listen/catalog";
 import type { ListenCatalogEntry } from "../../src/features/listen/catalog";
 
@@ -67,7 +68,7 @@ const MIME_BY_EXTENSION: Record<string, string> = {
 
 export function assertPortableAssetPath(value: string): void {
   if (
-    !/^\/(?:audio|brand)\/[A-Za-z0-9._/-]+$/.test(value) ||
+    !/^\/(?:audio|brand|images)\/[A-Za-z0-9._/-]+$/.test(value) ||
     value.includes("..") ||
     value.includes("\\")
   ) {
@@ -134,6 +135,16 @@ export function collectPortableContent(
     if (existsSync(join(root, "public", banner.slice(1)))) {
       assets[banner] = embedAsset(root, banner);
     }
+  }
+
+  // The lesson-scene pictures. `RuntimeCourseWorkspace` resolves them through
+  // `environment.resolveMedia`, which throws on a missing embedded asset, so a
+  // scene the app can render must travel with the file — and derived from
+  // `scenes.ts` rather than hand-listed, the way the banners are, so a new scene
+  // cannot be added to the app and silently omitted from the portable edition.
+  // A scene that is not on disk fails here rather than at first render.
+  for (const sceneUrl of SCENE_URLS) {
+    assets[sceneUrl] = embedAsset(root, sceneUrl);
   }
 
   // Long-form audio, only for the courses the build asked for. Digests are

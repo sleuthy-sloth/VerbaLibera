@@ -98,27 +98,54 @@ describe("the asset provenance document", () => {
     expect(references).toMatch(/2\.39/);
   });
 
-  it("keeps the vocabulary record honest about which pictures are whose", () => {
+  it("keeps the picture record honest about which files are whose", () => {
     const record = readFileSync(join(ROOT, "docs/image-provenance.md"), "utf8");
-    const cc0Table = record.slice(record.indexOf("## CC0 and public-domain"), record.indexOf("## The project's own"));
-    const ownTable = record.slice(record.indexOf("## The project's own"));
+    const cc0Table = record.slice(
+      record.indexOf("## CC0 and public-domain"),
+      record.indexOf("## The project's own"),
+    );
+    const ownTable = record.slice(record.indexOf("## The project's own"), record.indexOf("## The lesson scenes"));
+    const sceneTable = record.slice(record.indexOf("## The lesson scenes"));
 
-    const rows = (block: string): string[] =>
-      [...block.matchAll(/^\| `([\w.]+)\.jpg` \|/gm)].map((match) => match[1]);
-    expect(rows(cc0Table).length, "the CC0 table lost rows").toBe(18);
-    expect(rows(ownTable).length, "the project-artwork table lost rows").toBe(4);
-    expect(rows(cc0Table)).not.toContain("piggybank");
+    const rowsOf = (block: string, dir: string): string[] =>
+      [...block.matchAll(new RegExp(`^\\| \\\`([\\w.-]+)\\.jpg\\\` \\|`, "gm"))].map(
+        (match) => `${dir}/${match[1]}.jpg`,
+      );
+    const cc0 = rowsOf(cc0Table, "vocab");
+    const own = rowsOf(ownTable, "vocab");
+    const scenes = rowsOf(sceneTable, "scenes");
+    expect(cc0.length, "the CC0 table lost rows").toBe(13);
+    expect(own.length, "the project-artwork table lost rows").toBe(9);
+    expect(scenes.length, "the scene table lost rows").toBe(5);
+    // The tables have to be disjoint: a file that is the project's own artwork
+    // cannot still be listed as a Wikimedia photograph.
+    expect(cc0).not.toContain("vocab/piggybank.jpg");
+    expect(cc0).not.toContain("vocab/key.jpg");
+    for (const file of own) expect(cc0, `${file} is in both tables`).not.toContain(file);
 
-    // The four hashes in the document, against the files: a silent swap of one of
-    // these pictures fails here rather than in a screenshot months later.
-    const hashes = [...ownTable.matchAll(/\| \`(\w+)\.jpg\` \|[^|]+\|[^|]+\|[^|]+\|[^|]+\| \`([0-9a-f]{64})\` \|/g)];
-    expect(hashes.length, "the four pictures have no recorded hashes").toBe(4);
-    for (const [, name, recorded] of hashes) {
+    // Every recorded hash, against the bytes on disk — the CC0 photographs too, so
+    // a silent swap of any shipped picture fails here rather than in a screenshot
+    // months later. (Proved non-vacuous by corrupting one recorded value, which
+    // fails by file name.)
+    const hashRows = (block: string, dir: string) =>
+      [...block.matchAll(/^\| `([\w.-]+)\.jpg` \|.*\| `([0-9a-f]{64})` \|$/gm)].map(
+        ([, name, hash]) => ({ dir, name, hash }),
+      );
+    const recorded = [
+      ...hashRows(cc0Table, "vocab"),
+      ...hashRows(ownTable, "vocab"),
+      ...hashRows(sceneTable, "scenes"),
+    ];
+    expect(recorded.length, "a table row has no recorded hash").toBe(
+      cc0.length + own.length + scenes.length,
+    );
+    for (const { dir, name, hash } of recorded) {
       const onDisk = createHash("sha256")
-        .update(readFileSync(join(ROOT, `public/images/vocab/${name}.jpg`)))
+        .update(readFileSync(join(ROOT, `public/images/${dir}/${name}.jpg`)))
         .digest("hex");
-      expect(onDisk, `${name}.jpg no longer matches its recorded hash`).toBe(recorded);
+      expect(onDisk, `${dir}/${name}.jpg no longer matches its recorded hash`).toBe(hash);
     }
+
     // And the alt text the record quotes is the alt text the fixture ships.
     const fixture = readFileSync(join(ROOT, "src/features/curriculum/fixture.ts"), "utf8");
     for (const alt of [
@@ -126,10 +153,22 @@ describe("the asset provenance document", () => {
       "A teapot and a cup of tea",
       "A cup of coffee on a saucer",
       "A café table with two chairs",
+      "An old-fashioned room key with a blank tag",
+      "A made hotel bed with a folded towel",
+      "A green suitcase beside a folded map",
+      "An ambulance parked outside a building",
+      "A police car with its roof lights on",
     ]) {
       expect(ownTable, `the record does not quote "${alt}"`).toContain(alt);
       expect(fixture, `the fixture no longer uses "${alt}"`).toContain(alt);
     }
+
+    // The one piece of lettering inside the approved artwork is recorded here, and
+    // recorded as something that is not copy. `tests/scenes.test.ts` checks the
+    // other half: that it appears in no file under `src/`.
+    expect(sceneTable, "the reception sign in the hotel scene is not recorded").toContain("RECEPCIÓN");
+    expect(sceneTable).toMatch(/not rendered as copy|not\*\* rendered as copy/);
+    expect(sceneTable, "the same-sign-language note is missing").toMatch(/Spanish/);
   });
 
   it("gives every shipped asset a dimension and a size", () => {

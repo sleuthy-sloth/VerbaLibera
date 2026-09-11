@@ -8,6 +8,7 @@ import { mergeLearningEvents, projectLessonEvidence, type LessonEvidence } from 
 import { LessonPlayer } from './LessonPlayer';
 import { DialogueView } from './DialogueView';
 import { bannerFor, bannerStyle } from './banners';
+import { sceneForLessonId } from './scenes';
 import { OfflineDownload } from './OfflineDownload';
 import catalog from './catalog.json';
 
@@ -77,6 +78,7 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
   const lesson=pack.lessons.find(item=>item.id===selected);
   if(lesson){
    const canStart=eligible(lesson)&&!!environment.lessonPractice&&!error;
+   const scene=sceneForLessonId(lesson.id);
    return <main id="main-content" className="study study-focused">
     <button type="button" className="study-back" onClick={()=>setSelected(null)}>
      <span aria-hidden="true">←</span> Back to the course
@@ -84,6 +86,13 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
     <p className="study-eyebrow">{lesson.family} · about {lesson.estimatedMinutes} minutes</p>
     <h1>{lesson.title}</h1>
     <p>{lesson.objective}</p>
+    {scene ? (
+     /* The situation this lesson is about. Decorative: the heading, the family
+        line and the objective above already say it in words, and the alt text
+        would only repeat them. Resolved through the environment so the same
+        lesson works in the hosted, downloaded and portable editions. */
+     <img className="lesson-scene" src={environment.resolveMedia(scene.url)} width={scene.width} height={scene.height} alt="" />
+    ) : null}
     {(lesson as typeof lesson & { explanation?: string }).explanation ? <p>{(lesson as typeof lesson & { explanation?: string }).explanation}</p> : null}
     {((lesson as typeof lesson & { examples?: {target:string;meaning:string}[] }).examples ?? []).map(example=>
      <p className="study-example" key={example.target}><span lang={pack.language}>{example.target}</span> — {example.meaning}</p>)}

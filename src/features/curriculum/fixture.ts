@@ -165,16 +165,16 @@ const VOCAB_BY_PATTERN: Record<string, VocabSet> = {
     target: 'key',
     items: [
       { id: 'hotel', imageUrl: '/images/vocab/hotel.jpg', alt: 'A hotel entrance', words: { fr: 'un hôtel', it: 'un hotel', es: 'un hotel', pt: 'um hotel' } },
-      { id: 'key', imageUrl: '/images/vocab/key.jpg', alt: 'A room key', words: { fr: 'une clé', it: 'una chiave', es: 'una llave', pt: 'uma chave' } },
-      { id: 'bed', imageUrl: '/images/vocab/bed.jpg', alt: 'A hotel bed', words: { fr: 'un lit', it: 'un letto', es: 'una cama', pt: 'uma cama' } },
-      { id: 'suitcase', imageUrl: '/images/vocab/suitcase.jpg', alt: 'A suitcase', words: { fr: 'une valise', it: 'una valigia', es: 'una maleta', pt: 'uma mala' } },
+      { id: 'key', imageUrl: '/images/vocab/key.jpg', alt: 'An old-fashioned room key with a blank tag', words: { fr: 'une clé', it: 'una chiave', es: 'una llave', pt: 'uma chave' } },
+      { id: 'bed', imageUrl: '/images/vocab/bed.jpg', alt: 'A made hotel bed with a folded towel', words: { fr: 'un lit', it: 'un letto', es: 'una cama', pt: 'uma cama' } },
+      { id: 'suitcase', imageUrl: '/images/vocab/suitcase.jpg', alt: 'A green suitcase beside a folded map', words: { fr: 'une valise', it: 'una valigia', es: 'una maleta', pt: 'uma mala' } },
     ],
   },
   'emergency-help': {
     target: 'ambulance',
     items: [
-      { id: 'ambulance', imageUrl: '/images/vocab/ambulance.jpg', alt: 'An ambulance', words: { fr: 'une ambulance', it: 'un’ambulanza', es: 'una ambulancia', pt: 'uma ambulância' } },
-      { id: 'police', imageUrl: '/images/vocab/police.jpg', alt: 'A police car', words: { fr: 'la police', it: 'la polizia', es: 'la policía', pt: 'a polícia' } },
+      { id: 'ambulance', imageUrl: '/images/vocab/ambulance.jpg', alt: 'An ambulance parked outside a building', words: { fr: 'une ambulance', it: 'un’ambulanza', es: 'una ambulancia', pt: 'uma ambulância' } },
+      { id: 'police', imageUrl: '/images/vocab/police.jpg', alt: 'A police car with its roof lights on', words: { fr: 'la police', it: 'la polizia', es: 'la policía', pt: 'a polícia' } },
       { id: 'phone', imageUrl: '/images/vocab/phone.jpg', alt: 'A mobile phone', words: { fr: 'un téléphone', it: 'un telefono', es: 'un teléfono', pt: 'um telefone' } },
       { id: 'hospital', imageUrl: '/images/vocab/hospital.jpg', alt: 'A hospital entrance', words: { fr: 'un hôpital', it: 'un ospedale', es: 'un hospital', pt: 'um hospital' } },
     ],

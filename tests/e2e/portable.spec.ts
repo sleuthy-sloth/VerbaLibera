@@ -105,3 +105,25 @@ test("warns and exports valid progress when IndexedDB is unavailable", async ({
   expect(saved.length).toBeGreaterThan(0);
   expect(saved.every((e) => e.packId === "it-foundations")).toBe(true);
 });
+
+test('the approved lesson scenes are embedded in the single file', async () => {
+  // The portable shell resolves media through `environment.resolveMedia`, which
+  // throws on an asset the file does not carry — so a scene the app can render has
+  // to be inside it. Read from the built artifact rather than re-derived from the
+  // source, which is the same rule the banner check follows.
+  const html = await readFile(artifact, "utf8");
+  for (const name of [
+    "ordering-coffee",
+    "asking-for-the-bill",
+    "hotel-checkin",
+    "directions",
+    "station-counter",
+  ]) {
+    expect(html, `/images/scenes/${name}.jpg is not embedded in the portable file`).toContain(
+      `/images/scenes/${name}.jpg`,
+    );
+  }
+  // Embedded, not linked: the audit already refuses an external media reference,
+  // and this names the folder so a future scene cannot be added as a path.
+  expect(html).not.toMatch(/<img[^>]*src="\/images\/scenes\//);
+});

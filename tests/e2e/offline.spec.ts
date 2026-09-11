@@ -118,3 +118,35 @@ test('the downloaded edition can listen to the audio lesson with the network off
   await expect(page.getByText(/(resume from|resumed at) 5:00/i)).toBeVisible();
   await context.setOffline(false);
 });
+
+test('a scene viewed online is cached, so the picture is there with no connection', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+  });
+  // The worker caches `/images/**` on fetch rather than installing the scenes with
+  // every visit, so this is the guarantee that matters: after a learner has seen the
+  // picture once, it is on the device.
+  await page.reload();
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  const scene = page.locator('img[src="/images/scenes/ordering-coffee.jpg"]');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+
+  const cached = await page.evaluate(() =>
+    caches.match('/images/scenes/ordering-coffee.jpg').then((hit) => !!hit),
+  );
+  expect(cached, 'the scene is not in the cache after being viewed').toBe(true);
+
+  // And it really is the cache answering: with the network off, the same URL still
+  // resolves to bytes.
+  await context.setOffline(true);
+  const offlineHit = await page.evaluate(() =>
+    caches.match('/images/scenes/ordering-coffee.jpg').then((hit) => !!hit),
+  );
+  expect(offlineHit, 'the scene disappeared from the cache when the network went off').toBe(true);
+});

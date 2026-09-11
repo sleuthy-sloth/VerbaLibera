@@ -1,21 +1,22 @@
-# Image provenance — picture-choice vocab (all 8 patterns)
+# Image provenance — picture-choice vocab and lesson scenes
 
-Twenty-two images live under `public/images/vocab/`.
+Twenty-two vocabulary pictures live under `public/images/vocab/`, and five lesson
+scenes under `public/images/scenes/`.
 
-**Eighteen are CC0 or public domain** (no attribution required) sourced from
-Wikimedia Commons. License verified per file page before download. Files were
-verified visually (each clearly depicts its word), resized to max 800px
-(`sips -Z 800`), and served from the app's own `public/` dir — no hotlinking. The
-SW caches `/images/**` like `/audio/**`.
+**Thirteen of the vocabulary pictures are CC0 or public domain** (no attribution
+required) sourced from Wikimedia Commons. License verified per file page before
+download. Files were verified visually (each clearly depicts its word), resized to
+max 800px (`sips -Z 800`), and served from the app's own `public/` dir — no
+hotlinking. The SW caches `/images/**` like `/audio/**`.
 
-**Four are the project's own artwork** — the approved illustrations recorded in the
-second table below.
+**Nine vocabulary pictures and all five lesson scenes are the project's own
+approved artwork**, supplied as files and normalised here — the two tables below.
 
 Rejected during visual review (not shipped): a train-interior shot mislabeled as a
 station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
 (ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
 
-## CC0 and public-domain photographs (18)
+## CC0 and public-domain photographs (13)
 
 | file | depicts | source | license | sha256 |
 | ---- | ------- | ------ | ------- | ------ |
@@ -31,35 +32,28 @@ station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital buildin
 | `card.jpg` | bank card in a payment terminal | `File:Card Payment (176811287).jpeg` | CC0 | `2db27853236640e8a69e0a661e9f3abb72264765d9f1e7590eaecc302b77733b` |
 | `wallet.jpg` | quilted purse held by a woman | `File:Checking Her Purse (Unsplash).jpg` | CC0 | `05dad81edc77f8a73a17b9b3bd9772f2f002cbffa28e28faa44b91c23b5d7b31` |
 | `hotel.jpg` | turquoise hotel building with palms | `File:Blue hotel building (Unsplash).jpg` | CC0 | `32289b712d4fe093f529c25f345cc40a57e6f53998cdfd57686cc3afef326016` |
-| `key.jpg` | key on a chain | `File:Engraved key on a branch (Unsplash).jpg` | CC0 | `a2f6d35a32674b7afd112369fb7de08cba8df266e0818650885169872a1ace91` |
-| `bed.jpg` | breakfast tray on a hotel bed | `File:Breakfast in bed (Unsplash).jpg` | CC0 | `f03e1a58a3dfbf012b2f995d19bf4f660437e9163f17aa12b476abacc4b7c5b9` |
-| `suitcase.jpg` | red suitcase in Tokyo station | `File:Suitcase in train station (Unsplash).jpg` | CC0 | `73000739e879220f0bf5682e1474680d441e7832831f1d82d45aba04d93995ce` |
-| `ambulance.jpg` | white ambulance van with red cross | `File:Ambulance in Saigon near district 4 hospital.jpg` | CC0 | `b3b93edc5bae6138929b9401418610c11db0ad9319549fe51ac88f0eb652757d` |
-| `police.jpg` | police cruiser with light bar | `File:White police car patrolling (Unsplash).jpg` | CC0 | `30ae5cc78d3c960495bee87329ce7eeed7e4c21174407fd86a00e453eb0c8213` |
 | `hospital.jpg` | hospital building with rooftop red cross | `File:Hakodate Red Cross Hospital.JPG` | Public domain | `4543ca1890a170e7291908a8a1c17d2c755e336791853e73557c36f2e7aaa990` |
 
 Source pages: `https://commons.wikimedia.org/wiki/<File:name>` for each
 title above. If a source file's license ever changes upstream, replace the
 image — the CC0 / public-domain status at time of download is recorded here.
 
-## The project's own illustrations (4)
+## The project's own illustrations
 
-Replaced the four café-and-money photographs with the approved flat illustrations —
-the same illustration system as the course banners, which answers the mismatch
-`docs/design/graphics-brief.md` §7 records ("they are currently photographs, which
-is the single biggest mismatch with the illustration system"). They arrived at
-1280×714 and were normalised to that section's generation contract, **16:9 at
-800×449**, with `sips --resampleHeightWidth 449 800` and then
-`scripts/brand/snap-ground.py` — the flat ground measured 7–16 units off the canvas
-cream before snapping and reads back exact afterwards, which is what stops each one
-showing a faint rectangle against the page.
+Nine of the vocabulary pictures were replaced with the approved flat
+illustrations — the same illustration system as the course banners, which answers
+the mismatch `docs/design/graphics-brief.md` §7 records ("they are currently
+photographs, which is the single biggest mismatch with the illustration system").
+They arrive at whatever size the art was supplied in and are normalised to that
+section's generation contract, **16:9 at 800×449**, with
+`sips --resampleHeightWidth 449 800`.
 
 They are project artwork: no third-party licence, no attribution, nothing to
-re-verify upstream. Each was checked against what it actually depicts (subject,
-ground, and no baked-in text — one supplied contact sheet in this set carries the
-word "BILL" on a receipt panel and was not used for that reason), and the alt text
-in `src/features/curriculum/fixture.ts` was corrected where the old photograph's
-wording no longer described the picture.
+re-verify upstream. Each was checked against what it actually depicts, and the alt
+text in `src/features/curriculum/fixture.ts` was corrected wherever the old
+photograph's wording no longer described the drawing — the drill's accessible name
+*is* that alt text, so a stale one announces the wrong picture rather than merely
+reading oddly.
 
 | file | depicts | alt text | dimensions | bytes | sha256 |
 | ---- | ------- | -------- | ---------- | ----- | ------ |
@@ -67,10 +61,81 @@ wording no longer described the picture.
 | `tea.jpg` | teapot and a cup of tea on a mat, with a leaf | A teapot and a cup of tea | 800×449 | 70,608 B | `1d07d4d43bc58b1c8c7943ba5630b503587c5bab9fce13f52f4c8e59f2288f2b` |
 | `coffee.jpg` | cup of coffee on a saucer with a spoon and a lidded sugar bowl | A cup of coffee on a saucer | 800×449 | 69,716 B | `bdf3db8c674afca57e2967ab0f4020296a5b77b63b1c30f1d78499d116c3fa98` |
 | `table.jpg` | round café table with two chairs, a cup and a folded napkin | A café table with two chairs | 800×449 | 75,844 B | `884631285eda7d9e9d44c25a8eeaab663f1f965f1b672ce07be64c011917e8b7` |
+| `key.jpg` | old-fashioned skeleton key with a blank tag, beside a green door and its lock | An old-fashioned room key with a blank tag | 800×449 | 85,847 B | `19e3e618dd08b3984b601ce9b890a2c25d204d52c68f76104484eb48ff8c155a` |
+| `bed.jpg` | single hotel bed with a folded towel, nightstand and lamp | A made hotel bed with a folded towel | 800×449 | 62,458 B | `f596bd00a3003791748033c604ce86941be6330239cdff48dd618a0e504e42de` |
+| `suitcase.jpg` | green hard-shell suitcase with a blank tag, beside a folded map and a belt | A green suitcase beside a folded map | 800×449 | 82,462 B | `0d53b4c1ea56702fc357c47f7c80902a753431a1a88789e93afa69af94510a05` |
+| `ambulance.jpg` | ambulance van with a red, white and blue roof light bar, parked outside a building | An ambulance parked outside a building | 800×449 | 95,653 B | `42c5b5db912700b9cbbb62fe8116d2fc723ca06dbbb0d741fb62eff5f50e3158` |
+| `police.jpg` | beige police sedan with a blue and red roof light, parked on a street | A police car with its roof lights on | 800×449 | 107,407 B | `c7bbf248974f6bd14c9aecac1e5fce24e14bb96d27aa7208b88d5071031e1d4d` |
 
-`tests/image-dimensions.test.ts` pins the 800×449 size of these four and the 800px
-ceiling for the folder; `tests/asset-provenance.test.ts` pins the four hashes above
-against the files on disk.
+### Snapping the ground, and the one file that must not be
+
+Snapping makes a flat cream field exactly the canvas colour, so the picture does
+not sit on the page as a faint rectangle. **Eight of the nine are snapped**: their
+most common colour is a cream ground 10–14 units off the canvas, and snapping
+remaps 28–71% of the frame to the exact value (the four earliest files came back
+exact from the previous batch, so they were untouched here).
+
+**`key.jpg` is deliberately not snapped.** The script's premise is that the most
+common colour in a file *is* its flat ground, and in this file it is drawn artwork
+instead — the olive door (`#7a8e6b`, 129 units from the canvas), because the door
+fills more of the frame than the surface the key lies on. Snapping would repaint
+that door cream. The same reasoning was applied to the `asking-for-the-bill` scene
+below, whose most common colour is the restaurant's tan wall (`#d9c394`, 82 units).
+Both decisions are recorded rather than automated: `scripts/brand/snap-ground.py
+--check` reports them as "off", which is correct and expected, and nothing in the
+tree runs that check as a gate.
+
+## The lesson scenes (5)
+
+Five approved situation pictures, one per situation the courses teach, under
+`public/images/scenes/` at **800×600** — the 4:3 frame they are drawn in, so the
+lesson surfaces render them with `height: auto` and never crop or stretch them.
+They map to situations in `src/features/course-pack/scenes.ts`, which is what
+decides *where* each one appears; this table is what they are.
+
+| file | situation | depicts | dimensions | bytes | sha256 |
+| ---- | --------- | ------- | ---------- | ----- | ------ |
+| `ordering-coffee.jpg` | ordering coffee | a customer at a café counter, espresso machine and grinder, a cup of coffee on the counter | 800×600 | 109,405 B | `74b87dd242f6861fbd5ca50c759fb31c763d0c8195cf9ccc43970aadc972dccf` |
+| `asking-for-the-bill.jpg` | asking for the bill | a guest at a restaurant table, hand raised to call the server, empty plate and a bill presenter | 800×600 | 108,541 B | `3315377e9605bc36998e071f728c997eb2ac1bdfbca3f7bcecc15412adf33c52` |
+| `hotel-checkin.jpg` | hotel check-in | a guest with a suitcase at a reception desk, receptionist behind the counter, register book, key and bell | 800×600 | 136,103 B | `15397060811e2df6048f8f73c4db1dfcf2cbeec622b767e90a3f809d65fd8c6e` |
+| `directions.jpg` | asking for directions | two people pointing at a large street map mounted on a wall, a table with an open map and a pen | 800×600 | 142,932 B | `f1f431423f7aed352cda9fa5c982c6a30e00248dd65babf7feb13b7a7baa1784` |
+| `station-counter.jpg` | buying a ticket at a counter | a clerk and a customer exchanging a ticket through a glass counter window, coin tray, wall clock | 800×600 | 178,759 B | `0bb740222cb58697ace5294a15b22e7ff1afa11d30bbf26cd5edfe0a25ad8247` |
+
+Four of the five were snapped to the canvas ground (their most common colour is a
+cream field 9–12 units off it, remapped on 17–47% of the frame);
+`asking-for-the-bill.jpg` was not, for the reason recorded above. Each was re-read
+for coherence after snapping — outlines, colour containment and shadows unchanged —
+and the check below was run against the final bytes rather than the supplied
+sources.
+
+### The lettering inside the artwork
+
+The supplied files were checked one by one for baked-in text, because instructional
+copy must not live in a picture and artwork lettering must never be duplicated into
+the UI:
+
+- **`hotel-checkin.jpg` carries one sign: `RECEPCIÓN`**, printed in Spanish on a
+  wall behind the reception desk. It is recorded here, as text, in this document —
+  which is the only place it appears. It is **not** rendered as copy, not used as a
+  label, not an alt text, and deliberately absent from every file under `src/`:
+  `tests/scenes.test.ts` greps for it and fails if it turns up anywhere in the app.
+  Worth knowing when reviewing the picture: that sign is Spanish while the courses
+  it will appear in are French, Italian, German, Spanish and Portuguese, so on a
+  French or Italian lesson the reception sign is not in the learner's language.
+  That is an art-direction question for whoever reviews the scene, not something
+  code can fix.
+- **Every other scene file contains no lettering at all**, including
+  `station-counter.jpg`, whose supplied description warned it might: the clock has
+  tick marks and no numerals, the counter sign is blank, and the document being
+  handed over is unmarked.
+- The nine vocabulary illustrations contain no lettering either: the key's tag, the
+  suitcase's luggage tag, the hotel registration book and the ambulance's side are
+  all blank, and no number plate is legible.
+
+The scenes are **decorative on the lesson surfaces** — every one renders with
+`alt=""`, because the lesson title, its objective and the session's `Scenario` line
+already say what the picture shows in words. Where a picture *is* the question (the
+vocabulary drills), the alt text is the accessible name and is recorded above.
 
 Re-verify hashes any time with:
-`shasum -a 256 public/images/vocab/*.jpg`
+`shasum -a 256 public/images/vocab/*.jpg public/images/scenes/*.jpg`

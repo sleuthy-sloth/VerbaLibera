@@ -230,3 +230,27 @@ test('desktop lesson keeps its context rail beside the content without overflow'
   await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeVisible();
   await assertNoHorizontalOverflow(page);
 });
+
+test('the situation picture shows for the pattern that has one, and nowhere else', async ({
+  page,
+}) => {
+  // The scene is keyed by the pattern's own authored `scenario`, so a pattern with
+  // a picture shows it and a pattern without one shows nothing at all — the lookup
+  // never falls back to a near-miss keyword.
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
+  const scene = page.locator('img[src="/images/scenes/ordering-coffee.jpg"]');
+  await expect(scene).toBeVisible();
+  // Decorative: the session names the scenario in words in its step context.
+  await expect(scene, 'the scene is decorative on this surface').toHaveAttribute('alt', '');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+  // The declared size is the file's own 4:3 frame, so nothing shifts or crops.
+  await expect(scene).toHaveAttribute('width', '800');
+  await expect(scene).toHaveAttribute('height', '600');
+  await assertNoHorizontalOverflow(page);
+
+  await page.goto('/learn/english-to-french?concept=fr-greet-politely');
+  await expect(page.getByRole('heading', { name: 'Practice one useful pattern.' })).toBeVisible();
+  await expect(page.locator('img[src^="/images/scenes/"]')).toHaveCount(0);
+});

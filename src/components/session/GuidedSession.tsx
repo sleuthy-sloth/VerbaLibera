@@ -11,6 +11,7 @@ import { ClozeBuilder } from '@/components/session/ClozeBuilder';
 import { TeachingNotes } from './TeachingNotes';
 import { Toast } from '@/components/ui/Toast';
 import { initialCourses } from '@/features/curriculum/fixture';
+import { sceneForScenario } from '@/features/course-pack/scenes';
 import { useReviewMutation } from '@/features/progress/use-review-mutation';
 import type { SessionStepKind } from '@/features/session/compose-session';
 import { resolveSessionContent } from '@/features/session/resolve-session-content';
@@ -200,6 +201,10 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
   };
 
   const learnedConceptId = sessionSteps.find(step => step.kind === 'NEW_PATTERN')?.contentId;
+  // The situation this session teaches, from the pattern's own authored label, and
+  // the approved picture for it when there is one. The travel patterns share their
+  // scenario wording across languages, so one lookup serves all four.
+  const scene = sceneForScenario(course.concepts.find(concept => concept.id === learnedConceptId)?.scenario ?? '');
   const nextConcept = course.concepts[course.concepts.findIndex(concept => concept.id === learnedConceptId) + 1];
   const showReviewActions = !isComplete && activeStep.kind !== 'NEW_PATTERN';
 
@@ -213,6 +218,18 @@ export function GuidedSession({ progress, courseSlug }: GuidedSessionProps) {
       <section className={styles.sessionIntro} aria-labelledby="session-heading">
         <p className={styles.eyebrow}>{course.title}</p>
         <h1 id="session-heading">Practice one useful pattern.</h1>
+        {scene ? (
+          /* The situation this pattern is for. Decorative: the scenario is named in
+             words in the step context below, and the alt text would only repeat it. */
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            className={styles.sessionScene}
+            src={scene.url}
+            width={scene.width}
+            height={scene.height}
+            alt=""
+          />
+        ) : null}
       </section>
 
       <div className={styles.sessionProgress} aria-live="polite">

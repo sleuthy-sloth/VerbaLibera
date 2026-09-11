@@ -188,6 +188,19 @@
   max-width: 560px;
   font-size: 21px;
 }
+/* Lesson-scene art: the approved picture for the situation a lesson teaches,
+   rendering only when the lesson's id maps to one (see `scenes.ts`). 800x600 is
+   the frame the supplied art was drawn in, so `height: auto` never crops it and
+   never stretches it. Decorative — the lesson title and objective say it in
+   words — which is why every surface passes `alt=""`. */
+.lesson-scene {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: 0.75rem 0 1.5rem;
+  border-radius: 12px;
+}
 .course-banner {
   width: 100%;
   max-width: 960px;
