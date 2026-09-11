@@ -55,6 +55,49 @@ describe("portable content collection", () => {
     expect(Object.keys(content.assets)).toHaveLength(
       mediaCount + Object.keys(content.packs).length,
     );
+    // No audio lessons by default: one track is ~5 MB and base64 adds a third,
+    // so embedding is a decision the builder makes, not a default it inherits.
+    expect(content.listen).toEqual([]);
+  });
+
+  it("embeds a course's audio lessons only when the build asks for them", () => {
+    const defaultContent = collectPortableContent(process.cwd());
+    const content = collectPortableContent(process.cwd(), { withListen: ["french"] });
+
+    expect(content.listen).toHaveLength(1);
+    const track = content.listen[0];
+    expect(track.courseSlug).toBe("french");
+    const embedded = content.assets[track.audioUrl];
+    expect(embedded).toBeDefined();
+    expect(embedded.sha256).toBe(track.sha256);
+    expect(embedded.mime).toBe("audio/mpeg");
+    // The embedded bytes are the file that ships, to the byte.
+    const measured = readFileSync(join(process.cwd(), "public", track.audioUrl.slice(1)));
+    expect(Buffer.from(embedded.base64, "base64").equals(measured)).toBe(true);
+    // And nothing else came along: the other four courses' tracks stay out.
+    expect(Object.keys(content.assets)).toHaveLength(
+      Object.keys(defaultContent.assets).length + 1,
+    );
+  });
+
+  it("the audio build is bigger by exactly the encoded track, and both artifacts still pass the audit", async () => {
+    const silent = await buildPortableHtml(process.cwd());
+    const withAudio = await buildPortableHtml(process.cwd(), { withListen: ["french"] });
+    const track = collectPortableContent(process.cwd(), { withListen: ["french"] }).listen[0];
+    // Base64 is 4 bytes per 3, so the artifact grows by about a third of the mp3.
+    const delta = Buffer.byteLength(withAudio) - Buffer.byteLength(silent);
+    expect(delta).toBeGreaterThan(track.bytes);
+    expect(delta).toBeLessThan(track.bytes * 1.4);
+    auditPortableHtml(withAudio);
+    auditPortableHtml(silent);
+    // The point of the choice: the default file does not carry the audio at all.
+    // Checked on the payload, not the digest — the catalog of measurements is
+    // bundled into both files (it is what lets Listen say what exists and what
+    // this file cannot play), but only the audio build carries the recording.
+    const measured = readFileSync(join(process.cwd(), "public", track.audioUrl.slice(1)));
+    const payload = measured.toString("base64").slice(0, 400);
+    expect(silent).not.toContain(payload);
+    expect(withAudio).toContain(payload);
   });
 
   it.each([

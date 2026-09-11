@@ -1,3 +1,7 @@
+/* Page chrome for the hosted /listen tab. The list, the player's container and
+ * the empty/unavailable states now live in
+ * `src/components/listen/listen-library.module.css`, shared with the offline and
+ * portable editions so the three cannot drift apart. */
 .page {
   max-width: 720px;
   margin: 0 auto;
@@ -20,13 +24,6 @@
   font-weight: 600;
   letter-spacing: -0.04em;
 }
-.lede {
-  max-width: 56ch;
-  margin: 0.9rem 0 1.25rem;
-  color: var(--muted-foreground, #6b5f4b);
-  font-size: 1.02rem;
-  line-height: 1.6;
-}
 .label {
   display: block;
   margin: 12px 0;
@@ -40,76 +37,4 @@
 .page :is(a, button, select):focus-visible {
   outline: 3px solid var(--focus-ring, var(--accent));
   outline-offset: 3px;
-}
-.list {
-  padding: 0;
-  list-style: none;
-}
-.list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  border: 1.5px solid var(--edge);
-  border-radius: 16px;
-  background: var(--stock);
-  box-shadow: var(--lift-sm);
-  transition: transform var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1)), box-shadow var(--motion-fast, 110ms) var(--ease-paper, cubic-bezier(0.2, 0.9, 0.3, 1));
-}
-.list li:hover,
-.list li:focus-within {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--lift, 4px 4px 0 var(--edge));
-}
-.list li button {
-  display: grid;
-  gap: 2px;
-  flex: 1;
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.itemTitle {
-  font-size: 1.02rem;
-  font-weight: 650;
-}
-.itemMeta {
-  font-size: 0.85rem;
-  color: var(--muted-foreground, #6b5f4b);
-}
-.itemState {
-  font-size: 0.85rem;
-  color: var(--muted-foreground, #6b5f4b);
-  white-space: nowrap;
-}
-.back {
-  min-height: 44px;
-  margin: 8px 0;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  border-radius: var(--radius-pill);
-  background: none;
-  color: var(--ink);
-  cursor: pointer;
-}
-.empty,
-.note {
-  max-width: 56ch;
-  color: var(--muted-foreground, #6b5f4b);
-  line-height: 1.6;
-}
-.note {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-.empty a {
-  color: var(--accent-strong);
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }

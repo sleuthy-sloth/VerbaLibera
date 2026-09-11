@@ -10,19 +10,25 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0 and 1A complete. Phase 2A complete — the French pack is migrated and verified. The
-graphics acceptance item is fixed.**
+**Phases 0, 1A, 1B, 2A and 3A-v1 are complete. Phase 3A's offline and portable entry points landed —
+Listen now exists in all three editions.** The remaining 3A items are the offline matrix (range
+requests, interrupted download, recovery after reconnect), WebKit's offline service-worker run, and
+the gate's physical-device pass, which is human work.
 
-Phase 1B (the short entry sequence) and Phase 3A (standalone offline Listen) are the next packages.
+The next packages, in the order they are written up below: **3B** (audio expansion, blocked on the
+human listening checklist), **2B** (the German/Portuguese/Spanish flip — its CEFR gate is now cleared,
+so it is mechanical work plus one decision about repairing French and Italian), the new **Listen
+player brief** (`docs/superpowers/briefs/listen-player-design.md`, which appeared in the tree mid-run),
+and **Phase 4**. Phase 7 stays behind its evidence gates.
 
 ## Phase status
 
 | Phase | State | Notes |
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
-| 1 — complete the first ten minutes | **1A complete, 1B not started** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short French/Italian entry sequence. The gate's observed five-user pilot is a human session and stays pending. |
-| 2 — consistent activities and progress | **2A complete** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. 2B content work is a separate package. |
-| 3 — listening and speaking everywhere | 3A next | Standalone offline Listen is the next engineering package; 3B audio expansion needs the human listening checklist |
+| 1 — complete the first ten minutes | **1A and 1B complete** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short first-win sequence for French and Italian, text-first and sound-optional, with resume and a concrete recap. The gate's observed five-user pilot is a human session and stays pending. |
+| 2 — consistent activities and progress | **2A complete; 2B's blocker cleared** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. The CEFR loss that blocked the remaining flips is fixed in the migration (`4bac558`). 2B content work is a separate package. |
+| 3 — listening and speaking everywhere | **3A substantially complete** | Position, resume and cold start (`2d00afd`); then the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions (`e34973a`). Remaining: the offline matrix's failure cases, WebKit service-worker coverage, and the device pass. 3B needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
 | 6 — verified releases | Not started | Physical-device QA and signing decisions are human tasks |
@@ -225,6 +231,179 @@ Known consequences, recorded not hidden (also in `docs/cefr-coverage.md`):
 - `<details>` reference browsing and the language switcher were verified at 320/390/430/844px with
   no horizontal overflow in `tests/e2e/course-packs.spec.ts`.
 
+### Phase 1B — the short first win (`9e69a44`)
+
+A beginner who picks French or Italian now spends one short sequence with the language before the
+course opens: hear the phrase, recognise it, build it, optionally say it, concrete recap. Four
+practice steps plus the recap, pinned by test so the sequence cannot quietly grow into a lesson.
+
+- **Content comes from the course.** `src/features/onboarding/first-win.ts` holds the two sequences,
+  the same shape as the authored placement sets and with the same capability predicate: French and
+  Italian have one, Spanish, Portuguese and German go straight to lesson 1 as before. Each sequence
+  uses its course's first-lesson words and the pack's existing model recording
+  (`fr-first-words-foundation-model.wav`, `it-first-words-foundation-model.wav`), so the welcome
+  cannot drift from the course, and adds **no new audio** — which matters, because new audio would
+  need a native-speaker pass of its own. Tests assert the reuse, the file sizes on disk, that the
+  recognition answer is a meaning the learner was just given, and that the build step leaves exactly
+  one distractor.
+- **Preparation, not a lesson.** `FirstWinFlow` takes no practice store, no environment, and imports
+  nothing from `course-pack`; a source assertion pins that. The e2e walks the whole sequence and
+  asserts `localStorage` still holds no practice/lesson key — before *and* after landing in the
+  lesson, because landing in a lesson is not practising it.
+- **Text-first and sound-optional.** Nothing autoplays, the clip is `preload="none"` and loads only
+  when pressed, a failed load degrades to a note with the transcript still on screen, no step touches
+  a microphone, and the say step is skippable. The muted-audio e2e case blocks the **service worker**
+  so aborting the audio route actually reaches the player — the PWA precaches pack audio and a
+  worker-served response is not a page-level route, which is why the first version of that test
+  passed against a clip that had loaded fine.
+- **The completion transition still happens once.** Choosing the beginner path writes
+  `welcome-in-progress` with `entryIntent: 'beginner'` and opens the sequence;
+  `completeOnboarding` runs on the recap's action. `onboardingResumeScreen` returns `first-win` only
+  where a sequence is authored, and Back drops the recorded path so a reload does not reopen it.
+- **The recap ends on three named actions** — start lesson 1, look around the course, run through it
+  again — and says in plain words that this was not lesson 1 and nothing here counts as finished.
+
+The pilot's other conditions are covered by test rather than by claim: 390px (the e2e runs the whole
+walk there and asserts no horizontal overflow), keyboard alone (tab order is asserted through the
+play control, the words and the action), reduced motion (no transforms anywhere in the module, plus
+the module's own `prefers-reduced-motion` block — the app-wide kill-switch in `globals.css` does not
+reach the portable bundle, so modules that can ship offline carry their own), muted audio and a
+broken recording (above), and no microphone (nothing asks for one). The **observed five-user pilot**
+remains a human session and is not claimed anywhere.
+
+### Phase 3A — standalone offline Listen, first slice (`2d00afd`)
+
+An eleven-minute track that forgets where you stopped is one you never finish.
+`src/features/listen/position.ts` now stores the position browser-locally, with the same rules as
+every other local record here (session mirror when storage is denied; never a claim of progress — a
+position is not listening, and listening is not mastery). Two rules keep the stored value honest:
+under `MIN_RESUME_SECONDS` it is a stray tap and is dropped; within `COMPLETE_WITHIN_SECONDS` of the
+end the track is finished, so it is cleared rather than resuming the learner into the last seconds of
+something they already heard.
+
+The player says where it will pick up before playing, seeks on metadata, offers "start over" as one
+tap, saves on pause / seek / a throttled `timeupdate` / `pagehide` (the usual way a long track ends),
+and drops a stored position that is past the end of the file — reachable when a track is re-encoded
+shorter. `tests/ListenPosition.test.tsx` (14 tests) pins the store and the player; the roadmap's
+cold-start case is now in `tests/e2e/listen.spec.ts`: play, really seek to 4:00, reload the page,
+pick the lesson again, find the place kept, then "start over" clears it for good.
+
+**Still open in 3A, and not implied to be done:** exposing Listen from the **portable** single-file
+edition needs the long tracks embedded in that bundle, and they are not in pack media yet — which is
+also the roadmap's size-reporting item ("include every advertised downloadable track in pack media
+and size reporting; allow learners to understand the storage cost"). Inlining five multi-megabyte
+tracks as base64 into one HTML file is a real design decision, not a mechanical edit, so it is
+deliberately not rushed here. The offline matrix (full cached responses, range requests, interrupted
+download, recovery after reconnect, WebKit) is untouched, and so is the gate's device pass.
+
+### Phase 3A, the rest — the audio is part of the download, and Listen is everywhere (`e34973a`, `0acc977`)
+
+The first slice made the player remember where it was. This one makes the audio reach the learner in
+the editions that are not the hosted app, and it starts with a measurement, because the roadmap's
+size-reporting item and the portable decision both depend on the number.
+
+**The tracks were invisible to every generated figure.** They live in
+`src/features/listen/generated/*.json` as `audioUrl` + `durationS` and as five mp3 files under
+`public/audio/*-foundations/`, and they are in **no** pack's `media` array — so `installPack` never
+cached them, the portable collector never embedded them, and the reports could not total them. They
+are also, by a wide margin, the largest thing a learner stores: **28.66 MB across five courses**
+(French 4,941,357 B, Italian 5,312,109 B, German 6,082,989 B, Spanish 6,182,445 B, Portuguese
+6,127,533 B).
+
+`scripts/content/listen.ts` now measures each one from the file that ships — bytes and sha256 — and
+`npm run content:build` writes `src/features/listen/catalog.json`. Every other `content:*` command
+re-derives it and refuses to run against a stale catalog, so a re-recorded, truncated or renamed
+track cannot keep quoting an old size or silently drop out of the download. The five generated
+reports carry the real per-course totals under a `listen` block with its own `basis` string, and the
+catalog is in the reproducibility test's `GENERATED` list, so it is held to the same byte-identical
+guarantee as `study.css`.
+
+**The download takes the audio with it.** `installPack` gained an `extras` parameter
+(`OfflineExtraAsset[]` — url plus digest) and verifies those digests exactly as it verifies pack
+media, discarding the whole cache on a mismatch. `OfflineDownload` passes
+`listenAssetsFor(language)` and tells the learner the cost **before** they press the button: "24
+lessons, practice, recorded audio and 4.9 MB of audio lessons". This is what closes the hole the
+first slice left: a learner who saved French for a flight had no audio lessons at all, because the
+only thing that had ever cached the track was playing it online first.
+
+**One Listen surface, three editions.** `src/components/listen/ListenLibrary.tsx` (list, states,
+player) and `ListenView.tsx` (loads the lesson titles through whatever reader the edition has and
+renders the library) were extracted from the hosted page, which now uses them too. Each edition
+supplies only what is genuinely different about it: the hosted tab fetches `/packs/<lang>.json`, the
+downloaded shell reads the same JSON out of the service-worker cache (`/study.html?view=listen`), and
+the portable file reads its own embedded pack. The paper-card rules moved with the list into
+`listen-library.module.css`; `tests/paper-motion.test.ts` follows them there rather than quietly
+dropping its coverage. The hosted page also stopped rendering a second "Listen" heading and a
+duplicate lede once the view carried them.
+
+Listen stays independent of lesson unlocks in all three editions — it is a separate way into the
+language, and a locked lesson must not lock its audio.
+
+**The portable file makes the size decision explicit.** One track is ~5-6 MB and base64 adds a
+third, so embedding all five would add ~37 MB to a file that is 16.4 MiB; that is a decision for
+whoever builds the artifact, not a default it inherits. `npm run portable:build -- --with-listen=french`
+(or `=all`) embeds the requested courses' audio (verified against the measured catalog) and writes
+`VerbaLibera-Portable-audio.html` — 22.7 MiB for French. Without the flag, the default file still
+lists every track and each row says "Not in this file — it was built without the audio lessons",
+because a player that fails silently is worse than saying so. Both artifacts pass `auditPortableHtml`.
+
+**Smaller things this needed:** both esbuild bundles (offline and portable) now declare the `@/`
+alias the shared components import through; `tests/e2e/portable-listen.spec.ts` drives the real
+`--with-listen` CLI rather than importing the builder, because Playwright's loader cannot import the
+JSON the builder reads; and `ListenView` is written to satisfy the repo's React Compiler lint rules
+structurally (results tagged with their course, the reader ref refreshed in its own effect) rather
+than with suppressions.
+
+**Proof, not just green tests.** The stale-catalog detector was shown to fail on three doctored
+inputs (a size that no longer matches, a digest that no longer matches, a catalogued track that is
+not on disk). The offline e2e test downloads French for real, asserts the track is in the installed
+pack cache **before** the network is switched off, then opens the downloaded edition with the network
+off, seeks to 5:00, reopens it, and finds the position kept. The portable e2e plays the embedded
+track from a `blob:` URL on Chromium **and** WebKit, and separately checks the honest state of the
+file built without audio.
+
+**Still open in 3A, and not implied to be done:** the offline matrix's failure cases (range requests,
+an interrupted download that resumes, recovery after reconnect), a WebKit run of the *service-worker*
+offline path (the WebKit coverage above is the portable file), and the gate's physical-device pass,
+which is human work. The 4.9-6.1 MB figure is also a download cost the learner is told about for the
+first time — a smaller-track option (a lower bitrate, or a shorter first track) is a content decision,
+not an engineering one.
+
+
+### Phase 2B's blocker, resolved: the migration now carries the CEFR tag (`4bac558`)
+
+The user's instruction was explicit — do not flip German, Portuguese or Spanish until the CEFR
+metadata loss is resolved deliberately. It is resolved now, in the place the loss happened.
+
+**What was lost and why it was invisible.** Every v1 lesson carries `cefr: "A1"` (the v1 schema
+requires it). The v2 lesson shape had no field for it, and `migratePackV1ToV2` builds its lessons from
+the *runtime* shape, which never carried the tag — so the French flip dropped 25 tags. Nothing failed.
+The packs validated, the parity and replay tests passed, and the only trace was `authoredCefrTags`
+going to zero for a v2 pack while the v1 packs kept theirs: a reporting gap that reads exactly like a
+pack that claims nothing.
+
+**The fix.** `lessonSchemaV2` gains an optional `cefr: z.literal("A1")`, and `migratePackV1ToV2`
+re-attaches the tag from the raw source by lesson id rather than from the runtime shape. Three
+deliberate properties:
+
+- **optional**, because a v2 pack authored without a level claim must stay quiet rather than acquire
+  one, and `tests/pack-migration-cefr.test.ts` asserts the untagged case reports `{}`;
+- **narrow**, because `A1` is the only level this project claims — a `B2` tag is rejected by the
+  schema, so the field is a claim that can be checked rather than a free-text label;
+- **sourced from the authored file**, so the migration cannot invent a tag it was not given.
+
+The test runs against the three packs still at v1 — German, Portuguese and Spanish — and writes no
+manifest, so the guarantee is proven on real content without touching a shipped pack. It includes a
+non-vacuity case: stripping the carry from the output reproduces the French failure exactly (tag
+count zero while the source has tags).
+
+**The design decision the user asked for, recorded rather than taken:** French and Italian were
+flipped before the field existed, so their committed manifests have no tags. Re-running
+`npx tsx scripts/migrate-pack-v1-v2.ts` on each language's v1 source would restore them — that is a
+data change to an already-shipped pack (with its own parity/replay re-verification), so it is left as
+an explicit choice. Flipping German, Portuguese and Spanish is now non-lossy, which was the gate.
+
+
 ### Graphics acceptance item — the German banner
 
 The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
@@ -288,13 +467,24 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run content:validate` (runs inside every `content:*` command; verifies every declared media hash) | exit 0, five packs |
 | `npm run content:build` ×3 before the fix | exit 0, `public/study.css` stable at 34142 bytes — masked accumulation, reproduced separately (22492 → 44879 → 67266 → 89653 bytes) |
 | `npm run content:build` ×2 after the fix | exit 0, byte-identical, pinned by test |
-| `npx vitest run` (after the French flip, `473b90d`) | **134 files passed, 1 skipped; 1011 passed, 6 skipped** |
+| `npx vitest run` (after 1B and the 3A slice, `2d00afd`) | **137 files passed, 1 skipped; 1061 passed, 6 skipped** |
+| `npx vitest run` (after the 3A entry points, `0acc977`) | **140 files passed, 1 skipped; 1081 passed, 6 skipped, 0 failed** (an intermediate run showed one red file, `content-build-reproducibility`, reporting the not-yet-committed regenerated bundles — see the note under the table) |
+| `npx vitest run` (after the CEFR carry, `4bac558`) | **141 files passed, 1 skipped; 1089 passed, 6 skipped, 0 failed** — the same reproducibility file was red until the regenerated `public/study.js` was committed with it |
+| `npx vitest run tests/pack-migration-cefr.test.ts` (alone) | **9 passed** — three v1 packs' tags carried, the untagged v2 case quiet, `B2` refused, and a non-vacuity case |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
-| `npm run lint` | exit 0 (0 errors, 27 pre-existing warnings) |
+| `npm run lint` | exit 0 (0 errors, 31 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
-| `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment) |
-| `npm run portable:build && npm run portable:verify` | exit 0, digest `c0197aa4730eec773a3e8a17affc61046b282ac92047aae79776eb1fcf02cc2e` |
-| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after the flip) | **70 passed, 3 skipped** — the 3 are the account specs that need `E2E_ACCOUNT_TEST` and a disposable Postgres. This is the first run in which `tests/e2e/portable.spec.ts` actually ran: it had been failing on `ERR_FILE_NOT_FOUND` because the portable artifact is built by `npm run portable:build`, a CI step the earlier local runs did not reproduce. |
+| `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment; unchanged this run — the voice service was not touched) |
+| `npm run portable:build && npm run portable:verify` | exit 0, 16.4 MiB, no audio lessons embedded by default; digest recorded by `portable:verify` as `dist/portable/VerbaLibera-Portable.html.sha256` |
+| `npx tsx scripts/portable/build.ts --with-listen=french` + `verify.ts` | exit 0, **22.7 MiB** (the French track, 4,941,357 B → 6,588,476 B of base64), audit clean |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1 tests/e2e/listen.spec.ts tests/e2e/offline.spec.ts` | **8 passed** — including "the downloaded edition can listen to the audio lesson with the network off" (download → cache asserted → offline → decode → seek → reopen → resume) |
+| `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium **and** WebKit): the audio file plays and resumes its Listen track, the default file states what it cannot play, and the two pre-existing portable cases still hold |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after 1B and 3A, previous run) | **74 passed, 3 skipped** — the 3 are the account specs that need `E2E_ACCOUNT_TEST` and a disposable Postgres. `tests/e2e/portable.spec.ts` ran for the first time here: it had been failing on `ERR_FILE_NOT_FOUND` because the portable artifact is built by `npm run portable:build`, a CI step the earlier local runs did not reproduce. |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/onboarding.spec.ts` (alone) | **13 passed** — the phase's own gate conditions (390px, keyboard, muted audio, resume) read worst-case when run on their own |
+
+`tests/content-build-reproducibility.test.ts` deliberately fails between a code change and the commit
+that carries its regenerated bundles: it compares the artifacts on disk against the index, which is
+what makes a hand-edited `study.js` impossible to slip through. It is green at `0acc977`.
 
 Earlier phases' runs (onboarding 10 passed, landing-page 8 passed) are in the Phase 0/1A sections
 above; the numbers in this table are the post-flip state and supersede them.
@@ -322,36 +512,89 @@ also skips the config's own `webServer`.
 | `8abc711` | Placement capability on the course library (same class as the Phase 1A bug) |
 | `64ba98a` | Graphics acceptance item — German's banner restored on both surfaces, with unit + e2e guards |
 | `473b90d` | **Phase 2A — French migrated to schemaVersion 2**, the shared think-first gate, retargeted legacy suites and e2e walks, the offline banner fix |
+| `02aa8d6` | Run record — the French flip, its evidence and its losses |
+| `9e69a44` | **Phase 1B — the short first-win sequence** for French and Italian, text-first and sound-optional, with resume and a concrete recap |
+| `2d00afd` | **Phase 3A slice 1 — Listen remembers where a long track was left**, and resumes there across a cold start |
+| `e34973a` | **Phase 3A — the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions** |
+| `0acc977` | ListenView rewritten to satisfy the React Compiler lint rules structurally; portable Listen spec drives the real CLI |
+| `0fb7889` | Run record — the Listen slice, its numbers and what is left |
+| `4bac558` | **The v1→v2 migration carries the authored CEFR tag** (Phase 2B's blocker, resolved in code with tests, without flipping a pack) |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
-1. **Phase 1B — the short entry sequence.** One genuinely short French and Italian opening
-   (hear/see → recognise → construct → optionally say → recap), text-first and silent equivalents,
-   a clear next action at the end. Then Spanish, Portuguese and German after usability checks.
-2. **Phase 3A — standalone offline Listen** from the downloaded and portable entry points,
-   independent of prerequisite unlocks, with persisted playback position and a cold-start/seek test.
-3. **Phase 3B — audio expansion** for German/Spanish/Portuguese. Blocked on the human listening
-   checklist; can be prepared but not closed here.
-4. **The remaining three packs' flip** (German, Portuguese, Spanish). Do not start it before
-   deciding the `cefr` question: each of those packs still carries per-lesson `cefr: "A1"` tags that
-   the v2 schema has no field for, so flipping them is lossy in the same way French just was.
-5. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
+1. **Phase 3A, the remainder.** (a) the offline matrix's failure cases in `tests/e2e/listen.spec.ts`
+   and `tests/service-worker.test.ts`: a range request (the SW already refuses to cache 206s — see
+   the comment in `public/sw.js`), an interrupted download that resumes, recovery after reconnect,
+   and a cold offline navigation straight to the Listen view; (b) the same offline walk on **WebKit**
+   (the WebKit coverage that exists is the portable file, not the service-worker path); (c) the gate's
+   physical-device pass, which is human work.
+2. **The Listen player brief** (`docs/superpowers/briefs/listen-player-design.md`, appeared in the
+   tree mid-run and is still untracked): a Warm Studio player card with 15-second back/forward,
+   playback speed, a transcript toggle and a visible download/offline state, preserving the position
+   and offline behaviour above. The player has the transcript and the save-audio link today; the
+   transport controls and the speed control are new work, and the brief asks for focused component
+   tests plus updated e2e coverage. This is the natural next slice — it is the same surface, and it
+   should land before any further Listen expansion.
+3. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+   language. Blocked on the human listening checklist; can be prepared but not closed here.
+4. **Phase 2B — the remaining packs' flip** (German, Portuguese, Spanish). **The `cefr` gate is
+   cleared** (`4bac558`): the migration carries the authored tag and three tests prove it against the
+   packs still at v1, so a flip is no longer lossy. What remains is the mechanical work the French
+   flip paid for (see the flip section below) — and one decision: whether to repair French's and
+   Italian's committed manifests by re-migrating them from their v1 sources.
+5. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
+6. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
    surfaces (landing, course library, lesson view, offline bundle); the brief's "commission new art"
    half is a design decision for the user, and the file is still untracked.
 
 ## Precise continuation instructions
 
-### To start Phase 1B (the short entry sequence)
+### To finish Phase 3A (standalone offline Listen)
 
-The 1A state machine supports it: add the short welcome as a screen between `choice` and
-completion, move `completeOnboarding()` to the end of that sequence, and extend
-`onboardingResumeScreen()` with the new screen. Do not claim the two-minute first phrase in copy
-until the sequence exists — the current copy deliberately does not. `tests/onboarding-state.test.ts`
-is the place the resume rules are pinned; extend it rather than adding a parallel suite.
+Landing status: the audio is installed with the download and Listen is reachable in the hosted,
+downloaded and portable editions, with position kept in all three. What is left is the failure side
+of the matrix and the device pass.
+
+1. Range requests. `public/sw.js` already refuses to cache a 206 (`response.status === 200` guard) —
+   assert it: play a track, seek, confirm a 206 came back and that nothing partial was stored in
+   `verbalibera-static-*`. A cached 206 is how a long track would come back truncated offline.
+2. Interrupted download. `installPack` deletes its own cache on any failure and only writes
+   `/__course_pack_ready__` last, so an interrupted install is invisible to the SW — prove it with an
+   aborted `fetch` (Playwright `route.abort()` mid-sequence) and then a successful retry.
+3. Recovery after reconnect, and a cold offline navigation straight to `/study.html?view=listen` with
+   the app never having been online since install.
+4. WebKit service-worker run: the portable config covers WebKit; the offline spec runs Chromium only.
+   Add a WebKit project for `offline.spec.ts` (the dev server must be started from this worktree, or
+   Playwright reuses the main tree's — see the e2e section below).
+5. The rest of the gate is a human device pass. Nothing in this repository can close it.
+
+### To extend Listen to another course or edition
+
+The catalog is the single source of sizes and digests: `src/features/listen/tracks.ts` lists the
+tracks, `scripts/content/listen.ts` measures the files, and `npm run content:build` writes
+`src/features/listen/catalog.json`. Add a track to `tracks.ts`, put the mp3 at the `audioUrl` it
+names, rebuild, and the Listen view, the download flow and the content reports pick it up with no
+further edits — `tests/listen-catalog.test.ts` fails if the catalog, the files and the app disagree.
+A new edition needs only a `readCourse` (how it reads a pack) and, when its audio is not at the plain
+URL, a `resolveAudioSrc`; everything else is shared.
+
+### To start Phase 1B for another language
+
+`src/features/onboarding/first-win.ts` is the only file to edit: add an entry keyed by course slug
+and it becomes available, because the flow asks `firstWinFor(slug)` rather than listing languages.
+Reuse the course's own first-lesson words and its existing model recording — new audio needs a
+native-speaker pass, which is why neither existing sequence records anything. `tests/first-win.test.ts`
+asserts the invariants for every authored sequence, so a new one is covered by adding it to
+`AUTHORED`.
 
 ### To flip the next pack (German, Portuguese, Spanish)
+
+The CEFR gate is cleared as of `4bac558` — the migration carries the authored tag, and
+`tests/pack-migration-cefr.test.ts` proves it on the packs still at v1. Re-run that test after a flip:
+it will then be asserting the *committed* v2 manifest carries the tags, which is the check that the
+French flip failed silently.
 
 The migration itself is mechanical — `npx tsx scripts/migrate-pack-v1-v2.ts
 courses/<language>/manifest.json`, then `npm run content:build`. What costs the time is the same
@@ -392,16 +635,47 @@ build.
   the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
   besides a direct URL. Adding it means changing the dashboard's course universe — a Phase 1B-scale
   change, not a Phase 1A fix.
-- **Found, not fixed:** the v2 course shell has no dialogue surface, and after the French flip no
-  shipped course reaches a dialogue through the UI at all (French and Italian keep their dialogues
-  in the pack; the smaller packs have none). `DialogueView` is still wired into the legacy shell, so
-  it renders for a v1 pack that has dialogues — of which there are none. Either the v2 shell grows a
-  dialogue view or the feature is retired deliberately; do not delete the data, the migration
-  preserves it.
-- **Found, not fixed:** `authoredCefrTags` is now empty for both v2 packs (Italian always, French
-  since the flip) while the three v1 packs still carry their tags. The metadata gap is reported
-  rather than hidden; closing it is either a schema field or a content edit, and it should be
-  decided before the next flip (see the flip section).
+- **Found, not fixed — the v2 dialogue gap, with the next plan.** After the French flip no shipped
+  course reaches a dialogue through the UI: `DialogueView` is rendered only by the legacy shell
+  (`CourseWorkspace.tsx:638`) and the v2 shell (`RuntimeCourseWorkspace.tsx`) has no dialogue surface,
+  so French's and Italian's dialogues sit in the pack unreachable. This is now answerable with the
+  same extraction that fixed Listen, and it needs no new content:
+  1. `src/features/course-pack/DialogueView.tsx` already takes `{dialogue, language}` and does the work;
+     what is missing is a way in. Add a **Dialogues** view to the v2 shell's navigation beside Course
+     and Listen, fed from `pack.dialogues` (the runtime pack carries them — `normalizePack` keeps the
+     array, which is why the migration preserved them).
+  2. Guard it on content, not on a flag: render the view when `pack.dialogues.length > 0` and say so
+     honestly when it is empty, the way Listen says a course has no recording yet.
+  3. Tests: a component test for the view's states, plus an e2e walk of one French dialogue (the pack
+     has two) reaching the choice graph and a `complete: true` node.
+  4. Then decide the opposite case deliberately — a v1 pack with no dialogues renders no such view,
+     which is the same "capability derived from data" rule the placement link and the banner list now
+     follow.
+  Deliberately not started in this run: it is a new surface (navigation, focus order, and a shell that
+  is generated into `public/study.js`), and the Listen player brief above sits on the same shell.
+- **Found, not fixed (app-wide layout):** on a ≤767px viewport the floating bottom tabs own the last
+  ~84px of the screen. `globals.css` reserves that space at the *end of the document*, which does not
+  stop a control that happens to land in that band mid-page from being partly covered: measured at
+  390×844, `elementFromPoint` at the centre of the first win's "Skip this step" button returned the
+  tab bar, so a centre-tap goes to the tabs. A human taps the visible part, and the tests scroll a
+  control to the viewport centre before tapping (`tests/e2e/helpers/first-win.ts`), but the band is
+  real for every screen and worth a proper fix — `scroll-padding-bottom` on the scrolling container,
+  or making the tab bar part of the layout instead of floating over it.
+- **Solved this run, kept for the record:** the long Listen tracks are no longer invisible — they are
+  measured into `src/features/listen/catalog.json`, cached by the download, embedded by the portable
+  build on request, and totalled in the content reports. The earlier note ("not in any pack's `media`
+  array, so the offline bundles and the size reporting cannot see them") no longer holds.
+- **`docs/superpowers/briefs/listen-player-design.md`** (untracked, appeared in the tree mid-run while
+  this run was working on the same surface) is **not implemented**. It asks for a Warm Studio player
+  card with 15-second back/forward, playback speed, a transcript toggle and a visible offline state,
+  preserving position and offline behaviour. The player already has the transcript, the save-audio
+  link and the resume state; the transport and speed controls are new work. The brief's own
+  constraints are sensible and it should be the next slice — it is written up as such in "Next tasks".
+- **Found and fixed this run:** `authoredCefrTags` is no longer empty for migrated packs — the v1→v2
+  migration carries the tag (`4bac558`). The three packs still at v1 will keep it when they flip.
+  The two packs already flipped (French, Italian) have no tags in their committed manifests; repairing
+  them means re-running their migration from the v1 source, which is a data change for the user to
+  decide, so it is recorded rather than done.
 - **Found and fixed in passing:** the course library's placement link was gated on `kind ===
   'foundations'`; German's two "no art" flags; the offline collector's hand-written banner list.
   All three are the same disease as the Phase 1A bugs — a capability encoded as a hand-maintained

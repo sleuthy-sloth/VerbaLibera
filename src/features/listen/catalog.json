@@ -1,0 +1,40 @@
+{
+  "basis": "authored long-form audio lessons; bytes and digests measured from the shipped files",
+  "entries": [
+    {
+      "lessonId": "de-introductions-foundation",
+      "courseSlug": "german",
+      "audioUrl": "/audio/german-foundations/de-introductions-foundation-listen.mp3",
+      "bytes": 6082989,
+      "sha256": "298b2798c8f54e57be7f3aee189709eddddeb24d5fe3ce7d0642cd713e624c35"
+    },
+    {
+      "lessonId": "es-introductions-foundation",
+      "courseSlug": "spanish",
+      "audioUrl": "/audio/spanish-foundations/es-introductions-foundation-listen.mp3",
+      "bytes": 6182445,
+      "sha256": "c5db1f107ac05632815f28e37386855f7ed07c90520ec94396aa1e1bfa3b9ef3"
+    },
+    {
+      "lessonId": "fr-identity-foundation",
+      "courseSlug": "french",
+      "audioUrl": "/audio/french-foundations/fr-identity-listen.mp3",
+      "bytes": 4941357,
+      "sha256": "1c7b7d298b54cf19c4ed10846936d5ae58e4972399631e875acc72bc95e5ae30"
+    },
+    {
+      "lessonId": "it-market-foundation",
+      "courseSlug": "italian",
+      "audioUrl": "/audio/italian-foundations/it-market-foundation-listen.mp3",
+      "bytes": 5312109,
+      "sha256": "c0c6bee6a13c875313bbdfd0469e8080c0dd8fef6a9fc76731f22cd79c026dd1"
+    },
+    {
+      "lessonId": "pt-introductions-foundation",
+      "courseSlug": "portuguese",
+      "audioUrl": "/audio/portuguese-foundations/pt-introductions-foundation-listen.mp3",
+      "bytes": 6127533,
+      "sha256": "ad4c9b84f799687388571c18a7b0676cb61007daeccc9b3e29c414d39a25eb0e"
+    }
+  ]
+}

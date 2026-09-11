@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { tap, walkFirstWin } from './helpers/first-win';
 
 /**
  * First-run flow.
@@ -27,7 +28,9 @@ test.describe('first run', () => {
     await expect(page.getByRole('button', { name: /Continue with your language/ })).toBeDisabled();
   });
 
-  test('a beginner picks Italian and lands in Italian foundations', async ({ page }) => {
+  test('a beginner picks Italian, gets the short first win, then lands in the course', async ({ page }) => {
+    // The 390px viewport the pilot targets, and a keyboard-only path through it.
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/dashboard', { waitUntil: 'load' });
     await page.getByRole('radio', { name: /Italian/ }).check();
     await page.getByRole('button', { name: /Continue with Italian/ }).click();
@@ -35,12 +38,54 @@ test.describe('first run', () => {
     await expect(page.getByRole('heading', { name: /Where should we start\?/ })).toBeVisible();
     await page.getByRole('button', { name: /Start from the beginning/ }).click();
 
+    await walkFirstWin(page, 'Italian');
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await tap(page, page.getByRole("button", { name: "Start lesson 1", exact: true }));
+
     await page.waitForURL(/\/courses\/italian\?start=1/);
     // `?start=1` opens the lesson in the lesson shell: one lesson, one way out.
     // It used to scroll a 3,000px course page and leave the learner below the
     // account panel with no sticky context.
     await expect(page.getByRole('button', { name: /Back to the course/ })).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Course path' })).toHaveCount(0);
+  });
+
+  test('the first win is preparation: it writes no practice at all', async ({ page }) => {
+    await page.goto('/dashboard', { waitUntil: 'load' });
+    await page.getByRole('radio', { name: /French/ }).check();
+    await page.getByRole('button', { name: /Continue with French/ }).click();
+    await page.getByRole('button', { name: /Start from the beginning/ }).click();
+    await walkFirstWin(page, 'French');
+    // The recap says so in words, and the storage agrees: the sequence is not a
+    // lesson, so no practice, attempt or completion is recorded for the course.
+    await expect(page.getByText('Step 5 of 5')).toBeVisible();
+    await expect(page.getByText(/nothing here counts as finished/i)).toBeVisible();
+    const keys = await page.evaluate(() => Object.keys(window.localStorage));
+    expect(keys.filter((key) => key.includes('practice') || key.includes('lesson'))).toEqual([]);
+    await tap(page, page.getByRole("button", { name: "Start lesson 1", exact: true }));
+    await page.waitForURL(/\/courses\/french\?start=1/);
+    // Still nothing: landing in the lesson is not practising it.
+    const after = await page.evaluate(() => Object.keys(window.localStorage));
+    expect(after.filter((key) => key.includes('practice') || key.includes('lesson'))).toEqual([]);
+  });
+
+  test('a first win left half-finished resumes where it stopped', async ({ page }) => {
+    await page.goto('/dashboard', { waitUntil: 'load' });
+    await page.getByRole('radio', { name: /Italian/ }).check();
+    await page.getByRole('button', { name: /Continue with Italian/ }).click();
+    await page.getByRole('button', { name: /Start from the beginning/ }).click();
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await expect(page.getByText('Step 2 of 5')).toBeVisible();
+
+    await page.reload({ waitUntil: 'load' });
+    // Not the language screen, and not completed either: the sequence reopens.
+    await expect(page.getByText('Step 1 of 5')).toBeVisible();
+    const stored = await page.evaluate(() =>
+      JSON.parse(window.localStorage.getItem('verbalibera_onboarding:v1') ?? 'null'),
+    );
+    expect(stored).toMatchObject({ status: 'welcome-in-progress', entryIntent: 'beginner' });
   });
 
   test('an experienced French learner reaches the authored placement quiz', async ({ page }) => {
@@ -101,11 +146,19 @@ test.describe('first run', () => {
     await expect(page.getByRole('heading', { name: /What would you like to speak first\?/ })).toHaveCount(0);
   });
 
-  test('the decision writes a completion record', async ({ page }) => {
+  test('the decision writes a completion record, and only once the first win ends', async ({ page }) => {
     await page.goto('/dashboard', { waitUntil: 'load' });
     await page.getByRole('radio', { name: /Italian/ }).check();
     await page.getByRole('button', { name: /Continue with Italian/ }).click();
     await page.getByRole('button', { name: /Start from the beginning/ }).click();
+    // Mid-sequence the record says "under way", not "finished".
+    const begun = await page.evaluate(() =>
+      JSON.parse(window.localStorage.getItem('verbalibera_onboarding:v1') ?? 'null'),
+    );
+    expect(begun).toMatchObject({ status: 'welcome-in-progress', entryIntent: 'beginner' });
+
+    await walkFirstWin(page, 'Italian');
+    await tap(page, page.getByRole("button", { name: "Start lesson 1", exact: true }));
     await page.waitForURL(/\/courses\/italian\?start=1/);
 
     const stored = await page.evaluate(() =>
@@ -145,5 +198,29 @@ test.describe('first run', () => {
       page.getByRole('heading', { name: /What would you like to speak first\?/ }),
     ).toBeVisible();
     await expect(page.getByText(/could not read a saved choice/i)).toBeVisible();
+  });
+});
+
+test.describe('first win with the sound off', () => {
+  // The pilot's muted-audio condition. The service worker is blocked so that
+  // aborting the audio route actually reaches the player: the PWA precaches pack
+  // audio, and a worker-served response is not a page-level route.
+  test.use({ serviceWorkers: 'block' });
+
+  test('carries a learner through a recording that cannot load', async ({ page }) => {
+    await page.route('**/audio/**', (route) => route.abort());
+    await page.goto('/dashboard', { waitUntil: 'load' });
+    await page.getByRole('radio', { name: /Italian/ }).check();
+    await page.getByRole('button', { name: /Continue with Italian/ }).click();
+    await page.getByRole('button', { name: /Start from the beginning/ }).click();
+
+    // Nothing autoplays, and the words are on screen as text from the start.
+    await expect(page.getByText('Ciao', { exact: true })).toBeVisible();
+    await page.getByText('Show the words').click();
+    await expect(page.getByText('Ciao, grazie.', { exact: true })).toBeVisible();
+    await tap(page, page.getByRole('button', { name: 'Play the recording', exact: true }));
+    await expect(page.getByText(/the sound did not load/i)).toBeVisible();
+    // And the sequence still finishes: a broken clip is not a broken lesson.
+    await walkFirstWin(page, 'Italian');
   });
 });

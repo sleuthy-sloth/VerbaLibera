@@ -11,6 +11,8 @@ import type { CoursePack } from "../../src/features/course-pack/schema";
 import { validateV2Pack } from "../../src/features/course-pack/schema-v2";
 import type { AuthoredV2Pack } from "../../src/features/course-pack/schema-v2";
 import catalog from "../../src/features/course-pack/catalog.json";
+import { listenCatalogEntries } from "../../src/features/listen/catalog";
+import type { ListenCatalogEntry } from "../../src/features/listen/catalog";
 
 export type EmbeddedAsset = {
   mime: string;
@@ -26,6 +28,22 @@ export type PortablePack = CoursePack | AuthoredV2Pack;
 export type PortableContent = {
   packs: Record<string, PortablePack>;
   assets: Record<string, EmbeddedAsset>;
+  /**
+   * The long-form Listen tracks embedded in this file, with the size of each.
+   *
+   * Empty unless the build asked for them (`--with-listen`): one track is about
+   * 5-6 MB, so embedding all five would add roughly 37 MB of base64 to a file
+   * that is already 17 MB — a decision for whoever builds the artifact, not a
+   * default. The Listen view tells the learner which tracks this file carries
+   * instead of rendering a player that cannot load.
+   */
+  listen: ListenCatalogEntry[];
+};
+
+/** Options a portable build can be asked for on the command line. */
+export type PortableBuildOptions = {
+  /** Course slugs whose long-form audio lessons to embed. */
+  withListen?: readonly string[];
 };
 
 /**
@@ -70,7 +88,10 @@ function embedAsset(root: string, assetPath: string): EmbeddedAsset {
   };
 }
 
-export function collectPortableContent(root: string): PortableContent {
+export function collectPortableContent(
+  root: string,
+  options: PortableBuildOptions = {},
+): PortableContent {
   const coursesRoot = join(root, "courses");
   const languages = readdirSync(coursesRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -115,8 +136,26 @@ export function collectPortableContent(root: string): PortableContent {
     }
   }
 
+  // Long-form audio, only for the courses the build asked for. Digests are
+  // checked against the measured catalog, so a swapped or truncated mp3 cannot
+  // ship silently inside a file the learner keeps forever.
+  const listen: ListenCatalogEntry[] = [];
+  for (const entry of listenCatalogEntries) {
+    if (!options.withListen?.includes(entry.courseSlug)) continue;
+    const embedded = embedAsset(root, entry.audioUrl);
+    if (embedded.sha256 !== entry.sha256) {
+      throw new Error(`Listen track digest mismatch: ${entry.audioUrl}`);
+    }
+    if (assets[entry.audioUrl]) {
+      throw new Error(`Duplicate asset path: ${entry.audioUrl}`);
+    }
+    assets[entry.audioUrl] = embedded;
+    listen.push(entry);
+  }
+
   return {
     packs: Object.fromEntries(Object.entries(packs).sort(([a], [b]) => a.localeCompare(b))),
     assets: Object.fromEntries(Object.entries(assets).sort(([a], [b]) => a.localeCompare(b))),
+    listen,
   };
 }

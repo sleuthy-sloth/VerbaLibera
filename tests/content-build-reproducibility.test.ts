@@ -33,6 +33,9 @@ const GENERATED = [
   "public/study.css",
   "public/study.html",
   "src/features/course-pack/catalog.json",
+  // The Listen catalog is generated too: measured from the shipped mp3s, and
+  // the file the download flow reads its digests from.
+  "src/features/listen/catalog.json",
   "public/packs/french.json",
   "public/packs/german.json",
   "public/packs/italian.json",

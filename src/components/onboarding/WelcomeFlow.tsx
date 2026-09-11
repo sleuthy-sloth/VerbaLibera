@@ -2,18 +2,20 @@
 
 import { useState } from 'react';
 import {
+  beginFirstWin,
   completeOnboarding,
   onboardingDestination,
   onboardingResumeScreen,
   saveOnboardingState,
   setSelectedCourse,
   type EntryIntent,
+  type OnboardingScreen,
   type OnboardingState,
 } from '@/features/onboarding/state';
+import { firstWinFor } from '@/features/onboarding/first-win';
 import { languagesFor } from '@/features/onboarding/languages';
+import { FirstWinFlow } from './FirstWinFlow';
 import styles from './welcome-flow.module.css';
-
-type Screen = 'language' | 'choice';
 
 export function WelcomeFlow({
   courses,
@@ -24,7 +26,8 @@ export function WelcomeFlow({
   courses: readonly { slug: string; title: string }[];
   /**
    * The stored onboarding record. A learner who chose a language and left
-   * resumes on the starting-point screen rather than being asked again.
+   * resumes on the screen they left — including inside the first-win sequence,
+   * which is why `entryIntent` is written before the sequence finishes.
    */
   initialState?: OnboardingState | null;
   /** Shown when the saved choice could not be read, so the re-ask is explained. */
@@ -36,12 +39,13 @@ export function WelcomeFlow({
     initialState && courses.some((course) => course.slug === initialState.courseSlug)
       ? initialState.courseSlug
       : null;
-  const [screen, setScreen] = useState<Screen>(
+  const [screen, setScreen] = useState<OnboardingScreen>(
     () => onboardingResumeScreen(initialState) ?? 'language',
   );
   const [selected, setSelected] = useState<string | null>(resumedSlug);
 
   const selectedLanguage = languages.find((entry) => entry.slug === selected);
+  const selectedFirstWin = selected ? firstWinFor(selected) : null;
 
   function chooseLanguage(slug: string) {
     // Selection is local until Continue: browsing languages must not rewrite
@@ -65,9 +69,41 @@ export function WelcomeFlow({
   function choose(intent: EntryIntent) {
     if (!selected) return;
     setSelectedCourse(selected);
+    // Beginners with an authored sequence get the short first win before
+    // anything is called finished; everyone else completes here, as before.
+    if (intent === 'beginner' && firstWinFor(selected)) {
+      beginFirstWin(selected);
+      setScreen('first-win');
+      return;
+    }
+    finish(intent);
+  }
+
+  function finish(intent: EntryIntent) {
+    if (!selected) return;
+    setSelectedCourse(selected);
     // The single completion transition. Nothing else writes 'completed'.
     const state = completeOnboarding(selected, intent);
     onComplete?.(onboardingDestination(state));
+  }
+
+  function backToChoice() {
+    if (!selected) return;
+    // Drop the recorded path so a reload resumes on the choice screen rather
+    // than reopening a sequence the learner just backed out of.
+    saveOnboardingState({ version: 1, courseSlug: selected, status: 'welcome-in-progress' });
+    setScreen('choice');
+  }
+
+  if (screen === 'first-win' && selectedFirstWin) {
+    return (
+      <div>
+        <button type="button" className={styles.backButton} onClick={backToChoice}>
+          <span aria-hidden="true">←</span> Back
+        </button>
+        <FirstWinFlow firstWin={selectedFirstWin} onFinish={finish} />
+      </div>
+    );
   }
 
   if (screen === 'choice' && selectedLanguage) {
@@ -82,7 +118,11 @@ export function WelcomeFlow({
           <button type="button" className={styles.choiceCard} onClick={() => choose('beginner')}>
             <span className={styles.choiceBadge}>Recommended</span>
             <h3>Start from the beginning</h3>
-            <p>Greetings and your first sentence, built one step at a time.</p>
+            <p>
+              {selectedFirstWin
+                ? 'One short sequence with your first phrase, then the course opens.'
+                : 'Greetings and your first sentence, built one step at a time.'}
+            </p>
           </button>
           {selectedLanguage.placement ? (
             <button type="button" className={styles.choiceCard} onClick={() => choose('placement')}>

@@ -69,6 +69,14 @@ The **Listen** tab carries audio-only Thinking Method tracks for walks and scree
 
 Tracks are built locally with Kokoro TTS and can be saved as MP3s. Provenance and review notes live in `docs/audio-provenance/`.
 
+**Where they play.** Listen is a first-class view in all three editions, not just the hosted tab:
+
+- the hosted tab, with the course picker at `/listen`;
+- the downloaded edition — save a language, go offline, open the saved entry, and pick **Listen** (`/study.html?view=listen`). The audio is part of the download: the tracks are measured into `src/features/listen/catalog.json` and cached with the pack, so they work on a plane without having been played online first. Both the course and the track need a connection once, and the download says what it costs (about 4.9-6.1 MB per course) before you press it;
+- the portable single file, which is built without the audio by default — one track is ~5 MB and base64 adds a third, more than everything else in the file. `npm run portable:build -- --with-listen=french` (or `=all`) embeds it, and a file built without it says so per track instead of rendering a player that cannot load.
+
+Listen is independent of lesson unlocks: it is a separate way into the language, and a lesson being locked must not lock its audio.
+
 ## The interface
 
 One warm system throughout: cream stock, a single terracotta accent, Fraunces for display and Instrument Sans for text. Depth is a hard offset shadow on flat shapes, never a blur. [DESIGN.md](DESIGN.md) documents the tokens and `tests/design-tokens.test.ts` holds every stylesheet to them.

@@ -28,7 +28,7 @@ it('keeps the import bound to its account',async()=>{
 
 it.each(['durable','temporary'] as const)('restores portable %s backups without a partial conflicting import', async mode => {
  const {createPortableEnvironment}=await import('@/features/course-pack/portable-environment');
- const environment=await createPortableEnvironment({packs:{},assets:{}},{indexedDB:mode==='durable'?new IDBFactory():undefined});
+ const environment=await createPortableEnvironment({packs:{},assets:{},listen:[]},{indexedDB:mode==='durable'?new IDBFactory():undefined});
  await environment.backup!.import(JSON.stringify(encodeBackup([],[attempt])));
  await expect(environment.backup!.import(JSON.stringify(encodeBackup([legacy],[{...attempt,response:{kind:'text',text:'conflict'}}])))).rejects.toThrow(/Conflicting/);
  expect(await environment.practice.read()).toEqual([]);

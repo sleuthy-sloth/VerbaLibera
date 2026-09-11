@@ -98,6 +98,11 @@
     "audioListening": "pending",
     "note": "Neither review has been performed. Audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
   },
+  "listen": {
+    "basis": "authored long-form audio lessons; bytes and digests measured from the shipped files",
+    "tracks": 1,
+    "bytes": 4941357
+  },
   "answerCoverage": "100%",
   "packBytes": 602317,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."

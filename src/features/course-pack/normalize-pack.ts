@@ -47,6 +47,17 @@ export function migratePackV1ToV2(raw: unknown): unknown {
   const rt = normalizePack(raw);
   if (rt.schemaVersion !== 1)
     throw new Error("migratePackV1ToV2 expects a schemaVersion 1 pack");
+  // The authored CEFR tag is the one v1 field the runtime shape does not carry
+  // at all, so re-attach it from the source rather than letting the migration
+  // drop it silently. Reading it from `raw` (not from the runtime lesson) keeps
+  // this honest: if the author wrote the tag, the migrated pack keeps it.
+  const cefrByLesson = new Map(
+    ((raw as { lessons?: Array<{ id?: string; cefr?: string }> }).lessons ?? [])
+      .filter((lesson): lesson is { id: string; cefr: string } =>
+        typeof lesson.id === "string" && typeof lesson.cefr === "string",
+      )
+      .map((lesson) => [lesson.id, lesson.cefr]),
+  );
   return {
     schemaVersion: 2,
     id: rt.id,
@@ -63,7 +74,10 @@ export function migratePackV1ToV2(raw: unknown): unknown {
     media: rt.media,
     stimuli: Object.values(rt.stimuli),
     activities: Object.values(rt.activities),
-    lessons: rt.lessons,
+    lessons: rt.lessons.map((lesson) => {
+      const cefr = cefrByLesson.get(lesson.id);
+      return cefr ? { ...lesson, cefr } : lesson;
+    }),
     dialogues: rt.dialogues,
   };
 }
