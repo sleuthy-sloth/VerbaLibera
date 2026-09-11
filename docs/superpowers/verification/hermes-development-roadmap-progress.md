@@ -635,12 +635,24 @@ build.
   the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
   besides a direct URL. Adding it means changing the dashboard's course universe — a Phase 1B-scale
   change, not a Phase 1A fix.
-- **Found, not fixed:** the v2 course shell has no dialogue surface, and after the French flip no
-  shipped course reaches a dialogue through the UI at all (French and Italian keep their dialogues
-  in the pack; the smaller packs have none). `DialogueView` is still wired into the legacy shell, so
-  it renders for a v1 pack that has dialogues — of which there are none. Either the v2 shell grows a
-  dialogue view or the feature is retired deliberately; do not delete the data, the migration
-  preserves it.
+- **Found, not fixed — the v2 dialogue gap, with the next plan.** After the French flip no shipped
+  course reaches a dialogue through the UI: `DialogueView` is rendered only by the legacy shell
+  (`CourseWorkspace.tsx:638`) and the v2 shell (`RuntimeCourseWorkspace.tsx`) has no dialogue surface,
+  so French's and Italian's dialogues sit in the pack unreachable. This is now answerable with the
+  same extraction that fixed Listen, and it needs no new content:
+  1. `src/features/course-pack/DialogueView.tsx` already takes `{dialogue, language}` and does the work;
+     what is missing is a way in. Add a **Dialogues** view to the v2 shell's navigation beside Course
+     and Listen, fed from `pack.dialogues` (the runtime pack carries them — `normalizePack` keeps the
+     array, which is why the migration preserved them).
+  2. Guard it on content, not on a flag: render the view when `pack.dialogues.length > 0` and say so
+     honestly when it is empty, the way Listen says a course has no recording yet.
+  3. Tests: a component test for the view's states, plus an e2e walk of one French dialogue (the pack
+     has two) reaching the choice graph and a `complete: true` node.
+  4. Then decide the opposite case deliberately — a v1 pack with no dialogues renders no such view,
+     which is the same "capability derived from data" rule the placement link and the banner list now
+     follow.
+  Deliberately not started in this run: it is a new surface (navigation, focus order, and a shell that
+  is generated into `public/study.js`), and the Listen player brief above sits on the same shell.
 - **Found, not fixed (app-wide layout):** on a ≤767px viewport the floating bottom tabs own the last
   ~84px of the screen. `globals.css` reserves that space at the *end of the document*, which does not
   stop a control that happens to land in that band mid-page from being partly covered: measured at
