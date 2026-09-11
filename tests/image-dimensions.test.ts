@@ -1,0 +1,131 @@
+// @vitest-environment node
+
+import { execFileSync } from "node:child_process";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative } from "node:path";
+import { describe, expect, it } from "vitest";
+
+import { imageDimensions } from "./helpers/image-size";
+
+/**
+ * Declared image dimensions, and what is actually in `public/brand`.
+ *
+ * Two leftovers from `docs/design/graphics-brief.md`, both about graphics that
+ * are wired but wrong rather than missing.
+ *
+ * **Declared dimensions.** `next/image` reserves layout space from the declared
+ * `width`/`height`, so a declaration whose aspect ratio does not match the file
+ * makes the page shift when the picture arrives. The brief recorded two —
+ * `hero-banner.jpg` declared 1536x1024 (4:3) for a 1584x672 (2.36:1) file, and
+ * `empty-journal.jpg` declared 1024x683 for a 1024x1024 one. Both were corrected
+ * before the brief was re-read; this is the guard that keeps the class fixed. A
+ * display size may legitimately be smaller than the file (a 1024px mark shown at
+ * 32px), so the assertion is on the ratio, not the pixels.
+ *
+ * **`public/brand` is the shipped brand system.** It carried a 976KB icon source
+ * from a different project (`voxlibre-app-icon-source.png`) that nothing but the
+ * brief referenced. Every file there must now be referenced by the app, so a
+ * stray from another project fails by name.
+ */
+
+const ROOT = process.cwd();
+
+const sourceFiles = (): string[] =>
+  execFileSync(
+    "grep",
+    ["-rl", "--include=*.tsx", "--include=*.ts", "-E", "src=[\"']/", "src"],
+    { encoding: "utf8" },
+  )
+    .trim()
+    .split("\n")
+    .filter(Boolean);
+
+/** Each `<Image … />` / `<img … />` element as a string, tags only. */
+function imageElements(source: string): string[] {
+  return [...source.matchAll(/<(?:Image|img)\b[\s\S]*?(?:\/>|>)/g)].map((match) => match[0]);
+}
+
+const attribute = (element: string, name: string): string | null =>
+  element.match(new RegExp(`${name}=(?:["']([^"']+)["']|\\{([^}]+)\\})`))?.slice(1).find(Boolean) ??
+  null;
+
+type Declared = { file: string; url: string; declared: [number, number]; actual: [number, number] };
+
+function declarations(): { declared: Declared[]; unresolvable: string[] } {
+  const found: Declared[] = [];
+  const unresolvable: string[] = [];
+  for (const path of sourceFiles()) {
+    const source = readFileSync(path, "utf8");
+    for (const element of imageElements(source)) {
+      const src = attribute(element, "src");
+      const width = attribute(element, "width");
+      const height = attribute(element, "height");
+      if (!src?.startsWith("/") || !width || !height) continue;
+      const onDisk = join(ROOT, "public", src.replace(/^\//, ""));
+      const size = imageDimensions(onDisk);
+      if (!size) {
+        unresolvable.push(`${relative(ROOT, path)}: ${src}`);
+        continue;
+      }
+      found.push({
+        file: relative(ROOT, path),
+        url: src,
+        declared: [Number(width), Number(height)],
+        actual: [size.width, size.height],
+      });
+    }
+  }
+  return { declared: found, unresolvable };
+}
+
+describe("images next/image reserves space for", () => {
+  it("declares the file's own aspect ratio, so nothing shifts on load", () => {
+    const { declared, unresolvable } = declarations();
+    // Guard against the scrape silently finding nothing to check.
+    expect(declared.length, "no declared image dimensions were found").toBeGreaterThanOrEqual(5);
+    expect(unresolvable, "a declared image is missing or in a format we cannot read").toEqual([]);
+
+    for (const item of declared) {
+      const [dw, dh] = item.declared;
+      const [aw, ah] = item.actual;
+      expect(
+        Math.abs(dw / dh - aw / ah),
+        `${item.file}: ${item.url} is declared ${dw}x${dh} (${(dw / dh).toFixed(2)}:1) but the file is ${aw}x${ah} (${(aw / ah).toFixed(2)}:1), which shifts the layout when it loads`,
+      ).toBeLessThan(0.01);
+    }
+  });
+
+  it("would fail on the mismatch the brief recorded", () => {
+    // Non-vacuity: the exact pair the brief listed, checked the way the test above
+    // checks it. `hero-banner.jpg` is 1584x672; 1536x1024 was the declaration.
+    const actual = imageDimensions(join(ROOT, "public/brand/hero-banner.jpg"))!;
+    expect([actual.width, actual.height]).toEqual([1584, 672]);
+    expect(Math.abs(1536 / 1024 - actual.width / actual.height)).toBeGreaterThan(0.01);
+  });
+
+  it("keeps public/brand to files the app actually ships", () => {
+    const referenced: string[] = execFileSync(
+      "grep",
+      ["-rl", "--include=*.ts", "--include=*.tsx", "--include=*.css", "--include=*.json", "brand/", "src", "public", "scripts"],
+      { encoding: "utf8" },
+    )
+      .trim()
+      .split("\n")
+      .filter(Boolean);
+    const haystack = referenced.map((path) => readFileSync(path, "utf8")).join("\n");
+
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+        entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)],
+      );
+
+    const strays = walk(join(ROOT, "public/brand")).filter((path) => {
+      const name = path.slice(path.indexOf("public/brand/") + "public/brand/".length);
+      return !haystack.includes(name);
+    });
+    expect(
+      strays.map((path) => `${relative(ROOT, path)} (${Math.round(statSync(path).size / 1024)}KB)`),
+      "a file in public/brand is not referenced by the app",
+    ).toEqual([]);
+  });
+});

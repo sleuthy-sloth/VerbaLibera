@@ -419,10 +419,50 @@ Flat solid #fbf4e6 background, edge to edge, no border, no text, no lettering.
 4:1 aspect ratio (very wide, 2064x512), 2K output.
 ```
 
-## 7. Vocabulary images (32 files, `public/images/vocab/*.jpg`)
+### The narrow-viewport crop (shipped)
 
-These are already complete — 32 expected, 32 present, no orphans — at 800×449 in
-the *travel and ordering* set (ambulance, passport, hotel, bill, policeman…).
+The re-frame above left the German scene centred with 22% cream either side, which
+is exactly the composition that made it unreadable on a phone: the whole 4.03:1
+frame rendered at the width of a 320px screen is an ~85px strip, and inside it the
+drawing takes up just over half the width.
+
+Below 768px the course banner now crops to a window measured from the artwork
+rather than chosen:
+
+```bash
+python3 scripts/brand/banner-crops.py            # writes src/features/course-pack/banner-crops.json
+python3 scripts/brand/banner-crops.py --check     # exit 1 when the numbers drift
+```
+
+The window is the drawing's bounding box plus 6% breathing room, anchored on the
+drawing's own horizontal centre, expressed as the two numbers CSS needs
+(`--banner-crop` for the aspect ratio, `--banner-focus` for `object-position`).
+Measured on the shipped set: German 2.39 (art 56% wide, focus 50%), Portuguese
+2.89, Spanish 3.24, French 3.38, Italian 3.44 — the last four have their art
+against the right edge, so their focus is 100%. At 320px that renders German
+117px tall instead of 69px, with the drawing 1.69x larger and nothing cut.
+
+**What this asks of new banner art.** The crop can only ever remove empty ground,
+so keep the drawing inside the frame — roughly 90% of the width, centred — and put
+nothing meaningful in the outer margins. Art that bleeds off the edge (the four
+friezes) is still fine: the window is measured from the drawing itself, so a
+wider composition simply keeps a wider window. What is *not* fine is a composition
+whose meaning depends on the full 4:1 frame, because a phone will not show it
+whole.
+
+**Still a human decision.** The crop makes German's vignette readable on a phone;
+it does not make it match the four friezes. That still needs the regenerated wide
+art described above, and choosing between "readable vignette" and "regenerate to
+match the set" is art direction, not engineering.
+
+## 7. Vocabulary images (22 files, `public/images/vocab/*.jpg`)
+
+These are already complete — 22 referenced, 22 present, no orphans and none
+missing (re-measured: the 32 in an earlier draft of this brief was wrong) — at
+roughly 800×450 in the *travel and ordering* set (ambulance, passport, hotel,
+bill, policeman…). `tests/curriculum-fixture.test.ts` pins the alt text and the
+`/images/vocab/` prefix; `tests/image-dimensions.test.ts` now pins declared
+dimensions and the `public/brand` inventory.
 **You only need to regenerate them if you want them on-palette**, because they are
 currently photographs, which is the single biggest mismatch with the illustration
 system. If you do, the template is:
@@ -484,10 +524,15 @@ npx vitest run tests/service-worker.test.ts   # pins the precache asset list
 npm run a11y:audit                            # images must keep their alt text
 ```
 
-## Wiring the German banner
+## Wiring the German banner — done, and moved
 
-The asset now exists, but `src/features/course-pack/CourseWorkspace.tsx` resolves
-the in-lesson banner from a hardcoded map, not from the slug:
+The asset exists and every surface renders it. The map this section is about no
+longer lives in `CourseWorkspace.tsx`: it is `src/features/course-pack/banners.ts`,
+shared by both course shells, and it includes `german`. The v2 shell rendered no
+banner at all until that move, so French, Italian and German had no artwork on
+their own course page while the library kept showing the same file —
+`tests/course-banners.test.ts` now asserts both shells render what they resolve.
+The history, for reference:
 
 ```ts
 const BANNER_BY_LANGUAGE: Record<string, string> = {
@@ -499,28 +544,33 @@ const BANNER_BY_LANGUAGE: Record<string, string> = {
 ```
 
 `/courses/german` and the landing showcase both build the path from the slug, so
-they pick the new file up automatically — but the lesson view silently renders no
-banner (line 389 returns `null` for an unknown language). One line:
+they picked the new file up automatically, while the lesson view silently rendered
+no banner (the consumer returned `null` for an unknown language).
 
-```ts
-  german: "/brand/courses/german.jpg",
-```
-
-## Fix the declared image dimensions while you are in here
+## Declared image dimensions — fixed, and now guarded
 
 Next reserves layout space from the declared `width`/`height`, so a wrong pair
-causes a visible shift when the real image loads:
+causes a visible shift when the real image loads. Both pairs this section listed
+were corrected before this was re-read:
 
-| File | Declared in code | Actual on disk |
-|---|---|---|
-| `hero-banner.jpg` | 1536×1024 (`DailyPathDashboard.tsx:189`) | 1584×672 |
-| `empty-journal.jpg` | 1024×683 (`FirstRunOnboarding.tsx:12`) | 1024×1024 |
+| File | Was declared | Actual on disk | Now |
+|---|---|---|---|
+| `hero-banner.jpg` | 1536×1024 (`DailyPathDashboard.tsx:189`) | 1584×672 | 1584×672 |
+| `empty-journal.jpg` | 1024×683 (`FirstRunOnboarding.tsx:12`) | 1024×1024 | 1024×1024 |
 
-Both are decoration, so the mismatch is currently costing a layout shift for no
-benefit. Correct them when you swap the artwork in.
+`tests/image-dimensions.test.ts` parses every `<Image>`/`<img>` element in
+`src/`, reads the file's real header (PNG IHDR / JPEG SOF, no dependency), and
+fails when the declared ratio differs from the file's by more than 1% — a display
+size smaller than the file is fine (a 1024px mark shown at 32px), a different
+*shape* is not. It carries the `1536×1024` pair as its non-vacuity case.
 
-## Housekeeping, not generation
+## Housekeeping, not generation — done
 
-`public/brand/voxlibre-app-icon-source.png` is a 1MB file from a different
-project sitting in VerbaLibera's brand directory. Delete it or move it — it is
-not part of this system.
+`public/brand/voxlibre-app-icon-source.png` (999,158 bytes, sha256
+`e59b88313a3f5245f6ac446afc7eba4fed7481f4046e697663af392782567e9f`, added
+`5d8ff79` "add Signal Pop PWA visuals") was a file from a different project sitting
+in VerbaLibera's brand directory, referenced by nothing but this brief. Removed;
+recover it with `git show 5d8ff79:public/brand/voxlibre-app-icon-source.png` if
+VoxLibre needs it. `tests/image-dimensions.test.ts` now asserts every file in
+`public/brand` is referenced by the app, so the next stray fails by name instead
+of sitting there for a year.
