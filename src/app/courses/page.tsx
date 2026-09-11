@@ -50,7 +50,7 @@ const COURSES: CourseCard[] = [
     href: '/courses/german',
     kind: 'first-words',
     blurb: 'Greetings and the words German shares with English. A first-words opening; more units are being authored.',
-    alt: '',
+    alt: 'A half-timbered German street with a fountain',
   },
   {
     slug: 'spanish',
