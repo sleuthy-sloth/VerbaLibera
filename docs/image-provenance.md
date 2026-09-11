@@ -3,26 +3,28 @@
 Twenty-two vocabulary pictures live under `public/images/vocab/`, and five lesson
 scenes under `public/images/scenes/`.
 
-**Twelve of the vocabulary pictures are CC0 or public domain** (no attribution
+**Ten of the vocabulary pictures are CC0 or public domain** (no attribution
 required) sourced from Wikimedia Commons. License verified per file page before
 download. Files were verified visually (each clearly depicts its word), resized to
 max 800px (`sips -Z 800`), and served from the app's own `public/` dir — no
 hotlinking. The SW caches `/images/**` like `/audio/**`.
 
-**Ten vocabulary pictures and all six lesson scenes are the project's own approved
+**Twelve vocabulary pictures and all six lesson scenes are the project's own approved
 artwork**, supplied as files and normalised here — the tables below.
 
 Rejected during visual review (not shipped): a train-interior shot mislabeled as a
 station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
-(ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross, which in
-turn has since been replaced by the approved illustration recorded below).
+(ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
 
-## CC0 and public-domain photographs (12)
+Three of those photographs have since been replaced outright by the project's own
+artwork: the Hakodate hospital building, the Wikimedia receipt photo (`File:HK SYP … bill
+receipt January 2026 N13P 02.jpg`) and the Unsplash street vendor (`File:Elderly street
+vendor (Unsplash).jpg`), the last two recorded in the illustrations table below.
+
+## CC0 and public-domain photographs (10)
 
 | file | depicts | source | license | sha256 |
 | ---- | ------- | ------ | ------- | ------ |
-| `bill.jpg` | itemized restaurant receipt with total | `File:HK SYP … bill receipt January 2026 N13P 02.jpg` | CC0 | `18cb31c12fa0ff5d4f917ecb5c5183c237807a4156457ea95a56c2c392eb9db1` |
-| `shopkeeper.jpg` | market vendor at his stall with goods | `File:Elderly street vendor (Unsplash).jpg` | CC0 | `cc6a1b0540783cb5310b16df1ef809950615f483e3edbe35ba066a510f37f1a2` |
 | `door.jpg` | wooden door close-up with handles | `File:Wooden door (Unsplash).jpg` | CC0 | `538f36b2bfe8aeaab5ee5e7bd40f608294373755febd6112c99611d7cbea53af` |
 | `station.jpg` | Taipei Station hall with station signage | `File:Taipei Railway station interior (Unsplash).jpg` | CC0 | `df6a6a0a66e43ec2c89f0870a3941a67fc0ed0ef162a936f68fc2394da0d2de6` |
 | `museum.jpg` | grand museum palace building | `File:AfricaMuseum in Tervuren (Belgium).jpg` | CC0 | `6a41c020f22d3c7021417e1b7a8ff6a05324f438eed4f2bf8b432c517c03064b` |
@@ -38,28 +40,39 @@ Source pages: `https://commons.wikimedia.org/wiki/<File:name>` for each
 title above. If a source file's license ever changes upstream, replace the
 image — the CC0 / public-domain status at time of download is recorded here.
 
-### The two pictures still waiting for standalone artwork
+### The last two pictures, and why the six-panel sheet was never the source
 
-`bill.jpg` and `shopkeeper.jpg` are still the CC0 photographs recorded above, and they
-are the only two drill pictures left in the felt-tip illustration set's debt. The
-approved six-panel reference contains both subjects — a receipt panel and a market
-stall — but it is a **collage**, and the receipt panel has the word "BILL" drawn into
-the artwork, which is why it can neither ship as a picture nor be cut up into one:
-instructional copy must not live inside an image, and the repo's rule is that artwork
-lettering never becomes UI (see the hotel sign below).
+`bill.jpg` and `shopkeeper.jpg` were the final two drill pictures still showing
+photographs, and they were **waiting for these standalone files**: the approved six-panel
+reference contains both subjects, but it is a **collage** and its receipt panel has the
+word "BILL" drawn into the artwork, so it could neither ship as a picture nor be cut up
+into one — instructional copy must not live inside an image, and the repo's rule is that
+artwork lettering never becomes UI (the same rule that keeps the hotel scene's reception
+sign out of `src/`). No standalone file existed on this machine at the time: every
+attachment folder delivered then was accounted for, `~/Downloads` held only brand
+references, and the repo carried no source art. Supplying two standalone files is what
+unblocked them, and that is the whole fix — neither was ever going to come out of the
+sheet.
 
-Standalone sources were looked for and do not exist in this project's filesystem:
-every attachment folder delivered so far has been accounted for (the ten-file batch
-supplied with the hospital picture turned out to hold ten other subjects — a shop door,
-two building entrances, a street of facades, a map spread out with a compass, a desk with
-a phone and a coiled cable, a desk with a clipboard and a blank badge, a card payment
-terminal with blank receipt paper, a wallet with cards and coins, and a hotel entrance
-with a luggage cart — and none of them a receipt or a market stall), `~/Downloads` holds
-only the brand references, and the repo carries no source art. **Both pictures therefore stay as they are**, and what they
-need is two standalone files, supplied at any size like the rest of the set, after which
-they take the same four steps as every other replacement: resize to 800×449, snap the
-ground if the file's most common colour really is one, check the alt text against what
-is drawn, and extend the tables here.
+Both arrived at 1280×714 and took the standard pass:
+
+- **`bill.jpg`** shows an open dark leather bill folder with a **blank** sheet of paper, a
+  pencil, five small coins and the base of a metal cup, on a wooden table. Nothing in it
+  is written on, which matters more here than anywhere else in the set: a bill with
+  legible figures would be duplicating copy into artwork, and the photograph it replaces
+  was a receipt full of readable text. The alt text moved from "A restaurant bill" to "A
+  restaurant bill in a folder on a table" because the drawing is the folder, not the
+  paper. It is **not** ground-snapped — its most common colour is the dark leather
+  (`#41392c`, 187 units from the canvas), the largest miss in the whole set.
+- **`shopkeeper.jpg`** shows the stall rather than a person: a green-and-cream striped
+  awning, baskets of potatoes, green apples, onions and red apples, burlap sacks, a brass
+  balance scale with weights, and a **blank** hanging sign. **No vendor or customer
+  appears in it**, so the alt text had to change for correctness rather than style — the
+  old wording announced a person who is not in the picture, and it now reads "A market
+  stall with baskets of fruit and vegetables". The pairing with "un commerçant" stays the
+  approved one; it is the picture's subject that moved from the seller to the stall. Its
+  ground was snapped (the cream field, 10 units off, remapped on 35% of the frame), and
+  every tag, label, crate marking and paper in it is blank — checked panel by panel.
 
 ## The project's own illustrations
 
@@ -90,6 +103,8 @@ reading oddly.
 | `ambulance.jpg` | ambulance van with a red, white and blue roof light bar, parked outside a building | An ambulance parked outside a building | 800×449 | 95,653 B | `42c5b5db912700b9cbbb62fe8116d2fc723ca06dbbb0d741fb62eff5f50e3158` |
 | `police.jpg` | beige police sedan with a blue and red roof light, parked on a street | A police car with its roof lights on | 800×449 | 107,407 B | `c7bbf248974f6bd14c9aecac1e5fce24e14bb96d27aa7208b88d5071031e1d4d` |
 | `hospital.jpg` | hospital entrance: steps, green double glass doors, two potted plants, and a sign with a serpent-and-staff medical emblem | A hospital entrance | 800×449 | 83,360 B | `1163e7215905be8b180b6a4200565fbfcefb98c8b56ec2f898b387c47facb058` |
+| `bill.jpg` | an open dark leather bill folder with a **blank** sheet of paper, a pencil, five small coins and the base of a metal cup, on a wooden table | A restaurant bill in a folder on a table | 800×449 | 103,418 B | `cee25dd1159e6a4ccd49be9fa3c6f2a6596ff8cb8ca127b2d62deea8634569a8` |
+| `shopkeeper.jpg` | a market produce stall: green-and-cream striped awning, baskets of potatoes, green apples, onions and red apples, burlap sacks, a brass balance scale with weights, and a **blank** hanging sign — **no vendor or customer in the picture** | A market stall with baskets of fruit and vegetables | 800×449 | 124,093 B | `44c5bc4850eb18a2d851aed35d1bce533f8beb6f8fe2233ffa6f6ae00796aca0` |
 
 ### Snapping the ground, and the one file that must not be
 
@@ -104,8 +119,10 @@ is that the most common colour in a file *is* its flat ground; in `key.jpg` that
 is the drawn olive door (`#7a8e6b`, 129 units from the canvas), because the door fills
 more of the frame than the surface the key lies on, and snapping would repaint it cream.
 The same reasoning was applied to `hospital.jpg` (its most common colour is the tan
-facade, `#e1caa0`, 70 units) and to the `asking-for-the-bill` and `minor-emergency`
-scenes below (`#d9c394` and `#dcc99f`). Every one of these decisions is recorded rather
+facade, `#e1caa0`, 70 units), to the vocabulary `bill.jpg` (the dark leather folder,
+`#41392c`, 187 units — the largest miss in the set, and a picture whose subject is a dark
+object on a wooden table with no cream ground at all), and to the `asking-for-the-bill`
+and `minor-emergency` scenes below (`#d9c394` and `#dcc99f`). Every one of these decisions is recorded rather
 than automated: `scripts/brand/snap-ground.py --check` reports them as "off", which is
 correct and expected, and nothing in the tree runs that check as a gate.
 

@@ -185,6 +185,8 @@ describe("the vocabulary pictures", () => {
       "ambulance",
       "police",
       "hospital",
+      "bill",
+      "shopkeeper",
     ]) {
       const size = imageDimensions(join(dir, `${name}.jpg`))!;
       expect([size.width, size.height], `${name}.jpg is not 800x449`).toEqual([800, 449]);

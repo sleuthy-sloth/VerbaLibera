@@ -113,13 +113,13 @@ const VOCAB_BY_PATTERN: Record<string, VocabSet> = {
       { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee on a saucer', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
       { id: 'tea', imageUrl: '/images/vocab/tea.jpg', alt: 'A teapot and a cup of tea', words: { fr: 'un thé', it: 'un tè', es: 'un té', pt: 'um chá' } },
       { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table with two chairs', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
-      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill in a folder on a table', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
     ],
   },
   'greet-politely': {
     target: 'shopkeeper',
     items: [
-      { id: 'shopkeeper', imageUrl: '/images/vocab/shopkeeper.jpg', alt: 'A market vendor at his stall', words: { fr: 'un commerçant', it: 'un negoziante', es: 'un comerciante', pt: 'um comerciante' } },
+      { id: 'shopkeeper', imageUrl: '/images/vocab/shopkeeper.jpg', alt: 'A market stall with baskets of fruit and vegetables', words: { fr: 'un commerçant', it: 'un negoziante', es: 'un comerciante', pt: 'um comerciante' } },
       { id: 'table', imageUrl: '/images/vocab/table.jpg', alt: 'A café table with two chairs', words: { fr: 'une table', it: 'un tavolo', es: 'una mesa', pt: 'uma mesa' } },
       { id: 'coffee', imageUrl: '/images/vocab/coffee.jpg', alt: 'A cup of coffee on a saucer', words: { fr: 'un café', it: 'un caffè', es: 'un café', pt: 'um café' } },
       { id: 'door', imageUrl: '/images/vocab/door.jpg', alt: 'A shop door', words: { fr: 'une porte', it: 'una porta', es: 'una puerta', pt: 'uma porta' } },
@@ -146,7 +146,7 @@ const VOCAB_BY_PATTERN: Record<string, VocabSet> = {
   'pay-politely': {
     target: 'card',
     items: [
-      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
+      { id: 'bill', imageUrl: '/images/vocab/bill.jpg', alt: 'A restaurant bill in a folder on a table', words: { fr: 'l’addition', it: 'il conto', es: 'la cuenta', pt: 'a conta' } },
       { id: 'card', imageUrl: '/images/vocab/card.jpg', alt: 'A bank card in a payment terminal', words: { fr: 'une carte', it: 'una carta', es: 'una tarjeta', pt: 'um cartão' } },
       { id: 'piggybank', imageUrl: '/images/vocab/piggybank.jpg', alt: 'A piggy bank with coins on a table', words: { fr: 'une tirelire', it: 'un salvadanaio', es: 'una alcancía', pt: 'um cofrinho' } },
       { id: 'wallet', imageUrl: '/images/vocab/wallet.jpg', alt: 'A quilted purse', words: { fr: 'un portefeuille', it: 'un portafoglio', es: 'una cartera', pt: 'uma carteira' } },

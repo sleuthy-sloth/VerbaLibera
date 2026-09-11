@@ -119,8 +119,8 @@ describe("the asset provenance document", () => {
     const own = rowsOf(ownTable, "vocab");
     const scenes = rowsOf(sceneTable, "scenes");
     const map = [...mapTable.matchAll(/^\| `([\w.-]+)\.jpg` \|/gm)].map((match) => `map/${match[1]}.jpg`);
-    expect(cc0.length, "the CC0 table lost rows").toBe(12);
-    expect(own.length, "the project-artwork table lost rows").toBe(10);
+    expect(cc0.length, "the CC0 table lost rows").toBe(10);
+    expect(own.length, "the project-artwork table lost rows").toBe(12);
     expect(scenes.length, "the scene table lost rows").toBe(6);
     expect(map.length, "the course map is not recorded").toBe(1);
     // The tables have to be disjoint: a file that is the project's own artwork
@@ -170,24 +170,28 @@ describe("the asset provenance document", () => {
       "An ambulance parked outside a building",
       "A police car with its roof lights on",
       "A hospital entrance",
+      "A restaurant bill in a folder on a table",
+      "A market stall with baskets of fruit and vegetables",
     ]) {
       expect(ownTable, `the record does not quote "${alt}"`).toContain(alt);
       expect(fixture, `the fixture no longer uses "${alt}"`).toContain(alt);
     }
 
-    // Two pictures are deliberately still photographs, and the record has to say so
-    // with the reason: the approved six-panel reference holds both subjects but is a
-    // collage whose receipt panel has "BILL" drawn into it, so it can be neither
-    // shipped nor cropped. Without this, the next person finds a sheet with a receipt
-    // on it and "fixes" the gap by cutting it up.
-    expect(cc0).toContain("vocab/bill.jpg");
-    expect(cc0).toContain("vocab/shopkeeper.jpg");
-    expect(record, "the follow-up note for bill and shopkeeper is missing").toContain(
-      "still waiting for standalone artwork",
+    // The last two photographs became illustrations once standalone files arrived,
+    // and the record has to keep saying why the approved six-panel sheet was never the
+    // source: it is a collage whose receipt panel has "BILL" drawn into it, so it could
+    // be neither shipped nor cropped. Without that history, the next person finds a
+    // sheet with a receipt on it and "fixes" something that was already fixed.
+    expect(own, "the bill picture is not recorded as project artwork").toContain("vocab/bill.jpg");
+    expect(own, "the shopkeeper picture is not recorded as project artwork").toContain(
+      "vocab/shopkeeper.jpg",
     );
-    expect(record).toMatch(/collage/);
-    expect(record, "the note does not explain why the sheet cannot be cut up").toMatch(
+    expect(record, "the sheet's reasoning is missing from the record").toMatch(/collage/);
+    expect(record, "the record does not explain why the sheet cannot be cut up").toMatch(
       /"BILL"|word "BILL"/,
+    );
+    expect(record, "the two replacements are not described").toContain(
+      "The last two pictures",
     );
 
     // The one piece of lettering inside the approved artwork is recorded here, and
