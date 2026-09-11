@@ -1,11 +1,7 @@
-import {
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-  mkdirSync,
-} from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { normalizePack } from "../src/features/course-pack/normalize-pack";
+import { buildContentReport } from "./content/report";
 const languages = readdirSync("courses", { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
@@ -15,40 +11,25 @@ const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
     source = readFileSync(path, "utf8"),
+    raw = JSON.parse(source),
     // Version dispatch: validates v1 or v2 and runs the full graph checks.
-    pack = normalizePack(JSON.parse(source));
+    pack = normalizePack(raw);
   for (const media of pack.media) {
     const bytes = readFileSync(`public${media.url}`);
     if (createHash("sha256").update(bytes).digest("hex") !== media.sha256)
       throw new Error(`Invalid audio hash: ${media.url}`);
   }
   catalog.push({ slug: language, title: pack.title });
-  // Retained v1 records keep kind/answer reporting stable across versions.
-  const exercises = pack.lessons.flatMap((l) => l.legacyExercises),
-    kinds: Record<string, number> = {};
-  for (const e of exercises) kinds[e.kind] = (kinds[e.kind] ?? 0) + 1;
+  // Retained v1 records keep the duplicate-answer census stable across versions.
+  const exercises = pack.lessons.flatMap((l) => l.legacyExercises);
   const answerSets = new Map<string, string[]>();
   for (const e of exercises) {
     const key = e.answers.slice().sort().join("|");
     answerSets.set(key, [...(answerSets.get(key) ?? []), e.id]);
   }
-  const report = {
-    id: pack.id,
-    version: pack.version,
-    level: "A1 foundations (partial syllabus)",
-    lessons: pack.lessons.length,
-    concepts: pack.concepts.length,
-    vocabulary: pack.vocabulary.length,
-    exercises: exercises.length,
-    kinds,
-    audioClips: pack.media.length,
-    lessonsWithAudio: pack.lessons.filter((l) =>
-      l.legacyExercises.some((e) => e.kind === "dictation"),
-    ).length,
-    packBytes: Buffer.byteLength(JSON.stringify(pack)),
-    answerCoverage: "100%",
-    note: "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review.",
-  };
+  // Schema-aware: reachable runtime activities and retained v1 records are
+  // counted separately, each with its own basis. See scripts/content/report.ts.
+  const report = buildContentReport(raw, pack);
   console.log(
     JSON.stringify(
       command === "duplicates"
