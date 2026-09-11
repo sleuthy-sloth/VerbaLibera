@@ -93,6 +93,11 @@ test('the downloaded edition can listen to the audio lesson with the network off
   await track.click();
   const player = page.getByLabel('Play the audio lesson: Names and introductions');
   await expect(player).toHaveAttribute('src', '/audio/french-foundations/fr-identity-listen.mp3');
+  // The player's own artwork is installed with the shell, not fetched with the
+  // first play: with the network off it is already there and already decoded.
+  const cover = page.locator('img[src*="player-card"]');
+  await expect(cover).toBeVisible();
+  expect(await cover.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(800);
   // A real decode with no connection at all — the point of the whole slice.
   await player.evaluate(async (audio: HTMLAudioElement) => {
     audio.load();

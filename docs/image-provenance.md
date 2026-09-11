@@ -12,6 +12,9 @@ hotlinking. The SW caches `/images/**` like `/audio/**`.
 **Twelve vocabulary pictures and all six lesson scenes are the project's own approved
 artwork**, supplied as files and normalised here — the tables below.
 
+Two further files are the audio player's own artwork rather than lesson material —
+one wide cover and one square lock-screen mark — and they are the last section below.
+
 Rejected during visual review (not shipped): a train-interior shot mislabeled as a
 station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
 (ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
@@ -205,4 +208,46 @@ session cookie; those editions carry the course path and the audio lessons inste
 Its artwork contains no lettering: the books, cards and notebook are all blank.
 
 Re-verify hashes any time with:
-`shasum -a 256 public/images/vocab/*.jpg public/images/scenes/*.jpg public/images/course-map.jpg`
+`shasum -a 256 public/images/vocab/*.jpg public/images/scenes/*.jpg public/images/course-map.jpg public/brand/player-*.jpg`
+
+## The player's artwork (2)
+
+The Listen player's own two files, supplied as standalone approved artwork. They are
+**not** lesson material and not per track: one illustration serves every lesson the
+player can start, which is why the card's language mark can stay the only per-lesson
+mark (`src/components/listen/listen-player.module.css`) without the loading cost that
+first ruled cover art out.
+
+Both are **decorative**. The card's heading, its language mark and its transport all
+already say what is playing and in what state, so each is rendered with an empty
+`alt=""` and nothing informative lives in either picture.
+
+| file | depicts | source | dimensions | bytes | sha256 |
+| ---- | ------- | ------ | ---------- | ----- | ------ |
+| `player-card.jpg` | the wide cover on the player card: headphones, a spiral notebook and pencil, a card of abstract shapes and a round terracotta disc, on a wooden table | 1280×714 delivered | 800×449 | 117,009 B | `904b3352441275688a419825af4729a3069ddd51c6c55b4d963917df5b037589` |
+| `player-lock.jpg` | the square lock-screen mark: headphones resting on a book, an abstract glyph card, a terracotta disc, flat cream ground | 1024×1024 delivered | 1024×1024 | 142,010 B | `768296b1dfcbbf12d2ab14ec967051415cd8186b1f61603af5041ecdc62ea5d5` |
+
+Ground decisions, per file: `player-card.jpg` is **not** snapped — its most common
+colour is the drawn wooden table (`#cfb286`, 96 units from the canvas), the fifth file
+the snapping script's premise does not fit. `player-lock.jpg` **is** snapped (its cream
+field, 9 → 1, remapped on 65% of the frame), so the square sits on the app's cream
+rather than on a rectangle of its own.
+
+Where each is used:
+
+- **In the player card** (hosted, downloaded and portable editions alike): the wide
+  cover, full card width on a phone and capped at 420 px on a wide screen, so it reads
+  as a cover treatment without stretching. Declared 800×449 in the markup, so its space
+  is reserved before the JPEG lands. It goes through the same media resolver as the
+  audio (`resolveMedia`), because the portable single file cannot fetch a shipped path.
+- **On the lock screen and in the notification shade**: `navigator.mediaSession` gets
+  the square first, declared at its real 1024×1024, with the course banner behind it for
+  a wider surface. A platform that takes only the first entry takes the picture drawn for
+  that slot.
+
+There is **no in-app compact player** to show the square in — the Listen tab renders the
+library and then this one card — so the square is used for the lock screen, which is the
+compact surface that exists.
+
+Neither file contains lettering: the square's card carries abstract glyphs rather than
+letters, and the wide cover's card is a pattern of shapes.

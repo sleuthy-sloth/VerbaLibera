@@ -20,6 +20,8 @@ TRACKED = [
     "public/brand/logo-lockup.jpg",
     "public/brand/hero-banner.jpg",
     "public/brand/empty-journal.jpg",
+    "public/brand/player-card.jpg",
+    "public/brand/player-lock.jpg",
     "public/brand/courses/french.jpg",
     "public/brand/courses/german.jpg",
     "public/brand/courses/italian.jpg",
@@ -30,7 +32,7 @@ TRACKED = [
     "public/icons/verbalibera-512.png",
     "public/icons/verbalibera-maskable-512.png",
     "public/apple-touch-icon.png",
-    "public/favicon.ico",
+    "src/app/favicon.ico",
 ]
 
 

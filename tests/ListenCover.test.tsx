@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ListenPlayer } from "@/components/listen/ListenPlayer";
 import { tracksForCourse } from "@/features/listen/tracks";
 import { bannerArtwork, bannerFor, BANNER_SOURCE } from "@/features/course-pack/banners";
+import { PLAYER_SQUARE } from "@/features/listen/player-art";
 import { imageDimensions } from "./helpers/image-size";
 import { join } from "node:path";
 
@@ -18,9 +19,13 @@ import { join } from "node:path";
  * artwork**, so the lock screen — the one surface a learner looks at without
  * touching the phone — showed a generic placeholder.
  *
- * The artwork is the course banner, so the lock screen identifies the course the
- * same way the course page does, and it is already cached offline (the service
- * worker precaches every banner) and embedded in the portable file.
+ * The artwork leads with the player's own square illustration — drawn for this
+ * slot, and what the platform picks for a notification or a small square lock
+ * screen — and keeps the course banner behind it, so a wider surface still
+ * identifies the course the way the course page does. Both are cached offline
+ * (the service worker precaches each) and embedded in the portable file, and
+ * both go through the edition's media resolver: a path handed to the portable
+ * single file is a path it cannot fetch.
  */
 
 type Captured = { title?: string; artist?: string; album?: string; artwork?: { src: string; sizes: string; type: string }[] };
@@ -59,13 +64,14 @@ afterEach(() => {
 // shape the editions actually pass in.
 const track = tracksForCourse("french")[0];
 
-const renderPlayer = (coverUrl?: string) =>
+const renderPlayer = (coverUrl?: string, resolveMedia?: (url: string) => string) =>
   render(
     <ListenPlayer
       track={track}
       courseTitle="French foundations"
       lessonTitle={track.lessonTitle}
       coverUrl={coverUrl}
+      resolveMedia={resolveMedia}
     />,
   );
 
@@ -79,31 +85,45 @@ describe("the audio lesson's lock-screen metadata", () => {
     });
   });
 
-  it("carries the course banner, declared at the file's own size", () => {
+  it("leads with the player's own square, then the course banner, each at its real size", () => {
     renderPlayer(bannerFor("french"));
     const artwork = captured?.artwork ?? [];
-    expect(artwork).toHaveLength(1);
-    expect(artwork[0].src).toBe("/brand/courses/french.jpg");
-    expect(artwork[0].type).toBe("image/jpeg");
+    expect(artwork).toHaveLength(2);
+    expect(artwork[0].src).toBe("/brand/player-lock.jpg");
+    expect(artwork[1].src).toBe("/brand/courses/french.jpg");
+    expect(artwork.every((entry) => entry.type === "image/jpeg")).toBe(true);
     // The declared size is what the platform uses to pick artwork, so it has to
-    // be the file's real size rather than a round number.
-    const file = imageDimensions(join(process.cwd(), "public/brand/courses/french.jpg"))!;
-    expect(artwork[0].sizes).toBe(`${file.width}x${file.height}`);
-    expect(artwork[0].sizes).toBe(`${BANNER_SOURCE.width}x${BANNER_SOURCE.height}`);
+    // be the file's real size rather than a round number — checked against the
+    // files on disk, not against the constants the module exports.
+    const square = imageDimensions(join(process.cwd(), "public/brand/player-lock.jpg"))!;
+    const banner = imageDimensions(join(process.cwd(), "public/brand/courses/french.jpg"))!;
+    expect(artwork[0].sizes).toBe(`${square.width}x${square.height}`);
+    expect(artwork[0].sizes).toBe(`${PLAYER_SQUARE.width}x${PLAYER_SQUARE.height}`);
+    expect(artwork[1].sizes).toBe(`${banner.width}x${banner.height}`);
+    expect(artwork[1].sizes).toBe(`${BANNER_SOURCE.width}x${BANNER_SOURCE.height}`);
   });
 
-  it("hands the portable edition its embedded blob, not a path it cannot fetch", () => {
-    renderPlayer("blob:portable-cover");
-    expect(captured?.artwork?.[0].src).toBe("blob:portable-cover");
+  it("hands the portable edition embedded blobs, not paths it cannot fetch", () => {
+    // The library resolves the course banner before the player sees it; the
+    // square is the URL this component has to put through the resolver itself.
+    renderPlayer("blob:portable-cover", (url) =>
+      url === "/brand/player-lock.jpg" ? "blob:portable-lock" : url,
+    );
+    const artwork = captured?.artwork ?? [];
+    expect(artwork[0].src).toBe("blob:portable-lock");
+    expect(artwork[1].src).toBe("blob:portable-cover");
   });
 
-  it("sets no artwork rather than a broken one when the edition has no cover", () => {
+  it("still sets the player's own artwork when the course has no banner", () => {
     // A course without a banner, or an edition that could not resolve it: the
-    // metadata must omit the field. A `src` that 404s reads as a load failure on
-    // some platforms instead of falling back to the text.
+    // metadata used to omit artwork entirely. It now always has the player's own
+    // square, which ships with the app, so the lock screen is never generic —
+    // and no course path is invented to fill the gap.
     renderPlayer(undefined);
-    expect(captured).not.toBeNull();
-    expect(captured).not.toHaveProperty("artwork");
+    const artwork = captured?.artwork ?? [];
+    expect(artwork).toHaveLength(1);
+    expect(artwork[0].src).toBe("/brand/player-lock.jpg");
+    expect(artwork.map((entry) => entry.src)).not.toContain("/brand/courses/french.jpg");
     expect(bannerArtwork("/brand/courses/french.jpg")[0].sizes).toContain("x");
   });
 

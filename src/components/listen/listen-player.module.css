@@ -27,9 +27,51 @@
   gap: 12px;
 }
 
-/* The track mark: the language, in the utility face, on the accent tint. It
- * replaces cover art on purpose — an image per track would be bytes the
- * offline bundle carries and a licence nobody has checked. */
+/* The cover band: the player's own artwork, one wide file for every track.
+ * Full card width on a phone and capped on a wide screen, so it reads as a
+ * cover treatment without pushing the transport out of the thumb's reach. It
+ * is decorative (`alt=""`), and it never stretches: the declared width and
+ * height above reserve its space before the JPEG lands. */
+.cover {
+  display: block;
+  flex: none;
+  /* A phone gets the cover at album-thumbnail size, in the header row: the card
+   * has to stay well under the height of the screen it is read on
+   * (`tests/e2e/listen.spec.ts` holds that line), and 76x43 fits inside the row
+   * that is already there, so the artwork costs no height at all. */
+  width: 76px;
+  height: auto;
+  border: 1.5px solid var(--edge, #2f2a24);
+  border-radius: var(--radius-control, 16px);
+}
+
+/* The mark and the title, kept together once the header stacks. */
+.headRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Above a phone's width there is room for the whole picture: it opens to the
+ * full 16:9 frame across the card, capped so it stays a cover treatment. */
+@media (min-width: 480px) {
+  .head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cover {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 14px;
+  }
+}
+
+/* The track mark: the language, in the utility face, on the accent tint. It is
+ * still the card's informational mark — the cover above it is decoration, and
+ * the mark is what says which language is playing. */
 .mark {
   display: grid;
   place-items: center;

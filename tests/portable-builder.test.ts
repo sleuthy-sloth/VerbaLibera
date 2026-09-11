@@ -12,6 +12,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { SCENE_URLS } from "@/features/course-pack/scenes";
+import { PLAYER_ART_URLS } from "@/features/listen/player-art";
 
 import {
   assertPortableAssetPath,
@@ -56,8 +57,15 @@ describe("portable content collection", () => {
     // The scenes are derived from `SCENE_URLS`, not counted by hand, so this stays
     // true when one is added to the app.
     for (const url of SCENE_URLS) expect(content.assets[url]).toBeDefined();
+    // The player's own artwork travels for the same reason and is derived the same
+    // way: the Listen view renders in the single file, so the cover it draws has to
+    // be in there too.
+    for (const url of PLAYER_ART_URLS) expect(content.assets[url]).toBeDefined();
     expect(Object.keys(content.assets)).toHaveLength(
-      mediaCount + Object.keys(content.packs).length + SCENE_URLS.length,
+      mediaCount +
+        Object.keys(content.packs).length +
+        SCENE_URLS.length +
+        PLAYER_ART_URLS.length,
     );
     // No audio lessons by default: one track is ~5 MB and base64 adds a third,
     // so embedding is a decision the builder makes, not a default it inherits.

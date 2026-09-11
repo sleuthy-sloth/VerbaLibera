@@ -23,8 +23,10 @@ for (const course of ["spanish", "portuguese", "german"]) {
     expect(await player.evaluate((audio: HTMLAudioElement) => audio.duration)).toBeGreaterThan(480);
     // The card follows the element it is driving.
     await expect(page.getByRole("button", { name: "Pause the audio lesson" })).toBeVisible();
-    // The lock screen is the surface a walker actually looks at, so the course
-    // artwork has to be in the media metadata, not just on the page.
+    // The lock screen is the surface a walker actually looks at, so the artwork
+    // has to be in the media metadata, not just on the page. The player's own
+    // square leads — a notification slot is small and square — and the course
+    // banner follows it for a wider surface.
     const artwork = await page.evaluate(() => {
       const metadata = navigator.mediaSession?.metadata;
       return metadata
@@ -33,9 +35,11 @@ for (const course of ["spanish", "portuguese", "german"]) {
     });
     expect(artwork, `${course}: no media metadata`).not.toBeNull();
     expect(artwork!.album).toContain("foundations");
-    expect(artwork!.artwork.length).toBeGreaterThan(0);
-    expect(artwork!.artwork[0].src).toContain(`/brand/courses/${course}.jpg`);
-    expect(artwork!.artwork[0].sizes).toBe("2064x512");
+    expect(artwork!.artwork.length).toBe(2);
+    expect(artwork!.artwork[0].src).toContain("/brand/player-lock.jpg");
+    expect(artwork!.artwork[0].sizes).toBe("1024x1024");
+    expect(artwork!.artwork[1].src).toContain(`/brand/courses/${course}.jpg`);
+    expect(artwork!.artwork[1].sizes).toBe("2064x512");
     await player.evaluate((audio: HTMLAudioElement) => audio.pause());
     const link = page.getByRole("link", { name: "Save audio for offline listening" });
     await expect(link).toHaveAttribute("download", "");
@@ -216,4 +220,54 @@ test("Listen resumes the French track where it was left, across a cold start", a
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
   await expect(page.getByText(/resume from/i)).toHaveCount(0);
+});
+
+// The card's own artwork. The brief allows one restrained cover treatment; this
+// is it, and what has to hold is that it is decoration, that it is really the
+// shipped file, and that it does not land on top of the controls or push the
+// card sideways on the width where a phone is.
+test("the player card shows its own cover art without crowding the controls", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/listen?course=french");
+  await page.getByRole("button", { name: "Names and introductions", exact: true }).click();
+
+  const cover = page.locator('img[src*="player-card"]');
+  await expect(cover).toBeVisible();
+  // Decorative: the heading and the transport already say what is playing.
+  await expect(cover).toHaveAttribute("alt", "");
+  expect(await cover.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(800);
+  expect(await cover.evaluate((img: HTMLImageElement) => img.naturalHeight)).toBe(449);
+
+  const coverBox = (await cover.boundingBox())!;
+  const headerBox = (await page.locator("section[aria-label^='Audio lesson'] header").boundingBox())!;
+  const playBox = (await page.getByRole("button", { name: "Play the audio lesson" }).boundingBox())!;
+
+  // A phone shows it at thumbnail size inside the header row it already had, so
+  // the artwork costs the card no height. The card is a card, not a poster —
+  // the same line `the player card is usable on a phone` holds.
+  expect(coverBox.width).toBeLessThanOrEqual(100);
+  expect(coverBox.y).toBeGreaterThanOrEqual(headerBox.y);
+  expect(coverBox.y + coverBox.height).toBeLessThanOrEqual(headerBox.y + headerBox.height);
+  const compact = (await page.locator("section[aria-label^='Audio lesson']").boundingBox())!;
+  expect(compact.height).toBeLessThan(844 * 0.75);
+
+  // Clear of every transport control, not just the first one.
+  for (const name of ["Play the audio lesson", "Back 15 seconds", "Forward 15 seconds"]) {
+    const box = (await page.getByRole("button", { name, exact: true }).boundingBox())!;
+    const overlaps = coverBox.y + coverBox.height > box.y && coverBox.y < box.y + box.height;
+    expect(overlaps, `${name} overlaps the cover art`).toBe(false);
+  }
+  expect(playBox.height).toBeGreaterThanOrEqual(44);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+
+  // Above a phone's width the whole picture opens up across the card, capped so
+  // it stays a cover treatment rather than a hero image.
+  await page.setViewportSize({ width: 1280, height: 900 });
+  const wide = (await cover.boundingBox())!;
+  // Re-measure the header here: the phone's box is stale once the page re-lays out.
+  const wideHeader = (await page.locator("section[aria-label^='Audio lesson'] header").boundingBox())!;
+  expect(wide.width).toBeGreaterThan(300);
+  expect(wide.width).toBeLessThanOrEqual(420);
+  expect(wide.y).toBeGreaterThanOrEqual(wideHeader.y);
+  expect(wide.height).toBeLessThan(280);
 });

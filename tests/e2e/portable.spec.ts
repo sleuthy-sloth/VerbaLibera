@@ -107,6 +107,22 @@ test("warns and exports valid progress when IndexedDB is unavailable", async ({
   expect(saved.every((e) => e.packId === "it-foundations")).toBe(true);
 });
 
+test("the player's own artwork is embedded in the single file", async () => {
+  // Same rule as the scenes below: the shell resolves media through
+  // `environment.resolveMedia` and throws on an asset the file does not carry, so
+  // the cover the card draws has to be inside it. The list is read from the folder
+  // rather than imported from the module — that import drags in the banner JSON,
+  // which the Playwright transform cannot load outside Next.
+  const html = await readFile(artifact, "utf8");
+  const playerArt = readdirSync(join(process.cwd(), "public/brand"))
+    .filter((name) => name.startsWith("player-") && name.endsWith(".jpg"))
+    .sort();
+  expect(playerArt.length, "no player artwork was found to check").toBe(2);
+  for (const name of playerArt) {
+    expect(html, `/brand/${name} is not embedded in the portable file`).toContain(`/brand/${name}`);
+  }
+});
+
 test('the approved lesson scenes are embedded in the single file', async () => {
   // The portable shell resolves media through `environment.resolveMedia`, which
   // throws on an asset the file does not carry — so a scene the app can render has

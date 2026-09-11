@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { imageDimensions } from "./helpers/image-size";
 
 /**
  * `docs/asset-provenance.md` against the tree.
@@ -109,7 +110,10 @@ describe("the asset provenance document", () => {
       record.indexOf("## The lesson scenes"),
       record.indexOf("## The course map"),
     );
-    const mapTable = record.slice(record.indexOf("## The course map"));
+    const mapTable = record.slice(
+      record.indexOf("## The course map"),
+      record.indexOf("## The player's artwork"),
+    );
 
     const rowsOf = (block: string, dir: string): string[] =>
       [...block.matchAll(new RegExp(`^\\| \\\`([\\w.-]+)\\.jpg\\\` \\|`, "gm"))].map(
@@ -156,6 +160,26 @@ describe("the asset provenance document", () => {
       const onDisk = createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
       expect(onDisk, `${path} no longer matches its recorded hash`).toBe(hash);
     }
+
+    // The player's own artwork: the delivered size the user supplied it at, the
+    // shipped hash, and the decision that it is decoration — an alt text here
+    // would be a second description of what the card's heading already says.
+    const player = record.slice(record.indexOf("## The player's artwork"));
+    expect(player, "the player art section is missing").toContain("player-card.jpg");
+    expect(player).toContain("player-lock.jpg");
+    for (const name of ["player-card", "player-lock"]) {
+      const path = `public/brand/${name}.jpg`;
+      const hash = createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
+      expect(player, `${path} is recorded with a hash that is not its own`).toContain(hash);
+      const file = imageDimensions(join(ROOT, path))!;
+      expect(player, `${path} is recorded at the wrong shipped size`).toContain(
+        `${file.width}×${file.height}`,
+      );
+    }
+    expect(player, "the delivered sizes are not recorded").toContain("1280×714 delivered");
+    expect(player).toContain("1024×1024 delivered");
+    expect(player, "the record does not say the player art is decorative").toMatch(/decorative/i);
+    expect(player).toContain('alt=""');
 
     // And the alt text the record quotes is the alt text the fixture ships.
     const fixture = readFileSync(join(ROOT, "src/features/curriculum/fixture.ts"), "utf8");

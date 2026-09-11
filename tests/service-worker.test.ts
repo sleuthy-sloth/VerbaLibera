@@ -72,6 +72,8 @@ describe('static PWA service worker contract', () => {
       '/brand/courses/spanish.jpg',
       '/brand/courses/portuguese.jpg',
       '/brand/courses/german.jpg',
+      '/brand/player-card.jpg',
+      '/brand/player-lock.jpg',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
       '/audio/french-foundations/fr-identity-listen.mp3',
@@ -169,7 +171,9 @@ describe('static PWA service worker contract', () => {
     worker.handlers.get('activate')?.(activation as never);
     await activation.waitUntil.mock.calls[0][0];
     expect(worker.cacheDelete).toHaveBeenCalledWith('verbalibera-static-v7');
-    expect(source).not.toMatch(/verbalibera-static-v1/);
+    // A precise pattern: `/verbalibera-static-v1/` also matches v10, v11 and
+    // v199, so the guard used to pass for a worker that had never left v1.
+    expect(source).not.toMatch(/verbalibera-static-v1['"]/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
     // grep for Cache-Control no-store and absence of /api in precache

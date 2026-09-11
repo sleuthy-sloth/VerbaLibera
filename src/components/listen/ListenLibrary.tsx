@@ -79,6 +79,7 @@ export function ListenLibrary({
             courseTitle={courseTitle}
             lessonTitle={track.title}
             coverUrl={coverFor(track.courseSlug)}
+            resolveMedia={resolveAudioSrc}
           />
         )}
       </>

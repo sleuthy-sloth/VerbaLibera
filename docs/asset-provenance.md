@@ -23,6 +23,8 @@ file below is missing from the tree or a tracked asset is missing from this file
 | `public/brand/logo-lockup.jpg` | 1792×592 | 30,321 B | tracked |
 | `public/brand/hero-banner.jpg` | 1584×672 | 153,866 B | tracked |
 | `public/brand/empty-journal.jpg` | 1024×1024 | 74,150 B | tracked |
+| `public/brand/player-card.jpg` | 800×449 | 117,009 B | tracked |
+| `public/brand/player-lock.jpg` | 1024×1024 | 142,010 B | tracked |
 | `public/brand/courses/french.jpg` | 2064×512 | 184,583 B | tracked |
 | `public/brand/courses/german.jpg` | 2064×512 | 197,108 B | tracked |
 | `public/brand/courses/italian.jpg` | 2064×512 | 177,245 B | tracked |
@@ -33,10 +35,11 @@ file below is missing from the tree or a tracked asset is missing from this file
 | `public/icons/verbalibera-512.png` | 512×512 | 55,887 B | tracked |
 | `public/icons/verbalibera-maskable-512.png` | 512×512 | 35,569 B | tracked |
 | `public/apple-touch-icon.png` | 180×180 | 11,491 B | tracked |
-| `src/app/favicon.ico` | 32×32 | 3,770 B | tracked |
+| `src/app/favicon.ico` | 32×32 | 3,770 B | NOT TRACKED |
 
 Where each set is used: the course banners on the course page, the library, the
-landing showcase, the Listen lock-screen artwork and the portable bundle; the mark
+landing showcase and the portable bundle, with `player-lock.jpg` ahead of the banner
+on the Listen lock screen and `player-card.jpg` on the player card itself; the mark
 and lockup in the app header, the dashboard and the landing hero; the journal on
 the offline page and the first-run/dashboard onboarding; `og-card.jpg` in the
 social metadata; the icons in `src/app/manifest.ts` and the browser metadata.

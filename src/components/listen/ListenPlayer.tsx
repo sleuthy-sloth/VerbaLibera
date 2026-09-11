@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ListenTrack } from "@/features/listen/tracks";
 import { langCodeFor } from "@/features/course-pack/language-code";
-import { bannerArtwork } from "@/features/course-pack/banners";
+import { PLAYER_COVER, PLAYER_SQUARE, playerArtwork } from "@/features/listen/player-art";
 import { listenedAt, markListened } from "@/features/listen/listened";
 import {
   clearPosition,
@@ -45,6 +45,7 @@ export function ListenPlayer({
   courseTitle,
   lessonTitle,
   coverUrl,
+  resolveMedia = (url) => url,
 }: {
   track: ListenTrack;
   courseTitle: string;
@@ -56,6 +57,14 @@ export function ListenPlayer({
    * learner actually looks at when they are walking and the screen is off.
    */
   coverUrl?: string;
+  /**
+   * How this edition turns a shipped path into something the browser can fetch.
+   * Hosted and downloaded editions leave it alone; the portable single file
+   * swaps in its embedded blob URL. The player draws two files of its own
+   * (`player-art.ts`), so it needs the same resolver the audio and the banner
+   * already travel through.
+   */
+  resolveMedia?: (url: string) => string;
 }) {
   const audio = useRef<HTMLAudioElement>(null);
   const [heard, setHeard] = useState<string | null>(null);
@@ -147,12 +156,12 @@ export function ListenPlayer({
         album: courseTitle,
         // Artwork is advisory: a platform that cannot fetch it still shows the
         // three lines above.
-        ...(coverUrl ? { artwork: bannerArtwork(coverUrl) } : {}),
+        artwork: playerArtwork(resolveMedia(PLAYER_SQUARE.url), coverUrl),
       });
     } catch {
       // Older browsers: the player still works, just without lock-screen art.
     }
-  }, [track.lessonId, title, courseTitle, coverUrl]);
+  }, [track.lessonId, title, courseTitle, coverUrl, resolveMedia]);
 
   const seekTo = (value: number): void => {
     const element = audio.current;
@@ -199,14 +208,26 @@ export function ListenPlayer({
   return (
     <section aria-label={`Audio lesson: ${title}`} className={styles.player}>
       <header className={styles.head}>
-        <span className={styles.mark} aria-hidden="true">
-          {language}
-        </span>
-        <div className={styles.headText}>
-          <h2>{title}</h2>
-          <p className={styles.meta}>
-            {courseTitle} · {formatPosition(track.durationS)} · audio only
-          </p>
+        {/* Decorative: the heading beside it names the lesson, and the transport
+         * below names its state, so this carries no information and no alt text. */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- also bundled outside Next for offline cold starts */}
+        <img
+          alt=""
+          className={styles.cover}
+          height={PLAYER_COVER.height}
+          src={resolveMedia(PLAYER_COVER.url)}
+          width={PLAYER_COVER.width}
+        />
+        <div className={styles.headRow}>
+          <span className={styles.mark} aria-hidden="true">
+            {language}
+          </span>
+          <div className={styles.headText}>
+            <h2>{title}</h2>
+            <p className={styles.meta}>
+              {courseTitle} · {formatPosition(track.durationS)} · audio only
+            </p>
+          </div>
         </div>
       </header>
 

@@ -12,6 +12,7 @@ import { validateV2Pack } from "../../src/features/course-pack/schema-v2";
 import type { AuthoredV2Pack } from "../../src/features/course-pack/schema-v2";
 import catalog from "../../src/features/course-pack/catalog.json";
 import { SCENE_URLS } from "../../src/features/course-pack/scenes";
+import { PLAYER_ART_URLS } from "../../src/features/listen/player-art";
 import { listenCatalogEntries } from "../../src/features/listen/catalog";
 import type { ListenCatalogEntry } from "../../src/features/listen/catalog";
 
@@ -145,6 +146,13 @@ export function collectPortableContent(
   // A scene that is not on disk fails here rather than at first render.
   for (const sceneUrl of SCENE_URLS) {
     assets[sceneUrl] = embedAsset(root, sceneUrl);
+  }
+
+  // The player's artwork, for the same reason as the scenes: the Listen tab
+  // renders in this file and `environment.resolveMedia` throws on an asset the
+  // file does not carry. Derived from the module the components read.
+  for (const playerArtUrl of PLAYER_ART_URLS) {
+    assets[playerArtUrl] = embedAsset(root, playerArtUrl);
   }
 
   // Long-form audio, only for the courses the build asked for. Digests are
