@@ -80,7 +80,7 @@ test("a portable file built with the audio plays its Listen track offline", asyn
   await player.evaluate((audio: HTMLAudioElement) => audio.pause());
   await page.reload();
   await page.getByRole("button", { name: "Names and introductions", exact: true }).click();
-  await expect(page.getByText(/(stopped at|resumed at) 3:00/i)).toBeVisible();
+  await expect(page.getByText(/(resume from|resumed at) 3:00/i)).toBeVisible();
 });
 
 test("the default portable file says which tracks it cannot play", async ({ page }) => {

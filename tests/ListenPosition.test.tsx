@@ -102,7 +102,7 @@ describe('ListenPlayer resume', () => {
     const audio = player();
 
     // Offered before playing, so the choice is the learner's.
-    expect(await screen.findByText(/you stopped at 4:00/i)).toBeInTheDocument();
+    expect(await screen.findByText(/resume from 4:00/i)).toBeInTheDocument();
     loadedMetadata(audio);
     expect(audio.currentTime).toBe(240);
     expect(screen.getByText(/resumed at 4:00/i)).toBeInTheDocument();
@@ -110,7 +110,7 @@ describe('ListenPlayer resume', () => {
 
   it('starts at the beginning when nothing was saved', async () => {
     const audio = player();
-    expect(screen.queryByText(/you stopped at/i)).toBeNull();
+    expect(screen.queryByText(/resume from/i)).toBeNull();
     loadedMetadata(audio);
     expect(audio.currentTime).toBe(0);
     expect(screen.queryByText(/resumed at/i)).toBeNull();
@@ -166,14 +166,14 @@ describe('ListenPlayer resume', () => {
     const user = userEvent.setup();
     savePosition(track.lessonId, 240, LONG);
     const audio = player();
-    await screen.findByText(/you stopped at 4:00/i);
+    await screen.findByText(/resume from 4:00/i);
     loadedMetadata(audio);
     expect(audio.currentTime).toBe(240);
 
     await user.click(screen.getByRole('button', { name: 'Start over' }));
     expect(audio.currentTime).toBe(0);
     expect(readPosition(track.lessonId)).toBeNull();
-    expect(screen.queryByText(/you stopped at/i)).toBeNull();
+    expect(screen.queryByText(/resume from/i)).toBeNull();
   });
 
   it('drops a saved position that is past the end of the file', async () => {
@@ -182,7 +182,7 @@ describe('ListenPlayer resume', () => {
     // would already have treated 900s against a 660s track as finished.
     localStorage.setItem(positionKey(track.lessonId), '900');
     const audio = player();
-    await screen.findByText(/you stopped at 15:00/i);
+    await screen.findByText(/resume from 15:00/i);
     loadedMetadata(audio);
     expect(audio.currentTime).toBe(0);
     expect(readPosition(track.lessonId)).toBeNull();

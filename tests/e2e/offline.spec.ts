@@ -92,6 +92,6 @@ test('the downloaded edition can listen to the audio lesson with the network off
   await player.evaluate((audio: HTMLAudioElement) => audio.pause());
   await page.goto('/study.html?language=french&view=listen');
   await page.getByRole('button', { name: 'Names and introductions', exact: true }).click();
-  await expect(page.getByText(/(stopped at|resumed at) 5:00/i)).toBeVisible();
+  await expect(page.getByText(/(resume from|resumed at) 5:00/i)).toBeVisible();
   await context.setOffline(false);
 });
