@@ -16,9 +16,10 @@ requests, interrupted download, recovery after reconnect), WebKit's offline serv
 the gate's physical-device pass, which is human work.
 
 The next packages, in the order they are written up below: **3B** (audio expansion, blocked on the
-human listening checklist), **2B** (the German/Portuguese/Spanish flip, blocked on deciding the
-`cefr` question first), the new **Listen player brief** (`docs/superpowers/briefs/listen-player-design.md`,
-which appeared in the tree mid-run), and **Phase 4**. Phase 7 stays behind its evidence gates.
+human listening checklist), **2B** (the German/Portuguese/Spanish flip — its CEFR gate is now cleared,
+so it is mechanical work plus one decision about repairing French and Italian), the new **Listen
+player brief** (`docs/superpowers/briefs/listen-player-design.md`, which appeared in the tree mid-run),
+and **Phase 4**. Phase 7 stays behind its evidence gates.
 
 ## Phase status
 
@@ -26,7 +27,7 @@ which appeared in the tree mid-run), and **Phase 4**. Phase 7 stays behind its e
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
 | 1 — complete the first ten minutes | **1A and 1B complete** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short first-win sequence for French and Italian, text-first and sound-optional, with resume and a concrete recap. The gate's observed five-user pilot is a human session and stays pending. |
-| 2 — consistent activities and progress | **2A complete** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. 2B content work is a separate package. |
+| 2 — consistent activities and progress | **2A complete; 2B's blocker cleared** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. The CEFR loss that blocked the remaining flips is fixed in the migration (`4bac558`). 2B content work is a separate package. |
 | 3 — listening and speaking everywhere | **3A substantially complete** | Position, resume and cold start (`2d00afd`); then the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions (`e34973a`). Remaining: the offline matrix's failure cases, WebKit service-worker coverage, and the device pass. 3B needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
@@ -369,6 +370,40 @@ first time — a smaller-track option (a lower bitrate, or a shorter first track
 not an engineering one.
 
 
+### Phase 2B's blocker, resolved: the migration now carries the CEFR tag (`4bac558`)
+
+The user's instruction was explicit — do not flip German, Portuguese or Spanish until the CEFR
+metadata loss is resolved deliberately. It is resolved now, in the place the loss happened.
+
+**What was lost and why it was invisible.** Every v1 lesson carries `cefr: "A1"` (the v1 schema
+requires it). The v2 lesson shape had no field for it, and `migratePackV1ToV2` builds its lessons from
+the *runtime* shape, which never carried the tag — so the French flip dropped 25 tags. Nothing failed.
+The packs validated, the parity and replay tests passed, and the only trace was `authoredCefrTags`
+going to zero for a v2 pack while the v1 packs kept theirs: a reporting gap that reads exactly like a
+pack that claims nothing.
+
+**The fix.** `lessonSchemaV2` gains an optional `cefr: z.literal("A1")`, and `migratePackV1ToV2`
+re-attaches the tag from the raw source by lesson id rather than from the runtime shape. Three
+deliberate properties:
+
+- **optional**, because a v2 pack authored without a level claim must stay quiet rather than acquire
+  one, and `tests/pack-migration-cefr.test.ts` asserts the untagged case reports `{}`;
+- **narrow**, because `A1` is the only level this project claims — a `B2` tag is rejected by the
+  schema, so the field is a claim that can be checked rather than a free-text label;
+- **sourced from the authored file**, so the migration cannot invent a tag it was not given.
+
+The test runs against the three packs still at v1 — German, Portuguese and Spanish — and writes no
+manifest, so the guarantee is proven on real content without touching a shipped pack. It includes a
+non-vacuity case: stripping the carry from the output reproduces the French failure exactly (tag
+count zero while the source has tags).
+
+**The design decision the user asked for, recorded rather than taken:** French and Italian were
+flipped before the field existed, so their committed manifests have no tags. Re-running
+`npx tsx scripts/migrate-pack-v1-v2.ts` on each language's v1 source would restore them — that is a
+data change to an already-shipped pack (with its own parity/replay re-verification), so it is left as
+an explicit choice. Flipping German, Portuguese and Spanish is now non-lossy, which was the gate.
+
+
 ### Graphics acceptance item — the German banner
 
 The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
@@ -434,8 +469,10 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run content:build` ×2 after the fix | exit 0, byte-identical, pinned by test |
 | `npx vitest run` (after 1B and the 3A slice, `2d00afd`) | **137 files passed, 1 skipped; 1061 passed, 6 skipped** |
 | `npx vitest run` (after the 3A entry points, `0acc977`) | **140 files passed, 1 skipped; 1081 passed, 6 skipped, 0 failed** (an intermediate run showed one red file, `content-build-reproducibility`, reporting the not-yet-committed regenerated bundles — see the note under the table) |
+| `npx vitest run` (after the CEFR carry, `4bac558`) | **141 files passed, 1 skipped; 1089 passed, 6 skipped, 0 failed** — the same reproducibility file was red until the regenerated `public/study.js` was committed with it |
+| `npx vitest run tests/pack-migration-cefr.test.ts` (alone) | **9 passed** — three v1 packs' tags carried, the untagged v2 case quiet, `B2` refused, and a non-vacuity case |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
-| `npm run lint` | exit 0 (0 errors, 28 pre-existing warnings) |
+| `npm run lint` | exit 0 (0 errors, 31 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
 | `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment; unchanged this run — the voice service was not touched) |
 | `npm run portable:build && npm run portable:verify` | exit 0, 16.4 MiB, no audio lessons embedded by default; digest recorded by `portable:verify` as `dist/portable/VerbaLibera-Portable.html.sha256` |
@@ -480,6 +517,8 @@ also skips the config's own `webServer`.
 | `2d00afd` | **Phase 3A slice 1 — Listen remembers where a long track was left**, and resumes there across a cold start |
 | `e34973a` | **Phase 3A — the long tracks measured into a generated catalog, cached by the download, and Listen exposed in the downloaded and portable editions** |
 | `0acc977` | ListenView rewritten to satisfy the React Compiler lint rules structurally; portable Listen spec drives the real CLI |
+| `0fb7889` | Run record — the Listen slice, its numbers and what is left |
+| `4bac558` | **The v1→v2 migration carries the authored CEFR tag** (Phase 2B's blocker, resolved in code with tests, without flipping a pack) |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -500,9 +539,11 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    should land before any further Listen expansion.
 3. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
-4. **Phase 2B — the remaining packs' flip** (German, Portuguese, Spanish). Decide the `cefr` question
-   first: each still carries per-lesson `cefr: "A1"` tags the v2 schema has no field for, so flipping
-   them is lossy in the same way French just was.
+4. **Phase 2B — the remaining packs' flip** (German, Portuguese, Spanish). **The `cefr` gate is
+   cleared** (`4bac558`): the migration carries the authored tag and three tests prove it against the
+   packs still at v1, so a flip is no longer lossy. What remains is the mechanical work the French
+   flip paid for (see the flip section below) — and one decision: whether to repair French's and
+   Italian's committed manifests by re-migrating them from their v1 sources.
 5. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
 6. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
    surfaces (landing, course library, lesson view, offline bundle); the brief's "commission new art"
@@ -549,6 +590,11 @@ asserts the invariants for every authored sequence, so a new one is covered by a
 `AUTHORED`.
 
 ### To flip the next pack (German, Portuguese, Spanish)
+
+The CEFR gate is cleared as of `4bac558` — the migration carries the authored tag, and
+`tests/pack-migration-cefr.test.ts` proves it on the packs still at v1. Re-run that test after a flip:
+it will then be asserting the *committed* v2 manifest carries the tags, which is the check that the
+French flip failed silently.
 
 The migration itself is mechanical — `npx tsx scripts/migrate-pack-v1-v2.ts
 courses/<language>/manifest.json`, then `npm run content:build`. What costs the time is the same
@@ -613,10 +659,11 @@ build.
   preserving position and offline behaviour. The player already has the transcript, the save-audio
   link and the resume state; the transport and speed controls are new work. The brief's own
   constraints are sensible and it should be the next slice — it is written up as such in "Next tasks".
-- **Found, not fixed:** `authoredCefrTags` is now empty for both v2 packs (Italian always, French
-  since the flip) while the three v1 packs still carry their tags. The metadata gap is reported
-  rather than hidden; closing it is either a schema field or a content edit, and it should be
-  decided before the next flip (see the flip section).
+- **Found and fixed this run:** `authoredCefrTags` is no longer empty for migrated packs — the v1→v2
+  migration carries the tag (`4bac558`). The three packs still at v1 will keep it when they flip.
+  The two packs already flipped (French, Italian) have no tags in their committed manifests; repairing
+  them means re-running their migration from the v1 source, which is a data change for the user to
+  decide, so it is recorded rather than done.
 - **Found and fixed in passing:** the course library's placement link was gated on `kind ===
   'foundations'`; German's two "no art" flags; the offline collector's hand-written banner list.
   All three are the same disease as the Phase 1A bugs — a capability encoded as a hand-maintained
