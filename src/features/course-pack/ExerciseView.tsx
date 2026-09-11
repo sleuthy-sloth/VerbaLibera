@@ -4,6 +4,7 @@ import { GlossedText } from "./GlossedText";
 import type { CoursePack, Exercise } from "./schema";
 import { evaluateAnswer, type Evaluation } from "./answer";
 import { feedbackFor } from "./feedback";
+import { ThinkGate } from "./ThinkGate";
 
 type InputProps = {
   exercise: Exercise;
@@ -173,16 +174,7 @@ function ThinkInput(props: InputProps) {
   if (props.exercise.kind !== "think") return null;
   if (!ready) {
     return (
-      <div className="study-think-gate">
-        <p>
-          <strong>Think first — don&apos;t write yet.</strong> Say it in your
-          head, out loud, or to whoever is nearby. There is nothing to memorize;
-          build it from what this lesson already gave you.
-        </p>
-        <button type="button" onClick={() => setReady(true)}>
-          I&apos;ve thought about it — let me answer
-        </button>
-      </div>
+      <ThinkGate className="study-think-gate" onClear={() => setReady(true)} />
     );
   }
   return <TextInput {...props} />;

@@ -1,42 +1,60 @@
 'use client';
 
 import { useState } from 'react';
-import { onboardingDestination, saveOnboardingState, setSelectedCourse, type OnboardingLanguage } from '@/features/onboarding/state';
+import {
+  completeOnboarding,
+  onboardingDestination,
+  onboardingResumeScreen,
+  saveOnboardingState,
+  setSelectedCourse,
+  type EntryIntent,
+  type OnboardingState,
+} from '@/features/onboarding/state';
+import { languagesFor } from '@/features/onboarding/languages';
 import styles from './welcome-flow.module.css';
 
 type Screen = 'language' | 'choice';
 
 export function WelcomeFlow({
   courses,
+  initialState = null,
+  notice,
   onComplete,
 }: {
   courses: readonly { slug: string; title: string }[];
+  /**
+   * The stored onboarding record. A learner who chose a language and left
+   * resumes on the starting-point screen rather than being asked again.
+   */
+  initialState?: OnboardingState | null;
+  /** Shown when the saved choice could not be read, so the re-ask is explained. */
+  notice?: string | null;
   onComplete?: (destination: string) => void;
 }) {
-  const [screen, setScreen] = useState<Screen>('language');
-  const [selected, setSelected] = useState<string | null>(null);
-  const languages: OnboardingLanguage[] = courses.map((course) => {
-    const language = course.slug.replace(/^english-to-/, '');
-    const flagByLang: Record<string, string> = { french: '🇫🇷', italian: '🇮🇹', spanish: '🇪🇸', portuguese: '🇵🇹', german: '🇩🇪' };
-    const isStructuredA1 = language === 'french' || language === 'italian';
-    return {
-      slug: course.slug,
-      name: course.title.replace(/^English to /, '').replace(/: A1 patterns$/, ''),
-      flag: flagByLang[language] ?? '🌐',
-      availability: isStructuredA1 ? 'Structured A1 foundations' : 'Start with first words',
-      benefit: `Learn ${language[0].toUpperCase() + language.slice(1)} greetings and first phrases through worked examples.`,
-    };
-  });
+  const languages = languagesFor(courses);
+  const resumedSlug =
+    initialState && courses.some((course) => course.slug === initialState.courseSlug)
+      ? initialState.courseSlug
+      : null;
+  const [screen, setScreen] = useState<Screen>(
+    () => onboardingResumeScreen(initialState) ?? 'language',
+  );
+  const [selected, setSelected] = useState<string | null>(resumedSlug);
 
   const selectedLanguage = languages.find((entry) => entry.slug === selected);
 
   function chooseLanguage(slug: string) {
+    // Selection is local until Continue: browsing languages must not rewrite
+    // the course a returning learner already saved.
     setSelected(slug);
-    setSelectedCourse(slug);
   }
 
   function continueLanguage() {
     if (!selected) return;
+    setSelectedCourse(selected);
+    // Language chosen, decision not yet made — the state that makes "resume on
+    // the starting-point screen" a defined behaviour rather than a guess.
+    saveOnboardingState({ version: 1, courseSlug: selected, status: 'welcome-in-progress' });
     setScreen('choice');
   }
 
@@ -44,18 +62,12 @@ export function WelcomeFlow({
     setScreen('language');
   }
 
-  function beginBeginner() {
+  function choose(intent: EntryIntent) {
     if (!selected) return;
-    saveOnboardingState({ version: 1, courseSlug: selected, status: 'welcome-in-progress', entryIntent: 'beginner' });
-    const destination = onboardingDestination({ version: 1, courseSlug: selected, status: 'welcome-in-progress', entryIntent: 'beginner' });
-    onComplete?.(destination);
-  }
-
-  function takePlacement() {
-    if (!selected) return;
-    saveOnboardingState({ version: 1, courseSlug: selected, status: 'welcome-in-progress', entryIntent: 'placement' });
-    const destination = onboardingDestination({ version: 1, courseSlug: selected, status: 'welcome-in-progress', entryIntent: 'placement' });
-    onComplete?.(destination);
+    setSelectedCourse(selected);
+    // The single completion transition. Nothing else writes 'completed'.
+    const state = completeOnboarding(selected, intent);
+    onComplete?.(onboardingDestination(state));
   }
 
   if (screen === 'choice' && selectedLanguage) {
@@ -67,16 +79,24 @@ export function WelcomeFlow({
           Pick the pace that fits you. There is no wrong answer, and you can change it later.
         </p>
         <div className={styles.choiceGrid}>
-          <button type="button" className={styles.choiceCard} onClick={beginBeginner}>
+          <button type="button" className={styles.choiceCard} onClick={() => choose('beginner')}>
             <span className={styles.choiceBadge}>Recommended</span>
             <h3>Start from the beginning</h3>
-            <p>A friendly 2-minute first phrase.</p>
+            <p>Greetings and your first sentence, built one step at a time.</p>
           </button>
-          <button type="button" className={styles.choiceCard} onClick={takePlacement}>
-            <span className={styles.choiceBadge}>Experienced</span>
-            <h3>I know some already</h3>
-            <p>Take a 3-minute placement quiz.</p>
-          </button>
+          {selectedLanguage.placement ? (
+            <button type="button" className={styles.choiceCard} onClick={() => choose('placement')}>
+              <span className={styles.choiceBadge}>Experienced</span>
+              <h3>I know some already</h3>
+              <p>Answer a short {selectedLanguage.name} quiz and we will suggest where to start.</p>
+            </button>
+          ) : (
+            <button type="button" className={styles.choiceCard} onClick={() => choose('preview')}>
+              <span className={styles.choiceBadge}>Just looking</span>
+              <h3>Show me the course first</h3>
+              <p>No quiz for {selectedLanguage.name} yet. Browse the lessons before you begin.</p>
+            </button>
+          )}
         </div>
       </div>
     );
@@ -84,9 +104,10 @@ export function WelcomeFlow({
 
   return (
     <div className={styles.flow}>
+      {notice ? <p className={styles.copy}>{notice}</p> : null}
       <h2 className={styles.title}>What would you like to speak first?</h2>
       <p className={styles.copy}>
-        Choose a language. You will get a short first success, then enter the course at the right level.
+        Choose a language. You will start with a short first success, then follow the course from the beginning.
       </p>
       <fieldset className={styles.languageGroup} aria-labelledby="language-legend">
         <legend id="language-legend" className={styles.srOnly}>Choose a language</legend>

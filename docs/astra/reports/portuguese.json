@@ -1,24 +1,104 @@
 {
   "id": "pt-foundations",
+  "language": "pt",
+  "schemaVersion": 1,
   "version": "0.4.0",
-  "level": "A1 foundations (partial syllabus)",
-  "lessons": 8,
-  "concepts": 8,
-  "vocabulary": 34,
-  "exercises": 48,
-  "kinds": {
-    "choice": 11,
-    "think": 7,
-    "translate": 9,
-    "cloze": 5,
-    "dictation": 1,
-    "order": 7,
-    "reading": 5,
-    "transform": 3
+  "status": "active",
+  "level": {
+    "claim": "partial-A1",
+    "detail": "Lesson count is capacity, not CEFR evidence. No complete A1 syllabus is claimed; native-speaker review and an outcome-coverage review both remain open."
   },
-  "audioClips": 1,
-  "lessonsWithAudio": 1,
-  "packBytes": 128034,
+  "lessons": 8,
+  "units": 4,
+  "concepts": 8,
+  "authoredCefrTags": {
+    "basis": "authored cefr tags on lessons and concepts; the v2 packs carry none, which is a documentation gap rather than an absence of A1 material",
+    "counts": {
+      "A1": 8
+    }
+  },
+  "lessonFamilies": null,
+  "vocabulary": {
+    "basis": "declared entries vs entries referenced by a lesson or a reachable activity",
+    "declared": 34,
+    "referenced": 34,
+    "unused": 0
+  },
+  "runtimeActivities": {
+    "basis": "distinct activities reachable from lesson steps, where v1 steps are generated 1:1 from the authored exercises plus one notice step per lesson",
+    "reachable": 56,
+    "practice": 48,
+    "information": 8,
+    "byKind": {
+      "cloze": 5,
+      "information": 8,
+      "ordering": 7,
+      "selection": 11,
+      "text": 25
+    },
+    "bySkill": {
+      "grammar": 28,
+      "listening": 1,
+      "reading": 19,
+      "vocabulary": 19,
+      "writing": 28
+    }
+  },
+  "legacyExercises": {
+    "basis": "the authored v1 exercises; for a v1 pack these ARE the runtime activities",
+    "retained": 48,
+    "replayedAsActivities": 48,
+    "byKind": {
+      "choice": 11,
+      "cloze": 5,
+      "dictation": 1,
+      "order": 7,
+      "reading": 5,
+      "think": 7,
+      "transform": 3,
+      "translate": 9
+    }
+  },
+  "production": {
+    "basis": "practice activities whose authored skills include writing or speaking (for v1 this is the adapter's mapping: production mode and the ordering/cloze/transform kinds)",
+    "practice": 48,
+    "targetLanguage": 28,
+    "recognition": 20
+  },
+  "speaking": {
+    "basis": "self-compare activities, which record locally and collect a self-assessment",
+    "activities": 0,
+    "lessons": 0
+  },
+  "listening": {
+    "basis": "lessons that reach an activity carrying an audio stimulus, a model recording, or a legacy dictation",
+    "audioClips": 1,
+    "activities": 1,
+    "lessons": 1,
+    "lessonsTotal": 8,
+    "lessonCoveragePercent": 12.5
+  },
+  "retrieval": {
+    "basis": "authored exercises carrying reviewOf (retrieval of an earlier lesson)",
+    "activities": 39
+  },
+  "purposeMix": {
+    "notice": 8,
+    "practice": 41,
+    "predict": 7
+  },
+  "prerequisites": {
+    "basis": "lessons declaring a prerequisite; chain depth is the longest prerequisite path; vocabulary counts distinct entries introduced by a lesson's direct prerequisites",
+    "lessonsWithPrerequisites": 7,
+    "maxChainDepth": 8,
+    "vocabularyFromPrerequisites": 30
+  },
+  "review": {
+    "nativeSpeaker": "pending",
+    "audioListening": "pending",
+    "note": "Neither review has been performed. Audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
+  },
   "answerCoverage": "100%",
-  "note": "Graph and declared vocabulary references validated. Translation truth and undeclared words still require editorial review."
+  "packBytes": 128027,
+  "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }

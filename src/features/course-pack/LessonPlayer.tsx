@@ -44,6 +44,7 @@ import { ActivityView } from "./activities/ActivityView";
 import { StoryLayout } from "./layouts/StoryLayout";
 import { ConversationLayout } from "./layouts/ConversationLayout";
 import { ListeningLayout } from "./layouts/ListeningLayout";
+import { ThinkGate, useThinkGate } from "./ThinkGate";
 
 /**
  * Lesson player shell (Wave B, plan Task 5/6): drives the pure session
@@ -496,6 +497,7 @@ function LessonPlayerSession({
   const [restartNotice, setRestartNotice] = useState<string | null>(null);
   const [resumedComplete, setResumedComplete] = useState(false);
   const [hintVisible, setHintVisible] = useState(false);
+  const thinkGate = useThinkGate();
   const [durability, setDurability] = useState<PracticeDurability>(() =>
     environment.practice.getDurability(),
   );
@@ -966,6 +968,13 @@ function LessonPlayerSession({
   const stepCompleted = session.completedStepIds.includes(session.activeStepId);
   const branches = step.branches ?? {};
   const isTerminal = step.nextStepId === null && Object.keys(branches).length === 0;
+  // A `predict` step carrying a text activity is a prediction, not a prompt to
+  // copy: the input stays hidden until the learner commits (see ThinkGate). Any
+  // other purpose, or a non-text activity, renders normally.
+  const thinkGatePending =
+    step.purpose === "predict" &&
+    activity.kind === "text" &&
+    !thinkGate.isCleared(step.id);
   const promptTitle =
     activity.kind === "information" ? "Read" : activity.prompt;
 
@@ -1008,6 +1017,11 @@ function LessonPlayerSession({
           language={pack.language}
         />
       </section>
+    ) : thinkGatePending ? (
+      <ThinkGate
+        className="lp-think-gate"
+        onClear={() => thinkGate.clear(step.id)}
+      />
     ) : (
       <ActivityView
         key={activity.id}

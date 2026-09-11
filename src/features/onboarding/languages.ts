@@ -1,8 +1,14 @@
-import type { CourseFixture } from '@/features/curriculum/types';
-import { onboardingLanguages, type OnboardingLanguage } from './state';
+import type { LanguageCourse, OnboardingLanguage } from './state';
+import { onboardingLanguages } from './state';
 
-/** Presentation-safe language metadata derived from current course and foundation catalog data. */
-export function languagesFor(courses: readonly CourseFixture[]): OnboardingLanguage[] {
+/**
+ * The single entry point for language presentation metadata during onboarding.
+ *
+ * It used to be a wrapper with no callers while `WelcomeFlow` re-implemented
+ * flags, availability and benefits inline — two implementations, one of them
+ * only visible when a language got added to one list and not the other.
+ */
+export function languagesFor(courses: readonly LanguageCourse[]): OnboardingLanguage[] {
   return onboardingLanguages(courses);
 }
 

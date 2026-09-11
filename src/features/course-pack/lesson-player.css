@@ -825,3 +825,34 @@ button.lp-secondary:disabled {
   background: var(--accent, #a8511f);
   border-radius: 99px;
 }
+
+/* The v2 form of the v1 `study-think-gate`: a `predict` step hides the input
+   until the learner commits to an answer. Same promise, same copy (ThinkGate). */
+.lp-think-gate {
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  border: 1px dashed var(--lp-accent, #a8511f);
+  border-radius: 1.25rem;
+  background: var(--lp-surface);
+  color: var(--lp-ink);
+}
+
+.lp-think-gate p {
+  margin: 0 0 0.6rem;
+}
+
+.lp-think-gate button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid var(--lp-accent);
+  background: var(--lp-surface);
+  color: var(--lp-ink);
+  cursor: pointer;
+}
+
+.lp-think-gate button:hover {
+  border-color: var(--lp-accent);
+  background: var(--lp-accent-soft, var(--lp-surface));
+}

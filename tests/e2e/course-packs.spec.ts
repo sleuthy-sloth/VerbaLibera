@@ -8,6 +8,9 @@ import {
 const runtimePlayer = (page: import("@playwright/test").Page) =>
   page.getByRole("navigation", { name: "Course path" });
 
+// Both players mark the outcome on the feedback panel itself.
+const OUTCOME = '[role="status"][data-outcome]';
+
 test("Italian teaches, checks locally, saves practice and survives an offline cold start", async ({
   page,
   context,
@@ -100,12 +103,13 @@ test("Italian teaches, checks locally, saves practice and survives an offline co
 
 test("French references and mobile navigation are usable", async ({ page }) => {
   await page.goto("/courses/french");
-  await page.getByRole("link", { name: "Grammar", exact: true }).click();
+  // The v2 shell keeps concepts and vocabulary in one disclosure rather than
+  // separate Review/Vocabulary/Grammar views with a search box, so this asserts
+  // what the shell actually offers — a reference the learner can open on a phone.
+  await page.getByText("Grammar and vocabulary", { exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "People and être", exact: true }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Vocabulary", exact: true }).click();
-  await page.getByLabel("Search vocabulary").fill("frère");
   await expect(page.getByText("a brother", { exact: true })).toBeVisible();
   for (const width of [320, 390, 430, 844]) {
     await page.setViewportSize({ width, height: width === 844 ? 390 : 844 });
@@ -123,135 +127,110 @@ test("French references and mobile navigation are usable", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("a complete French lesson unlocks the next lesson and a dialogue can recover", async ({
+test("a complete French lesson unlocks the next lesson and survives a reload", async ({
   page,
 }) => {
   await page.goto("/courses/french");
   await completeFrenchL0(page);
-  // Legacy course: unlock is demonstrated by an enabled L1 and Begin practice.
+  // One lesson complete, and exactly one: the path is the learner's record.
+  await expect(page.getByText("1 of 25")).toBeVisible();
+  expect(await page.getByText("Complete — select to review").count()).toBe(1);
+  const second = page.getByRole("button", {
+    name: "Names and introductions",
+    exact: true,
+  });
+  await expect(second).toBeEnabled();
+  // The unlock is stored, not just held in memory for this page view.
+  await page.reload();
+  await expect(page.getByText("1 of 25")).toBeVisible();
+  expect(await page.getByText("Complete — select to review").count()).toBe(1);
+  await expect(second).toBeEnabled();
+  await second.click();
+  await expect(
+    page.getByRole("button", { name: "Begin practice", exact: true }),
+  ).toBeEnabled();
+});
+
+test("French L1 completes end to end on the v2 player", async ({ page }) => {
+  await page.goto("/courses/french");
+  await completeFrenchL0(page);
   await page
     .getByRole("button", { name: "Names and introductions", exact: true })
     .click();
   await expect(
     page.getByRole("button", { name: "Begin practice", exact: true }),
   ).toBeEnabled();
-
-  // Thinking sequence on the legacy player: bridge choice → think (Marc) →
-  // notice (-e) → think (Marie) → build (order) → transfer (Sophie) →
-  // meaning → cloze → reading.
-  await page.getByRole("button", { name: "Begin practice", exact: true }).click();
-  await page.getByRole("radio", { name: "suis", exact: true }).check();
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
   await page
-    .getByRole("button", { name: "Continue", exact: true })
+    .getByRole("button", { name: "Begin practice", exact: true })
     .click();
-  for (const answer of ["Je suis Marc.", "Je suis française.", "Je suis Sophie."]) {
-    if (answer === "Je suis française.") {
-      // The notice step asks what changed between française and français —
-      // pick the -e ending before checking.
-      await page
-        .getByRole("radio", {
-          name: "The woman's word ends in -e; the man's does not.",
-          exact: true,
-        })
-        .check();
-      await page
-        .getByRole("button", { name: "Check answer", exact: true })
-        .click();
-      // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-      await page
-        .getByRole("button", { name: "Continue", exact: true })
-        .click();
-    }
-    await page
-      .getByRole("button", { name: /i've thought about it/i })
-      .click();
-    await page.getByLabel(/^(Your answer|Missing word)$/).fill(answer);
-    await page.getByRole("button", { name: "Check answer", exact: true }).click();
+
+  // The authored order, which the v1→v2 migration preserved: notice → bridge
+  // selection → prediction (Marc) → notice → prediction (Marie) → build →
+  // prediction (Sophie) → meaning → cloze → reading.
+  const check = async () => {
+    await page.getByRole("button", { name: "Check", exact: true }).click();
     // Pin the outcome state rather than the wording: the learner-facing
     // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-    await page
-      .getByRole("button", { name: "Continue", exact: true })
-      .click();
-    if (answer === "Je suis française.") {
-      for (const word of ["Je", "suis", "française."])
-        await page.getByRole("button", { name: word, exact: true }).click();
-      await page.getByRole("button", { name: "Check answer", exact: true }).click();
-      // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-      await page
-        .getByRole("button", { name: "Continue", exact: true })
-        .click();
-    }
+    await expect(page.locator(OUTCOME).first()).toHaveAttribute(
+      "data-outcome",
+      "correct",
+    );
+    await page.getByRole("button", { name: /^(Next step|Continue)$/ }).click();
+  };
+  // Retype a prediction: it is gated, so clear the pause first.
+  const predict = async (text: string) => {
+    await expect(page.getByText(/think first/i)).toBeVisible();
+    expect(await page.getByLabel("Your answer").count()).toBe(0);
+    await page.getByRole("button", { name: /i've thought about it/i }).click();
+    await page.getByLabel("Your answer").fill(text);
+    await check();
+  };
+
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("radio", { name: "suis", exact: true }).check();
+  await check();
+  await predict("Je suis Marc.");
+  await page
+    .getByRole("radio", {
+      name: "The woman's word ends in -e; the man's does not.",
+      exact: true,
+    })
+    .check();
+  await check();
+  await predict("Je suis française.");
+  // The build step banks tokens in the authored order.
+  for (const word of ["Je", "suis", "française."]) {
+    await page.getByRole("button", { name: `Add ${word}`, exact: true }).click();
   }
+  await check();
+  await predict("Je suis Sophie.");
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("I am French.");
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-  await page
-    .getByRole("button", { name: "Continue", exact: true })
-    .click();
+  await check();
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("suis");
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-  await page
-    .getByRole("button", { name: "Continue", exact: true })
-    .click();
+  await check();
   await page.getByLabel(/^(Your answer|Missing word)$/).fill("Anna");
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  // Pin the outcome state rather than the wording: the learner-facing
-    // acknowledgement rotates, and the grader's category is no longer shown.
-    await expect(
-      page.locator('[role="status"][data-outcome]').first(),
-    ).toHaveAttribute("data-outcome", "correct");
-  await page
-    .getByRole("button", { name: "Continue", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Check", exact: true }).click();
+  await expect(page.locator(OUTCOME).first()).toHaveAttribute(
+    "data-outcome",
+    "correct",
+  );
+  await page.getByRole("button", { name: "Next step", exact: true }).click();
+  // The lesson's last step is the optional listening model, and the option is
+  // only "finish or not" — the primary button stays "Check" until that step is
+  // answered, so the walk answers it to reach the end of the lesson.
+  await page.getByLabel(/^(Your answer|Missing word)$/).fill("Je suis Anna.");
+  await page.getByRole("button", { name: "Check", exact: true }).click();
+  await expect(page.locator(OUTCOME).first()).toHaveAttribute(
+    "data-outcome",
+    "correct",
+  );
+  await page.getByRole("button", { name: "Finish lesson", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: /— done\.$/ }),
+    page.getByRole("heading", { name: "Lesson complete", exact: true }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Back to course", exact: true })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "People and être", exact: true }),
-  ).toBeEnabled();
-  await page.getByRole("link", { name: "Dialogues", exact: true }).click();
-  const meeting = page.getByRole("article").filter({
-    has: page.getByRole("heading", { name: "Meeting someone", exact: true }),
-  });
-  await meeting
-    .getByRole("button", { name: "Je suis française.", exact: true })
-    .click();
-  await expect(meeting.getByRole("status")).toContainText("nationality");
-  await meeting
-    .getByRole("button", { name: "Je suis Marc.", exact: true })
-    .click();
-  await expect(
-    meeting.getByText("Conversation complete. You reached the goal."),
-  ).toBeVisible();
+  await page.getByRole("button", { name: "Back to lessons", exact: true }).click();
+  await expect(page.getByText("2 of 25")).toBeVisible();
+  expect(await page.getByText("Complete — select to review").count()).toBe(2);
 });
 
 test("Italian lesson audio plays and the listening step can be reached", async ({

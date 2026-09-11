@@ -41,7 +41,20 @@ describe("portable content collection", () => {
       "portuguese",
       "spanish",
     ]);
-    expect(Object.keys(content.assets)).toHaveLength(60);
+    // Every bundle asset is either a pack's own media or one course banner per
+    // pack. Stated as that relationship rather than a bare total: the offline
+    // edition is a single file under `img-src blob: data:`, so a banner the
+    // collector forgets cannot load at all — German was missing from the
+    // hand-written banner list and a bare count could not tell you which.
+    for (const slug of Object.keys(content.packs))
+      expect(content.assets[`/brand/courses/${slug}.jpg`]).toBeDefined();
+    const mediaCount = Object.values(content.packs).reduce(
+      (total, pack) => total + pack.media.length,
+      0,
+    );
+    expect(Object.keys(content.assets)).toHaveLength(
+      mediaCount + Object.keys(content.packs).length,
+    );
   });
 
   it.each([

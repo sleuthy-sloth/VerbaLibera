@@ -238,3 +238,18 @@ export function placementItemsFor(courseSlug: string): readonly PlacementItem[] 
     };
   });
 }
+
+/**
+ * Authored assessment vs the generic travel-pattern fill-in above.
+ *
+ * The fallback is a legitimate A1-only screen on the placement route, but it has
+ * no A2/B1 items and cannot report a band: promising "a 3-minute placement quiz"
+ * that ends in "start at the beginning" for every answer is not placement.
+ * Onboarding offers the quiz only where a real authored set exists.
+ */
+const AUTHORED_PLACEMENT_LANGUAGES = ['french', 'italian'] as const;
+
+export function hasAuthoredPlacement(courseSlug: string): boolean {
+  const language = courseSlug.replace(/^english-to-/, '');
+  return (AUTHORED_PLACEMENT_LANGUAGES as readonly string[]).includes(language);
+}

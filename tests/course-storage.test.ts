@@ -26,7 +26,7 @@ it("keeps a discoverable installation when two tabs download concurrently", asyn
   const { readFileSync } = await import("node:fs");
   const pack = {
     ...validatePack(
-      JSON.parse(readFileSync("courses/french/manifest.json", "utf8")),
+      JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
     ),
     media: [],
   };

@@ -76,3 +76,39 @@ test('reduced motion keeps all content visible and old course bookmarks work', a
   await expect(page).toHaveURL(/\/dashboard\?course=english-to-italian$/);
   await expect(page.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-italian');
 });
+
+/**
+ * German shipped with no banner on either surface (`noArt: true` on the landing
+ * page, an empty `alt` in the course library) long after its artwork existed.
+ * The loop above — "every image on the landing page loads" — passed happily,
+ * because a card with no image has no image that can fail to load.
+ *
+ * So this asserts the opposite direction: every course card has a banner, and
+ * the banner has real width and height at phone width.
+ */
+const COURSE_SLUGS = ['french', 'italian', 'german', 'spanish', 'portuguese'];
+
+test('every course card shows its banner at phone width', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/', { waitUntil: 'load' });
+  await page.evaluate(() => document.fonts.ready);
+  for (const slug of COURSE_SLUGS) {
+    const banner = page.locator(`[data-language="${slug}"] img`).first();
+    await banner.scrollIntoViewIfNeeded();
+    await expect(banner, `${slug} has no banner on the landing page`).toBeVisible();
+    const box = await banner.boundingBox();
+    expect(box?.height ?? 0, `${slug} banner is collapsed on the landing page`).toBeGreaterThan(60);
+  }
+
+  await page.goto('/courses', { waitUntil: 'load' });
+  for (const slug of COURSE_SLUGS) {
+    const card = page
+      .locator('main ul > li')
+      .filter({ has: page.locator(`a[href="/courses/${slug}"]`) });
+    const banner = card.locator('img').first();
+    await banner.scrollIntoViewIfNeeded();
+    await expect(banner, `${slug} has no banner in the course library`).toBeVisible();
+    const box = await banner.boundingBox();
+    expect(box?.height ?? 0, `${slug} banner is collapsed in the course library`).toBeGreaterThan(60);
+  }
+});

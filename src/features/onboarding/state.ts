@@ -2,10 +2,12 @@
 
 import type { CourseFixture } from '@/features/curriculum/types';
 import { initialCourses } from '@/features/curriculum/fixture';
-import { foundationStartHref } from '@/features/course-pack/navigation';
+import { foundationCatalogEntry, foundationStartHref } from '@/features/course-pack/navigation';
+import { hasAuthoredPlacement } from '@/features/placement/items';
 
 export type OnboardingStatus = 'unseen' | 'welcome-in-progress' | 'completed';
-export type EntryIntent = 'beginner' | 'placement';
+/** What the learner asked for. `preview` is the truthful alternative to a placement quiz. */
+export type EntryIntent = 'beginner' | 'placement' | 'preview';
 
 export type OnboardingState = Readonly<{
   version: 1;
@@ -20,7 +22,12 @@ export type OnboardingLanguage = Readonly<{
   flag: string;
   availability: string;
   benefit: string;
+  /** True only when an authored placement set exists for this language. */
+  placement: boolean;
 }>;
+
+/** The shape both the travel-fixture courses and the dashboard snapshot provide. */
+export type LanguageCourse = Readonly<{ slug: string; title: string }>;
 
 const ONBOARDING_STORAGE_KEY = 'verbalibera_onboarding:v1';
 const SELECTED_COURSE_STORAGE_KEY = 'verbalibera_course';
@@ -33,81 +40,166 @@ const FLAG_BY_LANGUAGE: Record<string, string> = {
   german: '🇩🇪',
 };
 
-function isOnboardingState(value: unknown): value is OnboardingState {
+/**
+ * Session-only mirror. Safari private mode and denied-storage configurations
+ * throw on every `localStorage` access; onboarding must still be finishable in
+ * that session, and the honest consequence is that the choice does not survive
+ * a reload. `readOnboardingOutcome` reports that case so the UI can say so
+ * instead of silently re-asking.
+ */
+const memory = new Map<string, string>();
+
+function readKey(key: string): string | null {
+  // Never touch the shared module state on the server: it would leak between
+  // requests.
+  if (typeof window === 'undefined') return null;
+  try {
+    // The mirror is consulted ONLY when storage access throws. Reading it as a
+    // fallback for a missing key would resurrect entries the learner cleared
+    // from site data.
+    return window.localStorage.getItem(key);
+  } catch {
+    return memory.get(key) ?? null;
+  }
+}
+
+function writeKey(key: string, value: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // Denied or full storage: the session mirror is the whole record, and it is
+    // only ever populated here — mirroring successful writes would let a stale
+    // copy outlive data the learner cleared.
+    memory.set(key, value);
+  }
+}
+
+export function isOnboardingState(value: unknown): value is OnboardingState {
   if (!value || typeof value !== 'object') return false;
   const candidate = value as Record<string, unknown>;
   if (candidate.version !== 1) return false;
   if (typeof candidate.courseSlug !== 'string' || !candidate.courseSlug) return false;
   if (candidate.status !== 'unseen' && candidate.status !== 'welcome-in-progress' && candidate.status !== 'completed') return false;
-  if (candidate.entryIntent !== undefined && candidate.entryIntent !== 'beginner' && candidate.entryIntent !== 'placement') return false;
+  if (
+    candidate.entryIntent !== undefined &&
+    candidate.entryIntent !== 'beginner' &&
+    candidate.entryIntent !== 'placement' &&
+    candidate.entryIntent !== 'preview'
+  )
+    return false;
   return true;
 }
 
-export function readOnboardingState(courses: readonly CourseFixture[]): OnboardingState | null {
-  if (typeof window === 'undefined') return null;
-  const availableSlugs = new Set(courses.map((course) => course.slug));
+/** Why a stored record was not used, so the caller can be honest about it. */
+export type OnboardingOutcome =
+  | Readonly<{ kind: 'unseen' }>
+  | Readonly<{ kind: 'invalid' }>
+  | Readonly<{ kind: 'stored'; state: OnboardingState }>;
+
+export function readOnboardingOutcome(courses: readonly LanguageCourse[]): OnboardingOutcome {
+  const raw = readKey(ONBOARDING_STORAGE_KEY);
+  if (raw === null) return { kind: 'unseen' };
+  let parsed: unknown;
   try {
-    const raw = localStorage.getItem(ONBOARDING_STORAGE_KEY);
-    if (!raw) return null;
-    const parsed: unknown = JSON.parse(raw);
-    if (!isOnboardingState(parsed)) return null;
-    if (!availableSlugs.has(parsed.courseSlug)) return null;
-    return parsed;
+    parsed = JSON.parse(raw);
   } catch {
-    return null;
+    return { kind: 'invalid' };
   }
+  if (!isOnboardingState(parsed)) return { kind: 'invalid' };
+  // A record naming a course that no longer exists is stale, not trusted.
+  if (!courses.some((course) => course.slug === parsed.courseSlug)) return { kind: 'invalid' };
+  return { kind: 'stored', state: parsed };
+}
+
+export function readOnboardingState(courses: readonly LanguageCourse[]): OnboardingState | null {
+  const outcome = readOnboardingOutcome(courses);
+  return outcome.kind === 'stored' ? outcome.state : null;
 }
 
 export function saveOnboardingState(state: OnboardingState): void {
-  if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(ONBOARDING_STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // Storage may be full or unavailable; onboarding is best-effort only.
-  }
+  writeKey(ONBOARDING_STORAGE_KEY, JSON.stringify(state));
+}
+
+/**
+ * The completion transition. Decision → entry is written here and nowhere else,
+ * so "we started the welcome" can never be mistaken for "we finished it".
+ */
+export function completeOnboarding(courseSlug: string, entryIntent: EntryIntent): OnboardingState {
+  const state: OnboardingState = { version: 1, courseSlug, status: 'completed', entryIntent };
+  saveOnboardingState(state);
+  return state;
+}
+
+/**
+ * Which screen a returning learner resumes on. `null` means onboarding is
+ * finished and the flow must not open again. `welcome-in-progress` with a
+ * course recorded means the language was chosen, so the starting-point screen
+ * is where they left off.
+ */
+export function onboardingResumeScreen(state: OnboardingState | null): 'language' | 'choice' | null {
+  if (!state || state.status === 'completed') return null;
+  return state.status === 'welcome-in-progress' ? 'choice' : 'language';
 }
 
 export function setSelectedCourse(courseSlug: string): void {
-  if (typeof window === 'undefined' || !courseSlug) return;
-  try {
-    localStorage.setItem(SELECTED_COURSE_STORAGE_KEY, courseSlug);
-  } catch {
-    // Best-effort persistence.
-  }
+  if (!courseSlug) return;
+  writeKey(SELECTED_COURSE_STORAGE_KEY, courseSlug);
 }
 
 export function onboardingDestination(state: OnboardingState): string {
+  const language = foundationCatalogEntry(state.courseSlug);
   if (state.entryIntent === 'placement') {
-    return `/learn/${state.courseSlug}/placement`;
+    // Only an authored assessment can place someone. Without one, the flow must
+    // not hand a learner a quiz whose result cannot mean anything.
+    if (hasAuthoredPlacement(state.courseSlug)) return `/learn/${state.courseSlug}/placement`;
+    return language ? `/courses/${language.slug}` : '/dashboard';
+  }
+  if (state.entryIntent === 'preview') {
+    return language ? `/courses/${language.slug}` : '/dashboard';
   }
   return foundationStartHref(state.courseSlug);
 }
 
-function availabilityFor(course: CourseFixture): string {
-  const language = course.slug.replace(/^english-to-/, '');
-  const hasStructuredA1 = language === 'french' || language === 'italian';
-  if (hasStructuredA1) return 'Structured A1 foundations';
-  return 'Start with first words';
+function languageCodeFor(courseSlug: string): string {
+  return courseSlug.replace(/^english-to-/, '');
 }
 
-function benefitFor(course: CourseFixture): string {
-  const language = course.slug.replace(/^english-to-/, '');
-  const name = language[0].toUpperCase() + language.slice(1);
-  if (language === 'french' || language === 'italian') {
-    return `Learn ${name} greetings and first phrases through worked examples.`;
-  }
-  return `Learn ${name} greetings and first words with picture and audio drills.`;
+/**
+ * One label per course, derived from the foundation catalog rather than from a
+ * hardcoded language list. A course only claims a structured syllabus when the
+ * pack has one; the label never claims a completed CEFR level.
+ */
+function availabilityFor(courseSlug: string): string {
+  const entry = foundationCatalogEntry(courseSlug);
+  if (!entry) return 'Course preview';
+  return entry.lessons >= 20
+    ? `Structured A1 foundations · ${entry.lessons} lessons`
+    : `First words and everyday basics · ${entry.lessons} lessons`;
 }
 
-export function onboardingLanguages(courses: readonly CourseFixture[]): OnboardingLanguage[] {
+function benefitFor(courseSlug: string, name: string): string {
+  const language = languageCodeFor(courseSlug);
+  const placement = hasAuthoredPlacement(courseSlug)
+    ? ' Start from the beginning or place yourself with a short quiz.'
+    : ' Start from the beginning, or look around the course first.';
+  return `Learn ${name} greetings and first phrases through worked examples.${placement}`;
+}
+
+export function onboardingLanguages(courses: readonly LanguageCourse[]): OnboardingLanguage[] {
   return courses.map((course) => {
-    const language = course.slug.replace(/^english-to-/, '');
+    const language = languageCodeFor(course.slug);
+    const name = course.title
+      .replace(/^English to /, '')
+      .replace(/: A1 patterns$/, '')
+      .replace(/ foundations$/, '');
     return {
       slug: course.slug,
-      name: course.title.replace(/^English to /, '').replace(/: A1 patterns$/, ''),
+      name,
       flag: FLAG_BY_LANGUAGE[language] ?? '🌐',
-      availability: availabilityFor(course),
-      benefit: benefitFor(course),
+      availability: availabilityFor(course.slug),
+      benefit: benefitFor(course.slug, name),
+      placement: hasAuthoredPlacement(course.slug),
     };
   });
 }
@@ -116,14 +208,7 @@ export function resolvedCourseSlug(progressCourseSlug: string | undefined, cours
   if (progressCourseSlug && courses.some((course) => course.slug === progressCourseSlug)) {
     return progressCourseSlug;
   }
-  const stored = (() => {
-    if (typeof window === 'undefined') return undefined;
-    try {
-      return localStorage.getItem(SELECTED_COURSE_STORAGE_KEY) ?? undefined;
-    } catch {
-      return undefined;
-    }
-  })();
+  const stored = readKey(SELECTED_COURSE_STORAGE_KEY) ?? undefined;
   if (stored && courses.some((course) => course.slug === stored)) return stored;
   return courses[0]?.slug ?? '';
 }
