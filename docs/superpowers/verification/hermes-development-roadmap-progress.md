@@ -10,10 +10,10 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 
 ## Current phase
 
-**Phases 0 and 1A complete; Phase 2A evidence complete, the pack flip deliberately not started; the
-graphics acceptance item fixed.**
+**Phases 0 and 1A complete. Phase 2A complete — the French pack is migrated and verified. The
+graphics acceptance item is fixed.**
 
-Phase 1B (the short entry sequence) and the 2A flip are the next packages.
+Phase 1B (the short entry sequence) and Phase 3A (standalone offline Listen) are the next packages.
 
 ## Phase status
 
@@ -21,8 +21,8 @@ Phase 1B (the short entry sequence) and the 2A flip are the next packages.
 | --- | --- | --- |
 | 0 — baseline and reproducible release inputs | **Complete** | 0A report reconciliation, 0B reproducible bundles + CI parity |
 | 1 — complete the first ten minutes | **1A complete, 1B not started** | 1A: onboarding state machine, completion/resume rules, placement capability. 1B: the short French/Italian entry sequence. The gate's observed five-user pilot is a human session and stays pending. |
-| 2 — consistent activities and progress | **2A evidence complete; the flip not started** | Parity and replay proof on the real French pack. The mechanical flip plus the consumer/test updates it forces is the next commit and is deliberately not in this run. 2B content work is a separate package. |
-| 3 — listening and speaking everywhere | Not started | 3B audio expansion needs native-speaker listening review (human) |
+| 2 — consistent activities and progress | **2A complete** | French migrated to schemaVersion 2 (`473b90d`) with identity parity and history replay proven by test, plus the compensating think-first gate the move would otherwise have deleted. 2B content work is a separate package. |
+| 3 — listening and speaking everywhere | 3A next | Standalone offline Listen is the next engineering package; 3B audio expansion needs the human listening checklist |
 | 4 — curriculum depth | Not started | Needs editorial/native-speaker capacity; do not start before Phase 2 |
 | 5 — daily practice and visible learning | Not started | Depends on stable event contracts from Phase 2 |
 | 6 — verified releases | Not started | Physical-device QA and signing decisions are human tasks |
@@ -153,31 +153,77 @@ Gate check — the code half of Phase 1's gate (capability, completion, resumpti
 placement) is met and pinned. The gate's *observed five-user pilot* is **pending**: it is a human
 session and nothing in this repository can close it.
 
-### Phase 2A — French migration pilot: evidence only
+### Phase 2A — French migration pilot: the evidence
 
-Two new test files prove the claim before any content moves:
+The proof was written before any content moved, which is what made the flip reviewable:
+`tests/french-pack-migration-parity.test.ts` (all five packs) and
+`tests/french-migration-replay.test.tsx` (history replay). Both were then rewritten to describe the
+world after the flip — the parity file now runs its real-content equality assertions against the
+three packs still at v1 and pins the migrated French pack's own identities, and the replay file
+drives the stored v2 pack. Details in the flip section below.
 
-- `tests/french-pack-migration-parity.test.ts` (8 tests) — the real French pack migrates to a pack
-  `validateV2Pack` accepts; the reachable activity set, every lesson/step/prerequisite id and its
-  order, the `exercisesById` identities, the retained completion lists, unit/concept/vocabulary
-  sets, media urls and sha256, and the `reviewOf` retrieval links are all identical. Migration is
-  deterministic, and the file fails loudly with instructions once French is no longer
-  `schemaVersion: 1`.
-- `tests/french-migration-replay.test.ts` (5 tests) — three histories (legacy `PracticeEvent` rows,
-  post-migration `attempt`/`step-completed` rows, and a half-finished lesson) plus a format-two
-  exported backup all project identically through `projectLessonEvidence` against the v1 and the
-  migrated pack, with an empty quarantine list. Responses are built with the real evaluator, and
-  `Evidence` carries the SRS state, so equal evidence means equal due schedules.
+### Phase 2A — the flip (`473b90d`)
 
-**The pack flip itself is deliberately not in this run.** Flipping `courses/french/manifest.json`
-to v2 changes which player renders the course, so it needs the consumer and e2e-walk updates that
-`docs/superpowers/plans/2026-09-10-phase-2-french-migration.md` step 3 describes, in one commit.
-Landing the evidence first is what makes that commit reviewable. Exact continuation instructions
-are at the end of this file.
+`npx tsx scripts/migrate-pack-v1-v2.ts courses/french/manifest.json`, then `npm run content:build`.
+French now renders in the v2 player. `public/packs/french.json` (the PWA payload) and
+`docs/astra/reports/french.json` were regenerated in the same commit.
 
-Gate check — "existing learner histories replay without loss or inflated mastery" is proven at the
-projection level. "web, offline and portable editions interpret the same pack consistently" is
-**not yet verified** and belongs with the flip.
+Lineage check worth repeating on the next pack: the migration was re-run from the v1 file recovered
+from git (`git show HEAD:courses/french/manifest.json`) after a late adapter change, and the result
+`git diff --no-index`'d against the earlier output — 4 changed lines, exactly the 4 `practice` →
+`predict` purposes, no other byte. The German report's `packBytes` moved by exactly −7 (seven steps,
+one character shorter) in the same pass, which is the same kind of check.
+
+What is proven about the migrated pack:
+
+- **Identities.** 247 reachable activities (222 practice + 25 notice), 222 retained v1 exercise
+  records replayed as activities, 26 media clips with unchanged hashes, 102 vocabulary entries,
+  23 retrieval links, and the lesson/step/exercise identity mapping itself — all asserted against
+  the stored artifact, not against a re-run of the migrator.
+- **History.** A learner whose practice was written by the v1 player keeps their credit:
+  `legacyCredits` names the same lessons, and `CourseWorkspace` rendered against the migrated pack
+  shows "1 of 25 lessons practised", the finished lesson as `Complete — select to review`, and the
+  next lesson enabled. The companion case with no history asserts "0 of" so the first cannot pass
+  vacuously. The e2e walk extends this past a reload, which is the "stored, not just in memory"
+  half.
+- **Cross-edition.** `tests/portable-environment.test.ts` now loads the migrated pack through the
+  portable edition's `loadCourse` and asserts the same lesson ids and the same activity map as the
+  hosted `normalizePack`. Phase 2A's gate — "web, offline and portable editions interpret the same
+  pack consistently" — is therefore closed at the projection level, and the portable artifact was
+  built and verified in this run (`npm run portable:build && npm run portable:verify`, digest
+  `c0197aa4…`).
+
+**The migration would have deleted the think-first pause, and nothing would have failed.** The
+v1→v2 adapter maps a `think` exercise to a plain `text` activity, which renders its input
+immediately — so French's four predictions (`…-think-bonjour`, `…-think-marc`, `…-think-marie`,
+`…-identity-foundation-transfer`) would have become fill-in-the-blanks. The adapter now marks those
+steps `purpose: "predict"` and the v2 player gates them behind a shared
+`src/features/course-pack/ThinkGate.tsx` (the same copy the legacy player renders, so the promise
+cannot drift between engines). Clearing the gate is a *commitment, not assistance*: it does not call
+`onAssist` and does not taint the attempt, so the prediction keeps full credit — asserted in
+`tests/e2e/thinking-lesson.spec.ts` ("a prediction keeps full credit when its gate is cleared").
+
+Suites that pinned the legacy engine were retargeted rather than deleted: CourseExercise,
+exercise-feedback, course-start, course-environment, course-storage and the validator /
+daily-selection cases in `course-pack.test.ts` now run against German, the remaining v1 pack with
+the widest spread of kinds. The v1 dialogue-graph case moved onto the synthetic v1 fixture, because
+no shipped pack carries dialogues at v1 any more. The e2e walks detect the player by probing `Check`
+vs `Check answer`; the French walks were rewritten as v2 walks.
+
+Known consequences, recorded not hidden (also in `docs/cefr-coverage.md`):
+
+- The v1-only `cefr: "A1"` lesson tags have no home in the v2 schema and were dropped — 25 authored
+  tags. Nothing in the product read them; the reports did, and `docs/cefr-coverage.md` now says
+  "none on the pack" for French where it said "A1 × 25 lessons". German, Portuguese and Spanish still
+  carry their tags, so each of their flips is lossy in the same way: **decide the field's fate
+  (schema field or drop) before those three.**
+- The v2 course shell keeps concepts and vocabulary behind one "Grammar and vocabulary" disclosure
+  instead of the legacy Review/Vocabulary/Grammar views with a vocabulary search, and renders no
+  dialogue surface at all. French's two authored dialogues are therefore unreachable in the UI after
+  this change (they are still intact in the pack, and Italian has had exactly the same shape since
+  before this run). Also recorded as a Phase 3/4 follow-up below.
+- `<details>` reference browsing and the language switcher were verified at 320/390/430/844px with
+  no horizontal overflow in `tests/e2e/course-packs.spec.ts`.
 
 ### Graphics acceptance item — the German banner
 
@@ -219,6 +265,18 @@ placement link was gated on `kind === 'foundations'` rather than placement capab
 class as the Phase 1A bug, and correct today only by coincidence. German's absence from
 `progress.courses` still stands (see the blockers).
 
+**The fourth surface, found during the French flip.** The brief asked whether the portable/offline
+player uses the same asset. It did not: `scripts/portable/content.ts` hand-listed four banner paths
+and skips a missing file silently, so `german.jpg` was never embedded in the offline bundle. That
+bundle is a single HTML file under `img-src blob: data:` and `media-src blob: data:`, so a banner
+that is not embedded cannot load at all — no broken-image icon, no request, just an empty frame. The
+list is now derived from the generated catalog, and the guards are behavioural rather than a bare
+count: `tests/course-banners.test.ts` asserts the collected bundle carries one banner per catalogued
+course, and `tests/portable-builder.test.ts` asserts assets = pack media + one banner per pack.
+Proven non-vacuous by restoring the old four-entry list: the new test failed with the exact message
+"the offline bundle does not embed public/brand/courses/german.jpg". The previous assertion
+(`toHaveLength(60)`) would have caught the extra asset but could not have said which one it was.
+
 
 
 ## Test evidence
@@ -230,13 +288,16 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npm run content:validate` (runs inside every `content:*` command; verifies every declared media hash) | exit 0, five packs |
 | `npm run content:build` ×3 before the fix | exit 0, `public/study.css` stable at 34142 bytes — masked accumulation, reproduced separately (22492 → 44879 → 67266 → 89653 bytes) |
 | `npm run content:build` ×2 after the fix | exit 0, byte-identical, pinned by test |
-| `npx vitest run` | **133 files passed, 1 skipped; 979 passed, 6 skipped** |
+| `npx vitest run` (after the French flip, `473b90d`) | **134 files passed, 1 skipped; 1011 passed, 6 skipped** |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
-| `npm run lint` | exit 0 |
+| `npm run lint` | exit 0 (0 errors, 27 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
 | `python -m pytest services/voice/tests -q` | **42 passed** (contract deps only, no model environment) |
-| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/onboarding.spec.ts --project=chromium --workers=1` | **10 passed** |
-| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/landing-page.spec.ts --project=chromium --workers=1` | **8 passed** |
+| `npm run portable:build && npm run portable:verify` | exit 0, digest `c0197aa4730eec773a3e8a17affc61046b282ac92047aae79776eb1fcf02cc2e` |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after the flip) | **70 passed, 3 skipped** — the 3 are the account specs that need `E2E_ACCOUNT_TEST` and a disposable Postgres. This is the first run in which `tests/e2e/portable.spec.ts` actually ran: it had been failing on `ERR_FILE_NOT_FOUND` because the portable artifact is built by `npm run portable:build`, a CI step the earlier local runs did not reproduce. |
+
+Earlier phases' runs (onboarding 10 passed, landing-page 8 passed) are in the Phase 0/1A sections
+above; the numbers in this table are the post-flip state and supersede them.
 
 Full record with artifact digests: `docs/superpowers/verification/2026-09-10-phase-0-baseline.md`.
 The template for future notes is `docs/superpowers/verification/RELEASE-VERIFICATION-TEMPLATE.md`.
@@ -260,56 +321,63 @@ also skips the config's own `webServer`.
 | `9239350` | Run record — evidence, blockers and continuation instructions |
 | `8abc711` | Placement capability on the course library (same class as the Phase 1A bug) |
 | `64ba98a` | Graphics acceptance item — German's banner restored on both surfaces, with unit + e2e guards |
+| `473b90d` | **Phase 2A — French migrated to schemaVersion 2**, the shared think-first gate, retargeted legacy suites and e2e walks, the offline banner fix |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
-1. **Phase 2A step 3 — the French flip.** See the precise instructions below. This is the next
-   engineering commit and it is the highest-value one left in Phase 2.
-2. **Phase 1B — the short entry sequence.** One genuinely short French and Italian opening
+1. **Phase 1B — the short entry sequence.** One genuinely short French and Italian opening
    (hear/see → recognise → construct → optionally say → recap), text-first and silent equivalents,
    a clear next action at the end. Then Spanish, Portuguese and German after usability checks.
-3. **Phase 3A — standalone offline Listen** from the downloaded and portable entry points,
+2. **Phase 3A — standalone offline Listen** from the downloaded and portable entry points,
    independent of prerequisite unlocks, with persisted playback position and a cold-start/seek test.
-4. **Phase 3B — audio expansion** for German/Spanish/Portuguese. Blocked on the human listening
+3. **Phase 3B — audio expansion** for German/Spanish/Portuguese. Blocked on the human listening
    checklist; can be prepared but not closed here.
-5. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed (see the
-   graphics section); the brief's "commission new art" half is a design decision for the user.
+4. **The remaining three packs' flip** (German, Portuguese, Spanish). Do not start it before
+   deciding the `cefr` question: each of those packs still carries per-lesson `cefr: "A1"` tags that
+   the v2 schema has no field for, so flipping them is lossy in the same way French just was.
+5. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
+   surfaces (landing, course library, lesson view, offline bundle); the brief's "commission new art"
+   half is a design decision for the user, and the file is still untracked.
 
 ## Precise continuation instructions
 
-### To finish Phase 2A (the French flip)
+### To start Phase 1B (the short entry sequence)
 
-1. `npx tsx scripts/migrate-pack-v1-v2.ts courses/french/manifest.json` — deterministic; the parity
-   test proves the runtime is unchanged.
-2. `npm run content:build` and inspect the diff: `courses/french/manifest.json`,
-   `public/packs/french.json`, `src/features/course-pack/catalog.json`,
-   `docs/astra/reports/french.json`, `public/study.js`.
-3. Update, in the SAME commit:
-   - `tests/french-pack-migration-parity.test.ts` — it now fails on purpose with instructions; the
-     stored pack is v2, so assert the stored pack's own identities and keep the replay test as the
-     history proof.
-   - Every suite that reads the French pack expecting the v1 engine, by moving those pins onto a
-     remaining v1 pack (German, Portuguese or Spanish) — the rule the repository already uses.
-   - The e2e walks that drive French lessons (`tests/e2e/course-packs.spec.ts`,
-     `tests/e2e/thinking-lesson.spec.ts`, `tests/e2e/guided-session.spec.ts`,
-     `tests/e2e/study-plan*.spec.ts`, `tests/e2e/offline.spec.ts`,
-     `tests/e2e/helpers/complete-l0.ts`). Detect the engine by probing the grading control after
-     opening the lesson (`Check` is v2, `Check answer` is the legacy player) rather than by URL.
-   - `normalizePack`'s v1 path stays: old-pack import support continues through the migration
-     window.
-4. Run the full verification plus the Chromium e2e suite, then the portable suite
-   (`npm run test:e2e:portable`), which is the edition that proves "the same pack is interpreted
-   consistently". Start the dev server from the worktree on a free port and pass `E2E_BASE_URL`, or
-   the suite will silently test whichever tree owns `:3100`.
-
-### To start Phase 1B
-
-The state machine now supports it: add the short welcome as a screen between `choice` and
+The 1A state machine supports it: add the short welcome as a screen between `choice` and
 completion, move `completeOnboarding()` to the end of that sequence, and extend
 `onboardingResumeScreen()` with the new screen. Do not claim the two-minute first phrase in copy
-until the sequence exists — the current copy deliberately does not.
+until the sequence exists — the current copy deliberately does not. `tests/onboarding-state.test.ts`
+is the place the resume rules are pinned; extend it rather than adding a parallel suite.
+
+### To flip the next pack (German, Portuguese, Spanish)
+
+The migration itself is mechanical — `npx tsx scripts/migrate-pack-v1-v2.ts
+courses/<language>/manifest.json`, then `npm run content:build`. What costs the time is the same
+list the French flip paid:
+
+1. Recover the v1 file if you need to re-run after an adapter change:
+   `git show <commit>:courses/<language>/manifest.json`, then `git diff --no-index` the two
+   migration outputs and check the delta is exactly what you changed and nothing else.
+2. Move every legacy-engine suite that reads the pack onto a pack that is still v1. After all five
+   are flipped there is no such pack left, and `tests/fixtures/lesson-variety.ts` becomes the only
+   host for those suites — that is the moment to extend the fixture rather than delete the
+   assertions.
+3. Rewrite the e2e walks for that language as v2 walks (`tests/e2e/helpers/complete-l0.ts` has the
+   pattern) and re-check the course-page assertions in `tests/e2e/course-packs.spec.ts`, which
+   describe the v2 shell's disclosure rather than the legacy links.
+4. Run the whole suite, not the language's specs: the reports and the portable bundle are generated
+   across all five packs, and `tests/content-reporting.test.ts` will catch a stale report.
+
+### To run the e2e suite here (the trap that cost a cycle twice)
+
+Playwright reuses any dev server already answering on `:3100` (`reuseExistingServer: !CI`). The main
+tree keeps one running for hours. Start your own from this worktree on a free port and pass
+`E2E_BASE_URL`, and build the portable artifact first (`npm run portable:build`), or
+`tests/e2e/portable.spec.ts` fails with `ERR_FILE_NOT_FOUND` and reads like a broken change.
+`next build` and `next dev` cannot share `.next`: delete it before starting a dev server after a
+build.
 
 ## Blockers and open questions
 
@@ -324,9 +392,17 @@ until the sequence exists — the current copy deliberately does not.
   the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
   besides a direct URL. Adding it means changing the dashboard's course universe — a Phase 1B-scale
   change, not a Phase 1A fix.
-- **Found, not fixed:** `authoredCefrTags` shows the Italian v2 pack carries no `cefr` tag on its
-  lessons or concepts, while the French/German/Portuguese/Spanish v1 packs do. The metadata gap is
-  now reported rather than hidden; closing it is a content edit.
+- **Found, not fixed:** the v2 course shell has no dialogue surface, and after the French flip no
+  shipped course reaches a dialogue through the UI at all (French and Italian keep their dialogues
+  in the pack; the smaller packs have none). `DialogueView` is still wired into the legacy shell, so
+  it renders for a v1 pack that has dialogues — of which there are none. Either the v2 shell grows a
+  dialogue view or the feature is retired deliberately; do not delete the data, the migration
+  preserves it.
+- **Found, not fixed:** `authoredCefrTags` is now empty for both v2 packs (Italian always, French
+  since the flip) while the three v1 packs still carry their tags. The metadata gap is reported
+  rather than hidden; closing it is either a schema field or a content edit, and it should be
+  decided before the next flip (see the flip section).
 - **Found and fixed in passing:** the course library's placement link was gated on `kind ===
-  'foundations'`; German's two "no art" flags. Both are the same disease as the Phase 1A bugs —
-  a capability encoded as a hand-maintained flag rather than derived from data.
+  'foundations'`; German's two "no art" flags; the offline collector's hand-written banner list.
+  All three are the same disease as the Phase 1A bugs — a capability encoded as a hand-maintained
+  flag rather than derived from data.
