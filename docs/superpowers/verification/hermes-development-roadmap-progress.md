@@ -13,14 +13,16 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 **Phases 0, 1A, 1B, 2A, 2B (German) and 3A are complete apart from the gate's physical-device pass.**
 This block flipped German to schemaVersion 2 through the CEFR-preserving migration, after first fixing
 the second field the migration was dropping (`culturalNote`) and adding a census test so the class of
-loss cannot recur silently. It also retargeted every suite that was pinned to German as the last v1
-host onto Spanish, and renamed the two migration evidence suites to match what they now cover.
+loss cannot recur silently. It retargeted every suite that was pinned to German as the last v1 host
+onto Spanish, renamed the two migration evidence suites to match what they now cover, added the German
+course-page walk the flip needed in a browser, and closed the v2 dialogue gap the French flip had
+opened — French's and Italian's scripted conversations are reachable again.
 
-The next packages, in the order they are written up below: **2B continues** — flip Portuguese or
-Spanish, which is now a mechanical repeat of the playbook below (no new gate, no new test machinery:
-German's flip is the rehearsal) — **3B** (audio expansion, blocked on the human listening checklist),
-the **dialogue gap** (a plan is written up, no content needed), and **Phase 4**. Phase 7 stays behind
-its evidence gates.
+The next packages, in the order they are written up below: **2B continues** — flip Portuguese, then
+Spanish, now a mechanical repeat of the playbook below (German's flip is the worked example) — **3B**
+(audio expansion, blocked on the human listening checklist, and the only thing standing between the
+three starter packs and audio in every lesson), and **Phase 4** (needs editorial capacity). Phase 7
+stays behind its evidence gates.
 
 ## Phase status
 
@@ -564,6 +566,43 @@ from the v1 source would restore them. That is a data change to authored content
 call, pinned in `tests/pack-migration-cefr.test.ts` and `tests/pack-migration-fields.test.ts` as the
 expected zero rather than an accident.
 
+### The v2 dialogue gap, closed (`adc939b`)
+
+The loss the French flip opened, and the last piece of unreachable authored content in the tree.
+`DialogueView` worked; the legacy shell rendered it under a Dialogues view; the v2 shell had no
+dialogue surface at all. So the moment a course migrated, its scripted conversations stopped being
+reachable through the UI — French two, Italian two, and after the French and German flips **nothing in
+the product could reach any of them**. No test failed, because the component was still covered where it
+was still rendered.
+
+The v2 course shell now renders them under the course path: title, goal, the lesson to study first,
+and the conversation with its recovery branches, reusing `DialogueView` unchanged and the same
+tokens-only `study-grammar` styling the legacy shell gives it. The heading and lead paragraph are the
+legacy shell's own words, so both shells describe the same feature the same way.
+
+Three decisions worth stating:
+
+- **The guard is content, not progress** (`pack.dialogues.length > 0`). Dialogue choices are explored
+  freely and are not saved as mastery, in either shell, so gating them on lesson completion would
+  invent a rule the content does not have. German, Portuguese and Spanish author none, so nothing
+  renders for them — and that asymmetry is what makes the guard testable rather than hypothetical.
+- **The prerequisite is named, not enforced.** "Study first: Names and introductions" tells the learner
+  what the conversation assumes; it does not lock the branch, because a recovery branch exists
+  precisely so getting it wrong is safe.
+- **Nothing new to draw or author.** No new visual system, no new strings beyond the legacy shell's.
+
+Evidence: `tests/DialoguesView.test.tsx` (4 tests) renders the authored dialogues with their
+prerequisites, plays one to its terminal node and restarts it, asserts a course with no dialogues
+renders no section at all, and checks that every authored prerequisite id resolves to a real lesson —
+that last one because a broken link there would render the vague fallback and read as content rather
+than as the defect it is. `tests/e2e/course-packs.spec.ts` walks the same path in a browser on
+`/courses/french` and asserts `/courses/german` has no such section.
+
+The shared shell is why this lands in every edition at once: `CourseWorkspace` renders
+`RuntimeCourseWorkspace` for hosted, downloaded and portable alike, so the dialogues appear in
+`public/study.js` too — one `content:build` regenerated it, and the reproducibility test required it
+to be committed with the change.
+
 ### Graphics acceptance item — the German banner
 
 The untracked brief (`docs/superpowers/briefs/graphics-review.md`) asked for the German course
@@ -644,7 +683,10 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after the German flip) | **84 passed, 3 skipped** — the 3 are the account specs needing `E2E_ACCOUNT_TEST` and a disposable Postgres. Includes the new `course-packs.spec.ts` German walk: every migrated lesson on the v2 course path, the relocated notice text, the authored `meet` answer graded correct, and the think-first gate still gating before its answer input |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — unchanged by the flip (Chromium full matrix, WebKit its expressible half) |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — unchanged by the flip |
-| `npx tsc --noEmit` / `npm run lint` / `npm run build` (after the flip) | exit 0 / exit 0 (0 errors, 34 warnings, one of them added here and then removed) / exit 0 |
+| `npx tsc --noEmit` / `npm run lint` / `npm run build` (after the flip) | exit 0 / exit 0 (0 errors, 30 warnings — two fewer than the block started with) / exit 0 |
+| `npx vitest run` (final, after the dialogue surface, `adc939b`) | **146 files passed, 1 skipped; 1136 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/DialoguesView.test.tsx` (alone) | **4 passed** — the authored dialogues, one played to its terminal node and restarted, the no-content guard against German, and every prerequisite id resolving to a real lesson |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (final) | **85 passed, 3 skipped** — the German v2 walk and the dialogue walk included |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
 | `npm run lint` | exit 0 (0 errors, 31 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
@@ -698,6 +740,8 @@ also skips the config's own `webServer`.
 | `df64349` | Run record — the dialogue gap's plan |
 | `7a115a1` | **The migration stops dropping `culturalNote`**, plus a field census so an unauthorised drop fails by name |
 | `4e636eb` | **Phase 2B — German flipped to schemaVersion 2**; legacy suites retargeted onto Spanish, migration evidence suites renamed and parameterised, dual-schema accessors in the variety guard, docs and generated reports updated, and the eight stray `* 2.*` copies removed |
+| `3823b59` | The German course-page e2e walk the flip needed — the browser half the playbook assumed and found empty |
+| `adc939b` | **The v2 dialogue gap, closed** — the shell can reach a course's scripted conversations again, with the content guard and the prerequisite label |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -817,7 +861,11 @@ build.
   the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
   besides a direct URL. Adding it means changing the dashboard's course universe — a Phase 1B-scale
   change, not a Phase 1A fix.
-- **Found, not fixed — the v2 dialogue gap, with the next plan.** After the French flip no shipped
+- **Solved: the v2 dialogue gap** (see the section above). It was "found, not fixed" in the previous
+  block; `adc939b` closed it, and the plan written then is what shipped, with one correction — the
+  page-level nav the plan assumed is not where it went, because the v2 shell's course page has no tab
+  set; the dialogues render as a section under the course path instead.
+- **Found, not fixed — the original v2 dialogue gap notes, kept for the record.** After the French flip no shipped
   course reaches a dialogue through the UI: `DialogueView` is rendered only by the legacy shell
   (`CourseWorkspace.tsx:638`) and the v2 shell (`RuntimeCourseWorkspace.tsx`) has no dialogue surface,
   so French's and Italian's dialogues sit in the pack unreachable. This is now answerable with the
