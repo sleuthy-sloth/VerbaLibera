@@ -822,6 +822,45 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Stage 2: the first-run block, rebalanced for a 320px phone (`5f52fa6`)
+
+The complaint was that the blank learner's block opened with the wide raster logo lockup,
+squeezed, and a journal illustration that read as an oversized card. Both were measured
+before anything changed, in a real browser at 320×568 and 390×844:
+
+| | before | after |
+| --- | --- | --- |
+| brand | `logo-lockup.jpg` (1792×592) rendered **197×65** at 320px — the name is *inside* the image, so it cannot scale | the app's own mark at **44×44**, `alt=""`, beside `VerbaLibera` in live text in the display face (`--font-display` → Fraunces) |
+| journal | **172×172** at 320 (86% of the block's 246px width) | **103×103** (42%), capped by `min(150px, 42%)`, declared 1024×1024 so it reserves its space |
+| copy | `0.98rem` = **15.68px** | `1rem` = **16px** |
+| block height | 559px at 320 / 575px at 390 | **498px / 449px** |
+
+The raster lockup is now referenced by no surface at all. Rather than delete the user's
+approved artwork, it is **kept in the tree and no longer precached** — nothing renders it,
+so 30KB in every install is not free — and a `RETAINED` map in
+`tests/image-dimensions.test.ts` records it with that reason, so the brand guard still
+fails by name for anything else that stops being shipped. Fixing that guard turned up a
+gap of its own: its scan listed `*.ts, *.tsx, *.css, *.json` and therefore never read
+`public/sw.js`, `public/offline.html` or any generated bundle. It reads `.js`, `.mjs` and
+`.html` now.
+
+**No bottom-tab overlap**, in the sense that matters and can be tested: the floating bar
+does pass over content while the page scrolls — that is what a floating bar is — but the
+one action can always be brought fully clear of it. The body reserves 84px for the ~66px
+capsule, and the new e2e case scrolls the action to the bar's edge and asserts nothing
+overlaps. Measured at both widths, and the assertion fails on both.
+
+Coverage: `tests/FirstRunOnboarding.test.tsx` (6 cases — the name is text, no raster lockup
+is drawn, the wordmark is in the display face, the journal's width cap and declared
+dimensions, the 16px floor, one clear way in) and two e2e cases, one per width, measuring
+the mark, the journal's share of the block, the copy size, the action's tap height, the
+absence of horizontal overflow, and the tab-bar clearance. Proven non-vacuous by putting
+the journal back to 260px: the 320px case failed at "expected < 110.7, received 191.875".
+
+What the block still does not do, said plainly: the mark and the journal are both book
+imagery, and the heading and the page's own "Start learning" button compete a little as
+instructions. Both are judgement calls rather than defects, and neither was asked for.
+
 ### Stage 1: the seven supplied replacements, and the last three photographs (`b61ffa2`)
 
 Seven of the ten CC0 photographs are now the project's own illustrations, supplied as
@@ -1459,6 +1498,12 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `npx vitest run` (Stage 2: the first-run block rebalanced) | **155 passed | 1 skipped (156); 1199 passed | 6 skipped (1205)** |
+| `npx playwright test --project=chromium` | **101 passed (2.0m), 3 skipped** |
+| `playwright test --config playwright.offline.config.ts` | **11 passed (19.5s)** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
+| measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
 | `npx vitest run` (stage 1) | **154 passed | 1 skipped (155); 1193 passed | 6 skipped (1199)** |
 | `npx playwright test --project=chromium` | **99 passed, 3 skipped** |
 | `playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** |
@@ -1613,6 +1658,7 @@ also skips the config's own `webServer`.
 | `85dc920` | Run record — the ten approved assets and the first lesson scenes |
 | `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 | `2f08a38` | Run record — the emergency scene and the course map |
+| `5f52fa6` | **Stage 2: the first-run block rebalanced** |
 | `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
