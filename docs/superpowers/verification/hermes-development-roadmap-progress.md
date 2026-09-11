@@ -822,6 +822,68 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### The player's own artwork: a cover on the card, a square on the lock screen (`da2b3dc`)
+
+The Listen player had one mark and no picture, deliberately: the stylesheet said an image
+"per track would be bytes the offline bundle carries and a licence nobody has checked".
+That reasoning does not cover what arrived — **two files for the whole feature**, the
+project's own artwork — so the card gets a cover treatment and the lock screen gets a mark
+drawn for the slot. The comment is corrected rather than left contradicting the code.
+
+| | source | shipped | ground | where |
+| --- | --- | --- | --- | --- |
+| `player-card.jpg` | 1280×714 | 800×449, 117,009 B | **not snapped** (the drawn wooden table, `#cfb286`, 96 off — the fifth file the snapping premise does not fit) | the card's cover, and only that |
+| `player-lock.jpg` | 1024×1024 | 1024×1024, 142,010 B | snapped (cream field, 9 → 1, 65% remapped) | `navigator.mediaSession` artwork, ahead of the course banner |
+
+**A test forced the layout, and it was right.** The first attempt put the wide cover across
+the card at every width. On a 390×844 phone that made the card 774px tall — 92% of the
+screen — and `the player card is usable on a phone and from the keyboard`, which asserts the
+card stays under three quarters of the viewport, failed at 774 against a 633 limit. The
+brief's "without making the player full-screen" was already encoded in that assertion. So
+the phone now gets the cover at **album-thumbnail size inside the header row it already
+had** (76×43, costing the card no height at all, card back to 612px), and above 480px the
+full 16:9 frame opens up across the card, capped at 420px (237px tall). Measured, not
+assumed: card 612 vs a 633 limit, cover clear of every transport control, nothing spilling
+sideways at 390, and the 76px thumbnail still reads as a small album cover — checked by
+rendering it at 5× and looking at it, because "unreadable blur" was the thing to rule out.
+
+Both files are **decorative** (`alt=""`): the heading beside the cover names the lesson and
+the transport names the state, so nothing informative lives in either picture. The cover's
+URL goes through the edition's media resolver (`resolveMedia`, the same one the audio and
+the banner use), because the portable single file cannot fetch a shipped path — the failure
+`tests/ListenCover.test.tsx` exists to catch, and it now covers this path too.
+
+Surfaces: both files are **precached** (the service worker moves to `verbalibera-static-v10`
+so existing installs refetch) and both are **embedded in the portable file**, derived from
+`PLAYER_ART_URLS` rather than hand-listed. The portable artifact was opened and both entries
+are really in it. There is **no in-app compact player** — the Listen tab renders the library
+and then this one card — so the square is used for the lock screen and nowhere else; that is
+recorded rather than papered over with an invented surface.
+
+One more thing worth knowing before touching this again: an e2e spec **cannot import
+`player-art.ts`**. That module reaches `banners.ts`, which imports `banner-crops.json`, and
+Playwright's transform refuses a JSON import without an import attribute ("needs an import
+attribute of type: json"). Two e2e files died on it with a one-line TypeError and no test
+reported. So the artifact check in `portable.spec.ts` reads the **folder**
+(`public/brand/player-*.jpg`), the way the scenes check reads `public/images/scenes`, and the
+behavioural check — the cover rendering as a resolved blob and decoding inside the single
+file — lives in `portable-listen.spec.ts`, where a real card is on screen.
+
+Two real defects turned up while wiring this:
+
+- `scripts/brand/asset-table.py` named `public/favicon.ico`, which does not exist — the file
+  is `src/app/favicon.ico`. The generated table had never been regenerated verbatim, so the
+  wrong path sat in the generator unnoticed. Fixed, and the table is now generated rather
+  than hand-kept.
+- The service-worker guard asserted `not.toMatch(/verbalibera-static-v1/)`, and **`v10` and
+  `v11` both match `v1`**. A worker that never left v1 would have passed that check. The
+  pattern is now anchored on the closing quote.
+
+And one slip worth writing down: the two hashes in `docs/image-provenance.md` were first
+written **by hand** from a `cut -c1-40` reading, with the tail invented. It was caught before
+the commit and corrected against `shasum`, and `tests/asset-provenance.test.ts` now checks
+the recorded hashes against the files on disk, so the next one cannot be typed from memory.
+
 ### The last two pictures: bill and shopkeeper (`2632799`)
 
 The two drill pictures that were still photographs are now illustrations, because the user
@@ -1341,6 +1403,14 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `npx vitest run` (the player artwork block) | **153 files passed, 1 skipped; 1191 passed, 6 skipped, 0 failed** |
+| `npx playwright test --project=chromium` | **99 passed, 3 skipped** |
+| `playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** — the cover image included |
+| `playwright test --config playwright.portable.config.ts` | **12 passed** (Chromium and WebKit), with both player files embedded in the single file |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
+| measured at 390x844 and 1280x900 | card **612px** against the 633 limit; cover 76x43 in the header row on a phone, 420x237 above 480px; clear of every transport control; no sideways overflow |
+| `public/study.css`, `public/study.js` | regenerated and committed with this block — the player's code is in the offline bundle, and the reproducibility guard refused the diff until it was staged |
 | `npx vitest run` (the bill/shopkeeper block) | **153 files passed, 1 skipped; 1187 passed, 6 skipped, 0 failed** |
 | `npx vitest run tests/asset-provenance.test.ts tests/image-dimensions.test.ts tests/curriculum-fixture.test.ts` | 3 files, **36 passed** (10/12/6/1, both new hashes, both new alts, the sheet's reasoning still pinned) |
 | `npm run content:build` | exit 0 and **no generated artifact changed** — `study.css` and `study.js` byte-identical |
@@ -1480,6 +1550,7 @@ also skips the config's own `webServer`.
 | `85dc920` | Run record — the ten approved assets and the first lesson scenes |
 | `b255217` | **The minor-emergency scene and the course map** — the sixth situation in both lookups, the map on the one progress surface that describes a route, and the deferred pieces (portable/offline absence, the missing emergency lessons in three packs) documented rather than invented |
 | `2f08a38` | Run record — the emergency scene and the course map |
+| `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
 
@@ -1509,7 +1580,11 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    further supplied files describe a desk rather than any word the drills teach, and two are
    entrances ambiguous between museum, station and shop; those need your label rather than a
    guess.
-3. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
+3. **The player's artwork is wired, and one test decided its layout.** The brief's "without making the
+   player full-screen" is held at three quarters of the viewport by `tests/e2e/listen.spec.ts`; a
+   full-width cover on a phone broke it at 92%, so the phone gets album-thumbnail size in the header
+   row and the full frame opens above 480px. If that artwork changes, re-take the measurement.
+4. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
    guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
    other four, redrawing the remaining 13 vocabulary photographs as on-palette illustrations, and the
    lesson-scene illustration set. Each needs an image model and a reviewer. `docs/design/graphics-brief.md`
