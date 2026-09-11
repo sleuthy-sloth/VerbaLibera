@@ -637,6 +637,14 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — the player card in the single-file edition, both artifacts |
 | `npx vitest run tests/service-worker.test.ts` (alone) | **12 passed** — the 206 guard plus the four offline-matrix cases |
 | `npx vitest run tests/pack-migration-cefr.test.ts` (alone) | **9 passed** — three v1 packs' tags carried, the untagged v2 case quiet, `B2` refused, and a non-vacuity case |
+| `npx vitest run` (after the German flip, `4e636eb`) | **145 files passed, 1 skipped; 1132 passed, 6 skipped, 0 failed**. Two files were red before the commit and green after it: `content-build-reproducibility` (the regenerated reports/packs were not committed yet) and `cross-language-variety` (32 vacuous comparisons against the now-v2 German pack, fixed by reading both lesson shapes) |
+| `npx vitest run tests/migrated-pack-parity.test.ts tests/migrated-pack-replay.test.tsx tests/pack-flip-rehearsal.test.tsx tests/pack-migration-cefr.test.ts tests/pack-migration-fields.test.ts` | **pass** — 59 tests across the five migration-evidence suites, covering two flipped packs and two still at v1 |
+| `npx vitest run tests/cross-language-variety.test.ts` (alone) | **50 passed** — the 49 German/Spanish/Portuguese pairs plus the new dual-schema non-vacuity case |
+| `python3 scripts/content/cross-language-similarity.py` | exit 0 — German pairs 32-51% similar, no same-shape matches; before the dual-shape fix it printed every German pair as an empty comparison |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite, after the German flip) | **84 passed, 3 skipped** — the 3 are the account specs needing `E2E_ACCOUNT_TEST` and a disposable Postgres. Includes the new `course-packs.spec.ts` German walk: every migrated lesson on the v2 course path, the relocated notice text, the authored `meet` answer graded correct, and the think-first gate still gating before its answer input |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — unchanged by the flip (Chromium full matrix, WebKit its expressible half) |
+| `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — unchanged by the flip |
+| `npx tsc --noEmit` / `npm run lint` / `npm run build` (after the flip) | exit 0 / exit 0 (0 errors, 34 warnings, one of them added here and then removed) / exit 0 |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
 | `npm run lint` | exit 0 (0 errors, 31 pre-existing warnings) |
 | `npm run build` | exit 0 (`next build --webpack`), all routes emitted |
@@ -688,19 +696,23 @@ also skips the config's own `webServer`.
 | `4043f14` | **The Listen player card** — the visual brief implemented, with the phone-layout and skip defects its tests found |
 | `bfc61d5` | **The offline matrix's failure half** plus WebKit coverage, and the download control's learner-facing failure message |
 | `df64349` | Run record — the dialogue gap's plan |
+| `7a115a1` | **The migration stops dropping `culturalNote`**, plus a field census so an unauthorised drop fails by name |
+| `4e636eb` | **Phase 2B — German flipped to schemaVersion 2**; legacy suites retargeted onto Spanish, migration evidence suites renamed and parameterised, dual-schema accessors in the variety guard, docs and generated reports updated, and the eight stray `* 2.*` copies removed |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
-1. **Phase 2B — flip German (or Portuguese/Spanish).** Everything that made the French flip risky is
-   now proven: the migration is identical at the runtime boundary, the CEFR tags survive, and
-   `tests/pack-flip-rehearsal.test.tsx` drives the v2 shell over each pack in memory and the legacy
-   shell over the unflipped one. What is left is the retargeting in the rehearsal section above: move
-   the German-pinned suites onto Portuguese or Spanish, rewrite `course-packs.spec.ts`'s German walk as
-   a v2 walk, re-run `content:build` and the whole suite (the reports and the portable bundle are
-   generated across all five packs), and keep the migrated manifest's parity test green.
-2. **The Listen player's remaining brief item** — nothing outstanding: the brief is implemented. Its
+1. **Phase 2B continues — flip Portuguese, then Spanish.** German is done and is the worked example:
+   the whole sequence, including every file that has to move, is written out under "To flip the next
+   pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
+   `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
+2. **A second opinion on the German flip's content.** The migration is mechanical and the file is
+   verified, but nothing here reads German prose for naturalness: the 8 lessons' German and English
+   strings are the same ones that were reviewed (or not) as v1, and the native-speaker gate stays
+   open. Re-running the *content* gates on the flipped file (`npm run content:validate`,
+   `content:audio-check`) is the mechanical half and passes; the reading half is human.
+3. **The Listen player's remaining brief item** — nothing outstanding: the brief is implemented. Its
    follow-ups are the two it deliberately leaves out (AirPlay/lock-screen behaviour on a real device,
    and any per-track artwork), both human/design decisions.
 3. **The v2 dialogue gap** — the plan is in the blockers section below: a Dialogues view fed from
