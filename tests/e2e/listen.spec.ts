@@ -68,3 +68,71 @@ test("Listen tab plays the French L1 audio lesson and logs it heard", async ({
   ).toBeVisible();
   await expect(page.getByText("Listened", { exact: true })).toBeVisible();
 });
+
+// Roadmap 3A: "persist playback position ... and resume behaviour". A long
+// track that forgets the place is one a learner never finishes, so the position
+// is saved locally and offered back after the app is reopened.
+test("Listen resumes the French track where it was left, across a cold start", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/listen?course=french");
+  await page
+    .getByRole("button", { name: "Names and introductions", exact: true })
+    .click();
+  const player = page.getByLabel("Play the audio lesson: Names and introductions");
+  await player.evaluate(async (audio: HTMLAudioElement) => {
+    audio.load();
+    await new Promise<void>((resolve, reject) => {
+      audio.addEventListener("loadedmetadata", () => resolve(), { once: true });
+      audio.addEventListener("error", () => reject(new Error("Audio failed to decode")), { once: true });
+    });
+    await audio.play();
+  });
+
+  // A real seek, then stop: the player has to notice both.
+  await player.evaluate((audio: HTMLAudioElement) => {
+    audio.currentTime = 240;
+  });
+  await expect
+    .poll(() =>
+      page.evaluate(() => localStorage.getItem("verbalibera_listen_position:fr-identity-foundation")),
+    )
+    .toBe("240");
+  await player.evaluate((audio: HTMLAudioElement) => audio.pause());
+
+  // Cold start: the tab is gone, the page is loaded fresh, the learner picks
+  // the same lesson again — and is offered the place they left.
+  await page.goto("/listen?course=french");
+  await page
+    .getByRole("button", { name: "Names and introductions", exact: true })
+    .click();
+  // The player says where it picked up. In a real browser `preload="metadata"`
+  // means the seek can have happened by the first paint, so either wording is
+  // the same claim being kept.
+  await expect(page.getByText(/(stopped at|resumed at) 4:00/i)).toBeVisible();
+  const reopened = page.getByLabel("Play the audio lesson: Names and introductions");
+  await reopened.evaluate(async (audio: HTMLAudioElement) => {
+    await new Promise<void>((resolve) => {
+      if (audio.readyState >= 1) resolve();
+      else audio.addEventListener("loadedmetadata", () => resolve(), { once: true });
+    });
+  });
+  await expect
+    .poll(() => reopened.evaluate((audio: HTMLAudioElement) => Math.round(audio.currentTime)))
+    .toBe(240);
+
+  // "Start over" is a real answer, not decoration: the record clears and the
+  // next visit starts at the beginning.
+  await page.getByRole("button", { name: "Start over", exact: true }).click();
+  expect(
+    await page.evaluate(() =>
+      localStorage.getItem("verbalibera_listen_position:fr-identity-foundation"),
+    ),
+  ).toBeNull();
+  await page.goto("/listen?course=french");
+  await page
+    .getByRole("button", { name: "Names and introductions", exact: true })
+    .click();
+  await expect(page.getByText(/you stopped at/i)).toHaveCount(0);
+});

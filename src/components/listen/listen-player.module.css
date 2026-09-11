@@ -38,3 +38,35 @@
   color: #4a5451;
   font-size: 0.85rem;
 }
+
+/* Where the learner left off. Styled like the "heard" note so the two read as
+ * the same kind of statement, but with a quiet action inside it: a long track
+ * is exactly where "start over" needs to be one tap, not a slider drag. */
+.resumed {
+  padding: 8px 14px;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-left: 4px solid var(--ink);
+  border-radius: 0 16px 16px 0;
+  background: color-mix(in srgb, var(--stock) 85%, var(--canvas));
+}
+
+.startOver {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent, #a8511f);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player *,
+  .player *::before,
+  .player *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
