@@ -39,7 +39,17 @@ banner restored to its approved framing** — measured at a 0px shift against th
 re-framed file it replaced needed +278 px, with the narrow-viewport crop re-measured to 2.749 @ 100%
 and the regenerated `study.js` carrying exactly those two numbers of change. The German banner
 decision recorded as open in the previous block is therefore closed, and the four pictures are the
-worked example for converting the remaining eighteen photographs.
+worked example for converting the remaining photographs.
+
+The next block landed ten more of those assets: **five vocabulary pictures**
+(key, bed, suitcase, ambulance, police — with `key.jpg` deliberately not
+ground-snapped, because its most common colour is the drawn door rather than a
+ground) and **five lesson scenes**, which are the app's first scene artwork. The
+scenes are keyed by situation in `src/features/course-pack/scenes.ts` and render on
+the travel-session intro and both lesson intros; they are embedded in the portable
+edition and cached offline on view. Thirteen photographs remain unconverted, and the
+one printed sign inside the approved scene art is recorded in
+`docs/image-provenance.md` and barred from `src/` by a test.
 
 The next packages, in the order they are written up below: **2B continues** — flip Portuguese, then
 Spanish, now a mechanical repeat of the playbook below (German's flip is the worked example) — **3B**
@@ -66,7 +76,7 @@ stays behind its evidence gates.
   every generated report).
 - **Art direction** (added by the graphics pass): whether the German banner's approved framing needs
   a wide-frieze regeneration to match the other four (it is the approved artwork now; the question is
-  only whether that artwork should be redrawn wider), whether the remaining 18 vocabulary
+  only whether that artwork should be redrawn wider), whether the remaining 13 vocabulary
   photographs are redrawn as illustrations, and the lesson-scene illustration set the brief lists.
   All of these need an image model and a human eye; making the *existing* art legible on a phone is
   the part that could be settled in code, and it was.
@@ -812,6 +822,111 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### Ten more approved assets, and the first lesson scenes in the app (`f0513bc`)
+
+Five vocabulary pictures and five lesson scenes, all supplied as files, normalised
+here through the existing brand scripts, and wired where the app can show them.
+The interesting half is the second group: the app had no scene art anywhere, and the
+question of *where* a picture belongs turned out to have an answer in the data.
+
+**Five vocabulary pictures** (1280×714 → the 16:9 contract at **800×449**):
+
+| file | bytes | ground | alt text |
+| --- | ---: | --- | --- |
+| `key.jpg` | 85,847 B | **not snapped** | An old-fashioned room key with a blank tag |
+| `bed.jpg` | 62,458 B | 10 → 1 | A made hotel bed with a folded towel |
+| `suitcase.jpg` | 82,462 B | 12 → 1 | A green suitcase beside a folded map |
+| `ambulance.jpg` | 95,653 B | 12 → 1 | An ambulance parked outside a building |
+| `police.jpg` | 107,407 B | 14 → 1 | A police car with its roof lights on |
+
+The alts matter more than they look: the drill's **accessible name is the alt**, so
+"An ambulance" for a picture with a roof light bar and no red cross, or "A hotel
+bed" for one carrying a folded towel, is a correctness problem rather than a wording
+one. All five were rewritten against what the files actually draw, and
+`tests/asset-provenance.test.ts` now checks the record's quoted alt against the
+fixture.
+
+**`key.jpg` is deliberately not ground-snapped**, and this is the first asset where
+the script's premise fails: it assumes a file's most common colour *is* its flat
+ground, and in this file that colour is the drawn door (`#7a8e6b`, 129 units from
+the canvas cream) because the door fills more of the frame than the table does.
+Snapping would have repainted the door cream. Measured, decided, recorded in
+`docs/image-provenance.md`, and left visible to `snap-ground.py --check` — which
+reports it "off" and is right to.
+
+**Five lesson scenes** (1200×896 → **800×600**, the 4:3 frame they are drawn in, so
+the shells render them with `height: auto` and never crop or stretch). Four were
+snapped; `asking-for-the-bill.jpg` was not, for the same door-vs-ground reason (its
+most common colour is the restaurant's tan wall).
+
+**Where a scene belongs is a data question, and the app already had the answer.**
+`src/features/course-pack/scenes.ts` keys the five pictures by *situation*, looked up
+two ways because two surfaces name situations differently:
+
+- the **authored pattern scenario** — `fixture.ts` gives every travel pattern a
+  `scenario`, and the wording is identical across French, Italian, Spanish and
+  Portuguese, so one table serves all four (`"Ordering coffee or food"`, `"Paying"`,
+  `"Checking in at a hotel"`, `"Asking for directions"`, `"Finding a place"`);
+- the **lesson id segment** — `de-cafe-requests-foundation`, `de-directions-foundation`,
+  `fr-transport-foundation`. Only exact semantic matches are listed: `food-foundation`
+  is not a café counter and gets nothing.
+
+The alternative was the pack model's own `{ kind: "scene", mediaId, regions }` with a
+`scene-selection` activity, and it was rejected on evidence rather than taste: no
+pack authors one, and doing so means writing region labels and a quiz per lesson,
+which is content work rather than wiring. The module says so where the next person
+will read it.
+
+Surfaces, both measured in a browser at the two widths that matter:
+
+| surface | where it renders | 390px | 1280px |
+| --- | --- | ---: | ---: |
+| travel session (`GuidedSession`) | under the session heading, from the pattern's scenario | 358×269 | 544×408 |
+| v2 lesson intro (`RuntimeCourseWorkspace`) | under the objective, from the lesson id | — | — |
+| legacy lesson intro (`CourseWorkspace`) | above the aim line, from the lesson id | — | — |
+
+Every one renders `alt=""` — the heading, the objective and the session's `Scenario`
+line already say what the picture shows in words — at the file's own ratio (1.333
+measured against 1.333 natural, so nothing is squashed), with a 12px radius and no
+horizontal overflow on any of them. A pattern with no situation renders no picture:
+`fr-greet-politely` was checked for exactly that.
+
+**The portable and offline editions.** `RuntimeCourseWorkspace` resolves media
+through `environment.resolveMedia`, which **throws** on an asset the file does not
+carry — so a scene the app can render has to travel inside the portable artifact.
+The collector now embeds them, derived from `SCENE_URLS` rather than hand-listed
+(the hand-list is how German's banner went missing from that edition before), and
+its URL allow-list was widened from `/audio|brand` to `/audio|brand|images`. The
+artifact grew 17.3 MB → 18.2 MB. Offline is honest about a different trade: scenes
+are cached on view by the service worker's `/images/**` rule rather than installed
+with every visit, so the guarantee is "the picture you have seen is on the device",
+which is what `tests/e2e/offline.spec.ts` now asserts (in the cache, and still there
+with the network emulated off).
+
+**The one piece of lettering in the artwork.** Checked file by file: the hotel scene
+carries a wall sign reading `RECEPCIÓN`, in Spanish. It is recorded in
+`docs/image-provenance.md` — the only place it appears — and `tests/scenes.test.ts`
+greps `src/` for it, so it can never become a label, an aria name or a caption. That
+test failed first time on this very module, whose comment had quoted the word, which
+is the guard doing its job on its author. The same table records that
+`station-counter.jpg` — the file the request warned might carry signage — measured
+clean: the clock has tick marks and no numerals, the counter sign is blank. And the
+note for whoever reviews the art: that Spanish reception sign will sit inside French,
+Italian and German lessons too.
+
+**Tests, and the two that needed the data rather than the code.**
+`tests/scenes.test.ts` (6) pins the files, both lookups, the coverage in both
+directions, the portable embedding and the lettering rule; it also fails if a
+scenario string is reworded in `fixture.ts`, **proved non-vacuous by renaming one**
+("the fixture no longer has the scenario …") and by removing the portable embed loop
+("the portable edition does not embed /images/scenes/ordering-coffee.jpg").
+`tests/LessonScenes.test.tsx` (3) renders both shells; building it turned up a real
+trap — `CourseWorkspace` hands off to the v2 shell when the environment offers a v2
+course loader, so an environment carrying both made the "legacy" case silently render
+the German v2 intro. The lesson title exists in both languages, so the click worked
+and only the intro's own wording gave it away; the case now asserts the legacy
+shell's "Your aim:" line, which is what caught it.
+
 ### The approved vocabulary pictures and the German banner (`99970d6`)
 
 Two approved assets landed in the app, both normalised through the existing brand
@@ -1056,6 +1171,19 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `python3 .vl-snap-decide`-style check (modal colour vs the canvas) | ten files: eight cream grounds 9–14 off, snapped; `key.jpg` (129 off) and the bill scene (82 off) left alone by hand |
+| `npx vitest run` (post-commit, this block) | **152 files passed, 1 skipped; 1184 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/scenes.test.ts` (alone) | **6 passed** — files, both lookups, coverage both ways, portable embedding, the lettering rule |
+| Same, with the fixture's scenario renamed and the portable embed loop removed | 2 failures, both by name: "the fixture no longer has the scenario …", "the portable edition does not embed /images/scenes/ordering-coffee.jpg" — restored, 27 passed |
+| `npx vitest run tests/LessonScenes.test.tsx` (alone) | **3 passed** — v2 shell, legacy shell, and no picture for a lesson that is not a situation |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **93 passed, 3 skipped** |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/guided-session.spec.ts --project=chromium` | **9 passed** — including the scene showing for `fr-ordering-politely` and absent for `fr-greet-politely` |
+| `npx playwright test --config playwright.offline.config.ts` | **11 passed, 3 skipped** — the viewed scene is in `caches.match`, and still there with the network off |
+| `npm run portable:build` + `--config playwright.portable.config.ts` | build exit 0; **10 passed** (Chromium and WebKit); artifact 17.3 MB → **18.2 MB** |
+| `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
+| `npm run content:validate` / `content:audio-check` | exit 0 / exit 0 |
+| Browser check of the travel-session scene (390 and 1280) | 358×269 and 544×408 at the file's own ratio 1.333 vs 1.333 natural, `alt=""`, 12px radius, no horizontal overflow; `fr-greet-politely` renders no scene at all |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` | 0 errors, 30 warnings / exit 0 / exit 0 |
 | `python3 scripts/brand/snap-ground.py` (the four pictures) | 7/10/10/16 → 1 before/after; `--check` exit 0 — the ground is the canvas cream |
 | `python3 scripts/brand/snap-ground.py` (the German reference) | 7 → 1, 53.2% of pixels remapped; `--check` exit 0 |
 | `python3 scripts/brand/compare-reference.py` (after the swap) | `courses/german.jpg` at **1.54 with a 0px shift** (was 71.10 at +278 px); the other nine unchanged |
@@ -1149,6 +1277,8 @@ also skips the config's own `webServer`.
 | `d4566a7` | **The offline page gets the app's own state mark**, with the precache coupling and the declared-dimension rule extended to plain HTML |
 | `d3b8b49` | Run record — the reference audit and the offline state mark |
 | `99970d6` | **The approved vocabulary pictures ship, and the German banner becomes its approved reference** — normalised and ground-snapped, alt text corrected to match the drawings, crop re-measured, `study.js` regenerated, provenance split in two and pinned by hashes |
+| `8e09fb8` | Run record — the vocabulary pictures and the German banner |
+| `f0513bc` | **Five more vocabulary pictures and the app's first lesson scenes** — the situation-keyed `scenes.ts`, three lesson surfaces wired, scenes embedded in the portable edition and cached offline, the artwork's own lettering kept out of `src/`, provenance split three ways and every hash checked against disk |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -1158,19 +1288,22 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **The vocabulary set is now half-converted, and that is the pattern to continue.** Four of the 22
-   pictures are the project's own 16:9 illustrations; the other eighteen are still the CC0 photographs
-   the design brief calls "the single biggest mismatch with the illustration system". The four landed
-   as one commit with the normalise-and-snap pass, the alt-text check and the provenance update, so
-   the next four are a repeat: supply at any size, `sips --resampleHeightWidth 449 800`,
-   `snap-ground.py`, correct any alt the picture contradicts, extend the tables in
-   `docs/image-provenance.md` and let `tests/asset-provenance.test.ts` check the hashes.
-   One library decision is still open: the landing and library cards show the full 4:1 frame on a
-   phone, and a uniform crop of 3.34 would make every card ~21% taller with all five artworks intact
-   — but it leaves Italian only ~3.6% margin, so it is recorded rather than taken.
+2. **Nine of the 22 vocabulary pictures are the project's own now; thirteen are still photographs.**
+   The remaining ones are the CC0 set the design brief calls "the single biggest mismatch with the
+   illustration system". The pattern is settled and worked twice: supply at any size,
+   `sips --resampleHeightWidth 449 800`, snap the ground if the file's most common colour really is
+   one (check it — `key.jpg`'s was the drawn door), correct any alt the picture contradicts, extend
+   the tables in `docs/image-provenance.md`, and let `tests/asset-provenance.test.ts` check the
+   hashes.
+   Two decisions are still yours. (a) The landing and library cards show the full 4:1 frame on a
+   phone; a uniform crop of 3.34 would make every card ~21% taller with all five artworks intact, but
+   it leaves Italian only ~3.6% margin, so it is recorded rather than taken. (b) The hotel scene's
+   reception sign reads RECEPCIÓN in Spanish, and that picture sits inside French, Italian and
+   German lessons as well as the Spanish one — an art decision, not a code one, and the lettering
+   itself is already barred from every rendered string.
 3. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
    guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
-   other four, redrawing the 22 vocabulary photographs as on-palette illustrations, and the
+   other four, redrawing the remaining 13 vocabulary photographs as on-palette illustrations, and the
    lesson-scene illustration set. Each needs an image model and a reviewer. `docs/design/graphics-brief.md`
    now records the constraint new banner art must respect.
 4. **A second opinion on the German flip's content.** The migration is mechanical and the file is
@@ -1182,9 +1315,14 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    behaviour on a physical device is the same device pass the Phase 3A gate waits on; the lock-screen
    *metadata* now carries the course artwork, and whether it renders as intended on iOS is part of
    that pass.
-6. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+6. **More situations, if you want them.** Five scenes cover five situations; the app teaches eight
+   travel patterns per language plus 25 foundation lessons per language, and the mapping deliberately
+   maps only exact matches (`food-foundation` is not a café counter). A sixth approved scene —
+   greetings, buying food at a market, an emergency — would need one table entry and one file, and
+   `tests/scenes.test.ts` checks the folder has no orphans.
+7. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
-7. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
+8. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
 
 Closed since this list was written, so it stays closed: **the v2 dialogue gap** (`adc939b`, closed in
 the previous block — the plan below is history), and **the German banner defect** on all four surfaces
