@@ -300,6 +300,15 @@ const lessonSchemaV2 = z.object({
    * `tests/pack-migration-cefr.test.ts` holds it to.
    */
   cefr: z.literal("A1").optional(),
+  /**
+   * The authored cultural note carried over from the v1 lesson.
+   *
+   * No surface renders it yet — in v1 it was validated and stored and never
+   * shown — but it is 8 lessons' worth of authored prose per course, and the
+   * migration was dropping all of it. An unseen field is still content somebody
+   * wrote; keeping it costs a line and means a future surface can use it.
+   */
+  culturalNote: text.optional(),
   family: z.enum([
     "discovery",
     "story",

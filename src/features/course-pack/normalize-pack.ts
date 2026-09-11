@@ -47,16 +47,24 @@ export function migratePackV1ToV2(raw: unknown): unknown {
   const rt = normalizePack(raw);
   if (rt.schemaVersion !== 1)
     throw new Error("migratePackV1ToV2 expects a schemaVersion 1 pack");
-  // The authored CEFR tag is the one v1 field the runtime shape does not carry
-  // at all, so re-attach it from the source rather than letting the migration
-  // drop it silently. Reading it from `raw` (not from the runtime lesson) keeps
-  // this honest: if the author wrote the tag, the migrated pack keeps it.
-  const cefrByLesson = new Map(
-    ((raw as { lessons?: Array<{ id?: string; cefr?: string }> }).lessons ?? [])
-      .filter((lesson): lesson is { id: string; cefr: string } =>
-        typeof lesson.id === "string" && typeof lesson.cefr === "string",
+  // Authored lesson fields the runtime shape does not carry at all, re-attached
+  // from the source rather than dropped silently. Reading them from `raw` (not
+  // from the runtime lesson) keeps this honest: if the author wrote the field,
+  // the migrated pack keeps it.
+  //
+  // Everything else a v1 lesson holds survives by another route and is NOT a
+  // loss: `explanation` becomes the lesson's opening `information` activity and
+  // `examples` becomes its `examples` stimulus (see `adaptV1`), while
+  // `exercises` and `optionalExerciseIds` become `legacyExercises` and
+  // `legacyCompletionExerciseIds`. `tests/pack-migration-fields.test.ts` holds
+  // that census, so a future field cannot go missing the way `cefr` did.
+  const carry: Array<keyof AuthoredLessonExtras> = ["cefr", "culturalNote"];
+  const authoredByLesson = new Map(
+    ((raw as { lessons?: Array<Record<string, unknown>> }).lessons ?? [])
+      .filter((lesson): lesson is Record<string, unknown> & { id: string } =>
+        typeof lesson.id === "string",
       )
-      .map((lesson) => [lesson.id, lesson.cefr]),
+      .map((lesson) => [lesson.id, lesson]),
   );
   return {
     schemaVersion: 2,
@@ -75,12 +83,24 @@ export function migratePackV1ToV2(raw: unknown): unknown {
     stimuli: Object.values(rt.stimuli),
     activities: Object.values(rt.activities),
     lessons: rt.lessons.map((lesson) => {
-      const cefr = cefrByLesson.get(lesson.id);
-      return cefr ? { ...lesson, cefr } : lesson;
+      const authored = authoredByLesson.get(lesson.id);
+      if (!authored) return lesson;
+      const extras = Object.fromEntries(
+        carry
+          .filter((key) => typeof authored[key] === "string" && authored[key] !== "")
+          .map((key) => [key, authored[key]]),
+      );
+      return Object.keys(extras).length > 0 ? { ...lesson, ...extras } : lesson;
     }),
     dialogues: rt.dialogues,
   };
 }
+
+/** Authored v1 lesson fields the v2 schema keeps but the runtime does not use. */
+export type AuthoredLessonExtras = {
+  cefr?: string;
+  culturalNote?: string;
+};
 
 // ---------------------------------------------------------------- v1 adapter
 
