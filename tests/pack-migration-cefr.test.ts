@@ -23,9 +23,16 @@ import { buildContentReport } from "../scripts/content/report";
  * worked on a real file, not only in a fixture.
  */
 
-const V1_LANGUAGES = ["portuguese", "spanish"] as const;
+const V1_LANGUAGES = ["spanish"] as const;
+/**
+ * The pack the "prove it on a real v1 source" cases read. It moved from
+ * Portuguese to Spanish when Portuguese was flipped; Spanish is the last v1 pack
+ * left, and when it goes these cases move onto `tests/fixtures/lesson-variety.ts`
+ * rather than being deleted.
+ */
+const V1_SOURCE = "spanish";
 /** Already flipped, and flipped *with* the field in place. */
-const CARRIED_PACKS = ["german"] as const;
+const CARRIED_PACKS = ["german", "portuguese"] as const;
 /** Flipped before the field existed; their tags are a data decision, not a bug. */
 const PRE_FIELD_PACKS = ["french", "italian"] as const;
 
@@ -63,7 +70,7 @@ describe("the v1→v2 migration keeps the authored CEFR tag", () => {
   });
 
   it("the migrated tags reach the content report, which is what reported their absence", () => {
-    const raw = readPack("portuguese");
+    const raw = readPack(V1_SOURCE);
     const migrated = migratePackV1ToV2(raw);
     const report = buildContentReport(migrated, normalizePack(migrated));
     expect(report.authoredCefrTags.counts).toEqual({ A1: authoredTags(raw).size });
@@ -89,7 +96,7 @@ describe("the v1→v2 migration keeps the authored CEFR tag", () => {
     // Built at the v2 level, because v1 *requires* the tag: the interesting case
     // is a v2 pack that was authored without one (or migrated from a source that
     // had none), which must stay quiet rather than acquire a level.
-    const raw = readPack("portuguese") as { lessons: Array<Record<string, unknown>> };
+    const raw = readPack(V1_SOURCE) as { lessons: Array<Record<string, unknown>> };
     const migrated = migratePackV1ToV2(raw) as { lessons: Array<Record<string, unknown>> };
     const untagged = {
       ...migrated,
@@ -104,7 +111,7 @@ describe("the v1→v2 migration keeps the authored CEFR tag", () => {
   });
 
   it("rejects a level the schema does not claim (the field is a claim, not a label)", () => {
-    const migrated = migratePackV1ToV2(readPack("portuguese")) as { lessons: Record<string, unknown>[] };
+    const migrated = migratePackV1ToV2(readPack(V1_SOURCE)) as { lessons: Record<string, unknown>[] };
     const bumped = structuredClone(migrated);
     bumped.lessons[0].cefr = "B2";
     expect(() => validateV2Pack(bumped)).toThrow();
@@ -126,7 +133,7 @@ describe("the tag-carrier is not vacuous", () => {
   it("a migration that ignored the source tag would fail these assertions", () => {
     // Proof the assertions above can fail: strip the carry and compare as the
     // test does. This is the state the French flip shipped in.
-    const raw = readPack("portuguese");
+    const raw = readPack(V1_SOURCE);
     const migrated = migratePackV1ToV2(raw) as { lessons: Array<Record<string, unknown>> };
     const withoutCarry = {
       lessons: migrated.lessons.map(({ cefr: _cefr, ...lesson }) => lesson),

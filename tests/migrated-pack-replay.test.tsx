@@ -38,7 +38,7 @@ import {
  * course path that has silently reset.
  */
 
-const PACKS = ["french", "german"] as const;
+const PACKS = ["french", "german", "portuguese"] as const;
 const AT = "2026-09-08T09:00:00.000Z";
 
 const packFor = (language: string): RuntimePack =>

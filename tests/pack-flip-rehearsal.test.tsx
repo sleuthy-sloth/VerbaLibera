@@ -33,7 +33,7 @@ import type { RuntimePack } from '@/features/course-pack/lesson-runtime';
  * are keyed to it).
  */
 
-const PENDING = ['portuguese', 'spanish'] as const;
+const PENDING = ['spanish'] as const;
 const FLIPPED = ['french', 'german'] as const;
 
 function readRaw(language: string): Record<string, unknown> {

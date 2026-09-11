@@ -23,6 +23,35 @@ import { makeLegacyRawPack } from "./fixtures/lesson-variety";
  */
 const readLegacyPack = () =>
   JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8"));
+
+/**
+ * A pack's authored content, whichever schema it now ships.
+ *
+ * `validatePack(...)` returns `lessons[].exercises` for a v1 pack and refuses a
+ * v2 one; a flipped pack keeps the same records under `lessons[].legacyExercises`
+ * and lists prerequisites as `{ lessonId, requirement }` instead of bare ids.
+ * This reads the file and restores the v1 field names, so the assertions below —
+ * and the legacy selectors they call — keep the types they were written with.
+ * The cast is the point: the shape is the validated v1 shape by construction.
+ */
+const readAuthoredPack = (language: string): ReturnType<typeof validatePack> => {
+  const raw = JSON.parse(
+    readFileSync(`courses/${language}/manifest.json`, "utf8"),
+  ) as {
+    lessons: Array<Record<string, unknown> & { legacyExercises?: unknown[]; exercises?: unknown[] }>;
+  };
+  return {
+    ...raw,
+    lessons: raw.lessons.map((lesson) => ({
+      ...lesson,
+      exercises: lesson.legacyExercises ?? lesson.exercises ?? [],
+      prerequisites: (lesson.prerequisites as unknown[]).map((entry) =>
+        typeof entry === "string" ? entry : (entry as { lessonId: string }).lessonId,
+      ),
+    })),
+  } as unknown as ReturnType<typeof validatePack>;
+};
+
 describe("course packs", () => {
   it.each(["italian", "french"])(
     "validates original %s foundation content",
@@ -313,7 +342,7 @@ it('accepts ordinary numeric notation in listening answers without changing mean
 });
 describe('new foundation packs', () => {
   it.each(['spanish', 'portuguese'])('preserves the %s words-first entry and advances through introductions to café requests', (language) => {
-    const pack = validatePack(JSON.parse(readFileSync(`courses/${language}/manifest.json`, 'utf8')));
+    const pack = readAuthoredPack(language);
     expect(pack.status).toBe('active');
     const prefix = pack.language;
     const [first, introductions, requests] = pack.lessons;
@@ -336,6 +365,11 @@ describe('new foundation packs', () => {
         expect.arrayContaining(['reading', 'order', 'think']),
       );
     }
+    // The legacy selectors below are the v1 engine's own, so they run on the one
+    // pack it still has (Spanish). The field assertions above run on both: they
+    // are the same claims about the same authored records.
+    if (pack.schemaVersion !== 1) return;
+
     const passed = (lessons: typeof pack.lessons) => lessons.flatMap(lesson =>
       lesson.exercises.map(exercise => ({
         id: `passed-${exercise.id}`,
@@ -358,16 +392,16 @@ describe('new foundation packs', () => {
   });
 
   it('keeps the Portuguese thank-you exercise internally consistent', () => {
-    const pack = validatePack(JSON.parse(readFileSync('courses/portuguese/manifest.json', 'utf8')));
-    const exercise = pack.lessons[0].exercises.find(({ id }) => id === 'pt-first-words-foundation-meaning');
+    const pack = readAuthoredPack('portuguese');
+    const exercise = pack.lessons[0].exercises!.find(({ id }) => id === 'pt-first-words-foundation-meaning');
     expect(exercise?.prompt).toBe('Give the English meaning: Obrigado.');
     expect(exercise?.answers).toEqual(['Thank you.']);
     expect(exercise?.vocabulary).toEqual(['pt-first-words-word-2']);
   });
 
   it('models feminine Portuguese thanks while accepting either speaker form', () => {
-    const pack = validatePack(JSON.parse(readFileSync('courses/portuguese/manifest.json', 'utf8')));
-    const exercise = pack.lessons[0].exercises.find(({ id }) => id === 'pt-first-words-foundation-listen-model');
+    const pack = readAuthoredPack('portuguese');
+    const exercise = pack.lessons[0].exercises!.find(({ id }) => id === 'pt-first-words-foundation-listen-model');
     expect(exercise?.kind).toBe('dictation');
     if (!exercise || exercise.kind !== 'dictation') throw new Error('Portuguese model exercise must be dictation.');
     const media = pack.media.find(({ id }) => id === exercise.audioId)!;

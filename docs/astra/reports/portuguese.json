@@ -1,7 +1,7 @@
 {
   "id": "pt-foundations",
   "language": "pt",
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "version": "0.4.0",
   "status": "active",
   "level": {
@@ -17,7 +17,9 @@
       "A1": 8
     }
   },
-  "lessonFamilies": null,
+  "lessonFamilies": {
+    "discovery": 8
+  },
   "vocabulary": {
     "basis": "declared entries vs entries referenced by a lesson or a reachable activity",
     "declared": 34,
@@ -25,7 +27,7 @@
     "unused": 0
   },
   "runtimeActivities": {
-    "basis": "distinct activities reachable from lesson steps, where v1 steps are generated 1:1 from the authored exercises plus one notice step per lesson",
+    "basis": "distinct authored activities reachable from lesson steps (including support activities)",
     "reachable": 56,
     "practice": 48,
     "information": 8,
@@ -45,7 +47,7 @@
     }
   },
   "legacyExercises": {
-    "basis": "the authored v1 exercises; for a v1 pack these ARE the runtime activities",
+    "basis": "v1 records retained for progress replay; a subset of the runtime activities",
     "retained": 48,
     "replayedAsActivities": 48,
     "byKind": {
@@ -79,8 +81,8 @@
     "lessonCoveragePercent": 12.5
   },
   "retrieval": {
-    "basis": "authored exercises carrying reviewOf (retrieval of an earlier lesson)",
-    "activities": 39
+    "basis": "lesson steps with the transfer purpose",
+    "activities": 0
   },
   "purposeMix": {
     "notice": 8,
@@ -104,6 +106,6 @@
     "bytes": 6127533
   },
   "answerCoverage": "100%",
-  "packBytes": 128027,
+  "packBytes": 128803,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }

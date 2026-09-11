@@ -22,7 +22,7 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 | French | v2 | 25 | 222 | 25 | 119 | 0 | 25/25 | none on the pack |
 | Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
 | German | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
-| Portuguese | v1 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
+| Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Spanish | v1 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
 Totals: 74 lessons, 600 practice activities, 23 speaking steps.

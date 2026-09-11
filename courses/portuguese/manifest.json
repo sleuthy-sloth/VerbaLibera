@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "pt-foundations",
   "version": "0.4.0",
   "language": "pt",
@@ -434,30 +434,15 @@
       "url": "/audio/portuguese-foundations/pt-first-words-foundation-model.wav",
       "sha256": "ae6c966c672e944160012ee97c6215a1030a490bcde81ccb3c5cc03fc41d0538",
       "transcript": "Olá, obrigada.",
-      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, pf_dora; generated locally 2026-09-06. Native-speaker prosody review pending."
+      "attribution": "Original lesson text; Kokoro 0.9.4 / hexgrad/Kokoro-82M, pf_dora; generated locally 2026-09-06. Native-speaker prosody review pending.",
+      "kind": "audio"
     }
   ],
-  "lessons": [
+  "stimuli": [
     {
-      "id": "pt-first-words-foundation",
-      "unitId": "pt-unit-1",
-      "title": "First words",
-      "objective": "Greet someone in Portuguese, and learn why thanks changes shape depending on who is speaking.",
-      "cefr": "A1",
-      "prerequisites": [],
-      "conceptIds": [
-        "pt-first-words-concept"
-      ],
-      "vocabulary": [
-        "pt-first-words-word-1",
-        "pt-first-words-word-2",
-        "pt-first-words-word-3",
-        "pt-first-words-word-4",
-        "pt-first-words-word-5",
-        "pt-first-words-word-6"
-      ],
-      "explanation": "Portuguese greets by the hour, but one word here behaves differently from every language around it: obrigado is not fixed. A man says obrigado and a woman says obrigada, because the word agrees with the person speaking rather than the person being thanked. Get that right on day one and you will sound like yourself rather than like a phrasebook.",
-      "examples": [
+      "kind": "examples",
+      "id": "pt-first-words-foundation-examples",
+      "pairs": [
         {
           "target": "Olá.",
           "meaning": "Hello."
@@ -474,137 +459,17 @@
           "target": "Obrigado.",
           "meaning": "Thank you."
         }
-      ],
-      "culturalNote": "Olá works everywhere, all day. Obrigado ends in -o when men say it and -a (obrigada) when women say it.",
-      "exercises": [
-        {
-          "id": "pt-first-words-foundation-meet",
-          "conceptId": "pt-first-words-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "It opens every conversation in Lisbon. What does «Olá» mean?",
-          "answers": [
-            "Hello."
-          ],
-          "options": [
-            "Hello.",
-            "Thank you.",
-            "Yes.",
-            "See you."
-          ],
-          "explanation": "Olá is hello, and unlike the time of day it never changes. One word covers the whole morning and the whole night.",
-          "vocabulary": [
-            "pt-first-words-word-1"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-first-words-foundation-think-first",
-          "conceptId": "pt-first-words-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "You meet a neighbour in Lisbon. Greet them before anything else is said.",
-          "answers": [
-            "Olá."
-          ],
-          "explanation": "Say it once out loud, then look.",
-          "vocabulary": [
-            "pt-first-words-word-1"
-          ],
-          "reviewOf": [],
-          "thinkSeconds": 8
-        },
-        {
-          "id": "pt-first-words-foundation-notice-gender",
-          "conceptId": "pt-first-words-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "A woman is the one speaking, and she is thanking a colleague. Which form is hers?",
-          "answers": [
-            "Obrigada."
-          ],
-          "options": [
-            "Obrigada.",
-            "Obrigado.",
-            "Obrigados."
-          ],
-          "explanation": "Obrigada agrees with the woman speaking. Obrigado is what a man says, and obrigados is for a group.",
-          "vocabulary": [
-            "pt-first-words-word-2"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-first-words-foundation-meaning",
-          "conceptId": "pt-first-words-concept",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Obrigado.",
-          "answers": [
-            "Thank you."
-          ],
-          "explanation": "This is the masculine speaker form. A woman says obrigada, and both mean the same thing to the person hearing them.",
-          "vocabulary": [
-            "pt-first-words-word-2"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-first-words-foundation-cloze",
-          "conceptId": "pt-first-words-concept",
-          "kind": "cloze",
-          "mode": "production",
-          "prompt": "Complete the greeting you say as you arrive: ___",
-          "answers": [
-            "Olá."
-          ],
-          "explanation": "Olá comes before the request, not after it.",
-          "vocabulary": [
-            "pt-first-words-word-1"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-first-words-foundation-listen-model",
-          "conceptId": "pt-first-words-concept",
-          "kind": "dictation",
-          "mode": "listening",
-          "prompt": "Write the two words the woman says, in the order she says them.",
-          "answers": [
-            "Olá, obrigada.",
-            "Olá, obrigado."
-          ],
-          "audioId": "pt-first-words-foundation-model",
-          "explanation": "She is a woman thanking someone, so she says obrigada rather than obrigado.",
-          "vocabulary": [
-            "pt-first-words-word-1",
-            "pt-first-words-word-2"
-          ],
-          "reviewOf": []
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-introductions-foundation",
-      "unitId": "pt-unit-1",
-      "title": "Introducing yourself",
-      "objective": "Introduce yourself as Ana and keep the accent that separates é ('is') from e ('and').",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-first-words-foundation"
-      ],
-      "conceptIds": [
-        "pt-introductions-concept"
-      ],
-      "vocabulary": [
-        "pt-introductions-word-1",
-        "pt-introductions-word-2",
-        "pt-introductions-word-3",
-        "pt-introductions-word-4"
-      ],
-      "explanation": "Portuguese introduces you with Meu nome é Ana — 'my name is Ana' — and the little word é carries an accent that matters: é means 'is', while e without the accent means 'and', so Meu nome e Ana would read as 'my name and Ana'. The other introduction is Sou Ana, built on 'to be'. Brazilian Portuguese also lets the subject pronoun go, which is why Sou Ana already says 'I am' with no eu in front of it.",
-      "examples": [
+      "kind": "audio",
+      "id": "pt-first-words-foundation-listen-model-audio",
+      "mediaId": "pt-first-words-foundation-model"
+    },
+    {
+      "kind": "examples",
+      "id": "pt-introductions-foundation-examples",
+      "pairs": [
         {
           "target": "Meu nome é Ana.",
           "meaning": "My name is Ana."
@@ -617,167 +482,18 @@
           "target": "Prazer.",
           "meaning": "Nice to meet you."
         }
-      ],
-      "culturalNote": "These examples use Brazilian Portuguese. Prazer is a common short greeting at an introduction. Obrigado and obrigada vary with the speaker, not with the person being thanked.",
-      "exercises": [
-        {
-          "id": "pt-introductions-foundation-notice",
-          "conceptId": "pt-introductions-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Which question would you ask a new neighbour to learn their name in Brazilian Portuguese?",
-          "answers": [
-            "Qual é o seu nome?"
-          ],
-          "explanation": "Qual é o seu nome? is the complete question. Meu nome é Ana answers it, and Prazer is what you say on meeting.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "options": [
-            "Qual é o seu nome?",
-            "Meu nome é Ana.",
-            "Prazer."
-          ]
-        },
-        {
-          "id": "pt-introductions-foundation-build",
-          "conceptId": "pt-introductions-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "Put the words back in order to give your name with Meu nome é.",
-          "answers": [
-            "Meu nome é Ana."
-          ],
-          "explanation": "Keep the accent on é; it is the verb 'is', and the sentence reads as nonsense without it.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "tokens": [
-            "Ana.",
-            "é",
-            "nome",
-            "Meu"
-          ]
-        },
-        {
-          "id": "pt-introductions-foundation-ask",
-          "conceptId": "pt-introductions-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Ask a neighbour's name using the full question taught here.",
-          "answers": [
-            "Qual é o seu nome?"
-          ],
-          "explanation": "This is the complete question, and the accent on é stays in place.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ]
-        },
-        {
-          "id": "pt-introductions-foundation-recall",
-          "conceptId": "pt-introductions-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "Give your name as Ana with the phrase 'my name is', keeping the accent on the word for 'is'.",
-          "answers": [
-            "Meu nome é Ana."
-          ],
-          "explanation": "Meu nome é Ana — the accented é is 'is'. Without the accent the word turns into 'and'.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "thinkSeconds": 8
-        },
-        {
-          "id": "pt-introductions-foundation-read",
-          "conceptId": "pt-introductions-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the exchange. One speaker introduces themselves with no word for 'I' at all. Who is it?",
-          "answers": [
-            "Leo",
-            "Leo."
-          ],
-          "explanation": "Sou Leo says 'I am Leo' with no eu; Portuguese does not need the pronoun.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "passage": "— Olá! Meu nome é Ana.\n— Prazer, Ana. Sou Leo.\n— Prazer, Leo.",
-          "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
-        },
-        {
-          "id": "pt-introductions-foundation-reply",
-          "conceptId": "pt-introductions-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "You have just been introduced to someone. Give the short Portuguese word meaning 'Nice to meet you'.",
-          "answers": [
-            "Prazer."
-          ],
-          "explanation": "Prazer on its own is the friendly reply at an introduction.",
-          "vocabulary": [
-            "pt-introductions-word-1",
-            "pt-introductions-word-2",
-            "pt-introductions-word-3",
-            "pt-introductions-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-cafe-requests-foundation",
-      "unitId": "pt-unit-1",
-      "title": "At the café",
-      "objective": "Order with gostaria de, keeping the word that joins the verb to the drink, and match your thanks to who is speaking.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-introductions-foundation"
-      ],
-      "conceptIds": [
-        "pt-cafe-requests-concept"
-      ],
-      "vocabulary": [
-        "pt-cafe-requests-word-1",
-        "pt-cafe-requests-word-2",
-        "pt-cafe-requests-word-3",
-        "pt-cafe-requests-word-4"
-      ],
-      "explanation": "The polite request is Eu gostaria de — 'I would like'. What learners drop is the de: it holds the verb and the drink together, and it stays whatever the drink is. Eu gostaria de um café, por favor, and equally Eu gostaria de um chá, por favor. Because gostaria already says who is speaking, Brazilian Portuguese usually lets the eu go without changing the meaning. Thanks is the last thing to get right: a man says obrigado, a woman says obrigada, because the word agrees with the speaker.",
-      "examples": [
+      "kind": "text",
+      "id": "pt-introductions-foundation-read-passage",
+      "body": "— Olá! Meu nome é Ana.\n— Prazer, Ana. Sou Leo.\n— Prazer, Leo.",
+      "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
+    },
+    {
+      "kind": "examples",
+      "id": "pt-cafe-requests-foundation-examples",
+      "pairs": [
         {
           "target": "Eu gostaria de um café, por favor.",
           "meaning": "I would like a coffee, please."
@@ -790,172 +506,18 @@
           "target": "Um café, por favor.",
           "meaning": "A coffee, please."
         }
-      ],
-      "culturalNote": "These café requests use Brazilian Portuguese. The lessons accept both explicit eu and its omission in the full request.",
-      "exercises": [
-        {
-          "id": "pt-cafe-requests-foundation-choose",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Only one of these keeps the little word that joins gostaria to the drink. Which is it?",
-          "answers": [
-            "Eu gostaria de um café, por favor."
-          ],
-          "explanation": "De belongs between gostaria and the drink; without it the request loses the link. Meu nome é Ana is an introduction, not a request.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "options": [
-            "Eu gostaria de um café, por favor.",
-            "Eu gostaria um café, por favor.",
-            "Meu nome é Ana."
-          ]
-        },
-        {
-          "id": "pt-cafe-requests-foundation-build",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "The words are out of order. Build the polite request for one coffee with gostaria de.",
-          "answers": [
-            "Eu gostaria de um café, por favor."
-          ],
-          "explanation": "Gostaria and the drink are held together by de, and por favor closes the request.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "tokens": [
-            "favor.",
-            "por",
-            "café,",
-            "um",
-            "de",
-            "gostaria",
-            "Eu"
-          ]
-        },
-        {
-          "id": "pt-cafe-requests-foundation-vary",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Ask for tea politely, keeping the word that joins gostaria to the drink.",
-          "answers": [
-            "Eu gostaria de um chá, por favor.",
-            "Gostaria de um chá, por favor."
-          ],
-          "explanation": "Swap the drink but keep de: gostaria de um chá. Chá keeps its accent.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ]
-        },
-        {
-          "id": "pt-cafe-requests-foundation-recall",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "At the counter you want a coffee. Make the short request, with no verb in it.",
-          "answers": [
-            "Um café, por favor."
-          ],
-          "explanation": "Um café, por favor — the short request keeps por favor and drops gostaria.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "thinkSeconds": 8
-        },
-        {
-          "id": "pt-cafe-requests-foundation-read",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the café exchange. The customer thanks the server. Which form of thanks tells you the customer is a woman?",
-          "answers": [
-            "Obrigada."
-          ],
-          "explanation": "Obrigada, not obrigado: the word agrees with the person speaking, and this speaker is a woman.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ],
-          "passage": "— Olá. Eu gostaria de um chá, por favor.\n— Um chá?\n— Sim. Obrigada!",
-          "translation": "— Hello. I would like a tea, please.\n— A tea?\n— Yes. Thank you!"
-        },
-        {
-          "id": "pt-cafe-requests-foundation-meaning",
-          "conceptId": "pt-cafe-requests-concept",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Eu gostaria de um café, por favor.",
-          "answers": [
-            "I would like a coffee, please.",
-            "I’d like a coffee, please.",
-            "I'd like a coffee, please."
-          ],
-          "explanation": "Gostaria de is 'I would like', and por favor is 'please'.",
-          "vocabulary": [
-            "pt-cafe-requests-word-1",
-            "pt-cafe-requests-word-2",
-            "pt-cafe-requests-word-3",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": [
-            "pt-first-words-foundation"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-numbers-quantities-foundation",
-      "unitId": "pt-unit-2",
-      "title": "Numbers and quantities",
-      "objective": "Count one to ten, then choose between dois and duas to match the noun you are counting.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-cafe-requests-foundation"
-      ],
-      "conceptIds": [
-        "pt-numbers-quantities-concept"
-      ],
-      "vocabulary": [
-        "pt-numbers-quantities-word-1",
-        "pt-numbers-quantities-word-2",
-        "pt-numbers-quantities-word-3",
-        "pt-numbers-quantities-word-4"
-      ],
-      "explanation": "Brazilian Portuguese counts one to ten in two short runs. The number has to agree with what it counts: dois for a masculine café, duas for a feminine maçã, so the noun decides the shape of the number. Quanto custa asks the price and is the same whatever follows it. When fourteen comes up, remember that catorze and quatorze are both accepted spellings of the same word.",
-      "examples": [
+      "kind": "text",
+      "id": "pt-cafe-requests-foundation-read-passage",
+      "body": "— Olá. Eu gostaria de um chá, por favor.\n— Um chá?\n— Sim. Obrigada!",
+      "translation": "— Hello. I would like a tea, please.\n— A tea?\n— Yes. Thank you!"
+    },
+    {
+      "kind": "examples",
+      "id": "pt-numbers-quantities-foundation-examples",
+      "pairs": [
         {
           "target": "Quanto custa um café?",
           "meaning": "How much does a coffee cost?"
@@ -964,108 +526,12 @@
           "target": "Duas maçãs, por favor.",
           "meaning": "Two apples, please."
         }
-      ],
-      "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item.",
-      "exercises": [
-        {
-          "id": "pt-numbers-quantities-foundation-meet",
-          "conceptId": "pt-numbers-quantities-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Which word is three in Brazilian Portuguese? Unlike two, it never changes with the noun.",
-          "answers": [
-            "Três."
-          ],
-          "options": [
-            "Dois.",
-            "Três.",
-            "Seis.",
-            "Dez."
-          ],
-          "explanation": "Três is three, and it has no masculine or feminine form to choose between.",
-          "vocabulary": [
-            "pt-numbers-quantities-word-1"
-          ],
-          "reviewOf": [
-            "pt-cafe-requests-foundation"
-          ]
-        },
-        {
-          "id": "pt-numbers-quantities-foundation-quantity",
-          "conceptId": "pt-numbers-quantities-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Say in Brazilian Portuguese: Two apples, please.",
-          "answers": [
-            "Duas maçãs, por favor."
-          ],
-          "explanation": "Maçãs is feminine, so the number becomes duas. With a masculine noun such as cafés it would be dois.",
-          "vocabulary": [
-            "pt-numbers-quantities-word-4",
-            "pt-cafe-requests-word-4"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-numbers-quantities-foundation-think",
-          "conceptId": "pt-numbers-quantities-concept",
-          "kind": "think",
-          "mode": "production",
-          "thinkSeconds": 8,
-          "prompt": "Think: you want one coffee and no price is posted. Ask in Brazilian Portuguese, then write the question.",
-          "answers": [
-            "Quanto custa um café?"
-          ],
-          "explanation": "Quanto custa is fixed and does not agree with anything. Say the question aloud before you check it.",
-          "vocabulary": [
-            "pt-numbers-quantities-word-3"
-          ],
-          "reviewOf": []
-        },
-        {
-          "id": "pt-numbers-quantities-foundation-order",
-          "conceptId": "pt-numbers-quantities-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "Put the Brazilian Portuguese words in order to ask the price of one coffee.",
-          "answers": [
-            "Quanto custa um café?"
-          ],
-          "explanation": "Quanto custa leads, then um café names the thing being priced. Um matches the masculine café.",
-          "vocabulary": [
-            "pt-numbers-quantities-word-3"
-          ],
-          "reviewOf": [],
-          "tokens": [
-            "Quanto",
-            "custa",
-            "um",
-            "café?"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-directions-foundation",
-      "unitId": "pt-unit-3",
-      "title": "Asking the way",
-      "objective": "Ask where a place stays with ficar, then walk two steps whose second one wears a grave accent.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-numbers-quantities-foundation"
-      ],
-      "conceptIds": [
-        "pt-directions-concept"
-      ],
-      "vocabulary": [
-        "pt-directions-word-1",
-        "pt-directions-word-2",
-        "pt-directions-word-3",
-        "pt-directions-word-4"
-      ],
-      "explanation": "Portuguese asks where a place is with ficar rather than 'to be': Onde fica o banheiro? The directions are the part to read carefully, because à esquerda and à direita wear a grave accent. That accent fuses two a's, the preposition and the article, and it is the difference between the left and to the left. Desculpe ahead of the question makes it polite.",
-      "examples": [
+      "kind": "examples",
+      "id": "pt-directions-foundation-examples",
+      "pairs": [
         {
           "target": "Onde fica a estação?",
           "meaning": "Where is the station?"
@@ -1078,155 +544,18 @@
           "target": "Desculpe, onde fica o banheiro?",
           "meaning": "Excuse me, where is the bathroom?"
         }
-      ],
-      "culturalNote": "Ouça and Desculpe both open a request in Portugal; in Brazil you will hear Com licença just as often.",
-      "exercises": [
-        {
-          "id": "pt-directions-foundation-meet",
-          "conceptId": "pt-directions-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Portuguese asks where a place 'stays'. Which of these words does the asking?",
-          "answers": [
-            "onde"
-          ],
-          "explanation": "Onde means where. Quem is the one for a person and o que for a thing. The direction words beside it answer rather than ask.",
-          "vocabulary": [
-            "pt-directions-word-1",
-            "pt-directions-word-2",
-            "pt-directions-word-3",
-            "pt-directions-word-4"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ],
-          "options": [
-            "onde",
-            "esquerda",
-            "direita",
-            "frente"
-          ]
-        },
-        {
-          "id": "pt-directions-foundation-ask",
-          "conceptId": "pt-directions-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "Ask in Portuguese where the bathroom is.",
-          "answers": [
-            "Onde fica o banheiro?"
-          ],
-          "explanation": "Fica is the ficar form used for where something sits, and banheiro is masculine, so its article is o. The question frame does not change with the noun.",
-          "vocabulary": [
-            "pt-directions-word-1"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ]
-        },
-        {
-          "id": "pt-directions-foundation-cloze",
-          "conceptId": "pt-directions-concept",
-          "kind": "cloze",
-          "mode": "production",
-          "prompt": "Complete the directions: Em frente, depois à ___",
-          "answers": [
-            "esquerda"
-          ],
-          "explanation": "Esquerda is left. The accent on à fuses the preposition a with the article a, and direita would point the other way.",
-          "vocabulary": [
-            "pt-directions-word-2",
-            "pt-directions-word-3"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ]
-        },
-        {
-          "id": "pt-directions-foundation-vary",
-          "conceptId": "pt-directions-concept",
-          "kind": "transform",
-          "mode": "production",
-          "prompt": "Soften the question by putting Desculpe in front: Onde fica a estação?",
-          "answers": [
-            "Desculpe, onde fica a estação?"
-          ],
-          "explanation": "Desculpe leads and a comma separates it from the question. The question itself is untouched.",
-          "vocabulary": [
-            "pt-directions-word-1"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ]
-        },
-        {
-          "id": "pt-directions-foundation-read",
-          "conceptId": "pt-directions-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the exchange and find the first direction the visitor is given.",
-          "answers": [
-            "Straight ahead.",
-            "Straight ahead"
-          ],
-          "explanation": "The first step is em frente, straight ahead, and the second comes after depois: à esquerda.",
-          "vocabulary": [
-            "pt-directions-word-1",
-            "pt-directions-word-2",
-            "pt-directions-word-4"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ],
-          "passage": "Turista: Desculpe, onde fica a praia?\nMoradora: Em frente, depois à esquerda.\nTurista: Muito obrigado!",
-          "translation": "Tourist: Excuse me, where is the beach?\nResident: Straight ahead, then to the left.\nTourist: Thank you very much!"
-        },
-        {
-          "id": "pt-directions-foundation-build",
-          "conceptId": "pt-directions-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "Put the Portuguese words in order to ask where the station is.",
-          "answers": [
-            "Onde fica a estação?"
-          ],
-          "explanation": "Onde leads, fica follows because Portuguese asks where a place 'stays'. Estação is feminine, so its article is a.",
-          "vocabulary": [
-            "pt-directions-word-1"
-          ],
-          "reviewOf": [
-            "pt-numbers-quantities-foundation"
-          ],
-          "tokens": [
-            "estação?",
-            "a",
-            "fica",
-            "Onde"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-shopping-foundation",
-      "unitId": "pt-unit-3",
-      "title": "Prices and paying",
-      "objective": "Ask what something costs, keep the price frame singular for one item, and hear why Portuguese orders with a softened verb.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-directions-foundation"
-      ],
-      "conceptIds": [
-        "pt-shopping-concept"
-      ],
-      "vocabulary": [
-        "pt-shopping-word-1",
-        "pt-shopping-word-2",
-        "pt-shopping-word-3",
-        "pt-shopping-word-4"
-      ],
-      "explanation": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. Portuguese also softens a request by stepping into the imperfect — Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, and por favor carries the politeness on its own.",
-      "examples": [
+      "kind": "text",
+      "id": "pt-directions-foundation-read-passage",
+      "body": "Turista: Desculpe, onde fica a praia?\nMoradora: Em frente, depois à esquerda.\nTurista: Muito obrigado!",
+      "translation": "Tourist: Excuse me, where is the beach?\nResident: Straight ahead, then to the left.\nTourist: Thank you very much!"
+    },
+    {
+      "kind": "examples",
+      "id": "pt-shopping-foundation-examples",
+      "pairs": [
         {
           "target": "Quanto custa o café?",
           "meaning": "How much does the coffee cost?"
@@ -1239,150 +568,12 @@
           "target": "A conta, por favor.",
           "meaning": "The bill, please."
         }
-      ],
-      "culturalNote": "In Portuguese cafés the bill usually arrives when you ask for it, so a conta, por favor ends the visit.",
-      "exercises": [
-        {
-          "id": "pt-shopping-foundation-meet",
-          "conceptId": "pt-shopping-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "One of these lines will get a price out of a shopkeeper in Lisbon. Which one is it?",
-          "answers": [
-            "Quanto custa?"
-          ],
-          "explanation": "Quanto custa? is the price question: quanto asks how much, and custa is the form of custar that fits one item.",
-          "vocabulary": [
-            "pt-shopping-word-1",
-            "pt-shopping-word-2",
-            "pt-shopping-word-3",
-            "pt-shopping-word-4"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ],
-          "options": [
-            "Como está?",
-            "Onde fica?",
-            "Quanto custa?"
-          ]
-        },
-        {
-          "id": "pt-shopping-foundation-ask",
-          "conceptId": "pt-shopping-concept",
-          "kind": "translate",
-          "mode": "production",
-          "prompt": "The meal is over and you want to pay in a Portuguese restaurant. Ask for the bill.",
-          "answers": [
-            "A conta, por favor.",
-            "A conta por favor."
-          ],
-          "explanation": "Conta is feminine and takes a, and por favor carries the politeness on its own.",
-          "vocabulary": [
-            "pt-shopping-word-4"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ]
-        },
-        {
-          "id": "pt-shopping-foundation-vary",
-          "conceptId": "pt-shopping-concept",
-          "kind": "transform",
-          "mode": "production",
-          "prompt": "You find the price reasonable and want to say as much. Negate «É caro.»",
-          "answers": [
-            "Não é caro."
-          ],
-          "explanation": "Não goes ahead of the verb é, and the tilde on não is part of the word, never an optional flourish.",
-          "vocabulary": [
-            "pt-shopping-word-2"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ]
-        },
-        {
-          "id": "pt-shopping-foundation-cloze",
-          "conceptId": "pt-shopping-concept",
-          "kind": "cloze",
-          "mode": "production",
-          "prompt": "Fill the blank in the question you would put to a stallholder: ___ custa o café?",
-          "answers": [
-            "Quanto"
-          ],
-          "explanation": "Quanto custa is the frame to memorise, and it stays singular while a single thing is being priced.",
-          "vocabulary": [
-            "pt-shopping-word-1"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ]
-        },
-        {
-          "id": "pt-shopping-foundation-think",
-          "conceptId": "pt-shopping-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "At a pastelaria counter in Lisbon you want the price of one coffee. Ask it.",
-          "answers": [
-            "Quanto custa um café?"
-          ],
-          "explanation": "Custa agrees with the one item, um café, so the question stays in the singular.",
-          "vocabulary": [
-            "pt-shopping-word-1"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ],
-          "thinkSeconds": 10
-        },
-        {
-          "id": "pt-shopping-foundation-build",
-          "conceptId": "pt-shopping-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "A shop is asking a fortune for something small. Arrange the words into a sentence that calls it very expensive.",
-          "answers": [
-            "Isto é muito caro."
-          ],
-          "explanation": "Muito stands directly before caro, and isto is Portuguese's standalone 'this', the one used with no noun beside it.",
-          "vocabulary": [
-            "pt-shopping-word-2"
-          ],
-          "reviewOf": [
-            "pt-directions-foundation"
-          ],
-          "tokens": [
-            "caro.",
-            "muito",
-            "é",
-            "Isto"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-time-days-foundation",
-      "unitId": "pt-unit-4",
-      "title": "Days and times",
-      "objective": "Count the Portuguese week from domingo and keep the hyphens that hold segunda-feira together.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-shopping-foundation"
-      ],
-      "conceptIds": [
-        "pt-time-days-concept"
-      ],
-      "vocabulary": [
-        "pt-time-days-word-1",
-        "pt-time-days-word-2",
-        "pt-time-days-word-3",
-        "pt-time-days-word-4"
-      ],
-      "explanation": "Portuguese does not name its weekdays — it counts them. Domingo, the Lord’s day, is the first of the ferias, and every working day takes its number from there: segunda-feira, the second fair, through terça, quarta, quinta and sexta-feira. They are feminine, so ‘on Monday’ is na segunda-feira, hyphen and all. Sábado keeps the Sabbath’s name instead. And note the pair amanhã (tomorrow) and manhã (morning): a single letter separates them.",
-      "examples": [
+      "kind": "examples",
+      "id": "pt-time-days-foundation-examples",
+      "pairs": [
         {
           "target": "Hoje é quarta-feira.",
           "meaning": "Today is Wednesday."
@@ -1395,177 +586,18 @@
           "target": "Amanhã é quinta-feira.",
           "meaning": "Tomorrow is Thursday."
         }
-      ],
-      "culturalNote": "The numbered weekdays come from the church calendar, where Sunday was the first fair and Monday the second.",
-      "exercises": [
-        {
-          "id": "pt-time-days-foundation-meet",
-          "conceptId": "pt-time-days-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "In Lisbon a shop sign swaps a single word at dawn. Choose today's word.",
-          "answers": [
-            "hoje"
-          ],
-          "options": [
-            "hoje",
-            "amanhã",
-            "segunda",
-            "semana"
-          ],
-          "explanation": "Hoje is right. What is left over means the week, Monday and tomorrow.",
-          "vocabulary": [
-            "pt-time-days-word-1",
-            "pt-time-days-word-2",
-            "pt-time-days-word-3",
-            "pt-time-days-word-4"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        },
-        {
-          "id": "pt-time-days-foundation-think",
-          "conceptId": "pt-time-days-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "Predict the sentence before you write it. Monday is the second fair, so count from domingo: today is Monday.",
-          "answers": [
-            "Hoje é segunda-feira."
-          ],
-          "explanation": "Hoje é plus the day. Domingo is the first feria, so Monday, the second, is segunda-feira.",
-          "vocabulary": [
-            "pt-time-days-word-1",
-            "pt-time-days-word-3"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ],
-          "thinkSeconds": 8
-        },
-        {
-          "id": "pt-time-days-foundation-meaning",
-          "conceptId": "pt-time-days-concept",
-          "kind": "translate",
-          "mode": "recognition",
-          "prompt": "Give the English meaning: Na segunda-feira trabalho.",
-          "answers": [
-            "On Monday I work.",
-            "I work on Monday."
-          ],
-          "explanation": "Na marks on before a feminine weekday, and segunda-feira is the second fair.",
-          "vocabulary": [
-            "pt-time-days-word-3"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        },
-        {
-          "id": "pt-time-days-foundation-notice",
-          "conceptId": "pt-time-days-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Portuguese counts the working days from domingo. Counting that way, which day is the fourth?",
-          "answers": [
-            "quarta-feira"
-          ],
-          "options": [
-            "quarta-feira",
-            "terça-feira",
-            "quinta-feira"
-          ],
-          "explanation": "Domingo is the first feria; segunda is second, terça third, so the fourth is quarta-feira.",
-          "vocabulary": [
-            "pt-time-days-word-4"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        },
-        {
-          "id": "pt-time-days-foundation-read",
-          "conceptId": "pt-time-days-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the week. According to the passage, which day opens the week?",
-          "answers": [
-            "domingo",
-            "Sunday"
-          ],
-          "passage": "Domingo é o primeiro dia da semana. Na segunda-feira trabalho. Na terça-feira estudo português. Na quarta-feira descanso. Amanhã é quinta-feira.",
-          "translation": "Sunday is the first day of the week. On Monday I work. On Tuesday I study Portuguese. On Wednesday I rest. Tomorrow is Thursday.",
-          "explanation": "The opening line names it: domingo é o primeiro dia da semana.",
-          "vocabulary": [
-            "pt-time-days-word-2",
-            "pt-time-days-word-4"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        },
-        {
-          "id": "pt-time-days-foundation-build",
-          "conceptId": "pt-time-days-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "Build the Portuguese sentence for today is Wednesday, keeping the hyphen.",
-          "answers": [
-            "Hoje é quarta-feira."
-          ],
-          "tokens": [
-            "quarta-feira.",
-            "é",
-            "Hoje"
-          ],
-          "explanation": "Hoje first, then é, then the hyphenated day: quarta-feira.",
-          "vocabulary": [
-            "pt-time-days-word-1"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        },
-        {
-          "id": "pt-time-days-foundation-cloze",
-          "conceptId": "pt-time-days-concept",
-          "kind": "cloze",
-          "mode": "production",
-          "prompt": "Complete with the noun for the morning, not the word for tomorrow: A ___ está fria.",
-          "answers": [
-            "manhã"
-          ],
-          "explanation": "Manhã is the morning; amanhã, with an a in front, is tomorrow.",
-          "vocabulary": [
-            "pt-time-days-word-2"
-          ],
-          "reviewOf": [
-            "pt-shopping-foundation"
-          ]
-        }
-      ],
-      "optionalExerciseIds": []
+      ]
     },
     {
-      "id": "pt-family-people-foundation",
-      "unitId": "pt-unit-4",
-      "title": "Family and people",
-      "objective": "Introduce your relatives, and keep the small article Portuguese plants in front of a possessive.",
-      "cefr": "A1",
-      "prerequisites": [
-        "pt-time-days-foundation"
-      ],
-      "conceptIds": [
-        "pt-family-people-concept"
-      ],
-      "vocabulary": [
-        "pt-family-people-word-1",
-        "pt-family-people-word-2",
-        "pt-family-people-word-3",
-        "pt-family-people-word-4"
-      ],
-      "explanation": "Portuguese keeps the definite article in front of a possessive, which English does not do: a minha família, os meus pais, literally the my family and the my parents. Leave the article out and the phrase sounds cut short. The possessive agrees in gender with the relative, so o meu irmão for a brother and a minha irmã for a sister.",
-      "examples": [
+      "kind": "text",
+      "id": "pt-time-days-foundation-read-passage",
+      "body": "Domingo é o primeiro dia da semana. Na segunda-feira trabalho. Na terça-feira estudo português. Na quarta-feira descanso. Amanhã é quinta-feira.",
+      "translation": "Sunday is the first day of the week. On Monday I work. On Tuesday I study Portuguese. On Wednesday I rest. Tomorrow is Thursday."
+    },
+    {
+      "kind": "examples",
+      "id": "pt-family-people-foundation-examples",
+      "pairs": [
         {
           "target": "Tenho um irmão.",
           "meaning": "I have a brother."
@@ -1578,18 +610,3675 @@
           "target": "Os meus pais vivem em Lisboa.",
           "meaning": "My parents live in Lisbon."
         }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "pt-family-people-foundation-read-passage",
+      "body": "Somos quatro em casa, mas só eu e a minha irmã vivemos no Porto. O meu irmão Max mudou-se para Coimbra no ano passado. Os meus pais ficaram em Lisboa, na casa antiga.",
+      "translation": "There are four of us at home, but only my sister and I live in Porto. My brother Max moved to Coimbra last year. My parents stayed in Lisbon, in the old house."
+    }
+  ],
+  "activities": [
+    {
+      "kind": "information",
+      "id": "pt-first-words-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese greets by the hour, but one word here behaves differently from every language around it: obrigado is not fixed. A man says obrigado and a woman says obrigada, because the word agrees with the person speaking rather than the person being thanked. Get that right on day one and you will sound like yourself rather than like a phrasebook.",
+      "stimulusId": "pt-first-words-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
       ],
-      "culturalNote": "A família in Portuguese often includes grandparents and cousins, and it is the standard answer to tell me about yourself.",
-      "exercises": [
+      "vocabulary": [
+        "pt-first-words-word-1"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "It opens every conversation in Lisbon. What does «Olá» mean?",
+      "hints": [],
+      "feedback": "Olá is hello, and unlike the time of day it never changes. One word covers the whole morning and the whole night.",
+      "evidenceKey": "pt-first-words-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-first-words-foundation-meet",
+      "options": [
         {
-          "id": "pt-family-people-foundation-meet",
-          "conceptId": "pt-family-people-concept",
+          "id": "hello",
+          "text": "Hello."
+        },
+        {
+          "id": "thank-you",
+          "text": "Thank you."
+        },
+        {
+          "id": "yes",
+          "text": "Yes."
+        },
+        {
+          "id": "see-you",
+          "text": "See you."
+        }
+      ],
+      "acceptedIds": [
+        "hello"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "You meet a neighbour in Lisbon. Greet them before anything else is said.",
+      "hints": [],
+      "feedback": "Say it once out loud, then look.",
+      "evidenceKey": "pt-first-words-foundation-think-first",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-first-words-foundation-think-first",
+      "answer": {
+        "answers": [
+          "Olá."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-2"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "A woman is the one speaking, and she is thanking a colleague. Which form is hers?",
+      "hints": [],
+      "feedback": "Obrigada agrees with the woman speaking. Obrigado is what a man says, and obrigados is for a group.",
+      "evidenceKey": "pt-first-words-foundation-notice-gender",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-first-words-foundation-notice-gender",
+      "options": [
+        {
+          "id": "obrigada",
+          "text": "Obrigada."
+        },
+        {
+          "id": "obrigado",
+          "text": "Obrigado."
+        },
+        {
+          "id": "obrigados",
+          "text": "Obrigados."
+        }
+      ],
+      "acceptedIds": [
+        "obrigada"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-2"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Give the English meaning: Obrigado.",
+      "hints": [],
+      "feedback": "This is the masculine speaker form. A woman says obrigada, and both mean the same thing to the person hearing them.",
+      "evidenceKey": "pt-first-words-foundation-meaning",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-first-words-foundation-meaning",
+      "answer": {
+        "answers": [
+          "Thank you."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Complete the greeting you say as you arrive: ___",
+      "hints": [],
+      "feedback": "Olá comes before the request, not after it.",
+      "evidenceKey": "pt-first-words-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "pt-first-words-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Complete the greeting you say as you arrive: "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "Olá."
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-1",
+        "pt-first-words-word-2"
+      ],
+      "skills": [
+        "listening"
+      ],
+      "prompt": "Write the two words the woman says, in the order she says them.",
+      "hints": [],
+      "feedback": "She is a woman thanking someone, so she says obrigada rather than obrigado.",
+      "evidenceKey": "pt-first-words-foundation-listen-model",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-first-words-foundation-listen-model",
+      "stimulusId": "pt-first-words-foundation-listen-model-audio",
+      "answer": {
+        "answers": [
+          "Olá, obrigada.",
+          "Olá, obrigado."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "kind": "information",
+      "id": "pt-introductions-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese introduces you with Meu nome é Ana — 'my name is Ana' — and the little word é carries an accent that matters: é means 'is', while e without the accent means 'and', so Meu nome e Ana would read as 'my name and Ana'. The other introduction is Sou Ana, built on 'to be'. Brazilian Portuguese also lets the subject pronoun go, which is why Sou Ana already says 'I am' with no eu in front of it.",
+      "stimulusId": "pt-introductions-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Which question would you ask a new neighbour to learn their name in Brazilian Portuguese?",
+      "hints": [],
+      "feedback": "Qual é o seu nome? is the complete question. Meu nome é Ana answers it, and Prazer is what you say on meeting.",
+      "evidenceKey": "pt-introductions-foundation-notice",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-introductions-foundation-notice",
+      "options": [
+        {
+          "id": "qual-e-o-seu-nome",
+          "text": "Qual é o seu nome?"
+        },
+        {
+          "id": "meu-nome-e-ana",
+          "text": "Meu nome é Ana."
+        },
+        {
+          "id": "prazer",
+          "text": "Prazer."
+        }
+      ],
+      "acceptedIds": [
+        "qual-e-o-seu-nome"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Put the words back in order to give your name with Meu nome é.",
+      "hints": [],
+      "feedback": "Keep the accent on é; it is the verb 'is', and the sentence reads as nonsense without it.",
+      "evidenceKey": "pt-introductions-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-introductions-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "Ana."
+        },
+        {
+          "id": "t2",
+          "text": "é"
+        },
+        {
+          "id": "t3",
+          "text": "nome"
+        },
+        {
+          "id": "t4",
+          "text": "Meu"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Ask a neighbour's name using the full question taught here.",
+      "hints": [],
+      "feedback": "This is the complete question, and the accent on é stays in place.",
+      "evidenceKey": "pt-introductions-foundation-ask",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-introductions-foundation-ask",
+      "answer": {
+        "answers": [
+          "Qual é o seu nome?"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Give your name as Ana with the phrase 'my name is', keeping the accent on the word for 'is'.",
+      "hints": [],
+      "feedback": "Meu nome é Ana — the accented é is 'is'. Without the accent the word turns into 'and'.",
+      "evidenceKey": "pt-introductions-foundation-recall",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-introductions-foundation-recall",
+      "answer": {
+        "answers": [
+          "Meu nome é Ana."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the exchange. One speaker introduces themselves with no word for 'I' at all. Who is it?",
+      "hints": [],
+      "feedback": "Sou Leo says 'I am Leo' with no eu; Portuguese does not need the pronoun.",
+      "evidenceKey": "pt-introductions-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-introductions-foundation-read",
+      "stimulusId": "pt-introductions-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Leo",
+          "Leo."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "You have just been introduced to someone. Give the short Portuguese word meaning 'Nice to meet you'.",
+      "hints": [],
+      "feedback": "Prazer on its own is the friendly reply at an introduction.",
+      "evidenceKey": "pt-introductions-foundation-reply",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-introductions-foundation-reply",
+      "answer": {
+        "answers": [
+          "Prazer."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "kind": "information",
+      "id": "pt-cafe-requests-foundation-intro",
+      "revision": 1,
+      "body": "The polite request is Eu gostaria de — 'I would like'. What learners drop is the de: it holds the verb and the drink together, and it stays whatever the drink is. Eu gostaria de um café, por favor, and equally Eu gostaria de um chá, por favor. Because gostaria already says who is speaking, Brazilian Portuguese usually lets the eu go without changing the meaning. Thanks is the last thing to get right: a man says obrigado, a woman says obrigada, because the word agrees with the speaker.",
+      "stimulusId": "pt-cafe-requests-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Only one of these keeps the little word that joins gostaria to the drink. Which is it?",
+      "hints": [],
+      "feedback": "De belongs between gostaria and the drink; without it the request loses the link. Meu nome é Ana is an introduction, not a request.",
+      "evidenceKey": "pt-cafe-requests-foundation-choose",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-cafe-requests-foundation-choose",
+      "options": [
+        {
+          "id": "eu-gostaria-de-um-cafe-por-favor",
+          "text": "Eu gostaria de um café, por favor."
+        },
+        {
+          "id": "eu-gostaria-um-cafe-por-favor",
+          "text": "Eu gostaria um café, por favor."
+        },
+        {
+          "id": "meu-nome-e-ana",
+          "text": "Meu nome é Ana."
+        }
+      ],
+      "acceptedIds": [
+        "eu-gostaria-de-um-cafe-por-favor"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "The words are out of order. Build the polite request for one coffee with gostaria de.",
+      "hints": [],
+      "feedback": "Gostaria and the drink are held together by de, and por favor closes the request.",
+      "evidenceKey": "pt-cafe-requests-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-cafe-requests-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "favor."
+        },
+        {
+          "id": "t2",
+          "text": "por"
+        },
+        {
+          "id": "t3",
+          "text": "café,"
+        },
+        {
+          "id": "t4",
+          "text": "um"
+        },
+        {
+          "id": "t5",
+          "text": "de"
+        },
+        {
+          "id": "t6",
+          "text": "gostaria"
+        },
+        {
+          "id": "t7",
+          "text": "Eu"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t7",
+          "t6",
+          "t5",
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Ask for tea politely, keeping the word that joins gostaria to the drink.",
+      "hints": [],
+      "feedback": "Swap the drink but keep de: gostaria de um chá. Chá keeps its accent.",
+      "evidenceKey": "pt-cafe-requests-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-cafe-requests-foundation-vary",
+      "answer": {
+        "answers": [
+          "Eu gostaria de um chá, por favor.",
+          "Gostaria de um chá, por favor."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "At the counter you want a coffee. Make the short request, with no verb in it.",
+      "hints": [],
+      "feedback": "Um café, por favor — the short request keeps por favor and drops gostaria.",
+      "evidenceKey": "pt-cafe-requests-foundation-recall",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-cafe-requests-foundation-recall",
+      "answer": {
+        "answers": [
+          "Um café, por favor."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the café exchange. The customer thanks the server. Which form of thanks tells you the customer is a woman?",
+      "hints": [],
+      "feedback": "Obrigada, not obrigado: the word agrees with the person speaking, and this speaker is a woman.",
+      "evidenceKey": "pt-cafe-requests-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-cafe-requests-foundation-read",
+      "stimulusId": "pt-cafe-requests-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Obrigada."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Give the English meaning: Eu gostaria de um café, por favor.",
+      "hints": [],
+      "feedback": "Gostaria de is 'I would like', and por favor is 'please'.",
+      "evidenceKey": "pt-cafe-requests-foundation-meaning",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-cafe-requests-foundation-meaning",
+      "answer": {
+        "answers": [
+          "I would like a coffee, please.",
+          "I’d like a coffee, please.",
+          "I'd like a coffee, please."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "kind": "information",
+      "id": "pt-numbers-quantities-foundation-intro",
+      "revision": 1,
+      "body": "Brazilian Portuguese counts one to ten in two short runs. The number has to agree with what it counts: dois for a masculine café, duas for a feminine maçã, so the noun decides the shape of the number. Quanto custa asks the price and is the same whatever follows it. When fourteen comes up, remember that catorze and quatorze are both accepted spellings of the same word.",
+      "stimulusId": "pt-numbers-quantities-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-1"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Which word is three in Brazilian Portuguese? Unlike two, it never changes with the noun.",
+      "hints": [],
+      "feedback": "Três is three, and it has no masculine or feminine form to choose between.",
+      "evidenceKey": "pt-numbers-quantities-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-numbers-quantities-foundation-meet",
+      "options": [
+        {
+          "id": "dois",
+          "text": "Dois."
+        },
+        {
+          "id": "tres",
+          "text": "Três."
+        },
+        {
+          "id": "seis",
+          "text": "Seis."
+        },
+        {
+          "id": "dez",
+          "text": "Dez."
+        }
+      ],
+      "acceptedIds": [
+        "tres"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-4",
+        "pt-cafe-requests-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Say in Brazilian Portuguese: Two apples, please.",
+      "hints": [],
+      "feedback": "Maçãs is feminine, so the number becomes duas. With a masculine noun such as cafés it would be dois.",
+      "evidenceKey": "pt-numbers-quantities-foundation-quantity",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-numbers-quantities-foundation-quantity",
+      "answer": {
+        "answers": [
+          "Duas maçãs, por favor."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Think: you want one coffee and no price is posted. Ask in Brazilian Portuguese, then write the question.",
+      "hints": [],
+      "feedback": "Quanto custa is fixed and does not agree with anything. Say the question aloud before you check it.",
+      "evidenceKey": "pt-numbers-quantities-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-numbers-quantities-foundation-think",
+      "answer": {
+        "answers": [
+          "Quanto custa um café?"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Put the Brazilian Portuguese words in order to ask the price of one coffee.",
+      "hints": [],
+      "feedback": "Quanto custa leads, then um café names the thing being priced. Um matches the masculine café.",
+      "evidenceKey": "pt-numbers-quantities-foundation-order",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-numbers-quantities-foundation-order",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "Quanto"
+        },
+        {
+          "id": "t2",
+          "text": "custa"
+        },
+        {
+          "id": "t3",
+          "text": "um"
+        },
+        {
+          "id": "t4",
+          "text": "café?"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ]
+      ]
+    },
+    {
+      "kind": "information",
+      "id": "pt-directions-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese asks where a place is with ficar rather than 'to be': Onde fica o banheiro? The directions are the part to read carefully, because à esquerda and à direita wear a grave accent. That accent fuses two a's, the preposition and the article, and it is the difference between the left and to the left. Desculpe ahead of the question makes it polite.",
+      "stimulusId": "pt-directions-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1",
+        "pt-directions-word-2",
+        "pt-directions-word-3",
+        "pt-directions-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Portuguese asks where a place 'stays'. Which of these words does the asking?",
+      "hints": [],
+      "feedback": "Onde means where. Quem is the one for a person and o que for a thing. The direction words beside it answer rather than ask.",
+      "evidenceKey": "pt-directions-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-directions-foundation-meet",
+      "options": [
+        {
+          "id": "onde",
+          "text": "onde"
+        },
+        {
+          "id": "esquerda",
+          "text": "esquerda"
+        },
+        {
+          "id": "direita",
+          "text": "direita"
+        },
+        {
+          "id": "frente",
+          "text": "frente"
+        }
+      ],
+      "acceptedIds": [
+        "onde"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Ask in Portuguese where the bathroom is.",
+      "hints": [],
+      "feedback": "Fica is the ficar form used for where something sits, and banheiro is masculine, so its article is o. The question frame does not change with the noun.",
+      "evidenceKey": "pt-directions-foundation-ask",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-directions-foundation-ask",
+      "answer": {
+        "answers": [
+          "Onde fica o banheiro?"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-2",
+        "pt-directions-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Complete the directions: Em frente, depois à ___",
+      "hints": [],
+      "feedback": "Esquerda is left. The accent on à fuses the preposition a with the article a, and direita would point the other way.",
+      "evidenceKey": "pt-directions-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "pt-directions-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Complete the directions: Em frente, depois à "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "esquerda"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Soften the question by putting Desculpe in front: Onde fica a estação?",
+      "hints": [],
+      "feedback": "Desculpe leads and a comma separates it from the question. The question itself is untouched.",
+      "evidenceKey": "pt-directions-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-directions-foundation-vary",
+      "answer": {
+        "answers": [
+          "Desculpe, onde fica a estação?"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1",
+        "pt-directions-word-2",
+        "pt-directions-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the exchange and find the first direction the visitor is given.",
+      "hints": [],
+      "feedback": "The first step is em frente, straight ahead, and the second comes after depois: à esquerda.",
+      "evidenceKey": "pt-directions-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-directions-foundation-read",
+      "stimulusId": "pt-directions-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Straight ahead.",
+          "Straight ahead"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Put the Portuguese words in order to ask where the station is.",
+      "hints": [],
+      "feedback": "Onde leads, fica follows because Portuguese asks where a place 'stays'. Estação is feminine, so its article is a.",
+      "evidenceKey": "pt-directions-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-directions-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "estação?"
+        },
+        {
+          "id": "t2",
+          "text": "a"
+        },
+        {
+          "id": "t3",
+          "text": "fica"
+        },
+        {
+          "id": "t4",
+          "text": "Onde"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "kind": "information",
+      "id": "pt-shopping-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese builds the price question on Quanto custa?, and custa stays singular while a single thing is being named. Portuguese also softens a request by stepping into the imperfect — Eu queria um café, literally I wanted a coffee, is polite where the plain present quero sounds blunt. The bill is a conta, and por favor carries the politeness on its own.",
+      "stimulusId": "pt-shopping-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-1",
+        "pt-shopping-word-2",
+        "pt-shopping-word-3",
+        "pt-shopping-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "One of these lines will get a price out of a shopkeeper in Lisbon. Which one is it?",
+      "hints": [],
+      "feedback": "Quanto custa? is the price question: quanto asks how much, and custa is the form of custar that fits one item.",
+      "evidenceKey": "pt-shopping-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-shopping-foundation-meet",
+      "options": [
+        {
+          "id": "como-esta",
+          "text": "Como está?"
+        },
+        {
+          "id": "onde-fica",
+          "text": "Onde fica?"
+        },
+        {
+          "id": "quanto-custa",
+          "text": "Quanto custa?"
+        }
+      ],
+      "acceptedIds": [
+        "quanto-custa"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "The meal is over and you want to pay in a Portuguese restaurant. Ask for the bill.",
+      "hints": [],
+      "feedback": "Conta is feminine and takes a, and por favor carries the politeness on its own.",
+      "evidenceKey": "pt-shopping-foundation-ask",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-shopping-foundation-ask",
+      "answer": {
+        "answers": [
+          "A conta, por favor.",
+          "A conta por favor."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "You find the price reasonable and want to say as much. Negate «É caro.»",
+      "hints": [],
+      "feedback": "Não goes ahead of the verb é, and the tilde on não is part of the word, never an optional flourish.",
+      "evidenceKey": "pt-shopping-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-shopping-foundation-vary",
+      "answer": {
+        "answers": [
+          "Não é caro."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Fill the blank in the question you would put to a stallholder: ___ custa o café?",
+      "hints": [],
+      "feedback": "Quanto custa is the frame to memorise, and it stays singular while a single thing is being priced.",
+      "evidenceKey": "pt-shopping-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "pt-shopping-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Fill the blank in the question you would put to a stallholder: "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": " custa o café?"
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "Quanto"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "At a pastelaria counter in Lisbon you want the price of one coffee. Ask it.",
+      "hints": [],
+      "feedback": "Custa agrees with the one item, um café, so the question stays in the singular.",
+      "evidenceKey": "pt-shopping-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-shopping-foundation-think",
+      "answer": {
+        "answers": [
+          "Quanto custa um café?"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "A shop is asking a fortune for something small. Arrange the words into a sentence that calls it very expensive.",
+      "hints": [],
+      "feedback": "Muito stands directly before caro, and isto is Portuguese's standalone 'this', the one used with no noun beside it.",
+      "evidenceKey": "pt-shopping-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-shopping-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "caro."
+        },
+        {
+          "id": "t2",
+          "text": "muito"
+        },
+        {
+          "id": "t3",
+          "text": "é"
+        },
+        {
+          "id": "t4",
+          "text": "Isto"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "kind": "information",
+      "id": "pt-time-days-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese does not name its weekdays — it counts them. Domingo, the Lord’s day, is the first of the ferias, and every working day takes its number from there: segunda-feira, the second fair, through terça, quarta, quinta and sexta-feira. They are feminine, so ‘on Monday’ is na segunda-feira, hyphen and all. Sábado keeps the Sabbath’s name instead. And note the pair amanhã (tomorrow) and manhã (morning): a single letter separates them.",
+      "stimulusId": "pt-time-days-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-1",
+        "pt-time-days-word-2",
+        "pt-time-days-word-3",
+        "pt-time-days-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "In Lisbon a shop sign swaps a single word at dawn. Choose today's word.",
+      "hints": [],
+      "feedback": "Hoje is right. What is left over means the week, Monday and tomorrow.",
+      "evidenceKey": "pt-time-days-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-time-days-foundation-meet",
+      "options": [
+        {
+          "id": "hoje",
+          "text": "hoje"
+        },
+        {
+          "id": "amanha",
+          "text": "amanhã"
+        },
+        {
+          "id": "segunda",
+          "text": "segunda"
+        },
+        {
+          "id": "semana",
+          "text": "semana"
+        }
+      ],
+      "acceptedIds": [
+        "hoje"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-1",
+        "pt-time-days-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Predict the sentence before you write it. Monday is the second fair, so count from domingo: today is Monday.",
+      "hints": [],
+      "feedback": "Hoje é plus the day. Domingo is the first feria, so Monday, the second, is segunda-feira.",
+      "evidenceKey": "pt-time-days-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-time-days-foundation-think",
+      "answer": {
+        "answers": [
+          "Hoje é segunda-feira."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-3"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Give the English meaning: Na segunda-feira trabalho.",
+      "hints": [],
+      "feedback": "Na marks on before a feminine weekday, and segunda-feira is the second fair.",
+      "evidenceKey": "pt-time-days-foundation-meaning",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-time-days-foundation-meaning",
+      "answer": {
+        "answers": [
+          "On Monday I work.",
+          "I work on Monday."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Portuguese counts the working days from domingo. Counting that way, which day is the fourth?",
+      "hints": [],
+      "feedback": "Domingo is the first feria; segunda is second, terça third, so the fourth is quarta-feira.",
+      "evidenceKey": "pt-time-days-foundation-notice",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-time-days-foundation-notice",
+      "options": [
+        {
+          "id": "quarta-feira",
+          "text": "quarta-feira"
+        },
+        {
+          "id": "terca-feira",
+          "text": "terça-feira"
+        },
+        {
+          "id": "quinta-feira",
+          "text": "quinta-feira"
+        }
+      ],
+      "acceptedIds": [
+        "quarta-feira"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-2",
+        "pt-time-days-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the week. According to the passage, which day opens the week?",
+      "hints": [],
+      "feedback": "The opening line names it: domingo é o primeiro dia da semana.",
+      "evidenceKey": "pt-time-days-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-time-days-foundation-read",
+      "stimulusId": "pt-time-days-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "domingo",
+          "Sunday"
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Build the Portuguese sentence for today is Wednesday, keeping the hyphen.",
+      "hints": [],
+      "feedback": "Hoje first, then é, then the hyphenated day: quarta-feira.",
+      "evidenceKey": "pt-time-days-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-time-days-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "quarta-feira."
+        },
+        {
+          "id": "t2",
+          "text": "é"
+        },
+        {
+          "id": "t3",
+          "text": "Hoje"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Complete with the noun for the morning, not the word for tomorrow: A ___ está fria.",
+      "hints": [],
+      "feedback": "Manhã is the morning; amanhã, with an a in front, is tomorrow.",
+      "evidenceKey": "pt-time-days-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "pt-time-days-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Complete with the noun for the morning, not the word for tomorrow: A "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": " está fria."
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "manhã"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "kind": "information",
+      "id": "pt-family-people-foundation-intro",
+      "revision": 1,
+      "body": "Portuguese keeps the definite article in front of a possessive, which English does not do: a minha família, os meus pais, literally the my family and the my parents. Leave the article out and the phrase sounds cut short. The possessive agrees in gender with the relative, so o meu irmão for a brother and a minha irmã for a sister.",
+      "stimulusId": "pt-family-people-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-1",
+        "pt-family-people-word-2",
+        "pt-family-people-word-3",
+        "pt-family-people-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Portuguese marks the sister with a tilde. Which of these four words is she?",
+      "hints": [],
+      "feedback": "The word for sister is irmã, tilde and all; strip its nasal sound and you get irmão, the brother. Pais is the parents, and família the family.",
+      "evidenceKey": "pt-family-people-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-family-people-foundation-meet",
+      "options": [
+        {
+          "id": "o-irmao",
+          "text": "o irmão"
+        },
+        {
+          "id": "os-pais",
+          "text": "os pais"
+        },
+        {
+          "id": "a-familia",
+          "text": "a família"
+        },
+        {
+          "id": "a-irma",
+          "text": "a irmã"
+        }
+      ],
+      "acceptedIds": [
+        "a-irma"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-3"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Irmã is feminine. Which line says I have a sister with the article that matches her?",
+      "hints": [],
+      "feedback": "Uma irmã is the feminine form; um irmã and uns irmã both mismatch the article to the noun.",
+      "evidenceKey": "pt-family-people-foundation-notice",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "pt-family-people-foundation-notice",
+      "options": [
+        {
+          "id": "tenho-um-irma",
+          "text": "Tenho um irmã."
+        },
+        {
+          "id": "tenho-uns-irma",
+          "text": "Tenho uns irmã."
+        },
+        {
+          "id": "tenho-uma-irma",
+          "text": "Tenho uma irmã."
+        }
+      ],
+      "acceptedIds": [
+        "tenho-uma-irma"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Change the sentence from one sister to two: Tenho uma irmã.",
+      "hints": [],
+      "feedback": "The plural adds -s to irmã, and uma becomes duas: Tenho duas irmãs.",
+      "evidenceKey": "pt-family-people-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-family-people-foundation-vary",
+      "answer": {
+        "answers": [
+          "Tenho duas irmãs."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-1",
+        "pt-family-people-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the family note. In which city did the parents stay?",
+      "hints": [],
+      "feedback": "The brother and sister have moved on; the parents are the ones still in Lisbon.",
+      "evidenceKey": "pt-family-people-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-family-people-foundation-read",
+      "stimulusId": "pt-family-people-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Lisbon.",
+          "Lisbon",
+          "In Lisbon."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Write the plural word for parents, article and all, into the gap: Os meus ___ vivem em Lisboa.",
+      "hints": [],
+      "feedback": "Pais is plural and still keeps the article os alongside the possessive meus.",
+      "evidenceKey": "pt-family-people-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "pt-family-people-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Write the plural word for parents, article and all, into the gap: Os meus "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": " vivem em Lisboa."
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "pais"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Predict the form before you write it: I have a brother. (ter is irregular in the I form.)",
+      "hints": [],
+      "feedback": "Ter is irregular, so the I form is tenho and not tene: Tenho um irmão.",
+      "evidenceKey": "pt-family-people-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "pt-family-people-foundation-think",
+      "answer": {
+        "answers": [
+          "Tenho um irmão."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Put the words in order to say this is my family, keeping the article Portuguese wants.",
+      "hints": [],
+      "feedback": "Portuguese keeps the article with the possessive, so the sentence is Esta é a minha família.",
+      "evidenceKey": "pt-family-people-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "pt-family-people-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "família."
+        },
+        {
+          "id": "t2",
+          "text": "minha"
+        },
+        {
+          "id": "t3",
+          "text": "a"
+        },
+        {
+          "id": "t4",
+          "text": "é"
+        },
+        {
+          "id": "t5",
+          "text": "Esta"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t5",
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "pt-first-words-foundation",
+      "unitId": "pt-unit-1",
+      "title": "First words",
+      "objective": "Greet someone in Portuguese, and learn why thanks changes shape depending on who is speaking.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 6,
+      "entryStepId": "pt-first-words-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-first-words-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-first-words-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-meet"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-first-words-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-think-first"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-think-first",
+          "purpose": "predict",
+          "activityId": "pt-first-words-foundation-think-first",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-notice-gender"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-notice-gender",
+          "purpose": "practice",
+          "activityId": "pt-first-words-foundation-notice-gender",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-meaning"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "pt-first-words-foundation-meaning",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-cloze"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "pt-first-words-foundation-cloze",
+          "required": true,
+          "nextStepId": "pt-first-words-foundation-step-pt-first-words-foundation-listen-model"
+        },
+        {
+          "id": "pt-first-words-foundation-step-pt-first-words-foundation-listen-model",
+          "purpose": "practice",
+          "activityId": "pt-first-words-foundation-listen-model",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-first-words-foundation-meet",
+          "pt-first-words-foundation-think-first",
+          "pt-first-words-foundation-notice-gender",
+          "pt-first-words-foundation-meaning",
+          "pt-first-words-foundation-cloze",
+          "pt-first-words-foundation-listen-model"
+        ]
+      },
+      "prerequisites": [],
+      "conceptIds": [
+        "pt-first-words-concept"
+      ],
+      "vocabulary": [
+        "pt-first-words-word-1",
+        "pt-first-words-word-2",
+        "pt-first-words-word-3",
+        "pt-first-words-word-4",
+        "pt-first-words-word-5",
+        "pt-first-words-word-6"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "Hello."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-meet",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "It opens every conversation in Lisbon. What does «Olá» mean?",
+          "explanation": "Olá is hello, and unlike the time of day it never changes. One word covers the whole morning and the whole night.",
+          "vocabulary": [
+            "pt-first-words-word-1"
+          ],
+          "reviewOf": [],
           "kind": "choice",
           "mode": "recognition",
-          "prompt": "Portuguese marks the sister with a tilde. Which of these four words is she?",
+          "options": [
+            "Hello.",
+            "Thank you.",
+            "Yes.",
+            "See you."
+          ]
+        },
+        {
+          "answers": [
+            "Olá."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-think-first",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "You meet a neighbour in Lisbon. Greet them before anything else is said.",
+          "explanation": "Say it once out loud, then look.",
+          "vocabulary": [
+            "pt-first-words-word-1"
+          ],
+          "reviewOf": [],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8
+        },
+        {
+          "answers": [
+            "Obrigada."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-notice-gender",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "A woman is the one speaking, and she is thanking a colleague. Which form is hers?",
+          "explanation": "Obrigada agrees with the woman speaking. Obrigado is what a man says, and obrigados is for a group.",
+          "vocabulary": [
+            "pt-first-words-word-2"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Obrigada.",
+            "Obrigado.",
+            "Obrigados."
+          ]
+        },
+        {
+          "answers": [
+            "Thank you."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-meaning",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "Give the English meaning: Obrigado.",
+          "explanation": "This is the masculine speaker form. A woman says obrigada, and both mean the same thing to the person hearing them.",
+          "vocabulary": [
+            "pt-first-words-word-2"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "Olá."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-cloze",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "Complete the greeting you say as you arrive: ___",
+          "explanation": "Olá comes before the request, not after it.",
+          "vocabulary": [
+            "pt-first-words-word-1"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Olá, obrigada.",
+            "Olá, obrigado."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-first-words-foundation-listen-model",
+          "conceptId": "pt-first-words-concept",
+          "prompt": "Write the two words the woman says, in the order she says them.",
+          "explanation": "She is a woman thanking someone, so she says obrigada rather than obrigado.",
+          "vocabulary": [
+            "pt-first-words-word-1",
+            "pt-first-words-word-2"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "pt-first-words-foundation-model"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-first-words-foundation-meet",
+        "pt-first-words-foundation-think-first",
+        "pt-first-words-foundation-notice-gender",
+        "pt-first-words-foundation-meaning",
+        "pt-first-words-foundation-cloze",
+        "pt-first-words-foundation-listen-model"
+      ],
+      "cefr": "A1",
+      "culturalNote": "Olá works everywhere, all day. Obrigado ends in -o when men say it and -a (obrigada) when women say it."
+    },
+    {
+      "id": "pt-introductions-foundation",
+      "unitId": "pt-unit-1",
+      "title": "Introducing yourself",
+      "objective": "Introduce yourself as Ana and keep the accent that separates é ('is') from e ('and').",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 6,
+      "entryStepId": "pt-introductions-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-introductions-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-introductions-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-notice"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-notice",
+          "purpose": "practice",
+          "activityId": "pt-introductions-foundation-notice",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-build"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-introductions-foundation-build",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-ask"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-ask",
+          "purpose": "practice",
+          "activityId": "pt-introductions-foundation-ask",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-recall"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-recall",
+          "purpose": "predict",
+          "activityId": "pt-introductions-foundation-recall",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-read"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-read",
+          "purpose": "practice",
+          "activityId": "pt-introductions-foundation-read",
+          "required": true,
+          "nextStepId": "pt-introductions-foundation-step-pt-introductions-foundation-reply"
+        },
+        {
+          "id": "pt-introductions-foundation-step-pt-introductions-foundation-reply",
+          "purpose": "practice",
+          "activityId": "pt-introductions-foundation-reply",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-introductions-foundation-notice",
+          "pt-introductions-foundation-build",
+          "pt-introductions-foundation-ask",
+          "pt-introductions-foundation-recall",
+          "pt-introductions-foundation-read",
+          "pt-introductions-foundation-reply"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-first-words-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-introductions-concept"
+      ],
+      "vocabulary": [
+        "pt-introductions-word-1",
+        "pt-introductions-word-2",
+        "pt-introductions-word-3",
+        "pt-introductions-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "Qual é o seu nome?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-notice",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "Which question would you ask a new neighbour to learn their name in Brazilian Portuguese?",
+          "explanation": "Qual é o seu nome? is the complete question. Meu nome é Ana answers it, and Prazer is what you say on meeting.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Qual é o seu nome?",
+            "Meu nome é Ana.",
+            "Prazer."
+          ]
+        },
+        {
+          "answers": [
+            "Meu nome é Ana."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-build",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "Put the words back in order to give your name with Meu nome é.",
+          "explanation": "Keep the accent on é; it is the verb 'is', and the sentence reads as nonsense without it.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "Ana.",
+            "é",
+            "nome",
+            "Meu"
+          ]
+        },
+        {
+          "answers": [
+            "Qual é o seu nome?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-ask",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "Ask a neighbour's name using the full question taught here.",
+          "explanation": "This is the complete question, and the accent on é stays in place.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Meu nome é Ana."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-recall",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "Give your name as Ana with the phrase 'my name is', keeping the accent on the word for 'is'.",
+          "explanation": "Meu nome é Ana — the accented é is 'is'. Without the accent the word turns into 'and'.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8
+        },
+        {
+          "answers": [
+            "Leo",
+            "Leo."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-read",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "Read the exchange. One speaker introduces themselves with no word for 'I' at all. Who is it?",
+          "explanation": "Sou Leo says 'I am Leo' with no eu; Portuguese does not need the pronoun.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "— Olá! Meu nome é Ana.\n— Prazer, Ana. Sou Leo.\n— Prazer, Leo.",
+          "translation": "— Hello! My name is Ana.\n— Nice to meet you, Ana. I am Leo.\n— Nice to meet you, Leo."
+        },
+        {
+          "answers": [
+            "Prazer."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-introductions-foundation-reply",
+          "conceptId": "pt-introductions-concept",
+          "prompt": "You have just been introduced to someone. Give the short Portuguese word meaning 'Nice to meet you'.",
+          "explanation": "Prazer on its own is the friendly reply at an introduction.",
+          "vocabulary": [
+            "pt-introductions-word-1",
+            "pt-introductions-word-2",
+            "pt-introductions-word-3",
+            "pt-introductions-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-introductions-foundation-notice",
+        "pt-introductions-foundation-build",
+        "pt-introductions-foundation-ask",
+        "pt-introductions-foundation-recall",
+        "pt-introductions-foundation-read",
+        "pt-introductions-foundation-reply"
+      ],
+      "cefr": "A1",
+      "culturalNote": "These examples use Brazilian Portuguese. Prazer is a common short greeting at an introduction. Obrigado and obrigada vary with the speaker, not with the person being thanked."
+    },
+    {
+      "id": "pt-cafe-requests-foundation",
+      "unitId": "pt-unit-1",
+      "title": "At the café",
+      "objective": "Order with gostaria de, keeping the word that joins the verb to the drink, and match your thanks to who is speaking.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 6,
+      "entryStepId": "pt-cafe-requests-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-cafe-requests-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-cafe-requests-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-choose"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-choose",
+          "purpose": "practice",
+          "activityId": "pt-cafe-requests-foundation-choose",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-build"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-cafe-requests-foundation-build",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-vary"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-vary",
+          "purpose": "practice",
+          "activityId": "pt-cafe-requests-foundation-vary",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-recall"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-recall",
+          "purpose": "predict",
+          "activityId": "pt-cafe-requests-foundation-recall",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-read"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-read",
+          "purpose": "practice",
+          "activityId": "pt-cafe-requests-foundation-read",
+          "required": true,
+          "nextStepId": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-meaning"
+        },
+        {
+          "id": "pt-cafe-requests-foundation-step-pt-cafe-requests-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "pt-cafe-requests-foundation-meaning",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-cafe-requests-foundation-choose",
+          "pt-cafe-requests-foundation-build",
+          "pt-cafe-requests-foundation-vary",
+          "pt-cafe-requests-foundation-recall",
+          "pt-cafe-requests-foundation-read",
+          "pt-cafe-requests-foundation-meaning"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-introductions-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-cafe-requests-concept"
+      ],
+      "vocabulary": [
+        "pt-cafe-requests-word-1",
+        "pt-cafe-requests-word-2",
+        "pt-cafe-requests-word-3",
+        "pt-cafe-requests-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "Eu gostaria de um café, por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-choose",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "Only one of these keeps the little word that joins gostaria to the drink. Which is it?",
+          "explanation": "De belongs between gostaria and the drink; without it the request loses the link. Meu nome é Ana is an introduction, not a request.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Eu gostaria de um café, por favor.",
+            "Eu gostaria um café, por favor.",
+            "Meu nome é Ana."
+          ]
+        },
+        {
+          "answers": [
+            "Eu gostaria de um café, por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-build",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "The words are out of order. Build the polite request for one coffee with gostaria de.",
+          "explanation": "Gostaria and the drink are held together by de, and por favor closes the request.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "favor.",
+            "por",
+            "café,",
+            "um",
+            "de",
+            "gostaria",
+            "Eu"
+          ]
+        },
+        {
+          "answers": [
+            "Eu gostaria de um chá, por favor.",
+            "Gostaria de um chá, por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-vary",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "Ask for tea politely, keeping the word that joins gostaria to the drink.",
+          "explanation": "Swap the drink but keep de: gostaria de um chá. Chá keeps its accent.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Um café, por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-recall",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "At the counter you want a coffee. Make the short request, with no verb in it.",
+          "explanation": "Um café, por favor — the short request keeps por favor and drops gostaria.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8
+        },
+        {
+          "answers": [
+            "Obrigada."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-read",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "Read the café exchange. The customer thanks the server. Which form of thanks tells you the customer is a woman?",
+          "explanation": "Obrigada, not obrigado: the word agrees with the person speaking, and this speaker is a woman.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "— Olá. Eu gostaria de um chá, por favor.\n— Um chá?\n— Sim. Obrigada!",
+          "translation": "— Hello. I would like a tea, please.\n— A tea?\n— Yes. Thank you!"
+        },
+        {
+          "answers": [
+            "I would like a coffee, please.",
+            "I’d like a coffee, please.",
+            "I'd like a coffee, please."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-cafe-requests-foundation-meaning",
+          "conceptId": "pt-cafe-requests-concept",
+          "prompt": "Give the English meaning: Eu gostaria de um café, por favor.",
+          "explanation": "Gostaria de is 'I would like', and por favor is 'please'.",
+          "vocabulary": [
+            "pt-cafe-requests-word-1",
+            "pt-cafe-requests-word-2",
+            "pt-cafe-requests-word-3",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [
+            "pt-first-words-foundation"
+          ],
+          "kind": "translate",
+          "mode": "recognition"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-cafe-requests-foundation-choose",
+        "pt-cafe-requests-foundation-build",
+        "pt-cafe-requests-foundation-vary",
+        "pt-cafe-requests-foundation-recall",
+        "pt-cafe-requests-foundation-read",
+        "pt-cafe-requests-foundation-meaning"
+      ],
+      "cefr": "A1",
+      "culturalNote": "These café requests use Brazilian Portuguese. The lessons accept both explicit eu and its omission in the full request."
+    },
+    {
+      "id": "pt-numbers-quantities-foundation",
+      "unitId": "pt-unit-2",
+      "title": "Numbers and quantities",
+      "objective": "Count one to ten, then choose between dois and duas to match the noun you are counting.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 4,
+      "entryStepId": "pt-numbers-quantities-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-numbers-quantities-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-numbers-quantities-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-meet"
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-numbers-quantities-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-quantity"
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-quantity",
+          "purpose": "practice",
+          "activityId": "pt-numbers-quantities-foundation-quantity",
+          "required": true,
+          "nextStepId": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-think"
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-think",
+          "purpose": "predict",
+          "activityId": "pt-numbers-quantities-foundation-think",
+          "required": true,
+          "nextStepId": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-order"
+        },
+        {
+          "id": "pt-numbers-quantities-foundation-step-pt-numbers-quantities-foundation-order",
+          "purpose": "practice",
+          "activityId": "pt-numbers-quantities-foundation-order",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-numbers-quantities-foundation-meet",
+          "pt-numbers-quantities-foundation-quantity",
+          "pt-numbers-quantities-foundation-think",
+          "pt-numbers-quantities-foundation-order"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-cafe-requests-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-numbers-quantities-concept"
+      ],
+      "vocabulary": [
+        "pt-numbers-quantities-word-1",
+        "pt-numbers-quantities-word-2",
+        "pt-numbers-quantities-word-3",
+        "pt-numbers-quantities-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "Três."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-numbers-quantities-foundation-meet",
+          "conceptId": "pt-numbers-quantities-concept",
+          "prompt": "Which word is three in Brazilian Portuguese? Unlike two, it never changes with the noun.",
+          "explanation": "Três is three, and it has no masculine or feminine form to choose between.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-1"
+          ],
+          "reviewOf": [
+            "pt-cafe-requests-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Dois.",
+            "Três.",
+            "Seis.",
+            "Dez."
+          ]
+        },
+        {
+          "answers": [
+            "Duas maçãs, por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-numbers-quantities-foundation-quantity",
+          "conceptId": "pt-numbers-quantities-concept",
+          "prompt": "Say in Brazilian Portuguese: Two apples, please.",
+          "explanation": "Maçãs is feminine, so the number becomes duas. With a masculine noun such as cafés it would be dois.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-4",
+            "pt-cafe-requests-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-numbers-quantities-foundation-think",
+          "conceptId": "pt-numbers-quantities-concept",
+          "prompt": "Think: you want one coffee and no price is posted. Ask in Brazilian Portuguese, then write the question.",
+          "explanation": "Quanto custa is fixed and does not agree with anything. Say the question aloud before you check it.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8
+        },
+        {
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-numbers-quantities-foundation-order",
+          "conceptId": "pt-numbers-quantities-concept",
+          "prompt": "Put the Brazilian Portuguese words in order to ask the price of one coffee.",
+          "explanation": "Quanto custa leads, then um café names the thing being priced. Um matches the masculine café.",
+          "vocabulary": [
+            "pt-numbers-quantities-word-3"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "Quanto",
+            "custa",
+            "um",
+            "café?"
+          ]
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-numbers-quantities-foundation-meet",
+        "pt-numbers-quantities-foundation-quantity",
+        "pt-numbers-quantities-foundation-think",
+        "pt-numbers-quantities-foundation-order"
+      ],
+      "cefr": "A1",
+      "culturalNote": "In Brazil, prices and quantities arrive quickly in ordinary errands. Hear the number first, then the item."
+    },
+    {
+      "id": "pt-directions-foundation",
+      "unitId": "pt-unit-3",
+      "title": "Asking the way",
+      "objective": "Ask where a place stays with ficar, then walk two steps whose second one wears a grave accent.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 6,
+      "entryStepId": "pt-directions-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-directions-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-directions-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-meet"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-ask"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-ask",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-ask",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-cloze"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-cloze",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-vary"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-vary",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-vary",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-read"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-read",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-read",
+          "required": true,
+          "nextStepId": "pt-directions-foundation-step-pt-directions-foundation-build"
+        },
+        {
+          "id": "pt-directions-foundation-step-pt-directions-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-directions-foundation-build",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-directions-foundation-meet",
+          "pt-directions-foundation-ask",
+          "pt-directions-foundation-cloze",
+          "pt-directions-foundation-vary",
+          "pt-directions-foundation-read",
+          "pt-directions-foundation-build"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-numbers-quantities-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-directions-concept"
+      ],
+      "vocabulary": [
+        "pt-directions-word-1",
+        "pt-directions-word-2",
+        "pt-directions-word-3",
+        "pt-directions-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "onde"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-meet",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Portuguese asks where a place 'stays'. Which of these words does the asking?",
+          "explanation": "Onde means where. Quem is the one for a person and o que for a thing. The direction words beside it answer rather than ask.",
+          "vocabulary": [
+            "pt-directions-word-1",
+            "pt-directions-word-2",
+            "pt-directions-word-3",
+            "pt-directions-word-4"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "onde",
+            "esquerda",
+            "direita",
+            "frente"
+          ]
+        },
+        {
+          "answers": [
+            "Onde fica o banheiro?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-ask",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Ask in Portuguese where the bathroom is.",
+          "explanation": "Fica is the ficar form used for where something sits, and banheiro is masculine, so its article is o. The question frame does not change with the noun.",
+          "vocabulary": [
+            "pt-directions-word-1"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "esquerda"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-cloze",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Complete the directions: Em frente, depois à ___",
+          "explanation": "Esquerda is left. The accent on à fuses the preposition a with the article a, and direita would point the other way.",
+          "vocabulary": [
+            "pt-directions-word-2",
+            "pt-directions-word-3"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Desculpe, onde fica a estação?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-vary",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Soften the question by putting Desculpe in front: Onde fica a estação?",
+          "explanation": "Desculpe leads and a comma separates it from the question. The question itself is untouched.",
+          "vocabulary": [
+            "pt-directions-word-1"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "transform",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Straight ahead.",
+            "Straight ahead"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-read",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Read the exchange and find the first direction the visitor is given.",
+          "explanation": "The first step is em frente, straight ahead, and the second comes after depois: à esquerda.",
+          "vocabulary": [
+            "pt-directions-word-1",
+            "pt-directions-word-2",
+            "pt-directions-word-4"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Turista: Desculpe, onde fica a praia?\nMoradora: Em frente, depois à esquerda.\nTurista: Muito obrigado!",
+          "translation": "Tourist: Excuse me, where is the beach?\nResident: Straight ahead, then to the left.\nTourist: Thank you very much!"
+        },
+        {
+          "answers": [
+            "Onde fica a estação?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-directions-foundation-build",
+          "conceptId": "pt-directions-concept",
+          "prompt": "Put the Portuguese words in order to ask where the station is.",
+          "explanation": "Onde leads, fica follows because Portuguese asks where a place 'stays'. Estação is feminine, so its article is a.",
+          "vocabulary": [
+            "pt-directions-word-1"
+          ],
+          "reviewOf": [
+            "pt-numbers-quantities-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "estação?",
+            "a",
+            "fica",
+            "Onde"
+          ]
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-directions-foundation-meet",
+        "pt-directions-foundation-ask",
+        "pt-directions-foundation-cloze",
+        "pt-directions-foundation-vary",
+        "pt-directions-foundation-read",
+        "pt-directions-foundation-build"
+      ],
+      "cefr": "A1",
+      "culturalNote": "Ouça and Desculpe both open a request in Portugal; in Brazil you will hear Com licença just as often."
+    },
+    {
+      "id": "pt-shopping-foundation",
+      "unitId": "pt-unit-3",
+      "title": "Prices and paying",
+      "objective": "Ask what something costs, keep the price frame singular for one item, and hear why Portuguese orders with a softened verb.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 6,
+      "entryStepId": "pt-shopping-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-shopping-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-shopping-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-meet"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-shopping-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-ask"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-ask",
+          "purpose": "practice",
+          "activityId": "pt-shopping-foundation-ask",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-vary"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-vary",
+          "purpose": "practice",
+          "activityId": "pt-shopping-foundation-vary",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-cloze"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "pt-shopping-foundation-cloze",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-think"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-think",
+          "purpose": "predict",
+          "activityId": "pt-shopping-foundation-think",
+          "required": true,
+          "nextStepId": "pt-shopping-foundation-step-pt-shopping-foundation-build"
+        },
+        {
+          "id": "pt-shopping-foundation-step-pt-shopping-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-shopping-foundation-build",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-shopping-foundation-meet",
+          "pt-shopping-foundation-ask",
+          "pt-shopping-foundation-vary",
+          "pt-shopping-foundation-cloze",
+          "pt-shopping-foundation-think",
+          "pt-shopping-foundation-build"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-directions-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-shopping-concept"
+      ],
+      "vocabulary": [
+        "pt-shopping-word-1",
+        "pt-shopping-word-2",
+        "pt-shopping-word-3",
+        "pt-shopping-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "Quanto custa?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-meet",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "One of these lines will get a price out of a shopkeeper in Lisbon. Which one is it?",
+          "explanation": "Quanto custa? is the price question: quanto asks how much, and custa is the form of custar that fits one item.",
+          "vocabulary": [
+            "pt-shopping-word-1",
+            "pt-shopping-word-2",
+            "pt-shopping-word-3",
+            "pt-shopping-word-4"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Como está?",
+            "Onde fica?",
+            "Quanto custa?"
+          ]
+        },
+        {
+          "answers": [
+            "A conta, por favor.",
+            "A conta por favor."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-ask",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "The meal is over and you want to pay in a Portuguese restaurant. Ask for the bill.",
+          "explanation": "Conta is feminine and takes a, and por favor carries the politeness on its own.",
+          "vocabulary": [
+            "pt-shopping-word-4"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Não é caro."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-vary",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "You find the price reasonable and want to say as much. Negate «É caro.»",
+          "explanation": "Não goes ahead of the verb é, and the tilde on não is part of the word, never an optional flourish.",
+          "vocabulary": [
+            "pt-shopping-word-2"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "transform",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Quanto"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-cloze",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "Fill the blank in the question you would put to a stallholder: ___ custa o café?",
+          "explanation": "Quanto custa is the frame to memorise, and it stays singular while a single thing is being priced.",
+          "vocabulary": [
+            "pt-shopping-word-1"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Quanto custa um café?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-think",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "At a pastelaria counter in Lisbon you want the price of one coffee. Ask it.",
+          "explanation": "Custa agrees with the one item, um café, so the question stays in the singular.",
+          "vocabulary": [
+            "pt-shopping-word-1"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 10
+        },
+        {
+          "answers": [
+            "Isto é muito caro."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-shopping-foundation-build",
+          "conceptId": "pt-shopping-concept",
+          "prompt": "A shop is asking a fortune for something small. Arrange the words into a sentence that calls it very expensive.",
+          "explanation": "Muito stands directly before caro, and isto is Portuguese's standalone 'this', the one used with no noun beside it.",
+          "vocabulary": [
+            "pt-shopping-word-2"
+          ],
+          "reviewOf": [
+            "pt-directions-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "caro.",
+            "muito",
+            "é",
+            "Isto"
+          ]
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-shopping-foundation-meet",
+        "pt-shopping-foundation-ask",
+        "pt-shopping-foundation-vary",
+        "pt-shopping-foundation-cloze",
+        "pt-shopping-foundation-think",
+        "pt-shopping-foundation-build"
+      ],
+      "cefr": "A1",
+      "culturalNote": "In Portuguese cafés the bill usually arrives when you ask for it, so a conta, por favor ends the visit."
+    },
+    {
+      "id": "pt-time-days-foundation",
+      "unitId": "pt-unit-4",
+      "title": "Days and times",
+      "objective": "Count the Portuguese week from domingo and keep the hyphens that hold segunda-feira together.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 7,
+      "entryStepId": "pt-time-days-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-time-days-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-time-days-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-meet"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-think"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-think",
+          "purpose": "predict",
+          "activityId": "pt-time-days-foundation-think",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-meaning"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-meaning",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-notice"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-notice",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-notice",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-read"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-read",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-read",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-build"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-build",
+          "required": true,
+          "nextStepId": "pt-time-days-foundation-step-pt-time-days-foundation-cloze"
+        },
+        {
+          "id": "pt-time-days-foundation-step-pt-time-days-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "pt-time-days-foundation-cloze",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-time-days-foundation-meet",
+          "pt-time-days-foundation-think",
+          "pt-time-days-foundation-meaning",
+          "pt-time-days-foundation-notice",
+          "pt-time-days-foundation-read",
+          "pt-time-days-foundation-build",
+          "pt-time-days-foundation-cloze"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-shopping-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-time-days-concept"
+      ],
+      "vocabulary": [
+        "pt-time-days-word-1",
+        "pt-time-days-word-2",
+        "pt-time-days-word-3",
+        "pt-time-days-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "hoje"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-meet",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "In Lisbon a shop sign swaps a single word at dawn. Choose today's word.",
+          "explanation": "Hoje is right. What is left over means the week, Monday and tomorrow.",
+          "vocabulary": [
+            "pt-time-days-word-1",
+            "pt-time-days-word-2",
+            "pt-time-days-word-3",
+            "pt-time-days-word-4"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "hoje",
+            "amanhã",
+            "segunda",
+            "semana"
+          ]
+        },
+        {
+          "answers": [
+            "Hoje é segunda-feira."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-think",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Predict the sentence before you write it. Monday is the second fair, so count from domingo: today is Monday.",
+          "explanation": "Hoje é plus the day. Domingo is the first feria, so Monday, the second, is segunda-feira.",
+          "vocabulary": [
+            "pt-time-days-word-1",
+            "pt-time-days-word-3"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 8
+        },
+        {
+          "answers": [
+            "On Monday I work.",
+            "I work on Monday."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-meaning",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Give the English meaning: Na segunda-feira trabalho.",
+          "explanation": "Na marks on before a feminine weekday, and segunda-feira is the second fair.",
+          "vocabulary": [
+            "pt-time-days-word-3"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "quarta-feira"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-notice",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Portuguese counts the working days from domingo. Counting that way, which day is the fourth?",
+          "explanation": "Domingo is the first feria; segunda is second, terça third, so the fourth is quarta-feira.",
+          "vocabulary": [
+            "pt-time-days-word-4"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "quarta-feira",
+            "terça-feira",
+            "quinta-feira"
+          ]
+        },
+        {
+          "answers": [
+            "domingo",
+            "Sunday"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-read",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Read the week. According to the passage, which day opens the week?",
+          "explanation": "The opening line names it: domingo é o primeiro dia da semana.",
+          "vocabulary": [
+            "pt-time-days-word-2",
+            "pt-time-days-word-4"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Domingo é o primeiro dia da semana. Na segunda-feira trabalho. Na terça-feira estudo português. Na quarta-feira descanso. Amanhã é quinta-feira.",
+          "translation": "Sunday is the first day of the week. On Monday I work. On Tuesday I study Portuguese. On Wednesday I rest. Tomorrow is Thursday."
+        },
+        {
+          "answers": [
+            "Hoje é quarta-feira."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-build",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Build the Portuguese sentence for today is Wednesday, keeping the hyphen.",
+          "explanation": "Hoje first, then é, then the hyphenated day: quarta-feira.",
+          "vocabulary": [
+            "pt-time-days-word-1"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "quarta-feira.",
+            "é",
+            "Hoje"
+          ]
+        },
+        {
+          "answers": [
+            "manhã"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-time-days-foundation-cloze",
+          "conceptId": "pt-time-days-concept",
+          "prompt": "Complete with the noun for the morning, not the word for tomorrow: A ___ está fria.",
+          "explanation": "Manhã is the morning; amanhã, with an a in front, is tomorrow.",
+          "vocabulary": [
+            "pt-time-days-word-2"
+          ],
+          "reviewOf": [
+            "pt-shopping-foundation"
+          ],
+          "kind": "cloze",
+          "mode": "production"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "pt-time-days-foundation-meet",
+        "pt-time-days-foundation-think",
+        "pt-time-days-foundation-meaning",
+        "pt-time-days-foundation-notice",
+        "pt-time-days-foundation-read",
+        "pt-time-days-foundation-build",
+        "pt-time-days-foundation-cloze"
+      ],
+      "cefr": "A1",
+      "culturalNote": "The numbered weekdays come from the church calendar, where Sunday was the first fair and Monday the second."
+    },
+    {
+      "id": "pt-family-people-foundation",
+      "unitId": "pt-unit-4",
+      "title": "Family and people",
+      "objective": "Introduce your relatives, and keep the small article Portuguese plants in front of a possessive.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 7,
+      "entryStepId": "pt-family-people-foundation-step-intro",
+      "steps": [
+        {
+          "id": "pt-family-people-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "pt-family-people-foundation-intro",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-meet"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-meet",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-meet",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-notice"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-notice",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-notice",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-vary"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-vary",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-vary",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-read"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-read",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-read",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-cloze"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-cloze",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-think"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-think",
+          "purpose": "predict",
+          "activityId": "pt-family-people-foundation-think",
+          "required": true,
+          "nextStepId": "pt-family-people-foundation-step-pt-family-people-foundation-build"
+        },
+        {
+          "id": "pt-family-people-foundation-step-pt-family-people-foundation-build",
+          "purpose": "practice",
+          "activityId": "pt-family-people-foundation-build",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "pt-family-people-foundation-meet",
+          "pt-family-people-foundation-notice",
+          "pt-family-people-foundation-vary",
+          "pt-family-people-foundation-read",
+          "pt-family-people-foundation-cloze",
+          "pt-family-people-foundation-think",
+          "pt-family-people-foundation-build"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "pt-time-days-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "pt-family-people-concept"
+      ],
+      "vocabulary": [
+        "pt-family-people-word-1",
+        "pt-family-people-word-2",
+        "pt-family-people-word-3",
+        "pt-family-people-word-4"
+      ],
+      "legacyExercises": [
+        {
           "answers": [
             "a irmã"
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-meet",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Portuguese marks the sister with a tilde. Which of these four words is she?",
           "explanation": "The word for sister is irmã, tilde and all; strip its nasal sound and you get irmão, the brother. Pais is the parents, and família the family.",
           "vocabulary": [
             "pt-family-people-word-1",
@@ -1600,6 +4289,8 @@
           "reviewOf": [
             "pt-time-days-foundation"
           ],
+          "kind": "choice",
+          "mode": "recognition",
           "options": [
             "o irmão",
             "os pais",
@@ -1608,14 +4299,14 @@
           ]
         },
         {
-          "id": "pt-family-people-foundation-notice",
-          "conceptId": "pt-family-people-concept",
-          "kind": "choice",
-          "mode": "recognition",
-          "prompt": "Irmã is feminine. Which line says I have a sister with the article that matches her?",
           "answers": [
             "Tenho uma irmã."
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-notice",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Irmã is feminine. Which line says I have a sister with the article that matches her?",
           "explanation": "Uma irmã is the feminine form; um irmã and uns irmã both mismatch the article to the noun.",
           "vocabulary": [
             "pt-family-people-word-3"
@@ -1623,6 +4314,8 @@
           "reviewOf": [
             "pt-time-days-foundation"
           ],
+          "kind": "choice",
+          "mode": "recognition",
           "options": [
             "Tenho um irmã.",
             "Tenho uns irmã.",
@@ -1630,33 +4323,35 @@
           ]
         },
         {
-          "id": "pt-family-people-foundation-vary",
-          "conceptId": "pt-family-people-concept",
-          "kind": "transform",
-          "mode": "production",
-          "prompt": "Change the sentence from one sister to two: Tenho uma irmã.",
           "answers": [
             "Tenho duas irmãs."
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-vary",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Change the sentence from one sister to two: Tenho uma irmã.",
           "explanation": "The plural adds -s to irmã, and uma becomes duas: Tenho duas irmãs.",
           "vocabulary": [
             "pt-family-people-word-3"
           ],
           "reviewOf": [
             "pt-time-days-foundation"
-          ]
+          ],
+          "kind": "transform",
+          "mode": "production"
         },
         {
-          "id": "pt-family-people-foundation-read",
-          "conceptId": "pt-family-people-concept",
-          "kind": "reading",
-          "mode": "recognition",
-          "prompt": "Read the family note. In which city did the parents stay?",
           "answers": [
             "Lisbon.",
             "Lisbon",
             "In Lisbon."
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-read",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Read the family note. In which city did the parents stay?",
           "explanation": "The brother and sister have moved on; the parents are the ones still in Lisbon.",
           "vocabulary": [
             "pt-family-people-word-1",
@@ -1665,35 +4360,39 @@
           "reviewOf": [
             "pt-time-days-foundation"
           ],
+          "kind": "reading",
+          "mode": "recognition",
           "passage": "Somos quatro em casa, mas só eu e a minha irmã vivemos no Porto. O meu irmão Max mudou-se para Coimbra no ano passado. Os meus pais ficaram em Lisboa, na casa antiga.",
           "translation": "There are four of us at home, but only my sister and I live in Porto. My brother Max moved to Coimbra last year. My parents stayed in Lisbon, in the old house."
         },
         {
-          "id": "pt-family-people-foundation-cloze",
-          "conceptId": "pt-family-people-concept",
-          "kind": "cloze",
-          "mode": "production",
-          "prompt": "Write the plural word for parents, article and all, into the gap: Os meus ___ vivem em Lisboa.",
           "answers": [
             "pais"
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-cloze",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Write the plural word for parents, article and all, into the gap: Os meus ___ vivem em Lisboa.",
           "explanation": "Pais is plural and still keeps the article os alongside the possessive meus.",
           "vocabulary": [
             "pt-family-people-word-4"
           ],
           "reviewOf": [
             "pt-time-days-foundation"
-          ]
+          ],
+          "kind": "cloze",
+          "mode": "production"
         },
         {
-          "id": "pt-family-people-foundation-think",
-          "conceptId": "pt-family-people-concept",
-          "kind": "think",
-          "mode": "production",
-          "prompt": "Predict the form before you write it: I have a brother. (ter is irregular in the I form.)",
           "answers": [
             "Tenho um irmão."
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-think",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Predict the form before you write it: I have a brother. (ter is irregular in the I form.)",
           "explanation": "Ter is irregular, so the I form is tenho and not tene: Tenho um irmão.",
           "vocabulary": [
             "pt-family-people-word-2"
@@ -1701,17 +4400,19 @@
           "reviewOf": [
             "pt-time-days-foundation"
           ],
+          "kind": "think",
+          "mode": "production",
           "thinkSeconds": 10
         },
         {
-          "id": "pt-family-people-foundation-build",
-          "conceptId": "pt-family-people-concept",
-          "kind": "order",
-          "mode": "production",
-          "prompt": "Put the words in order to say this is my family, keeping the article Portuguese wants.",
           "answers": [
             "Esta é a minha família."
           ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "pt-family-people-foundation-build",
+          "conceptId": "pt-family-people-concept",
+          "prompt": "Put the words in order to say this is my family, keeping the article Portuguese wants.",
           "explanation": "Portuguese keeps the article with the possessive, so the sentence is Esta é a minha família.",
           "vocabulary": [
             "pt-family-people-word-1"
@@ -1719,6 +4420,8 @@
           "reviewOf": [
             "pt-time-days-foundation"
           ],
+          "kind": "order",
+          "mode": "production",
           "tokens": [
             "família.",
             "minha",
@@ -1728,7 +4431,17 @@
           ]
         }
       ],
-      "optionalExerciseIds": []
+      "legacyCompletionExerciseIds": [
+        "pt-family-people-foundation-meet",
+        "pt-family-people-foundation-notice",
+        "pt-family-people-foundation-vary",
+        "pt-family-people-foundation-read",
+        "pt-family-people-foundation-cloze",
+        "pt-family-people-foundation-think",
+        "pt-family-people-foundation-build"
+      ],
+      "cefr": "A1",
+      "culturalNote": "A família in Portuguese often includes grandparents and cousins, and it is the standard answer to tell me about yourself."
     }
   ],
   "dialogues": []

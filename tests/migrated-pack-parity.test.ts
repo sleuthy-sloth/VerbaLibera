@@ -24,7 +24,7 @@ import type { RuntimePack } from "@/features/course-pack/lesson-runtime";
  * `tests/migrated-pack-replay.test.tsx`.
  */
 
-const PENDING_PACKS = ["portuguese", "spanish"] as const;
+const PENDING_PACKS = ["spanish"] as const;
 
 const readPack = (language: string): Record<string, unknown> =>
   JSON.parse(
@@ -93,6 +93,21 @@ const MIGRATED_PACKS = [
     media: 1,
     withPrerequisites: 7,
     retainedExercises: 40, // lower bound
+    reachable: 56,
+    retrieval: 39,
+  },
+  // Portuguese measured the same as German on every figure, which is the point:
+  // the two packs were authored to the same shape and the flip changed only the
+  // schema. Compared against the content report before writing this down.
+  {
+    language: "portuguese",
+    lessons: 8,
+    units: 4,
+    concepts: 8,
+    vocabulary: 34,
+    media: 1,
+    withPrerequisites: 7,
+    retainedExercises: 40, // lower bound; 48 measured
     reachable: 56,
     retrieval: 39,
   },

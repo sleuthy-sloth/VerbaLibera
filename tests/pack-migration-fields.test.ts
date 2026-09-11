@@ -23,7 +23,7 @@ import { validateV2Pack } from "@/features/course-pack/schema-v2";
  * it — the fixture is the mail carrier for exactly this kind of guarantee.
  */
 
-const V1_PACKS = ["portuguese", "spanish"] as const;
+const V1_PACKS = ["spanish"] as const;
 /**
  * Flipped already, and read from the tree rather than migrated in memory.
  *
@@ -35,6 +35,7 @@ const V1_PACKS = ["portuguese", "spanish"] as const;
  */
 const FLIPPED_PACKS = [
   { language: "german", lessons: 8, notes: 8, tags: 8 },
+  { language: "portuguese", lessons: 8, notes: 8, tags: 8 },
   { language: "french", lessons: 25, notes: 0, tags: 0 },
 ] as const;
 
