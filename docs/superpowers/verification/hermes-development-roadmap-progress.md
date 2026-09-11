@@ -11,12 +11,18 @@ This file is updated as each phase lands. "Pending" below always means *not perf
 ## Current phase
 
 **Phases 0, 1A, 1B, 2A, 2B (German) and 3A are complete apart from the gate's physical-device pass.**
-This block flipped German to schemaVersion 2 through the CEFR-preserving migration, after first fixing
-the second field the migration was dropping (`culturalNote`) and adding a census test so the class of
-loss cannot recur silently. It retargeted every suite that was pinned to German as the last v1 host
-onto Spanish, renamed the two migration evidence suites to match what they now cover, added the German
-course-page walk the flip needed in a browser, and closed the v2 dialogue gap the French flip had
-opened — French's and Italian's scripted conversations are reachable again.
+The previous block flipped German to schemaVersion 2, fixed the second field the migration was dropping
+(`culturalNote`), retargeted the legacy suites onto Spanish, and closed the v2 dialogue gap.
+
+This block was the graphics/artwork pass, run against `docs/design/graphics-brief.md` — the project's
+own brief, which the roadmap's acceptance item (`docs/superpowers/briefs/graphics-review.md`) sits on
+top of. Three defects, all reproduced in a browser before they were fixed: **the v2 course shell
+rendered no banner at all** (French, Italian and German had no artwork on their own course page while
+the library kept showing the same file), **the banner was an ~85px strip on a phone** (the whole 4:1
+frame scaled into the column with the drawing inside it too small to read), and **the lock screen
+showed metadata with no artwork** while an audio lesson played. It also cleared the brief's named
+leftovers: declared image dimensions are guarded now, and a 1MB asset from another project is out of
+`public/brand`.
 
 The next packages, in the order they are written up below: **2B continues** — flip Portuguese, then
 Spanish, now a mechanical repeat of the playbook below (German's flip is the worked example) — **3B**
@@ -41,6 +47,11 @@ stays behind its evidence gates.
 
 - Native-speaker review of any lesson or audio clip (`review.nativeSpeaker` stays `"pending"` in
   every generated report).
+- **Art direction** (added by the graphics pass): whether German's banner is regenerated as a wide
+  frieze to match the other four, whether the 22 vocabulary photographs are redrawn as illustrations,
+  and the lesson-scene illustration set the brief lists. All three need an image model and a human
+  eye; the crop work this block shipped makes the *existing* art legible on a phone instead, which is
+  the part that can be settled in code.
 - The human listening checklist for audio (`review.audioListening` stays `"pending"`).
 - The Phase 1 gate's observed pilot with five new users.
 - Physical iPhone / Safari PWA QA, and any signed or notarised distribution decision.
@@ -657,6 +668,132 @@ Proven non-vacuous by restoring the old four-entry list: the new test failed wit
 
 
 
+### Graphics pass 2 — the banner on the course page, and legible on a phone (`de7d463`)
+
+**The v2 shell had no banner.** `BANNER_BY_LANGUAGE` lived inside `CourseWorkspace.tsx` — the legacy
+shell — and the v2 shell never rendered an image at all, so the three courses that had migrated lost
+their artwork on their own page. Reproduced in a browser before the fix: at 320/390/430/1280 the only
+`<img>` on `/courses/german` was the 32px header logo. The map now lives in
+`src/features/course-pack/banners.ts`, both shells consume it, and the v2 shell renders the same
+`img.course-banner`. `alt=""` on both: the page's own heading names the course, and the library is
+where the picture carries authored alt text ("A half-timbered German street with a fountain"), which is
+the right split — decoration beside a heading, culture in a gallery.
+
+**On a phone the banner was ~85px tall.** The five banners are 2064×512 (4.03:1) and the drawing inside
+each frame is narrower than the frame, so scaling the whole picture into the column left the artwork
+illegible — worst on German, whose scene fills 56% of the width with empty ground either side.
+
+Below 768px the banner now crops to a window **measured from the artwork** rather than chosen.
+`scripts/brand/banner-crops.py` finds each banner's non-ground bounding box (the method
+`frame-audit.py` already used) and writes `src/features/course-pack/banner-crops.json`:
+
+| course | art fills | cropAspect | focusX | window |
+| --- | --- | ---: | ---: | ---: |
+| german | 56% × 94% | 2.39 | 50.4% | 1224px of 2064 |
+| portuguese | 68% × 88% | 2.89 | 100% | 1479px |
+| spanish | 76% × 93% | 3.24 | 100% | 1659px |
+| french | 79% × 91% | 3.38 | 100% | 1729px |
+| italian | 81% × 93% | 3.44 | 100% | 1764px |
+
+The window is the art plus 6% breathing room, anchored on the art's own horizontal centre, expressed
+as the two numbers CSS needs: `--banner-crop` (aspect ratio) and `--banner-focus` (`object-position`).
+Four courses have their art against the right edge, so their focus is 100% — the crop keeps the ground
+on the left and nothing else.
+
+Measured at 320px (280px column), before → after: German 69px → 117px tall with the drawing 1.69×
+larger; Portuguese 1.40×; Spanish 1.24×; French 1.19×; Italian 1.17×. Nothing is cut, and the desktop
+frame is untouched — reapportioning a legible 4:1 hero would be an art-direction change nobody asked
+for. The library gallery also keeps the full frame per card, deliberately: per-card crop heights would
+make a column of cards ragged.
+
+Guards, and how they were proved:
+
+- `tests/banner-crops.test.ts` re-derives the visible window from the generated data using the
+  browser's own `object-position` rule and fails if any artwork falls outside it; asserts the art fills
+  90–97% of its window (breathing room, not a crop); asserts the phone render beats the uncropped frame
+  everywhere and ≥1.6× for German; and proves non-vacuity by setting the window back to the full frame,
+  where that assertion fails. It also re-runs the generator as a check when Python + Pillow are present.
+- `tests/e2e/course-banner.spec.ts` drives a real browser — German, French and Spanish at 320/390/430
+  (decodes, measured ratio, taller than the strip, no horizontal overflow), desktop at 4.03:1, and the
+  library at the frame ratio for all five cards. **Non-vacuity proved by injection**: removing the crop
+  from the stylesheet turns the three phone tests red on the ratio assertion while desktop and the
+  library stay green.
+- `tests/e2e/offline.spec.ts` asserts the downloaded Italian edition renders its banner from the
+  service worker's precache with the network off; `tests/e2e/portable.spec.ts` asserts the single file
+  renders it from an embedded blob with every http request aborted.
+
+### Graphics pass 2 — the audit's named leftovers (`e1c229f`)
+
+The brief ends with a technical pass, two of whose items were already fixed and two of which were
+still real. Both are now done *and guarded*, which is the part that was missing.
+
+- **Declared image dimensions.** `next/image` reserves layout space from the declared `width`/`height`,
+  so a declaration whose shape differs from the file shifts the page when the picture lands. The brief
+  listed `hero-banner.jpg` declared 1536×1024 for a 1584×672 file and `empty-journal.jpg` declared
+  1024×683 for a 1024×1024 one; both were already corrected in the tree.
+  `tests/image-dimensions.test.ts` now parses every `<Image>`/`<img>` element under `src/`, reads the
+  file's own header, and fails when the declared ratio differs from the file's by more than 1%.
+  `tests/helpers/image-size.ts` reads PNG (IHDR) and JPEG (SOF) in about thirty lines, so it runs in CI
+  where Pillow is absent — the first pass compared pixels and flagged three false positives (a 1024px
+  mark legitimately shown at 32px), which is why the assertion is on the ratio.
+- **`public/brand` is the shipped brand system.** It held `voxlibre-app-icon-source.png` — 999,158
+  bytes of icon source from a different project, added in `5d8ff79`, referenced by nothing but the
+  brief. Removed (sha256 `e59b88313a3f5245f6ac446afc7eba4fed7481f4046e697663af392782567e9f`, recoverable
+  with `git show 5d8ff79:public/brand/voxlibre-app-icon-source.png`), and the same test now asserts
+  every file in `public/brand` is referenced by the app.
+- **The brief no longer points at fixed work.** Its "wiring the German banner" instruction, its
+  dimension table, its "32 vocabulary images" (the tree has 22 — referenced and present, no orphans,
+  checked in both directions) and its housekeeping ask are all corrected in place, and it gained the
+  section the crop work needs: what the window is, how to re-measure it, and what it asks of new art
+  (keep the drawing inside the frame, nothing meaningful in the outer margins).
+
+### Graphics pass 2 — lock-screen artwork for the listening lessons (`70a9482`)
+
+The brief's "compact audio-state artwork for screen-off study". A long audio lesson is mostly listened
+to with the screen off, so the lock screen and the notification shade are the surface a learner
+actually looks at — and `navigator.mediaSession.metadata` was set with a title, an artist and an album
+and **no artwork**. The catch block's own comment admitted it ("the player still works, just without
+lock-screen art").
+
+The metadata now carries the course banner at the file's real size (`sizes: "2064x512"`, taken from the
+same measured data as the crop, because a platform picks artwork by declared size). It is the same file
+the course page uses, it is already offline — the service worker precaches every banner and the
+portable build embeds them — and in the single file the library resolves it through the audio resolver,
+so the lock screen gets an embedded blob. `artwork` is omitted entirely when an edition has no cover: a
+`src` that 404s reads as a load failure on some platforms instead of falling back to the text.
+
+Guards: `tests/ListenCover.test.tsx` (5 tests) captures the `MediaMetadata` and asserts the
+title/artist/album, the artwork path and type, a `sizes` equal to the real JPEG header (read the same
+way the dimension guard reads it), the portable blob passed through untouched, no `artwork` field when
+there is no cover, and that a browser without the Media Session API still renders the card.
+`tests/e2e/listen.spec.ts` asserts the live metadata in Chromium for Spanish, Portuguese and German;
+`tests/e2e/portable-listen.spec.ts` asserts the embedded blob in the single file.
+
+### Graphics pass 2 — what was audited and deliberately left alone
+
+Recorded because "we looked and it was fine" is information too, and because the next person should not
+re-audit it:
+
+- **No overflow anywhere.** At 320/390/430/1280 the course page, the library and the lesson shell keep
+  `scrollWidth == innerWidth`; the banner never pushed a page sideways.
+- **No missing or orphaned artwork.** Every catalogued course has a banner file; every vocab image the
+  travel fixture references exists (22/22, no orphans) — the brief's "32 files" was wrong, not the tree.
+- **Offline and portable inclusion is already complete.** The service worker precaches all five banners
+  and the icon set; the portable collector embeds one banner per catalogued course. Both are pinned by
+  tests that name the missing file rather than counting.
+- **Alt text split.** Decorative on the course page (`alt=""`, beside the course heading) and
+  descriptive in the library and landing showcase ("Pena Palace and Porto"), which is the meaningful
+  surface for the artwork's content.
+- **No new raster assets, and none were justified.** Every candidate in the brief's broader list that
+  would need new art — lesson-scene illustrations, regenerated vocabulary illustrations, a course-map
+  illustration — needs an image model and a human art-direction pass, neither of which exists in this
+  run. Reusing the existing banners (with measured crops) and the existing vocabulary photographs is
+  the honest alternative, and it is what shipped.
+- **The Listen player's cover treatment stays as it is.** The card's two-letter language mark was the
+  brief's "restrained cover treatment", and adding per-track art to a list of eight tracks would be the
+  noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
+
+
 ## Test evidence
 
 Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
@@ -685,6 +822,16 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — unchanged by the flip |
 | `npx tsc --noEmit` / `npm run lint` / `npm run build` (after the flip) | exit 0 / exit 0 (0 errors, 30 warnings — two fewer than the block started with) / exit 0 |
 | `npx vitest run` (final, after the dialogue surface, `adc939b`) | **146 files passed, 1 skipped; 1136 passed, 6 skipped, 0 failed** |
+| `npx vitest run` (final, after the graphics pass, `70a9482`) | **149 files passed, 1 skipped; 1163 passed, 6 skipped, 0 failed** |
+| `npx vitest run tests/banner-crops.test.ts` (alone) | **10 passed** — the window contains the artwork, the art fills 90-97% of it, the phone render beats the strip (>= 1.6x for German), the shell receives the custom properties, the stylesheet crops only below 768px, and the generator re-checks when Python + Pillow are present |
+| `npx vitest run tests/image-dimensions.test.ts` (alone) | **3 passed** — every declared ratio matches the file header, the brief's `1536x1024` pair fails it (non-vacuity), and no file in `public/brand` is unreferenced |
+| `npx vitest run tests/ListenCover.test.tsx` (alone) | **5 passed** — metadata title/album, artwork path/type/size against the real JPEG header, the portable blob, the no-cover case, and a browser without the Media Session API |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1 tests/e2e/course-banner.spec.ts` | **5 passed** — German/French/Spanish at 320/390/430, desktop at the full frame, the library at the frame ratio. Re-run with the crop removed from the stylesheet: **3 failed** on the ratio assertion, desktop and library still green |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (whole suite) | **90 passed, 3 skipped** (85 before this block; the 3 need a disposable Postgres) |
+| `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | **10 passed, 3 skipped** — Chromium full matrix, WebKit its expressible half, including the downloaded edition's banner with the network off |
+| `npx playwright test --config playwright.portable.config.ts` | **8 passed** (Chromium and WebKit) — including the embedded banner and the embedded lock-screen artwork in the single file |
+| `python3 scripts/brand/banner-crops.py --check` | exit 0 — the committed crop data matches a fresh measurement of every banner |
+| `npm run lint` / `npx tsc --noEmit` / `npm run build` (after the graphics pass) | exit 0 (0 errors, 30 warnings — the same count the block started with) / exit 0 / exit 0 |
 | `npx vitest run tests/DialoguesView.test.tsx` (alone) | **4 passed** — the authored dialogues, one played to its terminal node and restarted, the no-content guard against German, and every prerequisite id resolving to a real lesson |
 | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` (final) | **85 passed, 3 skipped** — the German v2 walk and the dialogue walk included |
 | `npx tsc --noEmit` | exit 0 (run after `npm run build`; a bare `tsc` on a freshly deleted `.next` reports `Cannot find name 'PageProps'`, which is the documented ordering quirk, not a break) |
@@ -742,6 +889,10 @@ also skips the config's own `webServer`.
 | `4e636eb` | **Phase 2B — German flipped to schemaVersion 2**; legacy suites retargeted onto Spanish, migration evidence suites renamed and parameterised, dual-schema accessors in the variety guard, docs and generated reports updated, and the eight stray `* 2.*` copies removed |
 | `3823b59` | The German course-page e2e walk the flip needed — the browser half the playbook assumed and found empty |
 | `adc939b` | **The v2 dialogue gap, closed** — the shell can reach a course's scripted conversations again, with the content guard and the prerequisite label |
+| `3ac2561` | Run record — the German flip and the dialogue surface |
+| `de7d463` | **Graphics pass 2 — the course page keeps its artwork, and a phone gets the drawing**: the shared banner map, the measured narrow-viewport crop, both shells rendering it, and the responsive/e2e/offline/portable guards |
+| `e1c229f` | **Declared image dimensions guarded**, the foreign 1MB asset out of `public/brand`, and the design brief's stale items corrected |
+| `70a9482` | **Lock-screen artwork for the listening lessons** — the course banner in the media metadata, in all three editions |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
 
@@ -751,22 +902,27 @@ Nothing was pushed. No merge to `main`, no tag, no deployment.
    the whole sequence, including every file that has to move, is written out under "To flip the next
    pack" below. Nothing new needs to be designed — the next flip is a repeat with the `V1_PACKS` /
    `PENDING_PACKS` lists shifted along, and it should stay one focused commit.
-2. **A second opinion on the German flip's content.** The migration is mechanical and the file is
+2. **The graphics pass's human half.** Everything the checklist asks for that code can do is done and
+   guarded; what is left is art: regenerating the German banner as a wide frieze so it matches the
+   other four, redrawing the 22 vocabulary photographs as on-palette illustrations, and the
+   lesson-scene illustration set. Each needs an image model and a reviewer. `docs/design/graphics-brief.md`
+   now records the constraint new banner art must respect.
+3. **A second opinion on the German flip's content.** The migration is mechanical and the file is
    verified, but nothing here reads German prose for naturalness: the 8 lessons' German and English
    strings are the same ones that were reviewed (or not) as v1, and the native-speaker gate stays
    open. Re-running the *content* gates on the flipped file (`npm run content:validate`,
    `content:audio-check`) is the mechanical half and passes; the reading half is human.
-3. **The Listen player's remaining brief item** — nothing outstanding: the brief is implemented. Its
-   follow-ups are the two it deliberately leaves out (AirPlay/lock-screen behaviour on a real device,
-   and any per-track artwork), both human/design decisions.
-3. **The v2 dialogue gap** — the plan is in the blockers section below: a Dialogues view fed from
-   `pack.dialogues`, guarded on content, reusing `DialogueView`. No new content needed.
-4. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
+4. **The Listen brief's remaining item** — nothing outstanding in code. AirPlay and lock-screen
+   behaviour on a physical device is the same device pass the Phase 3A gate waits on; the lock-screen
+   *metadata* now carries the course artwork, and whether it renders as intended on iOS is part of
+   that pass.
+5. **Phase 3B — audio expansion** for German/Spanish/Portuguese and one reviewed long track per
    language. Blocked on the human listening checklist; can be prepared but not closed here.
-5. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
-6. **`docs/superpowers/briefs/graphics-review.md`** — the German banner defect is fixed on all four
-   surfaces; the brief's "commission new art" half is a design decision for the user, and both brief
-   files are still untracked.
+6. **Phase 4 — curriculum depth**, which needs editorial/native-speaker capacity.
+
+Closed since this list was written, so it stays closed: **the v2 dialogue gap** (`adc939b`, closed in
+the previous block — the plan below is history), and **the German banner defect** on all four surfaces
+(`64ba98a`, plus this block's v2-shell and mobile-crop work).
 
 ## Precise continuation instructions
 
@@ -839,6 +995,23 @@ over the remaining v1 packs *and* the flipped ones), the course still runs after
 (`tests/migrated-pack-replay.test.tsx`). Step 5 of the list above was empty in practice for German —
 no e2e spec walks that course — so do not budget for it without checking.
 
+### To change a course banner, or add a course with artwork
+
+1. Drop the file at `public/brand/courses/<slug>.jpg`. 2064×512 is the set's frame; a different size
+   works (the CSS never stretches) but the crop window is derived from the file, so it must be
+   re-measured either way.
+2. Add the slug to `BANNER_BY_LANGUAGE` in `src/features/course-pack/banners.ts`. One map serves both
+   shells, the landing showcase and the library; `tests/course-banners.test.ts` fails if a catalogued
+   course is missing from it, from the two listings, or from the portable bundle.
+3. Re-measure the crop: `python3 scripts/brand/banner-crops.py` (needs Pillow). It writes
+   `banner-crops.json`; `tests/banner-crops.test.ts` fails if any artwork would fall outside the
+   window it computes, and re-runs the script as a check where Python is available.
+4. Keep the drawing inside the frame and nothing meaningful in the outer margins — a composition that
+   needs the whole 4:1 frame will not survive a phone. The crop can only remove empty ground.
+5. `npm run content:build` (regenerates `study.css`/`study.js`), then the banner specs, the offline
+   spec and the portable spec. The service worker precaches `/brand/courses/*`; a new file needs no
+   SW version bump, but a learner who installed before the change keeps the old bundle until they
+   re-download, because `/study.*` is served network-first and falls back to the installed pack cache.
 ### To run the e2e suite here (the trap that cost a cycle twice)
 
 Playwright reuses any dev server already answering on `:3100` (`reuseExistingServer: !CI`). The main
@@ -853,9 +1026,14 @@ build.
 - **Human work that cannot be closed here:** native-speaker review, the observed five-user pilot,
   the audio listening checklist, physical-device QA, and any signed/notarised distribution decision.
 - **`docs/superpowers/briefs/graphics-review.md`** (untracked, not written by this run) is now
-  **actioned**: see the graphics section above. Its broader "audit the existing graphics and
-  consider commissioning new art" half is a design decision, not a defect fix, and is untouched.
-  The brief itself is still untracked — decide whether it belongs in the repository.
+  **actioned**, and so is the code-settled half of `docs/design/graphics-brief.md` that it points at:
+  the banner defect it names is fixed on every surface, the mobile presentation is measured rather
+  than guessed, and the design brief's own technical leftovers are closed. What remains from its
+  broader list is the part that needs new artwork (lesson-scene illustrations, on-palette vocabulary
+  illustrations, a course-map illustration), and none of it was faked with borrowed imagery — see
+  "what was audited and deliberately left alone" above. The brief itself is still untracked: decide
+  whether it belongs in the repository, and whether it should be committed now that its requests are
+  either done or explicitly parked.
 - **Found, not fixed (out of the packages above):** German has a foundation pack and a course page
   but is absent from `progress.courses` (the travel fixture's four slugs), so it never appears in
   the dashboard's language switcher or the welcome flow, and `/courses` is its only entry point
