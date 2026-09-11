@@ -119,8 +119,8 @@ describe("the asset provenance document", () => {
     const own = rowsOf(ownTable, "vocab");
     const scenes = rowsOf(sceneTable, "scenes");
     const map = [...mapTable.matchAll(/^\| `([\w.-]+)\.jpg` \|/gm)].map((match) => `map/${match[1]}.jpg`);
-    expect(cc0.length, "the CC0 table lost rows").toBe(13);
-    expect(own.length, "the project-artwork table lost rows").toBe(9);
+    expect(cc0.length, "the CC0 table lost rows").toBe(12);
+    expect(own.length, "the project-artwork table lost rows").toBe(10);
     expect(scenes.length, "the scene table lost rows").toBe(6);
     expect(map.length, "the course map is not recorded").toBe(1);
     // The tables have to be disjoint: a file that is the project's own artwork
@@ -169,10 +169,26 @@ describe("the asset provenance document", () => {
       "A green suitcase beside a folded map",
       "An ambulance parked outside a building",
       "A police car with its roof lights on",
+      "A hospital entrance",
     ]) {
       expect(ownTable, `the record does not quote "${alt}"`).toContain(alt);
       expect(fixture, `the fixture no longer uses "${alt}"`).toContain(alt);
     }
+
+    // Two pictures are deliberately still photographs, and the record has to say so
+    // with the reason: the approved six-panel reference holds both subjects but is a
+    // collage whose receipt panel has "BILL" drawn into it, so it can be neither
+    // shipped nor cropped. Without this, the next person finds a sheet with a receipt
+    // on it and "fixes" the gap by cutting it up.
+    expect(cc0).toContain("vocab/bill.jpg");
+    expect(cc0).toContain("vocab/shopkeeper.jpg");
+    expect(record, "the follow-up note for bill and shopkeeper is missing").toContain(
+      "still waiting for standalone artwork",
+    );
+    expect(record).toMatch(/collage/);
+    expect(record, "the note does not explain why the sheet cannot be cut up").toMatch(
+      /"BILL"|word "BILL"/,
+    );
 
     // The one piece of lettering inside the approved artwork is recorded here, and
     // recorded as something that is not copy. `tests/scenes.test.ts` checks the

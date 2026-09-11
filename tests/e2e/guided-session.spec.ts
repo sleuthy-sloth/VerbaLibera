@@ -56,7 +56,7 @@ test('typed exact answer is checked without any sidecar', async ({ page }) => {
   await expect(page.getByText('Checked locally. Nothing was saved.')).toBeVisible();
 });
 
-test('picture drill offers four CC0 photos and accepts the coffee tap', async ({ page }) => {
+test('picture drill offers the four illustration options and accepts the coffee tap', async ({ page }) => {
   await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
   // Step 1 teaches (Continue only), then walk review + two text drills via reveal/self-check/continue.
   await page.getByRole('button', { name: 'Continue' }).click();
@@ -253,6 +253,33 @@ test('the situation picture shows for the pattern that has one, and nowhere else
   await page.goto('/learn/english-to-french?concept=fr-greet-politely');
   await expect(page.getByRole('heading', { name: 'Practice one useful pattern.' })).toBeVisible();
   await expect(page.locator('img[src^="/images/scenes/"]')).toHaveCount(0);
+});
+
+test('the emergency drill shows the approved hospital picture', async ({ page }) => {
+  // The picture drill offers the illustration set, and the hospital option is the most
+  // recently replaced file: this walks to the drill the same way the coffee test does
+  // and checks the picture the app actually serves is the approved 800x449 one, with
+  // the alt text that is also its caption.
+  await page.goto('/learn/english-to-french?concept=fr-emergency-help');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  for (let i = 0; i < 3; i++) {
+    await page.getByRole('button', { name: /reveal model answer/i }).click();
+    await page.getByRole('button', { name: /i checked my answer/i }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+  }
+
+  const hospital = page.getByRole('radio', { name: 'A hospital entrance' });
+  await expect(hospital).toBeVisible();
+  await hospital.scrollIntoViewIfNeeded();
+  const picture = hospital.locator('img');
+  await expect(picture).toHaveAttribute('src', '/images/vocab/hospital.jpg');
+  await expect
+    .poll(() => picture.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+  // The declaring surface reserves the 4:3 box the drill draws in, so the row does not
+  // jump when the picture arrives.
+  await expect(picture).toHaveAttribute('width', '400');
+  await expect(picture).toHaveAttribute('height', '300');
 });
 
 test('the emergency pattern shows the emergency scene', async ({ page }) => {

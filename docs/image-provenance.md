@@ -3,20 +3,21 @@
 Twenty-two vocabulary pictures live under `public/images/vocab/`, and five lesson
 scenes under `public/images/scenes/`.
 
-**Thirteen of the vocabulary pictures are CC0 or public domain** (no attribution
+**Twelve of the vocabulary pictures are CC0 or public domain** (no attribution
 required) sourced from Wikimedia Commons. License verified per file page before
 download. Files were verified visually (each clearly depicts its word), resized to
 max 800px (`sips -Z 800`), and served from the app's own `public/` dir — no
 hotlinking. The SW caches `/images/**` like `/audio/**`.
 
-**Nine vocabulary pictures and all five lesson scenes are the project's own
-approved artwork**, supplied as files and normalised here — the two tables below.
+**Ten vocabulary pictures and all six lesson scenes are the project's own approved
+artwork**, supplied as files and normalised here — the tables below.
 
 Rejected during visual review (not shipped): a train-interior shot mislabeled as a
 station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital building
-(ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross).
+(ambiguous — replaced by Hakodate Red Cross Hospital with its rooftop cross, which in
+turn has since been replaced by the approved illustration recorded below).
 
-## CC0 and public-domain photographs (13)
+## CC0 and public-domain photographs (12)
 
 | file | depicts | source | license | sha256 |
 | ---- | ------- | ------ | ------- | ------ |
@@ -32,11 +33,33 @@ station, a too-dark bar photo for shopkeeper, and the Greenwich Hospital buildin
 | `card.jpg` | bank card in a payment terminal | `File:Card Payment (176811287).jpeg` | CC0 | `2db27853236640e8a69e0a661e9f3abb72264765d9f1e7590eaecc302b77733b` |
 | `wallet.jpg` | quilted purse held by a woman | `File:Checking Her Purse (Unsplash).jpg` | CC0 | `05dad81edc77f8a73a17b9b3bd9772f2f002cbffa28e28faa44b91c23b5d7b31` |
 | `hotel.jpg` | turquoise hotel building with palms | `File:Blue hotel building (Unsplash).jpg` | CC0 | `32289b712d4fe093f529c25f345cc40a57e6f53998cdfd57686cc3afef326016` |
-| `hospital.jpg` | hospital building with rooftop red cross | `File:Hakodate Red Cross Hospital.JPG` | Public domain | `4543ca1890a170e7291908a8a1c17d2c755e336791853e73557c36f2e7aaa990` |
 
 Source pages: `https://commons.wikimedia.org/wiki/<File:name>` for each
 title above. If a source file's license ever changes upstream, replace the
 image — the CC0 / public-domain status at time of download is recorded here.
+
+### The two pictures still waiting for standalone artwork
+
+`bill.jpg` and `shopkeeper.jpg` are still the CC0 photographs recorded above, and they
+are the only two drill pictures left in the felt-tip illustration set's debt. The
+approved six-panel reference contains both subjects — a receipt panel and a market
+stall — but it is a **collage**, and the receipt panel has the word "BILL" drawn into
+the artwork, which is why it can neither ship as a picture nor be cut up into one:
+instructional copy must not live inside an image, and the repo's rule is that artwork
+lettering never becomes UI (see the hotel sign below).
+
+Standalone sources were looked for and do not exist in this project's filesystem:
+every attachment folder delivered so far has been accounted for (the ten-file batch
+supplied with the hospital picture turned out to hold ten other subjects — a shop door,
+two building entrances, a street of facades, a map spread out with a compass, a desk with
+a phone and a coiled cable, a desk with a clipboard and a blank badge, a card payment
+terminal with blank receipt paper, a wallet with cards and coins, and a hotel entrance
+with a luggage cart — and none of them a receipt or a market stall), `~/Downloads` holds
+only the brand references, and the repo carries no source art. **Both pictures therefore stay as they are**, and what they
+need is two standalone files, supplied at any size like the rest of the set, after which
+they take the same four steps as every other replacement: resize to 800×449, snap the
+ground if the file's most common colour really is one, check the alt text against what
+is drawn, and extend the tables here.
 
 ## The project's own illustrations
 
@@ -66,6 +89,7 @@ reading oddly.
 | `suitcase.jpg` | green hard-shell suitcase with a blank tag, beside a folded map and a belt | A green suitcase beside a folded map | 800×449 | 82,462 B | `0d53b4c1ea56702fc357c47f7c80902a753431a1a88789e93afa69af94510a05` |
 | `ambulance.jpg` | ambulance van with a red, white and blue roof light bar, parked outside a building | An ambulance parked outside a building | 800×449 | 95,653 B | `42c5b5db912700b9cbbb62fe8116d2fc723ca06dbbb0d741fb62eff5f50e3158` |
 | `police.jpg` | beige police sedan with a blue and red roof light, parked on a street | A police car with its roof lights on | 800×449 | 107,407 B | `c7bbf248974f6bd14c9aecac1e5fce24e14bb96d27aa7208b88d5071031e1d4d` |
+| `hospital.jpg` | hospital entrance: steps, green double glass doors, two potted plants, and a sign with a serpent-and-staff medical emblem | A hospital entrance | 800×449 | 83,360 B | `1163e7215905be8b180b6a4200565fbfcefb98c8b56ec2f898b387c47facb058` |
 
 ### Snapping the ground, and the one file that must not be
 
@@ -75,15 +99,15 @@ most common colour is a cream ground 10–14 units off the canvas, and snapping
 remaps 28–71% of the frame to the exact value (the four earliest files came back
 exact from the previous batch, so they were untouched here).
 
-**`key.jpg` is deliberately not snapped.** The script's premise is that the most
-common colour in a file *is* its flat ground, and in this file it is drawn artwork
-instead — the olive door (`#7a8e6b`, 129 units from the canvas), because the door
-fills more of the frame than the surface the key lies on. Snapping would repaint
-that door cream. The same reasoning was applied to the `asking-for-the-bill` scene
-below, whose most common colour is the restaurant's tan wall (`#d9c394`, 82 units).
-Both decisions are recorded rather than automated: `scripts/brand/snap-ground.py
---check` reports them as "off", which is correct and expected, and nothing in the
-tree runs that check as a gate.
+**`key.jpg` is deliberately not snapped**, and it is not alone. The script's premise
+is that the most common colour in a file *is* its flat ground; in `key.jpg` that colour
+is the drawn olive door (`#7a8e6b`, 129 units from the canvas), because the door fills
+more of the frame than the surface the key lies on, and snapping would repaint it cream.
+The same reasoning was applied to `hospital.jpg` (its most common colour is the tan
+facade, `#e1caa0`, 70 units) and to the `asking-for-the-bill` and `minor-emergency`
+scenes below (`#d9c394` and `#dcc99f`). Every one of these decisions is recorded rather
+than automated: `scripts/brand/snap-ground.py --check` reports them as "off", which is
+correct and expected, and nothing in the tree runs that check as a gate.
 
 ## The lesson scenes (6)
 
