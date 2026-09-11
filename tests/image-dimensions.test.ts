@@ -120,10 +120,37 @@ describe("images next/image reserves space for", () => {
     expect(Math.abs(1536 / 1024 - actual.width / actual.height)).toBeGreaterThan(0.01);
   });
 
+  /**
+   * Source artwork that is kept but shipped to no surface, and why.
+   *
+   * `logo-lockup.jpg` is the wide raster lockup whose name is drawn into the
+   * image. At 320px it rendered under 200px wide, so its lettering was
+   * unreadable, and the dashboard's first-run block now uses the mark plus live
+   * text in its place. The file is the user's approved artwork, so it is kept in
+   * the tree rather than deleted — but it is no longer precached, because
+   * nothing renders it and 30KB in every install is not free.
+   */
+  const RETAINED: Record<string, string> = {
+    "logo-lockup.jpg": "superseded by the mark plus live text on the first-run block; kept as source artwork, not shipped or precached",
+  };
+
   it("keeps public/brand to files the app actually ships", () => {
     const referenced: string[] = execFileSync(
       "grep",
-      ["-rl", "--include=*.ts", "--include=*.tsx", "--include=*.css", "--include=*.json", "brand/", "src", "public", "scripts"],
+      [
+        "-rl",
+        "--include=*.ts",
+        "--include=*.tsx",
+        "--include=*.css",
+        "--include=*.json",
+        "--include=*.js",
+        "--include=*.mjs",
+        "--include=*.html",
+        "brand/",
+        "src",
+        "public",
+        "scripts",
+      ],
       { encoding: "utf8" },
     )
       .trim()
@@ -138,7 +165,7 @@ describe("images next/image reserves space for", () => {
 
     const strays = walk(join(ROOT, "public/brand")).filter((path) => {
       const name = path.slice(path.indexOf("public/brand/") + "public/brand/".length);
-      return !haystack.includes(name);
+      return !haystack.includes(name) && !(name in RETAINED);
     });
     expect(
       strays.map((path) => `${relative(ROOT, path)} (${Math.round(statSync(path).size / 1024)}KB)`),

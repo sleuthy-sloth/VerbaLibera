@@ -5,7 +5,6 @@ const STATIC_ASSETS = [
   '/icons/verbalibera-512.png',
   '/icons/verbalibera-maskable-512.png',
   '/brand/logo-mark.jpg',
-  '/brand/logo-lockup.jpg',
   '/brand/hero-banner.jpg',
   '/brand/empty-journal.jpg',
   '/brand/courses/french.jpg',
