@@ -30,20 +30,29 @@ import { imageDimensions } from "./helpers/image-size";
 
 const ROOT = process.cwd();
 
-const sourceFiles = (): string[] =>
-  execFileSync(
+const sourceFiles = (): string[] => [
+  ...execFileSync(
     "grep",
     ["-rl", "--include=*.tsx", "--include=*.ts", "-E", "src=[\"']/", "src"],
     { encoding: "utf8" },
   )
     .trim()
-    .split("\n")
-    .filter(Boolean);
+    .split("\n"),
+  // Hand-written public HTML is served straight from the cache and reserves space
+  // from its declared dimensions exactly like a JSX element does. The offline
+  // page's state mark is the case that exists today.
+  ...execFileSync("grep", ["-rl", "--include=*.html", "<img", "public"], { encoding: "utf8" })
+    .trim()
+    .split("\n"),
+].filter(Boolean);
 
 /** Each `<Image … />` / `<img … />` element as a string, tags only. */
 function imageElements(source: string): string[] {
   return [...source.matchAll(/<(?:Image|img)\b[\s\S]*?(?:\/>|>)/g)].map((match) => match[0]);
 }
+
+/** The offline page carries no framework, so its images are plain HTML attributes. */
+const isHtml = (path: string): boolean => path.endsWith(".html");
 
 const attribute = (element: string, name: string): string | null =>
   element.match(new RegExp(`${name}=(?:["']([^"']+)["']|\\{([^}]+)\\})`))?.slice(1).find(Boolean) ??
@@ -73,6 +82,8 @@ function declarations(): { declared: Declared[]; unresolvable: string[] } {
         declared: [Number(width), Number(height)],
         actual: [size.width, size.height],
       });
+      if (isHtml(path) && !src.startsWith("/"))
+        unresolvable.push(`${relative(ROOT, path)}: ${src} is not a root-relative path`);
     }
   }
   return { declared: found, unresolvable };
@@ -82,7 +93,13 @@ describe("images next/image reserves space for", () => {
   it("declares the file's own aspect ratio, so nothing shifts on load", () => {
     const { declared, unresolvable } = declarations();
     // Guard against the scrape silently finding nothing to check.
-    expect(declared.length, "no declared image dimensions were found").toBeGreaterThanOrEqual(5);
+    expect(declared.length, "no declared image dimensions were found").toBeGreaterThanOrEqual(6);
+    // And that the plain-HTML half of the scrape really found the offline page's
+    // mark, rather than silently scanning nothing.
+    expect(
+      declared.filter((item) => item.file.endsWith(".html")).map((item) => item.url),
+      "the offline page's images are not being checked",
+    ).toContain("/brand/empty-journal.jpg");
     expect(unresolvable, "a declared image is missing or in a format we cannot read").toEqual([]);
 
     for (const item of declared) {

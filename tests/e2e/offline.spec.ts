@@ -7,6 +7,21 @@ test('offline navigation shows a reconnect page and never cached account HTML', 
   await context.setOffline(true);
   await page.goto('/learn/english-to-french', { waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('heading', { name: 'Your practice path is waiting.' })).toBeVisible();
+  // The state mark is part of the offline promise: it is precached with the rest
+  // of the brand art, so the page a learner lands on when nothing else loads is
+  // not a bare card. Decorative, so the copy has to say everything.
+  const mark = page.locator('main img.mark');
+  await expect(mark).toHaveAttribute('alt', '');
+  await expect(mark).toHaveAttribute('src', '/brand/empty-journal.jpg');
+  await expect
+    .poll(() => mark.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15_000 })
+    .toBeGreaterThan(0);
+  // And it did not have to reach the network for it.
+  const markFromCache = await page.evaluate(async () => {
+    const cached = await caches.match('/brand/empty-journal.jpg');
+    return cached?.ok ?? false;
+  });
+  expect(markFromCache, 'the mark was not served from the precache').toBe(true);
   const cachedPages = await page.evaluate(async () => {
     const keys = await caches.keys();
     const requests = (await Promise.all(keys.map(async key => (await caches.open(key)).keys()))).flat();

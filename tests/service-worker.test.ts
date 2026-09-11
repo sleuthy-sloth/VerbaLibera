@@ -78,6 +78,22 @@ describe('static PWA service worker contract', () => {
     ]);
   });
 
+  it('precaches every image the offline page renders', async () => {
+    // Break caught: an image added to `public/offline.html` without being added
+    // here. That page is what a learner sees when nothing else can load, so a
+    // missing precache is not a slow image — it is a broken one, on the one
+    // screen whose whole job is to say the app still works.
+    const assets = staticAssetsFrom(await readWorkerSource());
+    const page = await readFile(path.join(process.cwd(), 'public/offline.html'), 'utf8');
+    const images = [...page.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(([, src]) => src);
+
+    expect(images.length, 'the offline page renders no image at all').toBeGreaterThan(0);
+    for (const src of images)
+      expect(assets, `${src} is not precached, so it cannot load offline`).toContain(src);
+    // And the page's fallback copy is not an image's job to carry.
+    expect(page).toMatch(/<img\b[^>]*\balt=""/);
+  });
+
   it('bypasses API requests and only supplies the offline fallback to failed navigation', async () => {
     // Break caught: privacy-sensitive APIs are intercepted or failed resources receive the app shell.
     const { cacheMatch, handlers, networkFetch } = await evaluateWorker();

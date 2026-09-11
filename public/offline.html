@@ -34,13 +34,25 @@
         box-shadow: 5px 5px 0 var(--edge);
       }
       h1 { font-family: var(--display); font-weight: 600; line-height: 1.2; }
-      main > p:first-child {
+      .eyebrow {
         margin: 0;
         font-size: 0.78rem;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--accent);
+      }
+      /* The same state mark the dashboard's first-run panel uses: the journal the
+         app shows when there is nothing here yet. Decorative (empty alt) — the
+         heading and the copy are what say what is happening. It is precached with
+         the rest of the brand art, so it renders with no connection; width is
+         capped so a 320px phone still gets the card, not the picture. */
+      .mark {
+        display: block;
+        width: min(150px, 40%);
+        height: auto;
+        margin: 0 auto 1.25rem;
+        border-radius: 0.5rem;
       }
       p { line-height: 1.6; }
       nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -59,7 +71,8 @@
   </head>
   <body>
     <main>
-      <p>VerbaLibera</p>
+      <img class="mark" src="/brand/empty-journal.jpg" alt="" width="1024" height="1024" />
+      <p class="eyebrow">VerbaLibera</p>
       <h1>Your practice path is waiting.</h1>
       <p>Downloaded foundation lessons work without a connection. Choose a language you saved on this device. Reconnect for account pages or to download another language.</p>
       <nav aria-label="Offline languages">
