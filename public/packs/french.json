@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "id": "fr-foundations",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "language": "fr",
   "status": "active",
   "title": "French foundations",
@@ -440,6 +440,22 @@
         }
       ],
       "commonError": "Say bonjour the moment you arrive — the French notice silence more than accent. Save bonsoir for the evening."
+    },
+    {
+      "id": "fr-cafe-order-concept",
+      "title": "Commander et payer au café",
+      "explanation": "Use Je voudrais un café, s’il vous plaît for a polite order. Ask Combien ça coûte ? for the price and say Merci.",
+      "examples": [
+        {
+          "target": "Je voudrais un café, s’il vous plaît.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Combien ça coûte ?",
+          "meaning": "How much does it cost?"
+        }
+      ],
+      "commonError": "Je voudrais is the polite request form; keep s’il vous plaît with the request."
     }
   ],
   "vocabulary": [
@@ -1156,6 +1172,34 @@
       "meaning": "coffee",
       "partOfSpeech": "word or expression",
       "example": "Un café."
+    },
+    {
+      "id": "fr-cafe-order-foundation-word-1",
+      "word": "café",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Je voudrais un café, s’il vous plaît."
+    },
+    {
+      "id": "fr-cafe-order-foundation-word-2",
+      "word": "voudrais",
+      "meaning": "would like",
+      "partOfSpeech": "word or expression",
+      "example": "Je voudrais un café, s’il vous plaît."
+    },
+    {
+      "id": "fr-cafe-order-foundation-word-3",
+      "word": "addition",
+      "meaning": "bill",
+      "partOfSpeech": "word or expression",
+      "example": "Combien ça coûte ?"
+    },
+    {
+      "id": "fr-cafe-order-foundation-word-4",
+      "word": "prix",
+      "meaning": "price",
+      "partOfSpeech": "word or expression",
+      "example": "Combien ça coûte ?"
     }
   ],
   "media": [
@@ -2022,6 +2066,31 @@
       "kind": "audio",
       "id": "fr-invitations-foundation-listen-model-audio",
       "mediaId": "fr-invitations-foundation-model"
+    },
+    {
+      "kind": "examples",
+      "id": "fr-cafe-order-foundation-examples",
+      "pairs": [
+        {
+          "target": "Je voudrais un café, s’il vous plaît.",
+          "meaning": "Would you like to dinner Saturday?"
+        },
+        {
+          "target": "Oui, merci, avec plaisir.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-read-passage",
+      "body": "Anna invite Marco : Je voudrais un café, s’il vous plaît. Oui, merci, avec plaisir, dit Marco.",
+      "translation": "Anna invites Marco: Would you like to dinner Saturday? “Yes, thanks, gladly,” says Marco."
+    },
+    {
+      "kind": "audio",
+      "id": "fr-cafe-order-foundation-listen-model-audio",
+      "mediaId": "fr-polite-coffee-audio"
     }
   ],
   "activities": [
@@ -11067,6 +11136,420 @@
         "allowTypo": false,
         "errors": []
       }
+    },
+    {
+      "kind": "information",
+      "id": "fr-cafe-order-foundation-intro",
+      "revision": 1,
+      "body": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "stimulusId": "fr-cafe-order-foundation-examples",
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Which French word means “dinner”?",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "fr-cafe-order-foundation-meet",
+      "options": [
+        {
+          "id": "addition",
+          "text": "addition"
+        },
+        {
+          "id": "cafe",
+          "text": "café"
+        },
+        {
+          "id": "prix",
+          "text": "prix"
+        },
+        {
+          "id": "table",
+          "text": "table"
+        }
+      ],
+      "acceptedIds": [
+        "cafe"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Give the English meaning: Désolé, je ne peux pas.",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-meaning",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-meaning",
+      "answer": {
+        "answers": [
+          "How much does it cost?"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Complete the invitation: Tu veux ___ café aujourd’hui ?",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "fr-cafe-order-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Complete the invitation: Tu veux "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": " café aujourd’hui ?"
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "venir"
+          ],
+          "allowTypo": false,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Arrange the words to say: Would you like to dinner Saturday?",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-order",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "fr-cafe-order-foundation-order",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "aujourd’hui"
+        },
+        {
+          "id": "t2",
+          "text": "café"
+        },
+        {
+          "id": "t3",
+          "text": "venir"
+        },
+        {
+          "id": "t4",
+          "text": "veux"
+        },
+        {
+          "id": "t5",
+          "text": "Tu"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t5",
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Turn the invitation round so that it is you who wants to come: Je voudrais un café, s’il vous plaît.",
+      "hints": [],
+      "feedback": "Je veux and tu veux are the same form of vouloir, so only the subject changes: Je veux venir café aujourd’hui.",
+      "evidenceKey": "fr-cafe-order-foundation-transform",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-transform",
+      "answer": {
+        "answers": [
+          "Je veux venir café aujourd’hui."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Write in French: Would you like to dinner Saturday?",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-produce",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-produce",
+      "answer": {
+        "answers": [
+          "Je voudrais un café, s’il vous plaît."
+        ],
+        "allowTypo": false,
+        "errors": [
+          {
+            "answer": "Tu veux aller café aujourd’hui ?",
+            "category": "incorrect answer",
+            "explanation": "Aller is to go; invite with venir: Je voudrais un café, s’il vous plaît."
+          }
+        ]
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "When is dinner? Answer with the French day. (Reading 24)",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-read",
+      "stimulusId": "fr-cafe-order-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "aujourd’hui"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Recall from Urgences: Help! Call an ambulance!",
+      "hints": [],
+      "feedback": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+      "evidenceKey": "fr-cafe-order-foundation-review",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-review",
+      "answer": {
+        "answers": [
+          "Au secours ! Appelez une ambulance !"
+        ],
+        "allowTypo": false,
+        "errors": [
+          {
+            "answer": "Au secours ! J’appelle une ambulance !",
+            "category": "incorrect answer",
+            "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+          }
+        ]
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "listening"
+      ],
+      "prompt": "Listen and write the model: inviting and replying.",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-foundation-listen-model",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-foundation-listen-model",
+      "stimulusId": "fr-cafe-order-foundation-listen-model-audio",
+      "answer": {
+        "answers": [
+          "Je voudrais un café, s’il vous plaît."
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing"
+      ],
+      "prompt": "Transfer: You have finished your coffee. Ask politely how much it costs.",
+      "hints": [],
+      "feedback": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+      "evidenceKey": "fr-cafe-order-transfer",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "fr-cafe-order-transfer",
+      "answer": {
+        "answers": [
+          "Combien ça coûte ?"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
     }
   ],
   "lessons": [
@@ -19195,6 +19678,349 @@
         "fr-invitations-foundation-produce",
         "fr-invitations-foundation-read",
         "fr-invitations-foundation-review"
+      ]
+    },
+    {
+      "id": "fr-cafe-order-foundation",
+      "unitId": "fr-unit-6",
+      "title": "Au café : commander et payer",
+      "objective": "Commander un café, demander le prix et payer poliment.",
+      "family": "conversation",
+      "revision": 1,
+      "estimatedMinutes": 10,
+      "entryStepId": "fr-cafe-order-foundation-step-intro",
+      "steps": [
+        {
+          "id": "fr-cafe-order-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "fr-cafe-order-foundation-intro",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-meet"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-meet",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-meet",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-meaning"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-meaning",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-cloze"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-cloze",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-order"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-order",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-order",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-transform"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-transform",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-transform",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-produce"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-produce",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-produce",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-read"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-read",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-read",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-review"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-review",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-review",
+          "required": true,
+          "nextStepId": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-listen-model"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-fr-cafe-order-foundation-listen-model",
+          "purpose": "practice",
+          "activityId": "fr-cafe-order-foundation-listen-model",
+          "required": false,
+          "nextStepId": "fr-cafe-order-foundation-step-transfer"
+        },
+        {
+          "id": "fr-cafe-order-foundation-step-transfer",
+          "purpose": "transfer",
+          "activityId": "fr-cafe-order-transfer",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "fr-cafe-order-foundation-meet",
+          "fr-cafe-order-foundation-meaning",
+          "fr-cafe-order-foundation-cloze",
+          "fr-cafe-order-foundation-order",
+          "fr-cafe-order-foundation-transform",
+          "fr-cafe-order-foundation-produce",
+          "fr-cafe-order-foundation-read",
+          "fr-cafe-order-foundation-review"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "fr-invitations-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "fr-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "fr-cafe-order-foundation-word-1",
+        "fr-cafe-order-foundation-word-2",
+        "fr-cafe-order-foundation-word-3",
+        "fr-cafe-order-foundation-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "café"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-meet",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Quel mot français signifie « coffee » ?",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "addition",
+            "café",
+            "prix",
+            "table"
+          ]
+        },
+        {
+          "answers": [
+            "I would like a coffee, please."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-meaning",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Donnez le sens anglais : Je voudrais un café, s’il vous plaît.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "plaît"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-cloze",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Complétez la demande : Je voudrais un café, s’il vous ___.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Je voudrais un café, s’il vous plaît."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-order",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Remettez les mots dans l’ordre : I would like a coffee, please.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "plaît.",
+            "vous",
+            "s’il",
+            "café,",
+            "un",
+            "voudrais",
+            "Je"
+          ]
+        },
+        {
+          "answers": [
+            "Je veux venir café aujourd’hui."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-transform",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Turn the invitation round so that it is you who wants to come: Je voudrais un café, s’il vous plaît.",
+          "explanation": "Je veux and tu veux are the same form of vouloir, so only the subject changes: Je veux venir café aujourd’hui.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "transform",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Je voudrais un café, s’il vous plaît."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Tu veux aller café aujourd’hui ?",
+              "category": "incorrect answer",
+              "explanation": "Aller is to go; invite with venir: Je voudrais un café, s’il vous plaît."
+            }
+          ],
+          "id": "fr-cafe-order-foundation-produce",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Écrivez en français : I would like a coffee, please.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "un café"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-read",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Que commande le client ? Répondez en français.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Le client dit : Je voudrais un café, s’il vous plaît.",
+          "translation": "The customer says: I would like a coffee, please."
+        },
+        {
+          "answers": [
+            "Combien ça coûte ?"
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Au secours ! J’appelle une ambulance !",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Appelez une ambulance !"
+            }
+          ],
+          "id": "fr-cafe-order-foundation-review",
+          "conceptId": "fr-market-concept",
+          "prompt": "Transfert depuis le marché : demandez combien ça coûte.",
+          "explanation": "Call for help with Au secours ! Ask for an ambulance with Appelez une ambulance ! The emergency number is le cent-douze (112). Say C’est urgent when it is urgent.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [
+            "fr-emergency-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Je voudrais un café, s’il vous plaît."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-foundation-listen-model",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Écoutez et écrivez le modèle : commander poliment.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "fr-polite-coffee-audio"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "fr-cafe-order-foundation-meet",
+        "fr-cafe-order-foundation-meaning",
+        "fr-cafe-order-foundation-cloze",
+        "fr-cafe-order-foundation-order",
+        "fr-cafe-order-foundation-transform",
+        "fr-cafe-order-foundation-produce",
+        "fr-cafe-order-foundation-read",
+        "fr-cafe-order-foundation-review"
       ]
     }
   ],

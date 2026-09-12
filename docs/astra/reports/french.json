@@ -2,68 +2,69 @@
   "id": "fr-foundations",
   "language": "fr",
   "schemaVersion": 2,
-  "version": "1.4.1",
+  "version": "1.4.2",
   "status": "active",
   "level": {
     "claim": "partial-A1",
     "detail": "Lesson count is capacity, not CEFR evidence. No complete A1 syllabus is claimed; native-speaker review and an outcome-coverage review both remain open."
   },
-  "lessons": 25,
+  "lessons": 26,
   "units": 6,
-  "concepts": 25,
+  "concepts": 26,
   "authoredCefrTags": {
     "basis": "authored cefr tags on lessons and concepts; an empty count means the file carries no authored tag, which is the case for packs migrated before the field existed, not an absence of A1 material",
     "counts": {}
   },
   "lessonFamilies": {
+    "conversation": 1,
     "discovery": 25
   },
   "vocabulary": {
     "basis": "declared entries vs entries referenced by a lesson or a reachable activity",
-    "declared": 102,
-    "referenced": 102,
+    "declared": 106,
+    "referenced": 106,
     "unused": 0
   },
   "runtimeActivities": {
     "basis": "distinct authored activities reachable from lesson steps (including support activities)",
-    "reachable": 247,
-    "practice": 222,
-    "information": 25,
+    "reachable": 258,
+    "practice": 232,
+    "information": 26,
     "byKind": {
-      "cloze": 25,
-      "information": 25,
-      "ordering": 24,
-      "selection": 27,
-      "text": 146
+      "cloze": 26,
+      "information": 26,
+      "ordering": 25,
+      "selection": 28,
+      "text": 153
     },
     "bySkill": {
-      "grammar": 119,
-      "listening": 26,
-      "reading": 77,
-      "vocabulary": 77,
-      "writing": 119
+      "grammar": 124,
+      "listening": 27,
+      "reading": 80,
+      "vocabulary": 80,
+      "writing": 125
     }
   },
   "legacyExercises": {
     "basis": "v1 records retained for progress replay; a subset of the runtime activities",
-    "retained": 222,
-    "replayedAsActivities": 222,
+    "retained": 231,
+    "replayedAsActivities": 231,
     "byKind": {
-      "choice": 27,
-      "cloze": 25,
-      "dictation": 26,
-      "order": 24,
-      "reading": 25,
+      "choice": 28,
+      "cloze": 26,
+      "dictation": 27,
+      "order": 25,
+      "reading": 26,
       "think": 4,
-      "transform": 20,
-      "translate": 71
+      "transform": 21,
+      "translate": 74
     }
   },
   "production": {
     "basis": "practice activities whose authored skills include writing or speaking (for v1 this is the adapter's mapping: production mode and the ordering/cloze/transform kinds)",
-    "practice": 222,
-    "targetLanguage": 119,
-    "recognition": 103
+    "practice": 232,
+    "targetLanguage": 125,
+    "recognition": 107
   },
   "speaking": {
     "basis": "self-compare activities, which record locally and collect a self-assessment",
@@ -73,25 +74,26 @@
   "listening": {
     "basis": "lessons that reach an activity carrying an audio stimulus, a model recording, or a legacy dictation",
     "audioClips": 26,
-    "activities": 26,
-    "lessons": 25,
-    "lessonsTotal": 25,
+    "activities": 27,
+    "lessons": 26,
+    "lessonsTotal": 26,
     "lessonCoveragePercent": 100
   },
   "retrieval": {
     "basis": "lesson steps with the transfer purpose",
-    "activities": 0
+    "activities": 1
   },
   "purposeMix": {
-    "notice": 25,
-    "practice": 218,
-    "predict": 4
+    "notice": 26,
+    "practice": 227,
+    "predict": 4,
+    "transfer": 1
   },
   "prerequisites": {
     "basis": "lessons declaring a prerequisite; chain depth is the longest prerequisite path; vocabulary counts distinct entries introduced by a lesson's direct prerequisites",
-    "lessonsWithPrerequisites": 24,
+    "lessonsWithPrerequisites": 25,
     "maxChainDepth": 17,
-    "vocabularyFromPrerequisites": 94
+    "vocabularyFromPrerequisites": 98
   },
   "review": {
     "nativeSpeaker": "pending",
@@ -104,6 +106,6 @@
     "bytes": 4941357
   },
   "answerCoverage": "100%",
-  "packBytes": 602317,
+  "packBytes": 628952,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }
