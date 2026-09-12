@@ -241,6 +241,40 @@ export async function readCheckpoint(
     }
   });
 }
+/**
+ * Every saved draft in this scope, newest first.
+ *
+ * `readCheckpoint` answers "is there a draft for THIS lesson", which is all the
+ * player needs. A surface that offers to finish what the learner left half-done
+ * has to ask the other question — which lessons have one — and there was no way
+ * to ask it. A row that fails validation is skipped rather than thrown: one
+ * corrupt draft must not take the whole dashboard's progress read with it, and
+ * a skipped draft is simply never offered.
+ */
+export async function readCheckpoints(userId?: string | null): Promise<LessonCheckpoint[]> {
+  const db = await database(userId);
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("checkpoints", "readonly");
+    const request = tx.objectStore("checkpoints").getAll();
+    tx.oncomplete = () => {
+      db.close();
+      const drafts: LessonCheckpoint[] = [];
+      for (const row of request.result as unknown[]) {
+        try {
+          drafts.push(lessonCheckpointSchema.parse(row));
+        } catch {
+          // Unreadable draft: never offered, never fatal.
+        }
+      }
+      drafts.sort((a, b) => b.at.localeCompare(a.at));
+      resolve(drafts);
+    };
+    tx.onerror = () => {
+      db.close();
+      reject(new Error("Could not read the draft checkpoints."));
+    };
+  });
+}
 export async function installPack(
   pack: OfflineInstallablePack,
   language: string,
