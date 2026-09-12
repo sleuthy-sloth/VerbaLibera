@@ -60,9 +60,8 @@ foundation practice exists on this device:
     nothing open                           → all-done
 no foundation practice:
     a guided session step (snapshot)        → next-lesson     ('Continue today's lesson')  [unchanged]
-    due v1 reviews (snapshot)               → review
-    a foundation course to open             → start-course    ('Open <Language> foundations') [unchanged]
-    otherwise                               → all-done
+    due v1 reviews, on the authored course  → review
+    a course to open                        → start-course    ('Open <Language> foundations') [unchanged]
 ```
 
 Two rules make this honest rather than clever:
@@ -77,6 +76,20 @@ Two rules make this honest rather than clever:
 - **A met daily goal makes the action optional, never withheld**: `optional: true` changes the
   copy to "you have done today's steps; this one is extra" and nothing is taken away. No streaks,
   no lost hearts, no penalty state.
+- **Every action has somewhere to go.** The old card's last branch was a status line ("lessons are
+  being authored") with nothing to click. `href` is now non-nullable: the fallback is the
+  learner's own course page.
+
+### Two corrections the tests forced (they are the reason this slice is test-first)
+
+1. **The snapshot's due queue is gated on the authored course.** Offering it for whichever course
+   happened to be selected produced `/learn/english-to-german` — a session that was never
+   composed for German, i.e. the dead link `DailyPathDashboard.test.tsx` already guarded. The
+   engine takes `guided.isAuthoredCourse` as a separate signal from `guided.hasSessionStep`: a
+   course can have a due queue and no step left, and a course can have neither.
+2. **`start-course` must not depend on a successful device read.** Requiring a `foundation` block
+   meant a learner whose pack fetch failed got an `all-done` with no way forward. The branch is
+   unconditional now.
 
 ### What the summary keeps separate, and why
 
@@ -89,8 +102,10 @@ scheduler's `dueAt`), `skillCounts` (per skill, independent vs assisted), `quara
   `participationCompleted` and `legacyCredits`, over `pack.lessons.length`.
 - `revisit` = evidence keys that are due (`dueAt <= now`) or shaky (`lastQuality < 3`), labelled
   with their concept title, most urgent first.
-- `recognition` / `production` / `listening` = `skillCounts` bucketed by skill, **reading
-  `skillCounts` rather than recounting attempts**.
+- `recognition` / `production` / `listening` = **one bucket per attempt**, chosen by
+  `modalityForSkills(activity.skills)`, splitting independent from assisted. Deliberately *not*
+  read off `skillCounts`: that counts a `['reading','vocabulary']` step under both skills, which
+  would show a learner two recognition credits for one answer.
 - `selfAssessment` = attempts on `self-compare` activities (they carry no `evidenceKey`, and the
   projection already excludes `self-assessed` outcomes from evidence). Reported as its own
   figure — a self-rating is not retrieval, and the summary must not be able to add it to one.
@@ -105,9 +120,11 @@ the scheduler. The test asserts that divergence rather than leaving it to drift.
   `use-foundation-progress.ts`
 - `src/features/course-pack/storage.ts` (`readCheckpoints`), `attempts.ts` (export `skillMode`)
 - `src/components/dashboard/DailyPathDashboard.tsx` (one action, reason line, practised block),
-  `dashboard.module.css`
+  `dashboard.module.css` (`.actionDetail`, `.practised`, `.revisit`, `.modalities`)
 - tests: new `tests/next-action.test.ts`, `tests/learning-summary.test.ts`,
-  `tests/foundation-progress.test.ts`; extended `tests/DailyPathDashboard.test.tsx`
+  `tests/foundation-progress.test.ts`, `tests/use-foundation-progress.test.ts`; extended
+  `tests/DailyPathDashboard.test.tsx`, `tests/lesson-persistence.test.ts`,
+  `tests/DashboardDataBoundary.test.tsx`
 
 ## Regression fixtures
 
@@ -122,9 +139,22 @@ the scheduler. The test asserts that divergence rather than leaving it to drift.
 
 ## Acceptance commands
 
-- `npx vitest run tests/next-action.test.ts tests/learning-summary.test.ts tests/foundation-progress.test.ts tests/DailyPathDashboard.test.tsx tests/course-storage.test.ts tests/lesson-attempts.test.ts`
-- `env -u E2E_BASE_URL npx playwright test tests/e2e/daily-path.spec.ts tests/e2e/auth-progress.spec.ts tests/e2e/viewport.spec.ts tests/e2e/learning-release.spec.ts --project=chromium --workers=1`
-- `npm run build` **before** `npx tsc --noEmit`, then `npm run lint`
+Run and green on this branch:
+
+- `npx vitest run tests/next-action.test.ts tests/learning-summary.test.ts tests/foundation-progress.test.ts tests/use-foundation-progress.test.ts tests/DailyPathDashboard.test.tsx tests/lesson-persistence.test.ts tests/DashboardDataBoundary.test.tsx`
+- `npm run test` — the whole suite
+- `npx tsc --noEmit`
+- `npx eslint` over the changed files
+
+Not run in this slice (they need a browser and a served build; the card's copy they probe is
+unchanged for a guest with no local practice):
+
+- `env -u E2E_BASE_URL npx playwright test tests/e2e/daily-path.spec.ts tests/e2e/learning-release.spec.ts tests/e2e/a11y.spec.ts --project=chromium --workers=1`
+
+The dashboard now reads `/packs/<language>.json` on first paint for the next action. That is the
+same URL the course pages already fetch and the offline install already caches, so it is warm in
+the browser cache after a course visit; a bundle-level optimisation (a slim progress-only pack
+endpoint) is deliberately not in this slice.
 
 ## Rollback
 
@@ -136,8 +166,11 @@ restores today's behaviour with no storage migration and no lost practice.
 
 - Placement items for the three courses that have none (§9 last bullet) — a separate slice.
 - Account-side storage of foundation preferences with conflict rules (§9 second bullet): this
-  slice reads the account's own local event scope through `identifyAccount()` and states in copy
-  that what it shows is this device's practice; it does not add a new sync rule.
+  slice reads the scope `usePracticeAccount()` already manages — the same store the course shell
+  binds its environment to — so it adds no new sync rule and makes no identity request. A learner
+  who has not opted into account practice is shown their guest practice, which is exactly where
+  the lesson player would have written it. The conflict semantics are whatever `sync.ts` already
+  implements for that scope; nothing here changes them.
 - `?lesson=` deep links: `resume-lesson` points at `/courses/<language>?start=1`, which opens the
   first incomplete lesson — the saved draft's lesson whenever the preceding lessons are complete,
   which the prerequisite chain guarantees for the shipped packs. A branched curriculum would need
