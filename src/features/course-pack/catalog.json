@@ -2,9 +2,9 @@
   {
     "slug": "french",
     "title": "French foundations",
-    "lessons": 25,
+    "lessons": 26,
     "units": 6,
-    "practiceActivities": 222,
+    "practiceActivities": 232,
     "unitLabel": "Unit 1: Meeting people",
     "authoredCefrLevel": null
   },
@@ -20,9 +20,9 @@
   {
     "slug": "italian",
     "title": "Italian foundations",
-    "lessons": 25,
+    "lessons": 26,
     "units": 6,
-    "practiceActivities": 233,
+    "practiceActivities": 242,
     "unitLabel": "Unit 1: Meeting people",
     "authoredCefrLevel": null
   },

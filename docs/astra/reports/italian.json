@@ -2,73 +2,73 @@
   "id": "it-foundations",
   "language": "it",
   "schemaVersion": 2,
-  "version": "1.4.2",
+  "version": "1.4.3",
   "status": "active",
   "level": {
     "claim": "partial-A1",
     "detail": "Lesson count is capacity, not CEFR evidence. No complete A1 syllabus is claimed; native-speaker review and an outcome-coverage review both remain open."
   },
-  "lessons": 25,
+  "lessons": 26,
   "units": 6,
-  "concepts": 25,
+  "concepts": 26,
   "authoredCefrTags": {
     "basis": "authored cefr tags on lessons and concepts; an empty count means the file carries no authored tag, which is the case for packs migrated before the field existed, not an absence of A1 material",
     "counts": {}
   },
   "lessonFamilies": {
-    "conversation": 1,
+    "conversation": 2,
     "discovery": 22,
     "listening": 1,
     "story": 1
   },
   "vocabulary": {
     "basis": "declared entries vs entries referenced by a lesson or a reachable activity",
-    "declared": 102,
-    "referenced": 102,
+    "declared": 106,
+    "referenced": 106,
     "unused": 0
   },
   "runtimeActivities": {
     "basis": "distinct authored activities reachable from lesson steps (including support activities)",
-    "reachable": 259,
-    "practice": 233,
-    "information": 26,
+    "reachable": 269,
+    "practice": 242,
+    "information": 27,
     "byKind": {
-      "cloze": 25,
+      "cloze": 26,
       "dialogue-choice": 1,
-      "information": 26,
-      "ordering": 25,
-      "selection": 33,
+      "information": 27,
+      "ordering": 26,
+      "selection": 34,
       "self-compare": 23,
-      "text": 126
+      "text": 132
     },
     "bySkill": {
-      "grammar": 100,
-      "listening": 31,
-      "reading": 79,
+      "grammar": 104,
+      "listening": 32,
+      "reading": 82,
       "speaking": 23,
-      "vocabulary": 84,
-      "writing": 100
+      "vocabulary": 87,
+      "writing": 105
     }
   },
   "legacyExercises": {
     "basis": "v1 records retained for progress replay; a subset of the runtime activities",
-    "retained": 199,
-    "replayedAsActivities": 199,
+    "retained": 207,
+    "replayedAsActivities": 207,
     "byKind": {
-      "choice": 26,
-      "cloze": 25,
-      "dictation": 26,
-      "order": 24,
-      "reading": 25,
+      "choice": 27,
+      "cloze": 26,
+      "dictation": 27,
+      "order": 25,
+      "reading": 26,
       "think": 1,
-      "translate": 72
+      "translate": 75
     }
   },
   "production": {
     "basis": "practice activities whose authored skills include writing or speaking (for v1 this is the adapter's mapping: production mode and the ordering/cloze/transform kinds)",
-    "practice": 233,
-    "targetLanguage": 123,
-    "recognition": 110
+    "practice": 242,
+    "targetLanguage": 128,
+    "recognition": 114
   },
   "speaking": {
     "basis": "self-compare activities, which record locally and collect a self-assessment",
@@ -78,25 +78,25 @@
   "listening": {
     "basis": "lessons that reach an activity carrying an audio stimulus, a model recording, or a legacy dictation",
     "audioClips": 27,
-    "activities": 31,
-    "lessons": 25,
-    "lessonsTotal": 25,
+    "activities": 32,
+    "lessons": 26,
+    "lessonsTotal": 26,
     "lessonCoveragePercent": 100
   },
   "retrieval": {
     "basis": "lesson steps with the transfer purpose",
-    "activities": 2
+    "activities": 3
   },
   "purposeMix": {
-    "notice": 26,
-    "practice": 231,
-    "transfer": 2
+    "notice": 27,
+    "practice": 239,
+    "transfer": 3
   },
   "prerequisites": {
     "basis": "lessons declaring a prerequisite; chain depth is the longest prerequisite path; vocabulary counts distinct entries introduced by a lesson's direct prerequisites",
-    "lessonsWithPrerequisites": 24,
+    "lessonsWithPrerequisites": 25,
     "maxChainDepth": 17,
-    "vocabularyFromPrerequisites": 94
+    "vocabularyFromPrerequisites": 98
   },
   "review": {
     "nativeSpeaker": "pending",
@@ -109,6 +109,6 @@
     "bytes": 5312109
   },
   "answerCoverage": "100%",
-  "packBytes": 565822,
+  "packBytes": 588638,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }
