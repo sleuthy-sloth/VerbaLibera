@@ -40,7 +40,7 @@ const foundation = (over: Partial<FoundationProgress> = {}): FoundationProgress 
 const input = (over: Partial<NextActionInput> = {}): NextActionInput => ({
   course: FRENCH,
   foundation: foundation(),
-  guided: { hasSessionStep: false },
+  guided: { hasSessionStep: false, isAuthoredCourse: true },
   dueReviewCount: 0,
   dailyGoal: { completed: 0, target: 5 },
   minutesAvailable: 10,
@@ -127,7 +127,7 @@ describe('selectNextAction', () => {
     // Break caught: the new engine changes what a first-visit guest is told.
     // The e2e suite probes these two labels by name.
     const guided = selectNextAction(
-      input({ foundation: null, guided: { hasSessionStep: true } }),
+      input({ foundation: null, guided: { hasSessionStep: true, isAuthoredCourse: true } }),
     );
     expect(guided.label).toBe('Continue today\u2019s lesson');
     expect(guided.href).toBe('/learn/english-to-french');
@@ -135,12 +135,39 @@ describe('selectNextAction', () => {
     const opening = selectNextAction(input({ foundation: foundation({ hasPractice: false, nextLesson: null }) }));
     expect(opening.reason).toBe('start-course');
     expect(opening.label).toBe('Open French foundations');
-    expect(opening.href).toBe('/courses/french');
+    // `?start=1` is what the previous card linked to; the course cover is one
+    // click further in and the learner already said they wanted to practise.
+    expect(opening.href).toBe('/courses/french?start=1');
   });
 
-  it('uses the snapshot due queue when there is no local foundation practice', () => {
+  it('never sends a learner at a session their course does not have', () => {
+    // Break caught: the snapshot's review queue is offered on a course that has
+    // no composed session, producing a /learn/ link with nothing behind it.
+    // German is the real example: a pack, a course page, and no travel-fixture
+    // course, while the snapshot still reports due reviews.
+    const GERMAN = { packSlug: 'german', language: 'german', languageName: 'German' } as const;
     const action = selectNextAction(
-      input({ foundation: null, guided: { hasSessionStep: false }, dueReviewCount: 9, minutesAvailable: 5 }),
+      input({
+        course: GERMAN,
+        foundation: null,
+        guided: { hasSessionStep: false, isAuthoredCourse: false },
+        dueReviewCount: 28,
+      }),
+    );
+
+    expect(action.reason).toBe('start-course');
+    expect(action.href).toBe('/courses/german?start=1');
+    expect(action.href).not.toContain('/learn/');
+  });
+
+  it('offers the snapshot queue on the course it belongs to', () => {
+    const action = selectNextAction(
+      input({
+        foundation: null,
+        guided: { hasSessionStep: false, isAuthoredCourse: true },
+        dueReviewCount: 9,
+        minutesAvailable: 5,
+      }),
     );
 
     expect(action.reason).toBe('due-review');
@@ -148,20 +175,21 @@ describe('selectNextAction', () => {
     expect(action.href).toBe('/learn/english-to-french');
   });
 
-  it('has nothing to offer without a course or any progress at all', () => {
+  it('still points a learner at their course when nothing at all is due', () => {
+    // The card used to render a status line here ("lessons are being authored")
+    // with nothing to click. Opening the course is always a way forward.
     const action = selectNextAction(
-      input({ foundation: null, guided: { hasSessionStep: false }, dueReviewCount: 0 }),
+      input({ foundation: null, guided: { hasSessionStep: false, isAuthoredCourse: false }, dueReviewCount: 0 }),
     );
 
-    expect(action.reason).toBe('all-done');
-    expect(action.href).toBeNull();
-    expect(action.minutes).toBe(0);
+    expect(action.reason).toBe('start-course');
+    expect(action.href).toBe('/courses/french?start=1');
   });
 
   it('prefers local foundation evidence over the snapshot session', () => {
     // Both signals present: the course the learner is actually in wins.
     const action = selectNextAction(
-      input({ foundation: foundation({ dueReviewCount: 2, dueTitles: ['Greetings'] }), guided: { hasSessionStep: true }, dueReviewCount: 5 }),
+      input({ foundation: foundation({ dueReviewCount: 2, dueTitles: ['Greetings'] }), guided: { hasSessionStep: true, isAuthoredCourse: true }, dueReviewCount: 5 }),
     );
 
     expect(action.reason).toBe('due-review');

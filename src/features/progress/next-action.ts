@@ -25,15 +25,20 @@
  *     nothing open                         → all-done
  * no foundation practice:
  *     a guided session step                → next-lesson   (unchanged copy)
- *     reviews waiting (snapshot's queue)   → due-review
+ *     reviews due, on the authored course  → due-review
  *     a course to open                     → start-course  (unchanged copy)
- *     otherwise                            → all-done
  * ```
  *
  * Local foundation evidence outranks the snapshot because it is the only
  * signal that describes the course the learner is actually in. Where it is
  * absent the previous branches and their copy are preserved verbatim, so a
  * first-visit guest sees exactly what they saw before.
+ *
+ * The one branch that reads the *snapshot's* queue is gated on the selected
+ * course being the authored one. Without that gate, selecting German — a real
+ * course with a real pack and no travel-fixture session — produced a
+ * `/learn/english-to-german` link to a session that was never composed, which is
+ * the dead link the dashboard test above this module already guards.
  */
 
 export type NextActionReason =
@@ -50,8 +55,8 @@ export type NextAction = Readonly<{
   label: string;
   /** Why this and not something else, in the learner's language. */
   detail: string;
-  /** `null` when there is nothing to open: the card states the situation instead. */
-  href: string | null;
+  /** Always somewhere to go: an action with no way forward is a status message. */
+  href: string;
   /** Honest estimate, bounded by the learner's own time budget. */
   minutes: number;
   /** True when today's steps are already done: offered, never owed. */
@@ -101,8 +106,14 @@ export type NextActionCourse = Readonly<{
 export type NextActionInput = Readonly<{
   course: NextActionCourse | null;
   foundation: FoundationProgress | null;
-  /** The guided (travel) session the snapshot composed, if it has a step. */
-  guided: Readonly<{ hasSessionStep: boolean }>;
+  /**
+   * The guided (travel) session the snapshot composed, if it has a step.
+   *
+   * `isAuthoredCourse` is not the same question: a course can have a due queue
+   * and no step left, and a course with neither (German) must never be handed a
+   * `/learn/...` link to a session that does not exist for it.
+   */
+  guided: Readonly<{ hasSessionStep: boolean; isAuthoredCourse: boolean }>;
   /** The snapshot's due queue: v1 review rows, or the fixture's preview drills. */
   dueReviewCount: number;
   dailyGoal: Readonly<{ completed: number; target: number }>;
@@ -224,7 +235,10 @@ function decide(input: NextActionInput): NextAction {
     };
   }
 
-  if (input.dueReviewCount > 0) {
+  // The snapshot's queue belongs to the authored course. Offering it while the
+  // learner is looking at a different one would send them at a session that was
+  // never composed for it — the dead link this card used to have.
+  if (input.dueReviewCount > 0 && input.guided.isAuthoredCourse) {
     const take = clamp(Math.floor(minutesAvailable / MINUTES_PER_REVIEW), 1, input.dueReviewCount);
     const waiting = input.dueReviewCount;
     return {
@@ -240,23 +254,18 @@ function decide(input: NextActionInput): NextAction {
     };
   }
 
-  if (foundation) {
-    return {
-      reason: 'start-course',
-      label: `Open ${course.languageName} foundations`,
-      detail: `The first lesson takes about ${Math.min(minutesAvailable, 5)} min.${optional}`,
-      href: `/courses/${foundation.language || course.language}`,
-      minutes: Math.min(minutesAvailable, 5),
-      optional: optional !== '',
-    };
-  }
-
+  // Anything left with a course in hand opens that course. This is the branch
+  // the card had before this module existed, and it stays reachable when the
+  // device holds no readable practice: a learner is never handed a status line
+  // with nothing to click.
   return {
-    reason: 'all-done',
-    label: 'Nothing due today',
-    detail: `Nothing is waiting for review. Come back tomorrow, or open a lesson whenever you like.${optional}`,
-    href: null,
-    minutes: 0,
+    reason: 'start-course',
+    label: `Open ${course.languageName} foundations`,
+    detail: `The first lesson takes about ${Math.min(minutesAvailable, 5)} min.${optional}`,
+    // `?start=1` opens the first lesson rather than the course cover: the
+    // learner asked to practise, not to read a catalogue entry.
+    href: `/courses/${course.language}?start=1`,
+    minutes: Math.min(minutesAvailable, 5),
     optional: optional !== '',
   };
 }
