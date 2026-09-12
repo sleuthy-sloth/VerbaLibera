@@ -331,6 +331,7 @@
 .lp-replies {
   display: grid;
   gap: 0.5rem;
+  align-content: start;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -340,6 +341,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.55rem;
+  margin: 0;
   padding: 0.55rem 0.75rem;
   background: var(--lp-surface);
   border: 1px solid var(--lp-border);
