@@ -10,6 +10,7 @@ import type { RuntimePack } from "@/features/course-pack/lesson-runtime";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import type { PracticeEvent } from "@/features/course-pack/progress";
 import { validatePack } from "@/features/course-pack/schema";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 
 /**
  * Lesson scenes on both pack shells.
@@ -20,12 +21,13 @@ import { validatePack } from "@/features/course-pack/schema";
  * (`CourseWorkspace`), and the negative direction, where a lesson that is not one of
  * the five situations must render no picture at all.
  *
- * German is v2 and Spanish is v1, which is why one suite needs both. Neither course
- * ships the café lesson unlocked, so each case opens it the way the product does:
- * the v2 pack with its prerequisites satisfied in memory, the v1 pack with the
- * earlier lessons' practice events recorded. Stripping `prerequisites` outright is
- * not an option — the v1 validator rejects a pack with an unreachable lesson, which
- * is itself a good sign.
+ * Both shipped courses are v2, so the v2 cases read German and the legacy case reads
+ * the schema-v1 fixture — the shell it exercises still needs a v1 pack, and Spanish
+ * was the last one. Neither pack ships the café lesson unlocked, so each case opens
+ * it the way the product does: the v2 pack with its prerequisites satisfied in
+ * memory, the v1 pack with the earlier lessons' practice events recorded. Stripping
+ * `prerequisites` outright is not an option — the v1 validator rejects a pack with an
+ * unreachable lesson, which is itself a good sign.
  */
 
 type RawPack = {
@@ -42,8 +44,8 @@ const openGerman = (): RuntimePack => {
 };
 
 /** The v1 pack plus the practice events that unlock its third lesson. */
-const spanishWithHistory = () => {
-  const pack = validatePack(raw("spanish"));
+const fixtureWithHistory = () => {
+  const pack = validatePack(makeLegacyRawPack());
   const events: PracticeEvent[] = pack.lessons
     .slice(0, 2)
     .flatMap((lesson) =>
@@ -77,7 +79,7 @@ function environment(options: { events?: PracticeEvent[]; course?: () => Promise
       write: async () => {},
     },
     lessonPractice: createMemoryLessonPractice(),
-    loadPack: async () => validatePack(raw("spanish")),
+    loadPack: async () => validatePack(makeLegacyRawPack()),
     ...(options.course ? { loadCourse: options.course } : {}),
     resolveMedia: (url) => url,
     install: async () => {},
@@ -134,17 +136,18 @@ describe("lesson scenes", () => {
 
   it("gives the café lesson its picture on the legacy shell too", async () => {
     const user = userEvent.setup();
-    // Spanish is still schemaVersion 1, so it is the pack the legacy shell serves.
-    const { pack, events } = spanishWithHistory();
+    // The legacy shell needs a v1 pack, and every shipped course is v2 now: the
+    // fixture's third lesson is the café counter, which is the lesson this keys on.
+    const { pack, events } = fixtureWithHistory();
     render(<CourseWorkspace environment={environment({ events })} />);
 
-    const lesson = pack.lessons.find((candidate) => candidate.id === "es-cafe-requests-foundation")!;
+    const lesson = pack.lessons.find((candidate) => candidate.id === "lg-cafe-requests")!;
     const button = await screen.findByRole("button", { name: lesson.title });
-    expect(button, "the Spanish café lesson is not unlocked by the earlier history").toBeEnabled();
+    expect(button, "the café-counter lesson is not unlocked by the earlier history").toBeEnabled();
     await user.click(button);
 
     const scene = sceneOnScreen();
-    expect(scene, "the Spanish café lesson renders no scene").not.toBeNull();
+    expect(scene, "the café-counter lesson renders no scene").not.toBeNull();
     expect(scene!.getAttribute("src")).toBe("/images/scenes/ordering-coffee.jpg");
     expect(scene!.getAttribute("alt")).toBe("");
     // The legacy intro is the long one: the heading, the aim line and "Begin

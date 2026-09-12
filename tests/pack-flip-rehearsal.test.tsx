@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { CourseWorkspace } from '@/features/course-pack/CourseWorkspace';
 import { createMemoryLessonPractice, type CourseEnvironment } from '@/features/course-pack/environment';
 import { migratePackV1ToV2, normalizePack } from '@/features/course-pack/normalize-pack';
+import { makeLegacyRawPack } from './fixtures/lesson-variety';
 import { validateV2Pack } from '@/features/course-pack/schema-v2';
 import type { RuntimePack } from '@/features/course-pack/lesson-runtime';
 
@@ -21,10 +22,12 @@ import type { RuntimePack } from '@/features/course-pack/lesson-runtime';
  *
  * Two halves:
  *
- * - **Packs still waiting** (Portuguese, Spanish): migrate in memory, with the
- *   manifest on disk untouched, and walk the course the way a learner does. If a
- *   flip would break the course, it breaks here first.
- * - **Packs already flipped** (French, German): walk the pack that is on disk,
+ * - **A pack still at v1.** Portuguese and Spanish have both waited in this slot and
+ *   both have flipped, so the rehearsal now migrates the fixture — a real
+ *   three-lesson A1 Spanish starter — in memory, with nothing on disk touched, and
+ *   walks it the way a learner does. If a flip would break a course, it breaks here
+ *   first.
+ * - **Packs already flipped** (French, German, Spanish): walk the pack that is on disk,
  *   because the rehearsal has been replaced by the real thing and the claim now
  *   is that the stored file still runs.
  *
@@ -33,13 +36,16 @@ import type { RuntimePack } from '@/features/course-pack/lesson-runtime';
  * are keyed to it).
  */
 
-const PENDING = ['spanish'] as const;
-const FLIPPED = ['french', 'german'] as const;
+const FIXTURE = 'fixture';
+const PENDING = [FIXTURE] as const;
+const FLIPPED = ['french', 'german', 'spanish'] as const;
 
 function readRaw(language: string): Record<string, unknown> {
-  return JSON.parse(
-    readFileSync(join(process.cwd(), 'courses', language, 'manifest.json'), 'utf8'),
-  ) as Record<string, unknown>;
+  return language === FIXTURE
+    ? makeLegacyRawPack()
+    : (JSON.parse(
+        readFileSync(join(process.cwd(), 'courses', language, 'manifest.json'), 'utf8'),
+      ) as Record<string, unknown>);
 }
 
 function environmentFor(pack: RuntimePack): CourseEnvironment {

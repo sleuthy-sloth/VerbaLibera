@@ -6,6 +6,8 @@ import { join } from "node:path";
 
 import { migratePackV1ToV2, normalizePack } from "@/features/course-pack/normalize-pack";
 import { validateV2Pack } from "@/features/course-pack/schema-v2";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
+import { readAuthoredPack, restoreV1Shape } from "./helpers/authored-pack";
 
 /**
  * A field census for the v1→v2 migration.
@@ -18,12 +20,15 @@ import { validateV2Pack } from "@/features/course-pack/schema-v2";
  * either appear in the migrated output or be on the documented relocate list
  * below, with the route it travels named.
  *
- * It runs against a v1 pack, so it needs one to exist. When the last pack is
- * flipped, point it at `tests/fixtures/lesson-variety.ts` instead of deleting
- * it — the fixture is the mail carrier for exactly this kind of guarantee.
+ * It runs against a v1 pack, so it needs one to exist, and no shipped pack is v1
+ * any more — Spanish was the last. So it reads the fixture instead of being
+ * deleted, which is what this note said to do: `tests/fixtures/lesson-variety.ts`
+ * is a real three-lesson A1 Spanish starter, and it carries every v1 lesson field
+ * the census below rules on.
  */
 
-const V1_PACKS = ["spanish"] as const;
+const FIXTURE = "fixture";
+const V1_PACKS = [FIXTURE] as const;
 /**
  * Flipped already, and read from the tree rather than migrated in memory.
  *
@@ -36,11 +41,16 @@ const V1_PACKS = ["spanish"] as const;
 const FLIPPED_PACKS = [
   { language: "german", lessons: 8, notes: 8, tags: 8 },
   { language: "portuguese", lessons: 8, notes: 8, tags: 8 },
+  { language: "spanish", lessons: 8, notes: 8, tags: 8 },
   { language: "french", lessons: 25, notes: 0, tags: 0 },
 ] as const;
 
 const readRaw = (language: string): Record<string, unknown> =>
-  JSON.parse(readFileSync(join(process.cwd(), "courses", language, "manifest.json"), "utf8")) as Record<string, unknown>;
+  language === FIXTURE
+    ? makeLegacyRawPack()
+    : (JSON.parse(
+        readFileSync(join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
+      ) as Record<string, unknown>);
 
 /**
  * v1 lesson fields that do not appear on the migrated lesson object, and where
@@ -137,7 +147,7 @@ describe("what the v1→v2 migration does with every authored lesson field", () 
   it("the census can fail: a field with no route is caught", () => {
     // Non-vacuity. Take a real v1 pack, add a field the migration has never
     // heard of, and confirm the check flags it rather than passing quietly.
-    const raw = readRaw("spanish");
+    const raw = readRaw(FIXTURE);
     const lessons = raw.lessons as Array<Record<string, unknown>>;
     const doctored = {
       ...raw,
@@ -150,12 +160,46 @@ describe("what the v1→v2 migration does with every authored lesson field", () 
     expect(unexplained).toEqual(["audioNote"]);
   });
 
+  it("reads a migrated lesson back into the shape it was authored in", () => {
+    // The suites that host on the v1 engine read a flipped file through
+    // `readAuthoredPack`, which claims the read-back is exact. Here it is, field by
+    // field: migrate the authored pack in memory, restore it, and compare with the
+    // source it came from — the two relocated fields included.
+    const source = readRaw(FIXTURE);
+    const restored = restoreV1Shape(
+      migratePackV1ToV2(source) as Record<string, unknown>,
+    ) as unknown as {
+      schemaVersion: number;
+      lessons: Array<Record<string, unknown> & { exercises: unknown[] }>;
+    };
+    const authored = source.lessons as Array<Record<string, unknown> & { exercises: unknown[] }>;
+    expect(restored.schemaVersion).toBe(1);
+    expect(restored.lessons).toHaveLength(authored.length);
+    for (const [index, lesson] of restored.lessons.entries()) {
+      const original = authored[index];
+      for (const field of ["id", "title", "objective", "cefr", "culturalNote", "unitId"]) {
+        expect(lesson[field], `${lesson.id as string}.${field}`).toEqual(original[field]);
+      }
+      expect(lesson.explanation).toEqual(original.explanation);
+      expect(lesson.examples).toEqual(original.examples);
+      expect(lesson.exercises).toEqual(original.exercises);
+      expect(lesson.prerequisites).toEqual(original.prerequisites);
+      expect(lesson.optionalExerciseIds).toEqual(original.optionalExerciseIds);
+    }
+    // And the same read on the shipped pack fills those fields rather than
+    // returning empty ones, so the claim is not only true of the fixture.
+    const spanish = readAuthoredPack("spanish");
+    expect(spanish.lessons.every((lesson) => lesson.explanation.length > 0)).toBe(true);
+    expect(spanish.lessons.every((lesson) => lesson.examples.length >= 2)).toBe(true);
+    expect(spanish.lessons.some((lesson) => lesson.exercises.length > 0)).toBe(true);
+  });
+
   it("states the route for every relocated field, so the list cannot rot", () => {
     for (const [field, route] of Object.entries(RELOCATED)) {
       expect(route.length, `${field} has a stated route`).toBeGreaterThan(10);
     }
     // And the carried list matches what the schema claims.
-    const migrated = migratePackV1ToV2(readRaw("spanish")) as { lessons: Array<Record<string, unknown>> };
+    const migrated = migratePackV1ToV2(readRaw(FIXTURE)) as { lessons: Array<Record<string, unknown>> };
     for (const field of CARRIED) {
       expect(field in migrated.lessons[0], `${field} present on the migrated lesson`).toBe(true);
     }

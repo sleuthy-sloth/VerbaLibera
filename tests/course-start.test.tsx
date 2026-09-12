@@ -4,12 +4,12 @@ import { readFileSync } from 'node:fs';
 import { describe, it, expect } from 'vitest';
 import { CourseWorkspace } from '@/features/course-pack/CourseWorkspace';
 import type { CourseEnvironment } from '@/features/course-pack/environment';
-import { validatePack } from '@/features/course-pack/schema';
+import { readAuthoredPack } from './helpers/authored-pack';
 import type { PracticeEvent } from '@/features/course-pack/progress';
 
-// The legacy course engine, so a v1 pack: German was the last one and has been
-// flipped to schemaVersion 2, which makes Spanish the host for these cases.
-const pack = validatePack(JSON.parse(readFileSync('courses/spanish/manifest.json', 'utf8')));
+// The legacy course engine reads a v1-shaped pack. Every shipped pack is v2 now,
+// so these cases read a flipped Spanish file through the schema-aware reader.
+const pack = readAuthoredPack('spanish');
 function environment(events: PracticeEvent[] = [], install = async () => {}): CourseEnvironment {
   return {
     capabilities: { accounts: false, synchronization: false, offlineInstall: true, hostedNavigation: false },

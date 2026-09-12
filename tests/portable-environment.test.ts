@@ -7,7 +7,7 @@ import {
   createPortableEnvironment,
   probePortableStore,
 } from "@/features/course-pack/portable-environment";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 import { validateV2Pack } from "@/features/course-pack/schema-v2";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import type { PortableContent } from "../scripts/portable/content";
@@ -78,9 +78,7 @@ describe("portable course assets", () => {
       ...URL,
       createObjectURL: vi.fn(() => "blob:portable-audio"),
     });
-    const pack = validatePack(
-      JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
-    );
+    const pack = readAuthoredPack("spanish");
     const mediaPath = pack.media[0].url;
     const content: PortableContent = {
       packs: { spanish: pack },

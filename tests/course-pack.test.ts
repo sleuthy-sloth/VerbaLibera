@@ -10,47 +10,37 @@ import {
   selectDaily,
 } from "@/features/course-pack/progress";
 import { makeLegacyRawPack } from "./fixtures/lesson-variety";
+import { readAuthoredPack } from "./helpers/authored-pack";
 
 /**
  * The v1 pack these validator and daily-selection cases run against.
  *
- * French used to be the host, then German, and both are now schemaVersion 2 —
- * they render in the v2 player and the v1 validator rightly refuses them.
- * Spanish is the remaining v1 pack with the widest spread of kinds (choice,
- * think, cloze, reading, dictation, order, translate, transform), so the legacy
- * engine keeps real-content coverage instead of falling back to a synthetic
- * fixture.
- */
-const readLegacyPack = () =>
-  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8"));
-
-/**
- * A pack's authored content, whichever schema it now ships.
+ * The host has moved three times: French, then German, then Spanish — and
+ * Spanish has flipped too, so every shipped pack is schemaVersion 2 and the v1
+ * validator rightly refuses all of them. The host is the fixture now, which the
+ * migration procedure says to extend rather than retire: `makeLegacyRawPack()`
+ * carries the v1 kinds and fields these cases mutate, and its content is a real
+ * three-lesson A1 Spanish starter rather than placeholder text.
  *
- * `validatePack(...)` returns `lessons[].exercises` for a v1 pack and refuses a
- * v2 one; a flipped pack keeps the same records under `lessons[].legacyExercises`
- * and lists prerequisites as `{ lessonId, requirement }` instead of bare ids.
- * This reads the file and restores the v1 field names, so the assertions below —
- * and the legacy selectors they call — keep the types they were written with.
- * The cast is the point: the shape is the validated v1 shape by construction.
+ * `MutableV1Pack` is what the cases below need to exist: they poke at
+ * `schemaVersion`, a lesson's `prerequisites`, an exercise's `answers` and
+ * `conceptId`, and a lesson's `vocabulary`. The cast is the point — the fixture
+ * is written to that shape.
  */
-const readAuthoredPack = (language: string): ReturnType<typeof validatePack> => {
-  const raw = JSON.parse(
-    readFileSync(`courses/${language}/manifest.json`, "utf8"),
-  ) as {
-    lessons: Array<Record<string, unknown> & { legacyExercises?: unknown[]; exercises?: unknown[] }>;
-  };
-  return {
-    ...raw,
-    lessons: raw.lessons.map((lesson) => ({
-      ...lesson,
-      exercises: lesson.legacyExercises ?? lesson.exercises ?? [],
-      prerequisites: (lesson.prerequisites as unknown[]).map((entry) =>
-        typeof entry === "string" ? entry : (entry as { lessonId: string }).lessonId,
-      ),
-    })),
-  } as unknown as ReturnType<typeof validatePack>;
+type MutableV1Pack = {
+  schemaVersion: number;
+  status?: string;
+  lessons: Array<
+    Record<string, unknown> & {
+      id: string;
+      prerequisites: string[];
+      vocabulary: unknown[];
+      optionalExerciseIds: string[];
+      exercises: Array<Record<string, unknown> & { id: string; answers: string[]; conceptId: string }>;
+    }
+  >;
 };
+const readLegacyPack = () => makeLegacyRawPack() as unknown as MutableV1Pack;
 
 describe("course packs", () => {
   it.each(["italian", "french"])(
@@ -280,22 +270,22 @@ it("validates dialogue recovery branches and rejects dangling nodes", () => {
     dialogues: [
       {
         id: "lg-dialogue",
-        title: "Al bar",
+        title: "En el bar",
         prerequisite: "lg-lesson",
-        goal: "Ordinare un caffè.",
+        goal: "Pedir un café y pagar.",
         start: "n-greet",
         nodes: [
           {
             id: "n-greet",
-            line: "Buongiorno!",
+            line: "¡Buenos días!",
             meaning: "Good morning!",
             complete: false,
-            choices: [{ text: "Buongiorno!", next: "n-order", feedback: "Formale." }],
+            choices: [{ text: "¡Buenos días!", next: "n-order", feedback: "El saludo del día." }],
           },
           {
             id: "n-order",
-            line: "Vorrei un caffè.",
-            meaning: "I would like a coffee.",
+            line: "Un café, por favor.",
+            meaning: "A coffee, please.",
             complete: true,
             choices: [],
           },
@@ -365,11 +355,22 @@ describe('new foundation packs', () => {
         expect.arrayContaining(['reading', 'order', 'think']),
       );
     }
-    // The legacy selectors below are the v1 engine's own, so they run on the one
-    // pack it still has (Spanish). The field assertions above run on both: they
-    // are the same claims about the same authored records.
-    if (pack.schemaVersion !== 1) return;
+    // The field assertions above run on both flipped packs. The legacy selectors
+    // are the v1 engine's own and run in the case below, on the v1 fixture: no
+    // shipped pack is v1 any more, so a flipped file cannot drive them.
+    expect(pack.lessons[0].exercises.some((exercise) =>
+      exercise.kind === 'dictation' && pack.media.some((media) => media.id === exercise.audioId),
+    )).toBe(true);
+  });
 
+  it('drives the v1 selectors through a three-lesson authored pack', () => {
+    // `selectDaily` and `completedLessons` read `lessons[].exercises` and
+    // prerequisite completion the way schema v1 defines them. Every shipped pack
+    // is v2, so the fixture is the host — extended, not retired — and this is the
+    // same progression claim the Spanish case used to make on real content.
+    const pack = validatePack(readLegacyPack());
+    const [first, second, third] = pack.lessons;
+    expect(pack.lessons.map(({ id }) => id)).toEqual(['lg-lesson', 'lg-lesson-2', 'lg-cafe-requests']);
     const passed = (lessons: typeof pack.lessons) => lessons.flatMap(lesson =>
       lesson.exercises.map(exercise => ({
         id: `passed-${exercise.id}`,
@@ -384,11 +385,8 @@ describe('new foundation packs', () => {
     const now = new Date('2026-09-08T12:01:00.000Z');
     expect(selectDaily(pack, [], 5, now).lessonId).toBe(first.id);
     expect(completedLessons(pack, passed([first])).has(first.id)).toBe(true);
-    expect(selectDaily(pack, passed([first]), 5, now).lessonId).toBe(introductions.id);
-    expect(selectDaily(pack, passed([first, introductions]), 5, now).lessonId).toBe(requests.id);
-    expect(pack.lessons[0].exercises.some((exercise) =>
-      exercise.kind === 'dictation' && pack.media.some((media) => media.id === exercise.audioId),
-    )).toBe(true);
+    expect(selectDaily(pack, passed([first]), 5, now).lessonId).toBe(second.id);
+    expect(selectDaily(pack, passed([first, second]), 5, now).lessonId).toBe(third.id);
   });
 
   it('keeps the Portuguese thank-you exercise internally consistent', () => {

@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { migratePackV1ToV2, normalizePack } from "@/features/course-pack/normalize-pack";
 import { validateV2Pack } from "@/features/course-pack/schema-v2";
 import { buildContentReport } from "../scripts/content/report";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 
 /**
  * The CEFR tag has to survive the v1→v2 migration.
@@ -17,29 +18,31 @@ import { buildContentReport } from "../scripts/content/report";
  * v2 pack — a documentation gap that reads exactly like a pack that claims
  * nothing. The field exists now and the migration carries it.
  *
- * Two halves: the packs still at v1 (Portuguese, Spanish) are migrated in memory
- * so the guarantee is proven against real content before their turn comes, and
- * the packs already flipped (German) are read from the tree to prove the carry
- * worked on a real file, not only in a fixture.
+ * Two halves: a pack still at v1 is migrated in memory so the guarantee is proven
+ * against real content, and the packs already flipped are read from the tree to
+ * prove the carry worked on a real file, not only in a fixture.
+ *
+ * The in-memory half used to read whichever shipped pack was still v1. Portuguese
+ * and Spanish took that turn in order, and Spanish has now flipped as well, so it
+ * reads `tests/fixtures/lesson-variety.ts` — a real three-lesson A1 Spanish
+ * starter — which is what this file said to do when the last pack went.
  */
 
-const V1_LANGUAGES = ["spanish"] as const;
-/**
- * The pack the "prove it on a real v1 source" cases read. It moved from
- * Portuguese to Spanish when Portuguese was flipped; Spanish is the last v1 pack
- * left, and when it goes these cases move onto `tests/fixtures/lesson-variety.ts`
- * rather than being deleted.
- */
-const V1_SOURCE = "spanish";
+const FIXTURE = "fixture";
+const V1_LANGUAGES = [FIXTURE] as const;
+/** The pack the "prove it on a real v1 source" cases read: the fixture, above. */
+const V1_SOURCE = FIXTURE;
 /** Already flipped, and flipped *with* the field in place. */
-const CARRIED_PACKS = ["german", "portuguese"] as const;
+const CARRIED_PACKS = ["german", "portuguese", "spanish"] as const;
 /** Flipped before the field existed; their tags are a data decision, not a bug. */
 const PRE_FIELD_PACKS = ["french", "italian"] as const;
 
 function readPack(language: string): Record<string, unknown> {
-  return JSON.parse(
-    readFileSync(join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
-  ) as Record<string, unknown>;
+  return language === FIXTURE
+    ? makeLegacyRawPack()
+    : (JSON.parse(
+        readFileSync(join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
+      ) as Record<string, unknown>);
 }
 
 function authoredTags(raw: Record<string, unknown>): Map<string, string> {

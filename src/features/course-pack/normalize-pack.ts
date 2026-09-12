@@ -266,8 +266,13 @@ export function convertExercise(
       const marker = exercise.prompt.indexOf("___");
       if (marker < 0 || exercise.prompt.indexOf("___", marker + 3) >= 0)
         throw new Error(`${packId}: cloze ${where} needs exactly one ___ blank`);
-      const before = exercise.prompt.slice(0, marker).replace(/^Complete:\s*/i, "");
-      const after = exercise.prompt.slice(marker + 3);
+      // The v2 schema trims every authored string, so a validated v2 file carries
+      // "un café," where the v1 prompt reads "un café, ___". Trimming here too keeps
+      // the two paths rendering the same exercise — without it the same lesson looks
+      // different before and after a flip, which is what the migration's parity test
+      // asserts against.
+      const before = exercise.prompt.slice(0, marker).replace(/^Complete:\s*/i, "").trim();
+      const after = exercise.prompt.slice(marker + 3).trim();
       const segments: ClozeActivity["segments"] = [];
       if (before !== "") segments.push({ kind: "text", text: before });
       segments.push({ kind: "blank", name: "b1", label: "Missing word" });

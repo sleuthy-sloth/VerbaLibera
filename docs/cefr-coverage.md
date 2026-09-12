@@ -23,7 +23,7 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 | Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
 | German | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
-| Spanish | v1 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
+| Spanish | v2 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
 Totals: 74 lessons, 600 practice activities, 23 speaking steps.
 
@@ -39,9 +39,9 @@ Four findings this table makes visible:
    migration from the v1 source would restore 25 tags each, and that is the user's call, recorded
    in `tests/pack-migration-cefr.test.ts` rather than done quietly.
 2. **Speaking is Italian-only** — 23 of the 600 practice activities. German, Portuguese and Spanish
-   are schemaVersion 1 and have no self-assessed exercise kind at all, so for them this is a
-   player-capability gap, not a content omission. French now runs the v2 player and *could* carry
-   speaking steps, but none are authored.
+   have no self-assessed exercise kind at all, and all three joined the v2 player with the
+   migrations, so for them this is an authoring gap rather than a missing capability. French and
+   Spanish *could* carry speaking steps too, but none are authored.
 3. **Audio coverage is French/Italian-only.** German, Portuguese and Spanish carry model audio in
    one lesson out of eight.
 4. **The migrated packs report every lesson as `family: "discovery"`.** The v1 schema had no

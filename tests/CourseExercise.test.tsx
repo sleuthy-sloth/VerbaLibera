@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { readFileSync } from "node:fs";
 import { it, expect, vi } from "vitest";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 import { ExerciseView } from "@/features/course-pack/ExerciseView";
 
 /**
@@ -16,7 +16,7 @@ import { ExerciseView } from "@/features/course-pack/ExerciseView";
  * to this engine, not to any one language's content, so the assertions read
  * their tokens and answers from the pack instead of hardcoding them.
  */
-const spanish = () => validatePack(JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")));
+const spanish = () => readAuthoredPack("spanish");
 const exerciseOf = (lessonId: string, kind: string) => {
   const exercise = spanish()
     .lessons.find((lesson) => lesson.id === lessonId)!

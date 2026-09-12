@@ -7,14 +7,12 @@ import { describe, expect, it } from "vitest";
 import { CourseWorkspace } from "@/features/course-pack/CourseWorkspace";
 import type { CourseEnvironment } from "@/features/course-pack/environment";
 import { createHostedEnvironment } from "@/features/course-pack/hosted-environment";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 
 // A v1 pack, because this fixture renders the legacy course engine through a
-// portable environment. German was the last one and has since been flipped, so
-// the fixture reads Spanish.
-const spanish = validatePack(
-  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
-);
+// portable environment. Every shipped pack is schemaVersion 2 now, so this reads
+// a flipped Spanish file through the schema-aware reader.
+const spanish = readAuthoredPack("spanish");
 
 function portableFixtureEnvironment(
   durability: "durable" | "temporary" = "durable",

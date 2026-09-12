@@ -5,16 +5,17 @@ import path from "node:path";
 import { migratePackV1ToV2, normalizePack } from "@/features/course-pack/normalize-pack";
 import { validateV2Pack } from "@/features/course-pack/schema-v2";
 import type { RuntimePack } from "@/features/course-pack/lesson-runtime";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 
 /**
  * Phase 2A evidence, in two halves.
  *
- * **The packs still at v1.** `tests/pack-migration-parity.test.ts` proves the
- * transform on a synthetic legacy fixture. These assertions make the same claim
- * against every REAL v1 pack that is still waiting its turn — German,
- * Portuguese and Spanish — so the next migration in the queue has the evidence
- * already in place and a regression in the adapter shows up before it touches
- * content.
+ * **A pack still at v1.** `tests/pack-migration-parity.test.ts` proves the
+ * transform on a synthetic legacy fixture; these assertions make the same claim
+ * against real content. German, Portuguese and Spanish each waited in this slot
+ * and each has now flipped, so the host is `tests/fixtures/lesson-variety.ts` —
+ * the fixture is extended rather than retired, and it is authored Spanish A1, not
+ * placeholder text.
  *
  * **The pack that has migrated.** French IS schemaVersion 2 as of this commit.
  * The migration is not re-run here; what is pinned is that the stored artifact
@@ -24,12 +25,15 @@ import type { RuntimePack } from "@/features/course-pack/lesson-runtime";
  * `tests/migrated-pack-replay.test.tsx`.
  */
 
-const PENDING_PACKS = ["spanish"] as const;
+const FIXTURE = "fixture";
+const PENDING_PACKS = [FIXTURE] as const;
 
 const readPack = (language: string): Record<string, unknown> =>
-  JSON.parse(
-    readFileSync(path.join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
-  ) as Record<string, unknown>;
+  language === FIXTURE
+    ? makeLegacyRawPack()
+    : (JSON.parse(
+        readFileSync(path.join(process.cwd(), "courses", language, "manifest.json"), "utf8"),
+      ) as Record<string, unknown>);
 
 const ids = (values: readonly { id: string }[]): string[] => values.map((value) => value.id);
 
@@ -109,6 +113,22 @@ const MIGRATED_PACKS = [
     withPrerequisites: 7,
     retainedExercises: 40, // lower bound; 48 measured
     reachable: 56,
+    retrieval: 39,
+  },
+  // Spanish matches its two travel siblings figure for figure except for the one
+  // exercise it authored more (49 against their 48), which is why its reachable
+  // set is 57 — the 49 exercises plus one notice step per lesson. Measured from
+  // the content report before the flip and pinned here after it.
+  {
+    language: "spanish",
+    lessons: 8,
+    units: 4,
+    concepts: 8,
+    vocabulary: 34,
+    media: 1,
+    withPrerequisites: 7,
+    retainedExercises: 40, // lower bound; 49 measured
+    reachable: 57,
     retrieval: 39,
   },
 ] as const;

@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 import { ExerciseView } from "@/features/course-pack/ExerciseView";
 import { producesTargetLanguage } from "@/features/course-pack/feedback";
 
@@ -27,9 +27,7 @@ import { producesTargetLanguage } from "@/features/course-pack/feedback";
  * wording rather than any one language's content: `feedback.ts` must never let
  * the grader's taxonomy reach the screen, whatever language the exercise is in.
  */
-const pack = validatePack(
-  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
-);
+const pack = readAuthoredPack("spanish");
 const all = pack.lessons.flatMap((l) => l.exercises);
 const byId = (id: string) => all.find((e) => e.id === id)!;
 
