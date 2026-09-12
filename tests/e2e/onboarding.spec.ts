@@ -186,9 +186,12 @@ test.describe('first run', () => {
     const stored = await page.evaluate(() =>
       JSON.parse(window.localStorage.getItem('verbalibera_onboarding:v1') ?? 'null'),
     );
+    // The completion record names the course by its canonical pack slug, which is
+    // the identity the dashboard, the plans and the banners are keyed by. Older
+    // records in the other form still read, which the alias case covers.
     expect(stored).toMatchObject({
       version: 1,
-      courseSlug: 'english-to-italian',
+      courseSlug: 'italian',
       status: 'completed',
       entryIntent: 'beginner',
     });
