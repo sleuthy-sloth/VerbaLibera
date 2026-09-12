@@ -72,8 +72,11 @@ stays behind its evidence gates.
 
 ## Explicitly pending human work (do not report as done)
 
-- Native-speaker review of any lesson or audio clip (`review.nativeSpeaker` stays `"pending"` in
-  every generated report).
+- Native-speaker review of **French, Italian and Portuguese** prose, and of **every** audio clip
+  (`review.nativeSpeaker` is `"reviewed"` for German and Spanish only, and
+  `review.audioListening` stays `"pending"` in every generated report). The German and Spanish prose
+  review was reported on 2026-09-11 and is recorded in `courses/<language>/review.json`; gate 1 of
+  `docs/human-review-gates.md` says exactly what that does and does not cover.
 - **Art direction** (added by the graphics pass): whether the German banner's approved framing needs
   a wide-frieze regeneration to match the other four (it is the approved artwork now; the question is
   only whether that artwork should be redrawn wider), whether the remaining 13 vocabulary
@@ -822,6 +825,86 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### German in the dashboard's course universe, and the prose review recorded (`6054d33`, `a8881cf`)
+
+Two things the same change had to settle: which identity a course has, and where the
+truth about a course's review lives. Both are now the generated artefacts.
+
+**Two id systems, one map.** The dashboard, the welcome flow and the language switcher
+listed courses from the travel fixture (`english-to-french`); the packs, banners,
+catalogue and `/courses` pages are keyed by pack slug (`french`). German is in the
+second list only — which is why it had a pack, a course page and a catalogue entry and
+still never appeared in the switcher or the welcome flow. That was the "found, not
+fixed" item from stage 4, and the plan written then
+(`docs/superpowers/plans/2026-09-11-german-course-universe.md`) is what shipped.
+
+`src/features/course-pack/course-identity.ts` is the single map. Pack slugs are
+canonical; `packSlugFor` accepts the older form, `legacyCourseSlug` goes back for the
+routes only the fixture has. Five copies of `replace(/^english-to-/, '')` — in
+`navigation.ts`, `state.ts`, `language-code.ts`, `items.ts` and `LanguageSwitcher.tsx` —
+were already an identity map, just an unwritten one, and they are gone.
+
+**The universe is the catalogue, so it cannot drift again.** `demo-progress.ts` and
+`lib/progress/snapshot.ts` build `courses` from the five packs; the switcher defaults to
+the catalogue and now navigates to `/courses/<slug>`, which exists for every course
+(it used to go to `/learn/<slug>`, which only the four travel courses have);
+`WelcomeFlow` and `readOnboardingOutcome` resolve a stored choice through the map.
+
+**That last part is the whole risk of the change.** An onboarding record naming a course
+the lesson list does not know is treated as *stale* on purpose, so a slug change without
+an alias would have asked every existing learner to choose a language again — the
+behaviour the existing e2e case exists to prevent, applied to everyone. The migration is
+therefore a read: `english-to-french` resolves to French, the returned state is canonical,
+new writes store the pack slug, and nothing rewrites a stored record or touches progress.
+`firstWinFor` and `hasAuthoredPlacement` accept either form, so the first-win sequences and
+the placement quizzes stay reachable, and the guided session, study plan and quiz routes
+are untouched — the dashboard maps back to them with `legacyCourseSlug`. German, which has
+no fixture course, gets its foundation page instead of a dead session link.
+
+The generated catalogue grew the two fields the UI needed and could not invent: the course's
+opening unit (`unitLabel`) and the level its own lessons claim (`authoredCefrLevel` — null
+for the packs that predate the tag, which is why French and Italian still show the level the
+fixture's own concepts support). A course with no preview drills reports a zero rather than a
+share of a neighbour's fiction.
+
+**The prose review now lives where the reports read it.** The German and Spanish prose
+reviews were reported passed on 2026-09-11. `docs/human-review-gates.md` is the human-facing
+gate and now says so, with what it covers and what it does not; the machine-readable record
+is `courses/<language>/review.json`, beside the manifest, read by
+`scripts/content/review.ts` when the reports are generated. That combination is the point:
+the reports used to hardcode `review.nativeSpeaker: "pending"`, so a document saying
+"reviewed" and an artefact saying "pending" could both be sitting in the tree. Now German
+and Spanish read `"reviewed"` with the date and who reported it (described, not named — this
+is written from what the project owner reported), French, Italian and Portuguese read
+`"pending"`, and the audio listening review reads `"pending"` for all five, because the
+written course was read and not the recordings.
+
+**One assertion moved with the behaviour, and the browser run is what caught it.** The e2e case
+that finishes onboarding asserted the stored record still read `english-to-italian`; it now reads
+`italian` as well, which is the canonical slug this change writes. Changing that assertion back
+would have meant writing the old identity on purpose, so the fix went into `a8881cf` with the
+reason recorded beside it.
+
+**Verified.** `npx vitest run` 155 files passed, 1 skipped; **1214 passed, 6 skipped, 0
+failed** (before the commit the generated-diff guard was red, as designed, until
+`public/study.js` and the five reports were staged with it) · `tsc --noEmit` clean ·
+`npm run lint` 0 errors / 36 warnings · `npm run build` exit 0 · `content:validate` exit 0 ·
+`content-build-reproducibility` 4 passed on the committed tree, which is the guard that proves
+the regenerated artefacts are reproducible · Playwright chromium **101 passed, 3 skipped** ·
+offline **11 passed, 3 skipped** · axe 0 violations across 20 route/viewport combinations ·
+the new e2e walks pass: German is offered in the welcome flow and its preview path lands on
+`/courses/german`, a `?course=english-to-italian` bookmark still resolves, and choosing writes
+the canonical slug.
+
+The new unit cases are the ones a reviewer should read first: `tests/course-identity.test.ts`
+holds the two id systems against each other, `demo-progress`'s mirror is asserted against the
+seven `progress.courses` instead of the four, and `onboarding-state.test.ts` covers the
+pre-move record resolving rather than being called stale.
+
+**Still open.** The prose review for French, Italian and Portuguese; the listening review for
+every course; the five-user pilot, device QA and the distribution decision. Nothing here
+closed any of those, and `docs/human-review-gates.md` still lists them as open.
+
 ### The Spanish flip, completed — and the v1 host it leaves behind (`9a432dc`)
 
 Stage 4 set this flip aside with the reason recorded: the migration itself verified
@@ -903,7 +986,7 @@ Three things, in the order they were asked for. **Superseded in one part:** the 
 was completed afterwards — see the section above.
 
 **The German course-universe follow-up, made ready to review rather than half-built.**
-`docs/superpowers/plans/2026-09-11-german-course-universe.md` writes out what "German has a
+`docs/superpowers/plans/2026-09-11-german-course-universe.md` wrote out what "German has a
 pack but no dashboard presence" actually costs. The crux is not a missing list entry: the
 dashboard and the packs use **two course identity systems** — `english-to-french` from the
 travel fixture versus `french` from the pack catalogue — and the onboarding record validates
@@ -1707,6 +1790,8 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | `npx vitest run` (Stage 3a: the Portuguese flip) | **155 passed | 1 skipped (156); 1197 passed | 6 skipped (1203)** |
 | `npx vitest run` (the Spanish flip, `9a432dc`) | **154 passed | 1 skipped (156); 1205 passed | 6 skipped, 0 failed** — one red file until the commit, `content-build-reproducibility`, reporting the regenerated `public/study.js` and `docs/astra/reports/spanish.json`; green with them staged |
 | Playwright chromium / offline / portable / axe (the Spanish flip) | **101 passed | 3 skipped** · **11 passed | 3 skipped** · **12 passed** · **0 violations** across 20 route/viewport combinations |
+| `npx vitest run` (the German course universe, `6054d33`) | **155 passed | 1 skipped (157); 1214 passed | 6 skipped, 0 failed** — one red file until the commit, `content-build-reproducibility`, as designed |
+| Playwright chromium / offline / axe (the German course universe) | **101 passed | 3 skipped** · **11 passed | 3 skipped** · **0 violations** across 20 route/viewport combinations — one e2e case caught the completion record moving to the canonical slug before the commit |
 | `npx playwright test --project=chromium` | **101 passed, 3 skipped** — from the stage-3a tree, whose code this documentation does not touch |
 | `playwright test --config playwright.offline.config.ts` | **11 passed** |
 | `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
@@ -1878,6 +1963,8 @@ also skips the config's own `webServer`.
 | `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
+| `6054d33` | **German joins the course universe** — one identity map for the two slug systems, the dashboard/switcher/welcome flow reading the generated catalogue, the pre-move records still resolving, and the German and Spanish prose reviews recorded where the reports read them |
+| `a8881cf` | **The completion-record e2e assertion moves to the canonical slug** — the one case the Playwright run caught, with the older form still accepted on read |
 | `9a432dc` | **The Spanish flip, completed** — and the v1 host it leaves behind: a real three-lesson A1 Spanish starter in `tests/fixtures/lesson-variety.ts`, the schema-aware reader with its round-trip proof, nine suites moved onto them with their own assertions intact, and the cloze-space defect the new content exposed |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
 
@@ -2055,6 +2142,16 @@ build.
   *and* the Spanish pack's own text — has been read by nobody who speaks Spanish. The fixture ships
   to no learner, so it blocks no release; the pack's gate is the standing one, and it is now the
   only pack whose authored prose has never been reviewed in a language whose tests all pass.
+- **Resolved: German had no way in.** It was "found, not fixed" from stage 4: a pack, a course
+  page and a catalogue entry with no presence in the dashboard's switcher or the welcome flow,
+  because the course universe came from the travel fixture and German has no fixture course.
+  `6054d33` makes the generated catalogue the universe and the pack slug canonical, with the older
+  `english-to-*` value accepted on read so no existing learner is asked to choose a language again.
+- **Closed: the native-speaker prose review, for German and Spanish.** Reported passed on
+  2026-09-11 and recorded in `courses/<language>/review.json`, which the report generator now reads —
+  so a document and a generated report can no longer disagree about whether a review happened.
+  Gate 1 of `docs/human-review-gates.md` states what this covers (the written course) and what it
+  does not (the recordings, and the three courses still unreviewed).
 - **Resolved: Spanish stayed v1.** It was the blocker Stage 4 set aside — the migration verified,
   but eight legacy suites had no v1 pack left to read once it flipped. `9a432dc` completes it by
   authoring the v1 host rather than faking one: no shipped pack is schemaVersion 1 any more, and

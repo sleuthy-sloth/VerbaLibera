@@ -82,10 +82,16 @@ completed syllabus.
 
 ## Review status
 
-- **Native-speaker review: pending.** No foundation lesson has been checked by a
-  native speaker. Corrections are tracked through the content-correction issue
-  template.
-- **Audio listening review: pending.** `npm run content:audio-check` proves
+- **Native-speaker review: reviewed for German and Spanish, pending elsewhere.**
+  The authored German and Spanish prose was reported reviewed on 2026-09-11, and the
+  record lives beside each manifest (`courses/german/review.json`,
+  `courses/spanish/review.json`) so the generated reports quote it:
+  `review.nativeSpeaker` reads `"reviewed"` for those two and `"pending"` for French,
+  Italian and Portuguese. Corrections are tracked through the content-correction
+  issue template.
+- **Audio listening review: pending for every course**, including the two whose prose
+  is now reviewed — the written course was read, not the recordings.
+  `npm run content:audio-check` proves
   hashes and integrity, not that a clip sounds right. `docs/audio-provenance/`
   records what was generated; the human listening checklist has not been run.
 
