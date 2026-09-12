@@ -36,4 +36,19 @@ describe("lesson variety pilots", () => {
     const dialogue = pack.stimuli["it-requests-dialogue"];
     expect(dialogue.kind).toBe("dialogue");
   });
+
+  it("cafe lesson covers listening, cloze, ordering, production, and transfer", () => {
+    const pack = italian();
+    const lesson = pack.lessons.find((l) => l.id === "it-cafe-order-foundation")!;
+    expect(lesson).toBeDefined();
+    expect(lesson.prerequisites[0]?.lessonId).toBe("it-invitations-foundation");
+    expect(lesson.family).toBe("conversation");
+    const activities = lesson.steps.map((step) => pack.activities[step.activityId]);
+    expect(activities.some((activity) => "skills" in activity && activity.skills.includes("listening"))).toBe(true);
+    expect(activities.some((activity) => activity.kind === "cloze")).toBe(true);
+    expect(activities.some((activity) => activity.kind === "ordering")).toBe(true);
+    expect(activities.some((activity) => activity.kind === "text" && "skills" in activity && activity.skills.includes("writing"))).toBe(true);
+    expect(activities.some((activity) => "prompt" in activity && activity.prompt.includes("Transfer:"))).toBe(true);
+    expect(pack.media.some((media) => media.id === "it-polite-coffee-audio")).toBe(true);
+  });
 });

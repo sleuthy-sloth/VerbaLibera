@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "id": "it-foundations",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "language": "it",
   "status": "active",
   "title": "Italian foundations",
@@ -440,6 +440,22 @@
         }
       ],
       "commonError": "Say ciao or buongiorno the moment you arrive — Italians notice warmth more than accent. Ciao is for friends and informal moments; buongiorno opens everything else."
+    },
+    {
+      "id": "it-cafe-order-concept",
+      "title": "Ordering and paying at a café",
+      "explanation": "Order politely with Vorrei un caffè, per favore. Ask the price with Quanto costa? and thank the server with Grazie.",
+      "examples": [
+        {
+          "target": "Vorrei un caffè, per favore.",
+          "meaning": "I would like a coffee, please."
+        },
+        {
+          "target": "Quanto costa?",
+          "meaning": "How much does it cost?"
+        }
+      ],
+      "commonError": "Use vorrei for a polite request; avoid the direct command Prendo when speaking to the server."
     }
   ],
   "vocabulary": [
@@ -1156,6 +1172,34 @@
       "meaning": "coffee",
       "partOfSpeech": "word or expression",
       "example": "Un caffè."
+    },
+    {
+      "id": "it-cafe-order-foundation-word-1",
+      "word": "caffè",
+      "meaning": "coffee",
+      "partOfSpeech": "word or expression",
+      "example": "Vorrei un caffè, per favore."
+    },
+    {
+      "id": "it-cafe-order-foundation-word-2",
+      "word": "vorrei",
+      "meaning": "I would like",
+      "partOfSpeech": "word or expression",
+      "example": "Vorrei un caffè, per favore."
+    },
+    {
+      "id": "it-cafe-order-foundation-word-3",
+      "word": "conto",
+      "meaning": "bill",
+      "partOfSpeech": "word or expression",
+      "example": "Quanto costa?"
+    },
+    {
+      "id": "it-cafe-order-foundation-word-4",
+      "word": "prezzo",
+      "meaning": "price",
+      "partOfSpeech": "word or expression",
+      "example": "Quanto costa?"
     }
   ],
   "media": [
@@ -2050,6 +2094,31 @@
       "kind": "audio",
       "id": "it-market-listen-stim",
       "mediaId": "it-market-listen-audio"
+    },
+    {
+      "kind": "examples",
+      "id": "it-cafe-order-foundation-examples",
+      "pairs": [
+        {
+          "target": "Vorrei un caffè, per favore.",
+          "meaning": "Would you like to coffee today?"
+        },
+        {
+          "target": "Sì, grazie.",
+          "meaning": "Yes, thanks, gladly."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "it-cafe-order-foundation-read-passage",
+      "body": "Anna invita Marco: Vorrei un caffè, per favore. Sì, grazie, per favore, dice Marco.",
+      "translation": "Anna invites Marco: Would you like to coffee today? “Yes, thanks, gladly,” says Marco."
+    },
+    {
+      "kind": "audio",
+      "id": "it-cafe-order-foundation-listen-model-audio",
+      "mediaId": "it-polite-coffee-audio"
     }
   ],
   "activities": [
@@ -11157,6 +11226,408 @@
       "prompt": "Write in Italian: Do you want to come to dinner Saturday?",
       "modelText": "Vuoi venire a cena sabato?",
       "modelAudioId": "it-invitations-foundation-model"
+    },
+    {
+      "kind": "information",
+      "id": "it-cafe-order-foundation-intro",
+      "revision": 1,
+      "body": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "stimulusId": "it-cafe-order-foundation-examples",
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Which Italian word means “coffee”?",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "it-cafe-order-foundation-meet",
+      "options": [
+        {
+          "id": "conto",
+          "text": "conto"
+        },
+        {
+          "id": "caffe",
+          "text": "caffè"
+        },
+        {
+          "id": "prezzo",
+          "text": "prezzo"
+        },
+        {
+          "id": "tavolo",
+          "text": "tavolo"
+        }
+      ],
+      "acceptedIds": [
+        "caffe"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Give the English meaning: Quanto costa?",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-meaning",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-foundation-meaning",
+      "answer": {
+        "answers": [
+          "How much does it cost?"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Arrange the words to say: Would you like to coffee today?",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-order",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "it-cafe-order-foundation-order",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "favore."
+        },
+        {
+          "id": "t2",
+          "text": "per"
+        },
+        {
+          "id": "t3",
+          "text": "caffè,"
+        },
+        {
+          "id": "t4",
+          "text": "un"
+        },
+        {
+          "id": "t5",
+          "text": "Vorrei"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t5",
+          "t4",
+          "t3",
+          "t2",
+          "t1"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Complete the reply: Sì, grazie, ___.",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "it-cafe-order-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "Complete the reply: Sì, grazie, "
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": "."
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "favore"
+          ],
+          "allowTypo": false,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Write in Italian: Would you like to coffee today?",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-produce",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-foundation-produce",
+      "answer": {
+        "answers": [
+          "Vorrei un caffè, per favore."
+        ],
+        "allowTypo": false,
+        "errors": [
+          {
+            "answer": "Vuoi andare a caffè caffè?",
+            "category": "incorrect answer",
+            "explanation": "Andare is to go; invite with prendere: Vorrei un caffè, per favore."
+          }
+        ]
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "When is coffee? Answer with the Italian day. (Reading 24)",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-foundation-read",
+      "stimulusId": "it-cafe-order-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "caffè"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Recall from Emergencies: Help! Call an ambulance!",
+      "hints": [],
+      "feedback": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+      "evidenceKey": "it-cafe-order-foundation-review",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-foundation-review",
+      "answer": {
+        "answers": [
+          "Aiuto! Chiami un’ambulanza!"
+        ],
+        "allowTypo": false,
+        "errors": [
+          {
+            "answer": "Aiuto! Chiamo un’ambulanza!",
+            "category": "incorrect answer",
+            "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+          }
+        ]
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "listening"
+      ],
+      "prompt": "Listen and write the model: ordering and paying.",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-foundation-listen-model",
+      "assistanceAffectsEvidence": [
+        "transcript",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-foundation-listen-model",
+      "stimulusId": "it-cafe-order-foundation-listen-model-audio",
+      "answer": {
+        "answers": [
+          "Vorrei un caffè, per favore."
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-cafe-order-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "Say in Italian: I would like a coffee, please.",
+      "modelText": "Vorrei un caffè, per favore.",
+      "modelAudioId": "it-polite-coffee-audio"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "writing",
+        "speaking"
+      ],
+      "prompt": "Transfer: You have finished your coffee. Ask politely how much it costs.",
+      "hints": [],
+      "feedback": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+      "evidenceKey": "it-cafe-order-transfer",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "it-cafe-order-transfer",
+      "answer": {
+        "answers": [
+          "Quanto costa?"
+        ],
+        "allowTypo": false,
+        "errors": []
+      }
     }
   ],
   "lessons": [
@@ -18902,6 +19373,326 @@
         "it-invitations-foundation-produce",
         "it-invitations-foundation-read",
         "it-invitations-foundation-review"
+      ]
+    },
+    {
+      "id": "it-cafe-order-foundation",
+      "unitId": "it-unit-6",
+      "title": "At the café: order and pay",
+      "objective": "Order a coffee, ask the price, and pay politely.",
+      "family": "conversation",
+      "revision": 1,
+      "estimatedMinutes": 10,
+      "entryStepId": "it-cafe-order-foundation-step-intro",
+      "steps": [
+        {
+          "id": "it-cafe-order-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "it-cafe-order-foundation-intro",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-meet"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-meet",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-meet",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-meaning"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-meaning",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-meaning",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-cloze"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-cloze",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-order"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-order",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-order",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-produce"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-produce",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-produce",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-say"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-say",
+          "activityId": "it-cafe-order-foundation-say",
+          "purpose": "practice",
+          "required": false,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
+          "branches": {}
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-read",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-review"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-review",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-review",
+          "required": true,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-listen-model"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-listen-model",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-listen-model",
+          "required": false,
+          "nextStepId": "it-cafe-order-foundation-step-transfer"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-transfer",
+          "purpose": "transfer",
+          "activityId": "it-cafe-order-transfer",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "it-cafe-order-foundation-meet",
+          "it-cafe-order-foundation-meaning",
+          "it-cafe-order-foundation-order",
+          "it-cafe-order-foundation-cloze",
+          "it-cafe-order-foundation-produce",
+          "it-cafe-order-foundation-read",
+          "it-cafe-order-foundation-review"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "it-invitations-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "caffè"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-meet",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Which Italian word means “coffee”?",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "conto",
+            "caffè",
+            "prezzo",
+            "tavolo"
+          ]
+        },
+        {
+          "answers": [
+            "I would like a coffee, please."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-meaning",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Give the English meaning: Vorrei un caffè, per favore.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "recognition"
+        },
+        {
+          "answers": [
+            "favore"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-cloze",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Complete the request: Vorrei un caffè, per ___.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Vorrei un caffè, per favore?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-order",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Arrange the words to say: I would like a coffee, please.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "favore.",
+            "per",
+            "caffè,",
+            "un",
+            "Vorrei"
+          ]
+        },
+        {
+          "answers": [
+            "Vorrei un caffè, per favore."
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Vuoi andare a caffè caffè?",
+              "category": "incorrect answer",
+              "explanation": "Andare is to go; invite with prendere: Vorrei un caffè, per favore."
+            }
+          ],
+          "id": "it-cafe-order-foundation-produce",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Write in Italian: I would like a coffee, please.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "un caffè"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-read",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "What does the customer order? Answer in Italian.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Il cliente dice: Vorrei un caffè, per favore.",
+          "translation": "The customer says: I would like a coffee, please."
+        },
+        {
+          "answers": [
+            "Quanto costa?"
+          ],
+          "allowTypo": false,
+          "errors": [
+            {
+              "answer": "Aiuto! Chiamo un’ambulanza!",
+              "category": "incorrect answer",
+              "explanation": "Do not announce yourself; command politely: Chiami un’ambulanza!"
+            }
+          ],
+          "id": "it-cafe-order-foundation-review",
+          "conceptId": "it-market-concept",
+          "prompt": "Transfer from Market: Ask how much it costs.",
+          "explanation": "Call for help with Aiuto! Ask for an ambulance with Chiami un’ambulanza! The emergency number is il centododici (112). Say È urgente when it is urgent.",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [
+            "it-emergency-foundation"
+          ],
+          "kind": "translate",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Vorrei un caffè, per favore."
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-foundation-listen-model",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Listen and write the model: ordering politely.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "dictation",
+          "mode": "listening",
+          "audioId": "it-polite-coffee-audio"
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "it-cafe-order-foundation-meet",
+        "it-cafe-order-foundation-meaning",
+        "it-cafe-order-foundation-order",
+        "it-cafe-order-foundation-cloze",
+        "it-cafe-order-foundation-produce",
+        "it-cafe-order-foundation-read",
+        "it-cafe-order-foundation-review"
       ]
     }
   ],
