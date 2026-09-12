@@ -11,7 +11,7 @@ import {
   conceptEvidence,
   completedLessons,
   projectProgress,
-  selectDaily,
+  selectDailyWithPreferences,
   mergeEvents,
   type PracticeEvent,
 } from "./progress";
@@ -23,6 +23,7 @@ import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
 import { producesTargetLanguage } from "./feedback";
 import type { CourseEnvironment } from "./environment";
+import { DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, type FoundationPreferences } from "./foundation-preferences";
 
 /** Workspace views. Also the `/courses/<language>/<view>` URL segment values. */
 export type WorkspaceView = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
@@ -71,7 +72,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
     [query, setQuery] = useState(""),
     [filter, setFilter] = useState("All"),
     [heard, setHeard] = useState<{ url: string; transcript: string } | null>(null),
-    [minutes, setMinutes] = useState(10),
+    [preferences, setPreferences] = useState<FoundationPreferences>(() => readFoundationPreferences(scope)),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
     [storageReady, setStorageReady] = useState(false);
@@ -105,7 +106,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           setPack(p);
           setEvents(s.events);
           if (s.error) setError(s.error + " You can still read the lessons.");
-          if (startNextLesson && p.lessons.length) setLessonId(selectDaily(p, s.events, 10).lessonId);
+          if (startNextLesson && p.lessons.length) setLessonId(selectDailyWithPreferences(p, s.events, 10, new Date(), readFoundationPreferences(scope)).lessonId);
           if (capabilities.hostedNavigation) {
             try { localStorage.setItem("verbalibera_course", `english-to-${language}`); } catch {}
           }
@@ -259,7 +260,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
     setStep((old) => old + 1);
     if (scope) { setSyncStatus("Saved locally. Waiting to sync."); setSyncRevision(n => n + 1); }
   };
-  const daily = selectDaily(pack, events, minutes);
+  const daily = selectDailyWithPreferences(pack, events, preferences.minutesPerDay, new Date(), preferences);
   const reviewIds = daily.exerciseIds.filter((id) => !!progress[id]);
 
   // Lesson shell: when a lesson is open, render it alone. The course shell
@@ -596,19 +597,19 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
       ) : view === "Review" ? (
         <section>
           <h2>Today’s practice</h2>
-          <label>
-            Minutes per day
-            <select
-              value={minutes}
-              onChange={(e) => setMinutes(Number(e.target.value))}
-            >
-              {[5, 10, 15, 20, 30].map((n) => (
-                <option key={n} value={n}>
-                  {n} minutes
-                </option>
-              ))}
-            </select>
-          </label>
+          <details>
+            <summary>Practice options</summary>
+            <label>Minutes per day <select value={preferences.minutesPerDay} onChange={(e) => { const next = { ...preferences, minutesPerDay: Number(e.target.value) }; setPreferences(next); saveFoundationPreferences(next, scope); }}>
+              {[5, 10, 15, 20, 30].map((n) => <option key={n} value={n}>{n} minutes</option>)}
+            </select></label>
+            <label>Goal <select value={preferences.goal} onChange={(e) => { const next = { ...preferences, goal: e.target.value as FoundationPreferences["goal"] }; setPreferences(next); saveFoundationPreferences(next, scope); }}>
+              <option value="balanced">Balanced</option><option value="review">Review what I know</option><option value="new">Learn something new</option>
+            </select></label>
+            <label>Listening <select value={preferences.listening} onChange={(e) => { const next = { ...preferences, listening: e.target.value as FoundationPreferences["listening"] }; setPreferences(next); saveFoundationPreferences(next, scope); }}>
+              <option value="available">Include listening</option><option value="off">Reading and building only</option>
+            </select></label>
+            <button type="button" onClick={() => { setPreferences(DEFAULT_FOUNDATION_PREFERENCES); saveFoundationPreferences(DEFAULT_FOUNDATION_PREFERENCES, scope); }}>Reset options</button>
+          </details>
           <p>{daily.reason}</p>
           <p>
             {daily.exerciseIds.length} exercises. Recognition, production and
