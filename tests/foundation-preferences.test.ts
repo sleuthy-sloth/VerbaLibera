@@ -1,5 +1,5 @@
-import { describe, expect, it, beforeEach } from 'vitest';
-import { foundationPreferencesSchema, DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, resetFoundationPreferences } from '@/features/course-pack/foundation-preferences';
+import { describe, expect, it, beforeEach, vi } from 'vitest';
+import { foundationPreferencesSchema, DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, resetFoundationPreferences, loadAccountFoundationPreferences, saveAccountFoundationPreferences } from '@/features/course-pack/foundation-preferences';
 import { selectDailyWithPreferences } from '@/features/course-pack/progress';
 import type { CoursePack } from '@/features/course-pack/schema';
 
@@ -27,6 +27,20 @@ describe('foundation practice preferences', () => {
     expect(readFoundationPreferences('user-a').packId).toBe('fr-foundations');
     resetFoundationPreferences('user-a');
     expect(readFoundationPreferences('user-a')).toEqual(DEFAULT_FOUNDATION_PREFERENCES);
+  });
+  it('syncs only the selected account scope and preserves the local copy when offline', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ userId: 'user-a', saved: true }), { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    const value = { ...DEFAULT_FOUNDATION_PREFERENCES, packId: 'it-foundations', minutesPerDay: 15 };
+    await saveAccountFoundationPreferences('user-a', value);
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('userId=user-a&packId=it-foundations'), expect.objectContaining({ method: 'PUT' }));
+    expect(readFoundationPreferences(null)).toEqual(DEFAULT_FOUNDATION_PREFERENCES);
+    vi.unstubAllGlobals();
+  });
+  it('loads account preferences into the validated contract', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify({ preferences: { version: 1, packId: 'fr-foundations', minutesPerDay: 20, goal: 'review', listening: 'off' } }), { status: 200 })));
+    await expect(loadAccountFoundationPreferences('user-a', 'fr-foundations')).resolves.toMatchObject({ minutesPerDay: 20, goal: 'review', listening: 'off' });
+    vi.unstubAllGlobals();
   });
   it('honors disabled listening and mode preference without removing due review or prerequisites', () => {
     const result = selectDailyWithPreferences(pack, [], 10, new Date(), { ...DEFAULT_FOUNDATION_PREFERENCES, listening: 'off', preferredModes: ['build'] });

@@ -32,3 +32,23 @@ export function resetFoundationPreferences(scope?: string | null): void {
   if (typeof localStorage === 'undefined') return;
   localStorage.removeItem(key(scope));
 }
+
+/** Account synchronization is opt-in; guest preferences never make a network request. */
+export async function loadAccountFoundationPreferences(scope: string, packId: string): Promise<FoundationPreferences | null> {
+  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { credentials: 'same-origin', cache: 'no-store' });
+  const body = await response.json() as { preferences?: unknown; error?: string };
+  if (!response.ok) throw new Error(body.error ?? 'Account preferences could not be loaded.');
+  if (body.preferences == null) return null;
+  return foundationPreferencesSchema.parse({ ...DEFAULT_FOUNDATION_PREFERENCES, ...body.preferences, packId });
+}
+export async function saveAccountFoundationPreferences(scope: string, value: FoundationPreferences, packId = value.packId): Promise<void> {
+  if (!packId) throw new Error('Choose a foundation course before saving preferences.');
+  const { csrfHeaders } = await import('@/lib/auth/cookies');
+  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'PUT', credentials: 'same-origin', cache: 'no-store', headers: { 'Content-Type': 'application/json', ...csrfHeaders() }, body: JSON.stringify({ version: value.version, minutesPerDay: value.minutesPerDay, goal: value.goal, listening: value.listening }) });
+  if (!response.ok) { const body = await response.json().catch(() => ({})) as { error?: string }; throw new Error(body.error ?? 'Account preferences could not be saved.'); }
+}
+export async function resetAccountFoundationPreferences(scope: string, packId: string): Promise<void> {
+  const { csrfHeaders } = await import('@/lib/auth/cookies');
+  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'DELETE', credentials: 'same-origin', cache: 'no-store', headers: csrfHeaders() });
+  if (!response.ok) throw new Error('Account preferences could not be reset.');
+}
