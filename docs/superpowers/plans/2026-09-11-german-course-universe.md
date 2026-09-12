@@ -1,11 +1,16 @@
 # German in the dashboard's course universe
 
-Status: **plan, not implemented.** Written 2026-09-11 from the roadmap's "stage 4" list,
-where this was recorded as "found, not fixed": German has a pack, a course page and a
-catalogue entry, but it never appears in the dashboard's language switcher or the welcome
-flow, and `/courses` plus a direct URL are its only entry points. This document is the
-change made ready to review, not a change that was made — it is a Phase-1B-scale edit with
-its own verification needs, and stage 1–3 of this run were content and composition work.
+Status: **implemented** 2026-09-11. Written from the roadmap's "stage 4" list, where this
+was recorded as "found, not fixed": German has a pack, a course page and a catalogue entry,
+but it never appears in the dashboard's language switcher or the welcome flow, and
+`/courses` plus a direct URL are its only entry points.
+
+The three steps below are what shipped, in that order, with one addition the plan did not
+anticipate: the generated catalogue now carries each course's opening unit and the level its
+own lessons claim, because the Today card and the switcher need both and neither could be
+invented from a lesson count. What the plan predicted about the *read* migration held
+exactly — no learner is asked to choose a language again — and that is the case the tests
+pin. See the run record for the evidence.
 
 ## What is actually wrong
 

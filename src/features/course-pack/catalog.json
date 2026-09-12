@@ -4,34 +4,44 @@
     "title": "French foundations",
     "lessons": 25,
     "units": 6,
-    "practiceActivities": 222
+    "practiceActivities": 222,
+    "unitLabel": "Unit 1: Meeting people",
+    "authoredCefrLevel": null
   },
   {
     "slug": "german",
     "title": "German foundations",
     "lessons": 8,
     "units": 4,
-    "practiceActivities": 48
+    "practiceActivities": 48,
+    "unitLabel": "Unit 1: Meeting people",
+    "authoredCefrLevel": "A1"
   },
   {
     "slug": "italian",
     "title": "Italian foundations",
     "lessons": 25,
     "units": 6,
-    "practiceActivities": 233
+    "practiceActivities": 233,
+    "unitLabel": "Unit 1: Meeting people",
+    "authoredCefrLevel": null
   },
   {
     "slug": "portuguese",
     "title": "Portuguese foundations",
     "lessons": 8,
     "units": 4,
-    "practiceActivities": 48
+    "practiceActivities": 48,
+    "unitLabel": "Unit 1: Meeting people",
+    "authoredCefrLevel": "A1"
   },
   {
     "slug": "spanish",
     "title": "Spanish foundations",
     "lessons": 8,
     "units": 4,
-    "practiceActivities": 49
+    "practiceActivities": 49,
+    "unitLabel": "Unit 1: Meeting people",
+    "authoredCefrLevel": "A1"
   }
 ]

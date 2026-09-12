@@ -9,7 +9,7 @@ afterEach(() => {
 });
 
 describe('HomePage', () => {
-  it('loads the Quiet Ink practice dashboard with both preview courses', async () => {
+  it('loads the Quiet Ink practice dashboard with the course universe', async () => {
     // Break caught: the dashboard route stops connecting its data boundary to the dashboard.
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -25,7 +25,7 @@ describe('HomePage', () => {
     );
 
     expect(await screen.findByRole('heading', { name: /VerbaLibera/i })).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-french');
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('french');
     expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
     expect(screen.getByRole('region', { name: /today.s lesson/i })).toBeInTheDocument();
   });
@@ -34,6 +34,7 @@ describe('HomePage', () => {
     // Break caught: the server page drops the selected-course query before data reaches the dashboard.
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(demoProgress))));
     const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+    // The older slug form, which is what a bookmark or a shared link holds.
     const page = await HomePage({
       params: Promise.resolve({}),
       searchParams: Promise.resolve({ course: 'english-to-italian' }),
@@ -41,7 +42,9 @@ describe('HomePage', () => {
 
     render(<QueryClientProvider client={client}>{page}</QueryClientProvider>);
 
-    expect(await screen.findByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-italian');
+    // It resolves to the course rather than being ignored: the switcher shows
+    // Italian, and the session link is the fixture course's own.
+    expect(await screen.findByRole('combobox', { name: 'Learning language' })).toHaveValue('italian');
     expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveAttribute(
       'href',
       '/learn/english-to-italian',

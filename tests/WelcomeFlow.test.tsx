@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { WelcomeFlow } from '@/components/onboarding/WelcomeFlow';
-import { initialCourses } from '@/features/curriculum/fixture';
+import { courseUniverse } from '@/features/course-pack/course-identity';
 
 afterEach(() => {
   localStorage.clear();
@@ -10,7 +10,7 @@ afterEach(() => {
 
 describe('WelcomeFlow', () => {
   it('renders a language-first screen with no dashboard or lesson links', () => {
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     expect(screen.getByRole('heading', { name: /what would you like to speak first/i })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /start learning/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /lesson 0/i })).not.toBeInTheDocument();
@@ -18,20 +18,20 @@ describe('WelcomeFlow', () => {
   });
 
   it('disables continue until a language is chosen', () => {
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     expect(screen.getByRole('button', { name: /continue with your language/i })).toBeDisabled();
   });
 
   it('enables continue after selecting a language', async () => {
     const user = userEvent.setup();
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     expect(screen.getByRole('button', { name: /continue with italian/i })).toBeEnabled();
   });
 
   it('advances to a starting-point screen after continue', async () => {
     const user = userEvent.setup();
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     expect(screen.getByRole('heading', { name: /where should we start/i })).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('WelcomeFlow', () => {
 
   it('returns to language selection from the starting-point screen', async () => {
     const user = userEvent.setup();
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     await user.click(screen.getByRole('button', { name: /back/i }));
@@ -50,7 +50,7 @@ describe('WelcomeFlow', () => {
 
   it('offers the placement quiz only where an assessment is authored', async () => {
     const user = userEvent.setup();
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     expect(screen.getByRole('button', { name: /i know some already/i })).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('WelcomeFlow', () => {
 
   it('offers a truthful alternative instead of a quiz for languages without one', async () => {
     const user = userEvent.setup();
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Spanish/i }));
     await user.click(screen.getByRole('button', { name: /continue with spanish/i }));
     expect(screen.queryByRole('button', { name: /i know some already/i })).not.toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('WelcomeFlow', () => {
   it('runs the first win before completing, for a language that has one', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
-    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={onComplete} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
@@ -104,7 +104,7 @@ describe('WelcomeFlow', () => {
   it('completes immediately for a language with no first win', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
-    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={onComplete} />);
     await user.click(screen.getByRole('radio', { name: /Spanish/i }));
     await user.click(screen.getByRole('button', { name: /continue with spanish/i }));
     await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
@@ -116,10 +116,10 @@ describe('WelcomeFlow', () => {
   it('resumes inside the first win for a learner who left mid-sequence', () => {
     render(
       <WelcomeFlow
-        courses={initialCourses}
+        courses={courseUniverse}
         initialState={{
           version: 1,
-          courseSlug: 'english-to-french',
+          courseSlug: 'french',
           status: 'welcome-in-progress',
           entryIntent: 'beginner',
         }}
@@ -136,10 +136,10 @@ describe('WelcomeFlow', () => {
     // rendering a screen with nothing on it.
     render(
       <WelcomeFlow
-        courses={initialCourses}
+        courses={courseUniverse}
         initialState={{
           version: 1,
-          courseSlug: 'english-to-spanish',
+          courseSlug: 'spanish',
           status: 'welcome-in-progress',
           entryIntent: 'beginner',
         }}
@@ -153,7 +153,7 @@ describe('WelcomeFlow', () => {
   it('backs out of the first win to the choice screen without finishing', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
-    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={onComplete} />);
     await user.click(screen.getByRole('radio', { name: /Italian/i }));
     await user.click(screen.getByRole('button', { name: /continue with italian/i }));
     await user.click(screen.getByRole('button', { name: /start from the beginning/i }));
@@ -169,18 +169,34 @@ describe('WelcomeFlow', () => {
   it('sends an unsupported placement choice to the course page', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
-    render(<WelcomeFlow courses={initialCourses} onComplete={onComplete} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={onComplete} />);
     await user.click(screen.getByRole('radio', { name: /Portuguese/i }));
     await user.click(screen.getByRole('button', { name: /continue with portuguese/i }));
     await user.click(screen.getByRole('button', { name: /show me the course first/i }));
     expect(onComplete).toHaveBeenCalledWith('/courses/portuguese');
   });
 
+  it('resumes a record written before the course universe moved to pack slugs', () => {
+    // Every existing learner holds `english-to-french`. It still names a real
+    // course, so it resolves to French; treating it as stale would send everyone
+    // who has already answered the language question back to it.
+    render(
+      <WelcomeFlow
+        courses={courseUniverse}
+        initialState={{ version: 1, courseSlug: 'english-to-french', status: 'welcome-in-progress' }}
+        onComplete={() => {}}
+      />,
+    );
+    expect(screen.getByRole('heading', { name: /where should we start/i })).toBeInTheDocument();
+    // French is the selected course, which is what the placement card names.
+    expect(screen.getByText(/Answer a short French quiz/i)).toBeInTheDocument();
+  });
+
   it('resumes on the starting-point screen for a learner who left after choosing', () => {
     render(
       <WelcomeFlow
-        courses={initialCourses}
-        initialState={{ version: 1, courseSlug: 'english-to-italian', status: 'welcome-in-progress' }}
+        courses={courseUniverse}
+        initialState={{ version: 1, courseSlug: 'italian', status: 'welcome-in-progress' }}
         onComplete={() => {}}
       />,
     );
@@ -190,18 +206,21 @@ describe('WelcomeFlow', () => {
 
   it('does not overwrite the saved course until the learner continues', async () => {
     const user = userEvent.setup();
+    // The saved value is the older slug, which is what existing learners hold.
     localStorage.setItem('verbalibera_course', 'english-to-italian');
-    render(<WelcomeFlow courses={initialCourses} onComplete={() => {}} />);
+    render(<WelcomeFlow courses={courseUniverse} onComplete={() => {}} />);
     await user.click(screen.getByRole('radio', { name: /Spanish/i }));
     expect(localStorage.getItem('verbalibera_course')).toBe('english-to-italian');
     await user.click(screen.getByRole('button', { name: /continue with spanish/i }));
-    expect(localStorage.getItem('verbalibera_course')).toBe('english-to-spanish');
+    // Choosing writes the canonical pack slug, which is the identity the rest of
+    // the app keys progress, plans and banners by.
+    expect(localStorage.getItem('verbalibera_course')).toBe('spanish');
   });
 
   it('explains a re-ask when the saved choice could not be read', () => {
     render(
       <WelcomeFlow
-        courses={initialCourses}
+        courses={courseUniverse}
         notice="We could not read a saved choice on this device, so here it is again."
         onComplete={() => {}}
       />,

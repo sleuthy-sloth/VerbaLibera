@@ -1,7 +1,9 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { normalizePack } from "../src/features/course-pack/normalize-pack";
+import type { CourseIdentity } from "../src/features/course-pack/course-identity";
 import { buildContentReport } from "./content/report";
+import { readProseReview } from "./content/review";
 import {
   buildListenCatalog,
   listenBytesFor,
@@ -16,13 +18,9 @@ const languages = readdirSync("courses", { withFileTypes: true })
 // long-form Listen tracks are the largest audio in the repository and were
 // invisible to both the download flow and these reports.
 const listenCatalog = buildListenCatalog();
-const catalog: {
-  slug: string;
-  title: string;
-  lessons: number;
-  units: number;
-  practiceActivities: number;
-}[] = [];
+// Typed from the module that consumes it, so the generator cannot write a
+// catalog the app's course universe does not understand.
+const catalog: CourseIdentity[] = [];
 const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
@@ -44,20 +42,34 @@ for (const language of languages) {
   }
   // Schema-aware: reachable runtime activities and retained v1 records are
   // counted separately, each with its own basis. See scripts/content/report.ts.
-  const report = buildContentReport(raw, pack, {
-    // The catalog is keyed by course directory, which is what the editions and
-    // the UI pass around ("french"), not the pack's internal id.
-    tracks: listenTracksFor(listenCatalog, language),
-    bytes: listenBytesFor(listenCatalog, language),
-  });
+  const report = buildContentReport(
+    raw,
+    pack,
+    {
+      // The catalog is keyed by course directory, which is what the editions and
+      // the UI pass around ("french"), not the pack's internal id.
+      tracks: listenTracksFor(listenCatalog, language),
+      bytes: listenBytesFor(listenCatalog, language),
+    },
+    // The human review record, if the course has one. Absent means neither
+    // review has happened, which is what the report then says.
+    readProseReview(language),
+  );
   // The catalog carries the pack facts the UI derives honest capability labels
   // from, so a screen never hardcodes which languages have structured courses.
+  // It is also the app's course universe (`course-identity.ts`), so it carries
+  // the two things a course card needs and cannot invent: the opening unit's
+  // name, and the level the pack's own lessons claim — null when the pack
+  // carries no authored tag, which is a migrated pack that predates the field
+  // rather than an absence of A1 material.
   catalog.push({
     slug: language,
     title: pack.title,
     lessons: report.lessons,
     units: report.units,
     practiceActivities: report.runtimeActivities.practice,
+    unitLabel: `Unit 1: ${pack.units[0]?.title ?? "Patterns"}`,
+    authoredCefrLevel: Object.keys(report.authoredCefrTags.counts).sort()[0] ?? null,
   });
   console.log(
     JSON.stringify(

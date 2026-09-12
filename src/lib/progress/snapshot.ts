@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { initialCourses } from '@/features/curriculum/fixture';
+import { courseUniverse, legacyCourseSlug } from '@/features/course-pack/course-identity';
 import { blankDemoProgress, demoProgress } from '@/features/progress/demo-progress';
 import type { DemoProgressSnapshot } from '@/features/progress/types';
 import { composeLessonSession } from '@/features/session/lesson-path';
@@ -82,12 +83,20 @@ export async function getProgressSnapshot(userId: string | null): Promise<DemoPr
     ...base,
     isPreview: false,
     practiceFlowDays: streakDays,
-    courses: initialCourses.map(course => ({
-      slug: course.slug,
-      title: course.title,
-      unitLabel: `Unit 1: ${course.concepts[0]?.scenario ?? 'Patterns'}`,
-      completionPercent: Math.round(100 * course.concepts.filter(c => mastered.has(c.id)).length / Math.max(1, course.concepts.length)),
-    })),
+    // The same course universe the preview uses: five packs, in catalogue order.
+    // Mastery is per-concept and lives in the travel fixture, so a course the
+    // fixture does not cover (German) honestly reports nothing completed rather
+    // than inheriting a neighbour's number.
+    courses: courseUniverse.map(course => {
+      const concepts = initialCourses.find(c => c.slug === legacyCourseSlug(course.slug))?.concepts ?? [];
+      const masteredCount = concepts.filter(c => mastered.has(c.id)).length;
+      return {
+        slug: course.slug,
+        title: course.title,
+        unitLabel: course.unitLabel,
+        completionPercent: concepts.length === 0 ? 0 : Math.round(100 * masteredCount / concepts.length),
+      };
+    }),
     dueReviewCount: dueCount,
     xp,
     streakDays,

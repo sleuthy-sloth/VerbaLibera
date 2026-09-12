@@ -138,49 +138,58 @@ describe('DailyPathDashboard', () => {
     const user = userEvent.setup();
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    await user.selectOptions(screen.getByRole('combobox', { name: 'Learning language' }), 'english-to-italian');
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Learning language' }), 'italian');
 
+    // The universe speaks pack slugs; the guided session behind Italian is the
+    // fixture's own course, and the dashboard maps between the two.
     expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toHaveAttribute(
       'href',
       '/learn/english-to-italian',
     );
     expect(screen.getByText(/5 of 5 daily steps/i)).toBeInTheDocument();
-    expect(demoProgress.selectedCourseSlug).toBe('english-to-french');
+    expect(demoProgress.selectedCourseSlug).toBe('french');
   });
 
   it('renders every available course instead of assuming a fixed language pair', () => {
     // Break caught: adding a course leaves it inaccessible behind French/Italian-specific selector copy.
-    render(
-      <DailyPathDashboard
-        progress={{
-          ...demoProgress,
-          selectedCourseSlug: 'english-to-german',
-          courses: [
-            ...demoProgress.courses,
-            {
-              slug: 'english-to-german',
-              title: 'English to German: A1 patterns',
-              unitLabel: 'Unit 1: Meeting someone',
-              completionPercent: 10,
-            },
-          ],
-        }}
-      />,
-    );
+    // This used to inject a German entry into the snapshot, because the universe
+    // was the travel fixture and had no German course in it. The universe is the
+    // pack catalogue now, so the case asserts the real thing — German is there,
+    // with its flag and its level, because its pack exists.
+    render(<DailyPathDashboard progress={demoProgress} />);
 
+    expect(demoProgress.courses).toHaveLength(5);
     // German was absent from every flag map, so it alone fell back to a globe
     // while the other languages showed their flags. The old assertion pinned
     // that omission as expected.
     expect(screen.getByRole('option', { name: '🇩🇪 German · A1' })).toBeInTheDocument();
     expect(screen.queryByRole('option', { name: '🌐 German · A1' })).not.toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-german');
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('french');
+  });
+
+  it('offers the German course when German is chosen, with no guided session to fall back on', async () => {
+    // The gap this whole change closes: German had a pack, a course page and a
+    // catalogue entry, but no way to select it. It has no travel-fixture course,
+    // so the action is its foundation page rather than a dead session link.
+    const user = userEvent.setup();
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Learning language' }), 'german');
+
+    expect(screen.getByRole('link', { name: /Open German foundations/i })).toHaveAttribute(
+      'href',
+      '/courses/german?start=1',
+    );
+    expect(screen.queryByRole('link', { name: /continue today.s lesson/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /German, from the first words/i })).toBeInTheDocument();
+    expect(screen.getByText('German foundations')).toBeInTheDocument();
   });
 
   it('renders generic course segments in the header', () => {
     // Break caught: course selection falls back to a separate, language-specific course lane.
     render(<DailyPathDashboard progress={demoProgress} />);
 
-    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-french');
+    expect(screen.getByRole('combobox', { name: 'Learning language' })).toHaveValue('french');
     expect(screen.queryByRole('heading', { name: /your course lane/i })).not.toBeInTheDocument();
   });
 
@@ -204,35 +213,15 @@ describe('DailyPathDashboard', () => {
   });
 
   it('does not link an available course to a session that has not been supplied yet', () => {
-    // Break caught: selecting a future course sends the learner to an unavailable
-    // guided-session route. The old fallback was a dead end — a status line reading
-    // "Session preview coming soon" with nothing to click. It now points at that
-    // language's foundation course instead.
-    render(
-      <DailyPathDashboard
-        progress={{
-          ...demoProgress,
-          selectedCourseSlug: 'english-to-german',
-          session: [
-            ...demoProgress.session,
-            { id: 'de-greeting-drill-1', kind: 'DRILL', courseSlug: 'english-to-german', contentId: 'de-greeting', drillId: 'de-greeting-drill' },
-          ],
-          courses: [
-            ...demoProgress.courses,
-            {
-              slug: 'english-to-german',
-              title: 'English to German: A1 patterns',
-              unitLabel: 'Unit 1: Meeting someone',
-              completionPercent: 10,
-            },
-          ],
-        }}
-      />,
-    );
+    // Break caught: selecting a course with no drills sends the learner to an
+    // unavailable guided-session route. The old fallback was a dead end — a
+    // status line reading "Session preview coming soon" with nothing to click.
+    // German is the honest example: a real course with no preview session.
+    render(<DailyPathDashboard progress={{ ...demoProgress, selectedCourseSlug: 'german' }} />);
 
     const guidedLinks = screen
       .queryAllByRole('link')
-      .filter((link) => link.getAttribute('href') === '/learn/english-to-german');
+      .filter((link) => link.getAttribute('href')?.startsWith('/learn/'));
     expect(guidedLinks).toHaveLength(0);
     expect(screen.queryByText('Session preview coming soon')).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Open German foundations/i })).toHaveAttribute(
@@ -316,7 +305,7 @@ describe('DailyPathDashboard', () => {
 
     expect(screen.getByRole('main')).toHaveClass(styles.focusSurface);
     expect(screen.getByText('Up next')).toHaveClass(styles.contrastTag);
-    expect(screen.getByText('English to French: A1 patterns')).toHaveClass(styles.courseMeta);
+    expect(screen.getByText('French foundations')).toHaveClass(styles.courseMeta);
     expect(screen.getByRole('combobox', { name: 'Learning language' })).toBeInTheDocument();
   });
 
@@ -538,7 +527,7 @@ describe('DailyPathDashboard placement capability', () => {
   it('offers the course page instead of a quiz that cannot assess the language', () => {
     render(
       <DailyPathDashboard
-        progress={{ ...demoProgress, selectedCourseSlug: 'english-to-spanish' }}
+        progress={{ ...demoProgress, selectedCourseSlug: 'spanish' }}
       />,
     );
     // The old copy sent every language at /learn/<course>/placement: a dead link

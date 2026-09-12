@@ -18,7 +18,7 @@ import { foundationStartHref } from '@/features/course-pack/navigation';
  * The journal is a supporting illustration, not the subject: at 150px it no
  * longer outweighs the heading and the paragraph it sits above.
  */
-export function FirstRunOnboarding({ courseSlug = 'english-to-french' }: { courseSlug?: string }) {
+export function FirstRunOnboarding({ courseSlug = 'french' }: { courseSlug?: string }) {
   return (
     <div className={styles.onboarding} data-testid="first-run-onboarding">
       <p className={styles.onboardingBrand}>

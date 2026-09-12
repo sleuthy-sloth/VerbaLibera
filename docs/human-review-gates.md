@@ -1,38 +1,65 @@
 # Human review gates
 
-Everything in this file is work a person has to do. None of it has been performed. The
-automated suites prove the mechanical claims — the schema accepts each pack, the identities
-survive a migration, the audio decodes, the pages pass axe — and none of them can answer
-"is this German?", "does this sound right?", or "does a five-minute learner understand what
-to do next?". A blank field here is an unfinished gate, not a passing one.
+Everything in this file is work a person has to do. **Most of it has not been performed.**
+One row has been closed since this file was first written: the native-speaker review of the
+German and Spanish prose, reported on 2026-09-11 and recorded per course in
+`courses/<language>/review.json` — see gate 1, which says exactly what that does and does
+not cover. Everything else here is open. The automated suites prove the mechanical claims —
+the schema accepts each pack, the identities survive a migration, the audio decodes, the
+pages pass axe — and none of them can answer "is this German?", "does this sound right?", or
+"does a five-minute learner understand what to do next?". A blank field here is an
+unfinished gate, not a passing one.
 
 Record each result where it says, with a date and who did it. Do not infer a result from a
 green test run, and do not close a gate on someone else's behalf.
 
 ## 1. Native-speaker review of the authored prose
 
+**Status: closed for German and Spanish. Open for French, Italian and Portuguese.**
+
+| Course | Prose review | Recorded |
+| --- | --- | --- |
+| German | reviewed | 2026-09-11, reported by the project owner — `courses/german/review.json` |
+| Spanish | reviewed | 2026-09-11, reported by the project owner — `courses/spanish/review.json` |
+| French | pending | — |
+| Italian | pending | — |
+| Portuguese | pending | — |
+
+**What that means, for the two closed rows.** A reviewer read the authored text in
+`courses/<language>/manifest.json` — lesson titles, objectives, prompts, answers,
+explanations and cultural notes — and the A1 tags attached to them, which are part of the
+review because a tag is a claim about level rather than a label. The outcome is recorded
+per course in a `review.json` beside the manifest, and the generated report reads it, so
+`docs/astra/reports/german.json` and `docs/astra/reports/spanish.json` now say
+`review.nativeSpeaker: "reviewed"` while the other three still say `"pending"`. That is the
+whole point of recording it there: a report cannot claim a review that did not happen, and
+cannot keep claiming "pending" for one that did.
+
+**What it does not mean.** It is a review of the written course, not of the recordings —
+the listening review is gate 2, and it is open for every course including these two. It
+also does not cover the Spanish starter in `tests/fixtures/lesson-variety.ts`, which
+reaches no learner and blocks no release; it is nonetheless the Spanish most readers of
+this repository meet first, so read it with the Spanish pack when the next review happens.
+
 **Applies to:** every course's target-language text — lessons, drills, transcripts,
 cultural notes and the CEFR claims attached to them.
 
-**Why it is open:** the reports say so in as many words
-(`docs/astra/reports/<language>.json` → `review.nativeSpeaker: "pending"`). The prose was
-authored and machine-checked for structure, never read by a speaker of the language.
+**Why the rest is open:** the prose was authored and machine-checked for structure, never
+read by a speaker of the language. The reports say so in as many words
+(`docs/astra/reports/<language>.json` → `review.nativeSpeaker: "pending"`), and a green
+schema check cannot tell you whether the Spanish parses or whether it *is* Spanish.
 
 **What "done" means:** a native speaker (or a fluent reviewer) has read each pack's
 lesson titles, objectives, prompts, answers and cultural notes, and either accepted them or
-listed the corrections. Corrections land as content edits with their own verification; the
-CEFR tags are part of this review, because a tag is a claim about level, not a label
-(`docs/cefr-coverage.md`).
+listed the corrections. Corrections land as content edits with their own verification.
 
-**Record it in:** `docs/astra/reports/<language>.json` is generated, so record the outcome
-in a dated verification note under `docs/superpowers/verification/` and update the
-course's row in `docs/cefr-coverage.md`.
+**Record it in:** a `review.json` in the course directory, which the report generator
+reads (`scripts/content/review.ts`), and the course's row in `docs/cefr-coverage.md`. Then
+regenerate with `npm run content:build` so the reports agree with the record.
 
-**Not a gate, but worth knowing:** `tests/fixtures/lesson-variety.ts` carries a real
-three-lesson A1 Spanish starter, because no shipped pack is schemaVersion 1 any more and the
-v1 engine's suites need authored content to read. It reaches no learner and blocks no
-release — but it is the Spanish most readers of this repository meet first, so read it with
-the Spanish pack when this review happens.
+**Not a gate, but worth knowing:** the v1 engine's suites host on
+`tests/fixtures/lesson-variety.ts`, a real three-lesson A1 Spanish starter, because no
+shipped pack is schemaVersion 1 any more.
 
 ## 2. Human listening review of the audio
 

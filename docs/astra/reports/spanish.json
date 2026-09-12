@@ -96,9 +96,9 @@
     "vocabularyFromPrerequisites": 30
   },
   "review": {
-    "nativeSpeaker": "pending",
+    "nativeSpeaker": "reviewed",
     "audioListening": "pending",
-    "note": "Neither review has been performed. Audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
+    "note": "Native-speaker review of the authored prose: reviewed (2026-09-11, reported by the project owner). Listening review of the audio has not been performed. The audio integrity checks are mechanical, and the in-app player says the content is machine-authored. The prose review was reported as passed by the project owner. It is a review of the authored text, not of the recording: the Spanish model audio still needs the listening review in docs/human-review-gates.md."
   },
   "listen": {
     "basis": "authored long-form audio lessons; bytes and digests measured from the shipped files",
@@ -107,5 +107,5 @@
   },
   "answerCoverage": "100%",
   "packBytes": 132427,
-  "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
+  "note": "Graph and declared vocabulary references validated. The authored prose has been through native-speaker review; translation truth and undeclared words remain the reviewer's own record, kept in docs/human-review-gates.md."
 }

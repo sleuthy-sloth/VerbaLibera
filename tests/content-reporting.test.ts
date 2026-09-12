@@ -5,6 +5,7 @@ import path from "node:path";
 import { normalizePack } from "@/features/course-pack/normalize-pack";
 import { buildContentReport, type ContentReport } from "../scripts/content/report";
 import { buildListenCatalog, listenBytesFor, listenTracksFor } from "../scripts/content/listen";
+import { readProseReview } from "../scripts/content/review";
 
 /**
  * The reporting regression this file guards: `scripts/content.ts` used to count
@@ -35,7 +36,9 @@ function loadPack(language: string): { raw: Record<string, unknown>; report: Con
     tracks: listenTracksFor(catalog, language),
     bytes: listenBytesFor(catalog, language),
   };
-  return { raw, report: buildContentReport(raw, normalizePack(raw), listen) };
+  // The review record is read per course, exactly as scripts/content.ts reads
+  // it: a report has to describe the reviews that happened, not a constant.
+  return { raw, report: buildContentReport(raw, normalizePack(raw), listen, readProseReview(language)) };
 }
 
 /** Independent census: every activity id a lesson's steps can reach. */
@@ -125,9 +128,11 @@ describe("content reporting is schema-aware", () => {
       const { report } = loadPack(language);
       expect(report.level.claim).toBe("partial-A1");
       expect(report.level.detail).toMatch(/No complete A1 syllabus is claimed/);
-      // Review status stays honestly pending until a human actually reviews.
-      expect(report.review.nativeSpeaker).toBe("pending");
+      // A level claim is not a review claim. The listening review is still
+      // pending everywhere, and the prose review is reported from the record
+      // rather than asserted here — the case below owns that.
       expect(report.review.audioListening).toBe("pending");
+      expect(["pending", "reviewed"]).toContain(report.review.nativeSpeaker);
     }
   });
 
@@ -139,6 +144,25 @@ describe("content reporting is schema-aware", () => {
     expect(report.listening.lessonCoveragePercent).toBeLessThan(100);
     const french = loadPack("french").report;
     expect(french.listening.audioClips).toBeGreaterThan(0);
+  });
+
+  it("reports the prose review that was recorded, and only for the courses that have one", () => {
+    // Gate 1 of docs/human-review-gates.md is closed for German and Spanish and
+    // open for the rest. The report is where that fact is machine-readable, so a
+    // report that disagrees with the record fails here rather than misleading
+    // whoever reads it next.
+    for (const language of ["german", "spanish"]) {
+      const { report } = loadPack(language);
+      expect(report.review.nativeSpeaker, `${language} prose review`).toBe("reviewed");
+      expect(report.review.note).toMatch(/reported by/);
+      // The written course was reviewed, not the recordings.
+      expect(report.review.audioListening, `${language} listening review`).toBe("pending");
+    }
+    for (const language of ["french", "italian", "portuguese"]) {
+      const { report } = loadPack(language);
+      expect(report.review.nativeSpeaker, `${language} prose review`).toBe("pending");
+      expect(report.review.audioListening).toBe("pending");
+    }
   });
 
   it.each(LANGUAGES)("the committed report for %s matches a fresh computation", (language) => {

@@ -72,9 +72,11 @@ test('reduced motion keeps all content visible and old course bookmarks work', a
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.getByText('a polite “I would like”', { exact: true })).toBeVisible();
+  // The older slug form, which is what an old bookmark holds. It still resolves
+  // to the course; the switcher shows it by the pack slug the app keys on now.
   await page.goto('/?course=english-to-italian');
   await expect(page).toHaveURL(/\/dashboard\?course=english-to-italian$/);
-  await expect(page.getByRole('combobox', { name: 'Learning language' })).toHaveValue('english-to-italian');
+  await expect(page.getByRole('combobox', { name: 'Learning language' })).toHaveValue('italian');
 });
 
 /**

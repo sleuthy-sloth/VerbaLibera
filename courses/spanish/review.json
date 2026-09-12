@@ -1,0 +1,12 @@
+{
+  "nativeSpeaker": {
+    "status": "reviewed",
+    "date": "2026-09-11",
+    "reportedBy": "the project owner",
+    "scope": "The authored Spanish prose in courses/spanish/manifest.json: lesson titles, objectives, prompts, answers, explanations and cultural notes, and the A1 tags attached to them. The Spanish starter in tests/fixtures/lesson-variety.ts ships to no learner and is outside this gate."
+  },
+  "audioListening": {
+    "status": "pending"
+  },
+  "note": "The prose review was reported as passed by the project owner. It is a review of the authored text, not of the recording: the Spanish model audio still needs the listening review in docs/human-review-gates.md."
+}

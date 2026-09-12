@@ -110,6 +110,25 @@ test.describe('first run', () => {
     await expect(page.url()).not.toContain('/placement');
   });
 
+  test('German is offered here, and its preview path lands on its course page', async ({ page }) => {
+    // What this whole change is for. German had a pack, a course page and a
+    // catalogue entry, but the universe came from the travel fixture, which has
+    // no German course — so the switcher and this flow never offered it.
+    await page.goto('/dashboard', { waitUntil: 'load' });
+    await page.getByRole('radio', { name: /German/ }).check();
+    await page.getByRole('button', { name: /Continue with German/ }).click();
+
+    // No authored assessment exists for German, so the alternative is the
+    // honest one rather than a quiz whose result could not mean anything.
+    await expect(page.getByRole('button', { name: /I know some already/ })).toHaveCount(0);
+    await page.getByRole('button', { name: /Show me the course first/ }).click();
+
+    await page.waitForURL(/\/courses\/german$/);
+    await expect(page.getByRole('heading', { name: 'German foundations', exact: true })).toBeVisible();
+    // And the choice was recorded under the canonical slug.
+    expect(await page.evaluate(() => window.localStorage.getItem('verbalibera_course'))).toBe('german');
+  });
+
   test('Back returns to language selection without losing the choice', async ({ page }) => {
     await page.goto('/dashboard', { waitUntil: 'load' });
     await page.getByRole('radio', { name: /Portuguese/ }).check();
@@ -129,8 +148,11 @@ test.describe('first run', () => {
       'english-to-italian',
     );
     await page.getByRole('button', { name: /Continue with Spanish/ }).click();
+    // Choosing writes the canonical pack slug — the identity everything else in
+    // the app is keyed by. The value seeded above stays in the older form, which
+    // is what an existing learner holds.
     expect(await page.evaluate(() => window.localStorage.getItem('verbalibera_course'))).toBe(
-      'english-to-spanish',
+      'spanish',
     );
   });
 

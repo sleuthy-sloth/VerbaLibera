@@ -101,7 +101,7 @@
   "review": {
     "nativeSpeaker": "pending",
     "audioListening": "pending",
-    "note": "Neither review has been performed. Audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
+    "note": "Native-speaker review of the authored prose has not been performed. Listening review of the audio has not been performed. The audio integrity checks are mechanical, and the in-app player says the content is machine-authored."
   },
   "listen": {
     "basis": "authored long-form audio lessons; bytes and digests measured from the shipped files",

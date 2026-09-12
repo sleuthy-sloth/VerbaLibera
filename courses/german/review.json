@@ -1,0 +1,12 @@
+{
+  "nativeSpeaker": {
+    "status": "reviewed",
+    "date": "2026-09-11",
+    "reportedBy": "the project owner",
+    "scope": "The authored German prose in courses/german/manifest.json: lesson titles, objectives, prompts, answers, explanations and cultural notes, and the A1 tags attached to them."
+  },
+  "audioListening": {
+    "status": "pending"
+  },
+  "note": "The prose review was reported as passed by the project owner. It is a review of the authored text, not of the recordings: the German model audio still needs the listening review in docs/human-review-gates.md."
+}
