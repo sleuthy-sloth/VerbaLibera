@@ -14,9 +14,24 @@ import { WelcomeFlow } from '@/components/onboarding/WelcomeFlow';
 import { readOnboardingOutcome, type OnboardingState } from '@/features/onboarding/state';
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
-import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
+import { foundationLanguage } from '@/features/course-pack/navigation';
 import { courseUniverse, legacyCourseSlug, packSlugFor } from '@/features/course-pack/course-identity';
 import { hasAuthoredPlacement } from '@/features/placement/items';
+import { useFoundationProgress } from '@/features/progress/use-foundation-progress';
+import { DEFAULT_MINUTES, selectNextAction } from '@/features/progress/next-action';
+
+/**
+ * One modality's count, never merged with another's.
+ *
+ * "12 phrases practised" is a lie if it adds listening to speaking; the learner
+ * can recognise a phrase they cannot yet say. Independent and assisted are kept
+ * apart for the same reason.
+ */
+function withHelp(counts: Readonly<{ independent: number; assisted: number }>): string {
+  const own = `${counts.independent} on your own`;
+  if (counts.assisted === 0) return own;
+  return `${own}, ${counts.assisted} with help`;
+}
 
 function useDebugFlag(): boolean {
   if (typeof window === 'undefined') return false;
@@ -113,7 +128,20 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     }, 0);
     return () => clearTimeout(timer);
   }, [selectedCourse, isPreview]);
-  const isBlank = progress.dueReviewCount === 0 && progress.dailyGoal.completed === 0;
+  const language = selectedCourse ? foundationLanguage(selectedCourse.slug) ?? null : null;
+  // The one signal the snapshot cannot carry: the foundation player writes its
+  // attempts, completions and drafts to this device, and the Today card has
+  // never read them. `unavailable` (no pack, no storage) is not an empty
+  // history — it means the snapshot decides, exactly as it did before.
+  const foundationState = useFoundationProgress({ language });
+  const foundation = foundationState.status === 'ready' ? foundationState.foundation : null;
+  const summary = foundationState.status === 'ready' ? foundationState.summary : null;
+  // Local practice counts as "not blank" even when the snapshot knows nothing:
+  // a guest twenty phrases in must not be shown a first-run card.
+  const isBlank =
+    progress.dueReviewCount === 0 &&
+    progress.dailyGoal.completed === 0 &&
+    !foundation?.hasPractice;
 
   if (!selectedCourse) {
     return (
@@ -125,7 +153,6 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     );
   }
 
-  const language = foundationLanguage(selectedCourse.slug);
   const languageName = language ? language[0].toUpperCase() + language.slice(1) : "";
   // The travel fixture's course behind this pack — the guided session, the
   // placement quiz and the study plan all live on that slug, and German has
@@ -160,10 +187,26 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const hasGuidedSession =
     !!authoredCourse &&
     progress.session.some((step) => step.courseSlug === authoredSlug);
-  // Every course in the snapshot resolves to a foundation pack or nothing. The
-  // old code showed "Session preview coming soon" here — a status message where
-  // a next step belonged, with no way forward from it.
-  const foundationHref = language ? foundationStartHref(selectedCourse.slug) : null;
+  // The learner's own budget, when they have set one. It bounds the review
+  // action rather than removing anything: a 5-minute plan gets 2 phrases today.
+  const minutesAvailable = activePlan?.plan.minutesPerDay ?? DEFAULT_MINUTES;
+  // One action, decided by one function: the draft they left, then what is due,
+  // then the next lesson. Where this device holds no foundation practice the
+  // function returns the branch — and the words — this card used before.
+  const action = selectNextAction({
+    course: language
+      ? {
+          packSlug: selectedCourse.slug,
+          language,
+          languageName,
+        }
+      : null,
+    foundation,
+    guided: { hasSessionStep: hasGuidedSession, isAuthoredCourse: !!authoredCourse },
+    dueReviewCount: progress.dueReviewCount,
+    dailyGoal: progress.dailyGoal,
+    minutesAvailable,
+  });
   // An explicit ?course= deep link means the learner has already chosen, so the
   // welcome flow would be asking a question they just answered. A record left
   // mid-flow resumes; a completed one never reopens.
@@ -320,21 +363,80 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
                 ))}
               </ol>
 
-              {hasGuidedSession ? (
-                <Link className={styles.primaryAction} href={`/learn/${authoredSlug}`}>
-                  Continue today&rsquo;s lesson
-                  <span aria-hidden="true">→</span>
-                </Link>
-              ) : foundationHref ? (
-                <Link className={styles.primaryAction} href={foundationHref}>
-                  Open {languageName} foundations
-                  <span aria-hidden="true">→</span>
-                </Link>
-              ) : (
-                <p className={styles.pendingAction} role="status">
-                  {selectedCourse.title} lessons are being authored
-                </p>
-              )}
+              <Link className={styles.primaryAction} href={action.href}>
+                {action.label}
+                <span aria-hidden="true">→</span>
+              </Link>
+              <p className={styles.actionDetail} data-testid="next-action-reason">
+                {action.detail}
+              </p>
+
+              {summary && foundation?.hasPractice ? (
+                <section className={styles.practised} aria-labelledby="practised-title" data-testid="learning-summary">
+                  <h3 id="practised-title">What you have practised</h3>
+                  <dl className={styles.practisedTotals}>
+                    <div>
+                      <dt>Phrases practised</dt>
+                      <dd>{summary.phrasesPractised}</dd>
+                    </div>
+                    <div>
+                      <dt>Situations tried</dt>
+                      <dd>
+                        {summary.situationsAttempted} of {summary.situationsTotal}
+                      </dd>
+                    </div>
+                  </dl>
+                  {summary.revisit.length > 0 ? (
+                    <div className={styles.revisit}>
+                      <p>Worth another look</p>
+                      <ul>
+                        {summary.revisit.slice(0, 3).map((item) => (
+                          <li key={`${item.lessonId}:${item.label}`}>
+                            {item.label}
+                            <span>
+                              {item.state === 'due'
+                                ? 'ready for review'
+                                : 'shaky last time'}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      {summary.revisit.length > 3 ? (
+                        <p className={styles.revisitMore}>
+                          and {summary.revisit.length - 3} more waiting.
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <p className={styles.revisitNone}>Nothing is waiting for review.</p>
+                  )}
+                  {/* Four separate histories, never added together: what they
+                      recognised, what they produced, what they understood by
+                      ear, and the times they listened back and rated themselves. */}
+                  <dl className={styles.modalities}>
+                    <div>
+                      <dt>Recognised</dt>
+                      <dd>{withHelp(summary.recognition)}</dd>
+                    </div>
+                    <div>
+                      <dt>Wrote or said</dt>
+                      <dd>{withHelp(summary.production)}</dd>
+                    </div>
+                    <div>
+                      <dt>Understood by ear</dt>
+                      <dd>{withHelp(summary.listening)}</dd>
+                    </div>
+                    <div>
+                      <dt>Listened back and rated yourself</dt>
+                      <dd>
+                        {summary.selfAssessment.checks === 0
+                          ? 'not yet'
+                          : `${summary.selfAssessment.checks} — ${summary.selfAssessment.comfortable} comfortable, ${summary.selfAssessment.again} to try again`}
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+              ) : null}
             </>
           )}
         </section>

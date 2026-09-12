@@ -79,7 +79,7 @@ describe('DashboardDataBoundary loading skeleton', () => {
 
   it('retries successfully after initial failure', async () => {
     let shouldFail = true;
-    const fetchMock = vi.fn(() => {
+    const fetchMock = vi.fn((_url?: unknown) => {
       if (shouldFail) {
         shouldFail = false;
         return Promise.reject(new Error('first fail'));
@@ -95,7 +95,12 @@ describe('DashboardDataBoundary loading skeleton', () => {
     await user.click(retryButton);
 
     expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // Only the progress request is counted. The dashboard also reads the course
+    // pack for its next-action engine, and that request is not this boundary's.
+    const progressRequests = fetchMock.mock.calls.filter(
+      ([url]) => String(url) === '/api/demo/progress',
+    );
+    expect(progressRequests).toHaveLength(2);
   });
 });
 
