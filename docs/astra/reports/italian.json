@@ -29,8 +29,8 @@
   },
   "runtimeActivities": {
     "basis": "distinct authored activities reachable from lesson steps (including support activities)",
-    "reachable": 270,
-    "practice": 243,
+    "reachable": 269,
+    "practice": 242,
     "information": 27,
     "byKind": {
       "cloze": 26,
@@ -38,14 +38,14 @@
       "information": 27,
       "ordering": 26,
       "selection": 34,
-      "self-compare": 24,
+      "self-compare": 23,
       "text": 132
     },
     "bySkill": {
       "grammar": 104,
       "listening": 32,
       "reading": 82,
-      "speaking": 25,
+      "speaking": 23,
       "vocabulary": 87,
       "writing": 105
     }
@@ -66,14 +66,14 @@
   },
   "production": {
     "basis": "practice activities whose authored skills include writing or speaking (for v1 this is the adapter's mapping: production mode and the ordering/cloze/transform kinds)",
-    "practice": 243,
-    "targetLanguage": 129,
+    "practice": 242,
+    "targetLanguage": 128,
     "recognition": 114
   },
   "speaking": {
     "basis": "self-compare activities, which record locally and collect a self-assessment",
-    "activities": 24,
-    "lessons": 24
+    "activities": 23,
+    "lessons": 23
   },
   "listening": {
     "basis": "lessons that reach an activity carrying an audio stimulus, a model recording, or a legacy dictation",
@@ -89,7 +89,7 @@
   },
   "purposeMix": {
     "notice": 27,
-    "practice": 240,
+    "practice": 239,
     "transfer": 3
   },
   "prerequisites": {
@@ -109,6 +109,6 @@
     "bytes": 5312109
   },
   "answerCoverage": "100%",
-  "packBytes": 589295,
+  "packBytes": 588638,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }

@@ -11577,8 +11577,6 @@
       }
     },
     {
-      "kind": "self-compare",
-      "id": "it-cafe-order-foundation-say",
       "revision": 1,
       "conceptIds": [
         "it-cafe-order-concept"
@@ -11590,26 +11588,7 @@
         "it-cafe-order-foundation-word-4"
       ],
       "skills": [
-        "speaking"
-      ],
-      "prompt": "Say in Italian: I would like a coffee, please.",
-      "modelText": "Vorrei un caffè, per favore.",
-      "modelAudioId": "it-polite-coffee-audio"
-    },
-    {
-      "revision": 1,
-      "conceptIds": [
-        "it-cafe-order-concept"
-      ],
-      "vocabulary": [
-        "it-cafe-order-foundation-word-1",
-        "it-cafe-order-foundation-word-2",
-        "it-cafe-order-foundation-word-3",
-        "it-cafe-order-foundation-word-4"
-      ],
-      "skills": [
-        "writing",
-        "speaking"
+        "writing"
       ],
       "prompt": "Transfer: You have finished your coffee. Ask politely how much it costs.",
       "hints": [],
@@ -19425,15 +19404,7 @@
           "purpose": "practice",
           "activityId": "it-cafe-order-foundation-produce",
           "required": true,
-          "nextStepId": "it-cafe-order-foundation-step-say"
-        },
-        {
-          "id": "it-cafe-order-foundation-step-say",
-          "activityId": "it-cafe-order-foundation-say",
-          "purpose": "practice",
-          "required": false,
-          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
-          "branches": {}
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-read"
         },
         {
           "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
