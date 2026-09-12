@@ -822,9 +822,85 @@ re-audit it:
   noise the brief warns against. The lock-screen artwork above is where a picture earns its place.
 
 
+### The Spanish flip, completed — and the v1 host it leaves behind (`9a432dc`)
+
+Stage 4 set this flip aside with the reason recorded: the migration itself verified
+(`fresh in-memory migration equals the file on disk`), but eight legacy-engine suites read
+`courses/spanish/manifest.json` through the v1 validator, and once Spanish flipped there was
+no v1 pack left for them to read. The patch was kept, not applied. This is the completion.
+
+**The honest fix was content, not a fixture hack.** The v1 host is now a real three-lesson
+A1 Spanish starter in `tests/fixtures/lesson-variety.ts`, replacing placeholder Italian
+(`Un caffè`, `Lezione`, `legacy prompt ___`) that existed only to satisfy the adapter:
+
+- *Primeras palabras* — hola, gracias, por favor, un café: the greeting said before it is
+  shown (a `think` prediction), a translation, an order to build, a dictation, a cloze and a
+  short reading;
+- *Buenos días y adiós* — the clock greeting and the farewell, with a review dictation of
+  the first lesson's recording;
+- *La cuenta, por favor* — what it costs and asking for the bill, which is also the lesson
+  `sceneForLessonId` keys the café-counter picture on (`lg-cafe-requests`).
+
+Seventeen authored exercises across choice, translate, think, order, dictation, cloze and
+reading; correct Spanish answers and explanations; an authored `culturalNote` on all three
+lessons; `reviewOf` links from lesson two on; and stable ids — `lg-lesson`, `lg-lesson-2`,
+`lg-cafe-requests`, `lg-ex-*`, `lg2-ex-*`, `lg3-ex-*`, `aud-basic` — that the suites already
+referenced by name. `aud-basic` points at a model recording that exists, with its real hash
+and attribution, rather than a placeholder digest.
+
+**Nine suites moved, none was relaxed.** `tests/helpers/authored-pack.ts` (new) reads a
+flipped file and puts the v1 field names back, including the two fields the migration
+relocates (`explanation` → the opening `information` activity's `body`; `examples` → the
+`examples` stimulus that activity points at) and the fields the shells dispatch on
+(`schemaVersion`, and the absence of `activities`/`stimuli`, which is what sends a pack to
+the legacy shell). Its read-back is proven exact by round trip in
+`tests/pack-migration-fields.test.ts`, against the source it came from, field by field — on
+top of that file's existing census, which now rules on the fixture and reads Spanish as a
+flipped pack.
+
+Six suites that need a real v1 pack for real host on the fixture or the reader: course-pack,
+course-start, course-environment, CourseExercise, exercise-feedback, course-storage,
+portable-environment, LessonScenes and think-gate-migration. Every authoring-order list, id
+list and exercise count was updated to the new content; the two that asserted a fixed
+exercise count now read it from the lesson, so authoring another exercise cannot silently
+weaken them. The four migration-evidence suites (parity, CEFR, fields, flip rehearsal) prove
+the transform on the fixture and read Spanish as what it now is — a flipped pack: 8 lessons,
+8 CEFR tags, 8 cultural notes, 49 retained exercises, 57 reachable activities.
+
+**One real defect came out of the new content.** `tests/pack-migration-parity.test.ts`
+compares the runtime output of a v1 pack with the same pack after migration, and the new
+cloze exercises failed it: the adapter's v1 path kept the space before the blank
+(`un café, `) while a validated v2 file cannot carry it — the v2 schema trims every authored
+string — so the same exercise rendered differently before and after a flip. That is a
+pre-existing bug in `adaptV1`, invisible until a fixture authored a cloze with a space before
+its blank. `normalize-pack.ts` now trims both segments around the blank, which is what the
+parity assertion requires.
+
+**Generated and documented:** `public/packs/spanish.json`, `public/study.js`,
+`docs/astra/reports/spanish.json`, the README course table and its migration paragraph,
+`docs/cefr-coverage.md` (the table and finding 2), `docs/astra/phase-status.md` (rows 2 and
+13), and a note in `docs/human-review-gates.md` that the fixture's Spanish is test-only.
+Nothing in the tree is schemaVersion 1 any more. The service worker was deliberately not
+bumped: `/packs/**` is network-first with a cached fallback (`public/sw.js:49`), so a
+learner's installed copy refreshes on the next online load, and the app reads either schema.
+
+**Verified on the final tree:** `npx vitest run` 154 files passed, 1 skipped; **1205 passed,
+6 skipped, 0 failed** · `tsc --noEmit` clean · `npm run lint` 0 errors / 36 warnings ·
+`npm run build` exit 0 · `content:validate` and `content:audio-check` exit 0 ·
+`content-build-reproducibility` 4 passed, which is the guard that stayed red until the
+regenerated `public/study.js` and report were committed with the flip · Playwright chromium
+**101 passed, 3 skipped** · offline **11 passed, 3 skipped** · portable **12 passed** ·
+axe **0 violations** across 20 route/viewport combinations.
+
+**Still open, and recorded as open:** the new Spanish text has not been read by a native
+speaker — neither the fixture's three lessons nor the pack's own prose, which is the standing
+gate in `docs/human-review-gates.md`. A green suite proves the Spanish parses, not that it is
+Spanish.
+
 ### Stage 4: the German course-universe plan, the human-review gates, and the Spanish flip set aside (`fdf49f3`)
 
-Three things, in the order they were asked for.
+Three things, in the order they were asked for. **Superseded in one part:** the Spanish flip
+was completed afterwards — see the section above.
 
 **The German course-universe follow-up, made ready to review rather than half-built.**
 `docs/superpowers/plans/2026-09-11-german-course-universe.md` writes out what "German has a
@@ -1629,6 +1705,8 @@ Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
 | lint / tsc / build / content:validate | 0 errors, 30 warnings / exit 0 / exit 0 / exit 0 |
 | measured at 320x568 and 390x844 | mark 44x44, journal 103x103 (42% of the block), copy 16px, action 52px, no horizontal overflow, action clear of the tab bar |
 | `npx vitest run` (Stage 3a: the Portuguese flip) | **155 passed | 1 skipped (156); 1197 passed | 6 skipped (1203)** |
+| `npx vitest run` (the Spanish flip, `9a432dc`) | **154 passed | 1 skipped (156); 1205 passed | 6 skipped, 0 failed** — one red file until the commit, `content-build-reproducibility`, reporting the regenerated `public/study.js` and `docs/astra/reports/spanish.json`; green with them staged |
+| Playwright chromium / offline / portable / axe (the Spanish flip) | **101 passed | 3 skipped** · **11 passed | 3 skipped** · **12 passed** · **0 violations** across 20 route/viewport combinations |
 | `npx playwright test --project=chromium` | **101 passed, 3 skipped** — from the stage-3a tree, whose code this documentation does not touch |
 | `playwright test --config playwright.offline.config.ts` | **11 passed** |
 | `npm run a11y:audit` | **0 axe violations** across 20 route/viewport combinations |
@@ -1800,6 +1878,7 @@ also skips the config's own `webServer`.
 | `b61ffa2` | **Stage 1: the seven supplied vocabulary replacements** — door, museum, street, map, card, wallet, hotel; six snapped to the canvas, the map deliberately not, two alt texts corrected where the drawing contradicted them |
 | `da2b3dc` | **The player's own artwork** — a wide cover on the card (76x43 in the header row on a phone, the full frame above 480px), a square on the lock screen, both precached (worker v10) and both embedded in the portable file |
 | `2632799` | **The standalone bill and shopkeeper illustrations** — both alts corrected against what the drawings show, the provenance tables rebalanced to 10/12, and the sheet's reasoning kept and pinned |
+| `9a432dc` | **The Spanish flip, completed** — and the v1 host it leaves behind: a real three-lesson A1 Spanish starter in `tests/fixtures/lesson-variety.ts`, the schema-aware reader with its round-trip proof, nine suites moved onto them with their own assertions intact, and the cloze-space defect the new content exposed |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
 
 Nothing was pushed. No merge to `main`, no tag, no deployment.
@@ -1972,6 +2051,15 @@ build.
 
 - **Human work that cannot be closed here:** native-speaker review, the observed five-user pilot,
   the audio listening checklist, physical-device QA, and any signed/notarised distribution decision.
+  **Added to this list by the Spanish flip:** the new Spanish prose — the three fixture lessons
+  *and* the Spanish pack's own text — has been read by nobody who speaks Spanish. The fixture ships
+  to no learner, so it blocks no release; the pack's gate is the standing one, and it is now the
+  only pack whose authored prose has never been reviewed in a language whose tests all pass.
+- **Resolved: Spanish stayed v1.** It was the blocker Stage 4 set aside — the migration verified,
+  but eight legacy suites had no v1 pack left to read once it flipped. `9a432dc` completes it by
+  authoring the v1 host rather than faking one: no shipped pack is schemaVersion 1 any more, and
+  the v1 engine's suites read a real three-lesson A1 Spanish starter. The note Stage 4 wrote is
+  kept above as the record of why the flip waited.
 - **`docs/superpowers/briefs/graphics-review.md`** (untracked, not written by this run) is now
   **actioned**, and so is the code-settled half of `docs/design/graphics-brief.md` that it points at:
   the banner defect it names is fixed on every surface, the mobile presentation is measured rather

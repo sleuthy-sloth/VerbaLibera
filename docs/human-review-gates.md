@@ -28,6 +28,12 @@ CEFR tags are part of this review, because a tag is a claim about level, not a l
 in a dated verification note under `docs/superpowers/verification/` and update the
 course's row in `docs/cefr-coverage.md`.
 
+**Not a gate, but worth knowing:** `tests/fixtures/lesson-variety.ts` carries a real
+three-lesson A1 Spanish starter, because no shipped pack is schemaVersion 1 any more and the
+v1 engine's suites need authored content to read. It reaches no learner and blocks no
+release — but it is the Spanish most readers of this repository meet first, so read it with
+the Spanish pack when this review happens.
+
 ## 2. Human listening review of the audio
 
 **Applies to:** every recording the player can start, in every edition.
