@@ -7,6 +7,10 @@
   --ink: #2f2a24;
   --muted: #6b5f4b;
   --accent: #a8511f;
+  /* The course banners' own frame ratio (2064x512). The narrow-viewport crop is
+   * measured per course and travels with the <img> as `--banner-crop` /
+   * `--banner-focus` (see banners.ts); this is the fallback and the ceiling. */
+  --banner-full: 4.031;
   box-sizing: border-box;
   background: var(--paper);
   color: var(--ink);
@@ -184,11 +188,41 @@
   max-width: 560px;
   font-size: 21px;
 }
+/* Lesson-scene art: the approved picture for the situation a lesson teaches,
+   rendering only when the lesson's id maps to one (see `scenes.ts`). 800x600 is
+   the frame the supplied art was drawn in, so `height: auto` never crops it and
+   never stretches it. Decorative — the lesson title and objective say it in
+   words — which is why every surface passes `alt=""`. */
+.lesson-scene {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+  margin: 0.75rem 0 1.5rem;
+  border-radius: 12px;
+}
 .course-banner {
   width: 100%;
   max-width: 960px;
   height: auto;
   border-radius: 8px;
+  /* The frame the art was drawn in. `object-fit: cover` plus this ratio means the
+     picture never stretches; the crop window is `--banner-crop` tall-as-wide (see
+     below). */
+  aspect-ratio: var(--banner-full, 4.031);
+  object-fit: cover;
+  object-position: var(--banner-focus, 50%) center;
+  background: var(--stock-3, #f2ead7);
+}
+/* Narrow viewports get the artwork, not the empty ground around it. Each banner's
+   window is measured from its own drawing (`scripts/brand/banner-crops.py`): the
+   art plus 6% breathing room, anchored on the art's centre. A course with no
+   measured window keeps the full frame. From 768px the full 4:1 frame is legible
+   and is left alone. */
+@media (max-width: 767px) {
+  .course-banner {
+    aspect-ratio: var(--banner-crop, var(--banner-full, 4.031));
+  }
 }
 .study-scope {
   font-size: 14px;

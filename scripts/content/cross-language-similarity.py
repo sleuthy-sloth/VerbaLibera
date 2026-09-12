@@ -32,15 +32,39 @@ SCAFFOLD = (
 )
 
 
-def texts(lesson: dict) -> dict[str, str]:
+def exercises_of(lesson: dict) -> list[dict]:
+    """The authored exercises, whichever schema the pack is on.
+
+    A v2 pack keeps the retained v1 records in legacyExercises; reading only
+    exercises made every migrated pack (French, German) compare as empty.
+    """
+    return lesson.get("exercises") or lesson.get("legacyExercises") or []
+
+
+def explanation_of(pack: dict, lesson: dict) -> str:
+    """The authored lesson prose, whichever schema the pack is on.
+
+    v1 keeps it on the lesson; the v1->v2 migration relocates it into the
+    lesson's opening information activity body.
+    """
+    direct = lesson.get("explanation")
+    if direct:
+        return direct
+    for activity in pack.get("activities", []):
+        if activity.get("id") == f"{lesson.get('id')}-intro":
+            return activity.get("body", "")
+    return ""
+
+
+def texts(lesson: dict, pack: dict | None = None) -> dict[str, str]:
     """Every authored English string in a lesson, by field."""
     fields: dict[str, str] = {
         "title": lesson.get("title", ""),
         "objective": lesson.get("objective", ""),
-        "explanation": lesson.get("explanation", ""),
+        "explanation": explanation_of(pack or {}, lesson),
     }
     for key in ("prompt", "explanation", "passage", "translation"):
-        for i, ex in enumerate(lesson.get("exercises", [])):
+        for i, ex in enumerate(exercises_of(lesson)):
             value = ex.get(key)
             if isinstance(value, str) and value:
                 fields[f"{i}:{ex.get('kind')}.{key}"] = value
@@ -56,9 +80,12 @@ def ratio(a: str, b: str) -> float:
 def main() -> int:
     topic = sys.argv[1] if len(sys.argv) > 1 else None
     packs = {}
+    raw_packs = {}
     for path in sorted(glob.glob("courses/*/manifest.json")):
         slug = os.path.basename(os.path.dirname(path))
-        packs[slug] = {l["id"]: l for l in json.load(open(path))["lessons"]}
+        raw = json.load(open(path))
+        raw_packs[slug] = raw
+        packs[slug] = {l["id"]: l for l in raw["lessons"]}
 
     # Match lessons to each other by their topic suffix, e.g. *-first-words-foundation
     topic_of = {}
@@ -81,9 +108,9 @@ def main() -> int:
             for j in range(i + 1, len(entries)):
                 (sa, la), (sb, lb) = entries[i], entries[j]
                 A, B = packs[sa][la], packs[sb][lb]
-                ka = [e.get("kind") for e in A.get("exercises", [])]
-                kb = [e.get("kind") for e in B.get("exercises", [])]
-                ta, tb = texts(A), texts(B)
+                ka = [e.get("kind") for e in exercises_of(A)]
+                kb = [e.get("kind") for e in exercises_of(B)]
+                ta, tb = texts(A, raw_packs[sa]), texts(B, raw_packs[sb])
                 # Compare only the English scaffolding fields, matched by name.
                 shared = [k for k in ta if k in tb]
                 scores = [ratio(ta[k], tb[k]) for k in shared]

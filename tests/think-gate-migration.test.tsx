@@ -10,6 +10,7 @@ import {
   type CourseEnvironment,
 } from "@/features/course-pack/environment";
 import { validatePack } from "@/features/course-pack/schema";
+import { makeLegacyRawPack } from "./fixtures/lesson-variety";
 
 /**
  * The think-first pause has to survive the v1→v2 migration.
@@ -26,12 +27,15 @@ import { validatePack } from "@/features/course-pack/schema";
 const french = normalizePack(
   JSON.parse(readFileSync("courses/french/manifest.json", "utf8")),
 );
-const german = normalizePack(
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
+// Spanish is schemaVersion 2 as well now, and both v2 halves below read it that
+// way.
+const spanish = normalizePack(
+  JSON.parse(readFileSync("courses/spanish/manifest.json", "utf8")),
 );
-const legacyGerman = validatePack(
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
-);
+// The legacy-player half needs a v1 pack, and no shipped pack is v1 any more —
+// every course has flipped — so the host is the fixture, which authors a real
+// Spanish `think` exercise for exactly this comparison.
+const legacySpanish = validatePack(makeLegacyRawPack());
 
 const environment = (): CourseEnvironment => ({
   capabilities: {
@@ -55,7 +59,7 @@ const THINK_STEP_ID = "fr-first-words-foundation-step-fr-first-words-foundation-
 
 describe("the think-first gate after migration", () => {
   it("marks every migrated think exercise as a prediction, and nothing else", () => {
-    for (const pack of [french, german]) {
+    for (const pack of [french, spanish]) {
       const legacy = pack.lessons.flatMap((lesson) => lesson.legacyExercises);
       const thinkIds = legacy.filter((exercise) => exercise.kind === "think").map((e) => e.id);
       expect(thinkIds.length, `${pack.id} has no think exercises to check`).toBeGreaterThan(0);
@@ -70,7 +74,7 @@ describe("the think-first gate after migration", () => {
 
   it("keeps a legacy think exercise's prompt and answers through the migration", () => {
     // The gate is only worth preserving if it still asks the same question.
-    for (const pack of [french, german]) {
+    for (const pack of [french, spanish]) {
       const think = pack.lessons
         .flatMap((lesson) => lesson.legacyExercises)
         .find((exercise) => exercise.kind === "think");
@@ -145,16 +149,16 @@ describe("the think-first gate after migration", () => {
   });
 
   it("gates a v1 pack through the legacy player the same way", async () => {
-    // Both players must make the same promise: the migrated pack and the pack
+    // Both players must make the same promise: the migrated pack and a pack
     // still on v1 are the same course shape.
-    const think = legacyGerman.lessons
+    const think = legacySpanish.lessons
       .flatMap((lesson) => lesson.exercises)
       .find((exercise) => exercise.kind === "think");
-    if (!think) throw new Error("German has no think exercise");
+    if (!think) throw new Error("the v1 fixture has no think exercise");
     const { ExerciseView } = await import("@/features/course-pack/ExerciseView");
     render(
       <ExerciseView
-        pack={legacyGerman}
+        pack={legacySpanish}
         exercise={think}
         onSave={vi.fn().mockResolvedValue(undefined)}
       />,

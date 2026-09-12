@@ -12,10 +12,12 @@ describe("lesson normalize", () => {
     const raw = makeLegacyRawPack();
     const pack = normalizePack(raw);
     expect(pack.schemaVersion).toBe(1);
+    // Every lesson, not just the first: the fixture is a small course now, and
+    // each authored exercise must keep its own identity through the adapter.
     expect(Object.keys(pack.exercisesById).sort()).toEqual(
-      ((raw.lessons as Array<{ exercises: Array<{ id: string }> }>)[0].exercises.map(
-        (e) => e.id,
-      )).sort(),
+      (raw.lessons as Array<{ exercises: Array<{ id: string }> }>)
+        .flatMap((lesson) => lesson.exercises.map((e) => e.id))
+        .sort(),
     );
   });
 
@@ -29,7 +31,15 @@ describe("lesson normalize", () => {
     expect(pack.activities["lg-lesson-intro"].kind).toBe("information");
     expect(lesson.completionPolicy).toEqual({
       kind: "legacy-success",
-      exerciseIds: ["lg-ex-meet", "lg-ex-translate", "lg-ex-order", "lg-ex-dictation"],
+      exerciseIds: [
+        "lg-ex-meet",
+        "lg-ex-translate",
+        "lg-ex-think",
+        "lg-ex-order",
+        "lg-ex-dictation",
+        "lg-ex-please",
+        "lg-ex-greeting",
+      ],
     });
     expect(lesson.prerequisites).toEqual([]);
     // choice keeps its identity and compares the chosen option text.
@@ -37,17 +47,18 @@ describe("lesson normalize", () => {
     expect(meet.kind).toBe("selection");
     if (meet.kind === "selection") {
       expect(meet.options).toEqual([
-        { id: "caffe", text: "caffè" },
-        { id: "te", text: "tè" },
+        { id: "hola", text: "¡Hola!" },
+        { id: "adios", text: "¡Adiós!" },
+        { id: "gracias", text: "Gracias." },
       ]);
-      expect(meet.acceptedIds).toEqual(["caffe"]);
+      expect(meet.acceptedIds).toEqual(["hola"]);
       expect(meet.multiple).toBe(false);
       expect(meet.evidenceKey).toBe("lg-ex-meet");
     }
     // translate reuses the full answer contract.
     const tr = pack.activities["lg-ex-translate"];
     expect(tr.kind).toBe("text");
-    if (tr.kind === "text") expect(tr.answer.answers).toEqual(["Un caffè"]);
+    if (tr.kind === "text") expect(tr.answer.answers).toEqual(["Gracias."]);
     // order derives the accepted token permutation from its answers.
     const ord = pack.activities["lg-ex-order"];
     expect(ord.kind).toBe("ordering");
@@ -82,7 +93,13 @@ describe("lesson normalize", () => {
       prerequisites: [],
       exercises: (
         lessons[0] as unknown as { exercises: Array<Record<string, unknown>> }
-      ).exercises.map((e, i) => ({ ...e, id: `lg-early-${i}`, prompt: `early ${i} prompt` })),
+      ).exercises.map((e, i) => ({
+        ...e,
+        id: `lg-early-${i}`,
+        // A cloze prompt carries its blank, so renaming the prompt wholesale
+        // would strip it and the v1 validator would rightly refuse the pack.
+        prompt: e.kind === "cloze" ? `early ${i} prompt ___` : `early ${i} prompt`,
+      })),
     });
     const pack = normalizePack(raw);
     const lesson = pack.lessons.find((l) => l.id === "lg-lesson")!;

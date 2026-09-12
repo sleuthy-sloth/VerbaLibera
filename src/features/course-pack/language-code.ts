@@ -10,6 +10,8 @@
  * Accepts either form the codebase uses: a foundation slug (`french`), a legacy
  * course slug (`english-to-french`), or an already-correct code (`fr`).
  */
+import { packSlugFor } from "./course-identity";
+
 const CODE_BY_LANGUAGE: Record<string, string> = {
   french: 'fr',
   italian: 'it',
@@ -20,7 +22,11 @@ const CODE_BY_LANGUAGE: Record<string, string> = {
 };
 
 export function langCodeFor(courseSlugOrLanguage: string | null | undefined): string | undefined {
+  // `english` is not a course, so it is matched before the course universe is
+  // consulted: `packSlugFor("english")` is deliberately undefined.
   if (!courseSlugOrLanguage) return undefined;
-  const language = courseSlugOrLanguage.replace(/^english-to-/, '').toLowerCase();
-  return CODE_BY_LANGUAGE[language];
+  const value = courseSlugOrLanguage.toLowerCase();
+  if (value === 'english') return CODE_BY_LANGUAGE.english;
+  const language = packSlugFor(value);
+  return language ? CODE_BY_LANGUAGE[language] : undefined;
 }

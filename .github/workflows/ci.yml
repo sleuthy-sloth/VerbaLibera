@@ -110,6 +110,12 @@ jobs:
       - name: Portable file test (Chromium and WebKit)
         run: npx playwright test --config playwright.portable.config.ts
 
+      - name: Offline matrix (Chromium and WebKit)
+        # The installed/offline path is where engine differences actually bite
+        # (service worker registration, Cache Storage, media from a cache), and
+        # iOS is WebKit. Runs on its own port so it never reuses another server.
+        run: npx playwright test --config playwright.offline.config.ts
+
       - name: Upload portable edition
         uses: actions/upload-artifact@v4
         with:

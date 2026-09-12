@@ -1,4 +1,5 @@
 import { initialCourses } from '@/features/curriculum/fixture';
+import { packSlugFor } from '@/features/course-pack/course-identity';
 export type PlacementBand = 'A1' | 'A2' | 'B1';
 
 export type PlacementItemKind = 'CHOICE' | 'CLOZE' | 'PRODUCTION';
@@ -250,6 +251,6 @@ export function placementItemsFor(courseSlug: string): readonly PlacementItem[] 
 const AUTHORED_PLACEMENT_LANGUAGES = ['french', 'italian'] as const;
 
 export function hasAuthoredPlacement(courseSlug: string): boolean {
-  const language = courseSlug.replace(/^english-to-/, '');
-  return (AUTHORED_PLACEMENT_LANGUAGES as readonly string[]).includes(language);
+  const language = packSlugFor(courseSlug);
+  return !!language && (AUTHORED_PLACEMENT_LANGUAGES as readonly string[]).includes(language);
 }

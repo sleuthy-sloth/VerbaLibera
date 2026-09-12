@@ -4,6 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ListenPlayer, PLAYBACK_RATES, SKIP_SECONDS } from '@/components/listen/ListenPlayer';
 import { tracksForCourse } from '@/features/listen/tracks';
+import { PLAYER_COVER } from '@/features/listen/player-art';
+import { imageDimensions } from './helpers/image-size';
+import { join } from 'node:path';
 
 /**
  * The Listen player card (visual brief: docs/superpowers/briefs/listen-player-design.md).
@@ -11,7 +14,8 @@ import { tracksForCourse } from '@/features/listen/tracks';
  * The brief asks for a Warm Studio card — cream surface, dark outline,
  * terracotta primary play, hard-offset shadow — with a readable progress bar,
  * 15-second skips, speed, a transcript toggle and a visible offline state, on a
- * phone, without a new visual system and without artwork.
+ * phone, without a new visual system. Its artwork is the project's own: one wide
+ * cover for every track, decorative, and one square for the lock screen.
  *
  * These tests cover what a card could plausibly fake: that its controls really
  * drive the native element, that skips clamp at both ends, that the scrubber is
@@ -247,5 +251,62 @@ describe('the card does not disturb what already worked', () => {
     const link = screen.getByRole('link', { name: /save audio for offline listening/i });
     expect(link).toHaveAttribute('href', audio.getAttribute('src'));
     expect(track.sections.length).toBeGreaterThan(0);
+  });
+});
+
+describe("the player's own cover art", () => {
+  const renderPlayer = (resolveMedia?: (url: string) => string, lessonId?: string) =>
+    render(
+      <ListenPlayer
+        track={lessonId ? { ...track, lessonId } : track}
+        courseTitle="French foundations"
+        lessonTitle="Names and introductions"
+        resolveMedia={resolveMedia}
+      />,
+    );
+
+  it("draws the wide cover as decoration, with no accessible name", async () => {
+    renderPlayer();
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    const cover = document.querySelector(`img[src="${PLAYER_COVER.url}"]`) as HTMLImageElement;
+    expect(cover, "the player card renders no cover art").not.toBeNull();
+    // Decorative: the heading above it and the transport below it already say
+    // what is playing and in what state, so nothing here is announced.
+    expect(cover.getAttribute("alt")).toBe("");
+    expect(screen.queryAllByRole("img")).toHaveLength(0);
+  });
+
+  it("declares the file's real size, so the cover reserves its space", async () => {
+    renderPlayer();
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    const cover = document.querySelector(`img[src="${PLAYER_COVER.url}"]`) as HTMLImageElement;
+    const file = imageDimensions(join(process.cwd(), "public/brand/player-card.jpg"))!;
+    expect(Number(cover.getAttribute("width"))).toBe(file.width);
+    expect(Number(cover.getAttribute("height"))).toBe(file.height);
+  });
+
+  it("puts the cover through the edition's resolver", async () => {
+    // The portable single file cannot fetch a shipped path; the resolver hands
+    // it the embedded blob instead. Without this the cover is a broken image
+    // exactly where the app is meant to work offline.
+    renderPlayer((url) => (url === PLAYER_COVER.url ? "blob:portable-card" : url));
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    expect(document.querySelector('img[src="blob:portable-card"]')).not.toBeNull();
+  });
+
+  it("shows the same cover for every track, because it is one file", async () => {
+    // The card's language mark is per-lesson. The cover is not: one illustration
+    // for the feature is bytes the offline bundle carries once.
+    renderPlayer(undefined, "fr-identity-listen");
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+    expect(document.querySelectorAll(`img[src="${PLAYER_COVER.url}"]`)).toHaveLength(1);
   });
 });

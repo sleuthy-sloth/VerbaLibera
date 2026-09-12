@@ -3,6 +3,8 @@
 /* Public offline entry shares this component. Keep Next/account imports out. */
 import catalog from "./catalog.json";
 import { OfflineDownload } from "./OfflineDownload";
+import { BANNER_BY_LANGUAGE, bannerStyle } from "./banners";
+import { sceneForLessonId } from "./scenes";
 import { useEffect, useState, type ReactNode } from "react";
 import type { CoursePack, Lesson } from "./schema";
 import {
@@ -24,15 +26,6 @@ import type { CourseEnvironment } from "./environment";
 
 /** Workspace views. Also the `/courses/<language>/<view>` URL segment values. */
 export type WorkspaceView = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
-// Per-language Quiet Ink banners. Plain <img>: this component is also bundled
-// outside Next for offline cold starts, so next/image is unavailable here.
-const BANNER_BY_LANGUAGE: Record<string, string> = {
-  french: "/brand/courses/french.jpg",
-  italian: "/brand/courses/italian.jpg",
-  spanish: "/brand/courses/spanish.jpg",
-  portuguese: "/brand/courses/portuguese.jpg",
-  german: "/brand/courses/german.jpg",
-};
 export type CourseWorkspaceProps = {
   initialLanguage?: string;
   startNextLesson?: boolean;
@@ -281,6 +274,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
   // re-rendered instead of the exercise.
   if (lesson && !practising) {
     const lessonUnlocked = lesson.prerequisites.every((id) => completed.has(id));
+    const scene = sceneForLessonId(lesson.id);
     const modelClip = pack.media.find((m) =>
       lesson.exercises.some((e) => e.kind === "dictation" && e.audioId === m.id),
     );
@@ -296,6 +290,19 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
         <p>
           <strong>Your aim:</strong> {lesson.objective}
         </p>
+        {scene ? (
+          /* The situation this lesson is about, resolved through the environment
+             so the same lesson works in every edition. Decorative: the heading
+             and the aim above say it in words. */
+          // eslint-disable-next-line @next/next/no-img-element -- also bundled outside Next for offline cold starts
+          <img
+            className="lesson-scene"
+            src={environment.resolveMedia(scene.url)}
+            width={scene.width}
+            height={scene.height}
+            alt=""
+          />
+        ) : null}
         <p>{lesson.explanation}</p>
         <h2>Worked examples</h2>
         {lesson.examples.map((ex) => (
@@ -388,7 +395,12 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
         </p>
       ) : null}
       {practising || !BANNER_BY_LANGUAGE[language] ? null : (
-        <img className="course-banner" src={environment.resolveMedia(BANNER_BY_LANGUAGE[language])} alt="" />
+        <img
+          className="course-banner"
+          src={environment.resolveMedia(BANNER_BY_LANGUAGE[language])}
+          style={bannerStyle(language)}
+          alt=""
+        />
       )}
       {practising ? null : <p className="study-lede">
         A little explanation. A worked example. Then make the language your own.

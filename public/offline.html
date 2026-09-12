@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- `viewport-fit=cover` matches src/app/layout.tsx: without it a notched iPhone
+         letterboxes this page and the tokens do not reach the screen edges. The page
+         centres its content, so it needs the insets as padding rather than offsets. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#fbf4e6" />
     <title>VerbaLibera is offline</title>
     <style>
@@ -23,7 +26,16 @@
         background: var(--canvas);
         font-family: system-ui, sans-serif;
       }
-      body { display: grid; min-height: 100vh; margin: 0; place-items: center; padding: 1.5rem; }
+      body {
+        display: grid;
+        min-height: 100vh;
+        margin: 0;
+        place-items: center;
+        /* The home indicator and the rounded corners live inside the viewport once
+           viewport-fit is cover, so the breathing room has to include them. */
+        padding: calc(1.5rem + env(safe-area-inset-top)) calc(1.5rem + env(safe-area-inset-right))
+          calc(1.5rem + env(safe-area-inset-bottom)) calc(1.5rem + env(safe-area-inset-left));
+      }
       main {
         max-width: 32rem;
         padding: 2rem;
@@ -34,13 +46,25 @@
         box-shadow: 5px 5px 0 var(--edge);
       }
       h1 { font-family: var(--display); font-weight: 600; line-height: 1.2; }
-      main > p:first-child {
+      .eyebrow {
         margin: 0;
         font-size: 0.78rem;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--accent);
+      }
+      /* The same state mark the dashboard's first-run panel uses: the journal the
+         app shows when there is nothing here yet. Decorative (empty alt) — the
+         heading and the copy are what say what is happening. It is precached with
+         the rest of the brand art, so it renders with no connection; width is
+         capped so a 320px phone still gets the card, not the picture. */
+      .mark {
+        display: block;
+        width: min(150px, 40%);
+        height: auto;
+        margin: 0 auto 1.25rem;
+        border-radius: 0.5rem;
       }
       p { line-height: 1.6; }
       nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -59,7 +83,8 @@
   </head>
   <body>
     <main>
-      <p>VerbaLibera</p>
+      <img class="mark" src="/brand/empty-journal.jpg" alt="" width="1024" height="1024" />
+      <p class="eyebrow">VerbaLibera</p>
       <h1>Your practice path is waiting.</h1>
       <p>Downloaded foundation lessons work without a connection. Choose a language you saved on this device. Reconnect for account pages or to download another language.</p>
       <nav aria-label="Offline languages">

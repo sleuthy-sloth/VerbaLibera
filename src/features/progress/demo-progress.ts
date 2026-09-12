@@ -1,4 +1,5 @@
 import { initialCourses } from '@/features/curriculum/fixture';
+import { courseUniverse, legacyCourseSlug } from '@/features/course-pack/course-identity';
 import { composeDailySession } from '@/features/session/compose-session';
 import type { DemoProgressSnapshot } from './types';
 
@@ -8,15 +9,29 @@ const XP_PER_COMPLETED_CONCEPT = 20;
 const XP_PER_SESSION_STEP = 20;
 const FLOW_DAYS_DIVISOR = 20;
 
+/**
+ * The preview concepts behind a course, if it has any.
+ *
+ * The course list is the pack catalogue (five courses), but the *drills* still
+ * come from the travel fixture, which has four of them. German has a pack and no
+ * fixture course, so it has no preview drills — and the honest consequence is
+ * zero completion rather than a fabricated fraction.
+ */
+function previewConcepts(packSlug: string) {
+  return initialCourses.find((course) => course.slug === legacyCourseSlug(packSlug))?.concepts ?? [];
+}
+
 function deriveCourses(): DemoProgressSnapshot['courses'] {
-  return initialCourses.map((course, index) => {
-    // Fiction: first course near-complete (4/5), second just started (1/5) — varied but derived
-    const fictionCompleted = index === 0 ? course.concepts.length - 1 : 1;
-    const completionPercent = Math.round((fictionCompleted / course.concepts.length) * 100);
+  return courseUniverse.map((course, index) => {
+    const concepts = previewConcepts(course.slug);
+    // Fiction: first course near-complete, second just started — varied but derived.
+    const fictionCompleted = concepts.length === 0 ? 0 : index === 0 ? concepts.length - 1 : 1;
+    const completionPercent =
+      concepts.length === 0 ? 0 : Math.round((fictionCompleted / concepts.length) * 100);
     return {
       slug: course.slug,
       title: course.title,
-      unitLabel: `Unit 1: ${course.concepts[0]?.scenario ?? 'Patterns'}`,
+      unitLabel: course.unitLabel,
       completionPercent,
     };
   });
@@ -43,6 +58,10 @@ function deriveSession() {
         .map((d) => ({ id: `${d.id}-1`, contentId: c.id, drillId: d.id })),
     );
     const newPattern = concepts[0] ? { id: `${concepts[0].id}-1`, contentId: concepts[0].id } : null;
+    // Kept on the travel slug on purpose: the guided-session routes, the study
+    // planner and the placement quizzes are all keyed to the fixture's courses,
+    // and the course universe reaches them by mapping its pack slug back
+    // (`legacyCourseSlug`). Renaming these steps would strand that content.
     return composeDailySession({
       courseSlug: course.slug,
       dueReviews,
@@ -54,10 +73,10 @@ function deriveSession() {
 }
 
 function deriveBlankCourses(): DemoProgressSnapshot['courses'] {
-  return initialCourses.map((course) => ({
+  return courseUniverse.map((course) => ({
     slug: course.slug,
     title: course.title,
-    unitLabel: `Unit 1: ${course.concepts[0]?.scenario ?? 'Patterns'}`,
+    unitLabel: course.unitLabel,
     completionPercent: 0,
   }));
 }
@@ -66,20 +85,20 @@ const derivedCourses = deriveCourses();
 const derivedSession = deriveSession();
 const derivedBlankCourses = deriveBlankCourses();
 
-const selectedCourseSlug = initialCourses[0]?.slug ?? 'english-to-french';
+const selectedCourseSlug = courseUniverse[0]?.slug ?? 'french';
 
 const dueReviewCount = derivedSession.filter((s) => s.kind === 'REVIEW' || s.kind === 'DRILL').length;
 const maxCompletion = Math.max(...derivedCourses.map((c) => c.completionPercent), 0);
 const practiceFlowDays = Math.floor(maxCompletion / FLOW_DAYS_DIVISOR);
 const completedConcepts = derivedCourses.reduce((sum, course) => {
-  const total = initialCourses.find((c) => c.slug === course.slug)?.concepts.length ?? 5;
+  const total = previewConcepts(course.slug).length || 5;
   const completed = Math.round((course.completionPercent / 100) * total);
   return sum + completed;
 }, 0);
 const xp = completedConcepts * XP_PER_COMPLETED_CONCEPT + derivedSession.length * XP_PER_SESSION_STEP;
 const dailyGoal = {
   completed: Math.min(
-    derivedSession.filter((s) => s.courseSlug === selectedCourseSlug).length,
+    derivedSession.filter((s) => s.courseSlug === legacyCourseSlug(selectedCourseSlug)).length,
     DAILY_GOAL_TARGET,
   ),
   target: DAILY_GOAL_TARGET,

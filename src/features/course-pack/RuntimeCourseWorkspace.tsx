@@ -1,11 +1,14 @@
 "use client";
-/* eslint-disable @next/next/no-html-link-for-pages -- Also bundled outside Next for offline cold starts. */
+/* eslint-disable @next/next/no-html-link-for-pages, @next/next/no-img-element -- Also bundled outside Next for offline cold starts. */
 /* Public offline entry shares this component. Keep Next/account imports out. */
 import { useEffect, useState, type ReactNode } from 'react';
 import type { CourseEnvironment } from './environment';
 import type { RuntimePack } from './lesson-runtime';
 import { mergeLearningEvents, projectLessonEvidence, type LessonEvidence } from './attempts';
 import { LessonPlayer } from './LessonPlayer';
+import { DialogueView } from './DialogueView';
+import { bannerFor, bannerStyle } from './banners';
+import { sceneForLessonId } from './scenes';
 import { OfflineDownload } from './OfflineDownload';
 import catalog from './catalog.json';
 
@@ -75,6 +78,7 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
   const lesson=pack.lessons.find(item=>item.id===selected);
   if(lesson){
    const canStart=eligible(lesson)&&!!environment.lessonPractice&&!error;
+   const scene=sceneForLessonId(lesson.id);
    return <main id="main-content" className="study study-focused">
     <button type="button" className="study-back" onClick={()=>setSelected(null)}>
      <span aria-hidden="true">←</span> Back to the course
@@ -82,6 +86,13 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
     <p className="study-eyebrow">{lesson.family} · about {lesson.estimatedMinutes} minutes</p>
     <h1>{lesson.title}</h1>
     <p>{lesson.objective}</p>
+    {scene ? (
+     /* The situation this lesson is about. Decorative: the heading, the family
+        line and the objective above already say it in words, and the alt text
+        would only repeat them. Resolved through the environment so the same
+        lesson works in the hosted, downloaded and portable editions. */
+     <img className="lesson-scene" src={environment.resolveMedia(scene.url)} width={scene.width} height={scene.height} alt="" />
+    ) : null}
     {(lesson as typeof lesson & { explanation?: string }).explanation ? <p>{(lesson as typeof lesson & { explanation?: string }).explanation}</p> : null}
     {((lesson as typeof lesson & { examples?: {target:string;meaning:string}[] }).examples ?? []).map(example=>
      <p className="study-example" key={example.target}><span lang={pack.language}>{example.target}</span> — {example.meaning}</p>)}
@@ -99,6 +110,20 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
    <label>Learning language<select value={language} onChange={e=>onLanguageChange(e.target.value)}>{catalog.map(c=><option key={c.slug} value={c.slug}>{c.title}</option>)}</select></label>
   </header>
   <h1>{pack.title}</h1><p className="study-lede">{pack.description}</p>
+  {bannerFor(language) ? (
+   /* The course page's own artwork. This shell shipped without it, so a course
+      lost its banner the moment it migrated to v2 while the library kept showing
+      the same file. Decorative: the heading above names the course, and the
+      library is where the picture carries meaning (its alt text names the scene).
+      Plain <img> because this component is bundled outside Next for offline cold
+      starts, so next/image is unavailable here. */
+   <img
+    className="course-banner"
+    src={environment.resolveMedia(bannerFor(language)!)}
+    style={bannerStyle(language)}
+    alt=""
+   />
+  ) : null}
   {durability === "temporary" && (
    <p role="alert">Progress is temporary in this browser. Export a backup before closing this file.</p>
   )}
@@ -109,6 +134,24 @@ export function RuntimeCourseWorkspace({pack,environment,scope,language,onLangua
     <div className="study-path-heading"><div><h2>Course path</h2><p>Start at the top. Completed lessons stay available for review.</p></div><div className="study-path-progress"><strong>{completeCount} of {pack.lessons.length}</strong><span>lessons practised</span><progress aria-label="Course progress" max={pack.lessons.length} value={completeCount}/></div></div>
     {pack.units.map(unit=><section key={unit.id} className="study-path-unit"><h3>{unit.title}</h3><p>{unit.objective}</p><ol className="study-lessons">{pack.lessons.filter(l=>l.unitId===unit.id).map((lesson,index)=>{const done=complete(lesson), upNext=next?.id===lesson.id, unlocked=eligible(lesson), prerequisite=pack.lessons.find(candidate=>candidate.id===lesson.prerequisites[0]?.lessonId); const status=done?'Complete — select to review':upNext?'Up next — select to start':unlocked?'Ready — select to start':`After ${prerequisite?.title??'the previous lesson'}`; const state=done?'is-complete':upNext?'is-next':unlocked?'is-ready':'is-locked'; return <li className={state} key={lesson.id}><span className="study-path-number" aria-hidden="true">{index+1}</span><button type="button" disabled={!unlocked||!environment.lessonPractice||!!error} onClick={()=>setSelected(lesson.id)}>{lesson.title}</button><span className={state==='is-locked'?'study-lock':undefined}>{state==='is-locked'?<><span aria-hidden="true">🔒</span>{status}</>:status}</span></li>})}</ol></section>)}
    </nav>
+  ) : null}
+  {pack.dialogues.length > 0 ? (
+   /**
+    * The v2 shell had no dialogue surface, so a migrated course's scripted
+    * conversations sat in the pack unreachable: `DialogueView` was rendered only
+    * by the legacy shell. The guard is content, not progress — a dialogue's
+    * choices are explored freely and are not saved as mastery — and the
+    * prerequisite is named rather than enforced, because the point of a
+    * recovery-branch conversation is to try it and get it wrong safely.
+    */
+   <section className="study-dialogues" aria-labelledby="dialogues-heading">
+    <h2 id="dialogues-heading">Use it in a conversation</h2>
+    <p>Original scripted conversations with recovery branches. Explore freely; choices here are not saved as mastery.</p>
+    {pack.dialogues.map(dialogue=><div className="study-dialogue" key={dialogue.id}>
+     <p className="study-dialogue-prerequisite">Study first: {pack.lessons.find(l=>l.id===dialogue.prerequisite)?.title ?? 'the lesson before it'}</p>
+     <DialogueView dialogue={dialogue} language={pack.language}/>
+    </div>)}
+   </section>
   ) : null}
   {environment.capabilities.offlineInstall ? <OfflineDownload key={language} pack={pack} language={language} environment={environment} /> : null}
   {accountControls ?? null}

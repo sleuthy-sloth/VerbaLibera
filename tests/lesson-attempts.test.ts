@@ -210,12 +210,22 @@ describe("lesson attempts", () => {
     // v2 lessons use evidence policies, so legacy credits stay empty here;
     // the legacy path is covered by the adapter contract (legacy-success policy).
     const legacy = normalizePack(makeLegacyRawPack());
-    const credited = projectLessonEvidence(legacy, [
-      { ...v1event(), packId: "lg-legacy", exerciseId: "lg-ex-meet" },
-      { ...v1event(), packId: "lg-legacy", id: "v1-2", exerciseId: "lg-ex-translate" },
-      { ...v1event(), packId: "lg-legacy", id: "v1-3", exerciseId: "lg-ex-order" },
-      { ...v1event(), packId: "lg-legacy", id: "v1-4", exerciseId: "lg-ex-dictation" },
-    ]);
+    // Every exercise the authored lesson's completion policy names: the fixture
+    // is a real seven-exercise lesson, so a four-event subset is no longer enough
+    // to finish it. The count is read from the lesson rather than written down,
+    // so authoring another exercise does not silently weaken this.
+    const policy = legacy.lessons[0].completionPolicy;
+    if (policy.kind !== "legacy-success") throw new Error("expected a legacy-success policy");
+    expect(policy.exerciseIds).toHaveLength(legacy.lessons[0].legacyExercises.length);
+    const credited = projectLessonEvidence(
+      legacy,
+      policy.exerciseIds.map((exerciseId, index) => ({
+        ...v1event(),
+        packId: "lg-legacy",
+        id: `v1-${index}`,
+        exerciseId,
+      })),
+    );
     expect(credited.legacyCredits).toContain("lg-lesson");
   });
 
@@ -228,9 +238,16 @@ describe("lesson attempts", () => {
         return { kind: "selection", ids: activity.acceptedIds };
       if (activity.kind === "ordering")
         return { kind: "ordering", ids: activity.acceptedOrders[0] };
-      if (activity.kind === "cloze")
-        return { kind: "cloze", values: { b1: "Un caffè" } };
-      return { kind: "text", text: "Un caffè" };
+      // Answer each production step with that exercise's own accepted answer:
+      // the authored lesson mixes translate, dictation, cloze and reading, and a
+      // single hard-coded string would be wrong for three of them.
+      const authored = lesson.legacyExercises.find(
+        (exercise) => exercise.id === ("evidenceKey" in activity ? activity.evidenceKey : activity.id),
+      );
+      const answer = authored?.answers?.[0];
+      if (answer === undefined) throw new Error(`no authored answer for ${activityId}`);
+      if (activity.kind === "cloze") return { kind: "cloze", values: { b1: answer } };
+      return { kind: "text", text: answer };
     };
     const events = lesson.steps.flatMap((step): ActivityAttempt[] => {
       const activity = pack.activities[step.activityId];

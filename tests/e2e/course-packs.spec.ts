@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { test, expect } from "@playwright/test";
 import {
   completeFrenchL0,
@@ -10,6 +11,20 @@ const runtimePlayer = (page: import("@playwright/test").Page) =>
 
 // Both players mark the outcome on the feedback panel itself.
 const OUTCOME = '[role="status"][data-outcome]';
+
+/**
+ * The migrated German pack, read from disk so this walk cannot drift from the
+ * content: the notice text and the graded answer are the ones the course page
+ * loads.
+ */
+const german = JSON.parse(readFileSync("courses/german/manifest.json", "utf8"));
+const germanLesson1 = german.lessons[0];
+const germanIntro = german.activities.find(
+  (activity: { id: string }) => activity.id === `${germanLesson1.id}-intro`,
+);
+const germanMeet = germanLesson1.legacyExercises.find(
+  (exercise: { id: string }) => exercise.id === "de-first-words-foundation-meet",
+);
 
 test("Italian teaches, checks locally, saves practice and survives an offline cold start", async ({
   page,
@@ -231,6 +246,95 @@ test("French L1 completes end to end on the v2 player", async ({ page }) => {
   await page.getByRole("button", { name: "Back to lessons", exact: true }).click();
   await expect(page.getByText("2 of 25")).toBeVisible();
   expect(await page.getByText("Complete — select to review").count()).toBe(2);
+});
+
+test("German teaches on the v2 player after the 2B flip, pause intact", async ({
+  page,
+}) => {
+  await page.goto("/courses/german");
+  await expect(page.getByRole("heading", { name: german.title })).toBeVisible();
+  const path = runtimePlayer(page);
+
+  // Every lesson the migrated pack carries is on the course path, and the first
+  // one is open: a flip that invented a prerequisite would fail here.
+  for (const lesson of german.lessons)
+    await expect(path.getByRole("button", { name: lesson.title })).toBeVisible();
+  await expect(path.getByRole("button", { name: germanLesson1.title })).toBeEnabled();
+
+  await path.getByRole("button", { name: germanLesson1.title }).click();
+  await page.getByRole("button", { name: "Begin practice", exact: true }).click();
+
+  // Step 1 is the notice the migration relocated: the authored explanation is
+  // what a learner reads first, and it is still there after the flip.
+  await expect(page.getByText(germanIntro.body)).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+
+  // Step 2 grades the authored answer, under the id the v1 engine wrote.
+  await page.getByRole("radio", { name: germanMeet.answers[0], exact: true }).check();
+  await page.getByRole("button", { name: "Check", exact: true }).click();
+  await expect(page.locator(OUTCOME).first()).toHaveAttribute(
+    "data-outcome",
+    "correct",
+  );
+  await page.getByRole("button", { name: /^(Next step|Continue)$/ }).click();
+
+  // Step 3 is the migrated `think` exercise: the v1 pause must survive as a v2
+  // prediction step, with no answer input until the learner has thought.
+  await expect(page.getByText(/think first/i)).toBeVisible();
+  expect(await page.getByLabel("Your answer").count()).toBe(0);
+  await page.getByRole("button", { name: /i've thought about it/i }).click();
+  await expect(page.getByLabel("Your answer")).toBeVisible();
+  await page.getByLabel("Your answer").fill("Hallo.");
+  await page.getByRole("button", { name: "Check", exact: true }).click();
+  await expect(page.locator(OUTCOME).first()).toHaveAttribute(
+    "data-outcome",
+    "correct",
+  );
+});
+
+test("a migrated course's scripted dialogue is reachable, and its absence is not faked", async ({
+  page,
+}) => {
+  const frenchDialogues = JSON.parse(
+    readFileSync("courses/french/manifest.json", "utf8"),
+  ).dialogues;
+  const germanDialogues = JSON.parse(
+    readFileSync("courses/german/manifest.json", "utf8"),
+  ).dialogues;
+  expect(frenchDialogues.length).toBeGreaterThan(0);
+  expect(germanDialogues.length).toBe(0);
+
+  // French: v2 like German, so before this the conversations were in the pack
+  // and unreachable through the UI — DialogueView was legacy-shell only.
+  await page.goto("/courses/french");
+  const dialogues = page.getByRole("region", { name: "Use it in a conversation" });
+  await expect(dialogues).toBeVisible();
+  const meeting = frenchDialogues.find(
+    (dialogue: { id: string }) => dialogue.id === "fr-meeting",
+  );
+  const startNode = meeting.nodes.find(
+    (node: { id: string }) => node.id === meeting.start,
+  );
+  const article = dialogues.locator("article", { hasText: meeting.title });
+  await expect(article.getByText(startNode.line)).toBeVisible();
+  // A branch advances the line, and the terminal node offers the conversation
+  // again rather than dead-ending.
+  await article
+    .getByRole("button", { name: startNode.choices[0].text })
+    .click();
+  const nextNode = meeting.nodes.find(
+    (node: { id: string }) => node.id === startNode.choices[0].next,
+  );
+  await expect(article.getByText(nextNode.line)).toBeVisible();
+  if (nextNode.complete)
+    await expect(
+      article.getByRole("button", { name: "Try the conversation again" }),
+    ).toBeVisible();
+
+  // German: the same shell, no authored conversations, so no section at all.
+  await page.goto("/courses/german");
+  await expect(page.getByRole("navigation", { name: "Course path" })).toBeVisible();
+  await expect(dialogues).toHaveCount(0);
 });
 
 test("Italian lesson audio plays and the listening step can be reached", async ({

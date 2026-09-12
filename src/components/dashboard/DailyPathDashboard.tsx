@@ -15,6 +15,7 @@ import { readOnboardingOutcome, type OnboardingState } from '@/features/onboardi
 import { LanguageSwitcher } from '@/components/nav/LanguageSwitcher';
 import styles from './dashboard.module.css';
 import { foundationLanguage, foundationStartHref } from '@/features/course-pack/navigation';
+import { courseUniverse, legacyCourseSlug, packSlugFor } from '@/features/course-pack/course-identity';
 import { hasAuthoredPlacement } from '@/features/placement/items';
 
 function useDebugFlag(): boolean {
@@ -59,8 +60,12 @@ function readGuestPlan(courseSlug: string): GuestPlanStatus | null {
 export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathDashboardProps) {
   const isPreview = progress.isPreview !== false;
   const isDebug = useDebugFlag();
-  const requestedCourseIndex = requestedCourseSlug
-    ? progress.courses.findIndex((course) => course.slug === requestedCourseSlug)
+  // A deep link may carry either slug form (`?course=german`, or the older
+  // `?course=english-to-german` a bookmark may still hold), so it is normalised
+  // before it is matched against the universe.
+  const requestedPackSlug = packSlugFor(requestedCourseSlug);
+  const requestedCourseIndex = requestedPackSlug
+    ? progress.courses.findIndex((course) => course.slug === requestedPackSlug)
     : -1;
   const snapshotCourseIndex = progress.courses.findIndex(
     (course) => course.slug === progress.selectedCourseSlug,
@@ -87,7 +92,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
     // Deferred like the plan builder: read storage after paint so the effect
     // never sets state synchronously (cascading-render lint).
     const timer = setTimeout(() => {
-      const outcome = readOnboardingOutcome(initialCourses);
+      const outcome = readOnboardingOutcome(courseUniverse);
       if (outcome.kind === 'stored') {
         setOnboardingState(outcome.state);
         setOnboarding(outcome.state.status === 'completed' ? 'completed' : 'in-progress');
@@ -100,7 +105,9 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   }, []);
   useEffect(() => {
     if (!isPreview || typeof window === 'undefined' || !selectedCourse) return;
-    const slug = selectedCourse.slug;
+    // The stored plan is keyed by the travel slug, which is the slug the plan
+    // builder and the plan routes use.
+    const slug = legacyCourseSlug(selectedCourse.slug);
     const timer = setTimeout(() => {
       setGuestPlan(readGuestPlan(slug));
     }, 0);
@@ -120,10 +127,14 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
 
   const language = foundationLanguage(selectedCourse.slug);
   const languageName = language ? language[0].toUpperCase() + language.slice(1) : "";
-  const authoredCourse = initialCourses.find((course) => course.slug === selectedCourse.slug);
+  // The travel fixture's course behind this pack — the guided session, the
+  // placement quiz and the study plan all live on that slug, and German has
+  // none, so every link below is guarded on this existing.
+  const authoredSlug = legacyCourseSlug(selectedCourse.slug);
+  const authoredCourse = initialCourses.find((course) => course.slug === authoredSlug);
   const nextStep = progress.session.find(
     (step) =>
-      step.courseSlug === selectedCourse.slug &&
+      step.courseSlug === authoredSlug &&
       authoredCourse?.concepts.some((concept) => concept.id === step.contentId),
   );
   const nextConcept = authoredCourse?.concepts.find((concept) => concept.id === nextStep?.contentId)
@@ -133,22 +144,22 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const goalLabel = `${progress.dailyGoal.completed} of ${progress.dailyGoal.target} daily steps`;
   // The stored plan belongs to its own course — never show a previous
   // selection's status while the fresh read is still deferred.
-  const activePlan = isPreview ? guestPlan : progress.studyPlans?.[selectedCourse.slug];
+  const activePlan = isPreview ? guestPlan : progress.studyPlans?.[authoredSlug];
   const planSummary =
-    activePlan && activePlan.plan.courseSlug === selectedCourse.slug
+    activePlan && activePlan.plan.courseSlug === authoredSlug
       ? {
         status: planStatusCopy({
           week: planPosition(activePlan.plan, activePlan.done).currentWeek,
           weekCount: planPosition(activePlan.plan, activePlan.done).weekCount,
           targetLevel: activePlan.plan.targetLevel,
         }),
-        today: planTodayCopy({ count: isPreview ? todayPlanItems(activePlan.plan, activePlan.done).length : progress.session.filter(step => step.courseSlug === selectedCourse.slug && step.id.startsWith('plan-')).length }),
+        today: planTodayCopy({ count: isPreview ? todayPlanItems(activePlan.plan, activePlan.done).length : progress.session.filter(step => step.courseSlug === authoredSlug && step.id.startsWith('plan-')).length }),
         frontierNote: activePlan.plan.frontier?.note ?? null,
       }
     : null;
   const hasGuidedSession =
     !!authoredCourse &&
-    progress.session.some((step) => step.courseSlug === selectedCourse.slug);
+    progress.session.some((step) => step.courseSlug === authoredSlug);
   // Every course in the snapshot resolves to a foundation pack or nothing. The
   // old code showed "Session preview coming soon" here — a status message where
   // a next step belonged, with no way forward from it.
@@ -159,7 +170,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
   const showWelcome =
     isBlank &&
     (onboarding === 'unseen' || onboarding === 'invalid' || onboarding === 'in-progress') &&
-    !(requestedCourseSlug && requestedCourseIndex >= 0);
+    !(requestedPackSlug && requestedCourseIndex >= 0);
 
   return (
     <main id="main-content" tabIndex={-1} className={`${styles.dashboard} ${styles.focusSurface}`}>
@@ -201,10 +212,10 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
         <p className={styles.introCopy}>
           Learn how the language works, practise one useful pattern, and make it part of your
           everyday vocabulary.{' '}
-          {hasAuthoredPlacement(selectedCourse.slug) ? (
+          {hasAuthoredPlacement(authoredSlug) ? (
             <>
               Already know some?{' '}
-              <Link href={`/learn/${selectedCourse.slug}/placement`}>
+              <Link href={`/learn/${authoredSlug}/placement`}>
                 Take the 3-minute placement quiz
               </Link>.
             </>
@@ -253,7 +264,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
                 <p className={styles.scenario}>{planSummary.frontierNote}</p>
               ) : null}
               <p className={styles.courseMeta}>
-                <Link href={`/learn/${selectedCourse.slug}/plan`}>Review your study plan</Link>
+                <Link href={`/learn/${authoredSlug}/plan`}>Review your study plan</Link>
               </p>
             </div>
           ) : null}
@@ -310,7 +321,7 @@ export function DailyPathDashboard({ progress, requestedCourseSlug }: DailyPathD
               </ol>
 
               {hasGuidedSession ? (
-                <Link className={styles.primaryAction} href={`/learn/${selectedCourse.slug}`}>
+                <Link className={styles.primaryAction} href={`/learn/${authoredSlug}`}>
                   Continue today&rsquo;s lesson
                   <span aria-hidden="true">→</span>
                 </Link>

@@ -27,6 +27,8 @@
  * starting-point screens and go straight to lesson 1, as before.
  */
 
+import { legacyCourseSlug, packSlugFor } from "@/features/course-pack/course-identity";
+
 export type FirstWinStep =
   | Readonly<{
       phase: 'meet';
@@ -176,8 +178,14 @@ const italianFirstWin: FirstWin = {
 
 const FIRST_WINS: readonly FirstWin[] = [frenchFirstWin, italianFirstWin];
 
+/**
+ * The sequence is authored on the travel fixture's slug (`english-to-french`),
+ * which is the slug its steps and audio are keyed to. Callers now hold a pack
+ * slug, so both forms resolve here.
+ */
 export function firstWinFor(courseSlug: string): FirstWin | null {
-  return FIRST_WINS.find((firstWin) => firstWin.courseSlug === courseSlug) ?? null;
+  const authoredSlug = legacyCourseSlug(packSlugFor(courseSlug) ?? '');
+  return FIRST_WINS.find((firstWin) => firstWin.courseSlug === authoredSlug) ?? null;
 }
 
 /** The capability flag. False means the flow skips straight past the sequence. */

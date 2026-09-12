@@ -7,6 +7,21 @@ test('offline navigation shows a reconnect page and never cached account HTML', 
   await context.setOffline(true);
   await page.goto('/learn/english-to-french', { waitUntil: 'domcontentloaded' });
   await expect(page.getByRole('heading', { name: 'Your practice path is waiting.' })).toBeVisible();
+  // The state mark is part of the offline promise: it is precached with the rest
+  // of the brand art, so the page a learner lands on when nothing else loads is
+  // not a bare card. Decorative, so the copy has to say everything.
+  const mark = page.locator('main img.mark');
+  await expect(mark).toHaveAttribute('alt', '');
+  await expect(mark).toHaveAttribute('src', '/brand/empty-journal.jpg');
+  await expect
+    .poll(() => mark.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15_000 })
+    .toBeGreaterThan(0);
+  // And it did not have to reach the network for it.
+  const markFromCache = await page.evaluate(async () => {
+    const cached = await caches.match('/brand/empty-journal.jpg');
+    return cached?.ok ?? false;
+  });
+  expect(markFromCache, 'the mark was not served from the precache').toBe(true);
   const cachedPages = await page.evaluate(async () => {
     const keys = await caches.keys();
     const requests = (await Promise.all(keys.map(async key => (await caches.open(key)).keys()))).flat();
@@ -28,6 +43,14 @@ test('downloaded v2 language can be opened from the PWA offline welcome page', a
   await page.getByRole('link', { name: 'Italian' }).click();
   await expect(page.getByRole('heading', { name: 'Italian foundations', exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Course path' })).toBeVisible();
+  // The course page's artwork is part of the offline promise too: the service
+  // worker precaches every banner, and the course page used to render none for a
+  // v2 course — so "downloaded" meant a page with no picture on it.
+  const banner = page.locator('img.course-banner');
+  await expect(banner).toHaveAttribute('src', /\/brand\/courses\/italian\.jpg/);
+  await expect
+    .poll(() => banner.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
   const firstLesson = page.getByRole('button', { name: 'First words', exact: true });
   await expect(firstLesson).toBeEnabled();
   await firstLesson.click();
@@ -70,6 +93,11 @@ test('the downloaded edition can listen to the audio lesson with the network off
   await track.click();
   const player = page.getByLabel('Play the audio lesson: Names and introductions');
   await expect(player).toHaveAttribute('src', '/audio/french-foundations/fr-identity-listen.mp3');
+  // The player's own artwork is installed with the shell, not fetched with the
+  // first play: with the network off it is already there and already decoded.
+  const cover = page.locator('img[src*="player-card"]');
+  await expect(cover).toBeVisible();
+  expect(await cover.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(800);
   // A real decode with no connection at all — the point of the whole slice.
   await player.evaluate(async (audio: HTMLAudioElement) => {
     audio.load();
@@ -94,4 +122,36 @@ test('the downloaded edition can listen to the audio lesson with the network off
   await page.getByRole('button', { name: 'Names and introductions', exact: true }).click();
   await expect(page.getByText(/(resume from|resumed at) 5:00/i)).toBeVisible();
   await context.setOffline(false);
+});
+
+test('a scene viewed online is cached, so the picture is there with no connection', async ({
+  page,
+  context,
+}) => {
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+  });
+  // The worker caches `/images/**` on fetch rather than installing the scenes with
+  // every visit, so this is the guarantee that matters: after a learner has seen the
+  // picture once, it is on the device.
+  await page.reload();
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  const scene = page.locator('img[src="/images/scenes/ordering-coffee.jpg"]');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+
+  const cached = await page.evaluate(() =>
+    caches.match('/images/scenes/ordering-coffee.jpg').then((hit) => !!hit),
+  );
+  expect(cached, 'the scene is not in the cache after being viewed').toBe(true);
+
+  // And it really is the cache answering: with the network off, the same URL still
+  // resolves to bytes.
+  await context.setOffline(true);
+  const offlineHit = await page.evaluate(() =>
+    caches.match('/images/scenes/ordering-coffee.jpg').then((hit) => !!hit),
+  );
+  expect(offlineHit, 'the scene disappeared from the cache when the network went off').toBe(true);
 });

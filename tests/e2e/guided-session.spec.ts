@@ -56,7 +56,7 @@ test('typed exact answer is checked without any sidecar', async ({ page }) => {
   await expect(page.getByText('Checked locally. Nothing was saved.')).toBeVisible();
 });
 
-test('picture drill offers four CC0 photos and accepts the coffee tap', async ({ page }) => {
+test('picture drill offers the four illustration options and accepts the coffee tap', async ({ page }) => {
   await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
   // Step 1 teaches (Continue only), then walk review + two text drills via reveal/self-check/continue.
   await page.getByRole('button', { name: 'Continue' }).click();
@@ -228,5 +228,71 @@ test('desktop lesson keeps its context rail beside the content without overflow'
   await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeHidden();
   await reveal.click();
   await expect(page.getByText('Bonjour, je voudrais un café, s’il vous plaît.')).toBeVisible();
+  await assertNoHorizontalOverflow(page);
+});
+
+test('the situation picture shows for the pattern that has one, and nowhere else', async ({
+  page,
+}) => {
+  // The scene is keyed by the pattern's own authored `scenario`, so a pattern with
+  // a picture shows it and a pattern without one shows nothing at all — the lookup
+  // never falls back to a near-miss keyword.
+  await page.goto('/learn/english-to-french?concept=fr-ordering-politely');
+  const scene = page.locator('img[src="/images/scenes/ordering-coffee.jpg"]');
+  await expect(scene).toBeVisible();
+  // Decorative: the session names the scenario in words in its step context.
+  await expect(scene, 'the scene is decorative on this surface').toHaveAttribute('alt', '');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+  // The declared size is the file's own 4:3 frame, so nothing shifts or crops.
+  await expect(scene).toHaveAttribute('width', '800');
+  await expect(scene).toHaveAttribute('height', '600');
+  await assertNoHorizontalOverflow(page);
+
+  await page.goto('/learn/english-to-french?concept=fr-greet-politely');
+  await expect(page.getByRole('heading', { name: 'Practice one useful pattern.' })).toBeVisible();
+  await expect(page.locator('img[src^="/images/scenes/"]')).toHaveCount(0);
+});
+
+test('the emergency drill shows the approved hospital picture', async ({ page }) => {
+  // The picture drill offers the illustration set, and the hospital option is the most
+  // recently replaced file: this walks to the drill the same way the coffee test does
+  // and checks the picture the app actually serves is the approved 800x449 one, with
+  // the alt text that is also its caption.
+  await page.goto('/learn/english-to-french?concept=fr-emergency-help');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  for (let i = 0; i < 3; i++) {
+    await page.getByRole('button', { name: /reveal model answer/i }).click();
+    await page.getByRole('button', { name: /i checked my answer/i }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+  }
+
+  const hospital = page.getByRole('radio', { name: 'A hospital entrance' });
+  await expect(hospital).toBeVisible();
+  await hospital.scrollIntoViewIfNeeded();
+  const picture = hospital.locator('img');
+  await expect(picture).toHaveAttribute('src', '/images/vocab/hospital.jpg');
+  await expect
+    .poll(() => picture.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
+  // The declaring surface reserves the 4:3 box the drill draws in, so the row does not
+  // jump when the picture arrives.
+  await expect(picture).toHaveAttribute('width', '400');
+  await expect(picture).toHaveAttribute('height', '300');
+});
+
+test('the emergency pattern shows the emergency scene', async ({ page }) => {
+  // The sixth situation: "Getting help in an emergency" is a travel pattern like the
+  // others, and its picture is the one with the first-aid kit. The scene is keyed by
+  // the authored scenario, so this also guards that the mapping covers every pattern
+  // whose situation has art rather than just the first few.
+  await page.goto('/learn/english-to-french?concept=fr-emergency-help');
+  const scene = page.locator('img[src="/images/scenes/minor-emergency.jpg"]');
+  await expect(scene).toBeVisible();
+  await expect(scene, 'the scene is decorative on this surface').toHaveAttribute('alt', '');
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
   await assertNoHorizontalOverflow(page);
 });

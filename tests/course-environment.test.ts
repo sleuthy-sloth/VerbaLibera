@@ -7,11 +7,12 @@ import { describe, expect, it } from "vitest";
 import { CourseWorkspace } from "@/features/course-pack/CourseWorkspace";
 import type { CourseEnvironment } from "@/features/course-pack/environment";
 import { createHostedEnvironment } from "@/features/course-pack/hosted-environment";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 
-const german = validatePack(
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
-);
+// A v1 pack, because this fixture renders the legacy course engine through a
+// portable environment. Every shipped pack is schemaVersion 2 now, so this reads
+// a flipped Spanish file through the schema-aware reader.
+const spanish = readAuthoredPack("spanish");
 
 function portableFixtureEnvironment(
   durability: "durable" | "temporary" = "durable",
@@ -29,7 +30,7 @@ function portableFixtureEnvironment(
       read: async () => [],
       write: async () => {},
     },
-    loadPack: async () => german,
+    loadPack: async () => spanish,
     resolveMedia: (url) => `blob:portable${url}`,
   };
 }
@@ -53,7 +54,7 @@ describe("portable course environment", () => {
       }),
     );
 
-    await screen.findByRole("heading", { name: "German foundations" });
+    await screen.findByRole("heading", { name: "Spanish foundations" });
     expect(screen.queryByRole("region", { name: "Practice account" })).toBeNull();
     expect(screen.queryByRole("button", { name: /Download/i })).toBeNull();
     expect(screen.queryByRole("link", { name: /Daily path/i })).toBeNull();

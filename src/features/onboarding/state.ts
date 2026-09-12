@@ -3,6 +3,10 @@
 import type { CourseFixture } from '@/features/curriculum/types';
 import { initialCourses } from '@/features/curriculum/fixture';
 import { foundationCatalogEntry, foundationStartHref } from '@/features/course-pack/navigation';
+import {
+  legacyCourseSlug,
+  packSlugFor,
+} from '@/features/course-pack/course-identity';
 import { hasAuthoredPlacement } from '@/features/placement/items';
 import { hasFirstWin } from '@/features/onboarding/first-win';
 
@@ -108,9 +112,16 @@ export function readOnboardingOutcome(courses: readonly LanguageCourse[]): Onboa
     return { kind: 'invalid' };
   }
   if (!isOnboardingState(parsed)) return { kind: 'invalid' };
-  // A record naming a course that no longer exists is stale, not trusted.
-  if (!courses.some((course) => course.slug === parsed.courseSlug)) return { kind: 'invalid' };
-  return { kind: 'stored', state: parsed };
+  // A record naming a course that no longer exists is stale, not trusted. The
+  // course universe moved to pack slugs, so a record written before that holds
+  // `english-to-french`: it still names a real course, and it is normalised
+  // rather than declared stale. Treating it as stale would send every existing
+  // learner back to the language step, which is the behaviour this check exists
+  // to prevent — the honest read is that they chose French.
+  const stored = packSlugFor(parsed.courseSlug);
+  if (!stored) return { kind: 'invalid' };
+  if (!courses.some((course) => packSlugFor(course.slug) === stored)) return { kind: 'invalid' };
+  return { kind: 'stored', state: { ...parsed, courseSlug: stored } };
 }
 
 export function readOnboardingState(courses: readonly LanguageCourse[]): OnboardingState | null {
@@ -179,7 +190,11 @@ export function onboardingDestination(state: OnboardingState): string {
   if (state.entryIntent === 'placement') {
     // Only an authored assessment can place someone. Without one, the flow must
     // not hand a learner a quiz whose result cannot mean anything.
-    if (hasAuthoredPlacement(state.courseSlug)) return `/learn/${state.courseSlug}/placement`;
+    // The placement route and its authored questions live on the travel
+    // fixture's slug, so the canonical slug is mapped back for the link.
+    if (hasAuthoredPlacement(state.courseSlug)) {
+      return `/learn/${legacyCourseSlug(packSlugFor(state.courseSlug) ?? '')}/placement`;
+    }
     return language ? `/courses/${language.slug}` : '/dashboard';
   }
   if (state.entryIntent === 'preview') {
@@ -189,7 +204,7 @@ export function onboardingDestination(state: OnboardingState): string {
 }
 
 function languageCodeFor(courseSlug: string): string {
-  return courseSlug.replace(/^english-to-/, '');
+  return packSlugFor(courseSlug) ?? '';
 }
 
 /**
@@ -232,11 +247,12 @@ export function onboardingLanguages(courses: readonly LanguageCourse[]): Onboard
 }
 
 export function resolvedCourseSlug(progressCourseSlug: string | undefined, courses: readonly CourseFixture[]): string {
-  if (progressCourseSlug && courses.some((course) => course.slug === progressCourseSlug)) {
-    return progressCourseSlug;
+  // Both slug forms resolve, and the answer is the canonical one. Unused by the
+  // app today; it keeps the same rule so it cannot disagree if it is wired up.
+  for (const candidate of [progressCourseSlug, readKey(SELECTED_COURSE_STORAGE_KEY) ?? undefined]) {
+    const stored = packSlugFor(candidate);
+    if (stored && courses.some((course) => packSlugFor(course.slug) === stored)) return stored;
   }
-  const stored = readKey(SELECTED_COURSE_STORAGE_KEY) ?? undefined;
-  if (stored && courses.some((course) => course.slug === stored)) return stored;
   return courses[0]?.slug ?? '';
 }
 

@@ -2,7 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { readFileSync } from "node:fs";
 import { describe, expect, it, vi } from "vitest";
-import { validatePack } from "@/features/course-pack/schema";
+import { readAuthoredPack } from "./helpers/authored-pack";
 import { ExerciseView } from "@/features/course-pack/ExerciseView";
 import { producesTargetLanguage } from "@/features/course-pack/feedback";
 
@@ -22,16 +22,22 @@ import { producesTargetLanguage } from "@/features/course-pack/feedback";
 
 /**
  * These cases exercise the legacy (`schemaVersion` 1) exercise engine, which
- * French no longer uses — it migrated to v2 and renders in the v2 player. They
- * run against German, a v1 pack, and pin learner-facing wording rather than any
- * one language's content: `feedback.ts` must never let the grader's taxonomy
- * reach the screen, whatever language the exercise is in.
+ * neither French nor German uses any more — both migrated to v2 and render in
+ * the v2 player. They run against Spanish, a v1 pack, and pin learner-facing
+ * wording rather than any one language's content: `feedback.ts` must never let
+ * the grader's taxonomy reach the screen, whatever language the exercise is in.
  */
-const pack = validatePack(
-  JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
-);
+const pack = readAuthoredPack("spanish");
 const all = pack.lessons.flatMap((l) => l.exercises);
 const byId = (id: string) => all.find((e) => e.id === id)!;
+
+/** The production exercise these cases answer: "Quisiera un té, por favor." */
+const PRODUCE = "es-cafe-requests-foundation-vary";
+const ANSWER = byId(PRODUCE).answers[0];
+/** The same sentence with the accents dropped: the diacritic case, derived. */
+const WITHOUT_ACCENTS = ANSWER.normalize("NFD").replace(/\p{M}/gu, "");
+/** A miss that is a different word, not a slip: the wrong verb, kept simple. */
+const WRONG = "Quiero un té, por favor.";
 
 const TAXONOMY = [
   "acceptable alternative",
@@ -79,7 +85,7 @@ async function answerWith(
 describe("practice feedback", () => {
   it("only ever shows categories as correct answers, and never as words", async () => {
     // A recognition win: the option the pack marks correct.
-    const choice = byId("de-first-words-foundation-meet");
+    const choice = byId("es-first-words-foundation-meet");
     expect(choice.answers[0]).toBe("Hello.");
     const recognised = await answerWith(choice.id, null);
     expect(recognised.feedback.textContent?.toLowerCase()).not.toContain(
@@ -87,31 +93,25 @@ describe("practice feedback", () => {
     );
 
     // A miss: the grader returns "incorrect answer" — the learner must not see it.
-    const missed = await answerWith(
-      "de-cafe-requests-foundation-vary",
-      "Ich möchte ein Tee, bitte.",
-    );
+    const missed = await answerWith(PRODUCE, WRONG);
     for (const word of TAXONOMY)
       expect(missed.feedback.textContent?.toLowerCase()).not.toContain(word);
   });
 
   it("acknowledges a produced answer and asks the learner to say it out loud", async () => {
-    const { feedback } = await answerWith(
-      "de-cafe-requests-foundation-vary",
-      "Ich möchte einen Tee, bitte.",
-    );
+    const { feedback } = await answerWith(PRODUCE, ANSWER);
     const headline = feedback.querySelector("strong")?.textContent ?? "";
     expect(ACKNOWLEDGEMENTS).toContain(headline);
     expect(feedback.textContent).toContain(
       "Say it out loud once before you continue.",
     );
     // The target-language form stays visible as reinforcement.
-    expect(feedback.textContent).toContain("Ich möchte einen Tee, bitte.");
+    expect(feedback.textContent).toContain(ANSWER);
   });
 
   it("does not demand an out-loud rep for a recognition pick", async () => {
     const { feedback } = await answerWith(
-      "de-first-words-foundation-meet",
+      "es-first-words-foundation-meet",
       null,
     );
     const headline = feedback.querySelector("strong")?.textContent ?? "";
@@ -120,20 +120,18 @@ describe("practice feedback", () => {
   });
 
   it("accepts a missing diacritic and shows the accented form back", async () => {
-    // "mochte" for "möchte" is the right word with a diacritic missing, so it
-    // counts. The learner is shown the accented form and never sees the
-    // grader's vocabulary, which is the whole point of this module.
-    const { feedback } = await answerWith(
-      "de-cafe-requests-foundation-vary",
-      "Ich mochte einen Tee, bitte.",
-    );
-    expect(feedback.textContent).toContain("Ich möchte einen Tee, bitte.");
+    // The right word with an accent missing still counts. Derived from the
+    // authored answer rather than written out, so the case cannot quietly stop
+    // testing anything if the answer changes: the assertion below fails first.
+    expect(WITHOUT_ACCENTS).not.toBe(ANSWER);
+    const { feedback } = await answerWith(PRODUCE, WITHOUT_ACCENTS);
+    expect(feedback.textContent).toContain(ANSWER);
     expect(feedback.textContent).not.toContain("accent/diacritic");
     expect(feedback.textContent).not.toMatch(/diacritic/i);
   });
 
   it("advances with a plain Continue, not a save operation", async () => {
-    await answerWith("de-cafe-requests-foundation-vary", "Ich möchte einen Tee, bitte.");
+    await answerWith(PRODUCE, ANSWER);
     expect(screen.getByRole("button", { name: "Continue" })).toBeInTheDocument();
     expect(
       screen.queryByRole("button", { name: "Save and continue" }),
@@ -144,19 +142,16 @@ describe("practice feedback", () => {
     // The panel carried no state at all in this engine: a right answer and a
     // wrong answer looked identical, so a learner skimming on a phone had no
     // signal beyond re-reading the sentence.
-    const right = await answerWith("de-cafe-requests-foundation-vary", "Ich möchte einen Tee, bitte.");
+    const right = await answerWith(PRODUCE, ANSWER);
     expect(right.feedback.getAttribute("data-outcome")).toBe("correct");
 
     cleanup();
-    const wrong = await answerWith(
-      "de-cafe-requests-foundation-vary",
-      "Ich möchte ein Tee, bitte.",
-    );
+    const wrong = await answerWith(PRODUCE, WRONG);
     expect(wrong.feedback.getAttribute("data-outcome")).toBe("attention");
   });
 
   it("treats a revealed model as neither right nor wrong", async () => {
-    const exercise = byId("de-cafe-requests-foundation-vary");
+    const exercise = byId(PRODUCE);
     const save = vi.fn().mockResolvedValue(undefined);
     const user = userEvent.setup();
     render(<ExerciseView pack={pack} exercise={exercise} onSave={save} />);
@@ -167,8 +162,8 @@ describe("practice feedback", () => {
   });
 
   it("only counts target-language answers as language the learner used", async () => {
-    // The running "used this session" list is labelled as French output, and the
-    // lesson summary says "You used N expressions in French". A `choice` asks
+    // The running "used this session" list is labelled as target-language
+    // output, and the lesson summary counts expressions in it. A `choice` asks
     // for the English meaning ("Hello.") and a `reading` is answered in English,
     // so neither may be counted — the first pass counted both.
     expect(producesTargetLanguage("choice")).toBe(false);
@@ -182,7 +177,7 @@ describe("practice feedback", () => {
 
     // And the model a choice grades against really is English, not the target
     // language.
-    const choice = byId("de-first-words-foundation-meet");
+    const choice = byId("es-first-words-foundation-meet");
     expect(choice.answers[0]).toBe("Hello.");
     expect(producesTargetLanguage(choice.kind)).toBe(false);
   });

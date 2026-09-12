@@ -64,7 +64,6 @@ describe('static PWA service worker contract', () => {
       '/icons/verbalibera-512.png',
       '/icons/verbalibera-maskable-512.png',
       '/brand/logo-mark.jpg',
-      '/brand/logo-lockup.jpg',
       '/brand/hero-banner.jpg',
       '/brand/empty-journal.jpg',
       '/brand/courses/french.jpg',
@@ -72,10 +71,28 @@ describe('static PWA service worker contract', () => {
       '/brand/courses/spanish.jpg',
       '/brand/courses/portuguese.jpg',
       '/brand/courses/german.jpg',
+      '/brand/player-card.jpg',
+      '/brand/player-lock.jpg',
       '/audio/french-ordering/fr-ordering-politely-prompt.wav',
       '/audio/french-ordering/fr-ordering-politely-answer.wav',
       '/audio/french-foundations/fr-identity-listen.mp3',
     ]);
+  });
+
+  it('precaches every image the offline page renders', async () => {
+    // Break caught: an image added to `public/offline.html` without being added
+    // here. That page is what a learner sees when nothing else can load, so a
+    // missing precache is not a slow image — it is a broken one, on the one
+    // screen whose whole job is to say the app still works.
+    const assets = staticAssetsFrom(await readWorkerSource());
+    const page = await readFile(path.join(process.cwd(), 'public/offline.html'), 'utf8');
+    const images = [...page.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)].map(([, src]) => src);
+
+    expect(images.length, 'the offline page renders no image at all').toBeGreaterThan(0);
+    for (const src of images)
+      expect(assets, `${src} is not precached, so it cannot load offline`).toContain(src);
+    // And the page's fallback copy is not an image's job to carry.
+    expect(page).toMatch(/<img\b[^>]*\balt=""/);
   });
 
   it('bypasses API requests and only supplies the offline fallback to failed navigation', async () => {
@@ -153,7 +170,9 @@ describe('static PWA service worker contract', () => {
     worker.handlers.get('activate')?.(activation as never);
     await activation.waitUntil.mock.calls[0][0];
     expect(worker.cacheDelete).toHaveBeenCalledWith('verbalibera-static-v7');
-    expect(source).not.toMatch(/verbalibera-static-v1/);
+    // A precise pattern: `/verbalibera-static-v1/` also matches v10, v11 and
+    // v199, so the guard used to pass for a worker that had never left v1.
+    expect(source).not.toMatch(/verbalibera-static-v1['"]/);
 
     // Cache-Control no-store must still be documented for /api/* (privacy boundary)
     // grep for Cache-Control no-store and absence of /api in precache
@@ -261,4 +280,93 @@ it.each([
   await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(response);
   await Promise.all(event.waitUntil.mock.calls.map(([pending]) => pending));
   expect(cachePut).toHaveBeenCalledTimes(stored ? 1 : 0);
+});
+
+/**
+ * The offline matrix's failure half (roadmap 3A).
+ *
+ * The happy path — install a course, disconnect, open it — is covered by
+ * `tests/e2e/offline.spec.ts` against a real service worker. These cases are the
+ * ones that are hard to reach from outside: what the worker serves when the
+ * network is gone, and what it refuses to serve when a download never finished.
+ * A partially installed course that still answered would be worse than no
+ * course at all, because the learner would hear a track that stops halfway.
+ */
+describe('the offline matrix: what the worker serves when the network is gone', () => {
+  const PACK_CACHE = 'verbalibera-pack-fr-foundations-1.0.0-abc';
+  const READY = '/__course_pack_ready__';
+
+  /** An installed cache: the ready marker plus one asset. */
+  function installed(assetPath: string, asset: Response, ready = true) {
+    return (key: unknown) =>
+      Promise.resolve(
+        key === READY ? (ready ? new Response('1.0.0') : undefined) : key === assetPath ? asset : undefined,
+      );
+  }
+
+  it('serves a saved course pack with the network down', async () => {
+    const saved = new Response('{"schemaVersion":2}');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', saved));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(saved);
+  });
+
+  it('serves the long audio lesson from the installed pack, not only from the static cache', async () => {
+    // The track is cached by the download (`installPack`), not by a first play.
+    const track = new Response('mp3 bytes');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(
+      installed('/audio/french-foundations/fr-identity-listen.mp3', track),
+    );
+    const event = {
+      request: {
+        method: 'GET',
+        mode: 'cors',
+        url: 'https://verbalibera.test/audio/french-foundations/fr-identity-listen.mp3',
+      },
+      respondWith: vi.fn(),
+      waitUntil: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    await expect(event.respondWith.mock.calls[0][0]).resolves.toBe(track);
+  });
+
+  it('refuses to serve a download that never finished', async () => {
+    // No ready marker means `installPack` never committed: the cache belongs to
+    // an interrupted download, and serving from it is how a learner ends up
+    // with half a course.
+    const orphaned = new Response('{"schemaVersion":2,"truncated":true}');
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker([PACK_CACHE]);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', orphaned, false));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    const served = await event.respondWith.mock.calls[0][0];
+    // An error response, not the orphaned bytes.
+    expect(served.status).toBe(0);
+    expect(served).not.toBe(orphaned);
+  });
+
+  it('does not treat another app\u2019s pack cache as an installation', async () => {
+    const { handlers, networkFetch, cacheMatch } = await evaluateWorker(['verbalibera-static-v9']);
+    networkFetch.mockRejectedValue(new Error('offline'));
+    cacheMatch.mockImplementation(installed('/packs/french.json', new Response('bytes')));
+    const event = {
+      request: { method: 'GET', mode: 'cors', url: 'https://verbalibera.test/packs/french.json' },
+      respondWith: vi.fn(),
+    };
+    handlers.get('fetch')?.(event as never);
+    const served = await event.respondWith.mock.calls[0][0];
+    expect(served.status).toBe(0);
+  });
 });

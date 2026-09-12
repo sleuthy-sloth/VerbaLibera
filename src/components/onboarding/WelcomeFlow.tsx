@@ -14,6 +14,7 @@ import {
 } from '@/features/onboarding/state';
 import { firstWinFor } from '@/features/onboarding/first-win';
 import { languagesFor } from '@/features/onboarding/languages';
+import { packSlugFor } from '@/features/course-pack/course-identity';
 import { FirstWinFlow } from './FirstWinFlow';
 import styles from './welcome-flow.module.css';
 
@@ -35,10 +36,16 @@ export function WelcomeFlow({
   onComplete?: (destination: string) => void;
 }) {
   const languages = languagesFor(courses);
-  const resumedSlug =
-    initialState && courses.some((course) => course.slug === initialState.courseSlug)
-      ? initialState.courseSlug
-      : null;
+  // The stored record may hold either slug form — `readOnboardingOutcome`
+  // normalises it, and a state passed straight in by a test may not. It resolves
+  // to whichever form *this* list uses, so the preselection matches an option
+  // whatever universe the flow was handed. A record that resolves to nothing
+  // preselects nothing: `packSlugFor` refuses an unknown slug, so an unresolvable
+  // stored value cannot match the first course by accident.
+  const storedPackSlug = packSlugFor(initialState?.courseSlug);
+  const resumedSlug = storedPackSlug
+    ? courses.find((course) => packSlugFor(course.slug) === storedPackSlug)?.slug ?? null
+    : null;
   const [screen, setScreen] = useState<OnboardingScreen>(
     () => onboardingResumeScreen(initialState) ?? 'language',
   );

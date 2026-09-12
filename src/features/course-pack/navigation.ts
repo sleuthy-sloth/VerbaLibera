@@ -1,28 +1,31 @@
-import catalog from './catalog.json';
+import { courseUniverse, packSlugFor, type CourseIdentity } from './course-identity';
 
-export type FoundationCatalogEntry = Readonly<{
-  slug: string;
-  title: string;
-  lessons: number;
-  units: number;
-  practiceActivities: number;
-}>;
+export type FoundationCatalogEntry = CourseIdentity;
 
 /**
  * Generated pack facts, read from the same reports that govern content
  * decisions. Adding a field here means regenerating with `content:build`.
+ *
+ * This is also the app's course universe: the dashboard, the language switcher
+ * and the welcome flow all read it, so a pack that exists is a course a learner
+ * can choose. German used to be absent from all three because the list came from
+ * the travel fixture, which has no German course.
  */
-export const foundationCatalog: readonly FoundationCatalogEntry[] = catalog;
+export const foundationCatalog: readonly FoundationCatalogEntry[] = courseUniverse;
 
-/** Resolve only authored foundation languages, never arbitrary stored paths. */
+/**
+ * Resolve only authored foundation languages, never arbitrary stored paths.
+ *
+ * Accepts either slug the codebase stores (`french`, `english-to-french`) and
+ * returns the canonical pack slug, or `undefined` for anything else.
+ */
 export function foundationLanguage(courseSlug: string): string | undefined {
-  const language = courseSlug.replace(/^english-to-/, '');
-  return foundationCatalog.find(entry => entry.slug === language)?.slug;
+  return packSlugFor(courseSlug);
 }
 
 export function foundationCatalogEntry(courseSlug: string): FoundationCatalogEntry | undefined {
-  const language = courseSlug.replace(/^english-to-/, '');
-  return foundationCatalog.find(entry => entry.slug === language);
+  const language = packSlugFor(courseSlug);
+  return language ? courseUniverse.find((entry) => entry.slug === language) : undefined;
 }
 
 export function foundationStartHref(courseSlug: string): string {

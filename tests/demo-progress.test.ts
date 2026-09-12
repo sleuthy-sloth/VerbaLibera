@@ -1,19 +1,26 @@
 import { composeDailySession } from '@/features/session/compose-session';
 import { initialCourses } from '@/features/curriculum/fixture';
+import { courseUniverse, legacyCourseSlug } from '@/features/course-pack/course-identity';
 import { blankDemoProgress, demoProgress } from '@/features/progress/demo-progress';
 
 const DAILY_GOAL_TARGET = 5;
 const XP_PER_COMPLETED_CONCEPT = 20;
 const XP_PER_SESSION_STEP = 20;
 
+function previewConcepts(packSlug: string) {
+  return initialCourses.find((course) => course.slug === legacyCourseSlug(packSlug))?.concepts ?? [];
+}
+
 function deriveDemoCourses() {
-  return initialCourses.map((course, index) => {
-    const fictionCompleted = index === 0 ? course.concepts.length - 1 : 1;
-    const completionPercent = Math.round((fictionCompleted / course.concepts.length) * 100);
+  return courseUniverse.map((course, index) => {
+    const concepts = previewConcepts(course.slug);
+    const fictionCompleted = concepts.length === 0 ? 0 : index === 0 ? concepts.length - 1 : 1;
+    const completionPercent =
+      concepts.length === 0 ? 0 : Math.round((fictionCompleted / concepts.length) * 100);
     return {
       slug: course.slug,
       title: course.title,
-      unitLabel: `Unit 1: ${course.concepts[0]?.scenario ?? 'Patterns'}`,
+      unitLabel: course.unitLabel,
       completionPercent,
     };
   });
@@ -47,7 +54,7 @@ function deriveDemoSession() {
 
 function deriveXp(courses: ReturnType<typeof deriveDemoCourses>, session: ReturnType<typeof deriveDemoSession>) {
   const completedConcepts = courses.reduce((sum, course) => {
-    const total = initialCourses.find((c) => c.slug === course.slug)?.concepts.length ?? 5;
+    const total = previewConcepts(course.slug).length || 5;
     const completed = Math.round((course.completionPercent / 100) * total);
     return sum + completed;
   }, 0);
@@ -67,7 +74,7 @@ describe('demo progress snapshot', () => {
   it('exposes the selected learner progress and a session derived from the daily policy', () => {
     // Break caught: dashboard data drifting from the deterministic daily-session policy.
     expect(demoProgress).toMatchObject({
-      selectedCourseSlug: 'english-to-french',
+      selectedCourseSlug: 'french',
       xp: 840,
       streakDays: 4,
       practiceFlowDays: 4,
@@ -105,10 +112,12 @@ describe('demo progress derived math (Task 13 alive seed)', () => {
     const expectedDue = deriveDueCount(expectedSession);
     const expectedFlow = deriveFlow(expectedCourses);
     const expectedXp = deriveXp(expectedCourses, expectedSession);
-    const expectedSelectedSlug = initialCourses[0]?.slug ?? 'english-to-french';
+    const expectedSelectedSlug = courseUniverse[0]?.slug ?? 'french';
     const expectedDailyGoal = {
       completed: Math.min(
-        expectedSession.filter((s) => s.courseSlug === expectedSelectedSlug).length,
+        // The session is keyed to the travel fixture's course, which is what the
+        // selected pack slug maps to.
+        expectedSession.filter((s) => s.courseSlug === legacyCourseSlug(expectedSelectedSlug)).length,
         DAILY_GOAL_TARGET,
       ),
       target: DAILY_GOAL_TARGET,
@@ -120,13 +129,26 @@ describe('demo progress derived math (Task 13 alive seed)', () => {
     expect(demoProgress.practiceFlowDays).toBe(expectedFlow);
     expect(demoProgress.dueReviewCount).toBe(expectedDue);
     expect(demoProgress.dailyGoal).toEqual(expectedDailyGoal);
-    expect(blankDemoProgress.courses.map((c) => c.slug)).toEqual(initialCourses.map((c) => c.slug));
+    expect(blankDemoProgress.courses.map((c) => c.slug)).toEqual(courseUniverse.map((c) => c.slug));
     expect(blankDemoProgress.courses.every((c) => c.completionPercent === 0)).toBe(true);
     expect(blankDemoProgress.session).toEqual([]);
     for (const step of demoProgress.session) {
       const course = initialCourses.find((c) => c.slug === step.courseSlug);
       expect(course?.concepts.some((concept) => concept.id === step.contentId)).toBe(true);
     }
+  });
+
+  it('gives German a course entry with nothing fabricated behind it', () => {
+    // German joined the universe when it became the pack catalogue, and it has no
+    // travel-fixture course: no drills, no mastered concepts, no fiction. The
+    // honest entry is a zero, not a share of somebody else's progress.
+    const german = demoProgress.courses.find((course) => course.slug === 'german');
+    expect(german).toBeDefined();
+    expect(german?.title).toBe('German foundations');
+    expect(german?.unitLabel).toBe('Unit 1: Meeting people');
+    expect(german?.completionPercent).toBe(0);
+    expect(blankDemoProgress.courses.find((course) => course.slug === 'german')?.completionPercent).toBe(0);
+    expect(demoProgress.session.some((step) => step.courseSlug === 'german')).toBe(false);
   });
 
   it('has no hardcoded xp/flow/due literals drifting from derived math', () => {

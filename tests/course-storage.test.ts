@@ -1,6 +1,7 @@
 import { it, expect, vi } from "vitest";
 import { mergeEvents } from "@/features/course-pack/progress";
 import { decodeBackup } from "@/features/course-pack/storage";
+import { readAuthoredPack } from "./helpers/authored-pack";
 it("merges backups idempotently and rejects conflicting mutation IDs atomically", () => {
   const e = {
     id: "abc",
@@ -22,14 +23,7 @@ it("merges backups idempotently and rejects conflicting mutation IDs atomically"
 
 it("keeps a discoverable installation when two tabs download concurrently", async () => {
   const { installPack } = await import("@/features/course-pack/storage");
-  const { validatePack } = await import("@/features/course-pack/schema");
-  const { readFileSync } = await import("node:fs");
-  const pack = {
-    ...validatePack(
-      JSON.parse(readFileSync("courses/german/manifest.json", "utf8")),
-    ),
-    media: [],
-  };
+  const pack = { ...readAuthoredPack("spanish"), media: [] };
   const stores = new Map<string, Map<string, Response>>();
   const cacheApi = {
     keys: async () => [...stores.keys()],

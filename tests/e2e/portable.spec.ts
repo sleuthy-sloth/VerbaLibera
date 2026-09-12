@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -48,6 +49,14 @@ test("opens from one file, stays offline, and reloads durable progress", async (
   await expect(
     page.getByRole("heading", { name: "Italian foundations", exact: true }),
   ).toBeVisible();
+  // The course artwork travels in the single file too: the banner is embedded as
+  // a data URL and handed to the shell as a blob, so it renders with every http
+  // request aborted above.
+  const banner = page.locator("img.course-banner");
+  await expect(banner).toHaveAttribute("src", /^blob:/);
+  await expect
+    .poll(() => banner.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
+    .toBeGreaterThan(0);
   await openFirstLesson(page, true);
 
   // The v2 runtime player shows completed steps on its own progress bar
@@ -96,4 +105,43 @@ test("warns and exports valid progress when IndexedDB is unavailable", async ({
   ];
   expect(saved.length).toBeGreaterThan(0);
   expect(saved.every((e) => e.packId === "it-foundations")).toBe(true);
+});
+
+test("the player's own artwork is embedded in the single file", async () => {
+  // Same rule as the scenes below: the shell resolves media through
+  // `environment.resolveMedia` and throws on an asset the file does not carry, so
+  // the cover the card draws has to be inside it. The list is read from the folder
+  // rather than imported from the module — that import drags in the banner JSON,
+  // which the Playwright transform cannot load outside Next.
+  const html = await readFile(artifact, "utf8");
+  const playerArt = readdirSync(join(process.cwd(), "public/brand"))
+    .filter((name) => name.startsWith("player-") && name.endsWith(".jpg"))
+    .sort();
+  expect(playerArt.length, "no player artwork was found to check").toBe(2);
+  for (const name of playerArt) {
+    expect(html, `/brand/${name} is not embedded in the portable file`).toContain(`/brand/${name}`);
+  }
+});
+
+test('the approved lesson scenes are embedded in the single file', async () => {
+  // The portable shell resolves media through `environment.resolveMedia`, which
+  // throws on an asset the file does not carry — so a scene the app can render has
+  // to be inside it. Read from the built artifact rather than re-derived from the
+  // source, which is the same rule the banner check follows.
+  const html = await readFile(artifact, "utf8");
+  // Read the folder rather than a hand-written list: a scene added to the app and
+  // forgotten here would be a picture the portable shell throws on, so the check has
+  // to follow the files.
+  const sceneNames = readdirSync(join(process.cwd(), "public/images/scenes"))
+    .filter((name) => name.endsWith(".jpg"))
+    .sort();
+  expect(sceneNames.length, "no lesson scenes were found to check").toBeGreaterThanOrEqual(6);
+  for (const name of sceneNames) {
+    expect(html, `/images/scenes/${name} is not embedded in the portable file`).toContain(
+      `/images/scenes/${name}`,
+    );
+  }
+  // Embedded, not linked: the audit already refuses an external media reference,
+  // and this names the folder so a future scene cannot be added as a path.
+  expect(html).not.toMatch(/<img[^>]*src="\/images\/scenes\//);
 });

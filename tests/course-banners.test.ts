@@ -90,16 +90,40 @@ describe("course banners", () => {
   });
 
   it("resolves a lesson-view banner for every catalogued language", () => {
-    // `CourseWorkspace` has its own hardcoded map whose consumer renders null
-    // for an unknown language, so a new course silently gets artwork everywhere
-    // except inside the lesson.
-    const workspace = read("src/features/course-pack/CourseWorkspace.tsx");
-    const mapped = [...workspace.matchAll(/(\w+):\s*"\/brand\/courses\/([\w-]+)\.jpg"/g)].map(
+    // The lesson-view map lived inside `CourseWorkspace` with a consumer that
+    // renders null for an unknown language, so a new course silently got
+    // artwork everywhere except inside the lesson. It now lives in
+    // `banners.ts` next to the crop data, and both shells share it.
+    const banners = read("src/features/course-pack/banners.ts");
+    const mapped = [...banners.matchAll(/(\w+):\s*"\/brand\/courses\/([\w-]+)\.jpg"/g)].map(
       (match) => match[2],
     );
     expect([...mapped].sort()).toEqual(catalogSlugs());
     for (const slug of mapped)
       expect(fs.existsSync(bannerFor(slug)), `lesson banner ${slug}.jpg is missing`).toBe(true);
+  });
+
+  it.each(["src/features/course-pack/CourseWorkspace.tsx", "src/features/course-pack/RuntimeCourseWorkspace.tsx"])(
+    "%s renders the banner it resolves",
+    (shell) => {
+      // The v2 shell shipped without a banner at all, so French, Italian and
+      // German lost their artwork on their own course page the moment they
+      // migrated, while the library kept showing the same file.
+      const source = withoutComments(read(shell));
+      expect(source).toMatch(/className="course-banner"/);
+      expect(source).toMatch(/alt=""/);
+      expect(source, `${shell} does not apply the measured crop`).toMatch(/bannerStyle\(/);
+    },
+  );
+
+  it("has a measured narrow-viewport crop for every catalogued language", () => {
+    // A course with art but no measurement falls back to the full frame — which
+    // on a phone is an ~85px strip. That is the defect, so a new course must
+    // arrive with its numbers (see scripts/brand/banner-crops.py).
+    const crops = JSON.parse(read("src/features/course-pack/banner-crops.json")) as {
+      courses: Record<string, unknown>;
+    };
+    expect(Object.keys(crops.courses).sort()).toEqual(catalogSlugs());
   });
 
   it("embeds a banner for every catalogued language in the offline bundle", () => {

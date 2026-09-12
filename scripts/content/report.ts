@@ -95,14 +95,17 @@ export type ContentReport = {
     vocabularyFromPrerequisites: number;
   };
   review: {
-    nativeSpeaker: "pending" | "reviewed";
-    audioListening: "pending" | "reviewed";
+    nativeSpeaker: ReviewStatus;
+    // The same three states: a listening pass can cover some recordings too.
+    audioListening: ReviewStatus;
     note: string;
   };
   answerCoverage: string;
   packBytes: number;
   note: string;
 };
+
+import { reviewNote, type ProseReview, type ReviewStatus } from "./review";
 
 const PRODUCTION_SKILLS: ReadonlySet<Skill> = new Set<Skill>(["writing", "speaking"]);
 const RECEPTION_SKILLS: ReadonlySet<Skill> = new Set<Skill>(["reading", "listening"]);
@@ -172,6 +175,13 @@ export function buildContentReport(
   pack: RuntimePack,
   /** Shipped long-form audio for this course, measured from the files. */
   listen: { tracks: number; bytes: number } = { tracks: 0, bytes: 0 },
+  /**
+   * The human review record for this course (`courses/<language>/review.json`),
+   * threaded in by the caller because only it knows the course directory. The
+   * default is "neither review has happened", which is the truth for a course
+   * that has no record.
+   */
+  review: ProseReview = { nativeSpeaker: { status: "pending" }, audioListening: { status: "pending" } },
 ): ContentReport {
   const authored = (raw ?? {}) as AuthoredManifest;
   const activityIds = reachableActivityIds(pack);
@@ -244,7 +254,7 @@ export function buildContentReport(
     concepts: pack.concepts.length,
     authoredCefrTags: {
       basis:
-        "authored cefr tags on lessons and concepts; the v2 packs carry none, which is a documentation gap rather than an absence of A1 material",
+        "authored cefr tags on lessons and concepts; an empty count means the file carries no authored tag, which is the case for packs migrated before the field existed, not an absence of A1 material",
       counts: cefrTags,
     },
     lessonFamilies,
@@ -324,11 +334,11 @@ export function buildContentReport(
       vocabularyFromPrerequisites: prerequisiteVocabulary.size,
     },
     review: {
-      nativeSpeaker: "pending",
-      audioListening: "pending",
-      note:
-        "Neither review has been performed. Audio integrity checks are mechanical, and the " +
-        "in-app player says the content is machine-authored.",
+      nativeSpeaker: review.nativeSpeaker.status,
+      audioListening: review.audioListening.status,
+      // The two halves are written together so a report cannot say a course is
+      // reviewed in one field and unreviewed in the sentence beside it.
+      note: reviewNote(review),
     },
     listen: {
       basis: LISTEN_CATALOG_BASIS,
@@ -338,7 +348,16 @@ export function buildContentReport(
     answerCoverage: "100%",
     packBytes: Buffer.byteLength(JSON.stringify(pack)),
     note:
-      "Graph and declared vocabulary references validated. Translation truth, target-language " +
-      "naturalness and undeclared words still require native-speaker review.",
+      review.nativeSpeaker.status === "reviewed"
+        ? "Graph and declared vocabulary references validated. The authored prose has been " +
+          "through native-speaker review; translation truth and undeclared words remain the " +
+          "reviewer's own record, kept in docs/human-review-gates.md."
+        : review.nativeSpeaker.status === "partial"
+          ? "Graph and declared vocabulary references validated. Part of the authored prose has " +
+            "been through native-speaker review and part has not, which is what review.nativeSpeaker " +
+            "says; the unreviewed lessons and their translations are named in " +
+            "docs/human-review-gates.md."
+          : "Graph and declared vocabulary references validated. Translation truth, target-language " +
+            "naturalness and undeclared words still require native-speaker review.",
   };
 }

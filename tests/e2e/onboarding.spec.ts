@@ -110,6 +110,25 @@ test.describe('first run', () => {
     await expect(page.url()).not.toContain('/placement');
   });
 
+  test('German is offered here, and its preview path lands on its course page', async ({ page }) => {
+    // What this whole change is for. German had a pack, a course page and a
+    // catalogue entry, but the universe came from the travel fixture, which has
+    // no German course — so the switcher and this flow never offered it.
+    await page.goto('/dashboard', { waitUntil: 'load' });
+    await page.getByRole('radio', { name: /German/ }).check();
+    await page.getByRole('button', { name: /Continue with German/ }).click();
+
+    // No authored assessment exists for German, so the alternative is the
+    // honest one rather than a quiz whose result could not mean anything.
+    await expect(page.getByRole('button', { name: /I know some already/ })).toHaveCount(0);
+    await page.getByRole('button', { name: /Show me the course first/ }).click();
+
+    await page.waitForURL(/\/courses\/german$/);
+    await expect(page.getByRole('heading', { name: 'German foundations', exact: true })).toBeVisible();
+    // And the choice was recorded under the canonical slug.
+    expect(await page.evaluate(() => window.localStorage.getItem('verbalibera_course'))).toBe('german');
+  });
+
   test('Back returns to language selection without losing the choice', async ({ page }) => {
     await page.goto('/dashboard', { waitUntil: 'load' });
     await page.getByRole('radio', { name: /Portuguese/ }).check();
@@ -129,8 +148,11 @@ test.describe('first run', () => {
       'english-to-italian',
     );
     await page.getByRole('button', { name: /Continue with Spanish/ }).click();
+    // Choosing writes the canonical pack slug — the identity everything else in
+    // the app is keyed by. The value seeded above stays in the older form, which
+    // is what an existing learner holds.
     expect(await page.evaluate(() => window.localStorage.getItem('verbalibera_course'))).toBe(
-      'english-to-spanish',
+      'spanish',
     );
   });
 
@@ -164,9 +186,12 @@ test.describe('first run', () => {
     const stored = await page.evaluate(() =>
       JSON.parse(window.localStorage.getItem('verbalibera_onboarding:v1') ?? 'null'),
     );
+    // The completion record names the course by its canonical pack slug, which is
+    // the identity the dashboard, the plans and the banners are keyed by. Older
+    // records in the other form still read, which the alias case covers.
     expect(stored).toMatchObject({
       version: 1,
-      courseSlug: 'english-to-italian',
+      courseSlug: 'italian',
       status: 'completed',
       entryIntent: 'beginner',
     });
@@ -223,4 +248,105 @@ test.describe('first win with the sound off', () => {
     // And the sequence still finishes: a broken clip is not a broken lesson.
     await walkFirstWin(page, 'Italian');
   });
+});
+
+/**
+ * The blank learner's block, at the two widths the brief names.
+ *
+ * Reached the way a real learner reaches it: onboarding is finished, so no
+ * language flow is due, and there is no practice yet — which is exactly the state
+ * the block exists for. The measured properties are the ones the composition
+ * complaint was about: the name is live text beside a 44px mark rather than a
+ * raster lockup squeezed into the panel, the journal is a fraction of the block,
+ * the copy is readable, and the one action can always be brought clear of the
+ * floating tab bar.
+ */
+test.describe('the blank learner block', () => {
+  for (const viewport of [
+    { width: 320, height: 568 },
+    { width: 390, height: 844 },
+  ]) {
+    test(`holds together at ${viewport.width}px`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      await page.evaluate(() => {
+        // The shape `readOnboardingOutcome` validates, and a course that exists.
+        localStorage.setItem(
+          'verbalibera_onboarding:v1',
+          JSON.stringify({
+            version: 1,
+            courseSlug: 'english-to-french',
+            status: 'completed',
+            entryIntent: 'beginner',
+          }),
+        );
+        localStorage.setItem('verbalibera_course', 'english-to-french');
+      });
+      await page.goto('/dashboard');
+
+      const block = page.getByTestId('first-run-onboarding');
+      await expect(block).toBeVisible();
+
+      // The brand: the app's own mark, and the name as text.
+      await expect(block.getByText('VerbaLibera')).toBeVisible();
+      await expect(block.locator('img[src*="logo-lockup"]')).toHaveCount(0);
+      const mark = block.locator("img[src*='logo-mark']");
+      const markBox = (await mark.boundingBox())!;
+      expect(Math.round(markBox.width)).toBe(44);
+      expect(Math.round(markBox.height)).toBe(44);
+
+      // The illustration supports the copy rather than outweighing it.
+      const journal = block.locator("img[src*='empty-journal']");
+      await expect
+        .poll(() => journal.evaluate((img: HTMLImageElement) => img.naturalWidth))
+        .toBeGreaterThan(0);
+      const journalBox = (await journal.boundingBox())!;
+      const blockBox = (await block.boundingBox())!;
+      expect(journalBox.width).toBeLessThan(blockBox.width * 0.45);
+      expect(Math.abs(journalBox.width - journalBox.height)).toBeLessThan(4);
+
+      // Readable copy and a thumb-sized action, at both widths.
+      const copySize = await block
+        .locator('p')
+        .last()
+        .evaluate((node) => parseFloat(getComputedStyle(node).fontSize));
+      expect(copySize).toBeGreaterThanOrEqual(16);
+      const action = block.getByRole('link', { name: /start learning/i });
+      const actionBox = (await action.boundingBox())!;
+      expect(actionBox.height).toBeGreaterThanOrEqual(44);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+        viewport.width,
+      );
+
+      // The floating tab bar may pass over content while scrolling — that is what
+      // a floating bar does — but the action has to be bringable fully clear of
+      // it. Put it just above the bar and check nothing overlaps.
+      const tabBarTop = await page.evaluate(() => {
+        const bar = [...document.querySelectorAll('nav, div')].find((node) => {
+          const style = getComputedStyle(node);
+          const box = node.getBoundingClientRect();
+          return (
+            style.position === 'fixed' &&
+            box.height < 140 &&
+            box.top > innerHeight * 0.5 &&
+            /today/i.test(node.textContent ?? '') &&
+            /courses/i.test(node.textContent ?? '')
+          );
+        });
+        return bar ? bar.getBoundingClientRect().top : null;
+      });
+      expect(tabBarTop, 'the bottom tab bar was not found').not.toBeNull();
+      await page.evaluate((barTop) => {
+        const element = document.querySelector("[data-testid='first-run-onboarding'] a")!;
+        window.scrollBy(0, element.getBoundingClientRect().bottom - barTop + 12);
+      }, tabBarTop!);
+      await page.waitForTimeout(250);
+      const cleared = await action.boundingBox();
+      expect(cleared, 'the action left the document').not.toBeNull();
+      expect(
+        Math.round(cleared!.y + cleared!.height),
+        'the action cannot be scrolled clear of the tab bar',
+      ).toBeLessThanOrEqual(Math.round(tabBarTop!));
+    });
+  }
 });

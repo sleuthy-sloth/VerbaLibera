@@ -37,7 +37,7 @@ The daily path, showing what is next and what needs review:
 
 ## Course structure
 
-French and Italian have full structured A1 foundations at 25 lessons each. German, Portuguese, and Spanish run to eight lessons each, from first words through directions, prices, days and family.
+French and Italian have full structured A1 foundations at 25 lessons each. German runs to ten lessons — first words through directions, prices, days, family, the weather and free time — and Portuguese and Spanish to eight each.
 
 Lessons open the same way, with a zero-recall word choice, and then take different routes: sentence building, changing a sentence's shape, filling a blank, reading a short passage, or listening.
 
@@ -49,11 +49,11 @@ These counts are generated, not hand-maintained: `npm run content:stats` prints 
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | French | v2 | 25 | 222 | 25 | 0 | 25/25 | 26 | 102 |
 | Italian | v2 | 25 | 233 | 26 | 23 | 25/25 | 27 | 102 |
-| German | v1 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
-| Portuguese | v1 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
-| Spanish | v1 | 8 | 49 | 8 | 0 | 1/8 | 1 | 34 |
+| German | v2 | 10 | 62 | 10 | 0 | 1/8 | 1 | 42 |
+| Portuguese | v2 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
+| Spanish | v2 | 8 | 49 | 8 | 0 | 1/8 | 1 | 34 |
 
-74 lessons, 600 practice activities, and 23 speaking steps. Lesson count is capacity, not evidence of a CEFR level: every course is a partial A1 syllabus, and no complete A1 coverage is claimed.
+76 lessons, 614 practice activities, and 23 speaking steps. Lesson count is capacity, not evidence of a CEFR level: every course is a partial A1 syllabus, and no complete A1 coverage is claimed.
 
 The older travel-pattern courses (`english-to-french` and friends, served from the `/learn` routes) are a separate fixture from the foundation packs above and are counted separately in [docs/cefr-coverage.md](docs/cefr-coverage.md).
 
@@ -114,9 +114,9 @@ Privacy: no learner audio is stored by default. The voice route returns only a t
 ## Known limits
 
 - Partial A1 only. No B1 content yet. The 25-lesson French and Italian courses are a partial syllabus, not a finished A1 one.
-- The exercise MIX is still lopsided and mid-repair. `translate` and typed text answers remain the most common activity in every course, and only 23 of 600 practice activities ask the learner to speak — all of them Italian. German, Portuguese and Spanish are still schemaVersion 1 and have no self-assessed exercise kind at all, so adding speaking to them is a player feature, not a content edit. French now runs the schemaVersion 2 player and could carry speaking steps, but none are authored yet.
+- The exercise MIX is still lopsided and mid-repair. `translate` and typed text answers remain the most common activity in every course, and only 23 of 600 practice activities ask the learner to speak — all of them Italian. Spanish has no self-assessed exercise kind either, and it joined the schemaVersion 2 player in the last flip, so for all four the gap is authoring work rather than a missing player capability. French, German, Portuguese and Spanish could carry speaking steps; none are authored yet.
 - Audio coverage is uneven in the same direction: French and Italian carry model audio in every lesson, while German, Portuguese, and Spanish have model audio in one lesson each out of eight.
-- French migrated to schemaVersion 2 on 2026-09-10 (`scripts/migrate-pack-v1-v2.ts`). Lesson, step and exercise identities, media hashes and prerequisite links are proven unchanged, and stored practice replays, but the v1 lesson `cefr: "A1"` tags had no home in the v2 schema and were dropped — see [docs/cefr-coverage.md](docs/cefr-coverage.md).
+- All five courses are schemaVersion 2 (`scripts/migrate-pack-v1-v2.ts`); Spanish was the last, and it was the last pack that could be flipped with real v1 content still in the tree. Lesson, step and exercise identities, media hashes and prerequisite links are proven unchanged, and stored practice replays. With no shipped pack left at v1, the v1 engine and its validator now run on `tests/fixtures/lesson-variety.ts`, which is a real three-lesson A1 Spanish starter authored for them rather than placeholder text. The first flip dropped the authored `cefr: "A1"` lesson tags and the authored `culturalNote`s, because the v2 lesson shape had no fields for them; the schema has both now and the migration carries them, so German and Portuguese each kept all 8 of their tags and their 8 notes. French and Italian were flipped before the fields existed and still report none — re-running the migration from their v1 source would restore them, and that is a data decision, not a silent one. See [docs/cefr-coverage.md](docs/cefr-coverage.md).
 - Foundation lessons are machine-authored and consistency-checked. Native-speaker review is still open, and the audio player says so.
 - Placement is a rough starting suggestion, not a CEFR certification.
 - Physical iPhone testing (Add to Home Screen, offline relaunch, background and foreground) is still open.

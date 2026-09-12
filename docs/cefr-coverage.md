@@ -21,31 +21,32 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | French | v2 | 25 | 222 | 25 | 119 | 0 | 25/25 | none on the pack |
 | Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
-| German | v1 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
-| Portuguese | v1 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
-| Spanish | v1 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
+| German | v2 | 10 | 62 | 10 | 36 | 0 | 1/8 | A1 × 10 lessons |
+| Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
+| Spanish | v2 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
-Totals: 74 lessons, 600 practice activities, 23 speaking steps.
+Totals: 76 lessons, 614 practice activities, 23 speaking steps.
 
 Four findings this table makes visible:
 
-1. **The v2 packs carry no authored `cefr` tag on their lessons or concepts.** The tag exists
-   only in the v1 schema (`cefr: z.literal("A1")` on a lesson), the v2 schema has no field for it,
-   and `migratePackV1ToV2()` builds its output from the runtime shape — so migrating French dropped
-   25 authored "A1" lesson tags. Nothing in the product read them (no source file consumes
-   `lesson.cefr` from a pack; the dashboard's level vocabulary comes from the curriculum fixture),
-   but the reporting column above changed from "A1 × 25 lessons" to "none", and that is a real
-   documentation loss. Either the v2 schema grows a `cefr` field or the remaining packs lose their
-   tags on migration too; decide before the German/Portuguese/Spanish flip.
+1. **The v2 schema carries the authored `cefr` tag now, and the migration keeps it.** The tag
+   exists on the v1 lesson and, since the fix, as an optional field on the v2 lesson too;
+   `migratePackV1ToV2()` re-attaches it from the authored source. Nothing in the product reads it (no
+   source file consumes `lesson.cefr` from a pack; the dashboard's level vocabulary comes from the
+   curriculum fixture), so this is a reporting and documentation claim rather than a learner-facing
+   one — German kept all 8 of its tags through the 2B flip, which is what the column now shows.
+   French and Italian were flipped before the field existed and report "none"; re-running their
+   migration from the v1 source would restore 25 tags each, and that is the user's call, recorded
+   in `tests/pack-migration-cefr.test.ts` rather than done quietly.
 2. **Speaking is Italian-only** — 23 of the 600 practice activities. German, Portuguese and Spanish
-   are schemaVersion 1 and have no self-assessed exercise kind at all, so for them this is a
-   player-capability gap, not a content omission. French now runs the v2 player and *could* carry
-   speaking steps, but none are authored.
+   have no self-assessed exercise kind at all, and all three joined the v2 player with the
+   migrations, so for them this is an authoring gap rather than a missing capability. French and
+   Spanish *could* carry speaking steps too, but none are authored.
 3. **Audio coverage is French/Italian-only.** German, Portuguese and Spanish carry model audio in
    one lesson out of eight.
-4. **The migrated French pack reports every lesson as `family: "discovery"`.** The v1 schema had no
+4. **The migrated packs report every lesson as `family: "discovery"`.** The v1 schema had no
    family field, and the adapter assigns one default, so the v2 player's lesson-rhythm vocabulary
-   says nothing about French yet. Italian's authored families (22 discovery, 1 story, 1
+   says nothing about French or German yet. Italian's authored families (22 discovery, 1 story, 1
    conversation, 1 listening) are the target shape.
 
 ## Travel fixture (unchanged since 2026-09-03)
@@ -81,10 +82,17 @@ completed syllabus.
 
 ## Review status
 
-- **Native-speaker review: pending.** No foundation lesson has been checked by a
-  native speaker. Corrections are tracked through the content-correction issue
-  template.
-- **Audio listening review: pending.** `npm run content:audio-check` proves
+- **Native-speaker review: reviewed for Spanish, part-reviewed for German, pending
+  elsewhere.** The authored Spanish prose was reported reviewed on 2026-09-11, as was
+  German's first eight lessons. The record lives beside each manifest
+  (`courses/german/review.json`, `courses/spanish/review.json`) so the generated reports
+  quote it: `review.nativeSpeaker` reads `"reviewed"` for Spanish, `"partial"` for German —
+  lessons 9 and 10 (the weather, free time) were authored after that review and are named
+  as pending — and `"pending"` for French, Italian and Portuguese. Corrections are tracked
+  through the content-correction issue template.
+- **Audio listening review: pending for every course**, including the two whose prose
+  is now reviewed — the written course was read, not the recordings.
+  `npm run content:audio-check` proves
   hashes and integrity, not that a clip sounds right. `docs/audio-provenance/`
   records what was generated; the human listening checklist has not been run.
 

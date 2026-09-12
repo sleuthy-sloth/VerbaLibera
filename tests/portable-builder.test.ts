@@ -11,6 +11,8 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
+import { SCENE_URLS } from "@/features/course-pack/scenes";
+import { PLAYER_ART_URLS } from "@/features/listen/player-art";
 
 import {
   assertPortableAssetPath,
@@ -41,10 +43,10 @@ describe("portable content collection", () => {
       "portuguese",
       "spanish",
     ]);
-    // Every bundle asset is either a pack's own media or one course banner per
-    // pack. Stated as that relationship rather than a bare total: the offline
-    // edition is a single file under `img-src blob: data:`, so a banner the
-    // collector forgets cannot load at all — German was missing from the
+    // Every bundle asset is either a pack's own media, one course banner per pack,
+    // or one picture per situation. Stated as that relationship rather than a bare
+    // total: the offline edition is a single file under `img-src blob: data:`, so a
+    // banner the collector forgets cannot load at all — German was missing from the
     // hand-written banner list and a bare count could not tell you which.
     for (const slug of Object.keys(content.packs))
       expect(content.assets[`/brand/courses/${slug}.jpg`]).toBeDefined();
@@ -52,8 +54,18 @@ describe("portable content collection", () => {
       (total, pack) => total + pack.media.length,
       0,
     );
+    // The scenes are derived from `SCENE_URLS`, not counted by hand, so this stays
+    // true when one is added to the app.
+    for (const url of SCENE_URLS) expect(content.assets[url]).toBeDefined();
+    // The player's own artwork travels for the same reason and is derived the same
+    // way: the Listen view renders in the single file, so the cover it draws has to
+    // be in there too.
+    for (const url of PLAYER_ART_URLS) expect(content.assets[url]).toBeDefined();
     expect(Object.keys(content.assets)).toHaveLength(
-      mediaCount + Object.keys(content.packs).length,
+      mediaCount +
+        Object.keys(content.packs).length +
+        SCENE_URLS.length +
+        PLAYER_ART_URLS.length,
     );
     // No audio lessons by default: one track is ~5 MB and base64 adds a third,
     // so embedding is a decision the builder makes, not a default it inherits.
