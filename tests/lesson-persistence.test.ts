@@ -4,6 +4,7 @@ import {
   decodeBackupEnvelope,
   encodeBackup,
   readCheckpoint,
+  readCheckpoints,
   readEvents,
   readLessonEvents,
   storeLessonEvents,
@@ -132,6 +133,40 @@ describe("lesson event storage", () => {
       checkpoint({ draft: { kind: "text", text: "Un caff" } }),
     );
     expect(await readCheckpoint(null, "it-variety-pilot", "other")).toBeNull();
+  });
+
+  it("lists every draft newest first, and skips one it cannot read", async () => {
+    // The dashboard asks "where did this learner stop" once, not once per
+    // lesson: listing drafts is what keeps that a single storage round-trip.
+    await writeCheckpoint(checkpoint({ lessonId: "it-cafe-story", at: "2026-09-08T10:00:00.000Z" }), null);
+    await writeCheckpoint(checkpoint({ lessonId: "it-cafe-listening", at: "2026-09-09T10:00:00.000Z" }), null);
+
+    const drafts = await readCheckpoints(null);
+    expect(drafts.map((draft) => draft.lessonId)).toEqual(["it-cafe-listening", "it-cafe-story"]);
+
+    // A row written by an older build must never break the whole listing.
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open("verbalibera-course-practice");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction("checkpoints", "readwrite");
+      tx.objectStore("checkpoints").put({
+        packId: "it-variety-pilot",
+        lessonId: "it-cafe-other",
+        key: "it-variety-pilot:it-cafe-other",
+      });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+
+    expect((await readCheckpoints(null)).map((draft) => draft.lessonId)).toEqual([
+      "it-cafe-listening",
+      "it-cafe-story",
+    ]);
+    expect(await readCheckpoints("someone-elses-account")).toEqual([]);
   });
 });
 

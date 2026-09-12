@@ -15,6 +15,15 @@ import { initialCourses } from '@/features/curriculum/fixture';
 import { blankDemoProgress, demoProgress } from '@/features/progress/demo-progress';
 import { generatePlan } from '@/features/study-plan/generate';
 import { planItemKey } from '@/features/study-plan/today';
+import type { FoundationProgressState } from '@/features/progress/use-foundation-progress';
+
+// The dashboard reads this device's course-pack practice through one hook. Here
+// it is a fixture with the previous behaviour as its default (`unavailable`), so
+// every case that is not about the local history still lets the snapshot decide.
+let mockFoundationState: FoundationProgressState = { status: 'unavailable' };
+vi.mock('@/features/progress/use-foundation-progress', () => ({
+  useFoundationProgress: () => mockFoundationState,
+}));
 
 function createQueryClient() {
   return new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -343,6 +352,130 @@ describe('DailyPathDashboard', () => {
   });
 });
 
+describe('DailyPathDashboard local practice', () => {
+  // The history the snapshot cannot carry: attempts, completions and drafts the
+  // foundation player wrote on this device.
+  const FOUNDATION = {
+    packId: 'fr-foundations',
+    language: 'french',
+    totalLessons: 25,
+    completedLessonCount: 3,
+    hasPractice: true,
+    nextLesson: { id: 'fr-4', title: 'At the market', minutes: 7, position: 4, totalLessons: 25 },
+    unfinished: null,
+    dueReviewCount: 4,
+    dueTitles: ['Ordering a coffee'],
+  } as const;
+
+  const SUMMARY = {
+    phrasesPractised: 12,
+    situationsAttempted: 3,
+    situationsTotal: 25,
+    revisit: [
+      { label: 'Ordering a coffee', lessonId: 'fr-2', state: 'due', dueAt: '2026-09-01T00:00:00.000Z' },
+      { label: 'Greetings', lessonId: 'fr-1', state: 'shaky', dueAt: '2026-09-20T00:00:00.000Z' },
+    ],
+    recognition: { independent: 7, assisted: 1 },
+    production: { independent: 2, assisted: 0 },
+    listening: { independent: 3, assisted: 0 },
+    selfAssessment: { checks: 2, comfortable: 1, again: 1 },
+  } as const;
+
+  function ready(over: { foundation?: object; summary?: object } = {}) {
+    mockFoundationState = {
+      status: 'ready',
+      foundation: { ...FOUNDATION, ...over.foundation },
+      summary: { ...SUMMARY, ...over.summary },
+    } as FoundationProgressState;
+  }
+
+  afterEach(() => {
+    mockFoundationState = { status: 'unavailable' };
+  });
+
+  it('offers the practice the snapshot cannot see, in review order', () => {
+    // Break caught: a learner with foundation evidence is told to open the
+    // course from the top, because the card only ever read the snapshot.
+    ready();
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    // Ten minutes at one phrase per two minutes, and four are due: four, not five.
+    expect(screen.getByRole('link', { name: /Review 4 phrases/i })).toHaveAttribute(
+      'href',
+      '/courses/french?start=1',
+    );
+    expect(screen.getByTestId('next-action-reason')).toHaveTextContent('First up: Ordering a coffee');
+    // The guided session is still there and is not what this learner needs.
+    expect(screen.queryByRole('link', { name: /continue today.s lesson/i })).not.toBeInTheDocument();
+  });
+
+  it('says what was practised, in four histories that are never added together', () => {
+    // Break caught: recognition, production, listening and self-assessment are
+    // summed into one encouraging number, or the summary claims a level.
+    ready();
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    const summary = screen.getByTestId('learning-summary');
+    expect(within(summary).getByText('Phrases practised')).toBeInTheDocument();
+    expect(within(summary).getByText('12')).toBeInTheDocument();
+    expect(within(summary).getByText('3 of 25')).toBeInTheDocument();
+
+    expect(within(summary).getByText('7 on your own, 1 with help')).toBeInTheDocument();
+    expect(within(summary).getByText('2 on your own')).toBeInTheDocument();
+    expect(within(summary).getByText('3 on your own')).toBeInTheDocument();
+    expect(within(summary).getByText('2 — 1 comfortable, 1 to try again')).toBeInTheDocument();
+    // Seven recognised plus three understood by ear is ten events, not one
+    // figure: the learner can hear a phrase they cannot yet say.
+    expect(within(summary).queryByText('10 on your own')).not.toBeInTheDocument();
+  });
+
+  it('names what to revisit and which of the two reasons it is', () => {
+    ready();
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    const summary = screen.getByTestId('learning-summary');
+    expect(within(summary).getByText('Worth another look')).toBeInTheDocument();
+    expect(within(summary).getByText('ready for review')).toBeInTheDocument();
+    expect(within(summary).getByText('shaky last time')).toBeInTheDocument();
+  });
+
+  it('stays quiet about a history with nothing in it', () => {
+    // No practice on this device: the snapshot decides and no summary is drawn.
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    expect(screen.queryByTestId('learning-summary')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
+  });
+
+  it('does not show a first-run card to a guest twenty phrases in', async () => {
+    // Break caught: a blank snapshot outranks real local practice, so a guest
+    // who has been practising for a week is asked to start from the first words.
+    localStorage.setItem(
+      'verbalibera_onboarding:v1',
+      JSON.stringify({ version: 1, courseSlug: 'english-to-french', status: 'completed', entryIntent: 'beginner' }),
+    );
+    ready({
+      foundation: { completedLessonCount: 3, dueReviewCount: 0, dueTitles: [] },
+      summary: { phrasesPractised: 20, revisit: [] },
+    });
+
+    render(<DailyPathDashboard progress={blankDemoProgress} />);
+
+    expect(await screen.findByRole('link', { name: /Continue with At the market/ })).toBeInTheDocument();
+    expect(screen.queryByTestId('first-run-onboarding')).not.toBeInTheDocument();
+    expect(screen.getByTestId('learning-summary')).toBeInTheDocument();
+  });
+
+  it('says nothing is waiting rather than drawing an empty revisit list', () => {
+    ready({ foundation: { dueReviewCount: 0, dueTitles: [] }, summary: { revisit: [] } });
+    render(<DailyPathDashboard progress={demoProgress} />);
+
+    const summary = screen.getByTestId('learning-summary');
+    expect(within(summary).getByText('Nothing is waiting for review.')).toBeInTheDocument();
+    expect(within(summary).queryByText('Worth another look')).not.toBeInTheDocument();
+  });
+});
+
 describe('DashboardDataBoundary', () => {
   it('shows a static practice-path skeleton while progress is loading', () => {
     // Break caught: an unresolved preview request leaves the page blank or unannounced.
@@ -379,7 +512,12 @@ describe('DashboardDataBoundary', () => {
 
     resolveRetry?.(new Response(JSON.stringify(demoProgress)));
     expect(await screen.findByRole('link', { name: /continue today.s lesson/i })).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // The retry is what is counted: the dashboard also reads the course pack for
+    // its next-action engine, and that request is not the boundary's business.
+    const progressRequests = fetchMock.mock.calls.filter(
+      ([url]) => String(url) === '/api/demo/progress',
+    );
+    expect(progressRequests).toHaveLength(2);
   });
 });
 

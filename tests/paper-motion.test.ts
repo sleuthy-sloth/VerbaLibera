@@ -47,6 +47,14 @@ describe("paper motion", () => {
     expect(css).toMatch(/\.study \.study-choice:active\s*\{[^}]*box-shadow:\s*0 0 0 transparent/);
   });
 
+  it("keeps answer choices grouped instead of inheriting page-level label spacing", async () => {
+    const study = await read(STUDY);
+    const player = await read("src/features/course-pack/lesson-player.css");
+    expect(study).toMatch(/\.study \.study-choice\s*\{[^}]*margin:\s*0;/);
+    expect(player).toMatch(/\.lp-options,[\s\S]*?\.lp-replies\s*\{[^}]*align-content:\s*start;/);
+    expect(player).toMatch(/\.lp-option\s*\{[^}]*margin:\s*0;/);
+  });
+
   it("takes every transition duration from a token, never a literal", async () => {
     const css = await read(STUDY);
     // The choice row shipped with hardcoded `.15s ease` before this. A first
