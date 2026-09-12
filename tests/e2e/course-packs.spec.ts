@@ -126,6 +126,9 @@ test("French references and mobile navigation are usable", async ({ page }) => {
     page.getByRole("heading", { name: "People and être", exact: true }),
   ).toBeVisible();
   await expect(page.getByText("a brother", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Au café : commander et payer", exact: true }),
+  ).toBeVisible();
   for (const width of [320, 390, 430, 844]) {
     await page.setViewportSize({ width, height: width === 844 ? 390 : 844 });
     expect(
