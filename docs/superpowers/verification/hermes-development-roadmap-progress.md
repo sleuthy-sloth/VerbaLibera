@@ -1745,6 +1745,52 @@ browser (uppercase, 1.75px tracking, `#a8511f`, 12.48px).
   regenerating them on-palette is a generation job: not invented here.
 
 
+### 2026-09-11 — Visual QA: the lesson player was being styled by the shell it sits in
+
+**The pass.** A walker that answers every step from the pack manifest itself
+(`tests/e2e/helpers/lesson-walk.ts`) drove the Italian foundations lesson and the legacy guided
+session at 320, 390, 768 and 1440px, measuring every state a learner reaches — presented, answered
+and graded — plus the course path and the picture drill: sideways overflow, elements outside the
+viewport, sibling gaps against the declared grid gap, clipped content, touch-target size, overlaps,
+image decode and ratio, and controls sitting under the floating tab capsule.
+
+**Four defects, each measured on the running app before anything was changed.**
+
+| Defect | Measured | Cause |
+| --- | --- | --- |
+| Answer cards oddly spaced | gaps of 10/28/28/28px against a declared 8px grid gap | `.study label { margin: 10px 0 }` outranks `.lp-option { margin: 0 }` — a class plus an element (0,1,1) against a single class (0,1,0) |
+| Cloze blank as a box | 310x60 block, 1px full border, 12/16px padding, inside a 310px sentence | the same shell rule family reaches `.lp-blank` |
+| Every lesson step scrolled sideways at 320px | 38px | `.lp-progress-track` defaulted to `min-width: auto`; its min-content is 318px (the bar's intrinsic 10em plus the nowrap step counter) inside a 240px content box |
+| Vocabulary pictures cropped in the drill | rendered 215x161 against natural 800x449 | `.pictureChoice img { aspect-ratio: 4/3; object-fit: cover }` around 16:9 artwork |
+
+The first two are one root cause, and together they explain why `10d261a`'s answer-card fix did not
+settle the reported symptom: that commit added `align-content: start` and `margin: 0` to
+`.lp-option`, which addressed the grid stretch, while the margin it also meant to cancel could not
+win on specificity. The v2 player renders inside `<main class="study">`, whose stylesheet styles
+bare elements for the old player.
+
+**Fixed** in the two stylesheets that were fighting: the player's subtree is excluded from the
+shell's form-field rules, the progress row can shrink, the lesson title keeps the player's scale,
+and the drill's frame and declared `<img>` size now match the 16:9 vocabulary contract.
+`public/study.css` regenerated from the sources.
+
+**Guards** — `tests/e2e/lesson-layout.spec.ts`: the option gap against the declared gap, the cloze
+blank inline with its underline and no box, the title at the player's scale, no sideways scroll on
+any step, and the drill's pictures keeping their own ratio. Every one was proven able to fail by
+injecting its defect back: `10.0/28.0/28.0/28.0 against a declared 8px gap` · `the cloze blank
+should not be a block box` · `at 320px on "Read": expected <= 0, received 38` · `shopkeeper.jpg is
+framed at 1.333 against its own 1.782`.
+
+**Also updated:** `tests/e2e/guided-session.spec.ts` pinned the drill's `<img height="300">` — the
+attribute that encoded the crop. It now asserts the relationship rather than the number: the
+declared box matches the file's own ratio, and the rendered frame is within 6% of it.
+
+**Deliberately not changed:** the shell's paragraph rhythm (`.study p { margin: 12px 0 }`) still
+sets the spacing of the player's paragraphs and reads fine — the player's own `<p>` margins lose to
+it, which is a narrower thing than the four above and not a defect. Also still true and unfixed,
+from earlier passes: the floating tab capsule owns the bottom ~84px of a phone viewport, so specs
+scroll a control to the middle before tapping it.
+
 ## Test evidence
 
 Run in this worktree, macOS 26.6.2 / Node v25.9.0 / npm 11.16.0.
@@ -1917,6 +1963,19 @@ exactly like a broken change. Nothing in the output says which commit is being s
 was redone against a dev server started from this worktree on `:3101` with `E2E_BASE_URL` set, which
 also skips the config's own `webServer`.
 
+### Visual-QA pass (2026-09-11)
+
+| Check | Command | Result |
+| --- | --- | --- |
+| Unit / integration | `npx vitest run` | **158 files passed, 1 skipped — 1228 passed, 6 skipped, 0 failed** (includes the generated-artifact reproducibility guard against the committed `public/study.css`) |
+| Types | `npx tsc --noEmit` | clean |
+| Lint | `npm run lint` | 0 errors, 36 warnings (unchanged) |
+| Build | `npm run build` | exit 0 |
+| Content | `npm run content:build` | exit 0; only `public/study.css` churned, which is the regenerated artifact for the CSS that changed |
+| Browser | `E2E_BASE_URL=http://localhost:3101 npx playwright test --project=chromium --workers=1` | **113 passed, 3 skipped** |
+| Offline matrix | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | 11 passed, 3 skipped (the WebKit offline half stays skipped for the documented engine reason) |
+| Layout guards | `npx playwright test tests/e2e/lesson-layout.spec.ts` | 5 passed; all four assertions proven non-vacuous by injecting their defect back |
+
 ## Commits
 
 | Commit | Contents |
@@ -1967,8 +2026,11 @@ also skips the config's own `webServer`.
 | `a8881cf` | **The completion-record e2e assertion moves to the canonical slug** — the one case the Playwright run caught, with the older form still accepted on read |
 | `9a432dc` | **The Spanish flip, completed** — and the v1 host it leaves behind: a real three-lesson A1 Spanish starter in `tests/fixtures/lesson-variety.ts`, the schema-aware reader with its round-trip proof, nine suites moved onto them with their own assertions intact, and the cloze-space defect the new content exposed |
 | `b8ca6c3` | **The approved hospital picture**, with the alt text deliberately unchanged, `bill.jpg`/`shopkeeper.jpg` kept as photographs and the evidence recorded for why the six-panel sheet cannot stand in, pinned by a test so the note cannot be deleted |
+| `fda79c2` | **The lesson player stops being styled by the shell it sits in** — the visual-QA sweep's four measured defects: answer cards 28px apart (the half of the reported spacing bug `10d261a` could not reach), the cloze blank as a full-width block box, every lesson step scrolling 38px sideways at 320px, and the picture drill cropping ~25% off 16:9 vocabulary art; with `tests/e2e/lesson-layout.spec.ts` and a manifest-driven lesson walker as coverage, each guard proven able to fail |
 
-Nothing was pushed. No merge to `main`, no tag, no deployment.
+Nothing was pushed by the earlier passes in this record. The visual-QA pass is the first
+since them to push, at the owner's explicit request: `fda79c2` and this record went to
+`origin/hermes/hermes-830d4bcc`. No merge to `main`, no tag, no deployment.
 
 ## Next tasks
 
