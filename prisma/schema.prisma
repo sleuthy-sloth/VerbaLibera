@@ -54,6 +54,7 @@ model User {
   placements        PlacementResult[]
   studyPlans        StudyPlan[]
   foundationEvents  FoundationPracticeEvent[]
+  foundationPreferences FoundationPreference[]
   desktopProfile    DesktopProfile?
 }
 
@@ -289,4 +290,20 @@ model FoundationPracticeEvent {
 
   @@unique([userId, eventId])
   @@index([userId, sequence])
+}
+
+model FoundationPreference {
+  id             String   @id @default(cuid())
+  userId         String
+  packId         String
+  version        Int      @default(1)
+  minutesPerDay  Int
+  goal           String
+  listening      String
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, packId])
+  @@index([userId])
 }

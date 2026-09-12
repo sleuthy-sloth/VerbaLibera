@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { scheduleReview, type SrsState } from "../srs/scheduler";
 import type { CoursePack } from "./schema";
+import type { FoundationPreferences } from "./foundation-preferences";
 export const eventSchema = z.object({
   id: z.string().min(1).max(100),
   packId: z.string().min(1).max(100),
@@ -152,4 +153,27 @@ export function conceptEvidence(pack: CoursePack, events: PracticeEvent[]) {
       summary.lastExposure = date;
   }
   return result;
+}
+
+/** Selects a foundation session using optional learner preferences. Eligibility and due reviews stay authoritative. */
+export function selectDailyWithPreferences(
+  pack: CoursePack, events: PracticeEvent[], minutes: number, now = new Date(), preferences?: FoundationPreferences,
+): ReturnType<typeof selectDaily> {
+  const base = selectDaily(pack, events, preferences?.minutesPerDay ?? minutes, now);
+  if (!preferences) return base;
+  const state = projectProgress(pack, events);
+  const due = new Set(base.exerciseIds.filter(id => state[id]?.dueAt <= now));
+  const eligible = base.exerciseIds.filter(id => {
+    if (due.has(id)) return true;
+    const exercise = pack.lessons.flatMap(l => l.exercises).find(e => e.id === id);
+    return !(preferences.listening === "off" && exercise?.mode === "listening");
+  });
+  const order = preferences.preferredModes;
+  if (!order.length) return { ...base, exerciseIds: eligible };
+  const modeRank = (id: string) => {
+    const exercise = pack.lessons.flatMap(l => l.exercises).find(e => e.id === id);
+    const mode = exercise?.mode === "listening" ? "listen" : exercise?.mode === "production" ? "build" : "read";
+    return order.indexOf(mode as typeof order[number]);
+  };
+  return { ...base, exerciseIds: [...eligible].sort((a, b) => (due.has(b) ? 1 : due.has(a) ? -1 : modeRank(a) - modeRank(b))) };
 }
