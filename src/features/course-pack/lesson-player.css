@@ -40,8 +40,15 @@
   margin: 0;
 }
 
-.lesson-player h2 {
+/* Two classes, not one: the v2 player is rendered inside the `.study` shell,
+   whose `.study h2` (a class plus an element, and the later of the two in the
+   hosted cascade) otherwise sets the lesson title to 30px with 26px/16px
+   margins. Measured on the running app: the title rendered at the shell's size
+   while `.lp-title`'s own margins were ignored. */
+.lesson-player h2,
+.lesson-player .lp-title {
   font-size: 1.6rem;
+  margin: 0.15rem 0 0.75rem;
 }
 
 .lesson-player h3 {
@@ -71,14 +78,25 @@
 
 .lp-progress-track {
   flex-basis: 100%;
+  /* Load-bearing, like the bar's own `min-width`: a flex item defaults to
+     `min-width: auto`, which is its MIN-CONTENT width — and the track's is the
+     bar's intrinsic 10em plus the nowrap counter, 318px. The row therefore
+     refused to shrink inside a 240px content box and every lesson step scrolled
+     38px sideways at 320px. */
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.75rem;
 }
 
+/* `min-width: 0` is load-bearing: a `<progress>` carries an intrinsic width of
+   about 10em, and with `min-width: auto` the row (bar + gap + the nowrap step
+   counter) came to ~318px inside a 264px content box — 38px of horizontal page
+   scroll on every lesson step at 320px, measured. */
 .lp-progress {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   height: 8px;
   accent-color: var(--lp-accent);
 }

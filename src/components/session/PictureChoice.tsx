@@ -48,7 +48,7 @@ export function PictureChoice({ prompt, choices, recallTarget, onVerdict }: Pict
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={choice.imageUrl} alt="" width={400} height={300} loading="lazy" />
+              <img src={choice.imageUrl} alt="" width={400} height={225} loading="lazy" />
               <span className={styles.pictureAlt}>{choice.alt}</span>
             </button>
           );

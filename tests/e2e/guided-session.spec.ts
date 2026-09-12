@@ -276,10 +276,21 @@ test('the emergency drill shows the approved hospital picture', async ({ page })
   await expect
     .poll(() => picture.evaluate((img: HTMLImageElement) => img.naturalWidth), { timeout: 15000 })
     .toBeGreaterThan(0);
-  // The declaring surface reserves the 4:3 box the drill draws in, so the row does not
-  // jump when the picture arrives.
-  await expect(picture).toHaveAttribute('width', '400');
-  await expect(picture).toHaveAttribute('height', '300');
+  // The declaring surface reserves the box the drill draws in, so the row does not
+  // jump when the picture arrives — and that box has to match the file's own frame.
+  // The vocabulary set is composed 16:9 (800x449), so the declared 4:3 box this used
+  // to pin both mis-reserved the row and cropped about a quarter off the picture.
+  // Asserted as a relationship so the numbers cannot drift from the art again.
+  const frame = await picture.evaluate((img: HTMLImageElement) => {
+    const rect = img.getBoundingClientRect();
+    return {
+      declared: Number(img.getAttribute('width')) / Number(img.getAttribute('height')),
+      natural: img.naturalWidth / img.naturalHeight,
+      rendered: rect.width / rect.height,
+    };
+  });
+  expect(frame.declared).toBeCloseTo(frame.natural, 2);
+  expect(Math.abs(frame.rendered - frame.natural) / frame.natural).toBeLessThan(0.06);
 });
 
 test('the emergency pattern shows the emergency scene', async ({ page }) => {

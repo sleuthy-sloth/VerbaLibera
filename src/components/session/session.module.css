@@ -511,10 +511,14 @@
   outline-offset: 2px;
 }
 
+/* The vocabulary pictures are composed 16:9 (800x449) — see the asset contract
+   in docs/image-provenance.md — so a 4:3 frame with `object-fit: cover` cut
+   about a quarter off the height of every illustration in this drill. Measured
+   on the running app: rendered 215x161 (1.333) against natural 800x449 (1.782). */
 .pictureChoice img {
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   display: block;
   border-radius: 10px;
