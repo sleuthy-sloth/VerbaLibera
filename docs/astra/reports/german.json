@@ -2,70 +2,70 @@
   "id": "de-foundations",
   "language": "de",
   "schemaVersion": 2,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "status": "active",
   "level": {
     "claim": "partial-A1",
     "detail": "Lesson count is capacity, not CEFR evidence. No complete A1 syllabus is claimed; native-speaker review and an outcome-coverage review both remain open."
   },
-  "lessons": 8,
-  "units": 4,
-  "concepts": 8,
+  "lessons": 10,
+  "units": 5,
+  "concepts": 10,
   "authoredCefrTags": {
     "basis": "authored cefr tags on lessons and concepts; an empty count means the file carries no authored tag, which is the case for packs migrated before the field existed, not an absence of A1 material",
     "counts": {
-      "A1": 8
+      "A1": 10
     }
   },
   "lessonFamilies": {
-    "discovery": 8
+    "discovery": 10
   },
   "vocabulary": {
     "basis": "declared entries vs entries referenced by a lesson or a reachable activity",
-    "declared": 34,
-    "referenced": 34,
+    "declared": 42,
+    "referenced": 42,
     "unused": 0
   },
   "runtimeActivities": {
     "basis": "distinct authored activities reachable from lesson steps (including support activities)",
-    "reachable": 56,
-    "practice": 48,
-    "information": 8,
+    "reachable": 72,
+    "practice": 62,
+    "information": 10,
     "byKind": {
-      "cloze": 5,
-      "information": 8,
-      "ordering": 7,
-      "selection": 11,
-      "text": 25
+      "cloze": 7,
+      "information": 10,
+      "ordering": 9,
+      "selection": 15,
+      "text": 31
     },
     "bySkill": {
-      "grammar": 28,
+      "grammar": 36,
       "listening": 1,
-      "reading": 19,
-      "vocabulary": 19,
-      "writing": 28
+      "reading": 25,
+      "vocabulary": 25,
+      "writing": 36
     }
   },
   "legacyExercises": {
     "basis": "v1 records retained for progress replay; a subset of the runtime activities",
-    "retained": 48,
-    "replayedAsActivities": 48,
+    "retained": 62,
+    "replayedAsActivities": 62,
     "byKind": {
-      "choice": 11,
-      "cloze": 5,
+      "choice": 15,
+      "cloze": 7,
       "dictation": 1,
-      "order": 7,
-      "reading": 6,
-      "think": 7,
-      "transform": 3,
+      "order": 9,
+      "reading": 8,
+      "think": 9,
+      "transform": 5,
       "translate": 8
     }
   },
   "production": {
     "basis": "practice activities whose authored skills include writing or speaking (for v1 this is the adapter's mapping: production mode and the ordering/cloze/transform kinds)",
-    "practice": 48,
-    "targetLanguage": 28,
-    "recognition": 20
+    "practice": 62,
+    "targetLanguage": 36,
+    "recognition": 26
   },
   "speaking": {
     "basis": "self-compare activities, which record locally and collect a self-assessment",
@@ -77,28 +77,28 @@
     "audioClips": 1,
     "activities": 1,
     "lessons": 1,
-    "lessonsTotal": 8,
-    "lessonCoveragePercent": 12.5
+    "lessonsTotal": 10,
+    "lessonCoveragePercent": 10
   },
   "retrieval": {
     "basis": "lesson steps with the transfer purpose",
     "activities": 0
   },
   "purposeMix": {
-    "notice": 8,
-    "practice": 41,
-    "predict": 7
+    "notice": 10,
+    "practice": 53,
+    "predict": 9
   },
   "prerequisites": {
     "basis": "lessons declaring a prerequisite; chain depth is the longest prerequisite path; vocabulary counts distinct entries introduced by a lesson's direct prerequisites",
-    "lessonsWithPrerequisites": 7,
-    "maxChainDepth": 8,
-    "vocabularyFromPrerequisites": 30
+    "lessonsWithPrerequisites": 9,
+    "maxChainDepth": 10,
+    "vocabularyFromPrerequisites": 38
   },
   "review": {
-    "nativeSpeaker": "reviewed",
+    "nativeSpeaker": "partial",
     "audioListening": "pending",
-    "note": "Native-speaker review of the authored prose: reviewed (2026-09-11, reported by the project owner). Listening review of the audio has not been performed. The audio integrity checks are mechanical, and the in-app player says the content is machine-authored. The prose review was reported as passed by the project owner. It is a review of the authored text, not of the recordings: the German model audio still needs the listening review in docs/human-review-gates.md."
+    "note": "Native-speaker review of the authored prose: part reviewed. Reviewed: lessons 1-8 (first words through family and people) (2026-09-11, reported by the project owner). Pending: lessons 9-10 (Weather and seasons; Free time and hobbies), authored after that review and not yet read by a speaker. Listening review of the audio has not been performed. The audio integrity checks are mechanical, and the in-app player says the content is machine-authored. Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two lessons added after that review are outside it until a speaker reads them, so this record says partial rather than reviewed. The recordings still need the listening review in docs/human-review-gates.md."
   },
   "listen": {
     "basis": "authored long-form audio lessons; bytes and digests measured from the shipped files",
@@ -106,6 +106,6 @@
     "bytes": 6082989
   },
   "answerCoverage": "100%",
-  "packBytes": 132456,
-  "note": "Graph and declared vocabulary references validated. The authored prose has been through native-speaker review; translation truth and undeclared words remain the reviewer's own record, kept in docs/human-review-gates.md."
+  "packBytes": 168838,
+  "note": "Graph and declared vocabulary references validated. Part of the authored prose has been through native-speaker review and part has not, which is what review.nativeSpeaker says; the unreviewed lessons and their translations are named in docs/human-review-gates.md."
 }

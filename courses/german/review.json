@@ -1,6 +1,8 @@
 {
   "nativeSpeaker": {
-    "status": "reviewed",
+    "status": "partial",
+    "reviewed": "lessons 1-8 (first words through family and people)",
+    "pending": "lessons 9-10 (Weather and seasons; Free time and hobbies), authored after that review and not yet read by a speaker",
     "date": "2026-09-11",
     "reportedBy": "the project owner",
     "scope": "The authored German prose in courses/german/manifest.json: lesson titles, objectives, prompts, answers, explanations and cultural notes, and the A1 tags attached to them."
@@ -8,5 +10,5 @@
   "audioListening": {
     "status": "pending"
   },
-  "note": "The prose review was reported as passed by the project owner. It is a review of the authored text, not of the recordings: the German model audio still needs the listening review in docs/human-review-gates.md."
+  "note": "Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two lessons added after that review are outside it until a speaker reads them, so this record says partial rather than reviewed. The recordings still need the listening review in docs/human-review-gates.md."
 }

@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "id": "de-foundations",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "language": "de",
   "status": "active",
   "title": "German foundations",
   "sourceLanguage": "en",
-  "description": "Four A1 German lessons: first words, introductions, polite café requests, and numbers for everyday quantities. Native-speaker editorial review remains open.",
-  "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked; native-speaker editorial review remains open.",
+  "description": "Ten A1 German lessons: first words, introductions, polite café requests, numbers and quantities, directions, prices, days and times, family, the weather, and free time. Lessons 1-8 have been through native-speaker review; lessons 9-10 are pending it.",
+  "attribution": "Original VerbaLibera authoring, 2026. MIT. Machine-authored and consistency-checked. Native-speaker editorial review: lessons 1-8 reviewed 2026-09-11; lessons 9-10 pending.",
   "units": [
     {
       "id": "de-unit-1",
@@ -28,6 +28,11 @@
       "id": "de-unit-4",
       "title": "Everyday life",
       "objective": "Talk about days, times, and the people around you."
+    },
+    {
+      "id": "de-unit-5",
+      "title": "Weather and free time",
+      "objective": "Say what the weather is doing, and talk about your free time and where you live."
     }
   ],
   "concepts": [
@@ -186,6 +191,46 @@
         }
       ],
       "commonError": "Einen Bruder, not ein Bruder: the direct object takes the accusative, and only masculine nouns change."
+    },
+    {
+      "id": "de-weather-concept",
+      "title": "Weather and seasons",
+      "explanation": "German hands the weather to a small word and then says what it is doing: es regnet, es ist kalt, es schneit. That es is not the English it — it stands in for the whole situation, so it never changes, whatever the weather is doing. The sun is the exception worth noticing: it does the shining itself, as a subject with a verb of its own, so the sentence reads die Sonne scheint. And because German keeps the verb in second place, fronting the place pushes the tiny word past it: es regnet in Hamburg becomes In Hamburg regnet es.",
+      "examples": [
+        {
+          "target": "Wie ist das Wetter?",
+          "meaning": "What is the weather like?"
+        },
+        {
+          "target": "Es regnet.",
+          "meaning": "It is raining."
+        },
+        {
+          "target": "Die Sonne scheint.",
+          "meaning": "The sun is shining."
+        }
+      ],
+      "commonError": "Regnet es, not es regnet, once the place comes first: In Hamburg regnet es."
+    },
+    {
+      "id": "de-free-time-concept",
+      "title": "Free time and hobbies",
+      "explanation": "English says you like doing something with a second verb; German uses one small word instead and keeps it next to the verb it belongs to. Ich lese gern is literally I read gladly, and the gern cannot drift to the front or the end — it rides directly behind the verb. Move the sentence to wir or sie and only the verb changes: Ich spiele gern Tennis becomes Wir spielen gern Tennis. Freizeit is the same trick German plays all over its vocabulary: frei plus Zeit, free plus time, written as one word.",
+      "examples": [
+        {
+          "target": "Ich lese gern.",
+          "meaning": "I like reading."
+        },
+        {
+          "target": "Ich spiele gern Tennis.",
+          "meaning": "I like playing tennis."
+        },
+        {
+          "target": "Ich wohne in Berlin.",
+          "meaning": "I live in Berlin."
+        }
+      ],
+      "commonError": "Ich gern spiele, not Ich spiele gern: the little word sits right after the verb."
     }
   ],
   "vocabulary": [
@@ -426,6 +471,62 @@
       "meaning": "the parents",
       "partOfSpeech": "word or expression",
       "example": "Meine Eltern wohnen in Berlin."
+    },
+    {
+      "id": "de-weather-word-1",
+      "word": "das Wetter",
+      "meaning": "the weather",
+      "partOfSpeech": "word or expression",
+      "example": "Wie ist das Wetter?"
+    },
+    {
+      "id": "de-weather-word-2",
+      "word": "es regnet",
+      "meaning": "it is raining",
+      "partOfSpeech": "word or expression",
+      "example": "Es regnet heute."
+    },
+    {
+      "id": "de-weather-word-3",
+      "word": "die Sonne scheint",
+      "meaning": "the sun is shining",
+      "partOfSpeech": "word or expression",
+      "example": "Die Sonne scheint."
+    },
+    {
+      "id": "de-weather-word-4",
+      "word": "kalt",
+      "meaning": "cold",
+      "partOfSpeech": "word or expression",
+      "example": "Es ist kalt."
+    },
+    {
+      "id": "de-free-time-word-1",
+      "word": "die Freizeit",
+      "meaning": "free time",
+      "partOfSpeech": "word or expression",
+      "example": "Meine Freizeit ist kurz."
+    },
+    {
+      "id": "de-free-time-word-2",
+      "word": "gern",
+      "meaning": "gladly, like doing",
+      "partOfSpeech": "word or expression",
+      "example": "Ich lese gern."
+    },
+    {
+      "id": "de-free-time-word-3",
+      "word": "spielen",
+      "meaning": "to play",
+      "partOfSpeech": "word or expression",
+      "example": "Ich spiele gern Tennis."
+    },
+    {
+      "id": "de-free-time-word-4",
+      "word": "wohnen",
+      "meaning": "to live (somewhere)",
+      "partOfSpeech": "word or expression",
+      "example": "Ich wohne in Berlin."
     }
   ],
   "media": [
@@ -623,6 +724,54 @@
       "id": "de-family-people-foundation-read-passage",
       "body": "Ich habe eine kleine Familie: einen Bruder und eine Schwester. Mein Bruder wohnt noch in Hamburg, meine Schwester ist nach Wien gezogen. Nur meine Eltern sind in Berlin geblieben.",
       "translation": "I have a small family: one brother and one sister. My brother still lives in Hamburg, my sister has moved to Vienna. Only my parents have stayed in Berlin."
+    },
+    {
+      "kind": "examples",
+      "id": "de-weather-foundation-examples",
+      "pairs": [
+        {
+          "target": "Wie ist das Wetter?",
+          "meaning": "What is the weather like?"
+        },
+        {
+          "target": "Es regnet heute.",
+          "meaning": "It is raining today."
+        },
+        {
+          "target": "Die Sonne scheint, aber es ist kalt.",
+          "meaning": "The sun is shining, but it is cold."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "de-weather-foundation-read-passage",
+      "body": "In Hamburg regnet es heute den ganzen Tag. In München scheint die Sonne, aber es ist kalt. Morgen ist es in beiden Städten warm.",
+      "translation": "In Hamburg it is raining all day today. In Munich the sun is shining, but it is cold. Tomorrow it is warm in both cities."
+    },
+    {
+      "kind": "examples",
+      "id": "de-free-time-foundation-examples",
+      "pairs": [
+        {
+          "target": "Ich lese gern.",
+          "meaning": "I like reading."
+        },
+        {
+          "target": "Wir spielen gern Tennis.",
+          "meaning": "We like playing tennis."
+        },
+        {
+          "target": "Ich wohne in Berlin.",
+          "meaning": "I live in Berlin."
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "de-free-time-foundation-read-passage",
+      "body": "Ich habe nicht viel Freizeit, aber ich lese gern und ich spiele gern Tennis. Am Wochenende spiele ich mit meinem Bruder, und wir wohnen beide in Berlin.",
+      "translation": "I do not have much free time, but I like reading and I like playing tennis. At the weekend I play with my brother, and we both live in Berlin."
     }
   ],
   "activities": [
@@ -775,7 +924,7 @@
       "segments": [
         {
           "kind": "text",
-          "text": "Complete the word you say as you come through the door: "
+          "text": "Complete the word you say as you come through the door:"
         },
         {
           "kind": "blank",
@@ -1692,7 +1841,7 @@
       "segments": [
         {
           "kind": "text",
-          "text": "Complete the directions: Geradeaus, dann "
+          "text": "Complete the directions: Geradeaus, dann"
         },
         {
           "kind": "blank",
@@ -1956,7 +2105,7 @@
       "segments": [
         {
           "kind": "text",
-          "text": "The price frame is fixed. Fill its missing first word: "
+          "text": "The price frame is fixed. Fill its missing first word:"
         },
         {
           "kind": "blank",
@@ -1965,7 +2114,7 @@
         },
         {
           "kind": "text",
-          "text": " kostet der Kaffee?"
+          "text": "kostet der Kaffee?"
         }
       ],
       "blanks": {
@@ -2181,7 +2330,7 @@
       "segments": [
         {
           "kind": "text",
-          "text": "Complete with the noun for the morning, not the word for tomorrow: Der "
+          "text": "Complete with the noun for the morning, not the word for tomorrow: Der"
         },
         {
           "kind": "blank",
@@ -2190,7 +2339,7 @@
         },
         {
           "kind": "text",
-          "text": " ist kalt."
+          "text": "ist kalt."
         }
       ],
       "blanks": {
@@ -2494,7 +2643,7 @@
       "segments": [
         {
           "kind": "text",
-          "text": "The word for parents is plural and has no singular. Fill it in: Meine "
+          "text": "The word for parents is plural and has no singular. Fill it in: Meine"
         },
         {
           "kind": "blank",
@@ -2503,7 +2652,7 @@
         },
         {
           "kind": "text",
-          "text": " wohnen in Berlin."
+          "text": "wohnen in Berlin."
         }
       ],
       "blanks": {
@@ -2545,6 +2694,575 @@
           "Berlin.",
           "Berlin",
           "In Berlin."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "kind": "information",
+      "id": "de-weather-foundation-intro",
+      "revision": 1,
+      "body": "German says most weather with es plus a verb — es regnet, es ist kalt — where English says it plus a verb. The es is not a person or a thing: it holds the place where the weather would be if German gave the weather a name. The sun takes a verb of its own and becomes the subject: die Sonne scheint. Front a place and the verb stays second, so the two swap: In Hamburg regnet es.",
+      "stimulusId": "de-weather-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-1"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Four everyday nouns, all with a capital letter. Which one is the weather?",
+      "hints": [],
+      "feedback": "Wetter is the weather. Zeit is the time, Tag the day and Jahr the year, and all four share the neuter das.",
+      "evidenceKey": "de-weather-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "de-weather-foundation-meet",
+      "options": [
+        {
+          "id": "das-wetter",
+          "text": "das Wetter"
+        },
+        {
+          "id": "die-zeit",
+          "text": "die Zeit"
+        },
+        {
+          "id": "der-tag",
+          "text": "der Tag"
+        },
+        {
+          "id": "das-jahr",
+          "text": "das Jahr"
+        }
+      ],
+      "acceptedIds": [
+        "das-wetter"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "It is raining, and nobody is doing the raining. Predict the German before you write it: it is raining.",
+      "hints": [],
+      "feedback": "German puts the tiny es in front and lets regnen carry the sentence: Es regnet.",
+      "evidenceKey": "de-weather-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-weather-foundation-think",
+      "answer": {
+        "answers": [
+          "Es regnet."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-3"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Rain needs the tiny es, but the sun acts for itself. Which sentence says the sun is shining?",
+      "hints": [],
+      "feedback": "Die Sonne is the subject and scheinen is its verb, so the sun does the shining. Es scheint die Sonne treats the sun as an object and reads wrong.",
+      "evidenceKey": "de-weather-foundation-notice",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "de-weather-foundation-notice",
+      "options": [
+        {
+          "id": "es-scheint-die-sonne",
+          "text": "Es scheint die Sonne."
+        },
+        {
+          "id": "die-sonne-scheint",
+          "text": "Die Sonne scheint."
+        },
+        {
+          "id": "die-sonne-ist-scheinen",
+          "text": "Die Sonne ist scheinen."
+        }
+      ],
+      "acceptedIds": [
+        "die-sonne-scheint"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-1"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Arrange the words to ask what the weather is like.",
+      "hints": [],
+      "feedback": "The question word leads, the verb stays second, and the subject follows: Wie ist das Wetter?",
+      "evidenceKey": "de-weather-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "de-weather-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "Wie"
+        },
+        {
+          "id": "t2",
+          "text": "ist"
+        },
+        {
+          "id": "t3",
+          "text": "das"
+        },
+        {
+          "id": "t4",
+          "text": "Wetter?"
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "The weather turns. Give the same sentence its cold version: Es ist warm.",
+      "hints": [],
+      "feedback": "Only the adjective changes, because the es and the verb are holding the frame: Es ist kalt.",
+      "evidenceKey": "de-weather-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-weather-foundation-vary",
+      "answer": {
+        "answers": [
+          "Es ist kalt."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "The little word that stands in for the whole situation is missing. Fill it in: ___ regnet.",
+      "hints": [],
+      "feedback": "Es is the placeholder that lets German talk about weather with no subject at all.",
+      "evidenceKey": "de-weather-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "de-weather-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "The little word that stands in for the whole situation is missing. Fill it in:"
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": "regnet."
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "Es"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-2",
+        "de-weather-word-3",
+        "de-weather-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the weather report and pick the city where it is raining.",
+      "hints": [],
+      "feedback": "The place comes first in both sentences, so the verb follows it and the tiny es moves behind the verb: In Hamburg regnet es.",
+      "evidenceKey": "de-weather-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-weather-foundation-read",
+      "stimulusId": "de-weather-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Hamburg.",
+          "Hamburg",
+          "In Hamburg."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "kind": "information",
+      "id": "de-free-time-foundation-intro",
+      "revision": 1,
+      "body": "German has no verb for liking an activity. It puts gern straight after the verb instead: Ich lese gern, Ich spiele gern Tennis. Gern belongs to the verb, not to the person, so it never leads the sentence and never closes it. Changing who does it changes only the verb ending — ich spiele, wir spielen — and the gern stays exactly where it was. Saying where you live uses the same verb-second frame: Ich wohne in Berlin.",
+      "stimulusId": "de-free-time-foundation-examples"
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-1"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Four time words, all feminine. Which one is the time you are free?",
+      "hints": [],
+      "feedback": "Freizeit is free time. Arbeit is work, Schule is school and Woche is the week; all four take die.",
+      "evidenceKey": "de-free-time-foundation-meet",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "de-free-time-foundation-meet",
+      "options": [
+        {
+          "id": "die-freizeit",
+          "text": "die Freizeit"
+        },
+        {
+          "id": "die-arbeit",
+          "text": "die Arbeit"
+        },
+        {
+          "id": "die-schule",
+          "text": "die Schule"
+        },
+        {
+          "id": "die-woche",
+          "text": "die Woche"
+        }
+      ],
+      "acceptedIds": [
+        "die-freizeit"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Say that you like reading. German has no second verb for liking it — predict where the small word goes: I like reading.",
+      "hints": [],
+      "feedback": "The verb comes second and gern follows it immediately: Ich lese gern.",
+      "evidenceKey": "de-free-time-foundation-think",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-free-time-foundation-think",
+      "answer": {
+        "answers": [
+          "Ich lese gern."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-2",
+        "de-free-time-word-3"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Gern travels with the verb, not with the person. Which sentence says I like playing football?",
+      "hints": [],
+      "feedback": "The verb holds second position and gern sits behind it. Leading with gern puts the little word where the verb belongs.",
+      "evidenceKey": "de-free-time-foundation-notice",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "selection",
+      "id": "de-free-time-foundation-notice",
+      "options": [
+        {
+          "id": "ich-gern-spiele-fu-ball",
+          "text": "Ich gern spiele Fußball."
+        },
+        {
+          "id": "ich-spiele-gern-fu-ball",
+          "text": "Ich spiele gern Fußball."
+        },
+        {
+          "id": "ich-spiele-fu-ball-gern-nicht",
+          "text": "Ich spiele Fußball gern nicht."
+        }
+      ],
+      "acceptedIds": [
+        "ich-spiele-gern-fu-ball"
+      ],
+      "multiple": false
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-4"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Arrange the words to say you live in Berlin.",
+      "hints": [],
+      "feedback": "Subject, verb, then the place: Ich wohne in Berlin.",
+      "evidenceKey": "de-free-time-foundation-build",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "ordering",
+      "id": "de-free-time-foundation-build",
+      "tokens": [
+        {
+          "id": "t1",
+          "text": "Ich"
+        },
+        {
+          "id": "t2",
+          "text": "wohne"
+        },
+        {
+          "id": "t3",
+          "text": "in"
+        },
+        {
+          "id": "t4",
+          "text": "Berlin."
+        }
+      ],
+      "acceptedOrders": [
+        [
+          "t1",
+          "t2",
+          "t3",
+          "t4"
+        ]
+      ]
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-2",
+        "de-free-time-word-3"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "Now say your whole group likes it. Move the sentence to we: Ich spiele gern Fußball.",
+      "hints": [],
+      "feedback": "Only the pronoun and the verb ending change; gern stays exactly where it was, behind the verb.",
+      "evidenceKey": "de-free-time-foundation-vary",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-free-time-foundation-vary",
+      "answer": {
+        "answers": [
+          "Wir spielen gern Fußball."
+        ],
+        "allowTypo": true,
+        "errors": []
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-2"
+      ],
+      "skills": [
+        "writing",
+        "grammar"
+      ],
+      "prompt": "The small word that turns playing into liking it is missing. Fill it in: Ich spiele ___ Fußball.",
+      "hints": [],
+      "feedback": "Gern is the whole of German's liking, and it belongs directly behind the verb.",
+      "evidenceKey": "de-free-time-foundation-cloze",
+      "assistanceAffectsEvidence": [
+        "hint",
+        "model"
+      ],
+      "kind": "cloze",
+      "id": "de-free-time-foundation-cloze",
+      "segments": [
+        {
+          "kind": "text",
+          "text": "The small word that turns playing into liking it is missing. Fill it in: Ich spiele"
+        },
+        {
+          "kind": "blank",
+          "name": "b1",
+          "label": "Missing word"
+        },
+        {
+          "kind": "text",
+          "text": "Fußball."
+        }
+      ],
+      "blanks": {
+        "b1": {
+          "answers": [
+            "gern"
+          ],
+          "allowTypo": true,
+          "errors": []
+        }
+      }
+    },
+    {
+      "revision": 1,
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-1",
+        "de-free-time-word-3",
+        "de-free-time-word-4"
+      ],
+      "skills": [
+        "reading",
+        "vocabulary"
+      ],
+      "prompt": "Read the note about someone's free time and pick the sport they name.",
+      "hints": [],
+      "feedback": "Gern sits behind each verb it belongs to, and the last sentence moves to wir spielen and wir wohnen without touching the gern.",
+      "evidenceKey": "de-free-time-foundation-read",
+      "assistanceAffectsEvidence": [
+        "translation",
+        "model"
+      ],
+      "kind": "text",
+      "id": "de-free-time-foundation-read",
+      "stimulusId": "de-free-time-foundation-read-passage",
+      "answer": {
+        "answers": [
+          "Tennis.",
+          "Tennis"
         ],
         "allowTypo": true,
         "errors": []
@@ -4441,6 +5159,541 @@
       ],
       "cefr": "A1",
       "culturalNote": "Familie covers close relatives, and Germans usually name parents and siblings before anyone else."
+    },
+    {
+      "id": "de-weather-foundation",
+      "unitId": "de-unit-5",
+      "title": "Weather and seasons",
+      "objective": "Talk about the weather with the little word es, and keep the verb in second place when the place comes first.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 7,
+      "entryStepId": "de-weather-foundation-step-intro",
+      "steps": [
+        {
+          "id": "de-weather-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "de-weather-foundation-intro",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-meet"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-meet",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-meet",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-think"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-think",
+          "purpose": "predict",
+          "activityId": "de-weather-foundation-think",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-notice"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-notice",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-notice",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-build"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-build",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-build",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-vary"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-vary",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-vary",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-cloze"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-cloze",
+          "required": true,
+          "nextStepId": "de-weather-foundation-step-de-weather-foundation-read"
+        },
+        {
+          "id": "de-weather-foundation-step-de-weather-foundation-read",
+          "purpose": "practice",
+          "activityId": "de-weather-foundation-read",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "de-weather-foundation-meet",
+          "de-weather-foundation-think",
+          "de-weather-foundation-notice",
+          "de-weather-foundation-build",
+          "de-weather-foundation-vary",
+          "de-weather-foundation-cloze",
+          "de-weather-foundation-read"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "de-family-people-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "de-weather-concept"
+      ],
+      "vocabulary": [
+        "de-weather-word-1",
+        "de-weather-word-2",
+        "de-weather-word-3",
+        "de-weather-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "das Wetter"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-meet",
+          "conceptId": "de-weather-concept",
+          "prompt": "Four everyday nouns, all with a capital letter. Which one is the weather?",
+          "explanation": "Wetter is the weather. Zeit is the time, Tag the day and Jahr the year, and all four share the neuter das.",
+          "vocabulary": [
+            "de-weather-word-1"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "das Wetter",
+            "die Zeit",
+            "der Tag",
+            "das Jahr"
+          ]
+        },
+        {
+          "answers": [
+            "Es regnet."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-think",
+          "conceptId": "de-weather-concept",
+          "prompt": "It is raining, and nobody is doing the raining. Predict the German before you write it: it is raining.",
+          "explanation": "German puts the tiny es in front and lets regnen carry the sentence: Es regnet.",
+          "vocabulary": [
+            "de-weather-word-2"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 10
+        },
+        {
+          "answers": [
+            "Die Sonne scheint."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-notice",
+          "conceptId": "de-weather-concept",
+          "prompt": "Rain needs the tiny es, but the sun acts for itself. Which sentence says the sun is shining?",
+          "explanation": "Die Sonne is the subject and scheinen is its verb, so the sun does the shining. Es scheint die Sonne treats the sun as an object and reads wrong.",
+          "vocabulary": [
+            "de-weather-word-3"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Es scheint die Sonne.",
+            "Die Sonne scheint.",
+            "Die Sonne ist scheinen."
+          ]
+        },
+        {
+          "answers": [
+            "Wie ist das Wetter?"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-build",
+          "conceptId": "de-weather-concept",
+          "prompt": "Arrange the words to ask what the weather is like.",
+          "explanation": "The question word leads, the verb stays second, and the subject follows: Wie ist das Wetter?",
+          "vocabulary": [
+            "de-weather-word-1"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "Wie",
+            "ist",
+            "das",
+            "Wetter?"
+          ]
+        },
+        {
+          "answers": [
+            "Es ist kalt."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-vary",
+          "conceptId": "de-weather-concept",
+          "prompt": "The weather turns. Give the same sentence its cold version: Es ist warm.",
+          "explanation": "Only the adjective changes, because the es and the verb are holding the frame: Es ist kalt.",
+          "vocabulary": [
+            "de-weather-word-4"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "transform",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Es"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-cloze",
+          "conceptId": "de-weather-concept",
+          "prompt": "The little word that stands in for the whole situation is missing. Fill it in: ___ regnet.",
+          "explanation": "Es is the placeholder that lets German talk about weather with no subject at all.",
+          "vocabulary": [
+            "de-weather-word-2"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Hamburg.",
+            "Hamburg",
+            "In Hamburg."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-weather-foundation-read",
+          "conceptId": "de-weather-concept",
+          "prompt": "Read the weather report and pick the city where it is raining.",
+          "explanation": "The place comes first in both sentences, so the verb follows it and the tiny es moves behind the verb: In Hamburg regnet es.",
+          "vocabulary": [
+            "de-weather-word-2",
+            "de-weather-word-3",
+            "de-weather-word-4"
+          ],
+          "reviewOf": [
+            "de-family-people-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "In Hamburg regnet es heute den ganzen Tag. In München scheint die Sonne, aber es ist kalt. Morgen ist es in beiden Städten warm.",
+          "translation": "In Hamburg it is raining all day today. In Munich the sun is shining, but it is cold. Tomorrow it is warm in both cities."
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "de-weather-foundation-meet",
+        "de-weather-foundation-think",
+        "de-weather-foundation-notice",
+        "de-weather-foundation-build",
+        "de-weather-foundation-vary",
+        "de-weather-foundation-cloze",
+        "de-weather-foundation-read"
+      ],
+      "cefr": "A1",
+      "culturalNote": "German small talk starts with the weather, and a weather report names the place first: In Hamburg regnet es. The verb still holds second position, which is why es and regnet swap places when the city leads the sentence."
+    },
+    {
+      "id": "de-free-time-foundation",
+      "unitId": "de-unit-5",
+      "title": "Free time and hobbies",
+      "objective": "Say what you like doing with gern in its place behind the verb, and say where you live.",
+      "family": "discovery",
+      "revision": 1,
+      "estimatedMinutes": 7,
+      "entryStepId": "de-free-time-foundation-step-intro",
+      "steps": [
+        {
+          "id": "de-free-time-foundation-step-intro",
+          "purpose": "notice",
+          "activityId": "de-free-time-foundation-intro",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-meet"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-meet",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-meet",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-think"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-think",
+          "purpose": "predict",
+          "activityId": "de-free-time-foundation-think",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-notice"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-notice",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-notice",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-build"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-build",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-build",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-vary"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-vary",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-vary",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-cloze"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-cloze",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-cloze",
+          "required": true,
+          "nextStepId": "de-free-time-foundation-step-de-free-time-foundation-read"
+        },
+        {
+          "id": "de-free-time-foundation-step-de-free-time-foundation-read",
+          "purpose": "practice",
+          "activityId": "de-free-time-foundation-read",
+          "required": true,
+          "nextStepId": null
+        }
+      ],
+      "completionPolicy": {
+        "kind": "legacy-success",
+        "exerciseIds": [
+          "de-free-time-foundation-meet",
+          "de-free-time-foundation-think",
+          "de-free-time-foundation-notice",
+          "de-free-time-foundation-build",
+          "de-free-time-foundation-vary",
+          "de-free-time-foundation-cloze",
+          "de-free-time-foundation-read"
+        ]
+      },
+      "prerequisites": [
+        {
+          "lessonId": "de-weather-foundation",
+          "requirement": {
+            "kind": "legacy-success"
+          }
+        }
+      ],
+      "conceptIds": [
+        "de-free-time-concept"
+      ],
+      "vocabulary": [
+        "de-free-time-word-1",
+        "de-free-time-word-2",
+        "de-free-time-word-3",
+        "de-free-time-word-4"
+      ],
+      "legacyExercises": [
+        {
+          "answers": [
+            "die Freizeit"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-meet",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Four time words, all feminine. Which one is the time you are free?",
+          "explanation": "Freizeit is free time. Arbeit is work, Schule is school and Woche is the week; all four take die.",
+          "vocabulary": [
+            "de-free-time-word-1"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "die Freizeit",
+            "die Arbeit",
+            "die Schule",
+            "die Woche"
+          ]
+        },
+        {
+          "answers": [
+            "Ich lese gern."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-think",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Say that you like reading. German has no second verb for liking it — predict where the small word goes: I like reading.",
+          "explanation": "The verb comes second and gern follows it immediately: Ich lese gern.",
+          "vocabulary": [
+            "de-free-time-word-2"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "think",
+          "mode": "production",
+          "thinkSeconds": 10
+        },
+        {
+          "answers": [
+            "Ich spiele gern Fußball."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-notice",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Gern travels with the verb, not with the person. Which sentence says I like playing football?",
+          "explanation": "The verb holds second position and gern sits behind it. Leading with gern puts the little word where the verb belongs.",
+          "vocabulary": [
+            "de-free-time-word-2",
+            "de-free-time-word-3"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "choice",
+          "mode": "recognition",
+          "options": [
+            "Ich gern spiele Fußball.",
+            "Ich spiele gern Fußball.",
+            "Ich spiele Fußball gern nicht."
+          ]
+        },
+        {
+          "answers": [
+            "Ich wohne in Berlin."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-build",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Arrange the words to say you live in Berlin.",
+          "explanation": "Subject, verb, then the place: Ich wohne in Berlin.",
+          "vocabulary": [
+            "de-free-time-word-4"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "order",
+          "mode": "production",
+          "tokens": [
+            "Ich",
+            "wohne",
+            "in",
+            "Berlin."
+          ]
+        },
+        {
+          "answers": [
+            "Wir spielen gern Fußball."
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-vary",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Now say your whole group likes it. Move the sentence to we: Ich spiele gern Fußball.",
+          "explanation": "Only the pronoun and the verb ending change; gern stays exactly where it was, behind the verb.",
+          "vocabulary": [
+            "de-free-time-word-2",
+            "de-free-time-word-3"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "transform",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "gern"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-cloze",
+          "conceptId": "de-free-time-concept",
+          "prompt": "The small word that turns playing into liking it is missing. Fill it in: Ich spiele ___ Fußball.",
+          "explanation": "Gern is the whole of German's liking, and it belongs directly behind the verb.",
+          "vocabulary": [
+            "de-free-time-word-2"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "cloze",
+          "mode": "production"
+        },
+        {
+          "answers": [
+            "Tennis.",
+            "Tennis"
+          ],
+          "allowTypo": true,
+          "errors": [],
+          "id": "de-free-time-foundation-read",
+          "conceptId": "de-free-time-concept",
+          "prompt": "Read the note about someone's free time and pick the sport they name.",
+          "explanation": "Gern sits behind each verb it belongs to, and the last sentence moves to wir spielen and wir wohnen without touching the gern.",
+          "vocabulary": [
+            "de-free-time-word-1",
+            "de-free-time-word-3",
+            "de-free-time-word-4"
+          ],
+          "reviewOf": [
+            "de-weather-foundation"
+          ],
+          "kind": "reading",
+          "mode": "recognition",
+          "passage": "Ich habe nicht viel Freizeit, aber ich lese gern und ich spiele gern Tennis. Am Wochenende spiele ich mit meinem Bruder, und wir wohnen beide in Berlin.",
+          "translation": "I do not have much free time, but I like reading and I like playing tennis. At the weekend I play with my brother, and we both live in Berlin."
+        }
+      ],
+      "legacyCompletionExerciseIds": [
+        "de-free-time-foundation-meet",
+        "de-free-time-foundation-think",
+        "de-free-time-foundation-notice",
+        "de-free-time-foundation-build",
+        "de-free-time-foundation-vary",
+        "de-free-time-foundation-cloze",
+        "de-free-time-foundation-read"
+      ],
+      "cefr": "A1",
+      "culturalNote": "Freizeit is a compound German builds the way it builds most everyday words — frei plus Zeit, free plus time. German writes the two together where English needs a space."
     }
   ],
   "dialogues": []

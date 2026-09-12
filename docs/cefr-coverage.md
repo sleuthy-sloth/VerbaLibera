@@ -21,11 +21,11 @@ not CEFR evidence, and no complete A1 level is claimed for any language. The
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | French | v2 | 25 | 222 | 25 | 119 | 0 | 25/25 | none on the pack |
 | Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
-| German | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
+| German | v2 | 10 | 62 | 10 | 36 | 0 | 1/8 | A1 × 10 lessons |
 | Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Spanish | v2 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
-Totals: 74 lessons, 600 practice activities, 23 speaking steps.
+Totals: 76 lessons, 614 practice activities, 23 speaking steps.
 
 Four findings this table makes visible:
 
@@ -82,13 +82,14 @@ completed syllabus.
 
 ## Review status
 
-- **Native-speaker review: reviewed for German and Spanish, pending elsewhere.**
-  The authored German and Spanish prose was reported reviewed on 2026-09-11, and the
-  record lives beside each manifest (`courses/german/review.json`,
-  `courses/spanish/review.json`) so the generated reports quote it:
-  `review.nativeSpeaker` reads `"reviewed"` for those two and `"pending"` for French,
-  Italian and Portuguese. Corrections are tracked through the content-correction
-  issue template.
+- **Native-speaker review: reviewed for Spanish, part-reviewed for German, pending
+  elsewhere.** The authored Spanish prose was reported reviewed on 2026-09-11, as was
+  German's first eight lessons. The record lives beside each manifest
+  (`courses/german/review.json`, `courses/spanish/review.json`) so the generated reports
+  quote it: `review.nativeSpeaker` reads `"reviewed"` for Spanish, `"partial"` for German —
+  lessons 9 and 10 (the weather, free time) were authored after that review and are named
+  as pending — and `"pending"` for French, Italian and Portuguese. Corrections are tracked
+  through the content-correction issue template.
 - **Audio listening review: pending for every course**, including the two whose prose
   is now reviewed — the written course was read, not the recordings.
   `npm run content:audio-check` proves

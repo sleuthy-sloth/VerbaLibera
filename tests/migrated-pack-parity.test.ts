@@ -89,18 +89,21 @@ const MIGRATED_PACKS = [
     retrieval: 23,
   },
   {
+    // German grew to ten lessons in Phase 4's first authored slice (the weather
+    // and free time), so it no longer matches Portuguese figure for figure; the
+    // eight-lesson figures it had at the flip are the Portuguese column's.
     language: "german",
-    lessons: 8,
-    units: 4,
-    concepts: 8,
-    vocabulary: 34,
+    lessons: 10,
+    units: 5,
+    concepts: 10,
+    vocabulary: 42,
     media: 1,
-    withPrerequisites: 7,
-    retainedExercises: 40, // lower bound
-    reachable: 56,
-    retrieval: 39,
+    withPrerequisites: 9,
+    retainedExercises: 60, // lower bound; 62 measured
+    reachable: 72,
+    retrieval: 53,
   },
-  // Portuguese measured the same as German on every figure, which is the point:
+  // Portuguese measured the same as German did at the flip, on every figure:
   // the two packs were authored to the same shape and the flip changed only the
   // schema. Compared against the content report before writing this down.
   {

@@ -132,15 +132,17 @@ describe("content reporting is schema-aware", () => {
       // pending everywhere, and the prose review is reported from the record
       // rather than asserted here — the case below owns that.
       expect(report.review.audioListening).toBe("pending");
-      expect(["pending", "reviewed"]).toContain(report.review.nativeSpeaker);
+      // Any of the three states, including "partial" — a course that grew after
+      // its review is a real state and the report has to be able to say it.
+      expect(["pending", "partial", "reviewed"]).toContain(report.review.nativeSpeaker);
     }
   });
 
   it("audio coverage counts model audio, not the existence of a legacy dictation", () => {
     const { report } = loadPack("german");
-    // German's starter pack has one dictation but eight lessons; the old
-    // metric reported exactly that dictation and called it coverage.
-    expect(report.listening.lessonsTotal).toBe(8);
+    // German's pack has one dictation and ten lessons; the old metric reported
+    // exactly that dictation and called it coverage.
+    expect(report.listening.lessonsTotal).toBe(10);
     expect(report.listening.lessonCoveragePercent).toBeLessThan(100);
     const french = loadPack("french").report;
     expect(french.listening.audioClips).toBeGreaterThan(0);
@@ -151,12 +153,23 @@ describe("content reporting is schema-aware", () => {
     // open for the rest. The report is where that fact is machine-readable, so a
     // report that disagrees with the record fails here rather than misleading
     // whoever reads it next.
-    for (const language of ["german", "spanish"]) {
-      const { report } = loadPack(language);
-      expect(report.review.nativeSpeaker, `${language} prose review`).toBe("reviewed");
-      expect(report.review.note).toMatch(/reported by/);
+    {
+      const spanish = loadPack("spanish").report;
+      expect(spanish.review.nativeSpeaker, "spanish prose review").toBe("reviewed");
+      expect(spanish.review.note).toMatch(/reported by/);
       // The written course was reviewed, not the recordings.
-      expect(report.review.audioListening, `${language} listening review`).toBe("pending");
+      expect(spanish.review.audioListening, "spanish listening review").toBe("pending");
+    }
+    {
+      // German's review covered the first eight lessons; the two that were
+      // authored afterwards are not in it. "reviewed" here would claim a reading
+      // of text no speaker has seen, so the record says partial and names what is
+      // outstanding.
+      const german = loadPack("german").report;
+      expect(german.review.nativeSpeaker, "german prose review").toBe("partial");
+      expect(german.review.note).toMatch(/part reviewed/i);
+      expect(german.review.note).toMatch(/lessons 9-10/);
+      expect(german.review.audioListening, "german listening review").toBe("pending");
     }
     for (const language of ["french", "italian", "portuguese"]) {
       const { report } = loadPack(language);

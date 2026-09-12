@@ -39,7 +39,7 @@ const V1_PACKS = [FIXTURE] as const;
  * Italian is a data change: it is the user's call, not something to do quietly.
  */
 const FLIPPED_PACKS = [
-  { language: "german", lessons: 8, notes: 8, tags: 8 },
+  { language: "german", lessons: 10, notes: 10, tags: 10 },
   { language: "portuguese", lessons: 8, notes: 8, tags: 8 },
   { language: "spanish", lessons: 8, notes: 8, tags: 8 },
   { language: "french", lessons: 25, notes: 0, tags: 0 },

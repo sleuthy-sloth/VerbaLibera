@@ -13,14 +13,20 @@ import { existsSync, readFileSync } from "node:fs";
  * written from what the project owner reports, and inventing a reviewer is the
  * one thing a review record must never do.
  */
+export type ReviewStatus = "pending" | "reviewed" | "partial";
+
 export type ReviewOutcome = Readonly<{
-  status: "pending" | "reviewed";
-  /** ISO date the review was reported, present only when reviewed. */
+  status: ReviewStatus;
+  /** ISO date the review was reported, present only when a review happened. */
   date?: string;
   /** Who reported it, described rather than named. */
   reportedBy?: string;
   /** Exactly which text was read. */
   scope?: string;
+  /** What the review covered, when it does not cover the whole course. */
+  reviewed?: string;
+  /** What it does not cover yet. A course that grows needs this, or the record lies. */
+  pending?: string;
 }>;
 
 export type ProseReview = Readonly<{
@@ -50,9 +56,13 @@ export function readProseReview(language: string): ProseReview {
  * unreviewed one says so plainly.
  */
 export function reviewNote(review: ProseReview): string {
-  const prose = review.nativeSpeaker.status === "reviewed"
-    ? `Native-speaker review of the authored prose: reviewed (${review.nativeSpeaker.date ?? "date not recorded"}, reported by ${review.nativeSpeaker.reportedBy ?? "an unrecorded source"}).`
-    : "Native-speaker review of the authored prose has not been performed.";
+  const when = `${review.nativeSpeaker.date ?? "date not recorded"}, reported by ${review.nativeSpeaker.reportedBy ?? "an unrecorded source"}`;
+  const prose =
+    review.nativeSpeaker.status === "reviewed"
+      ? `Native-speaker review of the authored prose: reviewed (${when}).`
+      : review.nativeSpeaker.status === "partial"
+        ? `Native-speaker review of the authored prose: part reviewed. Reviewed: ${review.nativeSpeaker.reviewed ?? "some lessons"} (${when}). Pending: ${review.nativeSpeaker.pending ?? "the rest"}.`
+        : "Native-speaker review of the authored prose has not been performed.";
   const audio = review.audioListening.status === "reviewed"
     ? "Listening review of the audio: reviewed."
     : "Listening review of the audio has not been performed.";

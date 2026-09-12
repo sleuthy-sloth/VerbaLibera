@@ -15,11 +15,11 @@ green test run, and do not close a gate on someone else's behalf.
 
 ## 1. Native-speaker review of the authored prose
 
-**Status: closed for German and Spanish. Open for French, Italian and Portuguese.**
+**Status: closed for Spanish, part-closed for German. Open for French, Italian and Portuguese.**
 
 | Course | Prose review | Recorded |
 | --- | --- | --- |
-| German | reviewed | 2026-09-11, reported by the project owner — `courses/german/review.json` |
+| German | part reviewed — lessons 1-8 | 2026-09-11, reported by the project owner — `courses/german/review.json`. Lessons 9-10 (Weather and seasons; Free time and hobbies) were authored afterwards and are **pending**. |
 | Spanish | reviewed | 2026-09-11, reported by the project owner — `courses/spanish/review.json` |
 | French | pending | — |
 | Italian | pending | — |
@@ -99,22 +99,40 @@ participant's path and the changes it implies.
 
 ## 4. Physical-device QA
 
-**Applies to:** the installed PWA (Android and iOS), the offline edition, saved audio, and
-anything gesture- or permission-shaped.
+**Status: not performed. The runbook exists and the automated half is in place.**
 
-**Why it is open:** the desktop-browser suites cannot cover it, and one gap is already
-documented rather than hidden: Playwright's WebKit raises an internal error on any
-navigation with the network emulated off, so the WebKit half of the offline matrix runs
-partially and the iPhone offline pass stays open. Downloads cannot be interrupted from
-outside the page either, because the service worker answers the fetch before `page.route`
-sees it.
+**The runbook:** [`docs/device-qa-checklist.md`](../device-qa-checklist.md). It covers install
+and update, onboarding, the course shell and artwork, lesson playback (including the silent
+switch and the lock screen), resume after reload, offline and downloaded mode, orientation and
+viewport, touch targets and gestures, and safe areas — each with a pass/fail field and a note
+or capture column, and a failures table that asks for what broke rather than that it worked.
+Every field in it is empty. It also states which host and context the pass must run in: over a
+plain LAN address Safari has no secure context, so the install and offline sections cannot be
+signed off from one.
 
-**What "done" means:** on a real phone: install, go offline, play a saved track, close and
-reopen the app (position and progress survive), turn the screen off during playback and
-check the lock screen, and run the first-run flow end to end. Record what failed, not only
-that it worked.
+**What is already automated (and what it does not prove):**
 
-**Record it in:** a dated device note under `docs/superpowers/verification/`, naming the
+| Layer | Command | Settles | Does not settle |
+| --- | --- | --- | --- |
+| Viewport contract | `npx vitest run tests/device-viewport-contract.test.ts` | `viewport-fit=cover`, no locked zoom, the standalone offline page matching the app, and every bottom-pinned CSS surface reserving the home indicator | Anything rendered: it reads declarations |
+| Layout smoke | `E2E_BASE_URL=http://localhost:3101 npx playwright test tests/e2e/viewport.spec.ts --project=chromium` | No sideways overflow, the tab capsule inside the screen and clear of the bottom edge, thumb-sized controls, landscape handing navigation to the header — at 320, 390 and 430px | Touch, the home indicator, Safari, real text scaling |
+| Accessibility sweep | `npm run a11y:audit` | Axe across 20 route/viewport combinations | Anything interactive or gesture-shaped |
+| Offline matrix | `E2E_BASE_URL=http://localhost:3101 npx playwright test --config playwright.offline.config.ts` | The install path, cached shell and failure copy on Chromium; the WebKit half runs partially | Real Airplane Mode, real radios |
+
+Two gaps stay documented rather than hidden: Playwright's WebKit raises an internal error on
+any navigation with the network emulated off, so the WebKit offline half cannot run at all;
+and a download cannot be interrupted from outside the page, because the service worker
+answers the fetch before `page.route` sees it.
+
+**Why the device pass is still open:** a desktop engine at phone width has no home indicator,
+no notch, no real touch, no silent switch and no lock screen. The green rows above are
+preconditions for the checklist, not results in it.
+
+**What "done" means:** someone works through `docs/device-qa-checklist.md` on a real iPhone —
+Safari and the installed app — and records every result, including the failures.
+
+**Record it in:** a dated note under `docs/superpowers/verification/` named for the device
+(`YYYY-MM-DD-device-qa-<device>.md`), holding the checklist's tables filled in, naming the
 device, OS version and browser engine.
 
 ## 5. Signed and notarised distribution

@@ -95,8 +95,9 @@ export type ContentReport = {
     vocabularyFromPrerequisites: number;
   };
   review: {
-    nativeSpeaker: "pending" | "reviewed";
-    audioListening: "pending" | "reviewed";
+    nativeSpeaker: ReviewStatus;
+    // The same three states: a listening pass can cover some recordings too.
+    audioListening: ReviewStatus;
     note: string;
   };
   answerCoverage: string;
@@ -104,7 +105,7 @@ export type ContentReport = {
   note: string;
 };
 
-import { reviewNote, type ProseReview } from "./review";
+import { reviewNote, type ProseReview, type ReviewStatus } from "./review";
 
 const PRODUCTION_SKILLS: ReadonlySet<Skill> = new Set<Skill>(["writing", "speaking"]);
 const RECEPTION_SKILLS: ReadonlySet<Skill> = new Set<Skill>(["reading", "listening"]);
@@ -351,7 +352,12 @@ export function buildContentReport(
         ? "Graph and declared vocabulary references validated. The authored prose has been " +
           "through native-speaker review; translation truth and undeclared words remain the " +
           "reviewer's own record, kept in docs/human-review-gates.md."
-        : "Graph and declared vocabulary references validated. Translation truth, target-language " +
-          "naturalness and undeclared words still require native-speaker review.",
+        : review.nativeSpeaker.status === "partial"
+          ? "Graph and declared vocabulary references validated. Part of the authored prose has " +
+            "been through native-speaker review and part has not, which is what review.nativeSpeaker " +
+            "says; the unreviewed lessons and their translations are named in " +
+            "docs/human-review-gates.md."
+          : "Graph and declared vocabulary references validated. Translation truth, target-language " +
+            "naturalness and undeclared words still require native-speaker review.",
   };
 }
