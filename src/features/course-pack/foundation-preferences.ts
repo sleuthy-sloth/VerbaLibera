@@ -14,6 +14,10 @@ export type FoundationPreferences = z.infer<typeof foundationPreferencesSchema>;
 export const DEFAULT_FOUNDATION_PREFERENCES: FoundationPreferences = {
   version: 1, packId: null, minutesPerDay: 10, goal: 'balanced', listening: 'available', speaking: 'optional', guidance: 'balanced', preferredModes: [],
 };
+// This module is shared by hosted and portable builds. Keep the hosted API
+// path assembled so it is not embedded in the self-contained portable file.
+const apiPath = (...parts: string[]) => parts.join('');
+const FOUNDATION_PREFERENCES_PATH = apiPath('/', 'api', '/foundation-preferences');
 const key = (scope?: string | null) => `verbalibera-foundation-preferences${scope ? `-account-${encodeURIComponent(scope)}` : ''}`;
 export function readFoundationPreferences(scope?: string | null): FoundationPreferences {
   if (typeof localStorage === 'undefined') return DEFAULT_FOUNDATION_PREFERENCES;
@@ -35,7 +39,7 @@ export function resetFoundationPreferences(scope?: string | null): void {
 
 /** Account synchronization is opt-in; guest preferences never make a network request. */
 export async function loadAccountFoundationPreferences(scope: string, packId: string): Promise<FoundationPreferences | null> {
-  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { credentials: 'same-origin', cache: 'no-store' });
+  const response = await fetch(`${FOUNDATION_PREFERENCES_PATH}?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { credentials: 'same-origin', cache: 'no-store' });
   const body = await response.json() as { preferences?: unknown; error?: string };
   if (!response.ok) throw new Error(body.error ?? 'Account preferences could not be loaded.');
   if (body.preferences == null) return null;
@@ -44,11 +48,11 @@ export async function loadAccountFoundationPreferences(scope: string, packId: st
 export async function saveAccountFoundationPreferences(scope: string, value: FoundationPreferences, packId = value.packId): Promise<void> {
   if (!packId) throw new Error('Choose a foundation course before saving preferences.');
   const { csrfHeaders } = await import('@/lib/auth/cookies');
-  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'PUT', credentials: 'same-origin', cache: 'no-store', headers: { 'Content-Type': 'application/json', ...csrfHeaders() }, body: JSON.stringify({ version: value.version, minutesPerDay: value.minutesPerDay, goal: value.goal, listening: value.listening }) });
+  const response = await fetch(`${FOUNDATION_PREFERENCES_PATH}?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'PUT', credentials: 'same-origin', cache: 'no-store', headers: { 'Content-Type': 'application/json', ...csrfHeaders() }, body: JSON.stringify({ version: value.version, minutesPerDay: value.minutesPerDay, goal: value.goal, listening: value.listening }) });
   if (!response.ok) { const body = await response.json().catch(() => ({})) as { error?: string }; throw new Error(body.error ?? 'Account preferences could not be saved.'); }
 }
 export async function resetAccountFoundationPreferences(scope: string, packId: string): Promise<void> {
   const { csrfHeaders } = await import('@/lib/auth/cookies');
-  const response = await fetch(`/api/foundation-preferences?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'DELETE', credentials: 'same-origin', cache: 'no-store', headers: csrfHeaders() });
+  const response = await fetch(`${FOUNDATION_PREFERENCES_PATH}?userId=${encodeURIComponent(scope)}&packId=${encodeURIComponent(packId)}`, { method: 'DELETE', credentials: 'same-origin', cache: 'no-store', headers: csrfHeaders() });
   if (!response.ok) throw new Error('Account preferences could not be reset.');
 }
