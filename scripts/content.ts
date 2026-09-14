@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { normalizePack } from "../src/features/course-pack/normalize-pack";
 import type { CourseIdentity } from "../src/features/course-pack/course-identity";
 import { buildContentReport } from "./content/report";
+import { buildOutcomeMatrix, renderOutcomeMatrix } from "./content/outcomes";
 import { readProseReview } from "./content/review";
 import {
   buildListenCatalog,
@@ -21,6 +22,12 @@ const listenCatalog = buildListenCatalog();
 // Typed from the module that consumes it, so the generator cannot write a
 // catalog the app's course universe does not understand.
 const catalog: CourseIdentity[] = [];
+// What the `outcomes` command needs, collected as the loop already walks the
+// packs: the matrix is a projection of the same authored source the reports read.
+const outcomeInputs: Array<{
+  pack: ReturnType<typeof normalizePack>;
+  review: ReturnType<typeof readProseReview>;
+}> = [];
 const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
@@ -42,6 +49,9 @@ for (const language of languages) {
   }
   // Schema-aware: reachable runtime activities and retained v1 records are
   // counted separately, each with its own basis. See scripts/content/report.ts.
+  // The human review record, if the course has one. Absent means neither
+  // review has happened, which is what the report then says.
+  const review = readProseReview(language);
   const report = buildContentReport(
     raw,
     pack,
@@ -51,10 +61,9 @@ for (const language of languages) {
       tracks: listenTracksFor(listenCatalog, language),
       bytes: listenBytesFor(listenCatalog, language),
     },
-    // The human review record, if the course has one. Absent means neither
-    // review has happened, which is what the report then says.
-    readProseReview(language),
+    review,
   );
+  outcomeInputs.push({ pack, review });
   // The catalog carries the pack facts the UI derives honest capability labels
   // from, so a screen never hardcodes which languages have structured courses.
   // It is also the app's course universe (`course-identity.ts`), so it carries
@@ -71,20 +80,22 @@ for (const language of languages) {
     unitLabel: `Unit 1: ${pack.units[0]?.title ?? "Patterns"}`,
     authoredCefrLevel: Object.keys(report.authoredCefrTags.counts).sort()[0] ?? null,
   });
-  console.log(
-    JSON.stringify(
-      command === "duplicates"
-        ? {
-            ...report,
-            reusedAnswerSets: [...answerSets.values()].filter(
-              (ids) => ids.length > 1,
-            ),
-          }
-        : report,
-      null,
-      2,
-    ),
-  );
+  // `outcomes` prints its own document; a JSON report per course would bury it.
+  if (command !== "outcomes")
+    console.log(
+      JSON.stringify(
+        command === "duplicates"
+          ? {
+              ...report,
+              reusedAnswerSets: [...answerSets.values()].filter(
+                (ids) => ids.length > 1,
+              ),
+            }
+          : report,
+        null,
+        2,
+      ),
+    );
   if (command === "build") {
     mkdirSync("public/packs", { recursive: true });
     // Ship the authored source: editions load it through normalizePack.
@@ -119,6 +130,13 @@ if (command === "build") {
       `Listen catalog is stale (run \`npm run content:build\`):\n  ${mismatches.join("\n  ")}`,
     );
   }
+}
+if (command === "outcomes") {
+  const document = renderOutcomeMatrix(buildOutcomeMatrix(outcomeInputs));
+  // `--write` keeps the checked-in document honest: the test rebuilds it from the
+  // packs and compares, so a hand edit fails instead of drifting.
+  if (process.argv.includes("--write")) writeFileSync("docs/curriculum-matrix.md", document);
+  else console.log(document);
 }
 if (command === "build") {
   const { build } = await import("esbuild");
