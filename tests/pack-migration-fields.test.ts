@@ -42,7 +42,7 @@ const FLIPPED_PACKS = [
   { language: "german", lessons: 10, notes: 10, tags: 10 },
   { language: "portuguese", lessons: 8, notes: 8, tags: 8 },
   { language: "spanish", lessons: 8, notes: 8, tags: 8 },
-  { language: "french", lessons: 25, notes: 0, tags: 0 },
+  { language: "french", lessons: 26, notes: 0, tags: 0 },
 ] as const;
 
 const readRaw = (language: string): Record<string, unknown> =>

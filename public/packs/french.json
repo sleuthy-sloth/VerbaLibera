@@ -20010,6 +20010,26 @@
           "kind": "dictation",
           "mode": "listening",
           "audioId": "fr-polite-coffee-audio"
+        },
+        {
+          "answers": [
+            "Combien ça coûte ?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "fr-cafe-order-transfer",
+          "conceptId": "fr-cafe-order-concept",
+          "prompt": "Transfer: You have finished your coffee. Ask politely how much it costs.",
+          "explanation": "Invite with Tu veux venir… ?: Je voudrais un café, s’il vous plaît. Accept with Oui, merci, avec plaisir. Decline politely with Désolé, je ne peux pas.",
+          "vocabulary": [
+            "fr-cafe-order-foundation-word-1",
+            "fr-cafe-order-foundation-word-2",
+            "fr-cafe-order-foundation-word-3",
+            "fr-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
         }
       ],
       "legacyCompletionExerciseIds": [
