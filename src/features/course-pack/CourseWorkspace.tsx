@@ -23,7 +23,10 @@ import { ExerciseView } from "./ExerciseView";
 import type { Evaluation } from "./answer";
 import { producesTargetLanguage } from "./feedback";
 import type { CourseEnvironment } from "./environment";
-import { DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, loadAccountFoundationPreferences, saveAccountFoundationPreferences, resetAccountFoundationPreferences, type FoundationPreferences } from "./foundation-preferences";
+import { DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, type FoundationPreferences } from "./foundation-preferences";
+// Type only: the account transport is imported for its shape, never for its
+// code, so nothing here can pull a server endpoint into the offline bundles.
+import type { AccountPreferencesTransport } from "./foundation-preferences-account";
 
 /** Workspace views. Also the `/courses/<language>/<view>` URL segment values. */
 export type WorkspaceView = "Course" | "Vocabulary" | "Grammar" | "Review" | "Dialogues";
@@ -34,6 +37,12 @@ export type CourseWorkspaceProps = {
   initialView?: WorkspaceView;
   environment: CourseEnvironment;
   scope?: string | null;
+  /**
+   * Account preference sync, injected by the hosted shell. Absent in the offline
+   * and portable shells: neither has a server to reach, and the portable file is
+   * built under a `connect-src 'none'` policy.
+   */
+  accountPreferences?: AccountPreferencesTransport;
   synchronize?: (scope: string, signal?: AbortSignal) => Promise<PracticeEvent[]>;
   renderAccountPractice?: (props: {
     status: string;
@@ -47,13 +56,14 @@ export function CourseWorkspace({
   initialView,
   environment,
   scope = null,
+  accountPreferences,
   synchronize,
   renderAccountPractice,
 }: CourseWorkspaceProps) {
-  return <ScopedWorkspace startNextLesson={startNextLesson} initialLanguage={initialLanguage} initialView={initialView} scope={scope} environment={environment} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
+  return <ScopedWorkspace startNextLesson={startNextLesson} initialLanguage={initialLanguage} initialView={initialView} scope={scope} environment={environment} accountPreferences={accountPreferences} synchronize={synchronize} renderAccountPractice={renderAccountPractice} />;
 }
-function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope, environment, synchronize, renderAccountPractice }: {
-  initialLanguage: string; startNextLesson: boolean; initialView?: WorkspaceView; scope: string | null; environment: CourseEnvironment; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
+function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope, environment, accountPreferences, synchronize, renderAccountPractice }: {
+  initialLanguage: string; startNextLesson: boolean; initialView?: WorkspaceView; scope: string | null; environment: CourseEnvironment; accountPreferences?: CourseWorkspaceProps["accountPreferences"]; synchronize?: CourseWorkspaceProps["synchronize"]; renderAccountPractice?: CourseWorkspaceProps["renderAccountPractice"];
 }) {
   const [syncRevision, setSyncRevision] = useState(0);
   const [runtimePack, setRuntimePack] = useState<RuntimePack | null>(null);
@@ -108,7 +118,7 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           const localPreferences = readFoundationPreferences(scope);
           const withPack = { ...localPreferences, packId: p.id };
           setPreferences(withPack);
-          if (scope) void loadAccountFoundationPreferences(scope, p.id).then(remote => {
+          if (scope && accountPreferences) void accountPreferences.load(scope, p.id).then(remote => {
             if (remote) { const next = { ...withPack, ...remote, packId: p.id }; setPreferences(next); saveFoundationPreferences(next, scope); }
           }).catch(() => {});
           if (s.error) setError(s.error + " You can still read the lessons.");
@@ -605,16 +615,16 @@ function ScopedWorkspace({ initialLanguage, startNextLesson, initialView, scope,
           <h2>Today’s practice</h2>
           <details>
             <summary>Practice options</summary>
-            <label>Minutes per day <select value={preferences.minutesPerDay} onChange={(e) => { const next = { ...preferences, minutesPerDay: Number(e.target.value) }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope) void saveAccountFoundationPreferences(scope, next); }}>
+            <label>Minutes per day <select value={preferences.minutesPerDay} onChange={(e) => { const next = { ...preferences, minutesPerDay: Number(e.target.value) }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope && accountPreferences) void accountPreferences.save(scope, next); }}>
               {[5, 10, 15, 20, 30].map((n) => <option key={n} value={n}>{n} minutes</option>)}
             </select></label>
-            <label>Goal <select value={preferences.goal} onChange={(e) => { const next = { ...preferences, goal: e.target.value as FoundationPreferences["goal"] }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope) void saveAccountFoundationPreferences(scope, next); }}>
+            <label>Goal <select value={preferences.goal} onChange={(e) => { const next = { ...preferences, goal: e.target.value as FoundationPreferences["goal"] }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope && accountPreferences) void accountPreferences.save(scope, next); }}>
               <option value="balanced">Balanced</option><option value="review">Review what I know</option><option value="new">Learn something new</option>
             </select></label>
-            <label>Listening <select value={preferences.listening} onChange={(e) => { const next = { ...preferences, listening: e.target.value as FoundationPreferences["listening"] }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope) void saveAccountFoundationPreferences(scope, next); }}>
+            <label>Listening <select value={preferences.listening} onChange={(e) => { const next = { ...preferences, listening: e.target.value as FoundationPreferences["listening"] }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope && accountPreferences) void accountPreferences.save(scope, next); }}>
               <option value="available">Include listening</option><option value="off">Reading and building only</option>
             </select></label>
-            <button type="button" onClick={() => { const next = { ...DEFAULT_FOUNDATION_PREFERENCES, packId: pack.id }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope) void resetAccountFoundationPreferences(scope, pack.id); }}>Reset options</button>
+            <button type="button" onClick={() => { const next = { ...DEFAULT_FOUNDATION_PREFERENCES, packId: pack.id }; setPreferences(next); saveFoundationPreferences(next, scope); if (scope && accountPreferences) void accountPreferences.reset(scope, pack.id); }}>Reset options</button>
           </details>
           <p>{daily.reason}</p>
           <p>

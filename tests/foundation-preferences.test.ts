@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { foundationPreferencesSchema, DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, resetFoundationPreferences, loadAccountFoundationPreferences, saveAccountFoundationPreferences } from '@/features/course-pack/foundation-preferences';
+import { foundationPreferencesSchema, DEFAULT_FOUNDATION_PREFERENCES, readFoundationPreferences, saveFoundationPreferences, resetFoundationPreferences } from '@/features/course-pack/foundation-preferences';
+import { loadAccountFoundationPreferences, saveAccountFoundationPreferences } from '@/features/course-pack/foundation-preferences-account';
 import { selectDailyWithPreferences } from '@/features/course-pack/progress';
 import type { CoursePack } from '@/features/course-pack/schema';
 

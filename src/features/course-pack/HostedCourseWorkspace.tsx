@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { AccountPractice, usePracticeAccount } from "./AccountPractice";
 import { CourseWorkspace } from "./CourseWorkspace";
+import { accountPreferencesTransport } from "./foundation-preferences-account";
 import { createHostedEnvironment } from "./hosted-environment";
 import { synchronizePractice } from "./sync";
 
@@ -34,6 +35,9 @@ export function HostedCourseWorkspace({
       initialView={initialView}
       environment={environment}
       scope={scope}
+      // The one place that hands the workspace a server endpoint: the hosted
+      // shell. The offline and portable shells pass nothing.
+      accountPreferences={accountPreferencesTransport}
       synchronize={synchronizePractice}
       renderAccountPractice={({ status, retry }) => (
         <AccountPractice
