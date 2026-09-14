@@ -151,7 +151,7 @@ test("a complete French lesson unlocks the next lesson and survives a reload", a
   await page.goto("/courses/french");
   await completeFrenchL0(page);
   // One lesson complete, and exactly one: the path is the learner's record.
-  await expect(page.getByText("1 of 25")).toBeVisible();
+  await expect(page.getByText("1 of 26")).toBeVisible();
   expect(await page.getByText("Complete — select to review").count()).toBe(1);
   const second = page.getByRole("button", {
     name: "Names and introductions",
@@ -160,7 +160,7 @@ test("a complete French lesson unlocks the next lesson and survives a reload", a
   await expect(second).toBeEnabled();
   // The unlock is stored, not just held in memory for this page view.
   await page.reload();
-  await expect(page.getByText("1 of 25")).toBeVisible();
+  await expect(page.getByText("1 of 26")).toBeVisible();
   expect(await page.getByText("Complete — select to review").count()).toBe(1);
   await expect(second).toBeEnabled();
   await second.click();
@@ -247,7 +247,7 @@ test("French L1 completes end to end on the v2 player", async ({ page }) => {
     page.getByRole("heading", { name: "Lesson complete", exact: true }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Back to lessons", exact: true }).click();
-  await expect(page.getByText("2 of 25")).toBeVisible();
+  await expect(page.getByText("2 of 26")).toBeVisible();
   expect(await page.getByText("Complete — select to review").count()).toBe(2);
 });
 
