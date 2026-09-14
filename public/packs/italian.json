@@ -11607,6 +11607,26 @@
         "allowTypo": false,
         "errors": []
       }
+    },
+    {
+      "kind": "self-compare",
+      "id": "it-cafe-order-foundation-say",
+      "revision": 1,
+      "conceptIds": [
+        "it-cafe-order-concept"
+      ],
+      "vocabulary": [
+        "it-cafe-order-foundation-word-1",
+        "it-cafe-order-foundation-word-2",
+        "it-cafe-order-foundation-word-3",
+        "it-cafe-order-foundation-word-4"
+      ],
+      "skills": [
+        "speaking"
+      ],
+      "prompt": "You are at the café counter. Order a coffee politely in Italian: I would like a coffee, please.",
+      "modelText": "Vorrei un caffè, per favore.",
+      "modelAudioId": "it-polite-coffee-audio"
     }
   ],
   "lessons": [
@@ -19404,7 +19424,15 @@
           "purpose": "practice",
           "activityId": "it-cafe-order-foundation-produce",
           "required": true,
-          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-read"
+          "nextStepId": "it-cafe-order-foundation-step-say"
+        },
+        {
+          "id": "it-cafe-order-foundation-step-say",
+          "purpose": "practice",
+          "activityId": "it-cafe-order-foundation-say",
+          "required": false,
+          "nextStepId": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
+          "branches": {}
         },
         {
           "id": "it-cafe-order-foundation-step-it-cafe-order-foundation-read",
@@ -19654,6 +19682,26 @@
           "kind": "dictation",
           "mode": "listening",
           "audioId": "it-polite-coffee-audio"
+        },
+        {
+          "answers": [
+            "Quanto costa?"
+          ],
+          "allowTypo": false,
+          "errors": [],
+          "id": "it-cafe-order-transfer",
+          "conceptId": "it-cafe-order-concept",
+          "prompt": "Transfer: You have finished your coffee. Ask politely how much it costs.",
+          "explanation": "Order with Vuoi prendere…?: Vorrei un caffè, per favore. Accept with Sì, grazie. Decline politely with Quanto costa?",
+          "vocabulary": [
+            "it-cafe-order-foundation-word-1",
+            "it-cafe-order-foundation-word-2",
+            "it-cafe-order-foundation-word-3",
+            "it-cafe-order-foundation-word-4"
+          ],
+          "reviewOf": [],
+          "kind": "translate",
+          "mode": "production"
         }
       ],
       "legacyCompletionExerciseIds": [

@@ -47,8 +47,8 @@
   },
   "legacyExercises": {
     "basis": "v1 records retained for progress replay; a subset of the runtime activities",
-    "retained": 231,
-    "replayedAsActivities": 231,
+    "retained": 232,
+    "replayedAsActivities": 232,
     "byKind": {
       "choice": 28,
       "cloze": 26,
@@ -57,7 +57,7 @@
       "reading": 26,
       "think": 4,
       "transform": 21,
-      "translate": 74
+      "translate": 75
     }
   },
   "production": {
@@ -106,6 +106,6 @@
     "bytes": 4941357
   },
   "answerCoverage": "100%",
-  "packBytes": 628952,
+  "packBytes": 630171,
   "note": "Graph and declared vocabulary references validated. Translation truth, target-language naturalness and undeclared words still require native-speaker review."
 }
