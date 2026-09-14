@@ -8,6 +8,14 @@
   text-transform: uppercase;
 }
 .control select {
+  /* A select's automatic minimum size is its widest option, which at 320px is
+   * wider than the header has left for it: the grid row needed 325px inside a
+   * 288px content box, and the switcher's right edge landed 5px past the
+   * viewport. `min-width: 0` lets the column shrink to the space that exists;
+   * the closed control still shows the whole current value, and the option list
+   * is drawn by the platform outside this box either way. */
+  width: 100%;
+  min-width: 0;
   min-height: 44px;
   appearance: none;
   padding: 0.35rem 1.7rem 0.35rem 0.6rem;
