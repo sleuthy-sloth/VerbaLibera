@@ -77,16 +77,20 @@ const retrievalLinks = (pack: RuntimePack): string[] =>
  */
 const MIGRATED_PACKS = [
   {
+    // The café lesson (Phase 4's first authored slice for French, added after
+    // the flip) grew the pack by one lesson, which is why these figures are one
+    // higher than the flip's on every lesson-shaped count. Media did not move:
+    // the lesson reuses the pack's polite-coffee recording.
     language: "french",
-    lessons: 25,
+    lessons: 26,
     units: 6,
-    concepts: 25,
-    vocabulary: 102,
+    concepts: 26,
+    vocabulary: 106,
     media: 26,
-    withPrerequisites: 24,
-    retainedExercises: 200, // lower bound: asserted as "more than"
-    reachable: 247,
-    retrieval: 23,
+    withPrerequisites: 25,
+    retainedExercises: 200, // lower bound: asserted as "more than"; 232 measured
+    reachable: 258,
+    retrieval: 24,
   },
   {
     // German grew to ten lessons in Phase 4's first authored slice (the weather
