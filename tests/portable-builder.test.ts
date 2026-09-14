@@ -92,7 +92,10 @@ describe("portable content collection", () => {
     );
   });
 
-  it("the audio build is bigger by exactly the encoded track, and both artifacts still pass the audit", async () => {
+  // Two full portable builds plus base64 of a 6 MB track. Measured at 4.3s for
+  // the file on a fast local machine, which leaves the 5s default no room on a
+  // CI runner — this is the one test in the tree that has timed out there.
+  it("the audio build is bigger by exactly the encoded track, and both artifacts still pass the audit", { timeout: 120_000 }, async () => {
     const silent = await buildPortableHtml(process.cwd());
     const withAudio = await buildPortableHtml(process.cwd(), { withListen: ["french"] });
     const track = collectPortableContent(process.cwd(), { withListen: ["french"] }).listen[0];
