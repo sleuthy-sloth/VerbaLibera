@@ -61,12 +61,18 @@ jobs:
         run: npm run content:check-deployment-imports
 
       - name: Install voice-service contract-test dependencies
-        # The split is deliberate: `service/engines.py` imports Kokoro and
-        # faster-whisper lazily, so FastAPI, pytest and the multipart boundary
-        # tests install without the multi-gigabyte model environment — and CI
-        # must never download a model. Pins match services/voice/requirements.txt
-        # minus the model runtime.
+        # The engines are imported lazily, so the contract suite needs only the
+        # HTTP half of services/voice/requirements.txt: FastAPI, the multipart
+        # boundary, httpx and pytest. The multi-gigabyte runtime stays out of CI,
+        # which is what tests/ci-workflow.test.ts guards.
         run: python -m pip install fastapi==0.115.12 python-multipart==0.0.20 httpx==0.28.1 pytest==8.3.5
+
+      - name: Install Pillow for the brand-picture tests
+        # tests/banner-crops.test.ts and tests/vocab-ground.test.ts drive
+        # scripts/brand/*.py, which measure real pixels with Pillow. Without it
+        # those scripts cannot open an image, the assertions compare against an
+        # empty result, and the suite fails on CI alone.
+        run: python -m pip install pillow==11.1.0
 
       - name: Voice-service contract tests
         # The speech and translation engines are imported lazily, so the
