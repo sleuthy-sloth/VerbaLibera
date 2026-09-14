@@ -60,6 +60,14 @@ jobs:
         # context. Also runs inside `npm run build`'s prebuild.
         run: npm run content:check-deployment-imports
 
+      - name: Install voice-service contract-test dependencies
+        # The split is deliberate: `service/engines.py` imports Kokoro and
+        # faster-whisper lazily, so FastAPI, pytest and the multipart boundary
+        # tests install without the multi-gigabyte model environment — and CI
+        # must never download a model. Pins match services/voice/requirements.txt
+        # minus the model runtime.
+        run: python -m pip install fastapi==0.115.12 python-multipart==0.0.20 httpx==0.28.1 pytest==8.3.5
+
       - name: Voice-service contract tests
         # The speech and translation engines are imported lazily, so the
         # contract suite runs without the multi-gigabyte local model
