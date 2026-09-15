@@ -11,21 +11,23 @@ separate bodies of content exist and their numbers are never added together:
   — the older pattern demonstrations. Counted by `cefrCoverage()` in
   `src/features/curriculum/cefr.ts` and pinned by `tests/cefr-spine.test.ts`.
 
-## Foundation packs (generated 2026-09-10)
+## Foundation packs (generated 2026-09-13)
 
 Every foundation course is a **partial A1 syllabus**. Lesson count is capacity,
 not CEFR evidence, and no complete A1 level is claimed for any language. The
-`level` block in each generated report says so in as many words.
+`level` block in each generated report says so in as many words. For which lesson
+teaches which objective, what it retrieves and what is missing, see the generated
+`docs/curriculum-matrix.md` (`npm run content:outcomes -- --write`).
 
 | Course | Schema | Lessons | Practice activities | Notice steps | Target-language production | Speaking steps | Lessons with model audio | Authored CEFR tags |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| French | v2 | 25 | 222 | 25 | 119 | 0 | 25/25 | none on the pack |
-| Italian | v2 | 25 | 233 | 26 | 123 | 23 | 25/25 | none on the pack |
-| German | v2 | 10 | 62 | 10 | 36 | 0 | 1/8 | A1 × 10 lessons |
+| French | v2 | 26 | 232 | 26 | 125 | 0 | 26/26 | none on the pack |
+| Italian | v2 | 26 | 243 | 27 | 129 | 24 | 26/26 | none on the pack |
+| German | v2 | 10 | 62 | 10 | 36 | 0 | 1/10 | A1 × 10 lessons |
 | Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Spanish | v2 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
-Totals: 76 lessons, 614 practice activities, 23 speaking steps.
+Totals: 78 lessons, 634 practice activities, 24 speaking steps.
 
 Four findings this table makes visible:
 
@@ -36,18 +38,21 @@ Four findings this table makes visible:
    curriculum fixture), so this is a reporting and documentation claim rather than a learner-facing
    one — German kept all 8 of its tags through the 2B flip, which is what the column now shows.
    French and Italian were flipped before the field existed and report "none"; re-running their
-   migration from the v1 source would restore 25 tags each, and that is the user's call, recorded
-   in `tests/pack-migration-cefr.test.ts` rather than done quietly.
-2. **Speaking is Italian-only** — 23 of the 600 practice activities. German, Portuguese and Spanish
+   migration from the v1 source would restore the tags that source carries, and that is the user's
+   call, recorded in `tests/pack-migration-cefr.test.ts` rather than done quietly.
+2. **Speaking is Italian-only** — 24 of the 634 practice activities. German, Portuguese and Spanish
    have no self-assessed exercise kind at all, and all three joined the v2 player with the
    migrations, so for them this is an authoring gap rather than a missing capability. French and
-   Spanish *could* carry speaking steps too, but none are authored.
+   Spanish *could* carry speaking steps too, but none are authored. Italian's came from the
+   authored café lesson onwards: every lesson past the first two carries one.
 3. **Audio coverage is French/Italian-only.** German, Portuguese and Spanish carry model audio in
-   one lesson out of eight.
-4. **The migrated packs report every lesson as `family: "discovery"`.** The v1 schema had no
-   family field, and the adapter assigns one default, so the v2 player's lesson-rhythm vocabulary
-   says nothing about French or German yet. Italian's authored families (22 discovery, 1 story, 1
-   conversation, 1 listening) are the target shape.
+   one lesson — one of ten for German, one of eight for the other two. The café lessons added the
+   two Italian clips and the French model recording, which is why the other counts moved with them.
+4. **Families are authored only where the pack was.** The migrated packs report one family for every
+   lesson (`discovery`), because the v1 schema had no such field and the adapter assigns one default;
+   French now carries one `conversation` lesson because the café lesson was authored in v2 rather
+   than migrated. Italian's mix (22 discovery, 1 story, 2 conversation, 1 listening) is the shape
+   the others are moving toward.
 
 ## Travel fixture (unchanged since 2026-09-03)
 
