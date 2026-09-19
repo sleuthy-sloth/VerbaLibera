@@ -36,6 +36,9 @@ const GENERATED = [
   // The Listen catalog is generated too: measured from the shipped mp3s, and
   // the file the download flow reads its digests from.
   "src/features/listen/catalog.json",
+  // The one summary prose quotes: derived from the per-language reports, and the
+  // source the generated blocks in README.md and docs/cefr-coverage.md hold.
+  "docs/astra/reports/summary.json",
   "public/packs/french.json",
   "public/packs/german.json",
   "public/packs/italian.json",

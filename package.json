@@ -28,6 +28,7 @@
     "content:check-deployment-imports": "tsx scripts/check-deployment-imports.ts",
     "content:stats": "tsx scripts/content.ts stats",
     "content:coverage": "tsx scripts/content.ts coverage",
+    "content:summary": "tsx scripts/content.ts summary",
     "content:outcomes": "tsx scripts/content.ts outcomes",
     "content:audio-check": "tsx scripts/content.ts audio-check",
     "content:duplicates": "tsx scripts/content.ts duplicates",

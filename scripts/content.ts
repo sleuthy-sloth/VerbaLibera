@@ -3,6 +3,15 @@ import { createHash } from "node:crypto";
 import { normalizePack } from "../src/features/course-pack/normalize-pack";
 import type { CourseIdentity } from "../src/features/course-pack/course-identity";
 import { buildContentReport } from "./content/report";
+import {
+  buildContentSummary,
+  renderCoverageTable,
+  renderSummaryJson,
+  renderSummaryTable,
+  SUMMARY_REGIONS,
+  applyRegion,
+  type ContentSummary,
+} from "./content/summary";
 import { buildOutcomeMatrix, renderOutcomeMatrix } from "./content/outcomes";
 import { readProseReview } from "./content/review";
 import {
@@ -28,6 +37,24 @@ const outcomeInputs: Array<{
   pack: ReturnType<typeof normalizePack>;
   review: ReturnType<typeof readProseReview>;
 }> = [];
+// The per-language reports, kept so the summary can be derived from the same
+// objects the loop just built rather than re-read from disk.
+const reportEntries: Array<{ language: string; report: ReturnType<typeof buildContentReport> }> = [];
+
+/**
+ * Write the generated summary and refresh the doc regions that quote it.
+ *
+ * Neither document is written when the region already matches, so a build leaves
+ * no mtime churn behind.
+ */
+function writeSummaryArtifacts(summary: ContentSummary): void {
+  writeFileSync("docs/astra/reports/summary.json", renderSummaryJson(summary));
+  for (const region of SUMMARY_REGIONS) {
+    const contents = readFileSync(region.file, "utf8");
+    const next = applyRegion(region.file, contents, summary, region.render);
+    if (next !== contents) writeFileSync(region.file, next);
+  }
+}
 const command = process.argv[2] ?? "validate";
 for (const language of languages) {
   const path = `courses/${language}/manifest.json`,
@@ -64,6 +91,7 @@ for (const language of languages) {
     review,
   );
   outcomeInputs.push({ pack, review });
+  reportEntries.push({ language, report });
   // The catalog carries the pack facts the UI derives honest capability labels
   // from, so a screen never hardcodes which languages have structured courses.
   // It is also the app's course universe (`course-identity.ts`), so it carries
@@ -112,6 +140,10 @@ if (command === "build") {
     "src/features/course-pack/catalog.json",
     JSON.stringify(catalog, null, 2) + "\n",
   );
+  // The one generated summary, and the doc regions that quote it. Written here
+  // so the numbers prose reads are produced by the same run that produces the
+  // reports they come from.
+  writeSummaryArtifacts(buildContentSummary(reportEntries));
   // The Listen catalog: the shipped long-form tracks with their real sizes and
   // digests, so the download flow can cache them, the offline bundles can embed
   // them, and the app can tell a learner what the audio costs.
@@ -130,6 +162,12 @@ if (command === "build") {
       `Listen catalog is stale (run \`npm run content:build\`):\n  ${mismatches.join("\n  ")}`,
     );
   }
+}
+if (command === "summary") {
+  const summary = buildContentSummary(reportEntries);
+  console.log(renderSummaryTable(summary));
+  console.log("");
+  console.log(renderCoverageTable(summary));
 }
 if (command === "outcomes") {
   const document = renderOutcomeMatrix(buildOutcomeMatrix(outcomeInputs));
