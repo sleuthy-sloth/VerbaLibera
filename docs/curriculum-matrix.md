@@ -15,6 +15,12 @@ How to read a row:
 - **review** is the course's record from `courses/<language>/review.json`, stated once per
   course. It is not a per-lesson claim, and `docs/human-review-gates.md` is where the
   outstanding human work is written down.
+- **unit contract** reports, per unit, whether each thing a released unit must be able to
+  report is `present`, `absent`, `pending review` or `not applicable`. Every state is derived
+  from the pack and the review record, so none of it claims the language is correct: the
+  structural facts are "this unit has a production step", "every media reference resolves",
+  "the record says the prose was read". A unit can be publishable with review open; it cannot
+  count as reviewed until a reviewer does. Absences are warnings, never build errors.
 
 ## Courses
 
@@ -64,6 +70,15 @@ Audio listening review: **pending**
   - modes: recognition, production, listening
   - brings back: fr-family-foundation
 
+#### Unit contract
+
+- present: communicative objective, recognition practice, target-language production, listening practice and referenced media, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 27 introduced item(s) are never retrieved later: fr-family-concept, fr-family-word-1, fr-family-word-2, fr-family-word-3, fr-family-word-4, fr-first-words-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 2 — Home and daily life
 
 - **fr-home-foundation** — Home and articles (discovery, 9 min)
@@ -90,6 +105,15 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production, listening
   - brings back: fr-plural-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: fr-descriptions-concept, fr-descriptions-word-1, fr-descriptions-word-2, fr-descriptions-word-3, fr-descriptions-word-4, fr-home-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 3 — Everyday communication
 
@@ -118,6 +142,15 @@ Audio listening review: **pending**
   - modes: recognition, production, listening
   - brings back: fr-food-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: fr-food-concept, fr-food-word-1, fr-food-word-2, fr-food-word-3, fr-food-word-4, fr-negation-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 4 — Going further
 
 - **fr-transport-foundation** — Going places with aller (discovery, 8 min)
@@ -145,6 +178,15 @@ Audio listening review: **pending**
   - modes: recognition, production, listening
   - brings back: fr-past-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: fr-past-concept, fr-past-word-1, fr-past-word-2, fr-past-word-3, fr-past-word-4, fr-plans-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 5 — Time and the world around you
 
 - **fr-days-foundation** — Days, months and dates (discovery, 9 min)
@@ -171,6 +213,15 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production, listening
   - brings back: fr-weather-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: fr-days-concept, fr-days-foundation-word-1, fr-days-foundation-word-2, fr-days-foundation-word-3, fr-days-foundation-word-4, fr-market-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 6 — Santé et vie sociale
 
@@ -205,6 +256,14 @@ Audio listening review: **pending**
   - modes: recognition, production, listening
   - brings back: fr-emergency-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- pending review: prose-review state, audio-listening-review state
+- not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 25 introduced item(s) are never retrieved later: fr-cafe-order-concept, fr-cafe-order-foundation-word-1, fr-cafe-order-foundation-word-2, fr-cafe-order-foundation-word-3, fr-cafe-order-foundation-word-4, fr-emergency-concept …
+
 ## German foundations (de)
 
 Prose review: **partial** (2026-09-11, reported by the project owner)
@@ -235,6 +294,15 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
   - modes: recognition, production
   - brings back: de-first-words-foundation
 
+#### Unit contract
+
+- present: communicative objective, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: de-introductions-foundation, de-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: de-cafe-requests-concept, de-cafe-requests-word-1, de-cafe-requests-word-2, de-cafe-requests-word-3, de-cafe-requests-word-4, de-first-words-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 2 — Getting around
 
 - **de-numbers-quantities-foundation** — Numbers and quantities (discovery, 4 min)
@@ -243,6 +311,15 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: de-cafe-requests-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 1 lesson(s) carry no listening practice: de-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: de-numbers-quantities-concept, de-numbers-quantities-word-1, de-numbers-quantities-word-2, de-numbers-quantities-word-3, de-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
 
@@ -259,6 +336,15 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
   - modes: recognition, production
   - brings back: de-directions-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: de-directions-foundation, de-shopping-foundation · 10 introduced item(s) are never retrieved later: de-directions-concept, de-directions-word-1, de-directions-word-2, de-directions-word-3, de-directions-word-4, de-shopping-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 4 — Everyday life
 
 - **de-time-days-foundation** — Days and times (discovery, 7 min)
@@ -274,6 +360,15 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
   - modes: recognition, production
   - brings back: de-time-days-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: de-time-days-foundation, de-family-people-foundation · 10 introduced item(s) are never retrieved later: de-family-people-concept, de-family-people-word-1, de-family-people-word-2, de-family-people-word-3, de-family-people-word-4, de-time-days-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 5 — Weather and free time
 
 - **de-weather-foundation** — Weather and seasons (discovery, 7 min)
@@ -288,6 +383,15 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: de-weather-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: de-weather-foundation, de-free-time-foundation · 10 introduced item(s) are never retrieved later: de-free-time-concept, de-free-time-word-1, de-free-time-word-2, de-free-time-word-3, de-free-time-word-4, de-weather-concept … · every lesson in this unit is family "discovery"
 
 ## Italian foundations (it)
 
@@ -327,6 +431,15 @@ Audio listening review: **pending**
   - modes: recognition, production, listening, speaking
   - brings back: it-family-foundation
 
+#### Unit contract
+
+- present: communicative objective, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: prerequisite concepts and vocabulary
+- publishable: yes · counts as reviewed: no
+- warnings: 27 introduced item(s) are never retrieved later: it-family-concept, it-family-word-1, it-family-word-2, it-family-word-3, it-family-word-4, it-first-words-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 2 — Home and daily life
 
 - **it-home-foundation** — Home and definite articles (discovery, 8 min)
@@ -353,6 +466,14 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production, listening, speaking
   - brings back: it-plural-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: it-descriptions-concept, it-descriptions-word-1, it-descriptions-word-2, it-descriptions-word-3, it-descriptions-word-4, it-home-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 3 — Everyday communication
 
@@ -381,6 +502,14 @@ Audio listening review: **pending**
   - modes: recognition, production, listening, speaking
   - brings back: it-possession-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns
+- pending review: prose-review state, audio-listening-review state
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: it-food-concept, it-food-word-1, it-food-word-2, it-food-word-3, it-food-word-4, it-negation-concept …
+
 ### Unit 4 — Going further
 
 - **it-requests-foundation** — Modal verbs and requests (conversation, 12 min)
@@ -408,6 +537,14 @@ Audio listening review: **pending**
   - modes: recognition, production, listening, speaking
   - brings back: it-past-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns
+- pending review: prose-review state, audio-listening-review state
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: it-past-concept, it-past-word-1, it-past-word-2, it-past-word-3, it-past-word-4, it-plans-concept …
+
 ### Unit 5 — Time and the world around you
 
 - **it-days-foundation** — Days, months and dates (discovery, 8 min)
@@ -434,6 +571,14 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production, listening, speaking
   - brings back: it-weather-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns
+- pending review: prose-review state, audio-listening-review state
+- publishable: yes · counts as reviewed: no
+- warnings: 20 introduced item(s) are never retrieved later: it-days-concept, it-days-foundation-word-1, it-days-foundation-word-2, it-days-foundation-word-3, it-days-foundation-word-4, it-market-concept …
 
 ### Unit 6 — Health and social life
 
@@ -468,6 +613,14 @@ Audio listening review: **pending**
   - modes: recognition, production, listening, speaking
   - brings back: it-emergency-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, listening practice and referenced media, optional self-compare speaking, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- pending review: prose-review state, audio-listening-review state
+- not applicable: introduced and later-retrieved vocabulary and patterns
+- publishable: yes · counts as reviewed: no
+- warnings: 25 introduced item(s) are never retrieved later: it-cafe-order-concept, it-cafe-order-foundation-word-1, it-cafe-order-foundation-word-2, it-cafe-order-foundation-word-3, it-cafe-order-foundation-word-4, it-emergency-concept …
+
 ## Portuguese foundations (pt)
 
 Prose review: **pending**
@@ -494,6 +647,15 @@ Audio listening review: **pending**
   - modes: recognition, production
   - brings back: pt-first-words-foundation
 
+#### Unit contract
+
+- present: communicative objective, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: pt-introductions-foundation, pt-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: pt-cafe-requests-concept, pt-cafe-requests-word-1, pt-cafe-requests-word-2, pt-cafe-requests-word-3, pt-cafe-requests-word-4, pt-first-words-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 2 — Getting around
 
 - **pt-numbers-quantities-foundation** — Numbers and quantities (discovery, 4 min)
@@ -502,6 +664,15 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: pt-cafe-requests-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, lesson-family variety, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 1 lesson(s) carry no listening practice: pt-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: pt-numbers-quantities-concept, pt-numbers-quantities-word-1, pt-numbers-quantities-word-2, pt-numbers-quantities-word-3, pt-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
 
@@ -518,6 +689,15 @@ Audio listening review: **pending**
   - modes: recognition, production
   - brings back: pt-directions-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: pt-directions-foundation, pt-shopping-foundation · 10 introduced item(s) are never retrieved later: pt-directions-concept, pt-directions-word-1, pt-directions-word-2, pt-directions-word-3, pt-directions-word-4, pt-shopping-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 4 — Everyday life
 
 - **pt-time-days-foundation** — Days and times (discovery, 7 min)
@@ -532,6 +712,15 @@ Audio listening review: **pending**
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: pt-time-days-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, media provenance and integrity, web, offline-download and portable compatibility
+- absent: listening practice and referenced media, lesson-family variety
+- pending review: prose-review state, audio-listening-review state
+- not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
+- publishable: yes · counts as reviewed: no
+- warnings: 2 lesson(s) carry no listening practice: pt-time-days-foundation, pt-family-people-foundation · 10 introduced item(s) are never retrieved later: pt-family-people-concept, pt-family-people-word-1, pt-family-people-word-2, pt-family-people-word-3, pt-family-people-word-4, pt-time-days-concept … · every lesson in this unit is family "discovery"
 
 ## Spanish foundations (es)
 
@@ -561,6 +750,15 @@ The prose review was reported as passed by the project owner. It is a review of 
   - modes: recognition, production
   - brings back: es-first-words-foundation
 
+#### Unit contract
+
+- present: communicative objective, recognition practice, target-language production, prose-review state, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: audio-listening-review state
+- not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
+- publishable: yes · counts as reviewed: yes
+- warnings: 2 lesson(s) carry no listening practice: es-introductions-foundation, es-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: es-cafe-requests-concept, es-cafe-requests-word-1, es-cafe-requests-word-2, es-cafe-requests-word-3, es-cafe-requests-word-4, es-first-words-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 2 — Getting around
 
 - **es-numbers-quantities-foundation** — Numbers and quantities (discovery, 5 min)
@@ -569,6 +767,15 @@ The prose review was reported as passed by the project owner. It is a review of 
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: es-cafe-requests-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, lesson-family variety, prose-review state, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media
+- pending review: audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: yes
+- warnings: 1 lesson(s) carry no listening practice: es-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: es-numbers-quantities-concept, es-numbers-quantities-word-1, es-numbers-quantities-word-2, es-numbers-quantities-word-3, es-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
 
@@ -585,6 +792,15 @@ The prose review was reported as passed by the project owner. It is a review of 
   - modes: recognition, production
   - brings back: es-directions-foundation
 
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, prose-review state, media provenance and integrity, web, offline-download and portable compatibility
+- absent: introduced and later-retrieved vocabulary and patterns, listening practice and referenced media, lesson-family variety
+- pending review: audio-listening-review state
+- not applicable: optional self-compare speaking
+- publishable: yes · counts as reviewed: yes
+- warnings: 2 lesson(s) carry no listening practice: es-directions-foundation, es-shopping-foundation · 10 introduced item(s) are never retrieved later: es-directions-concept, es-directions-word-1, es-directions-word-2, es-directions-word-3, es-directions-word-4, es-shopping-concept … · every lesson in this unit is family "discovery"
+
 ### Unit 4 — Everyday life
 
 - **es-time-days-foundation** — Days and times (discovery, 7 min)
@@ -599,6 +815,15 @@ The prose review was reported as passed by the project owner. It is a review of 
   - introduces: 4 words, 1 concept · retrieves: 0 words, 0 concepts
   - modes: recognition, production
   - brings back: es-time-days-foundation
+
+#### Unit contract
+
+- present: communicative objective, prerequisite concepts and vocabulary, recognition practice, target-language production, prose-review state, media provenance and integrity, web, offline-download and portable compatibility
+- absent: listening practice and referenced media, lesson-family variety
+- pending review: audio-listening-review state
+- not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
+- publishable: yes · counts as reviewed: yes
+- warnings: 2 lesson(s) carry no listening practice: es-time-days-foundation, es-family-people-foundation · 10 introduced item(s) are never retrieved later: es-family-people-concept, es-family-people-word-1, es-family-people-word-2, es-family-people-word-3, es-family-people-word-4, es-time-days-concept … · every lesson in this unit is family "discovery"
 
 ## Gaps
 

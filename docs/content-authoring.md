@@ -120,3 +120,55 @@ linguistically reviewed until an FR/IT operator has signed off.
 lesson once, the new WAVs persist for the lifetime of the
 `verbalibera-static-v2` cache. Bumping the cache version forces a refresh
 on the next deploy.
+
+## 8. What a released unit has to be able to report
+
+A unit is a `unitId` in a pack: one to five lessons that share a theme. Before its
+lessons count as released, the generated matrix has to be able to state, for that
+unit, what is present and what is missing. `npm run content:outcomes -- --write`
+writes it to `docs/curriculum-matrix.md`, one contract per unit, and
+`tests/content-authoring.test.ts` holds the rules.
+
+The twelve items, each reported as `present`, `absent`, `pending-review` or
+`not-applicable`:
+
+1. communicative objective
+2. prerequisite concepts and vocabulary
+3. introduced and later-retrieved vocabulary and patterns
+4. recognition practice
+5. target-language production
+6. listening practice and referenced media
+7. optional self-compare speaking
+8. lesson-family variety
+9. prose-review state
+10. audio-listening-review state
+11. media provenance and integrity
+12. web, offline-download and portable compatibility
+
+Three rules apply to every one of them.
+
+**A state is never a judgement about the language.** These are structural checks:
+"this unit has a production step", "every media reference resolves", "the record
+says the prose was read". Whether the German is German, whether a translation is
+right and whether a recording sounds correct are review gates, and they live in
+`docs/human-review-gates.md`. No structural state here can close one, and a green
+run must never be quoted as evidence of language quality.
+
+**A unit may ship with review open.** `publishable` answers only the structural
+question — an objective, recognition practice, production practice and resolved
+media references. Review is reported separately and `counts as reviewed` stays
+`no` until a named reviewer with a date and a scope says otherwise. Listening,
+fresh retrieval and variety are warnings rather than absences that block a
+release, because a course that halted on them could never ship anything as
+partial A1.
+
+**Absences warn; they do not fail the pack.** `npm run content:validate` still
+passes for a course with listening in one lesson out of ten, which is the state
+German ships in today. The contract states the absence and names it; the
+editorial decision about what to author next belongs to the roadmap, not to a
+build error.
+
+`not-applicable` is only for cases where the item genuinely does not apply: the
+first unit owes no prerequisites, the last unit cannot be retrieved by a later
+one, and a course that authors no speaking anywhere is stating a position rather
+than missing a check. It is never used as a softer word for `absent`.
