@@ -11,23 +11,27 @@ separate bodies of content exist and their numbers are never added together:
   — the older pattern demonstrations. Counted by `cefrCoverage()` in
   `src/features/curriculum/cefr.ts` and pinned by `tests/cefr-spine.test.ts`.
 
-## Foundation packs (generated 2026-09-13)
+## Foundation packs
 
 Every foundation course is a **partial A1 syllabus**. Lesson count is capacity,
 not CEFR evidence, and no complete A1 level is claimed for any language. The
-`level` block in each generated report says so in as many words. For which lesson
-teaches which objective, what it retrieves and what is missing, see the generated
-`docs/curriculum-matrix.md` (`npm run content:outcomes -- --write`).
+`level` block in each generated report says so in as many words. This table is
+generated: `npm run content:summary` prints it, `npm run content:build` refreshes
+it, and `tests/content-reporting.test.ts` fails if it drifts from the reports. For
+which lesson teaches which objective, what it retrieves and what is missing, see
+the generated `docs/curriculum-matrix.md` (`npm run content:outcomes -- --write`).
 
+<!-- generated:content-summary:start -->
 | Course | Schema | Lessons | Practice activities | Notice steps | Target-language production | Speaking steps | Lessons with model audio | Authored CEFR tags |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | French | v2 | 26 | 232 | 26 | 125 | 0 | 26/26 | none on the pack |
-| Italian | v2 | 26 | 243 | 27 | 129 | 24 | 26/26 | none on the pack |
 | German | v2 | 10 | 62 | 10 | 36 | 0 | 1/10 | A1 × 10 lessons |
+| Italian | v2 | 26 | 243 | 27 | 129 | 24 | 26/26 | none on the pack |
 | Portuguese | v2 | 8 | 48 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 | Spanish | v2 | 8 | 49 | 8 | 28 | 0 | 1/8 | A1 × 8 lessons |
 
 Totals: 78 lessons, 634 practice activities, 24 speaking steps.
+<!-- generated:content-summary:end -->
 
 Four findings this table makes visible:
 
