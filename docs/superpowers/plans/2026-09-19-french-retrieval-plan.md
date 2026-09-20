@@ -67,7 +67,18 @@ Verified in `scripts/content/outcomes.ts` and pinned by tests in
 Six steps, placed one per Unit 2 lesson (two in `fr-home-foundation`), each with
 `purpose: "transfer"` and `required: true`. Requirement does not affect
 completion, which is `legacy-success` over the authored exercises in every one of
-these lessons.
+these lessons. Each step is inserted immediately **before** its lesson's reading
+step, which moves exactly one `nextStepId` per lesson and orphans nothing.
+
+Every activity also carries the fields a graded v2 activity is checked for:
+`revision`, `conceptIds`, `vocabulary`, `skills`, `prompt`, `feedback`,
+`evidenceKey` equal to its own id, and `assistanceAffectsEvidence` including
+`"model"`. That last one is not optional and not obvious: the schema accepts the
+activity without it, and `normalizePack` then refuses the whole pack with *"model
+reveal must affect evidence"*. It is the one field this plan's first draft left
+out. No legacy exercise record is needed — the probe in
+`tests/french-retrieval-plan.test.ts` applies all six steps to the real pack and
+it normalizes as it stands.
 
 Each step is written out in full: English prompt, French answer, what it brings
 back, and the arithmetic that keeps the lesson's list inside its ten-slot cap.
@@ -207,8 +218,18 @@ No audio listening review is needed: this plan adds no recordings.
 ## 9. What I have not done
 
 No edit to `courses/french/**`, `public/packs/french.json`,
-`docs/astra/reports/french.json`, or any other pack or report. The only changes in
-this package are the reporting basis line (§5), `tests/course-retrieval.test.ts`,
-and this document. Units 2–6 remain orphaned, and the same finding stands for
-Italian, German, Portuguese and Spanish — Italian is the most valuable next
-target, because it is the only course that can also be said aloud.
+`docs/astra/reports/french.json`, or any other pack or report. The changes in this
+package are the reporting basis line (§5), `tests/course-retrieval.test.ts`,
+`tests/french-retrieval-plan.test.ts`, and this document.
+
+`tests/french-retrieval-plan.test.ts` makes the plan executable without shipping
+it: it applies all six steps to the real pack in memory and checks that it
+validates and normalizes, that the coverage is 24 of 27 with exactly the three
+named items stranded, that the two tight lessons sit exactly on the ten-word cap,
+that the model-reveal declaration is required (the case that fails without it),
+and that every lesson's chain still reaches every step from its entry. Unit 1
+reports `absent` until the last three land; that is the intended state, not a bug.
+
+Units 2–6 remain orphaned, and the same finding stands for Italian, German,
+Portuguese and Spanish — Italian is the most valuable next target, because it is
+the only course that can also be said aloud.
