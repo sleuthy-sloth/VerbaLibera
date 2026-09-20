@@ -37,23 +37,27 @@ The daily path, showing what is next and what needs review:
 
 ## Course structure
 
-French and Italian have full structured A1 foundations at 25 lessons each. German runs to ten lessons — first words through directions, prices, days, family, the weather and free time — and Portuguese and Spanish to eight each.
+French and Italian are the two largest courses at 26 lessons each (a words-first opener plus Units 1–6). German runs to ten lessons — first words through directions, prices, days, family, the weather and free time — and Portuguese and Spanish to eight each.
 
 Lessons open the same way, with a zero-recall word choice, and then take different routes: sentence building, changing a sentence's shape, filling a blank, reading a short passage, or listening.
 
 ### What is actually in each course
 
-These counts are generated, not hand-maintained: `npm run content:stats` prints them and writes one report per course to `docs/astra/reports/<language>.json`. "Reachable" is the number of distinct activities a lesson's steps can put in front of you; "notice" steps are the intro explanations, which are not graded tasks. Retained v1 records are reported separately, because counting them as the course's activity total is exactly the error that used to hide the whole Italian speaking rollout.
+These counts are generated, and the block below is refreshed by `npm run content:build` (or `npm run content:summary` to print it) from the per-course reports in `docs/astra/reports/`, with `docs/astra/reports/summary.json` as the machine-readable copy of the same figures. `tests/content-reporting.test.ts` re-derives it and fails if this block drifts. "Practice activities" are the distinct authored activities a lesson's steps can put in front of you; "notice" steps are the intro explanations, which are not graded tasks. Retained v1 records are reported separately, because counting them as the course's activity total is exactly the error that used to hide the whole Italian speaking rollout. The legacy travel-pattern courses are counted separately and never added to these totals.
 
+<!-- generated:content-summary:start -->
 | Course | Schema | Lessons | Practice activities | Notice steps | Speaking steps | Lessons with model audio | Audio clips | Vocabulary |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| French | v2 | 25 | 222 | 25 | 0 | 25/25 | 26 | 102 |
-| Italian | v2 | 25 | 233 | 26 | 23 | 25/25 | 27 | 102 |
-| German | v2 | 10 | 62 | 10 | 0 | 1/8 | 1 | 42 |
+| French | v2 | 26 | 232 | 26 | 0 | 26/26 | 26 | 106 |
+| German | v2 | 10 | 62 | 10 | 0 | 1/10 | 1 | 42 |
+| Italian | v2 | 26 | 243 | 27 | 24 | 26/26 | 27 | 106 |
 | Portuguese | v2 | 8 | 48 | 8 | 0 | 1/8 | 1 | 34 |
 | Spanish | v2 | 8 | 49 | 8 | 0 | 1/8 | 1 | 34 |
 
-76 lessons, 614 practice activities, and 23 speaking steps. Lesson count is capacity, not evidence of a CEFR level: every course is a partial A1 syllabus, and no complete A1 coverage is claimed.
+78 lessons (26 + 10 + 26 + 8 + 8), 634 practice activities, and 24 speaking steps.
+<!-- generated:content-summary:end -->
+
+Lesson count is capacity, not evidence of a CEFR level: every course is a partial A1 syllabus, and no complete A1 coverage is claimed.
 
 The older travel-pattern courses (`english-to-french` and friends, served from the `/learn` routes) are a separate fixture from the foundation packs above and are counted separately in [docs/cefr-coverage.md](docs/cefr-coverage.md).
 

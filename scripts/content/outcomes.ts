@@ -88,6 +88,8 @@ export type CourseOutcomes = {
   audioReview: ProseReview["audioListening"];
   reviewNote?: string;
   rows: LessonOutcome[];
+  /** The complete-unit contract, per unit. */
+  contracts: UnitContract[];
   /** Named, mechanically derived, never ranked. Ranking is the editorial half. */
   gaps: string[];
 };
@@ -95,6 +97,45 @@ export type CourseOutcomes = {
 export type OutcomeMatrix = {
   courses: CourseOutcomes[];
 };
+
+/**
+ * The four states a contract item can be in.
+ *
+ * `not-applicable` is a claim in its own right — the last unit cannot retrieve
+ * material later, and a course that authors no speaking at all is a stated
+ * position rather than a missing check — so it is never used as a softer word
+ * for `absent`.
+ */
+export type ContractState = "present" | "absent" | "pending-review" | "not-applicable";
+
+export type ContractItem = {
+  item: string;
+  state: ContractState;
+  /** What was actually checked, and what it does not claim. */
+  basis: string;
+};
+
+export type UnitContract = {
+  unitId: string;
+  unitTitle: string;
+  lessons: string[];
+  /**
+   * Structurally complete enough to publish with review still open. Review is a
+   * separate fact: `countsAsReviewed` is false unless the record says reviewed,
+   * and a unit with pending review is publishable rather than blocked.
+   */
+  publishable: boolean;
+  countsAsReviewed: boolean;
+  items: ContractItem[];
+  /** Structural observations that are not absences. Never an error by itself. */
+  warnings: string[];
+};
+
+const REVIEW_BASIS =
+  "read from courses/<language>/review.json via readProseReview; the record is per course, so this is the course's state and not a per-unit claim";
+
+const EDITIONS_BASIS =
+  "this column reports only that the pack's media are declared and reachable from steps; the editions themselves are gated by `npm run portable:build` + `portable:verify` and the offline/portable Playwright projects, which cannot be inferred from a pack";
 
 /** Every activity a lesson can reach, including optional support activities. */
 function reachableActivities(pack: RuntimePack, lesson: RuntimeLesson): Activity[] {
@@ -136,6 +177,16 @@ function modesOf(activity: Activity): { modes: Mode[]; mapped: boolean } {
 export function buildCourseOutcomes(pack: RuntimePack, review: ProseReview): CourseOutcomes {
   const unitById = new Map(pack.units.map((unit) => [unit.id, unit]));
   const declaredWords = new Set(pack.vocabulary.map((entry) => entry.id));
+  // Media no lesson references, counted at course scope: a per-unit count would
+  // report every other unit's clips as unused, which is a false statement about
+  // the pack.
+  const courseReferencedMedia = new Set(
+    pack.lessons.flatMap((lesson) => mediaOf(pack, lesson).referenced),
+  );
+  const unusedMedia = pack.media
+    .filter((asset) => !courseReferencedMedia.has(asset.id))
+    .map((asset) => asset.id)
+    .sort();
 
   const introducedWords = new Set<string>();
   const introducedConcepts = new Set<string>();
@@ -200,7 +251,8 @@ export function buildCourseOutcomes(pack: RuntimePack, review: ProseReview): Cou
     audioReview: review.audioListening,
     ...(review.note ? { reviewNote: review.note } : {}),
     rows,
-    gaps: courseGaps(pack, rows, declaredWords, referencedWords, unmappedKinds),
+    contracts: buildUnitContracts(pack, rows, review),
+    gaps: courseGaps(pack, rows, declaredWords, referencedWords, unmappedKinds, unusedMedia),
   };
 }
 
@@ -219,6 +271,7 @@ function courseGaps(
   declaredWords: Set<string>,
   referencedWords: Set<string>,
   unmappedKinds: Map<string, number>,
+  unusedMedia: string[],
 ): string[] {
   const gaps: string[] = [];
   const lessonsWith = (mode: Mode): string[] =>
@@ -247,6 +300,9 @@ function courseGaps(
   if (unused.length > 0)
     gaps.push(`${unused.length} declared words are referenced by no lesson: ${unused.join(", ")}`);
 
+  if (unusedMedia.length > 0)
+    gaps.push(`${unusedMedia.length} declared clips are referenced by no lesson: ${unusedMedia.join(", ")}`);
+
   for (const [kind, count] of [...unmappedKinds].sort(([a], [b]) => a.localeCompare(b)))
     gaps.push(`${count} reachable ${kind} activities map to no practice mode`);
 
@@ -257,6 +313,195 @@ export function buildOutcomeMatrix(
   inputs: readonly { pack: RuntimePack; review: ProseReview }[],
 ): OutcomeMatrix {
   return { courses: inputs.map(({ pack, review }) => buildCourseOutcomes(pack, review)) };
+}
+
+/** Media a lesson's reachable activities point at, and any reference that resolves to nothing. */
+function mediaOf(
+  pack: RuntimePack,
+  lesson: RuntimeLesson,
+): { referenced: string[]; dangling: string[] } {
+  const declared = new Set(pack.media.map((asset) => asset.id));
+  const referenced = new Set<string>();
+  const dangling: string[] = [];
+  const note = (id: string | undefined): void => {
+    if (!id) return;
+    if (declared.has(id)) referenced.add(id);
+    else dangling.push(id);
+  };
+  for (const activity of reachableActivities(pack, lesson)) {
+    if ("stimulusId" in activity && activity.stimulusId) {
+      const stimulus = pack.stimuli[activity.stimulusId] as
+        | { kind: string; mediaId?: string }
+        | undefined;
+      if (!stimulus) dangling.push(activity.stimulusId);
+      else note(stimulus.mediaId);
+    }
+    if ("audioId" in activity && typeof activity.audioId === "string") note(activity.audioId);
+  }
+  return { referenced: [...referenced].sort(), dangling: [...dangling].sort() };
+}
+
+/**
+ * The complete-unit contract: the state of each thing a released unit must be
+ * able to report, per unit.
+ *
+ * Every item is derived from the pack and the review record, so nothing here can
+ * claim that German is German: the structural facts are "this unit has a
+ * production step", "every media reference resolves", "the record says the prose
+ * was read". Pedagogical and language correctness stay with the reviewer, which
+ * `docs/human-review-gates.md` owns.
+ *
+ * Absences are reported, not thrown. A unit may ship with listening absent and
+ * with review open; what it cannot do is count as reviewed.
+ */
+export function buildUnitContracts(
+  pack: RuntimePack,
+  rows: LessonOutcome[],
+  review: ProseReview,
+): UnitContract[] {
+  const lastUnitId = pack.units[pack.units.length - 1]?.id;
+  const packAuthorsSpeaking = rows.some((row) => row.modes.includes("speaking"));
+  const lessonById = new Map(pack.lessons.map((lesson) => [lesson.id, lesson]));
+
+  return pack.units.map((unit, index) => {
+    const unitRows = rows.filter((row) => row.unitId === unit.id);
+    const ids = unitRows.map((row) => row.id);
+    const unitRowIds = new Set(ids);
+    const later = rows.slice(rows.findIndex((row) => unitRowIds.has(row.id)) + unitRows.length);
+    const laterRetrieved = new Set([
+      ...later.flatMap((row) => row.retrievesVocabulary),
+      ...later.flatMap((row) => row.retrievesConcepts),
+    ]);
+
+    const lessons = ids.map((id) => lessonById.get(id)!);
+    const media = lessons.map((lesson) => mediaOf(pack, lesson));
+    const dangling = [...new Set(media.flatMap((entry) => entry.dangling))].sort();
+    const referencedMedia = new Set(media.flatMap((entry) => entry.referenced));
+
+    const missingObjective = unitRows.filter((row) => row.objective.trim().length === 0).map((row) => row.id);
+    const missingPrerequisites = unitRows
+      .filter((row) => row.prerequisites.length === 0 && index > 0)
+      .map((row) => row.id);
+    const unretrieved = [
+      ...unitRows.flatMap((row) => [...row.introducesVocabulary, ...row.introducesConcepts]),
+    ]
+      .filter((id) => !laterRetrieved.has(id))
+      .sort();
+    const noRecognition = unitRows.filter((row) => !row.modes.includes("recognition")).map((row) => row.id);
+    const noProduction = unitRows.filter((row) => !row.modes.includes("production")).map((row) => row.id);
+    const noListening = unitRows.filter((row) => !row.modes.includes("listening")).map((row) => row.id);
+    const speaks = unitRows.some((row) => row.modes.includes("speaking"));
+    const families = [...new Set(unitRows.map((row) => row.family))].sort();
+    const unhashed = pack.media
+      .filter((asset) => referencedMedia.has(asset.id) && !/^[0-9a-f]{64}$/.test(asset.sha256 ?? ""))
+      .map((asset) => asset.id);
+
+    const state = (ok: boolean, notApplicable = false): ContractState =>
+      notApplicable ? "not-applicable" : ok ? "present" : "absent";
+    const reviewState = (status: string): ContractState =>
+      status === "reviewed" ? "present" : "pending-review";
+
+    const warnings: string[] = [];
+    if (noListening.length > 0)
+      warnings.push(`${noListening.length} lesson(s) carry no listening practice: ${noListening.join(", ")}`);
+    if (missingObjective.length > 0)
+      warnings.push(`no authored objective: ${missingObjective.join(", ")}`);
+    if (missingPrerequisites.length > 0)
+      warnings.push(`no prerequisites declared: ${missingPrerequisites.join(", ")}`);
+    if (unretrieved.length > 0)
+      warnings.push(
+        `${unretrieved.length} introduced item(s) are never retrieved later: ${unretrieved.slice(0, 6).join(", ")}${unretrieved.length > 6 ? " …" : ""}`,
+      );
+    if (families.length < 2 && unitRows.length > 1)
+      warnings.push(`every lesson in this unit is family "${families[0] ?? "unspecified"}"`);
+    if (dangling.length > 0)
+      warnings.push(`media referenced but not declared: ${dangling.join(", ")}`);
+
+    const items: ContractItem[] = [
+      {
+        item: "communicative objective",
+        state: state(unitRows.every((row) => row.objective.trim().length > 0)),
+        basis: "a non-empty authored objective on every lesson in the unit; the text itself is the reviewer's business, not this check's",
+      },
+      {
+        item: "prerequisite concepts and vocabulary",
+        state: state(missingPrerequisites.length === 0, index === 0),
+        basis:
+          index === 0
+            ? "the first unit declares no prerequisites, which is not an absence"
+            : "every lesson in the unit names at least one prerequisite lesson",
+      },
+      {
+        item: "introduced and later-retrieved vocabulary and patterns",
+        state: state(unretrieved.length === 0, unit.id === lastUnitId),
+        basis:
+          unit.id === lastUnitId
+            ? "the last unit cannot be retrieved by a later one"
+            : "every word and concept the unit introduces is referenced again by a lesson in a later unit",
+      },
+      {
+        item: "recognition practice",
+        state: state(noRecognition.length === 0),
+        basis: "every lesson carries at least one activity whose authored skills are reading or vocabulary",
+      },
+      {
+        item: "target-language production",
+        state: state(noProduction.length === 0),
+        basis: "every lesson carries at least one activity whose authored skills are writing or grammar",
+      },
+      {
+        item: "listening practice and referenced media",
+        state: state(noListening.length === 0 && media.some((entry) => entry.referenced.length > 0)),
+        basis: "every lesson carries a listening-skill activity and at least one media asset that its activities reference",
+      },
+      {
+        item: "optional self-compare speaking",
+        state: speaks ? "present" : packAuthorsSpeaking ? "absent" : "not-applicable",
+        basis:
+          "at least one lesson in the unit carries a self-compare activity; not-applicable means this course authors none anywhere, which is a stated position rather than a missing check",
+      },
+      {
+        item: "lesson-family variety",
+        state: state(families.length > 1 || unitRows.length <= 1),
+        basis: "a multi-lesson unit uses more than one lesson family; single-lesson units are not asked for variety",
+      },
+      { item: "prose-review state", state: reviewState(review.nativeSpeaker.status), basis: REVIEW_BASIS },
+      {
+        item: "audio-listening-review state",
+        state: reviewState(review.audioListening.status),
+        basis: REVIEW_BASIS,
+      },
+      {
+        item: "media provenance and integrity",
+        state: state(dangling.length === 0 && unhashed.length === 0),
+        basis:
+          "every media id the unit's activities reference is declared on the pack with a sha256; whether the bytes match is `npm run content:audio-check`'s job, and this check does not stand in for it",
+      },
+      {
+        item: "web, offline-download and portable compatibility",
+        state: state(dangling.length === 0),
+        basis: EDITIONS_BASIS,
+      },
+    ];
+
+    // Structural absences block publication; listening, fresh retrieval and review
+    // do not, because they are authoring and human-work states and a course that
+    // halted on them could never ship anything as partial A1.
+    const structural = ["communicative objective", "recognition practice", "target-language production", "media provenance and integrity"];
+    const publishable = items
+      .filter((entry) => structural.includes(entry.item))
+      .every((entry) => entry.state === "present");
+
+    return {
+      unitId: unit.id,
+      unitTitle: unit.title,
+      lessons: ids,
+      publishable,
+      countsAsReviewed: review.nativeSpeaker.status === "reviewed",
+      items,
+      warnings,
+    };
+  });
 }
 
 const list = (values: readonly string[]): string => (values.length === 0 ? "—" : values.join(", "));
@@ -284,6 +529,12 @@ export function renderOutcomeMatrix(matrix: OutcomeMatrix): string {
     "- **review** is the course's record from `courses/<language>/review.json`, stated once per",
     "  course. It is not a per-lesson claim, and `docs/human-review-gates.md` is where the",
     "  outstanding human work is written down.",
+    "- **unit contract** reports, per unit, whether each thing a released unit must be able to",
+    "  report is `present`, `absent`, `pending review` or `not applicable`. Every state is derived",
+    "  from the pack and the review record, so none of it claims the language is correct: the",
+    "  structural facts are \"this unit has a production step\", \"every media reference resolves\",",
+    "  \"the record says the prose was read\". A unit can be publishable with review open; it cannot",
+    "  count as reviewed until a reviewer does. Absences are warnings, never build errors.",
     "",
   );
 
@@ -321,6 +572,29 @@ export function renderOutcomeMatrix(matrix: OutcomeMatrix): string {
         );
         lines.push(`  - modes: ${list(row.modes)}`);
         lines.push(`  - brings back: ${list(row.retrievesLessons)}`);
+      }
+      const contract = course.contracts.find((entry) => entry.unitId === unitId);
+      if (contract) {
+        lines.push("");
+        lines.push("#### Unit contract", "");
+        const withState = (state: ContractState): string[] =>
+          contract.items.filter((item) => item.state === state).map((item) => item.item);
+        const states: ReadonlyArray<readonly [ContractState, string]> = [
+          ["present", "present"],
+          ["absent", "absent"],
+          ["pending-review", "pending review"],
+          ["not-applicable", "not applicable"],
+        ];
+        for (const [state, label] of states) {
+          const items = withState(state);
+          if (items.length > 0) lines.push(`- ${label}: ${items.join(", ")}`);
+        }
+        lines.push(
+          `- publishable: ${contract.publishable ? "yes" : "no"} · counts as reviewed: ${contract.countsAsReviewed ? "yes" : "no"}`,
+        );
+        lines.push(
+          `- warnings: ${contract.warnings.length === 0 ? "none" : contract.warnings.join(" · ")}`,
+        );
       }
       lines.push("");
     }

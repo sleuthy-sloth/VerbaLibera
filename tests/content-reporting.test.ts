@@ -6,6 +6,16 @@ import { normalizePack } from "@/features/course-pack/normalize-pack";
 import { buildContentReport, type ContentReport } from "../scripts/content/report";
 import { buildListenCatalog, listenBytesFor, listenTracksFor } from "../scripts/content/listen";
 import { readProseReview } from "../scripts/content/review";
+import {
+  REGION_END,
+  REGION_START,
+  SUMMARY_REGIONS,
+  buildContentSummary,
+  extractRegion,
+  renderCoverageTable,
+  renderRegion,
+  renderSummaryTable,
+} from "../scripts/content/summary";
 
 /**
  * The reporting regression this file guards: `scripts/content.ts` used to count
@@ -183,5 +193,127 @@ describe("content reporting is schema-aware", () => {
       fs.readFileSync(path.join(ROOT, "docs/astra/reports", `${language}.json`), "utf8"),
     );
     expect(committed).toEqual(loadPack(language).report);
+  });
+});
+
+/**
+ * The drift this block exists to catch: the café lessons added a French and an
+ * Italian lesson, and `README.md` kept saying "76 lessons, 614 practice
+ * activities, and 23 speaking steps" because nothing derived those numbers.
+ * `docs/astra/reports/summary.json` is now the one place they are derived, and
+ * the prose blocks below are compared against it byte for byte.
+ */
+describe("one generated summary is the source for the figures prose quotes", () => {
+  const summary = () =>
+    buildContentSummary(LANGUAGES.map((language) => ({ language, report: loadPack(language).report })));
+  const read = (relative: string): string => fs.readFileSync(path.join(ROOT, relative), "utf8");
+
+  it("the committed summary matches a fresh derivation from the committed reports", () => {
+    const committed = JSON.parse(
+      fs.readFileSync(path.join(ROOT, "docs/astra/reports/summary.json"), "utf8"),
+    );
+    expect(committed).toEqual(summary());
+  });
+
+  it("adds up its parts and keeps the buckets separate", () => {
+    const built = summary();
+    const totalOf = (pick: (entry: (typeof built.languages)[number]) => number): number =>
+      built.languages.reduce((sum, entry) => sum + pick(entry), 0);
+
+    expect(built.totals.languages).toBe(LANGUAGES.length);
+    expect(built.totals.lessons).toBe(totalOf((entry) => entry.lessons));
+    expect(built.totals.practiceActivities).toBe(totalOf((entry) => entry.practiceActivities));
+    expect(built.totals.speakingActivities).toBe(totalOf((entry) => entry.speakingActivities));
+    expect(built.totals.audioClips).toBe(totalOf((entry) => entry.audioClips));
+
+    for (const entry of built.languages) {
+      // Notices are not practice; retained v1 records are not practice either.
+      expect(
+        entry.practiceActivities + entry.noticeSteps,
+        `${entry.language}: practice + notices must account for every reachable activity`,
+      ).toBe(entry.reachableActivities);
+      expect(entry.listeningLessons).toBeLessThanOrEqual(entry.listeningLessonsTotal);
+      expect(entry.speakingLessons).toBeLessThanOrEqual(entry.lessons);
+    }
+  });
+
+  it("quotes review state from the records rather than from green tests", () => {
+    for (const entry of summary().languages) {
+      const report = loadPack(entry.language).report;
+      expect(entry.proseReview, `${entry.language} prose review`).toBe(report.review.nativeSpeaker);
+      expect(entry.audioListeningReview, `${entry.language} listening review`).toBe(
+        report.review.audioListening,
+      );
+      // The two are separate facts and neither is inferred from the other.
+      expect(["pending", "partial", "reviewed"]).toContain(entry.proseReview);
+      expect(["pending", "partial", "reviewed"]).toContain(entry.audioListeningReview);
+    }
+  });
+
+  it("names its own basis, so a reader of the JSON cannot guess what a figure means", () => {
+    const { basis } = summary();
+    for (const [field, text] of Object.entries(basis))
+      expect(text.length, `${field} names its basis`).toBeGreaterThan(40);
+    expect(basis.practiceActivities).toMatch(/excluding notices/);
+    expect(basis.practiceActivities).toMatch(/retained v1 records/);
+    expect(basis.languages).toMatch(/travel fixture/);
+  });
+
+  it.each(SUMMARY_REGIONS.map((region) => region.file))(
+    "the generated block in %s matches the summary",
+    (file) => {
+      const region = SUMMARY_REGIONS.find((entry) => entry.file === file)!;
+      const contents = read(file);
+      expect(extractRegion(file, contents)).toBe(renderRegion(summary(), region.render));
+    },
+  );
+
+  it("a document that loses its markers fails loudly rather than drifting", () => {
+    const stripped = read("README.md").replace(REGION_START, "").replace(REGION_END, "");
+    expect(() => extractRegion("README.md", stripped)).toThrow(/missing the generated summary region/);
+  });
+
+  it("catches a count that has moved: a doctored report cannot satisfy the prose", () => {
+    // Non-vacuity. The comparison above is only worth having if a wrong number
+    // trips it, so bump one language's lesson count and confirm the block the
+    // prose would then have to hold is not the block it does hold.
+    const reports = LANGUAGES.map((language) => ({ language, report: loadPack(language).report }));
+    const doctored = reports.map((entry) =>
+      entry.language === "french"
+        ? { ...entry, report: { ...entry.report, lessons: entry.report.lessons + 1 } }
+        : entry,
+    );
+    const built = buildContentSummary(doctored);
+    const rendered = renderRegion(built, renderSummaryTable);
+
+    expect(built.totals.lessons).toBe(summary().totals.lessons + 1);
+    expect(rendered).not.toBe(extractRegion("README.md", read("README.md")));
+  });
+
+  it("phase-status quotes the same lesson counts the summary derives", () => {
+    // Prose is not parsed wholesale: the specific figures it states are checked
+    // against the summary, so a course that grows fails here instead of leaving
+    // a sentence behind. Ranges (48–49) are left to the generated tables.
+    const status = read("docs/astra/phase-status.md");
+    expect(status).toContain("docs/astra/reports/summary.json");
+    const lessonsOf = (language: string): number =>
+      summary().languages.find((entry) => entry.language === language)!.lessons;
+    expect(status).toContain(`${lessonsOf("french")} lessons each`);
+    expect(status).toContain(`${lessonsOf("german")} lessons`);
+    expect(status).toContain(`${lessonsOf("portuguese")} lessons each`);
+  });
+
+  it("renders both tables from the same summary, so the docs cannot disagree", () => {
+    const built = summary();
+    const readme = renderSummaryTable(built);
+    const coverage = renderCoverageTable(built);
+    for (const entry of built.languages) {
+      expect(readme).toContain(`| ${entry.lessons} | ${entry.practiceActivities} |`);
+      expect(coverage).toContain(`| ${entry.lessons} | ${entry.practiceActivities} |`);
+      expect(readme).toContain(`${entry.listeningLessons}/${entry.listeningLessonsTotal}`);
+      expect(coverage).toContain(`${entry.listeningLessons}/${entry.listeningLessonsTotal}`);
+    }
+    expect(readme).toContain(`${built.totals.lessons} lessons`);
+    expect(coverage).toContain(`Totals: ${built.totals.lessons} lessons`);
   });
 });
