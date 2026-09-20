@@ -77,6 +77,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 27 item(s) introduced here come back in a later lesson; 27 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 27 introduced item(s) are never retrieved later: fr-family-concept, fr-family-word-1, fr-family-word-2, fr-family-word-3, fr-family-word-4, fr-first-words-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 2 — Home and daily life
@@ -113,6 +114,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: fr-descriptions-concept, fr-descriptions-word-1, fr-descriptions-word-2, fr-descriptions-word-3, fr-descriptions-word-4, fr-home-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 3 — Everyday communication
@@ -149,6 +151,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: fr-food-concept, fr-food-word-1, fr-food-word-2, fr-food-word-3, fr-food-word-4, fr-negation-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 4 — Going further
@@ -185,6 +188,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: fr-past-concept, fr-past-word-1, fr-past-word-2, fr-past-word-3, fr-past-word-4, fr-plans-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 5 — Time and the world around you
@@ -221,6 +225,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: fr-days-concept, fr-days-foundation-word-1, fr-days-foundation-word-2, fr-days-foundation-word-3, fr-days-foundation-word-4, fr-market-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 6 — Santé et vie sociale
@@ -262,6 +267,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: the last unit cannot be retrieved by a later one; it introduces 25 item(s) that nothing in this course brings back
 - warnings: 25 introduced item(s) are never retrieved later: fr-cafe-order-concept, fr-cafe-order-foundation-word-1, fr-cafe-order-foundation-word-2, fr-cafe-order-foundation-word-3, fr-cafe-order-foundation-word-4, fr-emergency-concept …
 
 ## German foundations (de)
@@ -301,6 +307,7 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
 - pending review: prose-review state, audio-listening-review state
 - not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 17 item(s) introduced here come back in a later lesson; 17 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: de-introductions-foundation, de-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: de-cafe-requests-concept, de-cafe-requests-word-1, de-cafe-requests-word-2, de-cafe-requests-word-3, de-cafe-requests-word-4, de-first-words-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 2 — Getting around
@@ -319,6 +326,7 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 5 item(s) introduced here come back in a later lesson; 5 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 1 lesson(s) carry no listening practice: de-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: de-numbers-quantities-concept, de-numbers-quantities-word-1, de-numbers-quantities-word-2, de-numbers-quantities-word-3, de-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
@@ -343,6 +351,7 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 10 item(s) introduced here come back in a later lesson; 10 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: de-directions-foundation, de-shopping-foundation · 10 introduced item(s) are never retrieved later: de-directions-concept, de-directions-word-1, de-directions-word-2, de-directions-word-3, de-directions-word-4, de-shopping-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 4 — Everyday life
@@ -367,6 +376,7 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 10 item(s) introduced here come back in a later lesson; 10 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: de-time-days-foundation, de-family-people-foundation · 10 introduced item(s) are never retrieved later: de-family-people-concept, de-family-people-word-1, de-family-people-word-2, de-family-people-word-3, de-family-people-word-4, de-time-days-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 5 — Weather and free time
@@ -391,6 +401,7 @@ Lessons 1-8 were reported reviewed by the project owner on 2026-09-11. The two l
 - pending review: prose-review state, audio-listening-review state
 - not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: the last unit cannot be retrieved by a later one; it introduces 10 item(s) that nothing in this course brings back
 - warnings: 2 lesson(s) carry no listening practice: de-weather-foundation, de-free-time-foundation · 10 introduced item(s) are never retrieved later: de-free-time-concept, de-free-time-word-1, de-free-time-word-2, de-free-time-word-3, de-free-time-word-4, de-weather-concept … · every lesson in this unit is family "discovery"
 
 ## Italian foundations (it)
@@ -438,6 +449,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: prerequisite concepts and vocabulary
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 27 item(s) introduced here come back in a later lesson; 27 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 27 introduced item(s) are never retrieved later: it-family-concept, it-family-word-1, it-family-word-2, it-family-word-3, it-family-word-4, it-first-words-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 2 — Home and daily life
@@ -473,6 +485,7 @@ Audio listening review: **pending**
 - absent: introduced and later-retrieved vocabulary and patterns, lesson-family variety
 - pending review: prose-review state, audio-listening-review state
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: it-descriptions-concept, it-descriptions-word-1, it-descriptions-word-2, it-descriptions-word-3, it-descriptions-word-4, it-home-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 3 — Everyday communication
@@ -508,6 +521,7 @@ Audio listening review: **pending**
 - absent: introduced and later-retrieved vocabulary and patterns
 - pending review: prose-review state, audio-listening-review state
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: it-food-concept, it-food-word-1, it-food-word-2, it-food-word-3, it-food-word-4, it-negation-concept …
 
 ### Unit 4 — Going further
@@ -543,6 +557,7 @@ Audio listening review: **pending**
 - absent: introduced and later-retrieved vocabulary and patterns
 - pending review: prose-review state, audio-listening-review state
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: it-past-concept, it-past-word-1, it-past-word-2, it-past-word-3, it-past-word-4, it-plans-concept …
 
 ### Unit 5 — Time and the world around you
@@ -578,6 +593,7 @@ Audio listening review: **pending**
 - absent: introduced and later-retrieved vocabulary and patterns
 - pending review: prose-review state, audio-listening-review state
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 20 item(s) introduced here come back in a later lesson; 20 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 20 introduced item(s) are never retrieved later: it-days-concept, it-days-foundation-word-1, it-days-foundation-word-2, it-days-foundation-word-3, it-days-foundation-word-4, it-market-concept …
 
 ### Unit 6 — Health and social life
@@ -619,6 +635,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: introduced and later-retrieved vocabulary and patterns
 - publishable: yes · counts as reviewed: no
+- retrieval: the last unit cannot be retrieved by a later one; it introduces 25 item(s) that nothing in this course brings back
 - warnings: 25 introduced item(s) are never retrieved later: it-cafe-order-concept, it-cafe-order-foundation-word-1, it-cafe-order-foundation-word-2, it-cafe-order-foundation-word-3, it-cafe-order-foundation-word-4, it-emergency-concept …
 
 ## Portuguese foundations (pt)
@@ -654,6 +671,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 17 item(s) introduced here come back in a later lesson; 17 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: pt-introductions-foundation, pt-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: pt-cafe-requests-concept, pt-cafe-requests-word-1, pt-cafe-requests-word-2, pt-cafe-requests-word-3, pt-cafe-requests-word-4, pt-first-words-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 2 — Getting around
@@ -672,6 +690,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 5 item(s) introduced here come back in a later lesson; 5 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 1 lesson(s) carry no listening practice: pt-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: pt-numbers-quantities-concept, pt-numbers-quantities-word-1, pt-numbers-quantities-word-2, pt-numbers-quantities-word-3, pt-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
@@ -696,6 +715,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: 0 of 10 item(s) introduced here come back in a later lesson; 10 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: pt-directions-foundation, pt-shopping-foundation · 10 introduced item(s) are never retrieved later: pt-directions-concept, pt-directions-word-1, pt-directions-word-2, pt-directions-word-3, pt-directions-word-4, pt-shopping-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 4 — Everyday life
@@ -720,6 +740,7 @@ Audio listening review: **pending**
 - pending review: prose-review state, audio-listening-review state
 - not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
 - publishable: yes · counts as reviewed: no
+- retrieval: the last unit cannot be retrieved by a later one; it introduces 10 item(s) that nothing in this course brings back
 - warnings: 2 lesson(s) carry no listening practice: pt-time-days-foundation, pt-family-people-foundation · 10 introduced item(s) are never retrieved later: pt-family-people-concept, pt-family-people-word-1, pt-family-people-word-2, pt-family-people-word-3, pt-family-people-word-4, pt-time-days-concept … · every lesson in this unit is family "discovery"
 
 ## Spanish foundations (es)
@@ -757,6 +778,7 @@ The prose review was reported as passed by the project owner. It is a review of 
 - pending review: audio-listening-review state
 - not applicable: prerequisite concepts and vocabulary, optional self-compare speaking
 - publishable: yes · counts as reviewed: yes
+- retrieval: 0 of 17 item(s) introduced here come back in a later lesson; 17 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: es-introductions-foundation, es-cafe-requests-foundation · 17 introduced item(s) are never retrieved later: es-cafe-requests-concept, es-cafe-requests-word-1, es-cafe-requests-word-2, es-cafe-requests-word-3, es-cafe-requests-word-4, es-first-words-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 2 — Getting around
@@ -775,6 +797,7 @@ The prose review was reported as passed by the project owner. It is a review of 
 - pending review: audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: yes
+- retrieval: 0 of 5 item(s) introduced here come back in a later lesson; 5 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 1 lesson(s) carry no listening practice: es-numbers-quantities-foundation · 5 introduced item(s) are never retrieved later: es-numbers-quantities-concept, es-numbers-quantities-word-1, es-numbers-quantities-word-2, es-numbers-quantities-word-3, es-numbers-quantities-word-4
 
 ### Unit 3 — Finding your way
@@ -799,6 +822,7 @@ The prose review was reported as passed by the project owner. It is a review of 
 - pending review: audio-listening-review state
 - not applicable: optional self-compare speaking
 - publishable: yes · counts as reviewed: yes
+- retrieval: 0 of 10 item(s) introduced here come back in a later lesson; 10 do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step
 - warnings: 2 lesson(s) carry no listening practice: es-directions-foundation, es-shopping-foundation · 10 introduced item(s) are never retrieved later: es-directions-concept, es-directions-word-1, es-directions-word-2, es-directions-word-3, es-directions-word-4, es-shopping-concept … · every lesson in this unit is family "discovery"
 
 ### Unit 4 — Everyday life
@@ -823,6 +847,7 @@ The prose review was reported as passed by the project owner. It is a review of 
 - pending review: audio-listening-review state
 - not applicable: introduced and later-retrieved vocabulary and patterns, optional self-compare speaking
 - publishable: yes · counts as reviewed: yes
+- retrieval: the last unit cannot be retrieved by a later one; it introduces 10 item(s) that nothing in this course brings back
 - warnings: 2 lesson(s) carry no listening practice: es-time-days-foundation, es-family-people-foundation · 10 introduced item(s) are never retrieved later: es-family-people-concept, es-family-people-word-1, es-family-people-word-2, es-family-people-word-3, es-family-people-word-4, es-time-days-concept … · every lesson in this unit is family "discovery"
 
 ## Gaps
