@@ -387,6 +387,9 @@ export function buildUnitContracts(
     ]
       .filter((id) => !laterRetrieved.has(id))
       .sort();
+    const introduced = new Set([
+      ...unitRows.flatMap((row) => [...row.introducesVocabulary, ...row.introducesConcepts]),
+    ]);
     const noRecognition = unitRows.filter((row) => !row.modes.includes("recognition")).map((row) => row.id);
     const noProduction = unitRows.filter((row) => !row.modes.includes("production")).map((row) => row.id);
     const noListening = unitRows.filter((row) => !row.modes.includes("listening")).map((row) => row.id);
@@ -436,8 +439,8 @@ export function buildUnitContracts(
         state: state(unretrieved.length === 0, unit.id === lastUnitId),
         basis:
           unit.id === lastUnitId
-            ? "the last unit cannot be retrieved by a later one"
-            : "every word and concept the unit introduces is referenced again by a lesson in a later unit",
+            ? `the last unit cannot be retrieved by a later one; it introduces ${introduced.size} item(s) that nothing in this course brings back`
+            : `${introduced.size - unretrieved.length} of ${introduced.size} item(s) introduced here come back in a later lesson; ${unretrieved.length} do not. Counted in curriculum order from the lessons' own vocabulary and concept lists, not from the wording of any step`,
       },
       {
         item: "recognition practice",
@@ -592,6 +595,12 @@ export function renderOutcomeMatrix(matrix: OutcomeMatrix): string {
         lines.push(
           `- publishable: ${contract.publishable ? "yes" : "no"} · counts as reviewed: ${contract.countsAsReviewed ? "yes" : "no"}`,
         );
+        // The one basis worth printing: it carries the arithmetic a reader needs to
+        // see partial retrieval progress, which the states alone cannot show.
+        const retrieval = contract.items.find(
+          (item) => item.item === "introduced and later-retrieved vocabulary and patterns",
+        );
+        if (retrieval) lines.push(`- retrieval: ${retrieval.basis}`);
         lines.push(
           `- warnings: ${contract.warnings.length === 0 ? "none" : contract.warnings.join(" · ")}`,
         );
